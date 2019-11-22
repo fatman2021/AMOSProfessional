@@ -1,0 +1,251 @@
+Bug fixes and enhancements since Revision 482 (ASM-One V1.48)
+
+Revision 488
+------------
+
+- A 3.x Call was executed on a Kickstart 2.x system during
+  startup
+
+- Data at an odd address crashed ASM-One during startup
+  on a MC68000 based Amiga
+
+- Data related to new directory caches was at an odd address
+  and crashed on a MC68000 based Amiga while using File functions
+
+- Memory Indirect Post Indexed Addressing Modes with the
+  Address Register surpressed always assembled the index
+  register to A1 or D1.
+
+- Confirmed working on MorphOS
+
+- Colors where not written correctly to the Pref file.
+
+- WP didn't work anymore due to changes in Color write routine.
+
+- Menu's are now also blocked when you Restart ASM-One,
+  and haven't choosen any memory allocation yet.
+
+- Trackdisk.device is now opened with a propper IORequest.
+
+- Timer.device is now opened with a propper IORequest.
+
+- Console.device is now opened with a propper IORequest.
+
+- Screen colors where read backwards from the Pref file...
+
+- Rastport was already used before it was propperly filled ?
+
+- Forgot a screenpointer when using a call that needed it !!
+
+- Finetuning of the new color routines.
+
+- Rewrote '=C' DLC and how colors are written to the Pref file.
+
+- Rewrote how ASM-One loads the colors form the Pref file.
+
+- Added setting the Colors, Pens and Drawmode after opening
+  the Screen.
+
+- Rewrote initial allocation of Screen Data.
+
+Revision 487
+------------
+
+- Rewrote VBR code.
+
+- Removed obsolete Exception Handler code.
+
+- Rewrote Exception Handeling for the MC68010/20/30.
+
+- Added Exception Handeling for the MC68040 and MC68060.
+
+- NEG and NEGX mixed up .L and .B sizes when assembling.
+
+- Had misplaced 504 bytes of data..
+
+- Modified ASM-One's own Exception Handlers.
+
+
+Revision 486
+------------
+
+- ReqTools check modified (there was never a leak B-)
+
+- New AUTO directive code did NOT skip the operands in
+  Pass 1.
+
+- Added much better error handeling for track.device
+  related stuff.
+
+  Unknown errors now have a number returned. You can look
+  the number up in trackdisk.i.
+
+- Changed 'Show Assembly Time' to use new timer routines.
+
+- Changed the routine that showed the time in the editor
+  (more OS Friendly, less code). Also, time is shown according
+  to your local settings (thus AM/PM or 24 Hours).
+
+- Recoded the routines responsible for opening and closing the
+  ReqTools.library. Also fixed some memory that was never
+  returned to the system (8 Kb).
+
+- Finally was able to fully document the early startup code.
+
+- Rearranged early startup code, removed obsolete code and shortened
+  branches.
+
+- If ASM-One was unable to lock the startup directory, ASM-One would
+  crash on trying to DupLock() since the Exec base pointer would
+  still be in A6, while the program expected the Dos base pointer.
+
+- Commenting the source in great detail.
+
+- Removed some lines of code that where not needed.
+
+- Added a name to ASM-One's Message Port.
+
+- ASM-One may not have worked on a KS2.x machine lately. The KS3.x
+  detection I build in for the RTG stuff could potentialy crash
+  ASM-One if KS3.x was not available.
+
+Revision 486a
+-------------
+
+- Commenting the source in great detail.
+
+- Using native Amiga screen modes, ASM-One crashed when jumping
+  into the debugger when entering the debugger was the first
+  thing you did after loading the source..
+
+Revision 486
+------------
+
+- Removed some old parser code.
+
+
+Revision 485
+------------
+
+- Update didn't work correctly anymore.
+
+  Fixed..
+
+- Commands executed by the AUTO directive will no longer
+  be put into the commandline diary.
+
+- Previously during an assembly, the maximum number of
+  characters for ALL the AUTO directive TOGETHER
+  was 256.
+
+  Now ASM-One handles 256 AUTO directive, with
+  256 characters each..
+
+
+Revision 484
+------------
+
+- Current Directory was not always set correctly when
+  Reading or Writing a source.
+
+  Fixed now.....
+
+- When a file could not be opened, you always got two
+  requesters saying this (and the second requester could
+  contain total bogus info).
+
+  Fixed..
+
+- Show Errors (Amiga+E) jumped to the wrong line and didn't
+  show the error in the menubar.
+
+  Fixed now.
+
+- When CPU was set to PPC, ASM-One didn't understand DC, DCB and DR
+  directive.
+
+  Fixed..
+
+- MOVE.W CCR,D7 was assembled as being MOVE.W D7,CCR..
+
+  Not anymore..
+
+- With the command 'V /' you will now go up one directory.
+
+- V command output was to wide for 640 width screen.
+
+- CC (Calculate Checksum) command didn't work anymore..
+
+  Fixed now. Also added IO errors.
+
+
+Revision 483
+------------
+
+- Added 'SETR', for WOS compatibility.
+
+  SETR works the same as EQUR, only you can define
+  it multiple times:
+
+	SETCPU	PPC
+
+hello:	setr	vr16
+
+a:	vavgsw	hello,vr10,vr20
+
+hello:	setr	vr9
+
+b:	vavgsw	hello,vr10,vr20
+
+	SETCPU	040
+
+hello:	setr	a0
+
+c:	move.l	hello,d0
+
+hello:	setr	a1
+
+d:	move.l	hello,d0
+
+  Note: SETCPU is only used to assemble the instructions in
+        the example above. SETR is (just like EQUR/EQUC)
+        not CPU dependant..
+
+- When disassembling PPC code, unknown instructions only showed
+  dc.l, now dc.l <hex value>.
+
+
+- Added 'popgpr', for compatibility with WOS/PowerASM.
+  (see 'pushgpr').
+
+  Note: popgpr and pushgpr work with the same operands as
+        MOVEM for the 68k.
+
+- 'pushgpr' didn't understand the slash ('/'). Now
+  it does B-)
+
+- Added 'pushgpr' as PPC directive/internal MACRO, for
+  compatibility with WOS/PowerASM.
+
+  This directive/MACRO is used in the WOS examples but is
+  not included in the WOS includes as a MACRO becose
+  a MACRO could never substract registers, neither would
+  it allow the 'rA-rB' notation used by pushgpr:
+
+  pushgpr	r14-r31
+
+  Note: Register r0 can not be stored with this instruction !!!
+
+- lwzu was disassembled as lhwu, and lwz was disassembled as lhw.
+
+  Not anymore..
+
+- Added FEQUR directive for WOS compatibility.
+
+  Btw: FEQUR is the same as EQUC, thus it will also
+  except other PPC registers B-)
+
+- EQUR now also accepts PPC registers, for WOS compatibility.
+
+- Commenting of the source
+

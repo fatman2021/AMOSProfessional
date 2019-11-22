@@ -1,0 +1,177 @@
+ 
+	-----------------------------------------------------
+	AMOS Compiler settings definition, by Francois Lionet
+	             (c) 1991 Mandarin / Jawx
+	-----------------------------------------------------
+
+
+	
+	Compiler.AMOS configuration, never ever change this line!
+	---------------------------------------------------------	
+	
+[002011100100................................................]
+
+
+
+	Default command line (optional)
+	-------------------------------
+
+{-S1}
+
+
+
+	Files used to compile
+	---------------------
+
+
+	* Compiler environment file to load
+
+1- With errors PAL	{:AMOS_System/AMOS1_3_PAL.ENV}
+2- With errors NTSC	{:AMOS_System/AMOS1_3_NTSC.ENV}
+3- Without errors 	{:AMOS_System/RAMOS1_3.ENV}
+
+	* Compiler main libraries...
+
+4- Main AMOS library	{:AMOS_System/AMOS.Lib}
+5- Graphic functions	{:AMOS_System/W.CLib}
+6- Prg header-CLI	{:AMOS_System/Header_Cli.Lib}
+7- Prg header-Backstart	{:AMOS_System/Header_Backstart.Lib}
+8- Prg header-AMOS	{:AMOS_System/Header_AMOS.AMOS}
+9- Prg icon		{:AMOS_System/Def_Compiled}
+
+	* AMOS Default files. Empty brackets means: "use the one
+	  defined in the .ENV file loaded!"
+
+10-Mouse.Abk		{}
+11-Default.Font		{}
+12-Default.Key		{}
+
+	* 26 extensions. Empty brackets have the same meaning, but you
+	  can also use a single dot between the bracket: it means "do not
+	  load anything!"
+
+1- Music		{}
+2- Screen compactor	{}
+3- 3D			{}
+4- Extension #4		{}
+5- Compiler 		{}
+6- Serial		{}
+7- Extension #7		{}
+8- Extension #8		{}
+9- Extension #9		{}
+10-Extension #10	{}
+11-Extension #11	{}
+12-Extension #12	{}
+13-Extension #13	{}
+14-Extension #14	{}
+15-Extension #15	{}
+16-Extension #16	{}
+17-Extension #17	{}
+18-Extension #18	{}
+19-Extension #19	{}
+20-Extension #20	{}
+21-Extension #21	{}
+22-Extension #22	{}
+23-Extension #23	{}
+24-Extension #24	{}
+25-Extension #25	{}
+26-Extension #26	{}
+
+
+	Default buffers sizes. Use with care.
+	-------------------------------------
+1- Source buffer if on disc (>2000)	{8000}
+2- Object buffer if on disc (>4000)	{8000}
+3- Step of object buffer reservation	{8000}
+4- Relocation buffer			{16000}
+5- Strings pointers buffer (4 bytes used per string found)
+					{16000}
+6- Labels buffer			{12000}
+7- Loops buffer				{2000}
+8- Address buffer			{2000}
+9- Maximum number of global variables	{2000}
+10-Maximum number of local variables	{2000}
+			
+
+	Messages definition. Please notice the cariage returns!
+	-------------------------------------------------------
+
+	* Error messages
+
+1- 	{Error in command line.
+}
+2-	{Error in compiler setting's command line.
+}
+3-	{Extension not loaded.
+}
+4-	{Cannot get icon informations.
+}
+5-	{Disc error.
+}
+6-	{Out of memory.
+}
+7-	{Program not tested, error found in line
+}
+8-	{Cannot uncode procedure.
+}
+9-	{Compilation aborted.
+}
+10-	{Nothing to compile.
+}
+11-	{Syntax error in configuration file.
+}
+12-	{Program not tested.
+}
+13-	{Not an AMOS program.
+}
+14-	{Label not defined at the same level of procedure.
+}
+15-	{Program already compiled.
+}
+16-	{Program structures too long: compile with the -l option.
+}
+17-	{}
+18-	{}
+19-	{}
+
+
+	* Messages for CLI / Direct mode compiling
+
+20- Title
+{
+
+**********************************
+*         AMOS Compiler          *
+* © 1991 Europress Software Ltd. *
+**********************************
+}
+21-
+{Opening libraries...
+}
+22- 
+{Compiling program...
+}
+23-
+{Copying library routines...}
+24- String printed for each library routine copied, if you want.
+{}
+25- 
+{Copying system data...
+}
+26-
+{Copying memory banks...
+}
+27-
+{Opening source: }
+28-
+{Closing object: }
+29-
+{Total memory used: }
+30-
+{Object length: }
+31-
+{ bytes.
+}
+32- Printed when everything is over
+{
+}

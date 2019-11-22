@@ -1,0 +1,963 @@
+@DATABASE Lserial V2.1 hyper
+@MASTER LserialV21.doc
+@width 77
+
+##
+## Preferably read with AmigaGuide. Contents should be used instead of Index
+## Guide (c) by Niklas Sjöberg
+##
+
+@Node MAIN Lserial V.21 (c) Niklas Sjöberg
+
+	Hyper-index for Lserial V 2.1 (c) Niklas Sjöberg 2:203/415.3@Fidonet
+
+				@{"  Introduction  "  Link Introduction_main}
+	@{" Serial Commands " Link Ser_main}				@{" XPR    Commands " Link Xpr_main}
+				  @{"   Errors   " link Errors}
+
+	Please note that this guide is a service for you registered users!
+		It may NOT be spread to non-registered users
+				   Thanks
+@Endnode
+
+
+@node Introduction_main
+See IMPORTANT.TXT for more information on how to reach me or
+register!
+
+
+       NOTE: Commands added since V1 is marked with *-, so just  load
+     you favorite textreader and search for "*-".
+
+       Commands added since V2 are marked ++
+
+       Lserial.doc is now  splitted  in  two  parts.  Part  I  covers
+    general    serial-commands  and  part  II  covers  all  necessary
+    information about the XPR-specifications.
+
+
+
+    DISTRIBUTION:
+    -------------
+       Lserial no longer is freely distributable, it is  now  shipped
+    under the term shareware.
+
+             Lserial is copyrighted by me, Niklas Sjöberg.
+
+
+    DISCLAIMER:
+    -----------
+       All the usual... You are using this program at your own  risk.
+     I can not be held responsible for any damage or whatsoever.
+
+
+    WHY?:
+    -----
+       AMOS's serial didn't work in 1.0/1.1, in  1.2/1.3  it  worked,
+    but  only sometimes  and only a little :-) The main 1.3-bug seems
+    to be when one tries to open the device after  closing  (this  is
+    NOT  a  devicebug since it is tested with serial.device from both
+    1.3.3 and 2.04. An old serial.device from WB1.2  causes  AMOS  to
+    hang  on  some occasions for some reason) it once and then trying
+    to open it again. You also get xpr and some other features.
+
+
+    HOW TO:
+    -------
+       In the days of V1.1/1.2 I used to  supply  a  program  for  my
+    extensions  which  could  change  any  (of  mine) extension to be
+    configured as any number. This is not possible  anymore,  due  to
+    the  layout  of  1.3  (well it IS possible but it would slow down
+    every access to the data-table). Because of this you  MUST  place
+    LSerial as extension number eleven (11). Your manual explains all
+    about  adding  extensions.  If  you  MUST  or  NEED  to  have  it
+    configured as  another number then send me a disk  full  of  nice
+    programs and some international replycoupuns to cover mailing.
+
+
+
+                        PART I - General serialcommands
+
+    Before you start crashing your computer :
+
+       It is up to  you,  the  programmer,  to  make  sure  that  the
+    serial.device (or another device you might have selected) is open
+    and  ready  for  use before you try to access any read/write/xpr-
+    commands. If you for instance try to call Lser Send as the  first
+    instruction  in  your program it will hang OR crash the computer!
+    Always use Lser  Open! If the device  failed  to  open  you  will
+    receive  an  errormessage  and the program will be aborted, or if
+    you have a errorhandling-routine the error will be trapped  (that
+    is the best solution!). It is safe to call Lser Close even though
+    no  device  is open, so it might be a good idea to always do this
+    before your program exists or if you change device.
+@endnode
+
+@node Ser_main
+@TOC main
+
+			@{"Lser Open     " link Lser_open}	@{"Lser Close    " link Lser_close}
+
+			@{"Lser Params   " link Lser_params}	@{"Lser Status   " link Lser_status}
+
+			@{"Lser Send     " link Lser_send}	@{"Lser MulSend  " link Lser_mulsend}
+
+			@{"Lser Mul Check" link Lser_mul_check}	@{"Lcarrier      " link Lcarrier}
+
+			@{"Lser Read     " link Lser_read}	@{"Lser Get      " link Lser_get}
+
+			@{"Lser Query    " link Lser_query}	@{"Lser Brk      " link Lser_brk}
+
+			@{"Lser Baud     " link Lser_baud}	@{"Linkey$       " link Linkeys}
+@endnode
+
+@NODE Lser_open
+@TOC Ser_main
+    Lser Open - Open serial for use.
+    Lser Open BAUD,RWlen,STOP,BUF_SIZE,BRKtime,FLAGS,UNIT,"name.device"
+
+    where
+
+    BAUD     - @{"Baudrate" link Lser_baud}
+    RWlen    - number of bits when read/write (normally 8)
+    STOP     - Number of stop-bits (normally 1)
+    BUF_SIZE - Internal buffer for device. MUST be >512 bytes
+    BRKtime  - How long a BRK should last, in MICROseconds
+               (normally 250000)
+    FLAGS    - See @{"Appendix B" link Ser_FLAGS} for list
+    UNIT     - Unit, normally 0 for external modems.
+    name     - Normally serial.device (located in devs:)
+
+See: @{"Lser Params" link Lser_params}, @{"Lser Baud" link Lser_baud}, @{"FLAGS" link ser_FLAGS"
+
+@EndNode
+
+@NODE Lser_close
+@TOC Ser_main
+    Lser Close - Close serial.device
+    Lser Close
+@EndNode
+
+@NODE Lser_params
+@TOC Ser_main
+++  Lser Params - Change the settings of the currently open device
+++  Lser Params RWlen,STOP,BUF_SIZE,BRKtime,EXTFlags,FLAGS
+
+++  where
+
+++     All parameters mean the same thing like  in  Lser  Open.  Note
+++  that  a  new  field  EXTFlags  is  available. This field may have
+++  different values for different devices. It  is  used  to  control
+++  mark  and  space parity instead of odd and even. Bit 24 "if mark-
+++  space, use mark". Bit 25, use mark-space. These flags where added
+++  mostly due to future compability and extensions.
+
+++     According to C= Autodocs it is always best to decide if access
+++  shall be shared or exclusive when opening the device. It is  also
+++  wise  to  decide  if 7-wire or 3-wire protocol should be used. Do
+++  not count on that these two options  can  be  changed  after  the
+++  device has been opened. Use Lser Baud to change the baudrate.
+
+See: @{"Lser Open" link Lser_open}, @{"Lser Baud" link Lser_baud}, @{"FLAGS" link ser_FLAGS}
+@EndNode
+
+@NODE Lser_baud
+@TOC Ser_main
+++  NOTE! This command has been here all along,  I've just  missed it
+++  in the documentation! Sorry..
+
+++  Lser Baud - Change baudrate
+++  Lser Baud NEWRATE
+
+++  where
+
+++     NEWRATE is the new baudrate.
+@EndNode
+
+@NODE Lser_send
+@TOC Ser_main
+    Lser Send - Send data to the modem, non-multitasking
+    Lser Send A$
+
+    where
+
+       A$ contains any data. Note  that  this  instruction  does  not
+    return to AMOS until the whole string is sent.
+
+See: @{"Lser Mulsend" link lser_mulsend}
+@EndNode
+
+@NODE Lser_query
+@TOC Ser_main
+    Lser Query - Check if there is data to read
+    L=Lser Query
+
+    where
+
+       L - Contains the number of chars available to read.
+
+See: @{"Lser Get" link Lser_get}
+@EndNode
+
+@NODE Lser_read
+@TOC Ser_main
+    Lser Read - Read all available characters.
+    A$=Lser Read
+
+    where
+
+       A$ will contain all data buffered by the  device.  WARNING  If
+    there  are  VERY  many  characters  to  read AMOS may crash. This
+    command should only be used if you often read  from  the  device,
+    like  in  a  comm-program which continually loops and read. Using
+    it when communicating with MIDI or via 0-modem can  be  dangerous
+    due to the very high speed!
+
+See: @{"Lser Get" link Lser_get}
+@EndNode
+
+@NODE Lser_mulsend
+@TOC Ser_main
+    Lser Mulsend - Send a string in a multitasking manner.
+    Lser Mulsend A$
+
+    where
+
+       A$ may contain any data. If you try  to  send  any  more  data
+    before Mulsend has completed only garbage will be output from the
+    modem.  Control  will  return  to  AMOS immediately. Changing the
+    contents of A$ before Mulsend has completed is a stupid thing  to
+    do..(I  have  not had time to test and see if serial.dev actually
+    copies the data)
+
+See: @{"Lser Mul Check" link Lser_mul_check}, @{"Lser Send" link Lser_send}
+@EndNode
+
+@NODE Lser_mul_check
+@TOC Ser_main
+    Lser Mulcheck - Check if Mulsend has sent all data.
+    L=Lser Mulcheck
+
+    where
+
+       L will be true if Mulsend is ready.
+
+See: @{"Lser Mulsend" link Lser_mulsend}
+@EndNode
+
+@NODE Lser_get
+@TOC Ser_main
+    Lser Get - Get a specified number of characters.
+    A$=Lser Get(N)
+
+    where
+
+       N Is the number of characters you  wish  to  read.  Note  that
+    control  will  not  return to AMOS until the number of characters
+    specified have been received.  This can cause  AMOS  to  hang  if
+    you  haven't any CARRIER and no data appears. A good advise is to
+    use @{"Lser Query" link Lser_query} or @{"Lcarrier" link Lcarrier} before trying to read anything.
+
+@EndNode
+
+@NODE Lcarrier
+@TOC Ser_main
+    Lcarrier - Check for carrier
+    L=Lcarrier
+
+    where
+
+       L will be true if CARRIER exists.
+
+See: @{"Lser Status" link Lser_status}
+@EndNode
+
+@NODE Lser_status
+@TOC Ser_main
+++  Lser Status - Get statusflags from device
+++  L=Lser Status
+
+++  where
+
+++  the 16 first bits of L have the following meaning:
+++  (Active high means active if bit set, active low = active if
+++   bit=0)
+
+++   Bit#   Active Description
+++   ----   ------ -----------
+++     0           reserved
+++     1           reserved
+++     2    high   Ring indicator. Note that this flags also is
+++                 "connected" to parallel's SEL. Do not relay to
+++                 much on this bit!
+++     3    low    Data Set Ready      (DSR)
+++     4    low    Clear To Send       (CTS)
+++     5    low    Carrier Detect      (CD) see @{"Lcarrier" link Lcarrier}
+++     6    low    Ready To Send       (RTS)
+++     7    low    Data Terminal Ready (DTR)
+++     8    high   hardware overrun
+++     9    high   break sent (most recent output)
+++    10    high   break received (as latest input)
+++    11    high   transmit x-OFFed
+++    12    high   receive x-OFFed
+++ 13-15           reserved
+++ 16-31           Always zero
+
+       The most interesting fields are DSR/DTR. You can use  Lcarrier
+    to check for carrier instead of using  this function (Lcarrier is
+    faster).
+@EndNode
+
+@NODE Lser_brk
+@TOC Ser_main
+    Lser Brk - Send a BRK to modem (time specified in Lser Open)
+    Lser Brk
+@EndNode
+
+@NODE Linkeys
+@TOC Ser_main
+*-  Linkey$ - Convert some AMOS-characters to ANSI-codes.
+*-  A$=Linkey$
+
+*-  where
+
+*-     A$   will  contain one or more characters. Linkey$ works  just
+*-  like  Inkey$  in  AMOS  except that it might return more than one
+*-  character. It always reads one character from the keyboard but if
+*-  for instance a cursor-key was pressed the ANSI-code will  require
+*-  three  characters.  Currently  Linkey$  converts  all cursor-keys
+*-  and all keys pressed while the CONTROL-key is held  down.  Escape
+*-  backspace  a-z  etc. are not converted in any way. If no keys are
+*-  pressed A$ will be empty. Always use this instead  of  Inkey$  if
+*-  you are to be able to communicate with another (ANSI/VT100) term-
+*-  inal.
+@EndNode
+
+@NODE XPR_main
+@TOC MAIN
+
+		@{" Introduction   " link xpr_Introduction}	@{" General clling " link xpr_General}
+
+		@{" XPR Send       " link xpr_Send}	@{" XPR Receive    " link xpr_Receive}
+
+		@{" XPR Open (lib) " link xpr_Open}	@{" XPR Close (lib)" link xpr_Close}
+
+		@{" XPR Setup      " link xpr_Setup}	@{" XPR Read       " link xpr_Read}
+
+		@{" XPR Write      " link xpr_Write}	@{" XPR Customize  " link xpr_Customize}
+@EndNode
+
+@NODE xpr_Introduction
+@TOC xpr_main
+                        PART II - The XPR specs
+
+
+*-     XPR stands for eXternal PRotocol and  was  invented  by  W.G.J
+*-  Langevald    in    1989.  The  idea  is  that  the  author  of  a
+*-  communicationprogram  (or  of  any      program    involved    in
+*-  filetransfers)    can    use    standard    Amiga-libraries   for
+*-  filetransfers. The xpr*-libraries are supposed to  be  the  brain
+*-  of  the protcol, checking the incoming data, if necessary request
+*-  a re-send, save data to a file etc. etc. The (comm)program is the
+*-  one which supplies all the basic routines for  serial-read/write,
+*-  saving  files  etc.  These  routines  are  later  called  by  the
+*-  xpr*.library. Since the XPR  is  quite  flexible,  allowing  many
+*-  different  operations to be performed, you may count on that if a
+*-  program supports ONE xpr.library it  will  probably  support  all
+*-  future libraries. This means that the user may use protcols which
+*-  even  wasn't  invented  when  the author of the program wrote his
+*-  callbacks! It also means that the author of the program only need
+*-  to write his callback routines once (which he already  needed  in
+*-  his  originally program in the first place) in order to work with
+*-  any protocols. Lately some XEM*.library (eXternal EMulation) have
+*-  appeared. These can/could  actually  be  used  through  the  XPR-
+*-  standard  using  XprHostMon  and XprUserMon. Due to the layout of
+*-  AMOS (not using normal  intuition-screen)  these  cannot  be  run
+*-  under AMOS in any way.
+
+
+
+*-     When all the callbacks are written (which I have done for you)
+*-  it  is  quite  easy to use any xpr.library. In general the 'flow'
+*-  when using a xpr looks something like this  : (unnecessary  setup
+*-  removed sine Lxpr handles this for you)
+
+
+*-  1) Open the desired library
+*-     (Did it open?)
+*-  2) Call SetUp with a proper init-string.
+*-     (See docs for the library in question)
+*-  3) Check flags returned by SetUp
+*-     (See below)
+*-  4) Wait until user requests up-/download.
+*-     (If  flags supported UserHostMon, download may be initiated
+*-     automagically)
+*-  5) Get appropriate filenames for up/download (if necessary, spe-
+*-     cified in flags)
+*-  6) Call Send or Receive.
+*-  7) When the program is quit or xpr is changed, close it and/or
+*-     jump to 1).
+
+*-     @{"APPENDIX C" link Appendix_C} contains a complete example of how to use a xpr-
+*-  library.
+
+
+*-     Before we start dealing with the  Lxpr-syntax,  here  are  the
+*-  callbacks   that  are  supported  by  Lxpr  (usually  the  needed
+*-  callbacks for a library are stated in the library docs.)
+
+
+*-  xpr_filename  - Support for both batch and singlefile transfer.
+*-                 (actually this is a datafield, but always filled
+*-                 in by Lxpr)
+*-  xpr_fopen     - Opens file(s)
+*-  xpr_fclose    - Close file(s)
+*-  xpr_fread     - Read from file(s)
+*-  xpr_fwrite    - Write to file(s)
+*-  xpr_sread     - Read from serial.device (or spec. in Lser Open)
+*-  xpr_swrite    - Write from serial.device(or spec. in Lser Open)
+*-  xpr_sflush    - Clear all data in serial.device-buffer
+*-  xpr_update    - Print info (see below)
+*-  xpr_chkabort  - See if user aborted transfer
+*-  xpr_chkmisc   - No need for this one, yet, not one xpr require is
+*-                  so far.
+*-  xpr_gets      - Get a string from the user
+*-  xpr_setserial - Get and/or change serialparameters
+*-  xpr_ffirst    - Get the first filename during batch transfer
+*-  xpr_fnext     - Get the next filename during a batch transfer
+*-  xpr_finfo     - Obtain fileinformation (filetype not supported)
+*-  xpr_fseek     - Position in a file
+*-  xpr_extension - All four (the four below).
+*-  xpr_options   - Supported but currently not used (just exits)
+*-  xpr_unlink    - Delete file(s)
+*-  xpr_squery    - Return # of chars available from serial
+*-  xpr_getptr    - Return customscreen-pointer (WB always returned)
+
+
+*-  The xpr_update-function supports the following fields :
+
+*-  xpru_protocol    - The name of the xpr currently used
+*-  xpru_filename    - The file being transferd
+*-  xpru_filesize    - Size of the file being transferd
+*-  xpru_msg         - Last message from library
+*-  xpru_errormsg    - Last errormessage
+*-  xpru_blocks      - Number of blocks sent
+*-  xpru_blocksize   - The current size of each block
+*-  xpru_bytes       - Number of bytes sent
+*-  xpru_errors      - Number of errors during transfer
+*-  xpru_timeouts    - Number of timeouts during transfer
+*-  xpru_blockcheck  - Type of error-check (usually CRC or checksum)
+*-  xpru_expecttime  - Expected (total) transfertime
+*-  xpru_elapsedtime - Time elapsed since start of transfer
+*-  xpru_datarate    - cps for total transfer so far
+
+*-  more fields may be supported in the future.
+@EndNode
+
+@NODE xpr_General
+@TOC xpr_main
+*-     The Lxpr-part only contains one command! This is  due  to  the
+*-  inner workings of the AMOS compiler which treats all functions as
+*-  local,  as  it  datas.  Lxpr  COULD have been split up on several
+*-  commands, but would have meant that either all the  xpr-callbacks
+*-  and  data  had  been stored in the global function (ie. extension
+*-  init which always is linked if the extension is used) or a lot of
+*-  copying and unecessary space waste  between  the  functions.  For
+*-  those  of you who never use the xpr-functions less memory will be
+*-  used.  The  only  thing  added  which  occupies  memory  are  the
+*-  timer.device structure and its replyport.
+
+*-  The syntax for Lxpr are as follows :
+
+*-  A$=Lxpr("filename","setup-string","libraryname",FUNCTION)
+
+*-  where
+
+*-     FUNCTION is either, 0 for Send file(s), 1 for Receive file(s),
+*-  2  for  Openlibrary,  3  for  Closelibrary,  4  for  Setup  (send
+*-  parameters),  5  for  read  (works like Lser Read, but XprHostMon
+*-  will be called if required, se below), 6 for  Write  (works  just
+*-  Lser Send, but calls XprUserMon if required).
+
+*-     I strongly suggest that you set up some global  variables  and
+*-  assign appropriate values to them and then use them in all further
+*-  xpr-calls :
+
+*-  XPRSEND =0
+*-  XPRREC  =1
+*-  XPROPEN =2
+*-  XPRCLOSE=3
+*-  XPRSETUP=4
+*-  XPRREAD =5
+*-  XPRWRITE=6
+++  XPRCUSTOMIZE
+
+*-     XPRREAD and XPRWRITE are always checked for first,guaranteeing
+*-  you as fast as possible reads and writes to/from the  device.  Of
+*-  course you may overrule the library's request that XprHostMon and
+*-  XprUserMon  should  be called, by calling Lser Read and Lser Send
+*-  instead. These two routines are somewhat faster than the  XPRREAD
+*-  and  WRITE and may safely be used if "flags" from SetUp indicates
+*-  that the protocol doesn't require  XprHostMon  and/or  XprUserMon
+*-  to be called.
+
+Please note that it is up to your program to evaluate filepatterns requested
+by the user. XPRSEND and XPRREC only accepts full filenames separated by
+a space. If you use Ldos you can use the Lcat-commands in combination with
+Lmatch (Release 2 only) in order to find matching filenames.
+@EndNode
+
+@NODE xpr_Send
+@TOC xpr_main
+
+*-  XPRSEND - Send one or more files.
+*-  A$=Lxpr(FILENAME$,"","",XPRSEND)
+
+*-  where
+
+*-     A$  currently  is  undefined  (empty  string).  FILENAME$  may
+*-  contain  one or more filenames which are to be sent. If more than
+*-  one filename is specified they must be separated  with  a  single
+*-  space. Note that all libraries doesn't support batchtransfers.
+
+
+
+*- WARNING! FILENAME$ MUST BE NULLTERMINATED! (FILENAME$=FILENAME$+Chr$(0))
+@EndNode
+
+@NODE xpr_Receive
+@TOC xpr_main
+
+*-  XPRREC - Receive one or more files.
+*-  A$=Lxpr(FILENAME$,"","",XPRREC)
+
+*-  where
+
+*-     A$ currently is undefined (empty  string).  FILENAME$  can  be
+*-  left  out  if  "flags"  specified  that  the protocol can receive
+*-  filenames from sender (Ymodem-batch, Zmodem etc.)  FILENAME$  may
+*-  contain  more  than  one  filename  but  protocols  which handles
+*-  batchtransfers usually  can  receive  filenames  and  if  "flags"
+*-  specify this you may set FILENAME$="".
+
+*- WARNING! FILENAME$ MUST BE NULLTERMINATED! (FILENAME$=FILENAME$+Chr$(0))
+@EndNode
+
+@NODE xpr_Open
+@TOC xpr_main
+*-  XPROPEN - Open a xpr-library for use.
+*-  A$=Lxpr("","",LIBRARY$,XPROPEN)
+
+*-  where
+
+*-     A$ will be empty if the open failed, otherwise A$ will contain
+*-  the string "OK" (in capitals). LIBRARY$ is the complete  name  of
+*-  the library, for example xprzmodem.library.
+@EndNode
+
+
+@NODE xpr_Close
+@TOC xpr_main
+*-  XPRCLOSE - Close a xpr-library.
+*-  A$=Lxpr("","","",XPRCLOSE)
+
+*-  where
+
+*-     A$ currently is undefined. Always close your  current  library
+*-  before opening a new library or exiting the program.
+@EndNode
+
+@NODE xpr_Setup
+@TOC xpr_main
+*-  XPRSETUP - Initialize the xpr and customize its performance.
+*-  A$=Lxpr("",SETUP$,"",XPRSETUP)
+
+*-  where
+
+*-       SETUP$  is  a  valid  option-string,  as  specified  in  the
+*-  protocol's documentation. A$ will contain a bit-pattern converted
+*-  to  ASCII.  Please  note  that  the order of the bits are left to
+*-  right  and  not  right  to  left  as  usual.  In    other   terms
+*-  Mid$(A$,1,1)  means  bit  0 (NOT 1) and Mid$(A$,1,3) means bit 2.
+*-  The bits have the following meanings :
+
+*-  Bit 0 : If set, all was successful.
+*-  Bit 1 :  Protocol  requires  no  filerequester / filenames   when
+*-  receiving files. Note that the xpr may supply a filerequester
+*-  itself, which probably will appear on the workbench-screen  since
+*-  Lxpr  tells  the  xpr  to  use  this screen when/if xpr_getptr is
+*-  called.
+*-  Bit 2 : Protocol requires no filerequester/filnames when sending
+*-  files.
+*-  Bit 3 : The xpr would  like you  to use   XProtocolHostMon()  for
+*-  all serial input. This means that you SHOULD call XPRREAD instead
+*-  of  using  the  normal  Lser-functions. If you don't the protocol
+*-  might not operate correctly and functions such as  autoactivation
+*-  on download might be disabled. Note that it is perfectly legal to
+*-  call  XPRREAD  even  if  this  bit  isn't  set.  Lxpr  only calls
+*-  HostMon() if suitable.
+*-  Bit 4 : The  xpr  would  like you to use  XProtocolUserMon()  for
+*-  all  user  input (ie. it want  to check what you are sending). As
+*-  above, you should call XPRWRITE if this bit is set. Note that  it
+*-  is  perfectly  legal to call XPRWRITE even if this bit isn't set.
+*-  Lxpr only calls UserMon() if suitable.
+*-  Bit 5 : The  xpr  would  like you to use HostMon() even  when  no
+*-  input  from  is  received. This feature is NOT supported by Lxpr!
+*-  This can cause your program to be locked for an unknown time  and
+*-  may drain all CPU-power you have got.
+
+*-    As  an  example  xprzmodem  returns  :  "110100"  (if  AY  was
+*-  requested).  The  first character ("1") says "All OK", the second
+*-  character ("1") indicates that the xpr doesn't need filename when
+*-  receiving files. The next "0"  indicates that the  protocol  need
+*-  filenames  (ie. you supply requester) when  sending. The last "1"
+*-  shows that the library want us to use XPRREAD since  it  want  to
+*-  check  incoming  data  (auto download). The second last zero says
+*-  that the library don't care what we send to the other  side  (you
+*-  may  still  use XPRWRITE safely) and the last zero indicates that
+*-  the protocol not will require a  call to HostMon() even  when  no
+*-  data is present (which Lxpr doesn't support)
+
+*- WARNING! SETUP$ MUST BE NULLTERMINATED! (SETUP$=SETUP$+Chr$(0))
+@EndNode
+
+
+@NODE xpr_Read
+@TOC xpr_main
+*-  XPRREAD - Read any data that is currently available.
+*-  A$=Lxpr("","","",XPRREAD)
+
+*-  where
+
+*-     A$ will contain the data from the serial.device. Note that  if
+*-    the  xpr has requested HostMon() to be called the data can have
+*-  been modified  by the  xpr.  For  instance,  as  soon  as  zmodem
+*-  recognize  its  startsequence    for  download  it will start the
+*-  download and return an empty string and A$ will thus be empty.
+@EndNode
+
+@NODE xpr_Write
+@TOC xpr_main
+*-  XPRWRITE - Write a string to the serial.
+*-  A$=Lxpr(STRING$,"","",XWRITE)
+
+*-  where
+
+*-     A$ always will be empty on return. Please note that if the xpr
+*-  has requested XProtocolUserMon() to be called you  can  never  be
+*-  sure that exactly the data you wanted to send really was sent. To
+*-  my knowledge there are currently no xpr available which writes to
+*-  your  data.  A  future  MNP-xpr however typically would need this
+*-  function. STRING$ is a normal textstring.
+@EndNode
+
+@NODE xpr_Customize
+@TOC xpr_main
+++  XPRCUSTOMIZE - Change output from the xpr.
+++  A$=Lxpr("x","text %code","",XCUSTOMIZE)
+
+++  where
+
+++     A$ always will be empty on return. "x"  is  a  special  "code"
+++  which  tells  Lserial which text you wish to change. "text %code"
+++  is the new text to be inserted. If you are to print a string, fx.
+++  filename, you put  a  %s  where  you  want  the  filename  to  be
+++  inserted.  If  you  are to print a number, like filesize, use %ld
+++  instead. As said before, "x" is a character, ranging from "a"  to
+++  "m"  for  the  various  strings. Default are: (just like in older
+++  versions)
+
+
+++  Code String
+++  ---- ------
+++  a    Protocol : %s
+++  b    File name : %s
+++  c    Size : %ld
+++  d    Last message : %s
+++  e    Last error : %s
+++  f    # of Errors : %ld
+++  g    # of Timeouts: %ld
+++  h    # of Blocks : %ld, current size : %ld bytes
+++  i    Transf. Bytes: %ld
+++  j    Estimated : %s
+++  k    Elapsed : %s
+++  l    Error check : %s
+++  m    CPS : %ld
+
+++     Note that it is wise to include both position of text, plus  a
+++  Chr$(26)  (Cline)  which  erases the current line before the text
+++  is printed. If you want to remove any message (even  if  the  xpr
+++  supports  it)  you  can  call XPRCUSTOMIZE with only a space " ".
+++  Also note that Lserial no longer prints any  messages  until  the
+++  xpr asks it to. That may cause for instance "Last error" to never
+++  be printed, if no errors occur. Because of this you might want to
+++  Print  (using  normal  Print)  these  fields to the screen before
+++  calling Lxpr. An example:
+
+++  A$=At(0,15)+"Last error : "
+++  Print A$+"none so far."
+
+++  then modify the xpr-string:
+
+++  DUMMY$=Lxpr("e",Chr$(26)+A$+"%s","",XCUSTOMIZE)
+
+++  To shut Last error up forever:
+
+++  DUMMY$=Lxpr("e"," ","",XCUSTOMIZE)
+
+++  To print more than one result in one line:
+++  (NOTE! that messages are printed in the same order  as  they  are
+++  listed above! You thus have to put the Chr$(26) to clear the line
+++  in the string which is printed first!)
+
+++  A1$=Chr$(26)+At(0,10)+"Estimated : %s"
+++  A2$=At(30,10)+"(elapsed %s)"
+++  DUMMY$=Lxpr("j",A1$,"",XCUSTOMIZE)
+++  DUMMY$=Lxpr("k",A2$,"",XCUSTOMIZE)
+
+++  while would produce something like:
+
+++  "Estimated : 00:05:31 (elapsed 00:02:11)"
+
+
+++     Please don't use to long strings, since some xprs return quite
+++  long messages  sometimes.  Try  using  strings  shorter  than  30
+++  characters if possible.
+@EndNode
+
+
+
+
+
+
+@NODE Errors
+    BUGS:
+    -----
+       None found during my tests  against  a  few BBS's.  One  thing
+    could  happen  though and is nothing special to LSerial : Garbage
+    collection (which never happens). When using a  lot  of  strings,
+    AMOS once in a while need to do a garbage collection, sorting all
+    strings  together.  It  seems  like AMOS has very hard to see for
+    itself when it is time for this and strange gurus may follow.  If
+    this  happens  call  Free  (DUMMY=Free) once in  a while. If this
+    doesn't help call Free VERY often or increase the buffer  a  bit.
+    If  something  strange  still happens you might have found a bug,
+    please contact me.
+
+
+*-     Also you must be warned about the Lxpr-functions which doesn't
+*-  bother with such trivial things like  checking  if  you  actually
+*-  have  a library open! Lxpr return enough "codes" for your program
+*-  to make sure that everything is OK before it tries  to  call  any
+*-  other   function.  This  is  the  way  C,  Pascal  and  assembly-
+*-  programmers have to work...
+
+
+
+!PLEASE READ IMPORTANT.TXT!
+
+
+
+    APPENDIX A:
+    -----------
+    Errorcodes:
+
+    0 Serial already open
+    1 Invalid devicename
+    2 Unable to open device
+    3 Overflow in stringbuffer
+    4 Invalid read-size
+++  5 Command need NULL-terminated string
+++  6 You can't call with an empty argument
+++  7 Invalid XPR-customstring (a-m)
+++  8 Non valid XPR-command
+@EndNode
+
+@NODE Ser_FLAGS
+    APPENDIX B:
+    -----------
+
+      The FLAGS are specified when opening the device. Each functions
+    is assigned to a value  (or bit) and you may  add  the  different
+    values  together  to  select  one  or  more  options. For further
+    information see the docs for the serial shipped with AMOS.  NOTE:
+    all values are in HEX! (LISTING FROM GenAm3, edited somewhat)
+
+    Val   Name            Meaning
+    ---   ----            -------
+    $1  = SERF_PARTY_ON  - Parity on (even if not $2)
+    $2  = SERF_PARTY_ODD - Odd Parity
+    $4  = SERF_7WIRE     - 7Wire
+    $8  = SERF_QUEUEDBRK - Break in background
+    $10 = SERF_RAD_BOOGIE- Highspeed (disables div. checks)
+    $20 = SERF_SHARED    - Other programs may open device
+    $40 = SERF_EOFMODE   - EOF recognition enabled
+    $80 = SERF_XDISABLED - xON/xOFF disabled
+
+    Typically you can set FLAGS to zero.
+
+See: @{"Lser Open" link Lser_open}, @{"Lser Params" link Lser_params}
+@EndNode
+
+@NODE Appendix_C
+                               APPENDIX C:
+                               -----------
+
+++  This example is a bit old now. See the one included with Ldos
+++  instead!
+
+*-     This is sample-program which shows how to use  the  xpr's  and
+*-  the  serial-commands  in  general. Actually it can be used as the
+*-  worlds shortest communicationprogram! It supports the most common
+*-  ANSI-sequences via Lansi (located in  Ldos) which converts  ANSI-
+*-  sequences to AMOS controlcodes. The only thing we need to convert
+*-  before  we  send it is the cursorkey-codes which are 3 bytes long
+*-  in "ANSI-format"
+
+(There are no *- in this code, so you may easily load it into AMOS)
+
+
+Set Buffer 20      : Rem 20 Kb string-space
+Global XSEND,XREC,XOPEN,XCLOSE,XSETUP,XREAD,XWRITE
+XSEND=0            : Rem These are the globals which we use
+XREC=1             : Rem when calling Lxpr.
+XOPEN=2            : Rem This way you don't have to remember which
+XCLOSE=3           : Rem command that belonged to which value.
+XSETUP=4
+XREAD=5
+XWRITE=6
+
+
+E$=Chr$($1B)+Chr$($5B) : Rem ANSI-startsequence.
+CU$=E$+"A"             : Rem The codes for all
+CD$=E$+"B"             : Rem cursormovements.
+CR$=E$+"C"             : Rem Up,down,left and right
+CL$=E$+"D"
+Screen Open 1,640,256,8,Hires : Rem 8 colour ANSI is enough.
+                              : Rem Lansi converts 16->8 automatically
+Flash Off
+Palette ,,,$FF0
+Paper 0
+Clw
+
+Rem Open serial.device in "standard-mode" with a 8 Kb buffer
+Lser Open 2400,8,1,8096,250000,$20,0,"serial.device"
+
+Rem Just shows how to use Mul Send. Try this one in 300 bps!
+Lser Mul Send "ATZ"+Chr$(13)
+
+
+While Not Lser Mul Check : Rem wait until all data is sent
+   Print "Waiting for mulsend to complete.."
+Wend
+
+Centre "Press <!> to quit demo" : Print
+Centre "Press <?> to SEND    files with Zmodem" : Print
+Centre "Press <+> to RECEIVE files with Zmodem" : Print
+
+Rem Try to open xprzmodem.library
+STA$=Lxpr("","","xprzmodem.library",XOPEN) : Rem open
+If STA$<>"OK" : Rem if STA$="OK" the call was successful.
+   Print "Failed to open xprzmodem.library!"
+   Lser Close
+   End
+End If
+
+Rem Initialize the library.
+Rem Z1=Chop files, TN=Text mode off, KY=Keep partial files
+Rem B4=Save buffer every 4Kb, OR=Owerwrite Resume, SN,RN=Don't send/
+Rem receive full paths, AY=Autoactivate (call HostMon()), E10=allow
+Rem 10 errors before abort.
+STA$=Lxpr("","Z1,TN,KY,B4,OR,SN,RN,AY,E10"+Chr$(0),"",XSETUP)
+
+STATUS=Val(Mid$(STA$,1,1)) : Rem All OK? 0 if failed.
+FREQDL=Val(Mid$(STA$,2,1)) : Rem Need Freq for DL? (1 if not)
+FREQUL=Val(Mid$(STA$,3,1)) : Rem Need Freq for UL? (1 if not)
+Rem Don't care to check for User- and HostMon since we always call XREAD
+Rem and XWRITE and let Lxpr handle this..
+
+If STATUS=0
+   Print "Failed to setup parameters..."
+   A$=Lxpr("","","",XCLOSE)
+   Lser Close
+   End
+End If
+
+Do : Rem MainLoop
+   Multi Wait
+   A$=Inkey$
+   If A$="!" Then Exit 1
+   If A$="#" Then Clw : A$="" : Rem If the screen becomes garbled
+
+   If A$="?"
+      Clw
+      If FREQUL=0 : Rem Do we need a filerequester?
+         Proc _GET_FILE : Rem If so get file(s)
+         A$=Param$
+         Print "Requested file(s): ";A$
+      Else
+         A$=""
+      End If
+      STA$=Lxpr(A$,"","",XSEND) : Rem start download
+      A$=""
+      Home : Cline : Print "Press a key!" : Wait Key : Clw
+   End If
+
+   If(A$="+")
+      Clw
+      If FREQDL=0 : Rem Do we need to supply filename(s)
+         Proc _GET_FILE
+         A$=Param$
+         Print "Requested file(s): ";A$
+      Else
+         A$=""
+      End If
+      STA$=Lxpr(A$,"","",XREC)
+      Home
+   End If
+
+   If A$<>"" : Rem Check for
+      If A$=Chr$(30) : Rem CURSOR UP
+         A$=CU$
+      End If
+      If A$=Chr$(31) : Rem CURSOR DOWN
+         A$=CD$
+      End If
+      If A$=Chr$(28) : Rem CURSOR RIGHT
+         A$=CR$
+      End If
+      If A$=Chr$(29) : Rem CURSOR LEFT
+         A$=CL$      : Rem and replace with ANSI-sequence
+      End If
+      D$=Lxpr(A$,"","",XWRITE) : Rem Send to modem
+   End If
+
+   D=Free : Rem AMOS has always had problems with
+            Rem garbage collections. This prevents crashes
+            Rem when stringbuffer are use a lot.
+
+   A$=Lxpr("","","",XREAD) : Rem is there anything to read?
+
+   Print Lansi(A$); : Rem Convert ANSI->AMOS and print.
+Loop
+
+
+T$=Lxpr("","","",3) : Rem close library
+Lser Close          : Rem and device.
+Rem END OF PROGRAM
+
+Procedure _GET_FILE
+   U:
+   Amos To Back
+   A$=Lfreq("Choose a file, press cancel when all are selected",$2+$4+$10+$40+$1000)
+   If A$="" Then Goto UT
+   If FILE$=""
+      FILE$=A$
+   Else
+      FILE$=FILE$+" "+A$
+   End If
+   Goto U
+   UT:
+   Amos To Front
+End Proc[FILE$+Chr$(0)]
+@EndNode

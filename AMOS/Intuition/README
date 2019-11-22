@@ -1,0 +1,12 @@
+  My apologies for the extreme delay in getting this version out.  Numerous
+things interfered, including the shorting-out of my Amiga, which kept me
+from getting any work at all done on the extension for about three months.
+Since I know there's been clamor for a new version, I'm getting this out
+without as thorough testing as I'd like.  I have, however, fixed a number
+of bugs reported in versions 1.3 and 1.3a.  As usual, if you find more bugs
+(and I suspect you will, in this version...), send me a description of the
+bug and sample code that will reproduce it.
+
+  Again, sorry for the delay.
+
+  --Andy Church (achurch@cmu.edu)

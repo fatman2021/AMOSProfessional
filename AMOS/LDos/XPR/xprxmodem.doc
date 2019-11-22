@@ -1,0 +1,117 @@
+                                XPRXMODEM v34.3
+
+A small bug crept into the code, which went undetected, until XPRXmodem
+was tested with other versions of XModem.  (Thanks to Scott Velez for
+helping to confirm this.)  It has now been fixed.  Following is the
+"readme" file from the previous release.  Note the file size is now
+12,352 bytes, and I've adapted xcrc.h (from XPRZmodem v2.10) for
+XPRXmodem, since it's a bit faster.  Also, MYREVISION is now 36 (libsup.c),
+so "version xprxmodem.library" should now correctly, return 34.36.
+(I forgot to bump this in v34.2.)
+
+                                        My humble apologies. -- Anthon
+
+                      - - - - - - - - - - - - - - - - - -
+
+                                XPRXMODEM v34.2
+
+Following is an independent (ie by me) update to xprxmodem.library (v34.1),
+by Marc Boucher.
+
+The only change is to crc checking, in which, the old method of computing
+crc polynomials on the fly, has been replaced with a table of pre-computed
+polynomials and the appropriate code (by Marc G. Mendel), reducing the time
+between receiving the block & acking it.  Thus, transfers are sped up.
+(The really observant will notice the source code was extracted from the
+Unsit1.5 archive that I recently uploaded to Unix.source).
+
+Here's some data rates (reported by VLT's update window) for a null modem
+setup between two Amigas running VLTjr & xprxmodem (1K blocks with CRC, of
+course):
+
+            2400 baud    19200 baud(*)   |   file size
+                                         |
+     34.1      201           654         |    11,820
+                                         |
+     34.2      212           796         |    12,332
+    _____________________________________|
+                                         |
+     Gains      5%           20%         |
+
+Diffs to dlink.c are included for those interested in the code.  Also,
+I've bumped up the revision number to v34.2.  The library was compiled and
+linked with Manx Aztec C v5.2.
+
+                                   -- Anthon Pang (a665@mindlink.bc.ca)
+
+(*) You'll have to look elsewhere for an explanation of why it's
+    not 8 times faster...
+
+--
+
+xprxmodem.library -- version 34.2
+
+
+This is an XPR 2.0 implementation of the XMODEM protocol.
+
+based on bmodem: the BIX modem program by David Betz, BYTE Magazine/BIX
+		(Modified substantially by W.G.J. Langeveld for use in VLT)
+
+Source code modifications and additions needed for XPR are:
+
+	Copyright ©1990 Marc Boucher, All Rights Reserved.
+
+This software is provided "AS IS" without warranty of any kind, either
+expressed or implied, with respect to the programs described herein, their
+quality, performance, or fitness for any particular purpose.
+
+In no event will the author(s) be liable for direct, indirect, incidental,
+or consequential damages.
+
+redistribution of this software is permitted, provided that:
+
+	1. all files are included, and in their original form.
+	2. if included with a particular product (commercial or
+	   otherwise), proper credit is given to the authors in that
+	   product's documentation.
+
+By using or distributing this software, you agree to understand and accept
+the above.
+
+The desire to move the seldom used xmodem protocol out of VLT, while
+maintaining the functionality to those who needed it, motivated this
+XPR implementation.
+
+There's nothing really fancy about it.
+
+Configurable options are: Text Mode, CRC, and 1K blocks
+
+They default to "off" (T0,C0,K0).
+
+This can be overridden by a environment variable, "XPRXMODEM", containing
+a setup string, of the following format:
+
+3 fields seperated by commas. The first character of every field is the type,
+one of:
+	T (text mode), C (crc), K (1k blocks).
+
+The second char is either 0 or 1, expressing the boolean state of the
+option.
+	examples:
+
+	T0,C1,K1 --> text mode off (binary mode), crc on, 1k blocks
+
+	T1,C0,K0 --> text mode, crc off (checksum), normal 128byte blocks
+
+The user might also be prompted for such a string when XProtocolSetUp() is
+called, if the comm program does not provide the xpr_options callback
+function.
+
+If xpr_finfo is implemented in the terminal program, then it is used
+to get the file type and the Text Mode field in the setup string is
+ignored.
+
+Marc Boucher
+	Internet: marc@CAM.ORG
+	BIX: mboucher
+	Phone: +1 514 466 8932

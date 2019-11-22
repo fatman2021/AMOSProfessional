@@ -1,0 +1,49 @@
+Original translation by Jarrod Karau
+Further translation and editing by George Coulouris
+
+                           Super ZModem XPR library
+                           ~~~~~~~~~~~~~~~~~~~~~~~~
+                        By Ueli Kaufmann, October '91
+
+This library is 95% identical to the xprzmodem.library from Rick Huebner.
+On the assumption that every xpr user would have the xprzmodem.library and
+its accompanying documentation, I did not include this documentation in this
+archive.
+
+Changes:
+
+I.
+
+The maximum block size is determined by BPS rate, as follows:
+  <= 300 BPS =  512 bytes
+    1200  "  =  1k
+    2400  "  =  2k
+    4800  "  =  4k
+  >=9600  "  =  8k
+
+Note that not all terminal programs have implemented the xpr standard as well
+as term (by Olaf Barthel) or LR-Comm (by myself); this can cause problems when
+a false baud rate is signaled to the library.
+
+Therefore, I worked together with Manfred Seiler to develope an 'M' option,
+which signifies the maximum block size to send.
+
+Examples:
+
+'M0'    Block size is determined by BPS rate (Default).
+'M1'    Sets a max block size of 128 bytes.
+'M1024'  Sets a max block size of 1k.
+'M2033'  Sets a max block size of 2k. (In this example, an odd block size
+of 2033 is given by the user. This size is considered nonsense by the library
+and the next largest block is chosen.)
+
+These options only affect uploading. Downloading will always try for 8k
+block sizes.
+
+NOTE:  If you use the 'M1024' option with this library, your will
+       be 100% compatible with the normal Zmodem.
+
+  - 11:37 / 17. Okt. 1991 / Ueli Kaufmann
+       FIDO: 2:302/801.39
+FIDO/MATRIX: 2:302/810/Ueli Kaufmann
+   ZERBERUS: U.KAUFMANN@LINK-CH1.ZER

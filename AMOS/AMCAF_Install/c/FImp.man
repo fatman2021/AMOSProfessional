@@ -1,0 +1,247 @@
+
+File Imploder V2.33 by A.J. Brouwer
+===================================
+
+This program is Freely-Distributable, as opposed to Public Domain.
+Permission is given to freely distribute this program provided you
+include this documentation and any other related files, and no fee
+is charged in excess of reasonable media and mailing costs.
+
+
+Usage:
+FImp <Source> [Target] [-M?|MODE?] [-XO|EXPLODEONLY] [-IO|IMPLODEONLY]
+     [-RF|RUNFORMAT "..%s.."] [-AL|ARGLIST "stctsct..."] [-V|VERBOSE]
+
+Modes range from 0 to 11.
+
+FImp is a compress/uncompress command that allows you to reduce
+the size of any file. The algorithms used are similar to those in
+The Imploder; they sport a good compression ratio and blazing
+decompression speed.
+You can be easily customize FImp to operate transparently on files
+in your environment.
+
+
+Operation
+---------
+
+If you don't specify a target file, FImp will try to replace the
+file you specified, and will expect/create imploded files with a
+.im extension. Suppose you have a file "test" in the current
+directory, "FImp test" will cause it to be replaced with an
+imploded file "test.im", and typing "FImp test" once more will
+replace "test.im" with the exploded file "test".
+
+Alternatively you can specify a target file or directory.
+In the case of a complete target file specification, optionally
+with preappended path, FImp will use both the source and target
+without any modifications. If you specify only a target directory,
+the filename part of the source will be used as a filename.
+
+This works fine because FImp examines the file data to see whether
+a file is imploded, and thus can determine if it should proceed with
+imploding or exploding.
+
+Note that the ".im" entension is only relevant when you don't
+specify a target.  If you do, it will be neither appended while
+imploding, nor removed when exploding to a directory.  This means
+that it's up to you to specify the ".im" extension for the target
+if you prefer to recognize the file type by way of the file name.
+Both FInf and FImp have support for recognizing a file as having
+been fimped by examining its contents, so if you use batchfiles or
+pipe aliases to interface with whatever you've fimped there's no
+need to use the ".im" extension. In any case, you can have it both
+ways.
+
+The NICE switch causes FImp to operate with a task priority of one
+count lower than the one it was invoked with. The old priority will
+be restored upon exit. Thus FImp will only eat the spare cycles
+without bogging down the system.
+
+If you use the VERBOSE switch, FImp will give a progress report
+while compressing, and report on current activities like loading,
+exploding etc.
+
+
+Compression
+-----------
+
+FImp doesn't (yet) support streaming compression/decompression; the
+file to be compressed needs to be loaded into a memory buffer.
+As is the case with The Imploder, a special turbo compression mode
+kicks in when you've about 300K memory left (more for higher
+compression modes).  This will drastically speed up the implosion
+process.
+
+Decompression also requires a contiguous memory buffer as large as
+the decompressed file, but doesn't require any memory in addition
+to that. Before decompression, FImp performs a quick checksum to
+make sure the file hasn't been corrupted.
+
+By default what's most probably the optimal compression mode will
+automatically be selected by FImp. If you want to override this, you
+may specify the mode yourself using the "mode?" switches. Large
+compression modes normally have a higher gain, but take more time,
+and, in case of turbo compression, use up a lot of memory. The speed
+differences between the various modes are quite large if no turbo
+mode could be initiated due to lack of memory.
+
+The large compression modes require quite a bit of memory in order
+to be able to execute. If you have some free memory (>300K) but not
+a whole lot, and yet want to ensure operation in turbo mode, the
+best course of action is to override the automatic compression mode
+selection with a relatively small value, e.g. MODE5.
+
+
+Advanced Features
+-----------------
+
+FImp has a number of features that allow you to easily apply it to
+customized tasks such as transparently decompressing imploded text
+files and loading them into your editor.
+
+The "ImplodeOnly" and "ExplodeOnly" switches allow only compression
+or decompression respectively. Normally FImp decides by itself by
+looking whether the file is already imploded.
+
+Beyond the "RunFormat" keyword you may specify a command to be
+executed when FImp has completed its operation. This isn't very
+useful unless you can in some way pass on the files just processed
+by FImp.
+Therefore this "RunFormat" string allows PrintF like formatting;
+Any "%s" format statements present in the string will be replaced
+by a filename.
+
+However if you use %s statements you'll also have to specify which
+filename it should be replaced with. That's what the ArgList keyword
+is all about. Beyond it you may specify a list containing only the
+characters "s" and/or "c" or "t".  "c" and "t" are mutually exclusive.
+The "s" stands for source, the "t" for target, and "c" for
+conditional.
+So the ArgList string "st" will replace the first occurance of %s
+in the RunFormat string with the source path+filename, and the
+second occurance of %s with the target path+filename.
+
+Note that if you specify only a destination directory, a "t" will
+still cause replacment by both the path and an appended filename
+derived from the source file specification.
+
+Now what's this conditional thing?
+Well, if you don't know for sure whether a file has been imploded
+and e.g. only care about doing something with the exploded version,
+such as loading it into your editor, you can set the "ExplodeOnly"
+switch to prevent the file from being imploded when it hasn't
+already been imploded.
+In this case you'd want FImp to also perform the RunFormat command
+(probably containing an invocation string for your editor) even
+though it didn't explode a thing. And you'd want the source file
+to be loaded into your editor (The one that FImp found out was
+already in a non-imploded state).
+
+So this is what the "c" does; It replaces its respective "%s"
+in the RunFormat string by the target file name if FImp exploded
+or imploded the file. Yet when the file couldn't be processed
+due to you setting the ExplodeOnly or ImplodeOnly switches,
+the source file name will be used.
+
+One last thing that needs to be mentioned is that the runformat
+string supports escaping by means of the \ escape character.
+Thus with \" you can include a quote in the runformat string,
+and \n inserts a line feed.
+
+
+Examples
+--------
+
+"FImp data"
+
+Will implode the file "data" and replace it by data.im if the
+file "data" hasen't been imploded already.
+The same command will explode any file "data.im" if present and
+replace the exploded version called "data". This way you can
+toggle a file between its imploded and exploded state.
+
+
+"FImp source target -rf "Delete %s" -al s"
+
+This will implode or explode the file "source" to the file "target"
+(depending on what state the source file is in) and delete the
+source file, but only when the operation could be completed with
+success.
+
+
+The best thing to do is to define some aliases to hide the rather
+longish commandlines from view;
+
+Edx=FImp >NIL: [] T:Explode -XO -RF "Execute ExEdit %s" -AL "c"
+
+This will execute a batchfile called ExEdit. This could contain
+something like;
+
+<---"S:ExEdit"
+.key filepa/a
+
+Edit <filepa>
+Delete T:Explode/#?
+<---
+
+Thus conditionally loading either the exploded target or the never-
+imploded-in-the-first-place source into an editor.
+The delete command subsequently purges any intermediate files from
+a subdirectory in T:.
+Instead of using a batchfile, you may separate commands in the
+RunFormat string by using \n line feeds. Still, batchfiles are
+more flexible because of e.g. the If/Endif/Skip flow control.
+
+
+FImp Fish:Contents Fish:Contents -IO
+
+If you don't want to bother with re-imploding files when they
+have been modified, you could add a list of these FImp statements
+to your CronTab, thus causing re-implosion during nighttime.
+
+As you can see, you may implode or explode a file to itself, but
+you need to explicitly specify an identical source and target.
+The original file will be deleted, and the new file written. This
+results in a "window of vulnerability"; during the write operation
+there is no backup of the file.
+The replace mode (when you don't specify a target), is safe in this
+sense. The source file will only be deleted after the target file has
+been successfully written.
+
+
+General Info
+------------
+
+Don't think of FImp as a general purpose archiver. Rather it is
+a quick and easy solution to compress single files. I don't endorse
+FImped files as a "public" format. There's enough confusion already.
+
+You might use FInf to "add" wildcarding capabilities to FImp,
+or to preselect only FImped files from a directory.
+
+The rationale behind all this is that by providing only the building
+blocks, documentation and some examples, the user retains the freedom
+to implement things as he/she sees fit.
+
+
+FImp stands out because of its decompression speed. If you'd like
+to compress external data used by a program you are writing, while
+hardly incurring any performance penalty, consider using FImp.
+
+If you query us, we'll provide you with the decompression routines
+in linkable, object format. Note that decompression happens in-situ
+and doesn't require any additional memory.
+
+If you wish to make a program that deals with "public" data, e.g.
+a text reader or a picture display program, you'd do best to wait
+for the xpk library by Urban Mueller. This is an interface library
+a la XPR to various compression algorithms. This way people will
+have an easy way of decompressing this "public" data without having
+to know about the various formats.
+
+
+FImp is pure and can be made resident.
+Enjoy.
+
+# AJ

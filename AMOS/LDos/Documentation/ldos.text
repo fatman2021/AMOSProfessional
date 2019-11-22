@@ -1,0 +1,2666 @@
+
+
+
+
+	Hyper-index for Ldos V 2.6 (c) Niklas Sjöberg 2:203/415.3@Fidonet
+  		    (Layouyt prepared for interlace screens)
+ 	 Starting with this version documentation is ONLY supplied in
+    AmigaGuide-style. Your upgrade/registration paper explains how to turn this
+           guide into a 2.x compatible guide or a plain text file.
+
+	 Introduction    
+         Installing      
+         Smart usage..   
+
+	 File commands   
+	 String commands 
+	 Date commands   
+	 Filerequester   
+	 Device commands 
+	 Misc            
+	 Arexx commands  
+
+	 Error codes     
+	 Disclaimer & my new address! 
+
+	 Changes -> Version 2.6 
+	 How to turn this guide into a 2.x compatible guide, or plain text
+
+	 Index over all functions (somewhat sorted..) 
+
+	Please note that this guide is a service for you registered users!
+		It may NOT be spread to non-registered users
+				   Thanks
+
+
+    Use the supplied 'stripguide' program. If you got the unregistered demo
+   version you only received a plain text file (which may seem a bit weird,
+   like this text at the start..). Starting with the 2.6 release I now take
+   advantage of some codes available only in the 3.x relese. If you have WB
+   2.x use the 'stripguide' command with the -s option. This will force
+   'stripguide' to only filter out non 2.x codes.
+
+   LAST NOTE!
+   I didn't have time to implement conversion to ANSI style-codes, so if
+   you wish to have a REALLY plain non-guide file do like this:
+   Sample usage:
+
+   StripGuide >ram:tmp -s LdosV26.guide    ; remove style codes
+   StripGuide >ram:doc ram:tmp             ; remove all other codes
+
+   The plain file is now found in ram:doc
+   
+   If you have WB2.x, just perform step 1 to strip only non 2.x codes.
+
+
+
+
+			A somewhat sorted index of all Ldos commands.
+
+ansi
+back hunt
+bstr
+cat blocks
+cat comment
+cat first
+cat next
+cat prot
+cat pull
+cat push
+cat size
+cat stamp
+cat type
+chk boot
+chk data
+close
+compress
+crypt
+cust freq
+date
+decompress
+decrypt
+delete var
+dev first
+dev next
+device
+device close
+device error
+device open
+disk font
+execute
+file type
+filter
+fontsize freq
+freq
+get comment
+get freq dir
+get freq file
+get prot
+get var
+hicol off
+hicol on
+largest free
+ldir$
+load
+lowbuffer
+match
+open
+pos freq
+pp decrunch
+pp mem
+prot conv
+replace
+rexx execute
+rexx get msg
+rexx make host
+rexx remove host
+rexx reply
+rexx result1
+rexx result2
+rexx send msg
+rol
+ror
+run
+save
+seek
+set comment
+set eoln
+set file date
+set freq dir
+set prot
+set var
+size
+skip
+stamp
+str
+strcmp
+sys stamp
+sys time
+upbuffer
+wild
+word
+words
+
+Return to main menu
+
+
+
+Delay, delay.. I've just finished my 15 months military service! (horray!)
+After that I moved, went to a lot of parties, had a good time and got
+nothing else done :-) Finally I pulled myself together, and here it is:
+
+
+Several internal things have been fixed in V 2.6 of Ldos. Some Bells and
+Whistles has been addes as well :)
+
+ o There where some quirks in the ARexx code. Ldos complained about strings
+not being NULL-terminated when they where.
+
+ o Some ARexx-commands seames to freak out if you omit a parameter by using
+a comma ",". If you experience strange errors, try NOT to omit any
+parameters. Use a zero (0) instead. This is a bug in AMOS somewhere.
+
+ o Lclose can now be used on already closed files (suggestion by Ott M.
+Aaloe, Estonia) See 	 Lclose 
+
+ o New commands which enables you to use real time compression, using one
+of the fastes algorithms available today.
+See	 Lcompress 		 Ldecompress 
+
+ o Lror and Lrol finally implement logical operations with a return value
+(unlike AMOS built-in commands which require an extra variable).
+See	 Lrol  	 Lror 
+
+ o The Lansi routine now supports 16 colours. 8 or 16 colours is
+configurable.
+ See	 Lhicol On  	 Lhicol Off 
+
+ o Lstrcmp can tell you if string 'a' is greater, less than or equal to
+string 'b'. Makes is easy to implement custom sorting (see example
+included).
+See	 Lstrcmp
+
+ o LLdir$ now don't keep locks laying around. Version previous 2.6 kept the
+lock, thus wasting some memory and keeping LLdir$-ed icons lying around on
+the WorkBench. Because of some AMOS quirk, a big workaround had to be made.
+AMOS will trash mem if current dir isn't the same when you exit a program
+as it was when you started it. This forces LLdir$ to always startup with
+root (ie. DF0, DH0) directory as current dir. See   Lldir$ 
+Thanks to Rasmus Pedersen in Denmark for pointing this out.
+
+ o Errorcodes 25, 26 and 27 are new in V2.6. See  Errors 
+
+ o Lprot Conv can be used to easily convert the "wrong" bits in the
+protection mask.
+See	 Lprot Conv 
+
+
+ 
+       What you just have received  is  a  new  fast,  and  efficient
+    extension  for  AMOS  V1.3  and higher (including AMOS Pro). It 
+    is supposed to correct some misfeatures of AMOS and add some
+    functions not available  in AMOS.
+    The  official  name  is 'Ldos' which seemed logical when I
+    started out, but since that a lot other functions have been added
+    which are far from DOS-functions. I got the idea about Ldos after
+    waiting over fifteen (15!) minutes for Line Input to read  a  300
+    Kb  textfile from floppy. After 15 minutes I stopped the program,
+    it still wasn't finished :-) Then  I  thought,  "while  I  am  at
+    it..", and I came up with some new interesting commands.
+
+
+
+       Here is a small featurelist of Ldos :
+
+
+
+    New load and save routines.
+    o Support for BOTH load and save in the same file without
+      reopening/closing it.
+    o Ability to save and load from any position in a file.
+    o Up to three channels open simultaneously (if you need more
+      let me know).
+
+    Commands for setting/reading :
+    o filenotes
+    o protectionbits
+    o dates
+    o Environmentvariables
+
+    o Determine filelength without having to assign a channel to
+      the file (ie. open it).
+
+    o Determine if a name belongs to a file or a directory.
+
+    o New, very easy to use, directorycommands. Doesn't use any
+      bufferspace as AMOS dir-command. Only one name is read at
+      the time, unlike AMOS dir-command, meaning no bufferover-
+      flow, never to many files in a dir and 0 waittime before
+      names can be displayed on screen.
+      Commands for handling recursive reading and/or popping out
+      of directory-reading and being able to return to the exact
+      position later and continue reading. The number of different
+      active "popped" directories are only limited by your memory.
+
+    o Commands to list all system- assignments, disks, volumes and
+      other devices and obtaining further information about disks
+      and volumes (handlers and dumb devices will work as well).
+
+    o Fast stringhandling to and from banks. Forget Peek and Poke.
+
+    o Fast replace, and filter-out-function.
+
+    o "Line Input"-commands from buffer. It is several times faster
+       than the original AMOS-commands and won't cause any overflow
+       in the string buffer.
+
+    o Fast time and date-routines. Command for getting the current
+      time and date, returned in strings, easy to process. Highly
+      optimized.
+
+    o Convert to and from datestamps, does not use slow library-
+      functions. Highly optimized.
+
+    o Support for the filerequester in req.library. Totally
+      configurable with optional cache (no need to re-read
+      the dir) for floppy-users. Pops up on the Workbench.
+      Also support for font-mode which lets the user pick a
+      font in a really neat way.
+      Set a current dir for the requester which doesn't affect
+      your programs current directory.
+
+    o Commands for decrunching PowerPacker datafiles, all
+      compression modes and known versions, without passwordlock.
+
+    o Cryptation, DeCryptation with password using a pretty 'hard-
+      to-crack'-algoritm. (see hints for more info)
+
+    o Commands to handle any device using an IOSTD-stucture,
+      specially written with trackdisk.device in mind.
+
+    o Run executable  programs and scripts. Support for I/O in a
+      DOS-console window.
+
+    o Load fonts from disk, making them available to Get Rom Fonts
+      without needing to scan the whole fonts-directory (sigh!)
+
+    o A complete set of ARexxsupport commands. Create your host,
+      start scripts with any name located anywhere on the disk.
+      You may also address and send commands to other hosts directly,
+      without starting any scripts. All functions are completely
+      bullet-proof (on system-level), meaning no software failures.
+
+    o Conversion-routine from ANSI/VT100-sequences to AMOS control-codes.
+      Supports the most frequently used sequences and is much faster
+      than the console.device's own routines. Highly optimized. Supports
+      both 8 colour mode (minimum, but less colours can still be displayed)
+      as well as the (non-standard, but often used) hi-colour mode with 16
+      colours.
+
+    o Word- extraction/count which works similar to the ARexxcommands
+      Word and Words.Greatly enhances the possibilities for the prog-
+      rammer to parse configurationsfiles and commandlines.
+
+    o Real Time compression is now possible. This is the fastest packer
+      available for the Amiga if you consider time vs ratio. On an A3000
+      it can decrunch 1 Mb of data in one second!
+
+    o Easy-to-implement-sorting thanks to the Lstrcmp-command. Now you can
+      sort as you like (algorithm is supplied with registered version) even
+      if it is numbers or strings, in 4 dimensional arrays or 1-D arrays.
+
+
+
+       TO DO IN FUTURE VERSIONS
+       ------------------------
+       Correct bugs and add features suggested by YOU.
+
+
+    HOW TO INSTALL LDos
+    -------------------
+       Simply copy LDos.LIB to the  directory  where  you  have  your
+    other  extensions.  Enter LDos.LIB as extension number 10 in your
+    *.ENV file(s). Also add LDos.LIB  to  the  same  number  in  your
+    compiler-configuration(s). Make sure that you state the full path
+    between the brackets { and } in the compiler-configuration.
+    [Alexander Folkesson  pointed out  that in Compiler  V1.34 you must
+    edit you Ramos.config in order to compile programs without  error-
+    messages. Haven't had time to check this out myself..]
+
+    If you're running AMOS Pro everything should be done automatically
+    after the standard configuration. However, on my systemI must run
+    the compiler uncompiled from within AMOS, otherwise the extension
+    is not loaded. Why, I don't know. Most possibly a bug in AMOS Pro.
+
+
+
+    HOW TO READ THIS MANUAL
+    -----------------------
+
+       The manual can be read as you like.  For your convenience  the
+    manual is splitted into some general sections.
+
+
+
+        General file commands, directorycommands etc.
+        String commands and bufferhandling.
+        Date commands.
+        Filerequester in req.library.
+        Device commands, error codes and CMDcommands.
+        Misc commands, which didn't fit anywhere else.
+        ARexx control, making hosts and communicating.
+        Ldos Errorcodes.
+
+ Text which was marked in previous versions (for those who's upgrading) has
+ now been removed. Any further updates will instead have buttons pointing
+ to the new features. So, if you're upgrading from versions less than 2.5
+ you'll have to scan the whole guide/document. Sorry...
+
+   If you read this document as an AmigaGuide-file you can make heavily
+usage of the 'Contents' gadget. It works like this:
+
+   You are in the main menu and select the upgrade-info button. From there
+you select for example Lcompress. Lcompress belongs to the Misc-section, so
+if you press 'Contents' you'll receive the main Misc-menu. If you press
+'Contents' again you'll return to main menu. Ie. 'Contents' take you to the
+topics "main" menu. Similiary, pressing 'Contents' when reading about
+Lload, will display the file commands menu. Once understood it makes it
+very easy to browse a file without needing to backtrace och press 'Index'.
+
+
+
+       These commands will in conjunction  with  the  string-commands
+    totally  replace  all  AMOS  file  I/O,  except for special bank-
+    loading, like sprites music etc. They require  a  bit  more  work
+    than  the  standard  commands,  but  gives you total control over
+    memory usage, string contents and lengths. And most important, they
+    are very fast. Lstr for example is about 13-22 times faster  than
+    Chr$(Peek()) when compiled! (This is almost the same as a vanilla
+    A500 vs a 33 Mhz 030 card) All loading and saving is done to/from
+    banks  meaning  minimal  usage  of  the string-buffer and you may
+    easily decide the bank-size and change it at run-time,  which  is
+    impossible  with  Set Buffer which is set once and for all. There
+    are a bunch of commands which lets you  process  the  bank  before
+    copying    it  to  strings  and  thus  eliminates  the  risk  for
+    "incorrect" strings, containing unwanted characters.    (see part
+    about string-commands for more information)
+    Since some might find Lload/Lstr a bit hard to use , I decided to
+    include  some  easy to  change  procedures which  works like Line
+    Input. See the hint section.
+
+Lopen       	Lclose      	Lload       	Lsave       
+Lseek       	Lsize       	Lold        	Lcreate     
+Lget Comment	Lset Comment	Lget Prot   	Lset Prot   
+Lfile Type  	Lldir$      	Lcat First  	Lcat Next   
+Lcat Type   	Lcat Prot   	Lcat Size   	Lcat Blocks 
+Lcat Stamp  	Lcat Comment	Lcat Push   	Lcat Pull   
+Ldev First  	Ldev Next   
+
+
+
+       Lopen - Open a file for input and/or output.
+       Lopen Channel,"Name",MODE
+
+       where
+
+       Channel can range from 1 to 3, MODE  either 0  for opening  an
+    existing file or 1 for creating a new. WARNING! If the file exist
+    and  MODE is 1 the file will be erased. (the file will be 0 bytes
+    long) Both Load- and Save-operations can be  performed  on  files
+    opened by Lopen (unlike AMOS standard Open).
+    Example: _OLD=0 : Lopen 1,"s:startup-sequence",_OLD
+
+See: Lclose
+
+
+       Lclose - Close a file.
+       Lclose Channel
+
+    where
+
+       Channel is a previously opened file.  Files  opened  with  the
+    standard  AMOS-command Open In or Open Out can not be closed with
+    this command
+
+       WARNING! Do not ever forget to close a file, especially  those
+    you  save  to,  otherwise the file, or even the whole disk can be
+    corrupt!!! (Ldos will automatically close all open files when the
+    program exits, but if a system-crash occur your file can be lost
+    if you haven't closed it)
+    Example: Lclose 1
+
+    Starting with version 2.6 and above Lclose CAN be used on already
+closed files. Ie. error message "File not open" is not generated anymore.
+
+See: Lopen
+
+
+       Lload - Load any number of bytes from a file.
+       A=Lload(Channel,DEST,LENGTH)
+
+    where
+
+       Channel belongs to  a  file  opened  by  Lopen.  DEST  is  the
+    startaddress  of  an  AMOS-bank and LENGTH is the number of bytes
+    (characters) you wish to load. A will contain the number of bytes
+    actually read. If A is less than LENGTH you reached  the  end  of
+    the file. If A equals to -1, a filerror occurred. It is perfectly
+    legal to request more data than the file contains,  no error will
+    be produced because of this.
+    Example: BYTE=Lload(1,Start(10), Length(10))
+             If BYTE= -1 Then Print "FileError!" : End
+             Print "Loaded ";BYTE;" bytes."
+
+See: Lsave
+
+
+    Lsave - Save any number of bytes to a file.
+    A=Lsave(Channel,SOURCE,LENGTH)
+
+    where
+
+       SOURCE is the startaddress of a bank and LENGTH the number  of
+    bytes  you  wish  to  write to disk. If A doesn't equal to LENGTH
+    a disk-error probably occurred (like disk full, or  write  error)
+    dos.library  should normally return -1 on disk-error, but as soon
+    as A doesn't equal to the length you specified you should  regard
+    this as an error.
+    Example: BYTE=Lsave(1, Start(10), Length(10))
+             If BYTE <> Length(10) Then Print "FileError!" : End
+
+See: Lload
+
+
+
+    Lseek - Change position in a file.
+    P=Lseek(Channel,POS)
+
+    where
+
+       POS is the offset you wish to move to. (Offsets  are  relative
+    to  the BEGINNING of the file). If the operation was successful P
+    will contain the same value as POS. If   POS is  <0  no  movement
+    will  take  place,  and  the current position in the file will be
+    returned.
+    Example: Print Lseek(1,0)   : Rem start of file
+             Print Lseek(1,100) : Rem move to 100
+             Print Lseek(1,-1)  : Report position
+
+
+    Lold    - MAY CURRENTLY NOT BE USED!!
+    Lcreate - MAY CURRENTLY NOT BE USED!!
+       These are here for  future  versions, currently  the  compiler
+    seems  to  mess  up values of reserved variables (or I got it all
+    wrong)  (most  likely  I  got  it  wrong,  but  this   type    of
+    "instructions"  isn't  explained  in the PD-source that come with
+    AMOS)
+
+
+    Lget Comment - Get a FileNote
+    A$=Lget Comment("FileName")
+
+    where
+
+       A$ will contain nothing if there  was  no  filenote.  This  of
+    course also works on directories.
+
+See: Lset Comment, Lcat Comment
+
+
+    Lset Comment - Set a FileNote
+    Lset Comment "FileName","Comment"
+
+    where
+
+       "Comment" may not be longer than 79 characters and also  works
+    on directories as well.
+
+See: Lget Comment
+
+
+    Lget Prot - Get the protection-bits of a file
+    A=Lget Prot("FileName")
+
+    where
+
+       A will contain a bit-pattern meaning :
+
+
+        Bit 7   =       H       ACTIVE  HIGH (Hidden)
+        Bit 6   =       S       ACTIVE  HIGH (Script)
+        Bit 5   =       P       ACTIVE  HIGH (Pure)
+        Bit 4   =       A       ACTIVE  HIGH (Archived)
+        Bit 3   =       R       ACTIVE  LOW  (Readable)
+        Bit 2   =       W       ACTIVE  LOW  (Writable)
+        Bit 1   =       E       ACTIVE  LOW  (Executable)
+        Bit 0   =       D       ACTIVE  LOW  (Deleteable)
+
+       This command also works on directories but it seems  like  DOS
+    doesn't  care  about  some flags when it comes to directories.For
+    instance DOS will let you read a directory  even  if  the  R-flag
+    wasn't   activated.  Logically  DOS  shouldn't  let  you  read  a
+    directory which isn't readable but this is the way it  works.  If
+    you are running Kickstart 1.2 or 1.3 DOS neglects most flags.
+       When a flag is active low, it means that when that bit is zero
+    the flag  is active. If, for instance, bit 0  would  equal  to  1
+    that file or directory wouldn't be deleteable.
+
+See: Lset Prot, Lcat Prot, Lprot Conv
+
+
+    Lset Prot - Set the protectionflags for a file.
+    Lset Prot "FileName",MASK
+
+    where
+
+       MASK is a bitpattern like above.
+    Example: Lset Prot "c:myCommand",%00000000 : Rem ----rwed
+             Lset Prot "s:myScript",%01000000  : Rem -s--rwed
+
+See:Lget Prot, Lcat Prot, Lprot Conv
+
+
+    Lsize - Return the size of a file.
+    S=Lsize("FileName")
+
+    where
+
+       S is the filesize. The file do not need to be open.  Note that
+    it is legal to to specify a directory as well. If "FileName" is a
+    directory zero is always returned.
+
+See: Lcat size, Lcat Blocks
+
+
+    Lfile Type - See if the name is a file or a directory.
+    A=Lfile Type("FileName")
+
+    where
+
+       A is greater than 0 if it is a directory, or  negative  if  it
+    is  a file. You don't need to supply a directoryname with a slash
+    ("/") it will work anyway.
+    Example: If Lfile Type(F$) >0
+                Print F$;" is a directory"
+             Else
+                Print F$;" is a file"
+             EndIf
+See: Lcat Type
+
+
+    Lcat First - "Lock" on a directory.
+    F$=Lcat First("Directory")
+
+    where
+
+       If successful F$ will contain the file- or directoryname. Lcat
+    Next will return the next file/dir or an  empty  string.  If  the
+    directory  didn't  exist  the  error  "Invalid  Filename" will be
+    produced (this is because I wanted to keep as few  error-messages
+    as possible)
+
+See: Lcat Next
+
+
+    Lcat Next - Get the next lock (name) in a directory.
+    F$=Lcat Next
+
+    where
+
+       If F$ is empty, there are no  more  files/directories in  this
+    directory.  Lcat  Next won't work if you haven't used Lcat First.
+    These two  Lcat-commands  works  almost  as  the  original  AMOS-
+    commands  Dir  First$  and Dir Next$ with the exception that Lcat
+    First actually returns the path, requested  by  you  and  doesn't
+    read  in all the files and directories like Dir First$. Obviously
+    Lcat Next, unlike Dir Next$, has to access the disk  to  get  the
+    next filename. To produce a directory/file-listing which lets the
+    user stop the program at any time, you could  do  something  like
+    this :
+
+         F$=Lcat First("SYS:")
+         Print "Listing contents of ";F$
+         Repeat
+            Exit If Inkey$<>""
+            F$=Lcat Next
+            If Lcat Type>0
+               F$=F$+At(40,)+Pen$(5)+"(DIRECTORY)"+Pen$(1)
+            EndIf
+            Print F$
+         Until F$=""
+
+
+       As you can see Lcat Next only returns the  file/directoryname,
+    there  are  no  sizes or "*" which makes it harder to process the
+    strings. Instead you can after a call to Lcat First, or Lcat Next
+    call any of the other Lcat-commands for  more  information  about
+    the  file/directory. Since the file/dir already is examined once,
+    none of the other Lcat-commands  actually  needs  to  access  the
+    disk. This speed things up a bit and prevents disktrashing.
+
+See: Lcat First
+
+
+    Lcat Type - Find out if the name is a directory or a file.
+    A=Lcat Type
+
+    where
+
+       A can be either positive,  for  directories, or  negative  for
+    files.  This  is  a bit easier than the "*" provided by Dir Next$
+    in front of the directoryname.
+
+See: Lfile Type
+
+
+    Lcat Prot - Get the protectionflags.
+    A=Lcat Prot
+
+    where
+
+See: Lget Prot, Lset Prot, Lprot Conv
+
+
+    Lcat Size - Get the filesize
+    S=Lcat Size
+
+    where
+
+       S will contain the number of bytes in the file. Note  that  it
+    is fully legal to call this command even if the current "file" is
+    a  directory!  If  the current name belongs to a directory S will
+    contain 0. (Keep in mind that  files  which  are  zero  bytes  do
+    exist, so don't use this method instead of Lcat Type)
+
+See: Lsize, Lcat Blocks
+
+
+    Lcat Blocks - Return how many blocks the file occupies.
+    B=Lcat Blocks
+
+
+       (May be useful when doing size check (copy FFS  ->  SFS).  FFS
+    can hold 512 bytes of data in one block, SFS only 488. It is also
+    said that 2.x/3.x shall support different block-sizes(?))
+
+See: Lcat Size, Lsize
+
+
+    Lcat Stamp - Return the datestamp of the file/directory.
+    S=Lcat Stamp
+
+       See Ldate, Lstamp for more  information  on  how  to  use  and
+    process this stamp. (The format is the same as used by AmigaDOS)
+
+See: Date commands
+
+
+    Lcat Comment - Get the file- or directorynote.
+    A$=Lcat Comment
+
+       See Lget Comment for more information.
+
+Lget Comment, Lset Comment
+
+
+    Lcat Push - Store Lcat-info for later use.
+    Lcat Push ADR
+
+    where
+
+       ADR points to a reserved bank where Lcat temporarily can store
+    its datas.  Each time you push something 264 bytes are  used  and
+    the  next  datas should thus be copied to ADR+264. As some of you
+    may have noticed  it  wasn't  possible  to  run  recursive  Lcat-
+    procedures  before,  since  Lcat always uses the same memory-area
+    when storing filelocks  and  information.  Using  Lcat  Push  you
+    simply move this internal data to a bank reserved by you. You may
+    now  use  Lcat on a different device/directory. When you're ready
+    call Lcat Pull and you're back exactly where you stopped.
+
+See: Lcat Pull
+
+
+    Lcat Pull - Restore Lcat-info which has been stored with Lcat Push.
+    Lcat Pull ADR
+
+    where
+
+       ADR points to the start of a block which has been  created  by
+    Lcat  Push.  Please  note that if this address not contains Lcat-
+    data AmigaDOS  MAY crash if you're unlucky!!  If  ADR  points  to
+    NULLs  (empty  bank)  you  will receive the errormessage "No more
+    entries in this dir!".
+
+    WARNING!
+
+       If you don't pull all your pushed datas DOS won't be  able  to
+    deallocate the memory used for the pushed files/directories. This
+    means that  whenever your program is  run  available  memory will
+    decrease and can not be  restored until the system is re-booted.
+    See different recursive routines for more information.
+
+See: Lcat Push
+
+
+    Ldev First - Get the first device in the systemlist
+    A$=Ldev First(ADR)
+
+    where
+
+       A$ will contain the first device found in your system  (if  it
+    is  empty  something  is  very wrong). ADR should point to a bank
+    where optional info can be stored. The info stored in the bank is
+    mostly  for  advanced  users  to  be  used  in  special    cases.
+    Interesting info for all users ought to be devicetype, unitnumber
+    and the name of the device which handles it. Please note that the
+    devicename  (like  DF0:  etc.)  NOT  contains  a colon (":"). The
+    information stored at ADR is given below.  The bank  must  be  AT
+    LEAST 80 bytes large, no checking is done to ensure this.
+
+    See the example 'Devices.AMOS' for more information and help.
+
+See: Ldev Next with more info
+
+
+    Ldev Next - Get the next name(s) in the systemlist.
+    A$=Ldev Next(ADR)
+
+    where
+
+       This command works almost identically  to  Ldev  First  except
+    that  it  will return an empty string when the last device in the
+    list has been returned. If you continue to call Ldev  Next  after
+    this  an errormessage will be generated. Note that it is possible
+    at any time to call Ldev First if you for  some  reason  like  to
+    start over in the list.
+
+
+    DeviceInfo, returned at ADR and the following 40 longwords:
+    (entries marked with * are explained below)
+
+    ADR+0  Devicetype*
+    ADR+4  Unitnumber
+    ADR+8  Devicename*
+    ADR+12 Tablesize (see includes on this)
+    ADR+16 Blocksize, given in number of longwords
+    ADR+20 -not used-
+    ADR+24 Number of heads (surfaces)
+    ADR+28 -not used-
+    ADR+32 Number of blocks per track
+    ADR+36 Reserved blocks (usually 2)
+    ADR+40 -not used-
+    ADR+44 Interleave (usually 0)
+    ADR+48 Starting cylinder
+    ADR+52 Max cylinder
+    ADR+56 Number of buffers
+    ADR+60 BuffMemType (1 for PUBLIC, 3 for FAST and 5 for CHIP)
+    ADR+64 Maxtransfer
+    ADR+68 MASK-value (DMA-devices)
+    ADR+72 Bootpriority
+    ADR+76 Dostype ($444f5300 for OFS and $444f5301 for FFS)
+
+       DeviceTypes is zero for all true DOS-devices (like CON:, DF0:,
+    DH0: etc.), 1 if it is an assignment and 2 for volumes. It can be
+    a bit tricky to separate non-drive devices, like  CON:/RAW:  etc.
+    from  normal devices which you can save files to. A rather simple
+    way to tell which is which is to check ADR+8 (Devicename)  if  it
+    contains  a devicename. If it does, you can count on that you can
+    save files to the device. If devicename is empty and type is zero
+    it is a non-filesystem device.
+
+       Devicename (ADR+8) contains a pointer to a  transformed  BSTR-
+    string.  The  first  "character" shows how long the string is, or
+    zero. Start of the string is thus ST=Leek(ADR+8). Length  of  the
+    string  is  P=Peek(ST)  and  the  text  starts at ST+1. Note that
+    Devicename normally is NULL-terminated (ends with a  Chr$(0))  so
+    it  is  wise to subtract Chr$(0) from the resulting string before
+    usage.   However,  don't  count  on  that  all  names  are  NULL-
+    terminated, asdg.vdisk.device for example isn't!
+
+See: Ldev First
+
+
+    Lldir$ - Change the current directory
+    LLdir$ "new-dir"
+
+    where
+
+       newdir is a device/volume/dirname. If you change the dir using
+    the Dir$-command and then try to open a  file  using  Lopen,  the
+    file  probably  couldn't  be found, since Ldos hadn't noticed the
+    directory-change (as always, AMOS handles this  internal  :-(..).
+    There are two ways of using LLdir$ in your program:
+
+       a) Set Dir$ to desired value, and call LLdir$ Dir$. Ldos  will
+     now work in the same path as AMOS.
+
+       b) NEVER use Dir$ in your program (or direct mode as  long  as
+    AMOS  is  running). Instead, use LLdir$, just like you would have
+    used Dir$. What LLdir$ does is to change the program's (AMOS's or
+    the compiled program) current directory using a system call. What
+    AMOS's Dir$-command does is to probably add the new path to  some
+    internal variable that is appended to all subsequent calls to any
+    file  related  commands.  However, another problem arises..  When
+    you bring up AMOS's filerequester AMOS changes the Dir$-string so
+    Ldos will once again become confused.  If your  compiled  program
+    never uses AMOS's own filerequester (use Lfreq) stick with LLdir$
+    If you run the interpreter, use option a).
+
+    NOTE
+    Version 2.6 (and newer) now boot Lldir$ with the root-directory as
+    the current dir. This is because an unknown quirk in AMOS. So, if
+    you start AMOS from Dh0:Amos/, Lldir$ will be set to Dh0:
+    See  Changes in version 2.6  for more information.
+
+    Example: LLdir$ Dir$
+             LLdir$ "SYS:"
+
+
+		All string commands are higly optimized and
+		most of the time 10-20 times fatsre than AMOS
+		equvialents.
+
+	Lstr      	Lbstr     	Lreplace  	Lfilter   
+	Lskip     	Lback Hunt	Lupbuffer 	Llowbuffer
+	Lmatch    	Lwild     	Lword     	Lwords    
+	Lset Eoln 	Lstrcmp   
+
+
+    Lstr - Get a string (line) from a bank.
+    1) A$=Lstr(START To MAX)
+
+    where
+
+       START is the address of a bank, and MAX the end  of  the  bank
+    (or  the  end  of  the  file loaded). This function will begin at
+    START, looking for an end-of-line-terminator  (see  below).  When
+    found,  it  will  put  the  contents  into A$. If no end-of-line-
+    terminator is found, A$  will  contain  every  character  between
+    START  and MAX. The end-of-line-terminator is NOT copied into the
+    string, so  the  new  startaddress  of  the  next  line  will  be
+    START+Len(A$)+1
+
+
+
+    Lstr - Get a string from a bank.
+    2) A$=Lstr(START,END)
+
+    where
+
+       A$ will contain every character  between  START  and  END.  No
+    checking  for  end-of-line is done and it is thus faster than the
+    other syntax of this command. Mostly useful  when processing text
+    where "lines" have no meaning.
+    PLEASE NOTE THAT I HAVE  MADE AN TYPO IN  OLDER DOCS!  END SHOULD
+    ACTUALLY BE _LENGTH_! A$=Lstr(START,10) will put 10 characters in
+    A$.
+
+
+    Lset Eoln - Change end-of-line-terminator
+    Lset Eoln NUM
+
+    where
+
+       NUM may range from 0 to  255.  Default  is  10,  normal  Amiga
+    LineFeed.  (Unlike  AMOS  which  tends  to use 13 for some reason
+    (old habit from Atari ST?))
+    Example: Lset Eoln 13
+             A$=Lstr(_START,_MAX) : _START=START+Len(A$)+1
+             A$=A$-Chr$(10) : Rem remove Lf which AMOS use before CR.
+
+
+    Lbstr - Copy a string to a bank
+    Lbstr A$,START
+
+    where
+
+       START is a bankaddress where A$'s contents may be placed.
+
+       No check is done to see whether the bufferlimit  was  exceeded
+    or not so make sure there is room for the string.
+    Example: Lbstr A$+Chr$(10),_START : _START=_START+Len(A$)+1
+
+
+    Lreplace - Hunt for a character and then replace it.
+    Lreplace SEARCH,SWAP,START To STOP
+
+    where
+
+       START and STOP are the area to be scanned, SEARCH is an ASCII-
+    value to search for. If SEARCH is found it will  be  replaced  by
+    the    SWAP-value.    Fx.    Lreplace   9,Asc(" "),Start(10)   To
+    Start(10)+Length(10), will replace all tabs with spaces  in  bank
+    number  ten. Mostly  useful   when  you  want to convert specific
+    unwanted  characters,  like  CR  (Carrige  Return)  or   removing
+    characters that you can't display or process.
+
+See: Lfilter
+
+
+    Lfilter - Replace within a specific range.
+    Lfilter LOW,HIGH,SWAP,START To STOP.
+
+    where
+
+       START and STOP is the same as above,  LOW  and  HIGH  are  the
+    limits. Everything  between LOW and HIGH (INCLUDING LOW and HIGH)
+    will be replaced by SWAP.  Fx.  Lfilter  Asc("a"),Asc("z"),Asc("-
+    "),Start(10) To Start(10)+Length(10), will replace all lower-case
+    characters  with  a  minus "-" sign, leaving any other characters
+    untouched. Very useful  when parsing commandfiles.  For  instance
+    you  may let the user print comments anywhere in the file as long
+    as this is done in CAPITAL  letters.  You  then  filter  out  all
+    capitals and convert them to, say ASCII 0. Next when you use Lstr
+    to  be  able  to process the  lines, just add a -Chr$(0) after it
+    and all comments are masked out.
+
+See: Lreplace
+
+
+    Lskip - Find next character NOT being xx.
+    ADR=Lskip(CHAR,START To STOP)
+
+    where
+
+       CHAR is the  ASCII-value  you  want  to  skip,  START  is  the
+    startaddress  of the bank, and STOP is the maxaddress where Lskip
+    will end if it couldn't find a character which wasn't  CHAR.  ADR
+    will  contain the address AFTER the last CHAR. Useful  if you for
+    example  would like to skip datas which have been filtered out by
+    Lfilter of similar.
+    ADR=Lskip(10,_START To _STOP) : Rem Skip empty lines.
+
+See: Lback Hunt
+
+
+    Lback Hunt - Find next character being xx, works backwards.
+    ADR=Lback Hunt(CHAR,START To STOP)
+
+    where
+
+       CHAR is the character  you  wish  to  search  for,  START  the
+    position  to  start searching from and STOP the end-address. Note
+    that  START  is  greater  than  STOP  since  this  routine  works
+    backwards.  If  you  want  to  skip  forwards  the standard AMOS-
+    function 'Hunt' is easier to use. This command is  probably  most
+    useful  in  page/line-oriented applications, like a textdisplayer
+    or the like. It was implemented since it is a real  pain  to  use
+    Hunt  for backwards searching.
+    Example: For I = 1 To 10
+                 ADR=Lback Hunt(10,ADR To _STOP)
+             Next
+
+See: Lskip
+
+
+    Lupbuffer - Convert all characters to UPPER-case.
+    Lupbuffer START To STOP
+
+    where
+
+       all characters between START and STOP  will  be  converted  to
+    upper-case.  Just  like  AMOS  Upper$  this  routine won't handle
+    national characters (due to AMOS isn't using a standard  keymap).
+    Only A-Z and a-z are processed.
+
+See: Llowbuffer
+
+
+    Llowbuffer - Convert all characters to lower-case.
+    Llowbuffer START To STOP.
+
+
+    where
+
+       everything works  like  above,  but  all  characters  will  be
+    converted to lower-case.
+
+See: Lupbuffer
+
+
+    Lmatch - Search for for patterns in strings using wildcards.
+    L=Lmatch(SOURCE$,S$)
+
+    THIS FUNCTION REQUIRES Release 2.
+
+    where
+
+       SOURCE$ is the string you want to search in  and  S$ contains
+    the  pattern.  PLEASE  NOTE  THAT  BOTH  STRINGS  MUST  BE  NULL-
+    TERMINATED (+Chr$(0)). This routine  is  case-sensitive,  so  use
+    Upper$ or Lower$ if required. Valid wildcards currently are :
+  
+  
+        ?       Matches a single character.
+        #       Matches the following expression 0 or more times.
+        (ab|cd) Matches any one of the items seperated by '|'.
+        ~       Negates the following expression.  It matches all strings
+                that do not match the expression (aka ~(foo) matches all
+                strings that are not exactly "foo").
+        [abc]   Character class: matches any of the characters in the class.
+        [~bc]   Character class: matches any of the characters not in the
+                class.
+        a-z     Character range (only within character classes).
+        %       Matches 0 characters always (useful in "(foo|bar|%)").
+        *       Synonym for "#?", not available by default in 2.0.  Available
+                as an option that can be turned on.
+         "Expression"  in  the  above  table  means  either  a  single
+    character (ex: "#?"), or an alternation (ex: "#(ab|cd|ef)"), or a
+    character class (ex: "#[a-zA-Z]").
+    Example: See Lcat_pat* example. Useful for experimenting.
+
+See: Lwild
+
+
+    Lwild - Find out if a string contains a valid wildcard
+    TEST=Lwild(A$)
+
+    THIS FUNCTION REQUIRES Release 2.
+
+    where
+
+       TEST will be false  (zero)  if  A$  contains  no  wildcard(s),
+    otherwise TEST may contain anything (usually 1). Always use Lwild
+    before  calling  Lmatch  to  prevent Lmatch to cause an overflow-
+    error.
+    Example: If Lwild(A$) Then Gosub _MATCH
+
+
+
+    Lwords - Count the number of words in a string.
+    NUM=Lwords(STRING$)
+
+    where
+
+       NUM will contain the number of words  in  STRING$.  Words  are
+    separated  by  either  TAB (ASCII-value 9), comma (','), space or
+    doublequote ('"'). If doublequotes aren't matched, all text  from
+    the    first  doublequote  will  be  treated  as  one  word.  Two
+    doublequotes without any text between  them will  be  treated  as
+    one word (this is a  'NULL'-word,  useful when for instance omit-
+    ting a  parameter). If there are more than  one  separator  (TAB,
+    SPACE, COMMA)  following  each  other they  will be  ignored. You
+    can thus not use ',,' to produce  an empty  word  (use  '""'  in-
+    stead).  If STRING$ is empty zero is returned.
+
+    Some examples (TAB means ASCII-value 9 which isn't visible):
+
+    Lwords("TAB Hi,, this TAB is just me") -> 5
+    Lwords('Hi, "this is just" "" me')     -> 4
+    Lwords('Hi "this is just" me')         -> 3
+    Lwords('"Hi this is just me')          -> 1
+
+    Do not confuse with Lword
+
+
+    Lword - Mask out any word of a string, without changing the
+             source
+    A$=Lword(WORD,STRING$)
+
+    where
+
+       WORD is the word you  wish  to  extract.  The  first  word  in
+    STRING$ is 1 (not zero) up to the value returned by Lwords.If you
+    request a word which doesn't exist an error will be produced. The
+    same  rules as apply to Lwords applies here,  with one  exception
+    which you might not expect: If a 'NULL'-word is specified  ('""')
+    an  empty  string will not be returned, but both the doublequotes
+    will be returned. Even if there are text between the doublequotes
+    they still are returned  in  A$.  This  makes  it  easy  for  the
+    programmer  to tell when more than one word (containing commas or
+    tabs etc. just check Left$(A$,1) for '"') are to be  regarded  as
+    ONE  word.  If  only  one doublequote  is supplied the rest of A$
+    will be  treated  as  one  word.  If  the  last  character  is  a
+    doublequote,  only  '"'  will  be  returned.  It  is  up  to  the
+    programmer to decide how to handle this. It could be regarded  as
+    a  'NULL'-word,  but in most cases it probably is a syntax error.
+    If you do not wish TABs, spaces or commas to be treated as a word
+    separator (or wish to be able  to  use  more  than  one  of  them
+    directly  after  each  other)  you  simply  quote  the  text  and
+    everything between the quotes will be untouched and  regarded  as
+    one word. If WORD is zero an empty string will be returned
+
+Do not confuse with Lwords
+
+    Lstrcmp - compare two strings
+    RESULT=Lstrcmp(STRING$1, STRING$2)
+
+    where
+
+    STRING1$ and STRING2$ are two valid strings. They may contain national
+    characters which are handled as far as possible. I've tried to make
+    everything as logical as possible (ie. danish ø equals to swedish ö and
+    so on.. It is almost impossible to make everyone happy.. At least this
+    routine provides you with much better results than AMOS' built in
+    routine, which doesn't know ANY national characters!).
+
+    RESULT can contain three different "codes": 1 - STRING1$ is greater
+    than STRING2$, 2 - STRING2$ is greater than STRING1$, 0 - STRING1$ and
+    STRING2$ are equal.
+
+    With this command it is now possible for you to easily implement custom
+    sorting routines. It is now possible to sort x-dimensional arrays by
+    either text or numbers, or whatever. If you still don't understand the
+    power of this command, (or have trouble writing acceptable sort-code)
+    look at the easy-to-use source included.
+
+
+
+       Please note! All Ldate* commands only work within the range  1
+     Jan 1978 to 31 Dec 2099!
+
+	All date commands are higly optimized and are much faster than
+	DOS2.0/ARP equvialents.
+
+		Ldate         	Lstamp        		Lsys Stamp    
+		Lsys Time      	Lset File Date
+
+
+
+
+    Ldate - Convert a datestamp to an ACSII-string.
+    A$=Ldate(STAMP)
+
+    where
+
+       stamp is the number of days since 1 Jan 1978. A$  will  be  in
+    the  form  of "YYMMDD". Fx. 780101 or 920325. If the datestamp is
+    less than zero (below 1 Jan  1978)  the  string  780101  will  be
+    returned.  Also, this routine will only generate valid dates upto
+    2099 (which should be enough?)
+
+
+    Lstamp - Convert year,month and day into a datestamp
+    S=LStamp(YEAR,MONTH,DAY)
+
+    where
+
+       S will be in the standard  datestamp-form  :  number  of  days
+    since  1  Jan  1978. If the date is before 1 Jan 1978, 1 Jan 1978
+    will still be returned.
+
+    Fx. Print Ldate(LStamp(1991,10,23)) --> 911023
+
+
+    Lsys Stamp - Get the current system-datestamp.
+    A=Lsys Stamp
+
+    where
+
+       A will contain a datestamp which can be  used  in  conjunction
+    with Ldate to print the current date.
+
+See: Lsys Time
+
+
+    Lsys Time - Get the current system-time.
+    A$=Lsys Time
+
+    where
+
+       A$ will be in the form "HHMMSS", hours, minutes, seconds.
+
+       No extra ":","." or "-"  is  added  so  that  you  easily  can
+    process this string to the format you like.
+
+See: Lsys Stamp
+
+
+    Lset File Date - Change the datestamp of a file or a directory
+    TEST=Lset File Date("name",STAMP,MIN,TICKS)
+
+    THIS FUNCTION REQUIRES Release 2
+
+    where
+
+       TEST will be true (-1) if the call was successful.  "name"  is
+    of  course  the  (path and) name of the file OR directory that is
+    to be changed. STAMP is a normal datestamp like the one  returned
+    by  Lstamp  (see  above), MIN are the number of minutes that have
+    passed since midnight. TICKS are the number of  ticks  that  have
+    passed during the last minute (1 tick is the same as a VBL = 1/50
+    sec).  I  didn't mind adding conversionroutines for MIN and TICKS
+    since they are so easy to calculate. It  is  probably  harder  to
+    convert  a  userspecified  datestring to a format that my routine
+    could convert. The datestamp, which are  a  bit  harder,  can  be
+    converted easily with Lstamp.
+
+       Please note that many filesystems (like OFS and  FFS)  doesn't
+    allow  you to change the date of the root-directory (this date is
+    used to separate disks with the same name)
+    Example: If Lset File Date("t:temp",Lstamp(1992,7,25), 480,1850)
+                Print "Date is now 92-07-25, 08:00:37"
+             Else
+                Print "Set date failed!"
+             EndIf
+
+
+			Using the excellent filerequester in req.library
+
+		Lfreq         	Lfontsize Freq
+		Lget Freq Dir 	Lget Freq File
+		Lset Freq Dir 
+
+		Lpos Freq     	Lcust Freq    
+
+
+
+    Lfreq - Bring up the filerequester.
+    A$=Lfreq("Title",FLAGS)
+
+
+    where
+
+       A$ will contain the full path and filename after the call.  If
+    the  user  clicked  cancel, A$ will be empty. "Title" is the text
+    you want as a headline in the requester fx. "Load  an  IFF-file".
+    FLAGS  decides  how  the  requester  will  act. Every function is
+    assigned to a bit, and here are  their  values  (to  choose  many
+    options, just add the values, fx. FLAGS=$2+$4+$1000)
+
+
+
+    $1  -   Show .info-files. Hidden otherwise
+    $2  -   Extended select. Not supported by Ldos.
+    $4  -   Dir cache. The  latest used directory will be
+            remembered so it won't have to be read again at
+            the next call.
+    $8  -   Bring up font requester. Supported in V2 and above.
+            Use Lfontsize Freq to get hold of the size of the
+            font. A$ will contain the full path and name of the
+            font and you may thus let the user select a font from
+            any path and then load it using Ldisk Font. HINT, use
+            Lget Freq Dir to mask out everything except the font-
+            name if you intend to use Get Rom Fonts. See the inc-
+            luded example Lfonts for more hints.
+    $10 -   Create a hide-'.info'-gadget
+    $20 -   Do not create any hide- and showgadgets
+    $40 -   Use absolute x,y for the requester. Otherwise it
+            is placed directly under the mousepointer. (x and
+            y are hard-coded to the upper left on the screen)
+            Version 2 and higher allows re-position of the re-
+            quester if $40-flag is used.
+    $80 -   Purge cache whenever the datestamp of the directory
+            changes (in other words, re-read the directory
+            whenever it is changed)
+    $100 -  Don't cache anything until the whole directory is
+            read.
+    $200 -  Do not sort the files.
+    $400 -  Do not create a scrollbar.
+    $800 -  Used when choosing a file to save. Currently it have
+            no function, but are reserved for future use.
+    $1000 - Used when choosing a file to load. Currently it have
+            no function, but are reserved for future use.
+    $2000 - Let the user select directories only, does not
+            display any files at all.
+
+       You should ALWAYS set $800 or $1000 depending on  if  you  are
+    going to load or save a file.
+
+TOC Filerequester
+
+    Lget Freq Dir - Get only the path which the user picked the
+                    last time the filerequester was used.
+    A$=Lget Freq Dir
+
+    where
+
+       A$ will hold the LAST selected dir. A$ will NOT be empty  even
+     if  the  user clicked  CANCEL  and something  has  been selected
+     through the filerequester before.
+
+
+    Lget Freq File - Get only the filename which the user picked the
+                     last time the filerequester was active.
+    A$=Lget Freq File
+
+    where
+
+       A$ will hold the LAST selected file. A$ will NOT empty even if
+    the  user   clicked  CANCEL,  and  something  has  been  selected
+    through the filerequester before.
+
+
+    Lset Freq Dir - Set the default (current) directory for the
+                    filerequester.
+    Lset Freq Dir "Path"
+
+    where
+
+       If you haven't set  path,  the  filerequester  will  use  your
+    programs  current  directory. Whenever the user changes directory
+    it will be remembered by Ldos. This path does not  affect  AMOS's
+    (Dir$) path in any way.
+
+
+    Lpos Freq - Change the hardcoded X and Y position of the requester.
+    Lpos Freq X,Y
+
+    where
+
+       X and Y are specified in pixels. These positions will only  be
+    used  if  the $40-flag is specified, otherwise the requester pops
+    up at the mousepointer. Default positions are 3,11.
+
+
+    Lcust Freq - Change size of the requester's fields.
+    Lcust Freq DEVWIDTH,FILEWIDTH,FILES
+
+    where
+
+       DEVWIDTH specifies how many characters  wide  the  devicefield
+    will  be,  FILEWIDTH  does the same but affect the file-name/size
+    window. FILES specifies how many files/dir that will be displayed
+    (height). Default values are 12,30,14.
+
+
+    Lfontsize Freq - Return the fontsize when the requester has been
+    in font-mode.
+    S=Lfontsize Freq
+
+    where
+
+       S contains the fontsize of the last  chosen  font.  Note  that
+    you must set the filerequester to font-mode ($8-flag) in order to
+    update this  field. Currently the req.library doesn't support CG-
+    fonts.  Hopefully  there  will be a new version out soon (when/if
+    CED V3 is coming?)
+
+See: Ldisk Font
+
+
+		These commands work on any device using an IOSTD-request.
+		DO NOT USE Ldevice* for serial r/w! User Lserial.Lib instead!
+
+	Ldevice Open 	Ldevice Close	Ldevice      
+	Device CMD   	Trackdisk CMD	Ldevice Error
+	Lchk Data    	Lchk Boot    
+
+
+
+    Ldevice Open - Open a device for use. Only one device may be
+                   open at the same time.
+    S=Ldevice Open("name",UNIT,FLAGS)
+
+    where
+
+       name is the devicename, like "trackdisk.device". UNIT  is  the
+    unit  number, 0 for Dh0: and Df0:, 1 for Dh1: and Df1: etc. FLAGS
+    may be set to zero, if you're a non "pro-devicer".. A is zero  if
+    successful, non zero if the device couldn't be opened.
+
+
+    Ldevice Close - Close the device opened by Ldevice Open.
+    Ldevice Close
+
+
+    Ldevice - Send a command to the currently open device.
+    A=Ldevice(COMMAND,BUFFER,LENGTH,OFFSET)
+
+    where
+
+       BUFFER is a pointer to where data is to  be  fetched  or  put.
+    LENGTH  is  the number of bytes you wish to read or write. OFFSET
+    is where you wish to read or write. A is the  parameter  returned
+    from  the  device  (IO_ACTUAL)  and may mean different things for
+    different devices/commands  (see  below).  If  a  read  or  write
+    operation  took place A will contain the number of bytes actually
+    read or written. COMMAND is one of the  following  (for  standard
+    devices,  for  specialdevices  like  trackdisk,  serial  etc. see
+    documentation or C= includefiles):
+
+
+        #       Description
+        -       ------------
+        0       Invalid. (Does it do anything?)
+        1       Reset. Act as newly re-started.
+        2       Read
+        3       Write
+        4       Update (write all buffers)
+        5       Clear all buffers.
+        6       Stop all i/o
+        7       Restart after stop.
+        8       Flush, abort all queue
+
+See: Trackdisk_CMD
+
+
+    The trackdisk.device has some special commands :
+
+
+
+       (Remember about trackdisk : ALL buffers must be in  CHIP.  ALL
+    offsets and lengths must be a multiple of 512. Offsets are always
+    given in bytes, fx. Root-block is 880*512)
+
+
+    Command # & Description
+    -----------------------
+    2  Read, buffer MUST be in CHIP-mem!
+    3  Write, buffer MUST be in CHIP-mem!
+    4  Update, write the (internal) buffer to disk.
+       (You can also force this by reading another track.)
+    5  Clear the (internal) buffer and thus force the
+       device to read the next block from disk, even
+       though it may have been in the buffer (used to
+       make sure no other process have done anything
+       to the disk via hardware-programming without
+       updating the buffer or if the buffer was trashed).
+    9  Turn motor OFF (set LENGTH to 0) or ON (LENGTH=1)
+    10 Seek, move head to OFFSET, but doesn't perform any
+       read to ensure it hit the right block.
+    11 Format tracks. LENGTH must be 22*512(*2) bytes. (You
+       can use format instead of write if you wish to
+       copy to an unformatted disk)
+    12 Remove interrupt. Only for pro's. Do not use.
+    13 Return the number of diskchanges.
+    14 Determine if a disk is inserted. (255 = No disk in drive)
+    15 Determine if a disk is writeprotected. (0 it not)
+    16 RawRead, only for pro's. Do not use.
+    17 RawWrite - " " -         Do not use
+    18 Determine drivetype. (1 = 3.5", 2=5.25")
+    19 Determine number of tracks.
+    20 Change interrupt. Only for pro's. Do not use.
+    21 Remove change interrupt. Only for pro's. Do not use.
+    22 Determine last command.
+
+
+
+       Those commands marked "Only for pro's" should NOT be used from
+    Ldos because of many things,  to  complicated  and  off-topic  to
+    explain here!
+
+
+
+       Extended devicecommands are not supported by Ldos  (so  please
+    use LSerial.LIB and not Ldevice to perform serial I/O).
+
+
+    Ldevice Error - Determine if any (and if so which) error
+                    occurred during the last operation.
+    A=Ldevice Error
+
+    where
+
+       A can be IF trackdisk is used :
+
+
+    ## Description
+    -- -----------
+    0  "Operation Successful."
+    20 "Unknown Error."
+    21 "No Sector Header Present."
+    22 "Invalid Sector Header."
+    23 "Invalid Sector ID."
+    24 "Incorrect Header Checksum."
+    25 "Incorrect Sector Checksum."
+    26 "Not Enough Sectors Available."
+    27 "Illegal Sector Header."
+    28 "Disk Is Writeprotected."
+    29 "Disk Was Changed."
+    30 "Track Not Found."
+    31 "Not Enough Memory."
+    32 "Illegal Sector Number."
+    33 "Illegal Drive Type."
+    34 "Drive In Use."
+    35 "Reset Phase!!"
+
+
+    Lchk Data - Calculate the checksum of a data-block.
+    CHK=Lchk Data(ADR)
+
+    where
+
+       ADR points to a buffer containing the datablock  (512  bytes).
+    CHK will contain the checksum itself.
+
+See: Lchk Boot
+
+
+    Lchk Boot - Calculate the checksum of the bootblocks.
+    CHK=Lchk Boot(ADR)
+
+    where
+
+See Lchk Data
+
+    A word about checksums :
+
+       As  you  already  may  have  guessed  the  bootchecksum  isn't
+    calculated  in  the  same  way  as  the  checksum of other blocks
+    (Udir,Data,Root etc. etc.) so you must not use Lchk Data for  the
+    bootblock  and  Lchk  Boot  for  datablocks. Also notice that the
+    bootblock actually consists of TWO  blocks  (which    always  are
+    reserved  on the disk) and ADR should thus point to the TWO first
+    blocks of the disk  when  calculating   this  checksum.  The  new
+    filesystem  (FFS)  doesn't  use  checksums for datablocks anymore
+    since FFS uses the full 512  bytes for data (SFS uses only 488).
+
+       To alter the checksum on a SFS disk simply call Lchk  xxxx  to
+    obtain  the  new  (and  valid) checksum, if it is the bootblocks,
+    Loke this value into the second longword, if it  is  a  datablock
+    (or  other, except bitmap) longword 6 should be changed. In other
+    words, for boot : Loke ADR+4,CHKSUM and for  other blocks :  Loke
+    ADR+20,CHKSUM.
+
+
+		Different commands which didn't fit anywhere else.
+
+	Lpp Mem      	Lpp Decrunch 	Llargest Free
+	Lrun         	Lexecute     	Ldisk Font   
+	Lcrypt       	Ldecrypt     	Lset Var     
+	Lget Var     	Ldelete Var  	Lansi        
+	Lcompress    	Ldecompress  	Lrol         
+	Lror         	Lhicol On     	Lhicol off   
+	Lprot Conv   
+	About Lrun   	About Lansi  	About Cryptation
+
+
+
+
+    Lcompress - Compress data very quickly in chunks.
+    Lcompress - _LEN=Lcompress(START, INLENGTH To DESTINATION, DESTLENGTH)
+
+    where
+
+    START is the adress of the startbuffer. It need not to be aligned in
+    any way, but could work smoother if it is (ie. Start(BANK) which is
+    always aligned). INLENGTH is the length in bytes of the data which is
+    to be compressed. DESTINATION is the adress of a bank which MUST be
+    at LEAST as large as the source bank. For optimal security, please add
+    16 bytes to length of destinationbuffer. DESTLENGTH, length of
+    destination buffer.
+
+    If _LEN = 0 "Then data could not be compressed". You should the NOT
+    use the DESTINATION buffer for anything. The data in the source buffer
+    should be used!
+
+    You can only compress 65000 bytes at a time. This limitation makes the
+    compression routine significantly faster, especially on 68000 machines.
+
+See: Ldecompress About Lcompress
+
+    Ldecompress - Decompress data compressed by Lcompress
+    OUTLEN=Ldecompress(START, INLENGTH, DESTINATION)
+
+    where
+
+    START is the startadress of some crunched data. NOTE! YOU MUST MAKE
+    SURE THAT DATA IS COMPRESSED. If you use this command on bogus or un-
+    compressed data it WILL crash! INLENGTH is the length of crunched data
+    in bytes. DESTINATION is a free bank where data can be unpacked. NOTE!
+    You must keep track of how large this bank need to be yourself, since
+    Lcompress saves no information about this. (See example source code
+    included).
+
+See: Lcompress About Lcompress
+
+
+    Lcompress is indeed very fast, one of the fastest packers around (which
+    can produce ratios of at least 30% on normal binaries) . It uses two
+    techniques when compressing: RLE (Run Length Encoding) and a pattern
+    method with a sliding dictinary of 4096 entries. The compressor can
+    use either both methods or only one. The compressor engine decides
+    this itself. With RLE simpel data like frequently repeated characters
+    (or any data, like in bitmaps where there is a lot of "black holes" can
+    be compressed very fast and with a good ratio. The pattern method works
+    best on textfiles or similiar, but of course any type of data can (most
+    oftenly) be compressed.
+
+    Lcompress uses 16 Kb of memory internally. Ldecompress uses no
+    additional memory.
+
+    When you use Lcompress you have to do some things yourself:
+    1) Allocate destination buffer. Add at least 16 bytes 
+       as a security margin. Ie. destination length should be
+       SOURCE_LENGTH + 16.
+    2) Check return value. If data could not be compressed zero
+       will be returned.
+    3) Store length of uncrunched data somewhere. You need this
+       when you later want to allocate a buffer for Ldecompress.
+
+    Flow:
+
+    A.) Allocate and read max 65000 bytes of source buffer.
+    B.) Allocate SOURCE_LENGTH + 16 as destination
+    C.) Compress
+    D.) Is return value ZERO?
+        D1.) Compression not possible! Save length of data.
+	     Save code which means "Not compressed".
+             Save the SOURCE buffer instead of DESTINATION!
+        D2.) Data could be compressed. Save return value so
+             that we know how long the original data was.
+	     Save code which means "Compressed".
+             Save DESTINATION buffer.
+    E.) Read more data and jump to C.
+
+There is a simple DMS-like example included on the Ldos disk.
+
+    Lrol - Perform logical shift left, without modifying source variable.
+    RESULT=Lrol(POSITIONS,VAR)
+
+    where
+
+    RESULT contains the shifted value. POSITIONS decides how many places
+    the value stored in VAR is to be shifted. You cannot shift more than
+    31 positions at a time. All 32 bits of the variable VAR is always
+    affected.
+
+See also Lror
+
+
+    Lror - Perform logical shift right, without modifying source variable.
+    RESULT=Lror(POSITIONS,VAR)
+
+    where
+
+    RESULT contains the shifted value. POSITIONS decides how many places
+    the value stored in VAR is to be shifted. You cannot shift more than
+    31 positions at a time. All 32 bits of the variable VAR is always
+    affected.
+
+See also Lrol
+
+    Lprot Conv - Turn inverted bits in protection mask right.
+    FLAGS=Lprot Conv(MASK)
+
+    where
+
+      FLAGS will contain the bitmask MASK, but with the lower four bits
+    inverted. Normally bit 0-3 in the protection mask is active low. To
+    make things easier you can use this command to pretend all bits are
+    active high. Ie. if MASK = %11010110 and we Lprot Conv it:
+                                    ^^^^
+                               %11011001
+
+    We can then easily use AND or OR to set or erase bits. Before using
+    this faulty mask on Lset Prot, we Lprot Conv it again!
+
+See: Lset Prot, Lcat Prot, Lget Prot
+
+
+    Lpp Mem - Determine how much memory a file crunched by
+              PowerPacker will need to decrunch.
+    SIZE=Lpp Mem(END)
+
+    where
+
+       END is the end of the previously loaded file. It must  not  be
+    the    end    of    the    bank,    but  the  end  of  the  file,
+    Start(Bank)+Lsize("FileName"). (AMOS's banks are  always  rounded
+    off  to  the nearest multiple of 4 and may differ from the actual
+    filesize) No check is done to see that the bank really contains a
+    powerpacked file so make sure you have loaded one before.
+
+See: Lpp Decrunch
+
+
+    Lpp Decrunch - Decrunch a PowerPacked datafile.
+    Lpp Decrunch START,END To DEST
+
+    where
+
+       START is the start of the loaded file,  END,  see  above.  The
+    file will be unpacked to address DEST. This bank must be at least
+    Lpp Mem   bytes  large. Again, no test is done to see if the bank
+    really contains a powerpacked file! Be careful!
+
+
+    Llargest Free - Return the size of largest block of free memory
+    A=Llargest Free(TYPE)
+
+    where
+
+       TYPE is either 0 for CHIP-memory of 1 for FAST-memory. A  will
+    contain  the  size of the memoryblock. This value is NOT the same
+    as the AMOS commands Fast Free and Chip Free, they  return  total
+    unallocated memory-size, not the largest size you can allocate in
+    one  bank.  Always  use  this  command before reserving a  larger
+    amount of memory in a single bank.
+
+
+    Lrun - Run a program.
+    A=Lrun("command(s)","WINDOW")
+
+    where
+
+       "commands" is the program(s) you wish to run. Since a new  CLI
+    is  opened  to  execute  your  program(s) you may wish to set the
+    stack for the program, and you  MUST  set  the  fail-level  (with
+    failat) to a very high value, otherwise a program may fail with a
+    returncode  >0 and the Shell/CLI-window will never be closed! (at
+    least not until the user types endcli >NIL:) After every  command
+    a   linefeed,  Chr$(10)  MUST  follow.  "WINDOW"  is  a  standard
+    CON:/NEWCON: (please always use CON: since NEWCON: isn't used any
+    more in Release 2) with the normal syntax :  "CON:x/y/xx/yy/name"
+    name  should  preferably  not contain any spaces. To use Lrun you
+    must have the following commands on the disk (system:) :
+
+        c:Run
+        c:NewCli
+        c:EndCli
+       (c:FailAt)
+
+       You also  must  have  assigned  t:  to  somewhere  or  have  a
+    directory named "t" on the disk and have the disk write enabled.
+
+
+
+    An example :
+
+        T$=Chr$(10)
+        A$="Failat 10000"+T$
+        A$=A$+"Stack 8000"+T$
+        A$=A$+"Lha l dh0:download/*.lha"+T$
+        A$=A$+"Wait 2 secs"+T$ : Rem, pause to read the output
+        A=Lrun(A$,"CON:10/10/600/180/AMOS-Output")
+
+    where
+
+       A will contain any number (see Technote  below).  Please  note
+    that  you  should  NOT  use EndCli as the last command, Ldos will
+    automatically append this. Always make sure  that  the  requested
+    commands  exists  on  disk,  because  there  is  no   way (that I
+    currently know of) to ignore a "command not found"-error and your
+    script will fail, leaving the window open and  AMOS  waiting.  If
+    you follow these rules you will be enable to run just about every
+    program from AMOS!
+
+       Note! Under KS1.3 a "unknown command"-error always breaks  the
+    CLI  on  my  system.  I  do not know why, it works perfectly well
+    under KS2.04 and other 1.3-systems if FailAt has been used.
+
+See: Lexecute
+
+
+    Technotes:
+
+       Some of you might wonder  why  it  takes  so  much  to  run  a
+    program?  I  will  try  to  explain a bit.. Normally Execute() in
+    dos.library is used to start programs. Execute() use the  command
+    Run  in  order to start the program (that is why you have to have
+    it available on the boot-disk). It SHOULD  also  be  possible  to
+    pass  two  channels  for  I/O,  for  example a newly opened CON:-
+    window. Now there has always been troubles with Execute() because
+    if you wish to use an inputchannel Execute won't  complete  until
+    EOF  (End  Of File) is written to the inputchannel. Since an  EOF
+    never is  sent  the  input/output-window  is  never  closed,  and
+    Execute waits, and waits..and waits. The only way to make Execute
+    continue is by typing EndCli >NIL: in the window. I tried sending
+    a string like "dir dh0: opt i"+LF+"EndCli >NIL:"+LF (LF=LineFeed)
+    but  this  didn't work if the program just executed fails. Failat
+    also needed to be used. At this time I realized you would need  a
+    whole  script  (EndCli, Failat, Stack etc.) to execute a program.
+    It seemed much smarter to write all the  commands  to  a  script-
+    file,  and  use NewCli FROM script-file + a window specification.
+    This way you can execute a number of commands  and  the  I/O  re-
+    direction  is  taken  care of automatically! All this works fine,
+    but two new problems arose. First I  haven't  found  any  way  of
+    getting  hold  of  the  returncode  from  Execute()  since it now
+    returns directly after the NewCli-command is run (a  new  process
+    is created). Secondly, control would return to AMOS directly, and
+    one newer knew when the script was finished! I still have no idea
+    of  how  to get hold of the returncode from the executed programs
+    in the script but the other problems was solved in this way :
+
+
+
+    1) Your commands is written to a script-file, t:ld.t
+    2) Two commands are added "t:sig_ldos" and "EndCLi >NIL:"
+    3) A program called t:sig_ldos is created by Ldos in t:.
+    4) A messageport is created by Ldos.
+    5) A NewCli is launched FROM t:ld.t CON:?/?/?/?/Title
+    6) Ldos directly start to look for a message in the msg.port.
+    7) The script reaches the line t:sig_ldos.
+    8) sig_ldos send a message to Ldos that script now is at the end.
+    9) EndCli is executed, the window close, Ldos cleans up and
+       control returns to AMOS.
+
+
+       Sometimes it can be hard to start a  program  correctly  on  a
+    multitasking computer.......
+
+
+    Lexecute - Start a program which doesn't need CLI I/O
+    A=Lexecute("programname")
+
+       Works almost like Lrun above, but only one program may be run.
+    The  program  to be run can not use any CLI-I/O. Started programs
+    should  open  their  own  screen/window  to  function   properly.
+    Lexecute  is perfect for starting editors, wordprocessors or just
+    any other program which isn't designed to print or receive  input
+    to/from a CLI-window.  If the  program detatches  itself  control
+    will return to AMOS directly.
+
+    where
+
+       A will be True if successful, False otherwise.
+
+See: Lrun
+
+
+
+    Ldisk Font - Load a font from disk, making it directly
+                 available to Get Rom Fonts
+    A=Ldisk Font("name.font",SIZE)
+
+    where
+
+       name is the fontname, ".font" MUST follow it. SIZE is the size
+    of the font you wish to load. A will be >0 if the font loaded OK.
+    If a <1 the font wasn't on the disk or already in memory.
+
+
+
+       Since this routine is designed to always try to scale the sel-
+    ected font with a best match, it may return true even though  the
+    requested  font wasn't available. Say you try to load diamond/10,
+    (which doesn't  exist) then diamond/12 will be loaded instead.
+    Note that above ("designed fonts") may differ  a bit depending on
+    which diskfont.library you have. A nice feature of diskfont  V36+
+    is that you may specify a  full path  for the  fontname and  thus
+    don't have to have the font located in fonts:. Always make use of
+    V36+ routines if you can..  To bad for those who haven't upgraded
+    but they probably will :)
+
+See: Lfontsize Freq
+
+
+    Lcrypt - Encode a buffer containing data.
+    Lcrypt START,LONGS,"password"
+
+    where
+
+       START is the startaddress of a bank and LONGS  is  the  length
+    divided by four. Fx LONGS=Length(10)/4. "password" is your secret
+    code  which  also  is used to DEcode your data later. Please note
+    that an error will be produced if the password  is  less  than  4
+    characters long. Also note that the password is casesensitive!
+
+See: Ldecrypt, About Cryptation
+
+
+    Ldecrypt - Decode a buffer containing coded data.
+    Ldecrypt START,LONGS,"password"
+
+    See Lcrypt, About Cryptation
+
+
+    A word about cryptation :
+
+       Using crypted data on a computer (or anywhere)  is  never  100
+    percent  safe.  If  somebody  really wants to decode your data he
+    will simply load  his  favurite   monitor  and  single-step  your
+    program  at  machine-level  until he finds either the code or the
+    decoded data itself. This however demands quite  some  skill  and
+    patience  and  can be very time consuming. Data coded with Lcrypt
+    uses quite a simple formula which easily can be picked up in  the
+    code, however, even though the algorithm is know there a millions
+    of  combinations  that  have    to be tried if the password isn't
+    known. There  are  about  4300  millions  of  different   combin-
+    ations...  To make your code VERY hard to crack try to follow any
+    (or more) of these steps.
+
+    1) Use non-visable  codes as  password (linefeed, tab etc.
+    etc.)
+
+    2) Don't type  the password like A$="MyPassword". This can
+    easily be spotted in the code. Try using Data's reading them with
+    an  special  offset  (use each third char or something)
+
+    3) If you HAVE typed your code directly in the source you could
+    always do something like A$=A$-" "-"a"-"M" which makes it very
+    much harder for a "single-stepper"-cracker to follow at machine-
+    level.
+
+    4) First code half your  bank with one password, the other half
+    with another and then code the whole bank with a third.
+
+    5) Code Powerpacked files or Powerpack your coded files.
+
+    6) If not compiled, lock the procedure containing the code and
+    decryption part.
+
+       Normally you wont have to take any of these steps, most people
+    haven't got the  skill  or  the  time  to  mess  around  in  your
+    programs...
+
+See: Lcrypt, Ldecrypt
+
+
+    Lset Var - Assign a value to a global environmentvariable.
+    T=LSet Var("Name","VALUE")
+
+    THIS FUNCTION REQUIRES Release 2.
+
+    where
+
+       "Name" is the  name  of  the  variable  (must  not  exceed  50
+    characters)  and  "VALUE"  is  a  ASCII-string  containing either
+    digits or text. The value-string must not exceed  50  characters.
+    This  function  will  return  true  if  successful.  Name  of the
+    variable is not case-sensitive.
+
+See: Lget Var, Ldelete Var
+
+
+    Lget Var - Get the value from a global environmentvariable.
+    A$=Lget Var("Name")
+
+    THIS FUNCTION REQUIRES Release 2.
+
+    where
+
+       A$ either contains the value (or text) or is empty. If  A$  is
+    empty  the  variable  didn't  exist.  Name of the variable is not
+    case-sensitive.
+
+See: Lset Var, Ldelete Var
+
+
+    Ldelete Var - Remove a global environmentvariable from memory.
+    T=Ldelete Var("Name")
+
+    THIS FUNCTION REQUIRES Release 2.
+    where
+
+       T will be true if a variable with the name  "Name"  was  found
+    and removed. If T is zero the variable didn't exist.
+
+See: Lset Var, Lget Var
+
+
+
+    Lansi - Convert ANSI-sequences to AMOS's format.
+    S$=Lansi(A$)
+
+    where
+
+       S$ will contain a sequence containing AMOS control characters.
+    A$ is a normal ANSI-sequence which doesn't have to be complete if
+    the rest of the sequence follow in the next call(s).
+
+    Currently supported ANSI controlcodes :
+
+
+    ANSI-sequence RESULT
+    ------------- ------
+    $C (*)        Clw/Home
+    ESC[n;n;n;nm  Style,  foreground or   background.  Lansi  detects
+                  if  style or colour is to be changed. It  is  legal
+                  to  omit   any  of  the  parameters  as long as you
+                  specify at least one, and end the sequence with  m.
+                  Supported styles are: Italics (shaded), Inverse and
+                  Underline,  other styles are simply ignored. Please
+                  note  that  changing  from  one  style  to  another
+                  doesn't  turn  off the last used style. To reset to
+                  pen-colour 1, background-colour 0 and no style, use
+                  ESC[0m.
+    ESC[0         Cursor invisible, ignored
+    ESC[0 p       Cursor visible, ignored
+    ESC[xA        Cursor up x lines. x may be omitted.
+    ESC[xB        Cursor down x lines. x may be omitted
+    ESC[xC        Cursor right x columns. x may be omitted.
+    ESC[xD        Cursor left x columns. x may be omitted.
+    ESC[y;xH      Locate x,y. y may be omitted.
+    ESC[x@        Insert x spaces. x may be omitted.
+    ESC[L         Insert line.
+    $a            Linefeed. Passed on to AMOS.
+    $d            Carrige return. Passed on to AMOS.
+    $8            Backspace. passed on to AMOS.
+    ESC[2J        Clw. To my knowledge it isn't possible to  support
+                  "Clear  window at cursor" so even if only ESC[J is
+                  printed the whole window is cleared.
+    ESC[K        Clear line at cursor.
+    ESC[M        Clear line.
+
+       (*) $C really isn't a ANSI-code but is  supported  since  many
+    BBS-programs (and AmigaDOS + others) use this.
+
+    Lhicol On - Force Lansi to use non-standard hi-col codes in ANSI
+                sequence.
+    Lhicol On
+
+    where
+
+    There are no parameters. Note! 16 colour mode is now the default! Use
+    Lhicol Off if you don't wish 16 colours. You can still display text
+    from Lansi even though your screen can't display 16 colours. The text
+    will be "modified" to be printable on your screen anyway.
+
+NOTE!
+    The AMOS 'Default' command does NOT affect this setting!
+
+See also Lhicol Off Lansi
+
+
+    Lhicol Off - Force Lansi to use standard colour codes in ANSI
+                 sequences (eight colour mode).
+    Lhicol Off
+
+    where
+
+    There are no parameters. Note! 16 colour mode is now the default unless
+    you use Lhicol Off. You can still display text from Lansi even though
+    your screen can't display 8 colours. The text will be "modified" to be
+    printable on your screen anyway.
+
+See also Lhicol On Lansi
+
+
+
+    How Lansi works:
+
+       The Lansi-routine is a 'smart'  routine  which  remembers  old
+    incomplete  sequences  and  codes. This means that you may 'Print
+    Lansi("ESC[0");' (ESC means Chr$(27)) and nothing  is  output  on
+    the    screen!    If   you  directly  afterwards  execute  'Print
+    Lansi("m");' a string which resets  style  and  colours  will  be
+    printed (it isn't visible). Lansi doesn't buffer the actual ANSI-
+    sequence  but rather store datas in its own format and it is thus
+    very important that the ANSI-sequence is valid since Lansi  can't
+    'go  back  and  check'.  The  most  important  thing in the ANSI-
+    sequence is the sequence-terminator,  like "m"  for  colour/style
+    or @ for insert etc. Lansi will happily collect  and convert data
+    until  a  sequence-terminator  is  received and return nothing to
+    AMOS if it isn't received. This may result in lost characters  if
+    no valid sequence-terminator is sent.
+
+    Speed & Problems:
+
+       I have tried to make the Lansi-routine as fast as possible and
+    this have resulted in TOTALLY unstructured code, more labels than
+    a grown up man can count and  repeated  codesections  instead  of
+    slower/more  general subroutines. Because of the many sections in
+    the  code  which  writes  to  a  temporary  destination  it    is
+    (currently)  almost  impossible to add an effective routine which
+    checks for overflow. This means that you  must  be  very  careful
+    when  using  Lansi with files with very long lines. Programs like
+    DiEd (ANSI-editor) may  output an animation  which  is  one  line
+    'long'  and  over  10 kb big! Lansi has  no way to figure out how
+    big the finished string will be.  The  internal  buffer  used  by
+    Lansi  is  2000  bytes  big  so  in  general  lines up to 400-500
+    characters is ok. Sometimes the resulting string is shorter  than
+    the  ANSI-sequence but I have still not added support for repeat$
+    so the ANSI-sequence ESC[99A will evaluate to 99  bytes.  I  will
+    look into the possibility of making use of repeat$ later on. Right
+    now  I'm more than happy that this routine just works :-) (I know
+    that anybody who has tried to write ANSI-emulation  know  what  I
+    mean...)
+
+       Now, what do you gain on my sloppy and unnecessary large code?
+    I made a comparison  between typing an animationfile in Shell and
+    printing it using Lansi in AMOS. Both routines used a  4  colour-
+    screen.  The  file  I tested with was Per-Anim_Animation which is
+    included with DiEd by Per Raue. The file is 11760 bytes long  and
+    mostly  contains  movementsequences  and  about  a half screen of
+    text. I was equipped with some fastmem, an AdSpeed and a fast  HD
+    in both tests.
+
+    Type Per-Anim_Animation       took: 09.52
+    Type >NIL: Per-Anim_Animation took: 02.46
+                                  -----------
+    Actual time excluding loading       07.06
+
+    Lansi with output    took: 02.02
+    Lansi without output took: 00.76
+
+    Please  note that these  figures may  have  changed since you got
+    Ldos  since I'm  still changing  in this  part of the code. I now
+    also have an A3000/25 to test with :-)
+
+       Both Lansi-testroutines used Lset Eoln and Lstr to  split  the
+    file  into  1357 lines (every cursor movement). Lansi gained some
+    hundreds of seconds since it didn't need to process bold, on  the
+    other  hand  it  had to split (and load from HD) the file in 1357
+    lines, allocate stringmemory  etc. The time  was  measured  using
+    'Timer'  in  AMOS and the timingfunction in Csh. The AMOS-program
+    was run uncompiled.
+
+
+			A complete set of ARexx-support routines.
+				Uses rexxhost.library.
+
+		Lrexx Make Host  	Lrexx Remove Host
+		Lrexx Get Msg    	Lrexx Send Msg   
+		Lrexx Reply      	Lrexx Execute    
+		Lrexx Result1    	Lrexx Result2    
+
+			About Lrexx      	
+
+
+
+
+    Please note! ALL STRINGS PASSED ON TO ANY Rexx-commands MUST BE
+    NULL-TERMINATED: A$=A$+Chr$(0)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    This must be the case even if the string is empty, ie. A$="" must
+    be changed to A$=Chr$(0).
+
+    ("LRexx" in this part applies to all ARexx-commands)
+
+       LRexx is an AMOS-interface to the library rexxhost. LRexx will
+    let you set up an ARexx-port and  execute  an  ARexx-script.  Any
+    other program may use the port created by LRexx to send commands.
+    LRexx  will  also  take  care  of  some  things for you, like de-
+    allocating replies from the ARexx-server automatically  etc. etc.
+    In  general,  you  don't have to bother with what's going on. You
+    just  have to get messages,   process  them and then reply to the
+    server.
+
+       To use LRexx you need the complete ARexx-package (supplied  in
+     Release 2) and the library rexxhost.library located in libs: You
+    will  also  need  some  knowledge  about ARexx, understanding how
+    messages are sent from an ARexx-script and knowing how to get/set
+    resultcodes.
+
+    Using ARexx on the Amiga by Abacus,is HIGHLY recommended! Authors
+    are Chris,  Zamara  and Nick, Sullivan. ISBN 1-55755-114-6 ($35).
+    This  book is much  better than  the  original  ARexx-manuals and
+    comes with a free disk with lot of examples.
+
+
+
+
+    LRexx Make Host - Create an ARexx host (port)
+    FAIL=LRexx Make Host("Name")
+
+    where
+
+       FAIL will differ from zero it the port was added.  (FAIL  will
+    contain  a pointer to the port-structure). If FAIL equals to zero
+    LRexx was unable to create the port, probably due to another port
+    already existed with the same name.
+
+See: Lrexx Remove Host
+
+
+    LRexx Remove Host - Remove an ARexx host (port)
+    LRexx Remove Host
+
+See: Lrexx Make Host
+
+
+    LRexx Get Msg - Get a message from another host or script.
+    A$=LRexx Get Msg(WAIT)
+
+    where
+
+       A$ will contain the message (see below)  or  be  empty  if  no
+    message  was  available.  If  WAIT equals to 1 LRexx Get Msg will
+    wait until a  message is received and control won't  be  returned
+    to AMOS until a message is received.
+
+       If A$ equals to "LRexx0" it  means  that  the  started  script
+    reached  the  end.  This  message  can NOT be replied to since it
+    actually is an answer from the Rexx-server that the script ended.
+    LRexx will de-allocate this reply automatically. If you know that
+    you successfully have started a script (see  LRexx  Execute)  you
+    may  safely  call  LRexx  Get Msg with WAIT set to 1 since LRexx0
+    always will be returned even  if  no  other  commands  are  sent.
+    However, if your  script has failed and you call with WAIT set to
+    1,  AMOS may be locked forever! Please use WAIT in a sensible way
+    If your program goes to "sleep" WAIT is ideal to use.
+
+!Adnote!
+    "Locked forever" made some of you upset :) Well, you program will
+    be locked until a command is sent to your host. Best way  in AMOS
+    (if you wish to sleep but be able to react on other things) is to
+    use WAIT=0 in a mainloop which HEAVILY calls Multi Wait and  also
+    checks keyboard and other things. This method isn't the best in a
+    multitasking system, but if you call Multi Wait a couple of times
+    in your main loop,nobody will notice the difference. To bad  AMOS
+    never was designed like other programs... :-(((
+
+See: Lrexx Reply, Lrexx Send Msg
+
+
+    LRexx Execute - Execute an ARexx-program
+    A=LRexx Execute("Name")
+
+    where
+
+        A  will  be  true  if  the  program  was  found  and  started
+    successfully.  Name  is the full path and name of the scriptfile.
+    NOTE that "Name" MUST be NULL-terminated (A$="Name"+Chr$(0))
+
+
+    LRexx Send Msg - Send a command to another host (port) directly
+    A$=LRexx Send Msg("Host-name","Message",RESULT)
+
+    where
+
+       A$ will contain the result returned by the host you addressed.
+    If RESULT is set to zero A$ will always be empty. "Host-name"  is
+    the  name  of  the  host that you wish to pass on the command to.
+    "Message" may contain any valid command that the application that
+    you address understand. Note that Host-name and Message  MUST  be
+    NULL-terminated!! Also note that control isn't returned until the
+    application has executed (and replied to) the sent command.
+
+See: Lrexx Get Msg
+
+
+    LRexx Reply - Tell ARexx you are ready processing the last
+                  message and want to prepare for the next.
+    LRexx Reply "String",Result1,Result2
+
+    where
+
+       "String" may be any result/string you wish to return to ARexx.
+    Result1 and Result2 are the results  to be returned.  (Result1 ==
+    rc) Note that you can not  use  LRexx  Get  Msg  until  you  have
+    replied  to the previous message using LRexx Reply. Do NOT try to
+    reply to a message which contains the string "LRexx0" (see above)
+
+See: Lrexx Get Msg, Lrexx Send Msg
+
+
+    LRexx Result1 - Get the value from rm_Result1
+    A=LRexx Result1
+
+    where
+
+    A will hold the returncode of the last message.
+
+
+
+    LRexx Result2 - Get the second result.
+
+    see above
+
+
+
+       As mentioned before,  errorhandling  isn't  perfect,  but  I'm
+    working on it!
+
+
+    Ldos Errorcodes :
+
+    # Description
+    - -----------
+    0 Invalid Channel
+	Channel is greater than three or less than one.
+
+    1 LFile already assigned to channel
+	Channel not free for use. Use Lclose first.
+
+    2 LFile not found
+	File didn't exist or wasn't available due to some other program
+	may be writing to it.
+
+    3 Invalid filename
+	To long or short filename or file/dir didn't exist (used by some
+	commands because I felt it was unecessary to implement even more
+	errorcodes. See docs for some of the commands)
+
+    4 Examine failed
+	Some files can't be locked. May be busy while another program is
+	writing to it or even creating it!!
+
+    5 Invalid comment
+	To long or short comment (MAX 79 characters).
+
+    6 Unable to set protectionflags
+	See error #4.
+
+    7 No more entries in this dir
+	Lcat First wasn't a directory or you keep on calling Lcat Next after
+	it has returned an empty string, indicating that there are no more
+	entries.
+
+    8 Start is greater than max limit
+	Oops, check your addresses in Lstr-calls. Otherwise your string
+	would be as long as all your memory installed.
+
+    9 Device already open
+	Use Ldevice Close before opening a new device. Only one may be open
+	at a time.
+
+    10 Device not open
+	LDevice Open may have failed, or you have closed the device.
+
+    11 Unable to open diskfont.library
+	diskfont.library MUST be in libs: on the boot-disk (SYS:) in order
+	to use Ldisk Font (also required by AMOS Get Fonts and other font-
+	related commands).
+
+    12 Host not created
+	Rexxhost.lib has been expunged or a host with the same name already
+	exists (most likely, but you could also be extremely short of
+	memory).
+
+    13 Old message not replied!
+	You tried to read the next message before the last was replied to.
+	You must ACK that you are ready processing the last message before
+	you can get a new one.
+
+    14 No message to reply to!
+	You replied to a already replied message. 
+
+    15 You need dos.library 37+
+	You tried to use a command which need a higher version of this
+	library (Kickstart 2.04+ only)
+
+    16 To long pattern/overflow/or no pattern
+	Either you used a wildcard which actually doesn't contain any
+	wildcards, or you used a pattern >100 chars, or there was a
+	bufferoverflow in the dos.library. Check your wildcard string.
+
+    17 Password to short.
+	Lcrypt requires at least four chars as password (This is not because
+	of the algorithm, but for your own safety).
+
+    18 You can not call with an empty argument
+	This command requires that you do not supply an "empty" argument such
+	as "", or zero.
+
+    19 Stop is greater than start
+	Think twice when using Lback Hunt since START actually is greater
+	than STOP.
+
+    20 No more devices in system!
+	Stop calling Ldev Next when it has returned an empty string,
+	indicating that there are no more entries.
+
+    21 Not enough words in string!
+	You tried to extract a word with Lword, which didn't exist. Use
+	Lwords to find out how many words the string contains.
+
+    22 Lldir$ can't find directory!
+	You tried to change the current directory to something that didn't
+	exist.
+
+    23 Command need NULL-terminated string!
+	You forgot to add Chr$(0) to a string before you called a command
+	which doesn't terminate the string itself (saves both space and
+	time).
+
+    24 Missing part of ARexx (lib/server)
+	Your rexxhost-routines can't work if it can't find rexx*-libs and
+	the server running. This error will ONLY be generated when you call
+	Lrexx Make Host so you should ALWAYS try to make a port (host) before
+	you try any of the other Lrexx-commands. Failing to do so when
+	ARexx is not started will most likely crash or hang your machine!
+
+    25 Not enough memory to compress
+	Lcompress requires an additional 16 Kb internal buffer, but could
+	not allocate it.
+
+    26 You can only shift 31 bits a time
+	You tried to Lrol or Lror more than 31 places (makes no sense!)
+
+    27 Can't Strcmp empty strings!
+	If one, or both strings, which are to be compared, are empty
+	not much can be done..
+
+       All LDos errors are trapable so there is  no  excuse  for  not
+    providing your programs with an errorhandling-routine.
+
+
+
+       Even though I have tested Ldos as much as possible  there  may
+    be  some  bugs  left. Many of the Ldos-commands involve access to
+    dos and are naturally dangerous to misuse. Ldos handles most kind
+    of errors, but I have skipped some checking in order to make  the
+    code  smaller and some functions faster. Because of this Ldos can
+    crasch if you  try  to  call  some  functions with  totally  wild
+    arguments.  For example Ldisk Font, Lset Comment etc. will behave
+    very strange if you call with an empty string as  argument  (now,
+    why would anybody want to do that?). If you use Ldos under normal
+    circumstances calling with valid parameters it should be stable.
+
+
+    If you use Ldos it is understood that :
+
+
+    o You can not hold me responsible for any kind of damage like
+      lost file or crashed disks.
+    o You are using it on your own risk.
+    o LDos may not be sold for money.
+    Please send suggestions and bugreports to :
+
+    Niklas Sjöberg
+    Karl XI:s väg 19, 6 vån
+    S-302 36 Halmstad
+    SWEDEN
+
+    or
+
+    2:203/415.3@Fidonet (Address to Sjoberg, NOT Sjöberg)
+    PLEASE: DO NOT USE THE PHONE!! See IMPORTANT.TXT!!
+
+
+
+                             AKNOWLEDGEMENTS
+                             ---------------
+
+    From Req.doc:
+
+    "  The req.library is a  run  time  re-entrant  library  that is
+    designed  to make it easier for programmers to use powerful, easy
+    to use requesters for communicating  with  users.  The  requester
+    library  includes  such  functions  as  a  color  requester, file
+    requester, message display requester and many functions  to  make
+    the creation of gadgets for your own custom requesters easier.
+
+       Req.library was written by Colin Fox (of Pyramyd Designs)  and
+    Bruce  Dawson  (of  CygnusSoft Software). Req.library is a freely
+    distributable library that may be  used  in  commercial  products
+    without  paying  any  royalties.  We  encourage  you  to  use the
+    requester library in all of your programs, to make them easier to
+    write, and to use."
+
+    From Rexxhost.doc:
+    "
+    ============================== Credits ===============================
+    ======================================================================
+       rexxhost.library was built from example  source  code  written
+    by Gary Samad & Bill Hawes (fancydemo.c), extensions & additional
+    functions were created by Olaf 'Olsen' Barthel.
+
+       The entire contents of this library package may  be  used  for
+    any  purpose,  no regard whether commercial or non-commercial. No
+    credit must be given to the creator, nor must a registration  fee
+    be paid (though I wouldn't mind if anybody did).
+
+                      THIS IS TRULY PUBLIC DOMAIN!
+
+    =============================== Author ===============================
+    ======================================================================
+
+                        Olaf 'Olsen' Barthel, MXM
+                            Brabeckstrasse 35
+                           D-3000 Hannover 71
+
+                       Federal Republic of Germany"
+
+
+
+Soft- and hardware used when developing Ldos :
+
+Amiga 2000 with AdSpeed (version 1)
+Amiga 3000 25 Mhz       (version 2-2.5)
+Amiga 3000 28 Mhz/50 :) (V2.5-)
+AMOS 1.34
+AMOS Pro (for testing)
+CygnusEd    for writing text
+DevPac 3.x  680x0 assembler
+PowerPacker for testing Ppdecrunch
+Died        (ANSI-editor and animator, for testing Lansi)
+Badlinks    for testing Aguides
+
+and heavy usage of MonAm :-)
+
+
+
+
+
+
+
+    HINTS AND TIPS FOR USING LDOS
+    -----------------------------
+
+
+       If you find the protection-bits hard to handle  when  four  of
+    the  bits  are  active  high  and  four are active low you can now
+    use Lprot Conv instead of the old routine that was supplied here.
+
+
+
+
+       After using Lfilter on a wide range (lets say  from  a-z)  you
+    shall  use Lskip to determine the next start-address which hasn't
+    been filtered and swapped. Example :
+
+    Lfilter Asc("a"),Asc("z"),10,START To END
+
+       Since there will be a  LOT  of  empty  lines  (all  lower-case
+    characters   will  become  linefeed)  Lstr  may  take  a  lot  of
+    unnecessary time only fetching empty lines.
+
+
+
+       You should then use :
+
+    Lskip 10,START To STOP
+
+       to obtain the next address not containing a linefeed.
+
+
+       If you have problems with strange gurus  or  AMOS  locking  up
+    please  try to increase your stringbuffer and call D=Free once in
+    a while.  AMOS  seems  to  have  problems  to  determine  when  a
+    garbagecollection is to be performed.
+
+
+       If Lload/Lstr gives you a hard time,try these procedures (they
+    will only work with one file at the time though):
+
+Set Buffer 10
+' Dedicated to Andy Whitely who thought Lload and Lstr was a bit  
+' rough to use, and Line Input much to slow. Using these two procedures  
+' You can 'emulate' AMOS's Line Input-command. To use it you must
+' have LINESTART, LINESTOP (buffer "cursors"), SIZE (load-buffer given 
+' in Kb), FEOF (internal procedure variable), CHAN (the channel you
+' wish to use) and RAD$ (where the read line is placed) GLOBAL!  
+'
+' To use these procedures, simply: 
+' a) Set CHAN to a number between one and three
+' b) Set SIZE to desired size. 4-8 Kb is enoough in most cases 
+' c0)Set Lset Eoln To desired value (normally 10)
+' c) Call _LINEOPEN with the filename
+' d) Check Param for errors
+' e) Call _LINEINPUT in a loop, until Param is false.
+'
+' RAD$ will hold your read line. The procedure automatically calls 
+' Free every time the buffer is re-filled (ie. another block is
+' loaded) to prevent AMOS from crashing due to garbage collection. 
+'
+' Please note that these procedures erase and use buffer 8 (you might
+' want to change that) and can't handle multiple files (unless you 
+' re-write the routines :) 
+'
+' Have fun with AMOS!
+'
+Global LINESTART,LINESTOP
+Global CHAN,RAD$,FEOF,SIZE
+'
+'
+Screen Open 1,640,256,2,Hires : Paper 0 : Clw 
+'
+CHAN=3 : Rem These you need to init 
+SIZE=4
+Lset Eoln 10
+'
+'---- Open a file for _Lineinput. CHAN is set to 3, buffer 4Kb.
+Proc _LINEOPEN["df0:docs/LdosV21.doc"]
+If Not Param
+   Print "Error opening file!"
+   End 
+End If 
+Do 
+   Proc _LINEINPUT
+   Exit If Not Param : Rem End of file
+   '   Print RAD$ : Rem Wait Key      
+Loop 
+Lclose CHAN
+'
+'
+Procedure _LINEINPUT
+   If LINESTART>=LINESTOP : Rem Do we need to re-fill the buffer?
+      If Not FEOF         : Rem first check if end of file
+         Gosub _LOAD
+      Else 
+         SUC=False        : Rem End of file & buffer reached, return FALSE
+         Goto SLUT2
+      End If 
+   End If 
+   '
+   RAD$=Lstr(LINESTART To LINESTOP)
+   LINESTART=LINESTART+Len(RAD$)+1
+   If(LINESTART>=LINESTOP) and Not(FEOF) and(Peek(LINESTOP)<>10)
+      Gosub _LOAD             : Rem A line may be splitted and we should thus
+      D$=Lstr(LINESTART To LINESTOP): Rem pick up the rest by re-filling buffer
+      LINESTART=LINESTART+Len(D$)+1 : RAD$=RAD$+D$
+   End If 
+   SUC=True
+   Goto SLUT2
+   '
+   _LOAD:
+   DUMMY=Free          : Rem While doing heavy string usage, ALWAYS call Free!
+   LINESTART=Start(8)
+   A=Lload(CHAN,LINESTART,SIZE*1024)
+   If A<SIZE*1024
+      LINESTOP=LINESTART+A : Rem If we didn't get as may chars as we
+      FEOF=True            : Rem requested, we reached end of file.
+   End If 
+   Return 
+   SLUT2:
+End Proc[SUC]
+
+' You MUST use this procedure to open the file!
+Procedure _LINEOPEN[F$]
+   FEOF=False
+   Erase 8 : Reserve As Work 8,SIZE*1024 : Rem x Kb buffer
+   LINESTART=Start(8)
+   LINESTOP=LINESTART+SIZE*1024
+   If Not Exist(F$)
+      Goto SLUT
+   Else 
+      If Lfile Type(F$)>0 : Rem Directory won't be easy to read :-)
+         Goto SLUT
+      End If 
+   End If 
+   SUC=True
+   If Lsize(F$)<1 : Rem Zero files are of no use to us because
+      SUC=False   : Rem there are nothing to "LineInput"!
+   End If 
+   Lopen CHAN,F$,0
+   A=Lload(CHAN,LINESTART,SIZE*1024) : Rem Load first block
+   If A<SIZE*1024
+      LINESTOP=LINESTART+A
+      FEOF=True
+   End If 
+   SLUT:
+End Proc[SUC]
+
+Procedure _LPOF[POS]
+   ' Can be used a AMOS Pof() 
+   ' If POS is <0 the current position is returned and no movement takes place
+   A=Lseek(CHAN,POS)
+   If POS<0                    : Rem Current position requested
+      A=A+(LINESTART-LINESTOP) : Rem Don't forget we have data in the buffer
+   EndIf                       : Rem and POS is actually file-pos + bufferpos!
+   LINESTART=LINESTOP+10       : Rem Force buffer to reload at next call!
+End Proc[A]
+
+       See, it isn't that  hard.  Even though these  procedures keeps
+    track of a lot, they  are reasonably fast.  About 100K/sec  on my
+    machine. If you try to load files which AMOS has created and con-
+    tains that silly Chr$(13), you might want to modify _LINEINPUT to
+    "SLUT2:
+     RAD$=RAD$-Chr$(13)"
+
+
+

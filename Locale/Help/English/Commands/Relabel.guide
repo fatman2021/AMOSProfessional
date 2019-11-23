@@ -1,0 +1,36 @@
+@DATABASE Relabel.guide
+
+@$VER: Relabel.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/Relabel.c
+
+@NODE MAIN "Relabel"
+
+@{B}Name@{UB}
+
+    Relabel
+
+
+@{B}Synopsis@{UB}
+
+    DRIVE/A, NAME/A
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Rename a volume
+
+
+@{B}Inputs@{UB}
+
+    DRIVE   --  The volume to rename
+    NAME    --  The new name
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

@@ -1,0 +1,51 @@
+@DATABASE Help.guide
+
+@$VER: Help.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/utilities/Help/main.c
+
+@NODE MAIN "Help"
+
+@{B}Name@{UB}
+
+    Help name (section)
+
+
+@{B}Synopsis@{UB}
+
+    NAME, SECTION
+
+
+@{B}Location@{UB}
+
+    SYS:Utilities
+
+
+@{B}Function@{UB}
+
+    Shows help information for commands and system applications.
+    The help files are stored in HELP:English with a sub-directory
+    for each section. The utility "Multiview" is used to show the
+    guide files. If neither NAME nor SECTION are given an index page
+    will be shown.
+
+
+@{B}Inputs@{UB}
+
+    NAME    --  the name of the command or application whose help
+                you want to view. The name is case-insensitive.
+    SECTION --  the section where the help document will be searched.
+                Currently available are "commands" and "system". If you
+                don't specify the section all available sections will
+                be searched. The section is case-insensitive.
+
+
+@{B}Example@{UB}
+
+    Help dir
+    Help dir commands
+    Help help
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

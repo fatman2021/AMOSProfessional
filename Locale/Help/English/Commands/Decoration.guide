@@ -1,0 +1,40 @@
+@DATABASE Decoration.guide
+
+@$VER: Decoration.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/Decoration/decoration.c
+
+@NODE MAIN "Decoration"
+
+@{B}Name@{UB}
+
+    Decoration
+
+
+@{B}Synopsis@{UB}
+
+    (N/A)
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Allows user definable skins for the intuition windows, menus and gadgets.
+    
+
+@{B}Notes@{UB}
+
+    Must be launched before Wanderer - usually in the S:startup-sequence
+    
+
+@{B}See also@{UB}
+
+    IPREFS
+    
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

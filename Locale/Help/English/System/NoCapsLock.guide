@@ -1,0 +1,35 @@
+@DATABASE NoCapsLock.guide
+
+@$VER: NoCapsLock.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/tools/commodities/NoCapsLock.c
+
+@NODE MAIN "NoCapsLock"
+
+@{B}Name@{UB}
+
+    NoCapsLock
+
+
+@{B}Synopsis@{UB}
+
+    CX_PRIORITY/N/K
+
+
+@{B}Location@{UB}
+
+    SYS:Tools/Commodities
+
+
+@{B}Function@{UB}
+
+    Renders the CAPS LOCK key ineffective.
+
+
+@{B}Inputs@{UB}
+
+    CX_PRIORITY  --  The priority of the commodity
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

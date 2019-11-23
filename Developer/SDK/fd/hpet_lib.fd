@@ -1,0 +1,12 @@
+##base _HPETBase
+##bias 6
+*
+* Automatically generated from '/home/vsts/work/1/s/arch/all-pc/hpet/hpet.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+GetHPETCount()()
+AllocHPETUnit(user)(a0)
+FreeHPETUnit(unit)(d0)
+GetUnitAttrsA(unit,tags)(d0,a0)
+##end

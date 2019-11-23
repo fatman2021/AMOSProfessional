@@ -1,0 +1,20 @@
+##base _RexxSysBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/rexxsyslib/rexxsyslib.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+##bias 126
+CreateArgstring(string,length)(a0,d0)
+DeleteArgstring(argstring)(a0)
+LengthArgstring(argstring)(a0)
+CreateRexxMsg(port,extension,host)(a0,a1,d0)
+DeleteRexxMsg(packet)(a0)
+ClearRexxMsg(msgptr,count)(a0,d0)
+FillRexxMsg(msgptr,count,mask)(a0,d0,d1)
+IsRexxMsg(msgptr)(a0)
+##bias 450
+LockRexxBase(resource)(d0)
+UnlockRexxBase(resource)(d0)
+##end

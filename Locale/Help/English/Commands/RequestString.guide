@@ -1,0 +1,54 @@
+@DATABASE RequestString.guide
+
+@$VER: RequestString.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/RequestString.c
+
+@NODE MAIN "RequestString"
+
+@{B}Name@{UB}
+
+    RequestString [STRING] [TEXT] [TITLE] [NOGADS] [WIDTH] [SAFE] [PERSIST]
+                  [ENCRYPT] [COMPARE] [PUBSCREEN]
+
+
+@{B}Synopsis@{UB}
+
+    STRING, TEXT/K, TITLE/K, NOGADS/S, WIDTH/N, SAFE/S, PERSIST/S,
+    ENCRYPT/S, COMPARE/K, PUBSCREEN/K
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Shows a requester with a string gadget for user input.
+
+
+@{B}Inputs@{UB}
+
+    STRING     -- Initial content of string gadget.
+    TEXT       -- Label string.
+    TITLE      -- Title string of requester. This also adds dragbar, closegadget
+                  and a depthgadget.
+    NOGADS     -- Suppress gadgets when TITLE argument is given.
+    WIDTH      -- Minimal width as number of characters.
+    SAFE       -- Hide user input with "*".
+    PERSIST    -- Intuition is blocked until requester is quitted.
+    ENCRYPT    -- Encrypt result before returning. Requires that one of these
+                  environment variables is set: USER, USERNAME or LOGIN.
+    COMPARE    -- If the input string is not equal to the argument
+                  of COMPARE return WARN.
+    PUBSCREEN  -- Open requester on given pubscreen.
+
+
+@{B}Bugs@{UB}
+    PERSIST doesn't allways work.
+    WIDTH not implemented.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

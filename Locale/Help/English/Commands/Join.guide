@@ -1,0 +1,46 @@
+@DATABASE Join.guide
+
+@$VER: Join.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/Join.c
+
+@NODE MAIN "Join"
+
+@{B}Name@{UB}
+
+Join [FILE] {(file | pattern)} AS|TO (filename)
+
+
+@{B}Synopsis@{UB}
+
+FILE/M/A,AS=TO/K/A
+
+
+@{B}Location@{UB}
+
+C:
+
+
+@{B}Function@{UB}
+
+Join makes one big file of all listed files by putting them together
+in the order given. The destination file may not have the same name 
+as any of input files. You must supply a destination file name. The
+original files remain unchanged. Any number of files can be Join:ed in
+one operation.
+
+
+@{B}Inputs@{UB}
+
+FILE   --  files to join
+TO=AS  --  the name of the combined file
+
+
+@{B}Example@{UB}
+
+Join Text1.doc Text2.doc AS Text.doc    
+(This will merge the two text files into one.)
+    
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

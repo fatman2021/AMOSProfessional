@@ -1,0 +1,12 @@
+##base _DebugBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/rom/debug/debug.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+RegisterModule(name,segList,debugType,debugInfo)(a0,a1,d0,a2)
+UnregisterModule(segList)(a0)
+DecodeLocationA(addr,tags)(a0,a1)
+EnumerateSymbolsA(handler,tags)(a0,a1)
+##end

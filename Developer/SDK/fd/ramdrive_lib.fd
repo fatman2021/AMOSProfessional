@@ -1,0 +1,10 @@
+##base _RamdriveBase
+##bias 42
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/devs/ramdrive.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+killrad0()()
+killrad(unit)(d0)
+##end

@@ -1,0 +1,20 @@
+##base _MathIeeeSingBasBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/mathieeesingbas/mathieeesingbas.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+IEEESPFix(y)(d0)
+IEEESPFlt(y)(d0)
+IEEESPCmp(y,z)(d0,d1)
+IEEESPTst(y)(d0)
+IEEESPAbs(y)(d0)
+IEEESPNeg(y)(d0)
+IEEESPAdd(y,z)(d0,d1)
+IEEESPSub(y,z)(d0,d1)
+IEEESPMul(y,z)(d0,d1)
+IEEESPDiv(y,z)(d0,d1)
+IEEESPFloor(y)(d0)
+IEEESPCeil(y)(d0)
+##end

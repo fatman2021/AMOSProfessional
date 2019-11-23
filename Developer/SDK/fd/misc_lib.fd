@@ -1,0 +1,10 @@
+##base _MiscBase
+##bias 6
+*
+* Automatically generated from '/home/vsts/work/1/s/rom/misc/misc.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+AllocMiscResource(unitNum,name)(d0,a0)
+FreeMiscResource(unitNum)(d0)
+##end

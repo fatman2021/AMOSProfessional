@@ -1,0 +1,48 @@
+@DATABASE SetKeyboard.guide
+
+@$VER: SetKeyboard.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/SetKeyboard.c
+
+@NODE MAIN "SetKeyboard"
+
+@{B}Name@{UB}
+
+    SetKeyboard
+
+
+@{B}Synopsis@{UB}
+
+    KEYMAP/A
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Set the keymap for the current shell.
+
+
+@{B}Inputs@{UB}
+
+    KEYMAP  --  the keymap to use with the current shell
+
+
+@{B}Example@{UB}
+
+    SetKeyboard s
+
+    Makes the current shell use the Swedish keymap.
+
+
+@{B}Notes@{UB}
+
+    To make a certain keymap be the default for all shells, use the
+    preferences input program so specify your default choice.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

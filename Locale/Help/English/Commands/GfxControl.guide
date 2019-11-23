@@ -1,0 +1,52 @@
+@DATABASE GfxControl.guide
+
+@$VER: GfxControl.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/GfxControl.c
+
+@NODE MAIN "GfxControl"
+
+@{B}Name@{UB}
+
+    GfxControl
+
+
+@{B}Synopsis@{UB}
+
+    PREVENT_DIRECT_BITMAP_ACCESS=PDBA/S,
+    ALLOW_DIRECT_BITMAP_ACCESS=ADBA/S,
+    DUMP/S
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Change some internal options of cybergraphics.library
+    
+
+@{B}Inputs@{UB}
+
+    PREVENT_DIRECT_BITMAP_ACCESS   --  Causes LockBitMapTagList() calls to
+                                       always fail
+
+    ALLOW_DIRECT_BITMAP_ACCESS     --  Allow LocKBitMapTagList() to go to
+                                       gfx driver which may or may not
+                                       support it. (default)
+
+    DUMP                           --  Show current settings
+    
+
+@{B}Result@{UB}
+
+    Standard DOS return codes.
+
+
+@{B}Notes@{UB}
+    By default 
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

@@ -1,0 +1,30 @@
+@DATABASE StackSnoop.guide
+
+@$VER: StackSnoop.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/StackSnoop.c
+
+@NODE MAIN "StackSnoop"
+
+@{B}Name@{UB}
+
+    StackSnoop
+
+
+@{B}Synopsis@{UB}
+
+    (N/A)
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Prints a list of tasks with their stack usage.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

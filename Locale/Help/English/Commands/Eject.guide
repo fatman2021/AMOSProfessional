@@ -1,0 +1,36 @@
+@DATABASE Eject.guide
+
+@$VER: Eject.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/Eject.c
+
+@NODE MAIN "Eject"
+
+@{B}Name@{UB}
+    Eject <device>
+
+
+@{B}Synopsis@{UB}
+    DEVICE/A
+
+
+@{B}Location@{UB}
+   C:
+
+
+@{B}Function@{UB}
+    Ejects media from a device. This feature is not supported by all
+    device types.
+
+
+@{B}Inputs@{UB}
+    DEVICE  --  Name of device to eject media from.
+
+
+@{B}See also@{UB}
+
+    Load
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

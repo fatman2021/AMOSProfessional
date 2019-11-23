@@ -1,0 +1,33 @@
+@DATABASE LeakWatch.guide
+
+@$VER: LeakWatch.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/LeakWatch.c
+
+@NODE MAIN "LeakWatch"
+
+@{B}Name@{UB}
+
+    LeakWatch
+
+
+@{B}Synopsis@{UB}
+
+    (N/A)
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    It's like doing avail flush before and after executing a program to detect
+    memleaks, excepted that this program tries to detect much more leaks.
+
+    Press CRTL-f whenever you want to check for leak.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

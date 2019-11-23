@@ -1,0 +1,27 @@
+##base _OOPBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/rom/oop/oop.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+OOP_NewObject(classPtr,classID,tagList)(a0,a1,a2)
+OOP_ObtainAttrBase(interfaceID)(a0)
+OOP_GetMethodID(interfaceID,methodOffset)(a0,d0)
+OOP_AddClass(classPtr)(a0)
+OOP_ReleaseAttrBase(interfaceID)(a0)
+OOP_DisposeObject(obj)(a0)
+OOP_RemoveClass(classPtr)(a0)
+##bias 90
+OOP_GetAttrBase(interfaceID)(a0)
+OOP_GetAttr(object,attrID,storage)(a0,a1,a2)
+OOP_SetAttrs(object,attrList)(a0,a1)
+OOP_ObtainAttrBases(abd)(a0)
+OOP_ReleaseAttrBases(abd)(a0)
+OOP_ParseAttrs(tags,storage,numattrs,attrcheck,attrbase)(a0,a1,d0,a2,d1)
+OOP_GetMethod(obj,mid,classPtr)(a0,d0,a1)
+OOP_FindClass(classID)(a0)
+OOP_ObtainAttrBasesArray(bases,ids)(a0,a1)
+OOP_ReleaseAttrBasesArray(bases,ids)(a0,a1)
+OOP_ObtainMethodBasesArray(bases,ids)(a0,a1)
+##end

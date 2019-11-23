@@ -1,0 +1,38 @@
+##base _CyberGfxBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/cgfx/cybergraphics.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+##bias 54
+IsCyberModeID(modeID)(d0)
+BestCModeIDTagList(tags)(a0)
+private()()
+AllocCModeListTagList(tags)(a1)
+FreeCModeList(modeList)(a0)
+private()()
+ScalePixelArray(srcRect,SrcW,SrcH,SrcMod,RastPort,DestX,DestY,DestW,DestH,SrcFormat)(a0,d0,d1,d2,a1,d3,d4,d5,d6,d7)
+GetCyberMapAttr(bitMap,attribute)(a0,d0)
+GetCyberIDAttr(attribute,DisplayModeID)(d0,d1)
+ReadRGBPixel(rp,x,y)(a1,d0,d1)
+WriteRGBPixel(rp,x,y,pixel)(a1,d0,d1,d2)
+ReadPixelArray(dst,destx,desty,dstmod,rp,srcx,srcy,width,height,dstformat)(a0,d0,d1,d2,a1,d3,d4,d5,d6,d7)
+WritePixelArray(src,srcx,srcy,srcmod,rp,destx,desty,width,height,srcformat)(a0,d0,d1,d2,a1,d3,d4,d5,d6,d7)
+MovePixelArray(SrcX,SrcY,RastPort,DstX,DstY,SizeX,SizeY)(d0,d1,a1,d2,d3,d4,d5)
+private()()
+InvertPixelArray(rp,destx,desty,width,height)(a1,d0,d1,d2,d3)
+FillPixelArray(rp,destx,desty,width,height,pixel)(a1,d0,d1,d2,d3,d4)
+DoCDrawMethodTagList(hook,rp,tags)(a0,a1,a2)
+CVideoCtrlTagList(vp,tags)(a0,a1)
+LockBitMapTagList(bitmap,tags)(a0,a1)
+UnLockBitMap(Handle)(a0)
+UnLockBitMapTagList(Handle,Tags)(a0,a1)
+ExtractColor(RastPort,SingleMap,Colour,sX,sY,Width,Height)(a0,a1,d0,d1,d2,d3,d4)
+private()()
+WriteLUTPixelArray(srcRect,SrcX,SrcY,SrcMod,rp,CTable,DestX,DestY,SizeX,SizeY,CTabFormat)(a0,d0,d1,d2,a1,a2,d3,d4,d5,d6,d7)
+##bias 216
+WritePixelArrayAlpha(src,srcx,srcy,srcmod,rp,destx,desty,width,height,globalalpha)(a0,d0,d1,d2,a1,d3,d4,d5,d6,d7)
+BltTemplateAlpha(src,srcx,srcmod,rp,destx,desty,width,height)(a0,d0,d1,a1,d2,d3,d4,d5)
+ProcessPixelArray(rp,destX,destY,sizeX,sizeY,operation,value,taglist)(a1,d0,d1,d2,d3,d4,d5,a2)
+##end

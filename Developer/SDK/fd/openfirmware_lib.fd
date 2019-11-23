@@ -1,0 +1,16 @@
+##base _OpenFirmwareBase
+##bias 6
+*
+* Automatically generated from '/home/vsts/work/1/s/rom/openfirmware/openfirmware.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+OF_OpenKey(name)(a0)
+OF_CloseKey(key)(a0)
+OF_GetChild(key,prev)(a0,a1)
+OF_FindProperty(key,name)(a0,a1)
+OF_GetProperty(key,prev)(a0,a1)
+OF_GetPropLen(prop)(a0)
+OF_GetPropValue(prop)(a0)
+OF_GetPropName(prop)(a0)
+##end

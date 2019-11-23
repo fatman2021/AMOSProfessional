@@ -1,0 +1,61 @@
+@DATABASE Set.guide
+
+@$VER: Set.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/shellcommands/Set.c
+
+@NODE MAIN "Set"
+
+@{B}Name@{UB}
+
+    Set
+
+
+@{B}Synopsis@{UB}
+
+    NAME,STRING/F
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Set a local environment variable in the current shell. If any global
+    variables have the same name the local variable will be used instead.
+
+    This instance the variable is only accessible from within the shell
+    it was defined.
+
+    If no parameters are specified, the current list of local variables
+    are displayed.
+
+
+@{B}Inputs@{UB}
+
+    NAME    - The name of the local variable to set.
+
+    STRING  - The value of the local variable NAME.
+
+
+@{B}Result@{UB}
+
+    Standard DOS error codes.
+
+
+@{B}Example@{UB}
+
+    Set Jump 5
+
+        Sets a local variable called "Jump" to the value of "5".
+
+
+@{B}See also@{UB}
+
+    Get, Unset
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

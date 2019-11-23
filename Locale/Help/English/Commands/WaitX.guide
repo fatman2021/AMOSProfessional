@@ -1,0 +1,60 @@
+@DATABASE WaitX.guide
+
+@$VER: WaitX.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/WaitX.c
+
+@NODE MAIN "WaitX"
+
+@{B}Name@{UB}
+
+    WaitX
+
+
+@{B}Synopsis@{UB}
+
+    D=DATE/K,T=TIME/K,YR=YEARS/K/N,MN=MONTHS/K/N,DY=DAYS/K/N,H=HOURS/K/N,
+    M=MINS/K/N,S=SECS/K/N,L=LOOP/K/N,A=ALWAYS/S,V=VERBOSE/S,HELP/S,CMDLINE/F
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    WaitX will wait for a given amount of time and then it
+    will execute the given command.
+
+
+@{B}Inputs@{UB}
+
+    D=DATE     -- Waits until DATE has been reached
+    T=TIME     -- Waits until TIME has been reached
+    YR=YEARS   -- How many years to wait
+    MN=MONTHS  -- How many months to wait
+    DY=DAYS    -- How many days to wait
+    H=HOURS    -- How many hours to wait
+    M=MINS     -- How many minutes to wait
+    S=SECS     -- How many seconds to wait
+    L=LOOP     -- How many times to execute CMDLINE
+    A=ALWAYS   -- Execute CMDLINE every set interval/time/date
+    V=VERBOSE  -- Print extra info on what waitx is doing
+
+
+@{B}Notes@{UB}
+
+    Based on Public Domain WaitX:
+        http://aminet.net/package/util/cli/waitx
+        Programming: Sigbjørn Skjæret <cisc@c2i.net>
+        Idea & Docs: Nicholas Stallard <snowy@netphile.de>
+
+
+@{B}Bugs@{UB}
+
+    Will not return  to prompt while waiting. This is intended.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

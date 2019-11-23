@@ -1,0 +1,63 @@
+@DATABASE Rename.guide
+
+@$VER: Rename.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/Rename.c
+
+@NODE MAIN "Rename"
+
+@{B}Name@{UB}
+
+    Rename
+
+
+@{B}Synopsis@{UB}
+
+    Rename [{FROM}] <name> [TO|AS] <name> [QUIET]
+
+    FROM/A/M,TO=AS/A,QUIET/S
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Renames a directory or file. Rename can also act like the UNIX mv
+    command, which moves a file or files to another location on disk.
+
+
+@{B}Inputs@{UB}
+
+    FROM   --  The name(s) of the file(s) to rename or move. There may
+               be many files specified, this is used when moving files
+               into a new directory.
+
+    TO|AS  --  The name which we wish to call the file.
+
+    QUIET  --  Suppress any output from the command.
+
+
+@{B}Result@{UB}
+
+    Standard DOS error codes.
+
+
+@{B}Example@{UB}
+
+    Rename letter1.doc letter2.doc letters
+
+        Moves letter1.doc and letter2.doc to the directory letters.
+
+    Rename ram:a ram:b quiet
+    Rename from ram:a to ram:b quiet
+    Rename from=ram:a to=ram:b quiet
+
+        All versions, renames file "a" to "b" and does not output any
+        diagnostic information.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

@@ -1,0 +1,46 @@
+@DATABASE Run.guide
+
+@$VER: Run.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/shellcommands/Run.c
+
+@NODE MAIN "Run"
+
+@{B}Name@{UB}
+
+    Run
+
+
+@{B}Synopsis@{UB}
+
+    QUIET/S,COMMAND/F
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Run a program, that is start a program as a background process.
+    That means it doesn't take over the parent shell.
+
+
+@{B}Inputs@{UB}
+
+    QUIET    --  avoids printing of the background CLI's number 
+
+    COMMAND  --  the program to run together with its arguments
+
+
+@{B}Notes@{UB}
+
+    To make it possible to close the current shell, redirect the output
+    using
+
+         Run >NIL: program arguments
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

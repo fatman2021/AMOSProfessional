@@ -1,0 +1,40 @@
+@DATABASE Iprefs.guide
+
+@$VER: Iprefs.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/iprefs/main.c
+
+@NODE MAIN "Iprefs"
+
+@{B}Name@{UB}
+
+    Iprefs
+
+
+@{B}Synopsis@{UB}
+
+    (N/A)
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+Initialises preferences files on startup.
+
+
+@{B}Notes@{UB}
+This is a command executed on startup by the s:startup-sequence script file.
+So no actual need of the command afterwards.
+    
+
+@{B}See also@{UB}
+    
+Decoration
+    
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

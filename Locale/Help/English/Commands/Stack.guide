@@ -1,0 +1,32 @@
+@DATABASE Stack.guide
+
+@$VER: Stack.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/shellcommands/Stack.c
+
+@NODE MAIN "Stack"
+
+@{B}Name@{UB}
+    Stack
+
+
+@{B}Format@{UB}
+    Stack [[SIZE] (stack size)]
+
+
+@{B}Synopsis@{UB}
+    SIZE/N
+
+
+@{B}Location@{UB}
+    C:
+
+
+@{B}Function@{UB}
+    Stack sets the default stack size of the current Shell. This is the
+    stack size of the commands run from the Shell. If you use Stack
+    without arguments, the current stack size will be written out.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

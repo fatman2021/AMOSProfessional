@@ -1,0 +1,17 @@
+##base _AslBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/asl/asl.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+AllocFileRequest()()
+FreeFileRequest(fileReq)(a0)
+RequestFile(fileReq)(a0)
+AllocAslRequest(reqType,tagList)(d0,a0)
+FreeAslRequest(requester)(a0)
+AslRequest(requester,tagList)(a0,a1)
+##bias 78
+AbortAslRequest(requester)(a0)
+ActivateAslRequest(requester)(a0)
+##end

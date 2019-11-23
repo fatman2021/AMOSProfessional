@@ -1,0 +1,13 @@
+##base _DXTNBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/dxtn/dxtn.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+DXTN_CompressTex(srccomps,width,height,srcPixData,destformat,dest,dstRowStride)(d0,d1,d2,a0,d3,a1,d4)
+DXT1_Fetch2DRGBTexel(srcRowStride,pixdata,i,j,texel)(d0,a0,d1,d2,a1)
+DXT1_Fetch2DRGBATexel(srcRowStride,pixdata,i,j,texel)(d0,a0,d1,d2,a1)
+DXT3_Fetch2DRGBATexel(srcRowStride,pixdata,i,j,texel)(d0,a0,d1,d2,a1)
+DXT5_Fetch2DRGBATexel(srcRowStride,pixdata,i,j,texel)(d0,a0,d1,d2,a1)
+##end

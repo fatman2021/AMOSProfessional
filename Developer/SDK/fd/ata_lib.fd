@@ -1,0 +1,10 @@
+##base _ataBase
+##bias 42
+*
+* Automatically generated from '/home/vsts/work/1/s/rom/devs/ata/ata.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+GetRdskLba(io)(a1)
+GetBlkSize(io)(a1)
+##end

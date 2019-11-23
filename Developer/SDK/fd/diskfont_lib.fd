@@ -1,0 +1,13 @@
+##base _DiskfontBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/diskfont/diskfont.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+OpenDiskFont(textAttr)(a0)
+AvailFonts(buffer,bufBytes,flags)(a0,d0,d1)
+NewFontContents(fontsLock,fontName)(a0,a1)
+DisposeFontContents(fontContentsHeader)(a1)
+NewScaledDiskFont(sourceFont,destTextAttr)(a0,a1)
+##end

@@ -1,0 +1,14 @@
+##base _nvdBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/nonvolatile/nvdisk/nvdisk.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+ReadNVDData(appName,itemName)(a0,a1)
+WriteNVDData(appName,itemName,data,length)(a0,a1,a2,a3)
+DeleteNVDData(appName,itemName)(a0,a1)
+MemInfoNVD(nvInfo)(a0)
+SetNVDProtection(appName,itemName,mask)(a0,a1,d0)
+GetNVDItemList(appName)(a0)
+##end

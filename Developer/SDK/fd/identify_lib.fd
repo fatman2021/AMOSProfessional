@@ -1,0 +1,16 @@
+##base _IdentifyBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/identify/identify.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+IdExpansion(TagList)(a0)
+IdHardware(Type,TagList)(d0,a0)
+IdAlert(ID,TagList)(d0,a0)
+IdFunction(LibName,Offset,TagList)(a0,d0,a1)
+IdHardwareNum(Type,TagList)(d0,a0)
+IdHardwareUpdate()()
+IdFormatString(String,Buffer,Length,Tags)(a0,a1,d0,a2)
+IdEstimateFormatSize(String,Tags)(a0,a1)
+##end

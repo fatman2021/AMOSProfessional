@@ -1,0 +1,55 @@
+@DATABASE Install.guide
+
+@$VER: Install.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/Install.c
+
+@NODE MAIN "Install"
+
+@{B}Name@{UB}
+
+    Install
+
+
+@{B}Synopsis@{UB}
+
+    DRIVE/A, NOBOOT/S, CHECK/S, FFS/S
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Saves a bootblock to a floppy disk. If the NOBOOT is appointed it
+    will not be able to be boot on computer startup (Amiga only)
+
+
+@{B}Inputs@{UB}
+
+    DRIVE     --  Show information on file system devices
+    NOBOOT    --  Should be set on PC Floppy drives
+    CHECK     --  Verify the existing bootblock
+    FFS       --  For FFS formatted Floppy disks
+
+
+@{B}Example@{UB}
+
+    Install df0: NOBOOT FFS
+
+
+@{B}Notes@{UB}
+
+    This is a pretty useless command for PC-Drives, since most systems
+    require grub to be present on disk for AROS to boot.
+
+
+@{B}See also@{UB}
+
+    Install-i386-pc, Sys:System/Format
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

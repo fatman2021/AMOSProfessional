@@ -923,7 +923,7 @@ PsAVy        rs.w 1
 PsCon0        rs.w 1
 PsNbCol        rs.w 1
 PsNPlan        rs.w 1
-PsPal        rs.w 32
+PsPal        rs.w 256                   ; 2019.11.22 Updated SPacked palette from 32 to 256
 PsLong        equ __RS
 SCCode        equ $12031990
 ; Packed bitmap header
@@ -1511,7 +1511,7 @@ EveCharge:    rs.w     1
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~
 BuffSize:    rs.l     1
 AdrIcon:    rs.l     1
-DefPal:        rs.w     32
+DefPal:        rs.w     256 ; **************** 2019.11.23 Updated default palette from 32 colors to 256
 DBugge        rs.l     1
 CallAd:        rs.l     1
 VarLongs    rs.b    8

@@ -350,6 +350,8 @@ FFkLong		equ 	24
 		Rw	Req_On,1
 
 *************** Global Aga Palette
+		Rl  AgaColor1,1 						; 2019.11.24 Saved for AGA Color palette 1
+		Rl  AgaColor2,1 						; 2019.11.24 Saved for AGA Color palette 2
 		Rl 	globAgaPal,224 						; 2019.11.16 Adding global AGA Palette colors from 32 to 255
 *************** Longueur de la structure W.S
 		Rb	L_Trp,4

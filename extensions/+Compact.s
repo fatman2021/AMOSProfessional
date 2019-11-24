@@ -155,13 +155,27 @@ BadVer	moveq	#-1,d0			* Bad version number
 	move.w	EcAWTY(a0),PsAWTy(a1)
 	move.w	EcAVX(a0),PsAVx(a1)
 	move.w	EcAVY(a0),PsAVy(a1)
-	movem.l	a0/a1,-(sp)
+
+	movem.l	a0/a1/a2,-(sp)
+	; **************************Copy the ECS 0-31 palette into bank
 	moveq	#31,d0
 	lea	EcPal(a0),a0
 	lea	PsPal(a1),a1
-SPac1	move.w	(a0)+,(a1)+
+SPac1:
+	move.w	(a0)+,(a1)+
 	dbra	d0,SPac1
-	movem.l	(sp)+,a0/a1
+	; *************************** 2019.11.22 copy the AGA 32-255 palette into bank if required.
+	lea 	T_globAgaPal(a5),a2
+;	moveq	#0,d0
+;	Move.w 	EcNbCol(a0),d0 ; We get the current amonut of colors of the screen
+;	sub.w 	#32,d0 			; We substract the 32 colors that were already copied.
+;	beq 	noCopy1 		; If no more colors, jump to .noCopy.
+;	bmi 	noCopy1 		; if <0 (screen have less than 32 colors) -> jump to .noCopy too
+SPac2:
+	move.w	(a2)+,(a1)+
+	dbra	d0,SPac2
+noCopy1:
+	movem.l	(sp)+,a0/a1/a2
 	lea	PsLong(a1),a1
 * Finish packing!
 	Rbsr	L_Pack
@@ -205,7 +219,8 @@ SPac1	move.w	(a0)+,(a1)+
 	Rjsr	L_UnPack_Bitmap		* NOPE! Do simple unpack
 	Rbeq	L_NoPac
 	rts
-.Dbl	movem.l	d0-d7/a0-a2,-(sp)	* YEP! First step
+.Dbl:
+	movem.l	d0-d7/a0-a2,-(sp)	* YEP! First step
 	EcCall	AutoBack1
 	movem.l	(sp),d0-d7/a0-a2
 	btst	#BitDble,EcFlags(a1)	* DOUBLE BUFFER?
@@ -217,10 +232,12 @@ SPac1	move.w	(a0)+,(a1)+
 	move.w	d0,-(sp)
 	EcCall	AutoBack3		* Third step
 	bra.s	ABPac2
-ABPac1	Rjsr	L_UnPack_Bitmap		* SINGLE BUFFER autobacked
+ABPac1:
+	Rjsr	L_UnPack_Bitmap		* SINGLE BUFFER autobacked
 	move.w	d0,-(sp)
 	EcCall	AutoBack4
-ABPac2	tst.w	(sp)+
+ABPac2:
+	tst.w	(sp)+
 	movem.l	(sp)+,d0-d7/a0-a2
 	Rbeq	L_NoPac
 	rts
@@ -393,7 +410,7 @@ Iligne: move.l 	a3,a2
 Icarre: move.l 	a2,a0
         move.w 	Pktcar(a1),d2
 	subq.w	#1,d2
-Ioct0: 	cmp.b 	(a0),d0         	* Compactage d'un carre
+Ioct0: 	cmp.b 	(a0),d0         	* Compactage d''un carre
         beq.s 	Ioct1
 	move.b	(a0),d0
         addq.l 	#1,a5
@@ -508,7 +525,7 @@ ligne:  move.l 	a3,a2
 carre:  move.l 	a2,a0
         move.w 	Pktcar(a1),d2
 	subq.w	#1,d2
-oct0: 	cmp.b 	(a0),d0         	* Compactage d'un carre
+oct0: 	cmp.b 	(a0),d0         	* Compactage d''un carre
         beq.s 	oct1
 	move.b	(a0),d0
         addq.l 	#1,a5

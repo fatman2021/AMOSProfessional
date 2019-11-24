@@ -24784,7 +24784,7 @@ Dia_Chr    moveq    #0,d0
     dc.b    %00001        * 90 "Z"
     dc.b    %00011        * 91 "["
     dc.b    %00011        * 92 "\"
-    dc.b    %00011        * 93 "]"
+    dc.b    %00011        * 93 "]" ; """
     dc.b    %00011        * 94 "^"
     dc.b    %00011        * 95 " "
     dc.b    %00000        * 96 "`"
@@ -25505,6 +25505,7 @@ UPile:    equ 20
     move.w    PsNPlan(a0),d4
     move.w    PsCon0(a0),d5
     move.w    PsNbCol(a0),d6
+    ; Load the default 0-31 colors into registers.
     lea    PsPal(a0),a1
     move.l    a0,-(sp)
     EcCall    Cree
@@ -25540,7 +25541,9 @@ UPile:    equ 20
 .NoScreen    
     moveq    #0,d0
     moveq    #1,d1
-.Out    movem.l    (sp)+,d2-d7/a2-a6
+.Out 
+
+   movem.l    (sp)+,d2-d7/a2-a6
     rts
 .CuCu    dc.b    27,"C0",0
     even
@@ -25565,7 +25568,8 @@ UPile:    equ 20
     bne.s    dec0
     lea    PsLong(a0),a0
 * Is it a packed bitmap?
-dec0    cmp.l    #BMCode,(a0)
+dec0:
+    cmp.l    #BMCode,(a0)
     bne    NoPac
 
 * Parameter preparation

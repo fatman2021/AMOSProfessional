@@ -2994,8 +2994,21 @@ EcCr0:
 EcCr4:
     move.w    (a1)+,(a2)+
     dbra    d0,EcCr4
+    ; *********************************** 2019.11.23 Copy the AGA Color palette from the default palette
+    move.l   #223,d0
+    move.w  EcNbCol(a4),d0
+    Sub.w   #33,d0 
+    beq     noCopy2
+    bmi     noCopy2
+    Lea T_globAgaPal(a5),a2
+EcCr4b:
+    move.w    (a1)+,(a2)+
+    dbra    d0,EcCr4b
+noCopy2:
+    bsr updateAGAColorsInCopper             ; 2019.11.24 Added to force update of the AGA copper list color when unpack is done on screen
+    ; *********************************** End of AGA color palette copy.
 
-;    ****** This part will save informations concerning screen sizes
+    ; ****** This part will save informations concerning screen sizes
     move.w    d2,EcTx(a4)         ; Save Screen Width in pixels
     move.w    d2,EcTxM(a4)         ; Save Screen Width in pixels
     subq.w    #1,EcTxM(a4)        ; Width (in pixels) -1
@@ -3298,6 +3311,43 @@ EcOut:
     movem.l    (sp)+,d1-d7/a1-a6
     tst.l    d0
     rts
+
+; ******************************************** 2019.24.11 New method to update the whole AGA color palette in copper list
+updateAGAColorsInCopper:
+    movem.l d6/d7/a0/a1/a2,-(sp)
+    Move.l  T_AgaColor1(a5),a0
+    cmp.l   #0,a0
+    beq     insertIsOver2
+    Move.l  T_AgaColor2(a5),a1
+    cmp.l   #0,a1
+    beq     insertIsOver2
+    Add.l   #4,a0
+    Add.l   #4,a1
+    ; ************ Setup inital values for the AGA palette adding to Copper list
+    Move.l     #7,d7                         ; D7 = Aga Color palette contains 224 colors.
+    lea     T_globAgaPal(a5),a2                ; A2 = First color of AGA palette ( =32 ) of the curent screen (a0)
+insert32cLoop2:
+    sub.w   #1,d7
+    bmi     insertIsOver2                ; Stop when we have reached 256 colors.
+    Add.l   #4,a0                       ; Jump color palette switching.
+    Add.l   #4,a1                       ; Jump color palette switching.
+    ; * setup for the Copy of the 32 colors registers
+    move.l     #31,d6                 ; D5 = Color00 register
+loopCopy2:
+    add.w   #2,a0                           ; Color register
+    move.w  (a2),(a0)+                    ; Copy the AgaPal inside the CopperList 0
+    Add.w   #2,a1                           ; Color register
+    move.w  (a2)+,(a1)+                    ; Copy the AgaPal inside the CopperList 1
+    sub.w   #1,d6
+    bmi     insert32cLoop2                 ; Once 32 colors registers were copied, we go back at the beginning of the loop for the next group of colours.
+    bra     loopCopy2                     ; If color <32 then continue the copy
+insertIsOver2:
+    movem.l (sp)+,d6/d7/a0/a1/a2
+    rts
+; ******************************************** 2019.24.11 New method to update the whole AGA color palette in copper list
+
+
+
 
 ******* Un ecran entrelace en plus!
 InterPlus:
@@ -7290,6 +7340,8 @@ CpI1:    move.w    d0,(a0)+
 
 ; ************************* 2019.11.16 Update : This method insert colors 32 to X with X < 256 in the CopperList [D4-D7]
 insertAGAColorsInCopper:
+    Move.l     a0,T_AgaColor1(a5)
+    Move.l     a1,T_AgaColor2(a5)
     Move.l     #$1203FFFE,(a0)+             ; Wait in copper list 0
     Move.l     #$1203FFFE,(a1)+             ; Wait in copper list 1
     ; ************ Setup inital values for the AGA palette adding to Copper list
@@ -17287,7 +17339,8 @@ Brd:        dc.w Bor0-Brd,Bor1-Brd,Bor2-Brd,Bor3-Brd
         dc.w Bor0-Brd,Bor0-Brd,Bor0-Brd,Bor0-Brd
         dc.w Bor0-Brd,Bor0-Brd,Bor0-Brd,Bor15-Brd
         dc.b 0
-Bor0:        dc.b 136,0        * Haut G
+Bor0:
+        dc.b 136,0        * Haut G
         dc.b 138,0        * Haut D
         dc.b 137,0        * Haut
         dc.b 139,0        * Droite
@@ -17295,7 +17348,8 @@ Bor0:        dc.b 136,0        * Haut G
         dc.b 141,0        * Bas D
         dc.b 137,0        * Bas
         dc.b 139,0        * Gauche
-Bor1:        dc.b 128,0        * Haut G
+Bor1:
+        dc.b 128,0        * Haut G
         dc.b 130,0        * Haut D
         dc.b 129,0        * Haut
         dc.b 132,0        * Droite
@@ -17303,7 +17357,8 @@ Bor1:        dc.b 128,0        * Haut G
         dc.b 135,0        * Bas D
         dc.b 134,0        * Bas
         dc.b 131,0        * Gauche
-Bor2:        dc.b 157,0        * Haut G
+Bor2:
+        dc.b 157,0        * Haut G
         dc.b 2,0        * Haut D
         dc.b 1,0        * Haut
         dc.b 3,0        * Droite
@@ -17311,7 +17366,8 @@ Bor2:        dc.b 157,0        * Haut G
         dc.b 4,0        * Bas D
         dc.b 5,0        * Bas
         dc.b 7,0        * Gauche
-Bor3:        dc.b 8,0        * Haut G
+Bor3:
+        dc.b 8,0        * Haut G
         dc.b 10,0        * Haut D
         dc.b 9,0        * Haut
         dc.b 11,0        * Droite
@@ -17319,7 +17375,8 @@ Bor3:        dc.b 8,0        * Haut G
         dc.b 12,0        * Bas D
         dc.b 13,0        * Bas
         dc.b 15,0        * Gauche
-Bor4:        dc.b 16,0        * Haut G
+Bor4:
+        dc.b 16,0        * Haut G
         dc.b 18,0        * Haut D
         dc.b 17,0        * Haut
         dc.b 19,0        * Droite
@@ -17327,7 +17384,8 @@ Bor4:        dc.b 16,0        * Haut G
         dc.b 20,0        * Bas D
         dc.b 21,0        * Bas
         dc.b 23,0        * Gauche
-Bor5:        dc.b 24,0        * Haut G
+Bor5:
+        dc.b 24,0        * Haut G
         dc.b 26,0        * Haut D
         dc.b 25,0        * Haut
         dc.b 158,0        * Droite
@@ -17335,7 +17393,8 @@ Bor5:        dc.b 24,0        * Haut G
         dc.b 28,0        * Bas D
         dc.b 29,0        * Bas
         dc.b 31,0        * Gauche
-Bor15        dc.b " ",0
+Bor15:
+        dc.b " ",0
         dc.b " ",0
         dc.b " ",0
         dc.b " ",0

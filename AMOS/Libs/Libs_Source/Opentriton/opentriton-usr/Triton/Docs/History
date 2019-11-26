@@ -1,0 +1,272 @@
+   This   file   contains   the   version   history   for  Triton  (including
+triton.library,  the  Triton  Preferences  editor,  etc.).   The  most recent
+changes  are  listed  at the bottom.  The changes for user-relevant parts and
+changes   which   are  only  important  for  Triton  programmers  are  listed
+separately.
+
+
+*****************************************************************************
+RELEASE 1.0 (Library version 1.138)
+
+    Initial release.
+
+*****************************************************************************
+RELEASE 1.1 (Library version 2.52)
+
+    Changes for Triton users and developers:
+    ========================================
+
+    Preferences editor added.
+    Triton is now localized for OS2.1+. German and swedish catalogs are
+      included.
+    Bug fixed: TR_EasyRequest() mis-aligned gadgets in requesters with more
+      than one gadget.
+    Bug fixed: Pressing down a button and then disabling it caused the
+      disabled button to stay pressed down.
+    Bug fixed: Text in selected gadgets is now using the correct color.
+    Some new Triton demos added.
+
+    Changes for Triton developers only:
+    ===================================
+
+    Image class added.
+    The C support code is now compatible with SAS/C, DICE and gcc.
+    Linker libraries for gcc added.
+    AmigaOberon support added.
+    Minimum AmigaE and Assembler support added.
+    The shared library triton.library is now single-based. You may use it
+      from within other libraries and resident code and even patch
+      triton.library functions with SetFunction(). Other benefits include
+      smaller code size, less run-time memory requirements and faster
+      startup of triton.library.
+    Screen locking functions added.
+    Bug fixed: Added TR_Message.trm_App to avoid dereferencing already
+      freed TR_Message.trm_Project fields in order to get the TR_App of
+      a message.
+    Bug fixed: Now TREZ_Return also works for ID 0.
+    Bug fixed: class_Scroller and class_Slider objects had problems with
+      filled backgrounds.
+    Now all class_Listview objects report double clicks.
+    It is now possible to put independant lines/columns into arrays. These
+      lines/columns will not be aligned like all other array elements. This
+      is especially useful for separator bars in arrays. See Triton demo
+      (window 'Groups') for an example.
+    TRCY_MX added. Cycle gadgets may now as an alternative be displayed as
+      mutually exclusive gadgets.
+    Object backfill inheriting added.
+    Named class_FrameBox objects added.
+    Texts created with class_Text may now be right-aligned.
+    It is now possible to avoid ugly gaps below listview objects. Instead
+      the gap will move to the end of the vertical group in which the
+      listview gadget is embedded. The listview creation macros in the C
+      includes for Triton have been changed to behave that way as default.
+    Bug fixed: class_Listview had problems with backfill patterns under
+      OS versions < 39 (OS3.0).
+    Bug fixed: In OS versions < 39 setting a new list in a listview caused
+      GadTools not to select any item of the list even though it was a
+      ListSS gadget which should *always* have a selected item. Now the
+      last selected item of the old list becomes selected in the new list
+      when you change the list entries (as in OS3.0+).
+    Bug fixed: All texts in TR_EasyRequest() now have TRTX_NOUNDERSCORE set.
+    Help support added.
+    Obsolete TR_AddClass() prototype removed.
+    Bug fixed: Changing the string in a string gadget didn't work.
+    Enhancement: When the TRAT_Disabled flag of an object is reset to its
+      current state, no refresh will be done.
+    Bug fixed: After attaching a list to an empty ListSS gadget, there was
+      no selected entry. In this case the last selected entry will now
+      become selected again after attaching a new list.
+    TR_OpenTriton() allows to set the screen title.
+    Both window and screen title can be modified after opening the window.
+    Bug fixed: Objects in framing boxes were not disposed of correctly.
+
+*****************************************************************************
+RELEASE 1.2 (Library version 3.59)
+
+    Changes for Triton users and developers:
+    ========================================
+
+    Buttons with a <Return> shortcut can now be displayed with a
+      NeXT-style <Return> arrow image instead of bold text.
+    Smart/Simple refresh is now to be chosen by the user and not the
+      application programmer. Therefore TRWF_SIMPLEREFRESH is obsolete.
+    In addition to the 'Pens' page in the Preferences editor, an 'Images'
+      page has been added.
+    Documentation rewritten in Texinfo.
+    Bug fixed: The Preferences editor didn't save the screen manager
+      prefs when installing the preferences system from scratch.
+    Bug fixed: After resizing a window, the contents of string gadgets
+      were lost.
+    Distribution archive restructured. Now 2 archives are distributed,
+      one for both, developers and users and one for developers only.
+    Frameboxes didn't inherit their parents' backfill pattern.
+    Bug fixed: The support for fixed-width fonts in Listview gadgets was
+      broken in Triton 1.1.
+    Font fallback bugs (refreshing of GadTools objects) fixed.
+    Triton is now SysIHack compatible.
+    Vertical scrollers and sliders are now a bit wider.
+
+    Changes for Triton developers only:
+    ===================================
+
+    Bug fixed: GadTools objects did not get refreshed correctly in
+      'simple refresh' mode.
+    The internal OOP system has been totally rewritten. It does now
+      support inheritance (and some other nice features) which makes the
+      Triton classes more powerful yet smaller.
+    Support for Modula-2 (M2Amiga) added.
+    Full AmigaE support added.
+    Full assembler support added.
+    Window locking mechanisms added.
+    Non-pointer 'NULL's in the C include files replaced by '0L's.
+    Bug fixed: The gcc (b)libtriton.a contained quite a lot of unnecessary
+      and obsolete data. (B)libtriton.a is *much* smaller now.
+    Developer tutorial added.
+    Window obtaining functions added.
+    When compiling with gcc, inline library function calls will be used
+      when you optimize. Preprocessor symbol __INLINE__ removed.
+    When compiled with SAS/C or gcc, the Demo applications do now prevent
+      the runtime system from handling CTRL-C breaks.
+    The C header file <proto/triton.h> is now compatible to gcc.
+
+*****************************************************************************
+RELEASE 1.3 (Library version 4.39)
+
+    Changes for Triton users and developers:
+    ========================================
+
+    Added QuickHelp.
+    Application infos are only saved permanently to envarc: if the
+      application has got its own preferences settings.
+    Recompiled Triton with SAS/C 6.55
+    Palette gadgets will not expand any more beyond 3 bitplanes (8 colors).
+      This should fix problems with too big windows on screens with many
+      colors.
+    Added French catalogs.
+    Fixed bug: All windows popped up on the default public screen when the
+      preferences system was not installed.
+
+    Changes for Triton developers only:
+    ===================================
+
+    Added 'Invisible' mode (TRST_INVISIBLE) to class_String for password
+      gadgets with invisible typing.
+    Added TR_SendMessage().
+    Added text clipping for resizable texts.
+    The C headers are now compatible with Objective C.
+    Added BlitzBasic support
+    TR_GetErrorString() doesn't return NULL anymore.
+    Added support for TRAT_ID in class_Group.
+    Added TRMS_DISKINSERTED and TRMS_DISKREMOVED (see TRWF_SYSTEMACTION).
+    You may now use shortcuts in FrameBox titles.
+    The stubs for TR_SetAttribute(), TR_GetAttribute(), TR_LockProject()
+      and TR_UnlockProject() were not compiled into the gcc support
+      libraries in previous releases. This is fixed now.
+    Added TRST_NORETURNBROADCAST (class_String flag).
+    Fixed bug: Slider gadgets could not be disabled/enabled.
+    Fixed bug: Scrolling was possible in empty listviews.
+    Fixed bug: After putting a new list into a listview, the currently
+      selected item could be beyond the limits of the new (smaller) list.
+      This is fixed now. In that case, the last item will be selected.
+    Fixed bug: When changing TRAT_Disabled of menus with TR_SetAttribute(),
+      TRUE and FALSE were swapped, causing excatly the opposite effect.
+    Fixed bug: The 'disabled' status of cycle, listview and palette gadgets
+      could not be changed with TR_SetAttribute(). This is fixed now.
+
+*****************************************************************************
+RELEASE 1.4 (Library version 5.4; Bug fix release)
+
+    Changes for Triton users and developers:
+    ========================================
+
+    triton.library asked for diskfont.library v37 which caused problems on
+      OS2.0 systems. This is fixed now. triton.library asks for v36 only.
+    QuickHelp windows accidentally appeared always on the default public
+      screen instead of the screen of their parent window.
+    Some gadgets could accidentally be activated by <Return> although they
+      were not intended to react on that shortcut.
+    Double (string gadget like) borders were not drawn correctly in 'thick'
+      mode with OS versions below 3.0.
+
+    Changes for Triton developers only:
+    ===================================
+
+    Fixed flaws in the autodoc class documentation.
+    Cycle gadgets in MX mode didn't set all necessary IDCMP flags which
+      caused MX gadgets not to work properly in some cases.
+    Updated BlitzBasic support packet.
+    Changing of class_Listview.TRLV_Top was not possible and caused the
+      Listview to become disabled when you tried it.
+
+    Internal changes:
+    =================
+
+    Added some major new features to the OOP kernel. The message dispatching
+      is now a bit faster with even more speed increase expected for the
+      next release.
+
+*****************************************************************************
+RELEASE 2.0 (Library version 6.113)
+
+    Changes for Triton users and developers:
+    ========================================
+
+    Extended menu shortcuts were not ignored properly under OS versions
+      below v39.
+    The OS3.0+ version of triton.library does now require an 68020 or better
+      CPU and is optimized for a 68030.
+    Bug fixed: Texts (instances of class_Text) were not refreshed properly.
+    Bug fixed: Initializing triton.library without $KEYPATH caused an
+      Enforcer hit.
+    The array handling has been optimized and should be quite a bit faster
+      now.
+    String gadgets do now hand <Help> key presses through to the window (e.g.
+      for requesting help about an object).
+    Bug fixed in handling of arrays: This might screw up the layout of old
+      programs wich used arrays and relied on some bugs in class_Group.
+    Optimized TR_AutoRequest()
+    Changed the look of QuickHelp boxes (-> style guide compliant pens)
+
+    Changes for Triton developers only:
+    ===================================
+
+    Added public class interface: You can create your own classes and install
+      them with TR_AddClass().
+    Added TRST_Filter and TRST_FLOAT to class_String which make it possible
+      to create input fields for integer and floating point numbers in all
+      desired bases (decimal, octal, binary,...).
+    The classes are now much better documented in the AutoDocs.
+    Most classes inherit all of their parents attributes.
+    Added public frame and text primitives.
+    Added support for multi-line texts to the text primitives. QuickHelp and
+      class_Text are also affected by this change.
+    Added text flag TRTX_CENTER and TRTX_RIGHTALIGN (replacing
+      TROF_RIGHTALIGN for text objects).
+    Fixed bug: Image buttons didn't respect their own shortcuts
+    String gadgets do now accept NULL strings
+    Removed enforcer hits when opening a project without objects
+    Fix bug in include/clib/triton_protos.h
+    Fixed bug: class_Framebox didn't pass TROM_DISPOSE on to the included
+      object which caused memory leaks
+    StringGadgetNR() C macro added.
+    Added TRGR_INDEP to *Separator* macros
+    Additional programming language support is now distributed separate
+       from main distribution
+    CustomClass demo program added.
+    Added public class system
+    Added TRLV_VisibleLines
+    Fixed bug: The selected listview entry is now guaranteed to be visible
+
+    Internal changes:
+    =================
+
+    The message dispatcher changes announced in release 1.4 have been
+      completed. The message dispatching is faster now.
+
+*****************************************************************************
+RELEASE OpenTriton 2.0 (Library version 6.115)
+
+    OpenTriton is made available as free software covered by the GNU General
+      Public License. Full source code is included.
+
+*****************************************************************************

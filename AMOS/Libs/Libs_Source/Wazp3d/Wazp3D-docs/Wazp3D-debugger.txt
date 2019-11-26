@@ -1,0 +1,94 @@
+USAGE OF WAZP3D-DEBUGGER
+========================
+
+You need to start Wazp3d-Prefs
+
+Notes:
+ "Image"  is Wazp3D's RGBA buffer
+ "Update" is copying Image to Screen
+ SOFT3D  is the sofware rasterizer	
+
+	Very usefull:	
+	=============	
+Print
+	Enable Debugger		Global on/off for printing debug . Need to close Warp3D-Prefs to make it works
+	DebugFunction	Print Warp3D function names
+	DebugCalls		Count the Warp3D-calls for each function and total. Summarize at end of prog the really used functions
+	DebugState		Print states as checkbox like that " [x]W3D_FOGGING  "
+	DebugVar		Print name  of a parameter or variable 
+	DebugVal		Print value of a parameter or variable
+	DebugSOFT3D		Print all SOFT3D function names and messages (SOFT3D is the software "driver")
+	DebugPoint		Print original vertices values
+	DebugError		Print the error value returned from Warp3D function. 
+Step
+	StepUpdate		Step at update (Image -> Screen) = stop
+				To obtain a full frame debug:
+					start without debugger (Enable Debugger off)
+					then activate StepUpdate in debugger
+					wait an update (new frame)
+					then activate debugger (Enable Debugger on)
+					set all the usefull options ("Debug Function",etc...)
+					close debugger
+					wait next update
+					then deactivate debugger (Enable Debugger off)
+
+	Less usefull:	
+	=============	
+Print
+	DebugClipper		Print clipper's variables and messages 
+	DebugAdresses		Print the memory adresse for all Warp3D's functions
+	DebugDoc			Print parameter description from Warp3D official doc (to use with DebugVar+DebugVal) 
+	DebugAsJSR			Print Warp3D-calls as JSR xx(a6) so can compare debugger output to a disassembled file
+	DebugDriver			Print Warp3D driver  structure = useless 
+	DebugContext		Print Warp3D context structure = useless 
+	DebugTexture		Print Warp3D texture structure = useless 
+	DebugWC			Print Wazp3D context structure
+	DebugWT			Print Wazp3D texture structure
+	DebugSC			Print SOFT3D context structure
+	DebugST			Print SOFT3D texture structure
+	DebugBlendFunction	Print if the slow BlendFunctionAll() is used
+
+Display
+	DisplayFPS			Display Frame Per Second in the Image 
+	DebugTexNumber		Write texture number in the texture's bitmap. Show what texture is used
+	DebugSepiaImage		Colorize Wazp3D output with red = Show if Wazp3D is used for drawing
+	DebugTexColor;		The pixel color is R=texture-number G=blendmode B=envmode 
+
+Dump
+	DumpTextures		Dump all textures as .RAW files
+	DumpObject			Dump drawn-object as .OBJ/.MTL file ( bugged :-/ )
+	Resize Dumped Object	Resize dumped coordinates to -1.0 +1.0 (use it with DumpObject) 
+
+Step
+	StepFunction		Step each Warp3D function call = stop 
+	StepSOFT3D			Step each SOFT3D function call = stop 
+	StepDrawPoly		Step each polygone drawn = stop 
+	StepFunction50		Step each 50 Warp3D functions calls = stop 
+
+Memory
+	DebugMemList		Print memory list
+	DebugMemUsage		Print memory usage
+
+
+Program xxxx is not working how can i debug ?
+=============================================
+For xxxx you should do a full debug 
+
+Set
+Enable Debugger
+DebugFunction
+DebugCalls
+DebugState
+DebugVar
+DebugVal
+DebugSOFT3D
+DebugPoint
+DebugError
+
+Then do xxxx > ram:debug.txt
+Let xxxx run just one second then close xxxx
+If the program crash due to Wazp3D then the faulty function is the last function in debug.txt
+But if the last line is  Error=W3D_SUCCESS then the crash is not Wazp3D fault and occurs outside Wazp3D.
+
+
+

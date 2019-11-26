@@ -1,0 +1,86 @@
+(set #hello_world "\n\nWelcome to Open eXternal user interfaces.\n\n\nThis installer copies the oxmaster.library and its classes to libs: and copies the OX preferences and info program 'oxlibinfo' to sys:prefs and copies the default skin images to sys:prefs/presets/ox/images.\n\nhave fun\nAndreas G. Szabó")
+
+
+(set #disclaimer "\n\nOX IS PROVIDED 'AS-IS' WITHOUT ANY WARRANTY. THE AUTHOR(S) CANNOT BE HELD LIABLE FOR ANY DAMAGE ARISING OUT OF THE (INABILITY OF MAKING) USE OF IT: USE AT YOUR OWN RISK.\n\nOX is freeware. It can be redistributed provided that the whole package is kept intact and that no charge is applied. (Any part of) it cannot be used publically and/or to make profit without written permission.\n\nClick button to agree and to copy the files to their destinations.")
+
+
+(set #ready "\n\nWell done, OX installed.\n\nNow start 'oxlibinfo' in your Prefs folder to check out whats new. ;-)")
+
+(message #hello_world)
+(message #disclaimer)
+
+(copyfiles
+
+        (source "libs")
+
+        (dest "libs:")
+
+        (all)
+
+;        (nogauge)
+
+        (optional "force" "askuser")
+)
+
+(copyfiles
+
+        (source "oxlibinfo")
+
+        (dest "sys:prefs")
+
+        (infos)
+
+        (noposition)
+
+;        (nogauge)
+
+        (optional "force" "askuser")
+)
+
+(copyfiles
+
+        (source "presets")
+
+        (dest "sys:prefs/presets")
+
+        (noposition)
+
+        (all)
+
+;        (nogauge)
+
+        (optional "force" "askuser")
+)
+
+; turn of skins ?
+
+(set #choice
+
+    (askchoice
+
+        (prompt "\n\n\Do you want to de-activate the skins? This is recommended if your system is relatively slow or low on colors.\n\n")
+
+        (help "If you do deactivate the skins they will anyhow be installed, but deactivated. Later you can try the skins by activating them temporary in 'oxlibinfo'. See readme INSTALLATION section for this.")
+
+        (choices "Please USE the skins!" "Please deactivate all skins!")
+
+        (default 0)
+    )
+)
+
+(if (= #choice 0)
+ (
+  (run "echo \"ON\" >env:ox/usebgimages")
+  (run "echo \"ON\" >envarc:ox/usebgimages")
+ )
+ (
+  (run "echo \"OFF\" >env:ox/usebgimages")
+  (run "echo \"OFF\" >envarc:ox/usebgimages")
+ )
+)
+
+(message #ready)
+
+(exit (quiet))
+
+(welcome)

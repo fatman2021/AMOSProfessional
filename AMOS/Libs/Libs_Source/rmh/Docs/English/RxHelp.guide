@@ -1,0 +1,138 @@
+@database "RxHelp"
+@author Alfonso Ranieri
+
+@Node "Main" "RxHelp"
+
+    @{b}RxHelp@{ub}
+    Copyright © 2000-2002 Alfonso Ranieri
+
+
+    @{" Author " LINK "Author"}  @{" WRID " LINK "WRID"}
+
+
+    @{fg fill}RxHelp@{fg text} is a little tool to obtain help information from an
+    ARexx library.
+
+    RxHelp can't work with any library, but just with libraries
+    designed for that.
+
+    If you are a programmer interested in adding RxHelp support
+    in your libraries, fill free to write me and ask how to.
+
+    RxHelp might obtain information only about ARexx libraries
+    currently linked in the ARexx libraries list.
+
+    @{fg fill}RxHelp@{fg text} may only be used from a shell.
+
+    @{fg fill}RxHelp@{fg text} template is:
+
+    @{fg shine}NAME/M/A,LIB=LIBRARY/S,VER=VERBOSE/S,HTML/S,NC=NTCONVERT/S,
+    HY=HYPER/S,I=INDEX/S,NA=NOACTIVATE/S,PS=PUBSCREEN/K @{fg text}
+
+    - @{fg shine}NAME@{fg text}
+      one or more arguments describing what you want to obtain
+      help for; they may be functions names or libraries name,
+      if LIBRARY is supplied; libraries may be suppleid with or
+      without ".library"; also help for RxMUI external classes
+      that are also ARexx libraries (e.g. SpeedBar.rmxec) may be
+      asked for
+
+    - @{fg shine}LIBRARY@{fg text}
+      a switch keyword to inform RxHelp that NAME are library
+      names rather than functions names
+
+    - @{fg shine}VERBOSE@{fg text}
+      a switch keyword that makes RxHelp print out more
+      information
+
+    - @{fg shine}HTML@{fg text}
+      a switch keyword that makes RxHelp print out HTML
+      information; this is only valid if LIBRARY is supplied
+
+    - @{fg shine}NTCONVERT@{fg text}
+      a switch keyword that makes RxHelp not convert the
+      library name
+
+    - @{fg shine}HYPER@{fg text}
+      a switch keyword that makes RxHelp use an hyper help rather
+      that print out text; at the moment, RxHelp opens an
+      AmigaGuide window, searching in the drawer specified in
+      "ENV:RxHelp/path" or in HELP:
+
+    - @{fg shine}INDEX@{fg text}
+      a switch keyword that makes RxHelp open the "Main" node
+      rather than the function node if HYPER is supplied
+
+    - @{fg shine}NOACTIVATE@{fg text}
+      a switch keyword that makes RxHelp not activate the
+      AmigaGuide window
+
+    - @{fg shine}PUBSCREEN@{fg text}
+      the name of a public screen where to open the AmigaGuide
+      window
+
+    @{fg fill}Examples@{fg text}:
+
+    @{fg shine}RxHelp bhooo@{fg text}
+    rxhelp: function 'bhooo' not found
+
+    @{fg shine}RxHelp socket@{fg text}
+    rxsocket.library/SOCKET(<family>,<type>,[protocol])
+
+    @{fg shine}RxHelp rxsocket LIB@{fg text}
+    rxsocket.library functions help
+
+    @{fg shine}RxHelp rxsocket.library LIB@{fg text}
+    as ^
+
+    @{fg shine}RxHelp rxsocket LIB HTML@{fg text}
+    rxsocket.library functions help in HTML format
+
+    @{fg shine}RxHelp socket GUIDE@{fg text}
+    open RxSocket.guide/socket, if found in the drawer ENV:RxHelp
+    or "HELP"
+
+    @{fg shine}RxHelp rxsocket LIB GUIDE@{fg text}
+    open RxSocket.guide/Main, if found in the drawer ENV:RxHelp
+    or "HELP"
+
+@EndNode
+
+@EndNode
+
+@Node "Author" "RxHelp - Author"
+
+  @{b}Author@{ub}
+
+    I am @{i}Alfonso Ranieri@{ui}
+
+    My e-mail address is
+    @{i}alforan@tin.it@{ui}
+
+    You can find the last version of RxHelp at
+    @{i}http://digilander.libero.it/asoft/@{ui}
+
+@EndNode
+
+@Node "WRID" "RxHelp - Warning, Requirements, Installation and Distribution"
+
+  @{b}Warning, Requirements, Installation and Distribution@{ub}
+
+    @{u}Warning@{uu}
+    THIS SOFTWARE AND INFORMATION ARE PROVIDED "AS IS". ALL USE
+    IS AT YOUR OWN RISK, AND NO LIABILITY OR RESPONSIBILITY IS
+    ASSUMED. NO WARRANTIES ARE MADE.
+
+    @{u}Requirements@{uu}
+    The library needs AmigaOS, version 3 or higher.
+
+    @{u}Installation@{uu}
+    Use the installation script.
+
+    @{u}Distribution@{uu}
+    RxHelp is destributed under the terms of the
+    GNU Public Licence Version II.
+
+@EndNode
+
+

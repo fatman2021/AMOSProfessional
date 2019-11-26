@@ -1,0 +1,33 @@
+Short:    Backup RDBs. Bug under 2.x fixed. Oops! V0.5
+Uploader: gerard@ariane.univ-lyon2.fr (Gerard Cornu)
+Author:   gerard@ariane.univ-lyon2.fr (Gerard Cornu)
+Type:     disk/misc
+Replaces: disk/misc/ReadRDB.lha
+Version:  0.5
+
+Can read an RDB (Rigid Disk Block) and save it to a file,
+as for backup purpose, and write it back later on the 
+hard disk. Gives also the state of the reselection flag 
+and all of rdb_Flags. English and French documentation 
+in AmigaGuide© form.
+
+Now include a FORCE switch to read and write non
+standard RDBs. Use this switch at your own risk!
+
+
+V0.5: Bug fixed: Unability, under 2.x, to write back an RDB.
+      Must have been here since 0.2, Ooops! Thanks to
+      "Sheer Panic" for reporting it.
+
+
+Have fun, and keep writing useful stuff for our nice machine.
+Thanks!
+
+   Gerard Cornu
+   11, Av. E. Aynard
+   69130 Ecully
+   (France)
+
+   email: gerard@ariane.univ-lyon2.fr
+
+*** Against all nuclear testing ***

@@ -1,0 +1,91 @@
+============================================================================
+==            xvs.library - The eXternal Virus Scanner Library            ==
+============================================================================
+==            Copyright © 1997-1999/2001-2003 by Georg Hörmann            ==
+==                 Copyright © 1999-2001 by Alex van Niel                 ==
+==                  Copyright © 2001 by Jan Erik Olausen                  ==
+============================================================================
+
+1. Legal Stuff
+--------------
+This software package is written and copyright © 1997-1999 by Georg Hörmann.
+Changes and updates from December 1999 to May 2001 are copyright © 1999-2001
+by  Alex  van  Niel.  Changes and updates from June 2001 to October 2001 are
+copyright © 2001 by Jan Erik Olausen.  Releases since October 2001 are again
+copyright © 2001-2003 by Georg Hörmann.
+
+No parts of this software package may be altered by any means (this includes
+editing, reprogramming, crunching, resourceing etc.), except archiving.  The
+author  is in no way liable for any changes made to any part of the package,
+or  consequences  thereof  as  he is in no way liable for damages or loss of
+data directly or indirectly caused by this software.
+
+This  software package is FREEWARE for non-commercial use.  Commercial users
+or  distributors must gain permission of the author first.  Neither fees may
+be  charged  nor  profits may be made by distributing this software package.
+Outside  a single machine environment, you are not allowed to reproduce only
+parts of the package, but you have to copy it completely.
+
+2. Installation
+---------------
+The xvs.library contains all the virus recognition and removal code that was
+formerly included in VirusZ.  This step has been taken for one major reason:
+VirusZ,  Virus_Checker,  Virus_Executor and all the other antivirus software
+can be updated quickly without releasing the whole packages every time a new
+virus appears.
+
+So simply install the xvs.library from this archive to your LIBS:  drawer to
+get  100%  protection against the latest viruses.  You can either copy it by
+hand or use the installer script written by David Crawford.
+
+NOTE  #1:   To  detect  ALL  viruses  inside  crunched  and/or linked files,
+xvs.library must be used together with the xfdmaster.library (available from
+Aminet  or  the  VHT-Denmark  homepage)!  I therefore strongly recommend the
+installation of this library too.
+
+NOTE  #2:  If xvs.library detects that it might have been modified (maybe by
+some new virus?), it will inform you with an alert and tell you what to do!
+
+3. PGP Signatures
+-----------------
+To be able to check if the library in this archive really came straight from
+the  author,  you  can use my public key with the .sig files in the archive.
+If  you  are  not sure or do not trust the included key, then you can always
+request  an  original  copy straight from me (by email, see below) or get it
+from the VHT-Denmark homepage.
+
+4. Some Words to Amiga Programmers
+----------------------------------
+As  you  may have noticed, I don't have enough time at the moment to add all
+the features that users desire to my viruskiller VirusZ.  On the other hand,
+there  are  a  lot  of  talented coders out there who might have the time to
+write  a really good viruskiller environment, but don't have all the viruses
+to  add  them  or  are  not willing to torture themselves with analysing all
+those (old) little bastards.
+
+That's  the  point  where xvs.library comes in.  With this library you get a
+powerful  tool  to  detect  and  eliminate  all sorts of viruses.  Currently
+xvs.library offers you the following functions:
+a. Detect bootblock viruses and install clean bootblocks instead.
+b. Detect manipulated disk sectors and repair them if possible.
+c. Detect infected files and repair them if possible.
+d. Scan all memory regions for active viruses and remove them if any.
+
+All you have to do (and that's still enough, believe me ;-) is to submit the
+files,  sectors  or  bootblocks  you want to have tested to xvs.library.  In
+other  words:   You design an outstanding GUI with all the features that are
+required  nowadays (ARexx, Locale, etc.) and I support you with my antivirus
+knowledge of the last 12 years!
+
+5. Author
+---------
+Currently  I'm  developing  the  xvs.library package alone again, so for bug
+reports, comments or new ideas just contact me at the following addresses:
+
+snail-mail: Georg Hörmann
+            Martinswinkelstr. 16c
+            82467 Garmisch-Partenkirchen
+            Germany
+
+e-mail:     ghoermann@gmx.de (don't use ghoermann@epost.de any longer,
+                              it will be closed in the near future!)

@@ -1,0 +1,85 @@
+/* Mark Pursey 10 juil 1996, QUADRATIC APPROXIMATION (FOR TEXTURE MAPPING) 	 */
+/* This method is usually OK but not really satisfactory for extreme distortion.	*/
+/*
+=== Pursey's original formulas ====
+	z1=(z0+z2)/2;
+	u1 = u0 + z0*(u2 - u0) / (z0 + z2) ;
+	a = ( 2*u0 - 4*u1 + 2*u2 ) / (n*n) ;
+	b = (-3*u0 + 4*u1 - u2) / n ;
+
+	 du = a + b ;
+	ddu = 2*a ;
+
+=== Thellier's simplified formulas ===
+	u1 = u0 + z0*(u2 - u0) / (z0 + z2) ;
+		rz =        z0 / (z0 + z2) ;
+		rz4 = (4.0*z0) / (z0 + z2) ;
+
+		u1 = u0 + rz*(u2 - u0) ;
+		u1 = u0 + rz*u2  - rz*u0 ;
+
+	a  = ( 2*u0 - 4*u1 + 2*u2 ) / (n*n) ;
+		-4*u1 = -4*u0 -rz4*u2 +rz4*u0;
+			a  = ( (-2+rz4)*u0 + (2-rz4)*u2 ) / (n*n) ;
+			a  = ( -rz4*(u2-u0)+2*(u2-u0) )   / (n*n) ;
+			dt  =  u2-u0;						distance in texel
+			ldu = dt/n;							standard linear delta 
+			a  = ( -rz4*dt +dt +dt )   / (n*n) ;
+				rz4dt = (4.0*dt*z0) / (z0 + z2) ;		ratio z * 4 * distance in texel
+				a  = ( -rz4dt +dt +dt ) / (n*n) ;
+
+
+	b  = (-3*u0 + 4*u1 - u2) / n ;
+		4*u1 = +4*u0 +rz4*u2 -rz4*u0;
+			b  = ((1-rz4)*u0 + (-1+rz4)*u2 ) / n ;
+			b  = ( rz4*(u2-u0)-1*(u2-u0) )  / n ;
+			dt  =  u2-u0;
+			b  = ( +rz4*dt -dt )  /  (n) ;
+				rz4dt = (4.0*dt*z0) / (z0 + z2) ;
+				b  = ( +rz4dt -dt )  	/  (n) ;
+
+
+	 du = a + b ;
+	ddu = a + a ;
+
+*/
+
+Implementation in Wazp3D:
+From 2 points P1 P2 obtain the U V steps (=deltas) as du dv ddu ddv
+/*=============================================================*/
+void DoDeltasUV(union pixel3D *P1,union pixel3D *P2)
+{
+/* V44: Compute a quadratic approximation of texture to emulate perspective */
+double a,b,z0,z2,rz4,n,dt,rz4dt;
+double u0,u1,u2,du,ddu;
+double v0,v1,v2,dv,ddv;
+
+	n=P1->W.large;
+	z0=1.0/P1->L.w;	
+	z2=1.0/P2->L.w;
+	u0=P1->L.u;
+	u2=P2->L.u;
+	v0=P1->L.v;
+	v2=P2->L.v;
+
+	dt  = u2-u0;					
+	rz4dt = (4.0*dt*z0) / (z0 + z2) ;		
+	a  = ( -rz4dt +dt +dt ) / (n*n) ;
+	b  = ( +rz4dt -dt )  	/  (n) ;
+	 du = a + b ;
+	ddu = a + a ;
+
+	dt  = v2-v0;
+	rz4dt = (4.0*dt*z0) / (z0 + z2) ;
+	a  = ( -rz4dt +dt +dt ) / (n*n) ;
+	b  = ( +rz4dt -dt )  	/  (n) ;
+	 dv = a + b ;
+	ddv = a + a ;
+
+/* store ddu ddv du dv as LONG */
+	P1->L.du	= du  ;
+	P1->L.dv	= dv  ;
+	P1->L.ddu	= ddu ;
+	P1->L.ddv	= ddv ;
+}
+/*=============================================================*/

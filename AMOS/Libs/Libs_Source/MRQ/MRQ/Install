@@ -1,0 +1,661 @@
+;************************************************************
+;* Installation script for MRQ, the MUI requester improver  *
+;* $VER: MRQ_Install 2.5 (15-Oct-00)                        *
+;* © 1998-2000 by Matthias Bethke <Matthias.Bethke@gmx.net> *
+;*                                                          *
+;* ToDo: - uninstall option                                 *
+;*       - logfile                                          *
+;************************************************************
+
+; $Id: Install 1.2 2000/10/15 18:18:25 msbethke Exp msbethke $
+;
+; $Log: Install $
+; Revision 1.2  2000/10/15 18:18:25  msbethke
+; New boolean option: SINGLE_IS_OK, for MRQ V2.1
+; Some small bugfixes, mostly to do with uninitialized variables
+; (thanks to Jens Tröger for InstallerNG that showed them!)
+; Some typos corrected
+;
+; Revision 1.1  2000/01/25 16:54:29  msbethke
+; Initial revision
+;
+
+
+(procedure F_delay						;debugging :)
+	(set #delayval 10000)
+	(until
+		(<= #delayval 0)
+		(set #delayval (- #delayval 1))
+	)
+)
+
+(procedure F_expertmsg _msg
+	(if
+		(> @user-level 1)
+		(message (cat "\n\n" _msg))
+	)
+)
+
+(procedure F_expertworking _msg
+	(if
+		(> @user-level 1)
+		(working "\n\n" _msg)
+	)
+)
+
+(procedure F_GetDir _prompt _help _default
+	(set #Where
+		(askdir
+			(prompt _prompt)
+			(help _help)
+			(default _default)
+		)
+	)
+)
+
+(procedure F_findconfig
+	(set #Configfile "")
+	(iconinfo (dest #Installname) (gettooltype "CONFIGFILE" "#Configfile"))
+	(if	(not (strlen #Configfile))
+		(
+		(F_GetDir #P_WConfig #H_WConfig #WhereMRQ)
+		(set #Configfile (tackon #Where "MRQ.config"))
+		)
+	)
+)
+
+(procedure F_findimages
+	(set #WhereImages "")
+	(iconinfo (dest #Installname) (gettooltype "IMAGES" "#WhereImages"))
+	(if	(not (strlen #WhereImages))
+		(
+		(F_GetDir #P_WImages #H_WImages #WhereMRQ)
+		(set #WhereImages (tackon #Where "MRQ-images"))
+		)
+	)
+)
+
+(procedure F_copyconfig
+	(F_expertmsg (cat #M_CopyingConfig #Configfile))
+	(copyfiles
+		(source #cfgsrc)
+		(dest (pathonly #Configfile))
+		(newname "MRQ.config")
+		(optional askuser)
+	)
+)
+
+(procedure F_copymrq icon
+	(if icon
+		(
+			(F_expertmsg (cat #M_CopyingMRQ #M_CopyingMRQIcon #M_To #WhereMRQ))
+			(copyfiles (source "MRQ") (infos) (dest #WhereMRQ) (optional askuser))
+		)
+		(
+			(F_expertmsg (cat #M_CopyingMRQ #M_To #WhereMRQ #M_KeepingMRQIcon))
+			(copyfiles (source "MRQ") (dest #WhereMRQ) (optional askuser))
+		)
+	)
+)
+
+
+(procedure F_InstallNImcc
+	(copylib (prompt #M_InstallNImcc) (help #H_InstallNImcc) (source "MUI/Libs/NewImage.mcc") (dest "MUI:libs/MUI") (confirm) (optional askuser))
+)
+
+(procedure F_ConfigMRQ
+	(if (not #WhereImages) (F_findimages))
+	(set #CfgOpts1
+		(askoptions
+			(prompt #P_ConfigOpts1)
+			(choices "[2pCENTERTEXT" "FRONTSCREEN" "MOUSEREQ" "NORTPATCH" "SAMEWIDTH" "SINGLEFRAME" "SIZEABLE" "TRANSPARENCY" "DEFAULTICON" "SINGLE IS OK" "DEBUG")
+			(help #H_ConfigOpts1)
+			(default 912)
+		)
+	)
+	(set #CfgOpts2
+		(askoptions
+			(prompt #P_IButtons)
+			(help #H_IButtons)
+			(choices #C_UseIMB1 #C_UseIMB2)
+			(default 3)
+		)
+	)
+	(if (in #CfgOpts2 0 1)
+		(
+			(set #IButtonSet
+				(askchoice
+					(prompt #P_IButtonSet)
+					(help #H_IButtonSet)
+					(choices #C_SelectIBSet1 #C_SelectIBSet2 #C_SelectIBSet3)
+					(default 0)
+				)
+			)
+			(if (= #IButtonSet 0)
+				(
+					(set #IButton_Yes (tackon #WhereImages "MRQwin_Yes.brush"))
+					(set #IButton_No (tackon #WhereImages "MRQwin_No.brush"))
+					(set #IButton_Cancel (tackon #WhereImages "MRQwin_Cancel.brush"))
+				)
+				(if (= #IButtonSet 1)
+					(
+						(set #IButton_Yes (tackon #WhereImages "MRQ_Yes.brush"))
+						(set #IButton_No (tackon #WhereImages "MRQ_No.brush"))
+						(set #IButton_Cancel (tackon #WhereImages "MRQ_Cancel.brush"))
+					)
+					(
+						(set #IButton_Yes
+							(askfile(prompt (#P_AskCustomIB #W_Yes))	(help #H_AskCustomIB)	(default #WhereImages))
+						)
+						(set #IButton_No
+							(askfile(prompt (#P_AskCustomIB #W_No))	(help #H_AskCustomIB)	(default #WhereImages))
+						)
+						(set #IButton_Cancel
+							(askfile(prompt (#P_AskCustomIB #W_Cancel))	(help #H_AskCustomIB)	(default #WhereImages))
+						)
+					)
+				)
+			)
+			(if (in #CfgOpts2 1)
+				(set #IButtonsByTextStr
+					(cat
+						(askstring
+							(prompt (#P_IBBT #W_Yes))
+							(help #H_IBBT)
+							(default #IBBTDefaultString_Yes)
+						) ","
+						(askstring
+							(prompt (#P_IBBT #W_No))
+							(help #H_IBBT)
+							(default #IBBTDefaultString_No)
+						) ","
+						(askstring
+							(prompt (#P_IBBT #W_Cancel))
+							(help #H_IBBT)
+							(default #IBBTDefaultString_Cancel)
+						)
+					)
+				)
+			)
+		)
+	)
+	(set #ImageQuality
+		(select
+			(askchoice
+				(prompt #P_ImageQuality)
+				(help #H_ImageQuality)
+				(choices #C_ImageQuality1 #C_ImageQuality2 #C_ImageQuality3 #C_ImageQuality4)
+				(default 2)
+			)
+			"low" "medium" "high" "best"
+		)
+	)
+
+	(set #UseAfterPatch 
+		(askbool
+			(prompt #P_UseAfterPatch)
+			(help #H_AfterPatch)
+			(choices #W_Yes #W_No)
+			(default 0)
+		)
+	)
+	(if #UseAfterPatch
+		(set #AfterPatch
+			(askfile
+				(prompt #P_AfterPatch)
+				(help #H_AfterPatch)
+				(default "AssignWedge")
+			)
+		)
+		(set #AfterPatch "")
+	)
+
+	(set #loop 1)
+	(set #AvoidTasks "ramlib")
+	(while #loop
+		(set #AvoidTasksS
+			(askstring
+				(prompt (cat #P_AvoidTasks "\"" #AvoidTasks "\""))
+				(help #H_AvoidTasks)
+			)
+		)
+		(if (or (patmatch "# " #AvoidTasksS) (= #AvoidTasksS ""))
+			(set #loop 0)
+			(set #AvoidTasks (cat #AvoidTasks (if #AvoidTasks "|" "") #AvoidTasksS))
+		)
+	)
+
+	(F_SetTooltypes)
+)
+
+(procedure F_SetTooltypes
+	(working #M_SettingAllTT)
+
+	(F_Booltype "CENTERTEXT"		(in #CfgOpts1 0))
+  (F_Booltype "FRONTSCREEN"		(in #CfgOpts1 1))
+	(F_Booltype "MOUSEREQ"			(in #CfgOpts1 2))
+	(F_Booltype "NORTPATCH"			(in #CfgOpts1 3))
+	(F_Booltype "SAMEWIDTH"			(in #CfgOpts1 4))
+	(F_Booltype "SINGLEFRAME"		(in #CfgOpts1 5))
+	(F_Booltype "SIZEABLE"			(in #CfgOpts1 6))
+	(F_Booltype "TRANSPARENCY"	(in #CfgOpts1 7))
+	(F_Booltype "DEFAULTICON"		(in #CfgOpts1 8))
+	(F_Booltype "SINGLE_IS_OK"	(in #CfgOpts1 9))
+	(F_Booltype "DEBUG"					(in #CfgOpts1 10))
+
+	(F_SetTT "QUALITY" #ImageQuality)
+
+	(F_ProcessTT "AFTERPATCH" #AfterPatch #UseAfterPatch)
+
+	(F_ProcessTT "AVOIDTASKS" #AvoidTasks #AvoidTasks)
+
+	(if (in #CfgOpts2 0 1)
+		(
+			(F_SetTT "IMG_YES" #IButton_Yes)
+			(F_SetTT "IMG_NO" #IButton_No)
+			(F_SetTT "IMG_CANCEL" #IButton_Cancel)
+
+			(F_ProcessTT "IBUTTONSBYTEXT" #IButtonsByTextStr (in #CfgOpts2 1))
+		)
+		(
+			(working #W_Unsetting #W_IBTT)
+			(F_RemTT "IMG_YES")
+			(F_RemTT "IMG_NO")
+			(F_RemTT "IMG_CANCEL")
+			(F_RemTT "IBUTTONSBYTEXT")
+		)
+	)
+)
+
+
+(procedure F_Booltype _name _onoff
+	(F_ProcessTT _name "1" _onoff)
+)
+
+(procedure F_ProcessTT _name _value _onoff
+	(if _onoff
+		(F_SetTT _name _value)
+		(F_RemTT _name)
+	)
+)
+
+(procedure F_SetTT _name _value
+	(F_expertworking (cat #W_Setting #W_Tooltype ":\n" _name))
+	(tooltype (dest #Installname) (settooltype _name _value))
+;	(F_delay)
+)
+
+(procedure F_RemTT _name
+	(F_expertworking (cat #W_Unsetting #W_Tooltype ":\n" _name))
+	(tooltype (dest #Installname) (settooltype _name))
+;	(F_delay)
+)
+
+
+
+(procedure F_InstallMRQ
+	(F_GetDir #P_WInstall #H_WInstall "SYS:wbstartup")
+	(set #WhereMRQ #Where)
+	
+	(set @default-dest #WhereMRQ)
+	(set #Installname (tackon #WhereMRQ "MRQ"))
+	
+	(set #Oldversion (getversion #Installname))
+	(set #MRQVersion (getversion "MRQ"))
+	(set #OldVer (/ #Oldversion 65536))
+	(set #OldRev (- #Oldversion (* #OldVer 65536)))
+	(set #MRQVer (/ #MRQVersion 65536))
+	(set #MRQRev (- #MRQVersion (* #MRQVer 65536)))
+	(set #OldExists (or #OldVer #OldRev))
+	
+	(message (cat
+		(cat #M_VersionToInstall #MRQVer "." #MRQRev "\n\n")
+		(if #OldExists
+			(cat #M_InstalledVersion #OldVer "." #OldRev)
+			(#M_NoInstalledVer)
+		))
+	)
+	
+	(F_findconfig)
+	(F_findimages)
+	
+	(set #CopyCfg
+		(if (exists #Configfile)
+			(askbool
+				(prompt (cat #P_CopyCfg1 #Configfile #P_CopyCfg2))
+				(help #H_CopyCfg)
+			)
+			1
+		)
+	)
+	
+	(if (exists #WhereImages)
+		(set #CheckNewImgs 
+			(askbool
+				(prompt (cat #P_CheckImageDir #WhereImages " ?"))
+				(help #H_CheckImageDir)
+				(choices #C_CheckNewImgs1	#C_CheckNewImgs2)
+			)
+		)
+	)
+	
+	(complete 10)
+	
+	(working "Copying the MRQ executable")
+	(if #OldExists
+		(F_copymrq 0)
+		(
+			(F_copymrq 1)
+			(tooltype (dest #Installname) (settooltype "CONFIGFILE" #Configfile))
+			(tooltype (dest #Installname) (settooltype "IMAGES" #WhereImages))
+		)
+	)
+	
+	(complete 30)
+	
+	(if #CopyCfg (F_copyconfig))
+	
+	(complete 50)
+	
+	(if #CheckNewImgs
+		(
+			(foreach "MRQ-images" "#?.(ilbm|iff|brush|jpeg)"
+				(
+					(if	(not (exists (tackon #WhereImages @each-name)))
+						(if (not (> @each-type 0))
+							(
+								(F_expertmsg (cat #M_Copying1Img @each-name))
+								(copyfiles (source (tackon "MRQ-images" @each-name)) (dest #WhereImages) (optional askuser))
+							) 
+						)
+					)
+				)
+			)
+			(F_expertmsg #M_ImgDirUp2D)
+		)
+		(if (not #OldExists)
+			(
+				(F_expertmsg (cat #M_CopyingAllImages #WhereImages))
+				(foreach "MRQ-images" "#?.(ilbm|iff|brush|jpeg)"
+						(if (not (> @each-type 0))
+							(copyfiles (source (tackon "MRQ-images" @each-name)) (dest #WhereImages) (optional askuser))
+						)
+				)
+			)
+		)
+	)
+	
+	(complete 70)
+	(F_InstallNImcc)
+	
+	(complete 80)
+	(if
+		(askbool
+			(prompt #P_ConfigureMRQ)
+			(help #H_PConfigureMRQ)
+		)
+		(F_ConfigMRQ)
+	)
+	
+	(complete 100)
+)
+
+
+
+
+
+;************** START **************
+(if (< @installer-version 2752524) (abort "This script requires Installer V42.12 or greater!"))
+
+; !4 NOVICEs
+(if (= @user-level 0) (set @user-level 1))
+
+;no english-only config available yet
+(if (= @language "english") (set #cfgsrc "MRQ.config") (set #cfgsrc "MRQ.config"))
+
+
+;************** initialize variables **************
+(if (= @language "deutsch")
+	(
+	(set #W_Yes "Ja")
+	(set #W_No "Nein")
+	(set #W_Cancel "Abbruch")
+	(set #W_Install "Installieren")
+	(set #W_Configure "Konfigurieren")
+	(set #W_Setting "Setze ")
+	(set #W_Unsetting "Lösche ")
+	(set #M_Welcome "\n\nWillkommen zum Installationsprogramm für\n\nMRQ\n\nThe MUI requester improver")
+	(set #P_InstOrCfg "Was wollen Sie machen?")
+	(set #H_InstOrCfg (cat "\"" #W_Install "\" installiert MRQ komplett neu oder aktualisiert "
+	"eine vorhandene Version, danach kann das Programm konfiguriert werden\n\"" #W_Configure
+	"\" ändert nur die Tooltypes eines bereits installierten MRQ, ohne andere Dateien zu"
+	" verändern\n"))
+	(set #E_Need020 "MRQ braucht mindestens einen 68020-Prozessor!")
+	(set #P_WInstall "Wo soll MRQ installiert werden?")
+	(set #H_WInstall "Das eigentliche Programm wird in dieses Verzeichnis kopiert. Wenn MRQ beim Booten automatisch gestartet werden soll, übernehmen Sie einfach das voreingestellte Verzeichnis")
+	(set #P_WImages "Wohin sollen die Bilder kopiert werden?\n(ein Verzeichnis wird angelegt)")
+	(set #H_WImages "Der Installer wird ein Unterverzeichnis namens\n\"MRQ-Images\"\nim ausgewählten Verzeichnis anlegen und dorthin alle Bilder kopieren")
+	(set #P_WConfig "Wohin soll die Konfigurationsdatei kopiert werden?")
+	(set #H_WConfig "Eine kleine Datei namens \"MRQ.config\" wird in dieses Verzeichnis kopiert")
+	(set #M_NoInstalledVer "Bisher ist keine Version installiert")
+	(set #M_CopyingConfig "Kopiere Konfigurationsdatei nach ")
+	(set #M_CopyingMRQ "Kopiere MRQ ")
+	(set #M_To "nach ")
+	(set #M_CopyingMRQIcon "und sein Piktogramm ")
+	(set #M_KeepingMRQIcon "\n(das alte Piktogramm wird nicht überschrieben)")
+	(set #M_VersionToInstall "\n\nZu installierende Version: V")
+	(set #M_InstalledVersion "Bisher installierte Version: V")
+	(set #P_CopyCfg1 "Konfigurationsdatei ")
+	(set #P_CopyCfg2 " existiert schon.\nMit neuer Konfiguration überschreiben?")
+	(set #H_CopyCfg "Geben Sie an, ob Sie ihre alte Konfigurationsdatei mit der neuen aus dieser Distribution überschreiben wollen oder nicht")
+	(set #C_CheckNewImgs1 "Neue Bilder kopieren")
+	(set #C_CheckNewImgs2 "Nichts kopieren")
+	(set #P_CheckImageDir "\n\nSoll die Distribution auf neue Bilder überprüft werden?\nNeue Bilder würden installiert nach ")
+	(set #H_CheckImageDir (cat
+	"Wenn Sie \"" #C_CheckNewImgs1 "\" auswählen, überprüft der Installer, ob in der Distribution "
+	"neue Bilder enthalten sind, die noch nicht in ihrem Bilderverzeichnis installiert sind. "
+	"Sollte er welche finden, werden sie dorthin kopiert.\n\n\"" #C_CheckNewImgs2
+	"\" beläßt das Bilderverzeichnis genauso wie es jetzt ist."))
+	(set #M_CopyingAllImages "Kopiere alle Bilder nach ")
+	(set #M_Copying1Img "Kopiere Bild: ")
+	(set #M_ImgDirUp2D "Bilderverzeichnis ist auf dem aktuellen Stand!")
+	(set #P_ConfigureMRQ "Wollen Sie MRQ jetzt konfigurieren?")
+	(set #H_PConfigureMRQ "Sie können MRQs Grundparameter jetzt konfigurieren, indem Sie menügeführt einige Tooltypes setzen.")
+	(set #P_ConfigOpts1 "Allgemeine Optionen")
+	(set #H_ConfigOpts1 (cat
+	"Die Bedeutung der Optionen im einzelnen:\n\n"
+	"CENTERTEXT  : Alle Texte im Requester zentrieren (sonst nur bei einzeiligen Requestern)\n\n" 
+	"FRONTSCREEN: Requester immer auf dem vordersten Bildschirm öffnen (Hack!)\n\n"
+	"MOUSEREQ: Requester an der Mausposition statt zentriert auf dem Bildschirm öffnen\n\n"
+	"NORTPATCH: reqtools.library nicht patchen\n\n"
+	"SAMEWIDTH: Alle Knöpfe gleich breit darstellen (sieht besser aus)\n\n"
+	"SINGLEFRAME: Einen Rahmen um Bild und Text legen statt beide getrennt einzurahmen (Geschmackssache)\n\n"
+	"SIZEABLE: Requester mit Größengadget versehen (nicht empfehlenswert)\n\n"
+	"TRANSPARENCY: MUIs Pattern oder Hintergrundfarbe durchscheinen lassen, wo in Bildern Hintergrundfarbe (Nummer 0) vorkommt\n\n"
+	"DEFAULTICON: Wenn der Requestertext auf kein vorkonfiguriertes Muster paßt, kann MRQ das Icon des aufrufenden Programms (falls vorhanden) anzeigen, wenn diese Option gesetzt.\n\n"
+	"SINGLE_IS_OK: Wenn diese Option angschaltet ist, bekommen Requester mit nur einem Knopf grundsätzlich das \"OK\"-Image, auch wenn der Text auf ein anderes Muster passen würde\n\n"
+	"DEBUG: Debug-Konsole aufmachen. Nur zur Fehlersuche sinnvoll!\n\n"
+	))
+	(set #P_IButtons "Imagebutton-Optionen")
+	(set #H_IButtons "Bitte lesen Sie die Anleitung für nähere Informationen zu den Imagebuttons!") 
+  (set #C_UseIMB1 "[2pKnöpfe mit Sybolen verwenden")
+	(set #C_UseIMB2 "Symbole nach Text auswählen")
+	(set #P_IButtonSet "Bitte wählen Sie ein Set Knöpfe aus")
+	(set #H_IButtonSet "Die zwei mitgelieferten Sets:\n\nM$ Windows-artig\nZiemlich groß, sehen ab Auflösungen von 800x600 gut aus\n\nKlein\nWie der Name sagt, ein kleineres Set für kleinere Auflösungen")
+	(set #C_SelectIBSet1 "[2pM$ Windoofs")
+	(set #C_SelectIBSet2 "Klein")
+	(set #C_SelectIBSet3 "Eigene (Bilder selbst auswählen)")
+	(set #P_AskCustomIB "Bitte ein Bild auswählen für \"%s\"")
+	(set #H_AskCustomIB "Wählen Sie hier ein Bild aus. Es darf jedes Format haben, für das Sie einen Datatype installiert haben")
+	(set #P_IBBT "Bitte geben Sie die Wörter für \"%s\" ein")
+	(set #H_IBBT (cat "Das entsprechende Bild wird auf den Imagebutton gelegt, wenn eins der"
+	"angegebenen Wörter auf dem Knopf gefunden wird.\nDas Format ist: beliebig viele Wörter (Groß-"
+	"/Kleinschreibung unwichtig), getrennt mit senkrechten Strichen/\"Pipes\" ('|')"))
+	(set #P_ImageQuality "Mit welcher Qualität sollen die Bilder auf den Bildschirm angepaßt werden?\n(Bei vielen freien Farben ist \"Low\" völlig ausreichend!)")
+	(set #H_ImageQuality (cat
+	"Diese Einstellung beeinflußt sowohl die Genauigkeit, mit der die \"Zeichenstifte\" für das Bild vom "
+	"System angefordert werden als auch den Dithermodus. \"Low\" dithert überhaupt nicht, was auch ein Vorteil sein kann!"))
+	(set #C_ImageQuality1 "[2pNiedrig")
+	(set #C_ImageQuality2 "Mittel")
+	(set #C_ImageQuality3 "Hoch")
+	(set #C_ImageQuality4 "Beste")
+	(set #P_UseAfterPatch "Soll nach dem Installieren der Patches ein weiteres Programm gestartet werden (z.B. AssignWedge)?")
+	(set #P_AfterPatch "Bitte das Programm auswählen!")
+	(set #H_AfterPatch (cat "Da MRQ die \"gepatchten\" Funktionen im Betriebssystem nicht nur "
+	"verbessert, sondern komplett ersetzt, funktionieren andere Programme evtl. nicht mehr "
+	"korrekt, die dieselben Funktionen bereits gepatcht haben.\nUm so etwas zu vermeiden, kann "
+	"MRQ ein Programm (oder Shellscript) starten, nachdem alle Patches installiert sind."))
+	(set #P_AvoidTasks "Bitte Namen von Tasks eingeben, die MRQ nicht benutzen sollen\n(leerer String zum Beenden)\nBisher: ")
+	(set #H_AvoidTasks (cat "Sollte MRQ mit irgendwelchen Programmen nicht richtig funktionieren, "
+	"können Sie ihn hiermit für bestimmte Tasks deaktivieren.\nBitte die Namen einzeln eingeben - "
+	"der Installer generiert automatisch das entsprechende Tooltype. AmigaDOS-Muster im Namen sind "
+	"erlaubt."))
+	(set #P_WInstalled "Wo ist MRQ auf ihrem System installiert?")
+	(set #H_WInstalled "Sie müssen MRQ installiert haben, bevor Sie es konfigurieren können. Wählen Sie nur das Verzeichnis aus, das Pogramm darin muß \"MRQ\" heißen und ein Piktogramm haben")
+	(set #E_CantFindMRQ "In diesem Verzeichnis ist kein Programm namens \"MRQ\"!")
+	(set #W_IBTT "Imagebutton-Tooltypes")
+	(set #W_IBBT "IBUTTONSBYTEXT")
+	(set #W_Tooltype "Tooltype")
+	(set #IBBTDefaultString_Yes "yes|ok|delete|retry|ja|sim")
+	(set #IBBTDefaultString_No "no|nein|não")
+	(set #IBBTDefaultString_Cancel "cancel|abort|abbr")
+	(set #M_SettingAllTT "Setze die Tooltypes")
+	(set #M_InstallNImcc "Installiere NewImage.mcc")
+	(set #H_InstallNImcc "NewImage.mcc ist eine MUI-Klasse, die zur Darstellung der Bilder unbedingt benötigt wird.")
+	)
+; English texts
+	(
+	(set #W_Yes "Yes")
+	(set #W_No "No")
+	(set #W_Cancel "Cancel")
+	(set #W_Install "Install")
+	(set #W_Configure "Configure")
+	(set #W_Setting "Setting ")
+	(set #W_Unsetting "Deleting ")
+	(set #M_Welcome "\n\nWelcome to\n\nMRQ\n\nThe MUI requester improver")
+	(set #P_InstOrCfg "What do you want to do?")
+	(set #H_InstOrCfg (cat "\"" #W_Install "\" installs or upgrades MRQ and lets you configure "
+	"it afterwards.\n\"" #W_Configure "\" only changes MRQ's tooltypes without modifying any "
+	"other files\n"))
+	(set #E_Need020 "MRQ requires at least a 68020 CPU!")
+	(set #P_WInstall "Where do you want MRQ to be installed?")
+	(set #H_WInstall "The MRQ executable will be copied to this directory. If you want MRQ to start automatically on bootup, just accept the default.")
+	(set #P_WImages "Where do you want the images to be copied?\n(a directory will be created)")
+	(set #H_WImages "The installer will create a directory called\n\"MRQ-Images\"\ninside the directory you select and copy all images there")
+	(set #P_WConfig "Where do you want to keep the config file?\n")
+	(set #H_WConfig "A small file called \"MRQ.config\" will be copied to this directory")
+	(set #M_NoInstalledVer "There is no previously installed version")
+	(set #M_CopyingConfig "Copying config file as ")
+	(set #M_CopyingMRQ "Copying MRQ ")
+	(set #M_To "to ")
+	(set #M_CopyingMRQIcon "and its icon ")
+	(set #M_KeepingMRQIcon "\n(old icon will not be overwritten)")
+	(set #M_VersionToInstall "\n\nVersion to install: V")
+	(set #M_InstalledVersion "Version already installed: V")
+	(set #P_CopyCfg1 "Config file ")
+	(set #P_CopyCfg2 " already exists\nCopy new config anyway?")
+	(set #H_CopyCfg "Select whether you want to overwrite your old config with the new one or not")
+	(set #C_CheckNewImgs1 "Copy new images")
+	(set #C_CheckNewImgs2 "Don't copy anything")
+	(set #P_CheckImageDir "\n\nShould the distribution be checked for any new images that are not yet installed in ")
+	(set #H_CheckImageDir (cat
+	"If you select \"" #C_CheckNewImgs1 "\", installer will check for files in the distribution's MRQ-images "
+	"directory that you don't have in your image directory yet and copy them if it finds any.\n\n\""
+	#C_CheckNewImgs2 "\" leaves your image directory as it is."))
+	(set #M_CopyingAllImages "Copying all images to ")
+	(set #M_Copying1Img "Copying image: ")
+	(set #M_ImgDirUp2D "Image directory is up to date!")
+	(set #P_ConfigureMRQ "Do you want to configure MRQ now?")
+	(set #H_PConfigureMRQ "You may configure MRQ's basic behavior by setting some tooltypes now")
+	(set #P_ConfigOpts1 "General options")
+	(set #H_ConfigOpts1 (cat
+	"Here's the meaning of the individual options:\n\n"
+	"CENTERTEXT  : Center all text displayed in a requester\n\n" 
+	"FRONTSCREEN: Open requesters on frontmost screen (hack!)\n\n"
+	"MOUSEREQ: Open requesters at the mouseposition instead of centered on the screen\n\n"
+	"NORTPATCH: Do not patch reqtools.library\n\n"
+	"SAMEWIDTH: Make all buttons the same width (looks nicer)\n\n"
+	"SINGLEFRAME: Put a single frame around image and text instead of one around each\n\n"
+	"SIZEABLE: Make requesters sizeable (not recommended)\n\n"
+	"TRANSPARENCY: Let MUI's image background shine through where images have background color (#0)\n\n"
+	"DEFAULTICON: If the requester text matches none of the pre-configured patterns, MRQ can instead show the calling program's icon (given it exists), if this option is set.\n\n"
+	"SINGLE_IS_OK: If this switch is on, requesters with a single button will always get the \"OK\"-image, even when the button's text would match the pattern for a different one.\n\n"
+	"DEBUG: Open the debug-console. Only makes sense for tracking down errors!\n\n"
+	))
+	(set #P_IButtons "Imagebutton options")
+	(set #H_IButtons "See the guide file for detailed info on the imagbutton options!") 
+  (set #C_UseIMB1 "[2pUse imagebuttons")
+	(set #C_UseIMB2 "Select by buttontext")
+	(set #P_IButtonSet "Select the set of buttons to use")
+	(set #H_IButtonSet "The two included button sets:\n\nM$ Windoze style\nQuite big, looks good on 800x600 and up\n\nSmall\nAs it says, a smaller set for lower resolutions")
+	(set #C_SelectIBSet1 "[2pM$ Windoze")
+	(set #C_SelectIBSet2 "Small")
+	(set #C_SelectIBSet3 "Custom (select images yourself)")
+	(set #P_AskCustomIB "Select an image for \"%s\"")
+	(set #H_AskCustomIB "Select an image file. This can be in any format you have a datatype for")
+	(set #P_IBBT "Select an imagebutton matchtext for \"%s\"")
+	(set #H_IBBT "The format of string is:\nAny number of words you want to match on, separated by pipe characters ('|')")
+	(set #P_ImageQuality "Select an image quality\n(with lots of free pens, \"low\" should be just fine!)")
+	(set #H_ImageQuality (cat
+	"This determines both the precision with which to allocate pens for the picture from the system and "
+	"the dither mode. If dithering makes images look bad on your"
+	"system, try \"Low\"."))
+	(set #C_ImageQuality1 "[2pLow")
+	(set #C_ImageQuality2 "Medium")
+	(set #C_ImageQuality3 "High")
+	(set #C_ImageQuality4 "Best")
+	(set #P_UseAfterPatch "Should another program (like AssignWedge) be started by MRQ after it has patched the OS?")
+	(set #P_AfterPatch "Please select the program!")
+	(set #H_AfterPatch (cat "For MRQ not only improves \"patched\" functions but completely "
+	"replaces them, other programs that happen to have patched the same functions are likely "
+	" not to work correctly with MRQ installed.\nTo get around this problem, MRQ can start one "
+	"such program (or shellscript) after it has applied its patches"))
+	(set #P_AvoidTasks "Please enter names of tasks that should not use MRQ, one at a time.\nEnter an empty string to quit\nCurrent pattern: ")
+	(set #H_AvoidTasks (cat "If MRQ should cause problems with some programs, you can deactivate "
+	"it here for certain tasks. Please enter them one at a time, the installer will automatically "
+	"generate the correct tooltype.\nYou may use AmigaDOS patterns here."))
+	(set #P_WInstalled "Where is MRQ installed on your system?")
+	(set #H_WInstalled "You need to have MRQ installed before you can configure it. Select only the directory, the executable must be called \"MRQ\" and have an icon")
+	(set #E_CantFindMRQ "There is no file called \"MRQ\" in this directory!")
+	(set #W_IBTT "imagebutton tooltypes")
+	(set #W_IBBT "IBUTTONSBYTEXT")
+	(set #W_Tooltype "tooltype")
+	(set #IBBTDefaultString_Yes "yes|ok|delete|retry")
+	(set #IBBTDefaultString_No "no")
+	(set #IBBTDefaultString_Cancel "cancel|abort")
+	(set #M_SettingAllTT "Setting tooltypes")
+	(set #M_InstallNImcc "Installing NewImage.mcc")
+	(set #H_InstallNImcc "NewImage.mcc is a MUI-class which is required for MRQ to render its images.")
+	)
+)	
+
+
+;************** work starts **************
+(message #M_Welcome)
+(welcome)
+
+(set #CPU (database "cpu"))
+(if (< #CPU 68020) (abort #E_Need020))
+
+(if
+	(askchoice
+		(prompt #P_InstOrCfg)
+		(help #H_InstOrCfg)
+		(choices (cat "[2p" #W_Install) #W_Configure)
+		(default 0)
+	)
+	(
+		(F_GetDir #P_WInstalled #H_WInstalled "SYS:wbstartup")
+		(set #WhereMRQ #Where)
+		(set @default-dest #WhereMRQ)
+		(set #Installname (tackon #WhereMRQ "MRQ"))
+		(if (exists #Installname)
+			(
+				(set #WhereImages 0)
+				(F_ConfigMRQ)
+			)
+			(message #E_CantFindMRQ)
+		)
+	)
+	(F_InstallMRQ)
+)

@@ -1,0 +1,46 @@
+;script to call EC/ECX after PortablE
+
+.key Source/A,TargetFile/K,OptOptimise/S,OptPointer/S,OptAmigaE/S,OptNoPtrToChar/S,NoOptInline/S,RefreshCache/S,LeaveTargetFile/S,Debug/S,EC/K,ECOpts/F/K
+.bra {
+.ket }
+
+.def EC EC
+;.def EC CreativE
+;.def EC ECX
+;.def EC E:bin/EC
+
+FailAt 20
+
+Set ECOpts "{ECOpts} IGNORECACHE"
+IF "{Debug}" NOT EQ ""
+	Set ECOpts "$ECOpts SYM NILCHECK"
+ENDIF
+
+Set BaseFile "`Rx "PARSE VALUE reverse('{Source}') WITH ext '.' basefile; IF basefile='' THEN basefile=ext; SAY reverse(basefile)"`"
+
+IF EXISTS "$BaseFile"
+	Delete "$BaseFile" QUIET
+	IF EXISTS "$BaseFile"
+		Echo "ERROR: Failed to delete *"$BaseFile*"."
+		Skip end
+	ENDIF
+ENDIF
+
+PortablE "$BaseFile.e" TargetFile="$BaseFile-OUTPUT.e" Lang=ECX {OptOptimise} {OptPointer} {OptAmigaE} {OptNoPtrToChar} {NoOptInline} {RefreshCache}
+IF NOT WARN
+	Echo ""
+	{EC} "$BaseFile-OUTPUT.e" ADDBUF=9 $ECOpts
+	IF NOT WARN
+		Rename "$BaseFile-OUTPUT" "$BaseFile" QUIET
+		
+		IF "{LeaveTargetFile}{Debug}" EQ ""
+			Delete "$BaseFile-OUTPUT.e" QUIET
+		ENDIF
+	ENDIF
+ENDIF
+
+Lab end
+UnSet ECOpts
+UnSet BaseFile
+
+FailAt 10

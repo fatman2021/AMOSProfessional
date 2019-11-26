@@ -1,0 +1,510 @@
+============================================================================
+==            xvs.library - The eXternal Virus Scanner Library            ==
+============================================================================
+==            Copyright © 1997-1999/2001-2003 by Georg Hörmann            ==
+==                 Copyright © 1999-2001 by Alex van Niel                 ==
+==                  Copyright © 2001 by Jan Erik Olausen                  ==
+============================================================================
+
+TO DO:
+------
+- Add full support for 'Neurotic Death' linkviruses (6 versions). These are
+  highly polymorphic and very hard to recognize in files. Currently only the
+  original installer files are recognized, and active viruses will be killed
+  in memory.
+- Try to get the old 'GlobVec144' linkvirus. The only ones who ever had a
+  copy are Heiner Schneegold (VT-Schutz) and Sönke Freitag (VTC Hamburg),
+  but Sönke couldn't find it anymore and Mr. Schneegold currently doesn't
+  give it to me :-(
+
+============================================================================
+
+   xvs.library 33.40 (size: 61.912 bytes)
+	- Added file recognition for some very old installer programs of the
+	  following bootblock viruses: Blizzard, CLI-Manager, SystemZ 5.0
+	  and SystemZ 6.4. Thanks to Dirk Stöcker for sending the files.
+	- Added special recognition for "Zeeball AV-Testfile" from Zeeball's
+	  antivirus test archive.
+	- Changed several often-used CacheClearU() calls to CacheClearE()
+	  for better performance on JIT 68k emulated systems (file analysis
+	  and repair code for polymorphic linkviruses have not been changed,
+	  as these only get called if some patterns match first). Thanks to
+	  Harry Sintonen for the hint.
+	- Fixed bug in xvsCheckFile() that accessed two bytes following the
+	  actual file buffer under certain circumstances. Thanks must go to
+	  Mikolaj Calusinski for the report and for beta-testing.
+	- Did some compatibility fixes for Pegasos/MorphOS systems. Thanks
+	  again to Harry Sintonen for the report and for beta-testing.
+	- Replaced old installer script with an updated version written once
+	  again by Dave 'Targhan' Crawford. Thanks!
+
+   xvs.library 33.39 (size: 61.196 bytes)
+	- Added size check to bootblock virus recognition in xvsCheckFile().
+	  Any files bigger than 2048 bytes will no longer be tested for
+	  bootblock viruses to avoid fake recognitions inside disk-images.
+	- Finally fixed the last MuForce hit ($c0.w) in xvsSurveyMemory().
+	  Thanks to Sensei again for the report and Zeeball for further
+	  suggestions on this topic.
+	- Fixed severe bug in 'Illegal Access' recognition code that caused
+	  crashes on any files with virus-like hunklengths. Thanks to
+	  Zeeball for the report and the example files.
+	- Added 'NoName (196 Bytes)' linkvirus and 'XFD Infiltrator' virus.
+	  Thanks to Zeeball for sending them.
+	- Fixed problems with native MorphOS applications that directly call
+	  xvs.library functions. Thanks to Harry Sintonen for the report and
+	  for further help.
+	- Implemented custom Disable() function that prevents loss of data
+	  on the serial port during xvsSurveyMemory() calls. Thanks to
+	  Christian of CAPS (www.caps-project.org) for the report and the
+	  excessive beta-testing!
+	- xvsSurveyMemory() now closes TCP ports opened by several viruses.
+	  These currently are: 1666, 2000, 2001, 2227, 2333, 2421, 2551,
+	  4097 and 9876. Please note that closing an open port doesn't cause
+	  a virus report, it just happens!
+	- Once again improved the internal security stuff for less timing
+	  problems with sensitive software (serial.device still has trouble
+	  with 115200 baud on a MC68030, use 8n1.device instead!).
+	- Added 'Neurotic Death' viruses (6 versions) to xvsSurveyMemory()
+	  and the installer files to xvsCheckFile().
+	- Added new developer files created by Dirk Stöcker. Thanks a lot
+	  and sorry that I forgot to add them to the last release.
+	- Added installer script written by Dave 'Targhan' Crawford. Thanks
+	  a lot for this contribution.
+
+   xvs.library 33.38 (size: 59.040 bytes)
+	- Just had to fix two problems with the security code:
+	  a. Timing has been improved to avoid interference with some music
+	     software. Thanks to Paracels/PCB for the report and testing.
+	  b. Expunge of library caused access to deallocated memory in some
+	     rare cases. Thanks to Mikolaj Calusinski for the report and
+	     the excessive beta-testing ;)
+	- Fixed (hopefully all) MuGuardianAngel hits in the SurveyMemory()
+	  routine. If anyone detects some more, please send me the logs.
+	  Thanks to Thomas Richter for his suggestions about mmu.library,
+	  but I finally found an other solution. And thanks to Sensei for
+	  reporting all his hits.
+	- Improved speed of SurveyMemory() drastically by skipping similar
+	  recognition routines in just one step if their common requirements
+	  are not available.
+
+   xvs.library 33.37 (size: 58.832 bytes)
+	- Once more added some new security features to the library. It will
+	  now try to self-defend after alien attacks, only if these efforts
+	  fail, the library gets disabled.
+	- Added recognition for 2 demo files that I call 'Anti-UAE Trojan'.
+	  Their code checks for UAE systems and in case it finds one will
+	  delete important files. Thanks to Jan Andersen for sending the
+	  demos to me.
+	- Added recognition for a MS-DOS strain of 'Bastard Installer'.
+	  Thanks to Jan Andersen for the file.
+	- Added recognition and repair code for 'Bobek 3' linkvirus.
+	  Thanks to Zeeball for sending me an infected file, even though
+	  it was accidentally :-)
+
+   xvs.library 33.36 (size: 57.972 bytes)
+	- After several years on a journey the sourcecodes finally came
+	  back home;-) Yes, it's me (Georg Hörmann) again, still alive
+	  and kicking virus asses... Thanks must go to Alex van Niel and
+	  Jan Erik Olausen for keeping the project alive!
+	  This update was done by me alone, but in the future, Jan Erik
+	  and I will keep the library up-to-date together.
+	- Rearranged and enhanced the security stuff inside the library
+	  for 100% detection of any (illegal) function patches. Programs
+	  like 'ZeebsVS' will no longer work with this version. Thanks
+	  must go to Zeeball for his demonstration of security gaps in
+	  the older versions.
+	- Added support for 'IOZ (512 Bytes)' linkvirus. Thanks go to
+	  Zeeball for sending it.
+	- Added support for 'Rexxfunc' trojan. Thanks must go to Zeeball
+	  and Jan Andersen for sending it.
+	- Totally redesigned the scanner for virus tasks/processes. The
+	  new code scans all tasks/processes for every known virus in just
+	  one step and can even handle several running copies of one virus
+	  correctly (thanks Zeeball for the hint).
+	- Checked ALL the stuff that has been added in my absence since
+	  xvs.library 33.18. See below for what I have changed/fixed.
+	  Thanks must go to Jan Andersen, Jan Erik Olausen and Zeeball
+	  for sending me the missing viruses and lots of other stuff.
+	  Special thanks to Zeeball for the ZeebsVS sourcecodes!
+	- Fixed file recognition for 'Bastard Installer 1'.
+	- Renamed 'Miami 4.0 Fake Installer' to 'MUI 4.0 Fake Installer',
+	  because that's what it really is.
+	- Renamed 'CCCP Clone' bootvirus to 'Anal Rapes' (its real name),
+	  fixed its memory recognition and added it to linkvirus brain.
+	- Removed recognition for 'Doubledensity' bootblock, this is just
+	  an intro boot.
+	- Fixed longword access to odd address in 'Jode Capullos 2' file
+	  recognition. This caused crashes on 68000 systems.
+	- Fixed memory removal code for 'Zakahackandpatch' and 'Zakapior'.
+	  The processes of these viruses might stay in memory up to one
+	  minute after they have been detected, that's not a bug, but
+	  their own call to Delay() that we have to wait for.
+	- Fixed recognition for 'Hitch-Hiker 5.00 Installers' and added
+	  the plain version created by xfdmaster.library 39.13.
+	- Renamed 'MadRoger Short' to 'NoName (248 Bytes)' to follow the
+	  guidelines of VTC Hamburg (idea by Jan Andersen).
+	- Renamed '212 Bytes Link' linkvirus to 'NoName (212 Bytes)' and
+	  fixed its memory removal code.
+	- Renamed 'Explode Trojan' linkvirus to 'Port 9876' and removed
+	  the repair code, we can use 'Fungus' code instead.
+	- Renamed 'Explode Trigger' filevirus to 'Port 9876 Trigger'.
+	- Renamed 'Port 4097 Installer' to 'Port 4097' and added memory
+	  removal code for the trojan's process. The process will stay
+	  in memory for a while without doing any harm, see explanation
+	  at 'Zaka...' above.
+	- Fixed 'Hitch-Hiker 5.00' memory removal code. The process gets
+	  killed immediately, the patched stack addresses will disappear
+	  one by one after a while without doing harm.
+	- Fixed memory and file recognition and the repair code for
+	  'Motaba 3' linkvirus. Now it restores the correct library jumps
+	  and can repair even files that have been damaged by the virus
+	  (bad branch offsets!).
+	- Fixed memory and file recognition and the repair code for
+	  'Bastard' linkvirus. Now restores all patched functions (inside
+	  asl.library and VirusCheckerII) and repairs even big files with
+	  bad branch offsets.
+	- File recognition for 'Bastard Installer 2' will now only detect
+	  the plain, uncrunched virus as xfdmaster.library unpacks this
+	  file correctly.
+	- Fixed brain entry of 'Port 2421' linkvirus (wrong virus length)
+	  and added memory recognition. Moved 'Port 2421 Installer' from
+	  linkvirus to filevirus brain as it cannot reproduce itself.
+	- Fixed 'Smeg 2a' and 'Smeg 2b' memory removal code. The processes
+	  get killed immediately and the patched stack addresses disappear
+	  one by one after a while without doing harm.
+	- Fixed repair code for 'Penetrator 2001' linkvirus to handle both
+	  ways of infection and added memory removal code (removes the task
+	  and 2 of 3 processes, the other one usually should already have
+	  been run out or crashed because of bad coding!).
+	- Fixed memory recognition for 'Bobek 2' linkvirus and tuned the
+	  file recognition/repair code. Thanks to Jan Erik Olausen for his
+	  bug report about the beta-release of this code.
+
+   xvs.library 33.35 (size: 58.512 bytes)
+	- Added Bobek 2 Installer 1 datavirus.
+	  Thanks to Rafal Mania for sending me this file.
+
+   xvs.library 33.34 (size: 58.424 bytes)
+	- Replaced the Hitch-Hiker 5.00 detection/removal code.
+	  Thanks to Georg Hörmann for writing a better code ;)
+	- Cleaned up some code. Got some tips from Georg.
+	  So the library is a bit smaller now...
+	- For developers: Added XVSLIST_DATAVIRUSES to xvsCreateVirusList()
+	  so that you can view data viruses as well.
+
+   xvs.library 33.33 (size: 59.756 bytes)
+	- Fixed 2 bugs in Hitch-Hiker 5.00 removal + improved checking.
+	  Thanks to Thomas Klein for reporting the bugs.
+	- Removed Sinister Syndicate 1/2 and French from the
+	  bootblock recog. They were harmless.
+	  Thanks to Dirk Stöcker for telling me.
+
+   xvs.library 33.32 (size: 59.824 bytes)
+	- Argh... Fixed major bug in Hitch-Hiker 5.00 removal.
+	  The virus was removed, but the file was not fixed.
+	  Thanks to Jean Holzammer for reporting this bug.
+
+   xvs.library 33.31 (size: 59.824 bytes)
+	- Improved the Hitch-Hiker 5.00 Link virus.
+	  Should be able to detect 99.9% of this virus now...
+	  Thanks to Jan Andersen and Treveur BRETAUDIERE for the files
+	- Fixed bug in recog for Bastard Installer 1 File virus
+	- Added recog for 'EICAR STANDARD AV-TEST FILE'
+	  This is not a virus, but a testfile that can be found on
+	  http://www.eicar.org/anti_virus_test_file.htm
+	  The purpose of this test file is to check that your favourite
+	  anti virus program really finds it! Deep inside arhcives etc...
+	  PS! This is a data file, so you might turn on the
+	  'data file checking' in your virus killer.
+	  Thanks to Sami Rautiainen for telling me about this file.
+
+   xvs.library 33.30 (size: 58.140 bytes)
+	- Added Jode Capullos 2 Trojan file virus
+	  Thanks to Fabrizio Bartoloni for the file
+	- Renamed MKG to Jode Capullos 1
+	- Added Hitch-Hiker 5.00 Installer file virus
+	  This is the same for all three link viruses
+	- Added Hitch-Hiker 5.00 Link virus
+	  Added Hitch-Hiker 5.00a Link virus
+	  Added Hitch-Hiker 5.00b Link virus
+	  Thanks to Jan Andersen for the HH5 files.
+
+   xvs.library 33.29 (size: 56.928 bytes)
+	- Added MKG Trojan File virus
+	  Thanks to Golds for the file.
+	- xvs.library has changed name...
+	  from: The eXternal Virus Support Library
+	    to: The eXternal Virus Scanner Library
+
+   xvs.library 33.28 (size: 56.828 bytes)
+	- Fixed bug in the memory check routine for Smeg2
+	  Thanks to Luca, Harry and Dirk for telling me about this
+	  bug. It will not happen again!
+
+   xvs.library 33.27 (size: 56.828 bytes)
+	- Added Penetrator 2001 Link virus
+	  Thanks to Krzysztof Duda for the files.
+	- Added CCCP Clone Bootblock virus
+	  Thanx to Mr Yoard for sending me this bootblock
+	- Fixed bug in recognition code for DKG-Blum file virus again!
+	  Thanks to Urban Mueller for reporting this.
+	- Added Smeg2a Installer File virus
+	  Thanks to Antonio De Cicco for the file.
+	- Added Smeg2a Link virus
+	- Added Smeg2b Link virus
+	  Thanks to Zeeball for the files.
+
+   xvs.library 33.26 (size: 55.700 bytes)
+	- Added Bobek2 Link virus
+	  Thanks to Jan Andersen for the files.
+	  Thanks to Zeeball for the memory removal routines.
+	- Added Expl0de Trojan Link virus
+	  Added Expl0de Trigger File virus
+	  Thanks to Jan Andersen for the files.
+	- Renamed 8x8 Link to Motaba-3
+
+   xvs.library 33.25 (size: 54.168 bytes)
+	- Added Zakahackandpatch File virus
+	  Thanks to Jan Andersen for the files.
+	- Added Bobek! Link virus
+	  Thanks to Jan Andersen, Frank and Zeeball for the files.
+	- Added Bastard Installer 1 Data virus
+	        Bastard Installer 2 File virus
+	        Bastard Link virus
+	  Thanks Jan Andersen and Zeeball for the files.
+	  Thanks to Zeeball for the info on this virus and for the decrypt
+	  and memory removal routines.
+	- Added 212 Bytes Link virus
+	  Thanks to Jan Andersen for the file.
+	- Fixed bug in recognition code for DKG-Blum file virus.
+	  Thanks to Jan Andersen for reporting this.
+	- Added Bobek2 Installer File virus
+	  Thanks to Fabrizio Bartoloni for telling me about this file.
+	- The library has changed programmer, although Georg does keep all
+	  copyrights and remains owner of the sources, I (Jan Erik Olausen)
+	  will continue developement. See the README file for my contact
+	  address.
+	  Thanks to Georg Hörmann and Dirk Stöcker for helping me out with
+	  fixing bugs in the source. I couldn't have done this without there
+	  help :o)
+
+   xvs.library 33.24 (size: 52.916 bytes)
+	- Added 4kIntro Trojan
+	  Thanks to Ryben Kozlak and Jan Andersen
+	- Added Dkg-Blum Trojan
+	  Thanks to Peter Gordon, Urban Mueller and Jan Andersen
+	NOTE:
+	  This trojan also replaces or adds a file called asi.library.
+	  XVS will not (yet) be able to detect this file because as far as
+	  I could analyze it, it looked like a normal VideoTracker file.
+	  If XVS would have to see this as a virus, more VideoTracker files
+	  will be fake detected. If you have problems or want this added
+	  anyway let me know.
+
+   xvs.library 33.23 (size: 52.868 bytes)
+	- Added Port 4097 Installer (LoadWB) virus
+	  Thanks to Zeeball for the files
+	  No memory infection found yet, might be added later if one
+	  is found.
+	- Added Port 4097 Trojan (RexxFifo.Library) virus
+	  Thanks to Zeeball for the file
+	  No memory infection found yet, might be added later if one
+	  is found.
+	- Added Port 2421 Installer virus (Jizzer)
+	  Thanks to Zeeball for the file
+	  No additional memory or file infection found yet, might be added
+	  later if one is found.
+	- Added Port 2421 Trojan (Mount) virus
+	  No additional memory or file infection found yet, might be added
+	  later if one is found.
+	These viruses create TCP/IP ports in memory. If a file infected with
+	one or more of these viruses is found on your system, chances are
+	that these ports are open already. For now, you should let the
+	xvs.library remove the virus and then reset your Amiga. (Which is
+	always a good idea after detecting a virus, but that aside of the
+	subject) The ports should then be gone.
+
+   xvs.library 33.22 (size: 52.732 bytes)
+	- Added 8x8 Link virus.
+	  Thanks to Jan Andersen, Chill and Zeeball for the files.
+	  Thanks to Heiner Schneegold for the info on this virus.
+
+   xvs.library 33.21
+	- Added YamPPCpatch Trojan. When so called "patched" a file called
+	  "cedmacros" is put in your "S:". Aferwards, when you press
+	  specific buttons in CED ("a", "q", etc.) some lame text is placed
+	  in the text you are editing. Highly annoying. The library
+	  recognises the "patch" and it's installer. Thanks to Jan Andersen
+	  for supplying it to me. Thanks to Urban Mueller for reporting it
+	  to Jan Andersen.
+	- Changed position of DoubleDensity bootblock virus in virus list.
+	  Wasn't sorted alphabetically properly.
+	- Fixed MUI 4.0 (clickforcolors) entry to a smaller entry (too big
+	  a name for some virus killers)
+
+   xvs.library 33.20
+	- Quickly fixed the naming of the MUI 4.0 fake. I accidentally named
+	  it Miami 4.0 for some reason. Thanks for Dirk Stöcker for noticing
+	  this.
+	- Placed the Amos Joshua trojans at the right place in the list for
+	  programs that don't sort the virus list before outputting to the
+	  user.
+
+   xvs.library 33.19
+	- Added Zakapior trojan virus and it's Dropper, thanks to Jan
+	  Andersen for sending them.
+	- Added Amos Joshua trojan virus and it's Dropper, thanks to
+	  Jan Andersen for sending them.
+	- Added Amos Joshua Clone virus and it's Dropper, thanks to
+	  Jan Andersen for sending them.
+	- Added MUI 4.0 trojan virus and installer, thanks to Jan Andersen
+	  for sending them.
+	- Added AmigaE modules to archive, including a small example.
+	  The modules and example were created by Andrew Cashmore
+	  (aj.cashmore@ukonline.co.uk)
+	- The library has changed programmer, although Georg does keep all
+	  copyrights and remains owner of the sources, I (Alex van Niel)
+	  will continue developement. See the README file for my contact
+	  address.
+
+   xvs.library 33.18
+	- Fixed bug in recognition code for Elbereth 1 - 4 and Disnomia
+	  linkviruses. Some copies have not been detected correctly.
+	  Thanks to Dran/Chew-Z for the report and the testfiles.
+	- Added additional verification code for pseudo-executables like
+	  'Scalos.key' starting with $3f3 even if they are datafiles.
+	  Thanks to Ramon for the report.
+
+   xvs.library 33.17
+	- Added 'STD Crabs #1' linkvirus and its Dropper. Thanks to Jan
+	  Andersen and David Knell for sending them.
+	- Added 'STD Vaginitis #1' linkvirus and its Dropper. Thanks to
+	  Jan Andersen for sending them.
+	- Added 'STD Vaginitis #2' linkvirus, its Dropper and
+	  'STD Vaginitis #3' filevirus. Thanks to Jan Andersen and
+	  Jesper Svennevid for sending them.
+
+   xvs.library 33.16
+	- Added another security mechanism that should bring up an alert
+	  if xvs.library has been modified in length (what usually all
+	  viruses do). If such an alert pops up on your computer, please
+	  perform a file check with VirusZ on 'xvs.library' in your libs:
+	  drawer. The library will therefore no longer refuse to work when
+	  it's (possibly) infected.
+	- Oh my god, why am I such an idiot? While analyzing Polish Power
+	  linkvirus, it suddenly came to my mind: The polymorphic code
+	  of Polish Power is exactly the same as the one Antonio uses.
+	  I just had to fix some small routines in the repair code, and
+	  now both dangerous linkviruses will be recognized :-)
+
+   xvs.library 33.15
+	- My Christmas gift for you: Recognition and repair code for the
+	  'Antonio' linkvirus (that's how I call it!). It uses the ugliest
+	  polymorphism I have seen so far, but I nevertheless did it in
+	  just 2 days. If there appear infected files that cause problems,
+	  please send them to me immediately (by email if possible).
+	  Thanks to Jan Andersen for sending me this virus so quickly.
+
+   xvs.library 33.14
+	- Added 'Datatypes.Library Trojan'. Thanks to Jan Andersen for
+	  sending this Miami backdoor.
+	- Please note my new email address in the README file.
+
+   xvs.library 33.13
+	- Added Mad_Roger Short linkvirus.
+	- Added Robby bootvirus. Thanks to Peter Lindberg for this really
+	  old stuff. It's from 1988 and I've never seen it before!!!
+	- Added 'C' developper files. Thanks to Dirk Stöcker for creating
+	  them.
+
+   xvs.library 33.12
+	- Added new linkvirus: Fungus/LSD. Thanks to Jan Andersen for
+	  sending this stuff.
+
+   xvs.library 33.11
+	- Added new viruses: UnpackJPEG Trojan, LOBO Simple, LOBO Weird
+	  and its Installer. Thanks to Jan Andersen for sending the viruses
+	  and Dran/Chew-Z for sending them to Jan.
+	- Finally released the developper files (include, autodoc, fd etc.)
+	  to the public. It's time now to give other skilled coders the
+	  opportunity to develop their own viruskillers...
+
+   xvs.library 33.10
+	- Added the rest of the missing viruses from VTC (see below):
+	  666!-Trojan, Mosh 1.0, Promoter 1, Purge Dropper, Purge Trojan,
+	  TDTJ Trojan, SehrJung Dropper, SehrJung Trojan, Nibbler 1.0ß Link,
+	  Nibbler Installer, New Age (bad linkvirus, can only be deleted).
+	- Added recognition for 666!-Trojan damages to sector check code.
+	- Added recognition for files damaged by Cute Little Ponnies and
+	  Inspector X of A.L.F.
+	- Added AmigaRAR.exe Fake, a packed version of Gathering '95 that
+	  cannot be decrunched by xfdmaster.library at the moment. I will
+	  add the cruncher as soon as possible to xfd.lib, then the extra
+	  recognition is no longer needed. Thanks to Jan Andersen for this
+	  packed trojan.
+
+   xvs.library 33.9
+	- Finally I contacted Soenke Freitag of VTC Hamburg and asked him to
+	  send me the old but still missing viruses from their test. I added
+	  the following viruses until now:
+	  AHM Keymaker 1.1, BBS Blieb6, Miami Fake, BBS MegaMon, DumDum 2,
+	  BBS CLP/InspectorX, BootX Updater, Buzz Bomb MKI, Hexer/Bea 1,
+	  Hexer/Bea 2, Hexer/Bea 3, Conman Format,  Compuphagozyte 13,
+	  Disk.info Bomb, Joshua 3 and Christmas Violator.
+	  There are still more to come, I will add them (hopefully) in the
+	  following 2 or 3 weeks.
+	  Special thanks go to Soenke Freitag for the good cooperation and
+	  all the work he had with sending me the virus collection.
+	  Thanks must go to Markus Schmall and Jan Andersen too for giving
+	  Soenke the permission to submit the viruses to me (most of them
+	  were NDA).
+	- Added MaxDoorControl + Lib. Thanks to Jan Andersen for sending it.
+
+   xvs.library 33.8
+	- Added Mad Roger bootvirus and WAWE trojan. Thanks to Jan Andersen
+	  for sending the trojan.
+
+   xvs.library 33.7
+	- Did some internal reworking for better performance.
+	- Added bootblock viruses: AHC, Gadaffi 2, Virus Slayer 6.12.
+	- Added recognition for files damaged by Lisa FuckUp 2.0.
+	- Fixed removal code for ZIB linkvirus. Now detects all files that
+	  have been infected by the installer directly.
+	- Added recognition for Doom_CLX Trojan, CompuPhagoLink and
+	  X-Ripper 1.1.
+
+	Special thanks for sending all the above mentioned viruses are going
+	to Jan Andersen. VirusZ did not recognize these viruses at the time
+	when the VTC-Test 1998 took place, therefore the ranking of VirusZ
+	in this test would be even better right now.
+
+   xvs.library 33.6
+	- Added HappyNewYear 96/2 clone, HNY 96/3 clone + installer and
+	  Sepultura bootblock virus. Thanks to Jan Andersen for submitting
+	  them.
+
+   xvs.library 33.5
+	- Fixed bug in 'Smeg' recognition. Thanks to Thomas Richter for the
+	  tests and the report.
+	- Added 'MKey.exe Fake' trojan. Thanks to Jan Andersen for sending
+	  it to me.
+	- Added 'HANF' linkvirus. This nasty bastard took me a lot of time.
+	  Thanks to Ralph Bernecker and Jan Andersen for sending it to me.
+
+   xvs.library 33.4
+	- Added 'ReOrgIt Fake' trojan. Thanks to Jan Andersen for sending
+	  it to me.
+
+   xvs.library 33.3
+	- Added new viruses: 'Death To Maxs' 1-4 trojans. Thanks to Jan
+	  Andersen for sending them.
+	- Rewritten some memory checking routines for safer execution.
+
+   xvs.library 33.2
+	- Just did a little fix in the memory checking code. Some strange
+	  patches haven't been accepted.
+
+   xvs.library 33.1
+	- Moved all virus recognition and removal code from VirusZ to
+	  this library. Several support routines have been rewritten
+	  or designed totally new.

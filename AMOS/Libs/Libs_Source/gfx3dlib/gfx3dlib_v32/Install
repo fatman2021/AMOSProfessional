@@ -1,0 +1,29 @@
+;
+; Installation script for gfx3d.library (user)
+;
+
+(complete 0)
+
+(message 
+  (cat "This installation script will install gfx3d.library\n"
+       "on your system.\n\n"
+       "The documentation will not be installed.\n\n"
+       "Chek Web site for demos:\n"
+       "http://www.geocities.com/ResearchTriangle/Lab/8980\n"
+       "or in Aminet:\n"
+       "gfx/3d/gfx3d_vxx.lha")
+  (all)
+)
+
+(complete 50)
+
+(copylib
+  (prompt "Installing gfx3d.library")
+  (help @copylib-help)
+  (source "gfx3d.library")
+  (dest "LIBS:")
+  (confirm)
+)
+
+(complete 100)
+(exit "Installation of gfx3d.library complete." (quiet))

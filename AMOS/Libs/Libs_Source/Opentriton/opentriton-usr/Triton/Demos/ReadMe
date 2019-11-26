@@ -1,0 +1,18 @@
+   This directory contains some demo programs for Triton.  Their sources
+can be found in the directory `Developer/DemoSources' of the Triton
+developer archive.
+
+
+Program                 Author                  Description
+=======                 ======                  ===========
+Demo                    Stefan Zeiger           Triton demonstration program
+EnvPrint                Stefan Zeiger           The GUI for EnvPrint 2.0
+trLogo                  Stefan Zeiger           The Triton logo
+ToolManager1            Stefan Zeiger           Looks like the original
+                                                ToolManager
+ToolManager2            Stefan Zeiger           Looks like the ToolManager
+                                                demo 2 of GUIFront
+ToolManager3            Stefan Zeiger           My own creation for a
+                                                ToolManager GUI
+ProgInd                 Stefan Zeiger           Shows how to handle a
+                                                Progress Indicator

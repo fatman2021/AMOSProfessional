@@ -1,0 +1,218 @@
+Problems and possible solutions
+-------------------------------
+
+Basically many problems can be solved by studying the StormMesa 3.0
+documentation. Here some more special problems are discussed.
+
+
+- Problem:
+  A lot of StormMesa demos crash.
+
+- Solution:
+  Often the stack is too low. You should set the stack to 300KB,
+  then these problems should disappear.
+
+  If PPC applications crash while the 68K version run fine, it
+  might be caused by an inproper WarpUp installation (for example
+  a wrong setting of the env variable 'powerpc/terminator' which
+  should be set to 2). When using a CVPPC/BPPC graphics card, then
+  the following variables should be set:
+  powerpc/force 1
+  powerpc/gfxaddr $e0000000
+
+
+- Problem:
+  How should I know, if the demo is using the 3D hardware?
+
+- Solution:
+  After typing the command line
+
+  setenv MESA/STATS 1
+
+  some statistical infos about the use of 3D hardware are printed
+  to the shell.
+
+
+- Problem:
+  I'm using StormMesa with AGA and the graphics gets corrupted.
+
+- Solution:
+  Due to the missing function 'WriteChunkyPixels' in OS 3.0 and
+  due to a problem with the alternative function 'WritePixelArray8'
+  it is necessary to install a patch, if StormMesa 3.0 is used
+  with AGA and OS 3.0. The patch is located in the directory
+  'mesa:AMIGA/misc/NewWPA8'. The Executable 'NewWPA8' should be
+  copied to C: and you should add a line to the startup-sequence,
+  directly after the SetPatch call:
+
+  C:NewWPA8
+
+
+- Problem:
+  I'm using StormMesa with CyberGFX and the graphics gets corrected
+  in fullscreen mode. Afterwards the Workbench graphics is often
+  overdrawn.
+
+- Solution:
+  The installed CyberGFX version has a bug in conjunction with
+  OS3.0-compatible multibuffering. Therefore you have to get a
+  new version of CyberGFX, which should solve the problem, or
+  you can install the graphics system Picasso96.
+
+
+- Problem:
+  I'm using StormMesa with CyberGFX, when I open a screen in fullscreen
+  mode, then I'm getting a message like 'couldn't create context'.
+
+- Solution:
+  The fullscreen mode only works with CyberGFX, if the monitor tooltype
+  'DRAGGING' is set to NO.
+
+
+- Problem:
+  I'm using StormMesa with a CVPPC/BPPC graphics card, but the Permedia2
+  chip is never used for drawing.
+
+- Solution:
+  Again, the CyberGfx monitor tooltype 'DRAGGING' has to be set to NO.
+  Additionally the 'bitmap cache' feature must NOT be switched off.
+
+
+- Problem:
+  I would like to run a StormMesa demo in fullscreen mode to see, how
+  fast it runs with 3D hardware acceleration. But it doesn't run faster
+  at all.
+
+- Solution:
+  There are many potential reasons, why hardware acceleration doesn't
+  work, a lot of them are discussed in the StormMesa documentation.
+  Often the problem is, that the hardware doesn't support a specific
+  effect well enough, so that the hardware isn't use for drawing.
+  By typing the following command
+
+  setenv MESA/FAST 1
+
+  a lot of such demos might run hardware-accelerated afterwards.
+  Another reason might be, that the screenmode is not supported by
+  the 3D hardware. The Virge for example only works in 15 bit mode.
+
+
+- Problem:
+  I would like to run a demo hardware-accelerated in a window, but it
+  doesn't run accelerated.
+
+- Solution:
+  Unter CyberGFX V3 fuer CyberVision3D ist es nicht moeglich, Demos in
+  einem Fenster hardwarebeschleunigt laufenzulassen, weil dort neue
+  Bitmaps ueblicherweise nicht im Grafikspeicher angelegt werden.
+  Sobald das 3D-Treibersystem die speziellen Funktionen von CyberGFX V4
+  unterstuetzt, sollte dieses Problem geloest werden koennen.
+
+
+- Problem:
+  I would like to run a demo hardware-accelerated in a window. But if
+  I enlarge the window just a bit, then it runs a lot slower.
+
+- Solution:
+  Especially for 3D graphics boards with only 4MB graphics RAM there
+  is simply not enough space to run such demos in big windows, also
+  because the workbench also needs a lot space (especially because
+  it has to run in HiColor mode). These problems should not appear
+  for newer graphics boards with more graphics RAM.
+
+
+- Problem:
+  After termination of a demo program, which run accelerated, the
+  workbench graphics is trashed.
+
+- Solution:
+  This should usually not happen with Picasso96. When CyberGFX
+  is installed, this problems happens, when the buffers for the
+  3D hardware collide with other areas in graphics memory (i.e.
+  with the workbench graphics). The only solution is to make
+  the workbench smaller and to close as many windows as possible
+  to save VRAM. Additionaly you should not select a too high
+  resolution for 3D hardware accelerated games.
+  As soon as the 3D driver system supports the special features
+  of CyberGFX V4, this problem might be solved.
+
+
+- Problem:
+  If I'm doing something else while a demo is running hardware-accelerated,
+  the whole system hangs up completely.
+
+- Solution:
+  This problem should only happen with the Virge 3D processor, if text
+  output is done during 3D hardware drawing. Unfortunately it seems, that
+  this problem can't be solved, it is suspected that the problem is caused
+  by the Virge itself. Basically 3D hardware accelerated demos should
+  not be interrupted by other events, when using the Virge. Especially
+  switch off all blankers and terminate all background tasks, which
+  might do text output (the clock, which is installed by GoldEd also
+  might cause these problems).
+  When using other 3D accelerators, these problems should not happen.
+
+
+- Problem:
+  If I run a demo with textures, I only get a black display (the same
+  also happens, if I enlarge a window, if 3D hardware is used).
+
+- Solution:
+  Due to a missing feature in the 3D driver system, StormMesa currently
+  can't find out, if the textures could successfully be uploaded to
+  VRAM. Therefore it tries to draw the scene, although it can't work,
+  which results in a black display.
+  In newer version of the driver system 'Warp3D' this feature should
+  be added and then StormMesa will be enhanced.
+
+
+- Problem:
+  If I run a StormMesa demo for PPC with hardware acceleration
+  and if I do something else in parallel, then a total graphical
+  chaos appears on the workbench.
+
+- Solution:
+  It is necessary to 'lock' 3D operations so that they don't have
+  any influence on the rest of the system, this is done through
+  functions of CyberGfx/Picasso96. This locking doesn't work
+  for PPC applications, if the CyberGfx variable 'CyberGfx/USESEMAPHORES)
+  is set to 0 (or if it isn't set at all). Therefore this variable
+  should be set to 1.
+
+
+- Problem:
+  StormMesa's performance in conjunction with hardware acceleration
+  seems to be quite weak.
+
+- Loesung:
+  The cause might be a wrong locking mode. If the variable MESA/LOCKMODE
+  is set to 0, then any drawing is done indirectly, which is quite slow.
+  A setting of 3 for this variable is recommended.
+  If the variable MESA/TRIPLE is set to 0, then no triple buffering is
+  used, which might degrade fullscreen performance. But triple buffering
+  does only make sense for graphics boards with 8MB RAM or more.
+
+
+- Problem:
+  A certain application freezes the whole system in a reproduceable
+  manner, while all other applications run nicely.
+
+- Loesung:
+  First, it might be possible, that the application has a bug. But
+  it is also possible, that some applications don't work with the
+  different locking modes. In such a case try to set the locking mode
+  to 0 (setenv mesa/lockmode 0).
+
+
+- Problem:
+  Sometimes some strange fals pixels are flashing, even if the scene
+  doesn't move at all.
+
+- Loesung:
+  This effect can happen for CVPPC/BPPC graphics boards, the reason
+  is currently unknown. It seems to be a video memory problem, since
+  it's always the same bit in a 64-bit entity which might get corrupted
+  (even if hardware acceleration isn't used). This effect usually only
+  pop up after some special event happened, it is currently unknown
+  what kind of event this might be. If such effects happen, a reboot of
+  the machine might help.

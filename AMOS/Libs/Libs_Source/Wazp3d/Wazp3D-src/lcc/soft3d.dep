@@ -1,0 +1,11 @@
+[SOFT3D50.C]
+Wazp3D.h
+soft3d_amiga_defines.h
+soft3d_protos.h
+soft3d_opengl.h
+soft3d_mem_print.h
+soft3d_pc_glue.h
+winuaenative.h
+[SOFT3D_OPENGL.C]
+soft3d_opengl.h
+[SOFT3D_DLL.C]

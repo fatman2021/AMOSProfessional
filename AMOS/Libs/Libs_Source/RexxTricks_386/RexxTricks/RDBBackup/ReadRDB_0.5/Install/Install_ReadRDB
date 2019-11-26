@@ -1,0 +1,135 @@
+; $Id: Install_ReadRDB 0.1 1995/01/10 14:18:09 Gérard_Cornu Exp Gérard_Cornu $
+;
+; $Log: Install_ReadRDB $
+; Revision 0.1  1995/01/10  14:18:09  Gérard_Cornu
+; Initial version.
+;
+;
+;-- Language specific string definitions --------------------------------------
+
+; ENGLISH -----------------------------
+(procedure english (
+   (set MSG_BAD_KICK "%s needs at least system software 2.04.")
+   (set MSG_INSTALL (cat "\nThis section lets you install the %s executable.\n\n"
+                         "If you choose to skip this part you'll be given the choice to"
+                         " install the documentation for %s."))
+   (set MSG_INSTALL_HELP "\n\n    hello ;-)")
+   (set MSG_DESTINATION (cat "Where would you like %s to be installed?\n"
+                        "(NO drawer will be created)"))
+   (set MSG_COPYING "Going to copy %s to %s.")
+   (set MSG_WHATDOC "Install the documentation in AmigaGuide\nformat for this language:")
+   (set MSG_NONE "none")
+   (set MSG_WHEREDOC "Where shall I put the documentation?")
+   (set MSG_YES "Yes")
+   (set MSG_NO "No")
+   (set MSG_PROCEED "Proceed")
+   (set MSG_SKIP "Skip this part")
+   (set MSG_THANKS "\n\nThanks for installing %s.")
+   (set docfile 0)
+))
+
+; FRANÇAIS ----------------------------
+(procedure français (
+   (set MSG_BAD_KICK "%s nécessite le système 2.04 minimum.")
+   (set MSG_INSTALL (cat "\n\nCette partie vous permet d'installer l'exécutable %s.\n\n"
+                         "Si vous choisissez de passer cette partie il vous sera alors"  
+                         " proposé d'installer la documentation pour %s."))
+   (set MSG_INSTALL_HELP "\n\n    Coucou ;-)")
+   (set MSG_DESTINATION (cat "Où désirez-vous installer %s?\n"
+                        "(AUCUN tiroir ne sera créé)"))
+   (set MSG_COPYING "Prêt â copier %s vers %s.")
+   (set MSG_WHATDOC "Installation de la documentation au format\nAmigaGuide pour ce langage:")
+   (set MSG_NONE "aucun")
+   (set MSG_WHEREDOC "Où dois-je mettre la documentation?")
+   (set MSG_YES "Oui")
+   (set MSG_NO "Non")
+   (set MSG_PROCEED "Installer")
+   (set MSG_SKIP "Passer cette partie")
+   (set MSG_THANKS "\n\nMerci d'avoir installé %s.")
+   (set docfile 1)
+))
+;------------------------------------------------------------------------------
+
+(if (= @language "english")  (english))
+(if (= @language "français") (français))
+
+(set vernum (getversion))
+(set osversion (/ vernum 65536))
+(if (>= osversion 39)
+   (set reader "MultiView") 
+   (set reader "AmigaGuide")
+)
+
+(if (< osversion 37)
+   (abort (MSG_BAD_KICK @app-name))
+)
+
+(set installed 0)
+
+(if (askbool (prompt (MSG_INSTALL @app-name @app-name)) (help MSG_INSTALL_HELP) 
+             (choices MSG_PROCEED MSG_SKIP) (default 1))
+   (   
+      (set dest_dir
+         (askdir (prompt (MSG_DESTINATION @app-name @app-name))
+                 (help @askdir-help)
+                 (default @default-dest)
+                 (newpath)
+         )
+      )
+      (set @default-dest dest_dir)
+
+      (copyfiles  (prompt (MSG_COPYING "ReadRDB" @default-dest))
+                  (help @copyfiles-help)
+                  (source "/ReadRDB")
+                  (dest @default-dest)
+      )
+      (set installed 1)
+   )
+)
+
+(set docfile
+    (askchoice  (prompt MSG_WHATDOC)
+                (help @askchoice-help)
+                (choices "english" "français" MSG_NONE)
+                (default docfile))
+)
+(set docdir
+    (if (AND (= @user-level 2) (<> docfile 2))
+        (askdir (prompt MSG_WHEREDOC)
+                (help @askdir-help)
+                (default @default-dest))
+        (@default-dest)
+    )
+)
+
+
+(select docfile
+
+    (copyfiles  (help @copyfiles-help)
+                (source "/Docs/English.guide")
+                (dest docdir)
+                (newname "ReadRDB.guide")
+                (infos)
+                (optional "nofail")
+    )
+    (copyfiles  (help @copyfiles-help)
+                (source "/Docs/Français.guide")
+                (dest docdir)
+                (newname "ReadRDB.guide")
+                (infos)
+                (optional "nofail")
+    )
+    ("")  ; "none"
+)
+
+(if (exists (tackon docdir "ReadRDB.guide.info") (noreq))
+   (
+      (tooltype   (dest (tackon docdir "ReadRDB.guide"))  (noposition) (setdefaulttool reader))
+      (set installed 1)
+   )
+)
+
+(if (= 1 installed)
+   (exit (MSG_THANKS @app-name))
+   (exit (quiet))
+)

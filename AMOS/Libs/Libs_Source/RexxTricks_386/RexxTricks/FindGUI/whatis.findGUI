@@ -1,0 +1,39 @@
+/* Configfile for FindGUI.rexx V1.0 (c) in 1996 by Nils Görs */
+LZX
+rx REXX:Dopus/LhaEx.DOpus %s %p RAM:
+LHArc
+rx REXX:Dopus/LhaEx.DOpus %s %p RAM:
+JPEG
+FastView "%s" INFO SCALE
+GIF
+FastView "%s" INFO SCALE
+ILBM
+showiff "%s"
+Doc
+most "%s" PUBSCREEN=%p
+Text
+most "%s" PUBSCREEN=%p
+Rexx
+most "%s" PUBSCREEN=%p
+Guide
+Multiview "%s" PUBSCREEN=%p
+Exe
+MultiView "%s" PUBSCREEN=%p
+Source C
+MultiView "%s" PUBSCREEN=%p
+ST Mod
+MultiPlayer Play="%s" SCREEN="%p"
+XPK STMod
+MultiPlayer Play="%s" SCREEN="%p"
+Icn Tool
+rx REXX:IconInfo.rexx "%s"
+Dir
+Dir "%s" >CON:0/320//194/Dir/CLOSE/WAIT
+Script
+most "%s" PUBSCREEN=%p
+ANIM
+c:BigANIM "%s"
+8SVX
+dh0:music/AudioMasterIV/KSound FILTER BEIDE "%s"
+Icn Pjct
+rx rexx:IconInfo.rexx "%s" %p

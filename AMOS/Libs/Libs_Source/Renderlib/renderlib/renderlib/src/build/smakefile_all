@@ -1,0 +1,24 @@
+
+RM = delete all quiet
+CC = sc resopt nover noerrhigh noicons nominc memsize=huge params=r data=fo prec=mixed strmer nostkchk idir=/include DEF __USE_SYSBASE=1
+LD = sc resopt nover link nostartup smallcode smalldata addsym data=fo
+#DEBUG = debug=line
+CPU = cpu=68060 math=68882
+OPT = opt opttime optloop optpeep optsched optinline optinlocal optdep=6 optcomp=6 optrdep=10
+
+CFLAGS = $(CPU) $(OPT) $(DEBUG)
+
+LIBS = lib:debug.lib
+
+all: /libs/render.library
+
+lib/rnd_all.o: rnd_all.c
+	$(CC) $(CFLAGS) rnd_all.c objname $@ disasm lib/rnd_all.asm
+
+/libs/render.library: lib/rnd_all.o
+	$(LD) $(CPU) from lib/rnd_all.o to $@ lib $(LIBS) with <<
+		linkeropts="noalvs"
+	<
+
+clean:
+	-$(RM) lib/*.o /libs/render.library

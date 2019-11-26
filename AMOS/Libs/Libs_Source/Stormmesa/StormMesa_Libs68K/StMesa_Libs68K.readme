@@ -1,0 +1,26 @@
+Short:    3D graphics library
+Author:   s.jordan@haage-partner.com (Sam Jordan), Various 
+Uploader: lombi@iprimus.com.au (Lorence Lombardo)
+Type:     util/libs
+Architecture: m68k-amigaos
+Version: 3.1
+
+
+
+                         StormMESA V3.1
+A freeware (GNU) 3D graphics library for 68K- and PowerPC AMIGA's
+              Almost completely OpenGL compatible
+
+             Based on MESA V3.0 beta 8 by Brian Paul
+             Based on AMESA V1.6 by Stefan Zivkovic
+
+  StormMESA V3.0 is presented by HAAGE & PARTNER Computer Gmbh
+ StormMESA V3.0 implementation maintained by Sam Jordan - 10.12.98
+
+
+
+Feeling bored ?  :)
+Why not check out this URL ?
+
+http://home.iprimus.com.au/lombi/1/homepage.htm
+

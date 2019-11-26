@@ -1,0 +1,279 @@
+# Swedish pronounciation rules for translator.library V42.1
+# $VER: svenska.accent 0.5 (29.4.95)
+#
+# By Joakim Möller, jmoller@algonet.se
+#
+
+# Declare classes.
+
+%class digit 0 1 2 3 4 5 6 7 8 9
+%class vowel a e i o u y å ä ö
+%class cons b c d f g h j k l m n p q r s t v w x z
+%class spc " "
+
+# Stress the second syllable with level 2.
+# (want to stress the first with level 1 too, but I haven't found out how..)
+
+%stress 2
+%emphasis 2
+
+# Swedish letters A-Ö including lots of words..
+
+[ADJÖ] = AH2YER
+[AI] = AY
+[AO] = AW
+[AU] = AWOH
+[A](cons)(cons) = AH
+[A](cons) = AA
+[A]$ = AH
+[A] = AA
+
+$[B]$ = BEH
+[B] = B
+
+$[C]$ = SEH
+[CC] = CH
+$[CH](cons+) = K
+$[CH](vowel+) = SH
+[CK] = K
+[C] = S
+
+$[DIES] = DIYS
+$[DJ] = Y
+[D]R = DX
+$[D]$ = DEH
+[D] = D
+
+[EI] = EY
+[E] = EH
+
+$[F]$ = EHF
+[F] = F
+
+$[G]$ = GEH
+[GE] = YEH
+$[GJ] = Y
+[GN]$ = NX
+[GURKA] = GERKAH
+$[GY](cons+) = YIY
+[G] = G
+
+$[H]$ = /HAO
+[H] = /H
+
+[IE] = IHEH
+$[IGEN] = IHYEHN
+[I](cons)(cons) = IH
+[I](cons) = IY
+[I]$ = IH
+[I] = IY
+
+$[J]$ = YIH
+$[JUSTE] = SHUH2SSTTEH
+[J] = Y
+
+$[K]$ = KAO
+$[KEJ] = SHEHY
+$[KEL] = SHEHL
+$[KEM] = SHEHM
+[KJ] = SH
+[KÄ] = SHAE
+[K] = K
+
+$[L]$ = EHL
+[LOUISE] = LOWUWIY2S
+[LÅTSAS] = LAO2SSAHS
+[L] = L
+
+$[M]$ = EHM
+[M] = M
+
+$[N]$ = EHN
+[NA] = NAX
+[NG] = NX
+[N] = N
+
+$[OCH]$ = OWKK
+[OJ] = OY
+[O](cons)(cons) = OH
+[O](cons) = OW
+[O] = OW
+
+$[P]$ = PEH
+[POST] = PAOST
+[P] = P
+
+$[Q]$ = KUW
+[Q] = K
+
+$[R]$ = EHR
+(vowel)[R](vowel) = RR
+[R] = R
+
+$[S]$ = EHS
+[SCHY]SST = SHUH
+$[SCH] = SH
+[SI](vowel+) = TSHIH
+$[SJ] = SH
+[SKE] = SHEH
+$[SKJ] = SH
+$[STJ] = SH
+[S] = S
+
+$[T]$ = TEH
+[TI](vowel+) = TSHIH
+[TJUGO] = SHUW2GOW
+[TJ](vowel+) = CH
+(vowel)[T](vowel) = TT
+[T] = T
+
+[U] = UW
+
+$[V]$ = VEH
+[V] = V
+
+$[W]$ = DUWBBEH2LVEH
+[W] = V
+
+$[X]$ = EHKS
+[X] = KS
+
+[Y] = IY
+
+$[Z]$ = SEH2TAH
+[Z] = S
+
+[Å] = AO
+
+[Ä] = AE
+
+[Ö] = ER
+
+
+# All numbers between 1-9999
+
+(digit+)[0](digit*)$ = " "
+[0] = NOHLL
+
+[1](digit)(digit)(digit)$ = EHTTTUWSEHN
+[1](digit)(digit)$ = EHTT/HUWNDXRAH
+
+[19] = NIHTTOWN
+[18] = AARTOWN
+[17] = SHUWTTOWN
+[16] = SEHKSTOWN
+[15] = FEHMTOWN
+[14] = FYOHRTOWN
+[13] = TREHTTOWN
+[12] = TOHLV
+[11] = EHLVAH
+[10] = TIYOW
+
+[1:A] = FERRSTAH
+[1] = EHTT
+
+[2](digit)(digit)(digit)$ = TVAOTUWSEHN
+[2](digit)(digit)$ = TVAO/HUWNDXRAH
+
+[20]$ = SHUWGOW
+[2](digit)$ = SHUWGOW
+[2:A] = AHNDRAH
+[2] = TVAO
+
+[3](digit)(digit)(digit)$ = TREHTUWSEHN
+[3](digit)(digit)$ = TREH/HUWNDXRAH
+
+[30]$ = TREHTTIYOW
+[3](digit)$ = TREHTTIYOW
+[3:DJE] = TREHDYEH
+[3] = TREH
+
+[4](digit)(digit)(digit)$ = FIYRAHTUWSEHN
+[4](digit)(digit)$ = FIYRAH/HUWNDXRAH
+
+[40]$ = FERTIYOW
+[4](digit)$ = FERTIYOW
+[4:E] = FYAERDEH
+[4] = FIYRAH
+
+[5](digit)(digit)(digit)$ = FEHMTUWSEHN
+[5](digit)(digit)$ = FEHM/HUWNDXRAH
+
+[50]$ = FEHMTIHOW
+[5](digit)$ = FEHMTIHOW
+[5:E] = FEHMTEH
+[5] = FEHM
+
+[6](digit)(digit)(digit)$ = SEHKSTUWSEHN
+[6](digit)(digit)$ = SEHKS/HUWNDXRAH
+
+[60]$ = SEHKSTIYOW
+[6](digit)$ = SEHKSTIYOW
+[6:E] = SHAETTEH
+[6] = SEHKS
+
+[7](digit)(digit)(digit)$ = SHUWTUWSEHN
+[7](digit)(digit)$ = SHUW/HUWNDXRAH
+
+[70]$ = SHUWTTIYOW
+[7](digit)$ = SHUWTTIYOW
+[7:E] = SHUWNDEH
+[7] = SHUW
+
+[8](digit)(digit)(digit)$ = AOTTAHTUWSEHN
+[8](digit)(digit)$ = AOTTAH/HUWNDXRAH
+
+[80]$ = AOTTIYOW
+[8](digit)$ = AOTTIYOW
+[8:E] = AOTTOHNDEH
+[8] = AOTTAH
+
+[9](digit)(digit)(digit)$ = NIYOWTUWSEHN
+[9](digit)(digit)$ = NIYOW/HUWNDXRAH
+
+[90]$ = NIHTTIYOW
+[9](digit)$ = NIHTTIYOW
+[9:E] = NIYOHNDEH
+[9] = NIYOW
+
+[ "\ " ] = " "
+
+
+# Calculation..
+
+(digit+)[.](digit+) = " PUWNKT "
+(digit+)[,](digit+) = " KOHMMAH "
+(digit+)(spc*)[/](spc*)(digit+) = " DEHLAAT MEHD "
+(digit+)(spc*)[+](spc*)(digit+) = " PLUWS "
+(digit+)(spc*)[-](spc*)(digit+) = " MIYNUWS "
+(digit+)(spc*)[*](spc*)(digit+) = " GAONXEHR "
+(digit+)(spc*)[^](spc*)(digit+) = " UWPP/HERYTT IH "
+(digit+)(spc*)[=](spc*)(digit+) = " AER LIYKAH MEHD "
+(digit+)(spc*)[<](spc*)(digit+) = " AER MIHNDXREH AEN "
+(digit+)(spc*)[>](spc*)(digit+) = " AER STERRREH AEN "
+
+
+
+# Some signs.
+
+[-] = ,
+[...]$ = " OWKK SAO VIYDAARREH "
+[.]$ = .
+[,]$ = ,
+[!]$ = " "
+[.] = " PUWNKT "
+[%] = " PROWSEHNT"
+[@] = " AETT "
+[:] = ". "
+[;] = ". "
+[?] = ,
+[ "\(" ] = ,
+[ "\)" ] = ,
+[\\] = " "
+[ "\[" ] = " "
+[{] = " "
+[}] = " "
+[_] = " "
+[`] = " "
+[ "]" ] = " "
+

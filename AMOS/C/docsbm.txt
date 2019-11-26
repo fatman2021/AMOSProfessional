@@ -1,0 +1,16 @@
+BMOD player. (Loader and player)
+
+Usage:
+	bm <bmod-module>
+
+Note: Needs KickStart 2.0+. Sorry 1.3 users, you should upgrade.
+
+Note 2: Bm doesn't use XPK, so if you want to load XPK-packed files,
+unpack them first or use IPatch or similar runtime-unpacker.
+
+Note 3: The player is coded entirely with assembler and the loader
+	is coded with AmigaE 2.1b.
+
+XPK is Copyrighted © by Urban Dominik Müller.
+IPatch is Copyrighted © by K-P Koljonen.
+BM is Copyrighted © 1996-1997 by Tuomas Lukinmaa. All rights reserved.

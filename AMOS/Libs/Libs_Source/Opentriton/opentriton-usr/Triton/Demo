@@ -1,0 +1,11 @@
+; CD into the library directory
+cd libs37/
+
+; Eventually expunge old triton.library versions from memory
+avail flush <NIL: >NIL:
+
+; Run the Triton demo
+/demos/demo
+
+; For the case that this has been startet from a shell, CD back
+cd /

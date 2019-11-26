@@ -1,0 +1,311 @@
+; $VER: Install_StormMesa 1.0
+; By Hans-Jörg Frieden
+
+; English text
+(procedure english-text (
+	(set #yes "Yes")
+	(set #no  "No")
+	(set #welcome (cat
+		"Welcome to the installation of StormMesa 3.0")
+	)
+	(set #dest-prompt (cat
+		"Please select a place where you want StormMesa to be installed. "
+		"(No new drawer will be created). To perform an upgrade, you "
+		"should use 'mesa:'")
+	)
+	(set #main-copy-msg "Copying StormMesa...")
+	(set #libs-copy-msg "Copying shared library to LIBS: ")
+	(set #startup-prompt
+		(cat "Your User-Startup must be modified. This will add the command\n"
+			 "\"assign mesa: "
+		)
+	)
+	(set #startup-prompt-2 "\"\nto your user-startup.")
+	(set #stat-prompt (cat
+		"Do you want to see statistical information about 3D-Hardware "
+		"usage after an OpenGL application has been run from a shell?")
+	)
+	(set #noclamp-prompt (cat
+		"You seem to have a CyberVision3D hardware installed. Therefore "
+		"you should enable the env variable MESA/NOCLAMP, if you want "
+		"StormMesa to use the Virge's 3D features. Don't set this variable "
+		"if you want to use another 3D chip for hardware acceleration\n\n"
+		"Enable the variable MESA/NOCLAMP?")
+	)
+	(set #triple-prompt (cat
+		"This StormMesa version supports triple buffering, which can "
+		"accelerate demos in fullscreen mode. Triple buffering should "
+		"not be used for graphics boards with less than 8MB RAM\n\n"
+		"Enable triple buffering?")
+	)
+	(set #aga-prompt (cat
+		"If StormMesa 3.0 should be used under AGA and you have OS 3.0, "
+		"the \"NewWPA8\"-Patch must be installed. Do you want to copy it "
+		"to the C Drawer?")
+	)
+	(set #aga-copy "Copying NewWPA8 to C:")
+	(set #aga-msg (cat
+		"Note: This patch must be executed in your startup-sequence. Installer "
+		"can not do this automatically, you'll have to manually add the line\n"
+		"C:NewWPA8\n"
+		"in your startup-sequence, directly after the \"SetPatch\" call.")
+	)
+	(set #exit-msg (cat
+		"Installation is now complete. Now you can get and install "
+		"the demo archives with many example programs to test "
+		"the StormMesa software.")
+	)
+))
+
+
+; German text
+(procedure german-text (
+	(set #yes "Ja")
+	(set #no  "Nein")
+	(set #welcome (cat
+		"Willkommen zur Installation von StormMesa 3.0")
+	)
+	(set #dest-prompt (cat
+		"Bitte wählen Sie ein Verzeichnis aus, in das StormMesa installiert werden "
+		"soll (es wird keine neue Schublade erstellt). Um einen Upgrade "
+		"durchzuführen, verwenden Sie am besten 'mesa:'")
+	)
+	(set #main-copy-msg "Die StormMesa-Dateien werden kopiert...")
+	(set #libs-copy-msg "Kopiere Shared Library nach LIBS: ")
+	(set #startup-prompt
+		(cat "Ihre User-Startup Datei wird modifiziert und die Zeile\n"
+			 "\"Assign mesa: "
+		)
+	)
+	(set #startup-prompt-2 "\"\nwird hinuzugefügt")
+	(set #stat-prompt (cat
+		"Sollen nach Beendigung einer OpenGL-Aplikation statistische "
+		"Angaben über die Benutzung von vorhandener 3D-Hardware in der "
+		"Shell ausgegeben werden?")
+	)
+	(set #noclamp-prompt (cat
+		"Es scheint eine CyberVision3D-Hardware installiert zu sein. Deswegen "
+		"sollte die Env-Variable MESA/NOCLAMP gesetzt sein, wenn der Virge "
+		"fuer die Grafikausgabe genutzt werden soll. Diese Variable sollte "
+		"nicht gesetzt werden, wenn ein anderer 3D-Chip fuer die Ausgabe "
+		"genutzt werden soll\n\n"
+		"Soll die Variable MESA/NOCLAMP gesetzt werden?")
+	)
+	(set #triple-prompt (cat
+		"Dieser StormMesa-Release unterstuetzt Triple-Buffering, welches "
+		"Demos im Fullscreen-Modus beschleunigen kann. Triple-Buffering "
+		"sollte nicht mit Grafikkarten verwendet werden, welche weniger "
+		"als 8MB RAM haben\n\n"
+		"Soll Triple-Buffering aktiviert werden?")
+	)
+	(set #aga-prompt (cat
+		"Wenn StormMesa 3.0 im AGA-Modus verwendet wird und OS 3.0 vorhanden "
+		"ist, dann muss der \"NewWPA8\"-Patch installiert werden. Soll der Patch "
+		"ins C-Verzeichnis kopiert werden?")
+	)
+	(set #aga-copy "Kopiere NewWPA8 nach C:")
+	(set #aga-msg (cat
+		"Hinweis: Damit dieser Patch wirksam wird, muss in der Startup-Sequence "
+		"(am besten direkt hinter SetPatch) folgende Zeile eingefügt werden:\n"
+		"C:NewWPA8\n"
+		"Dieser Installer führt diese Änderung nicht durch, dies muß mit einem "
+		"Texteditor nachträglich gemacht werden.")
+	)
+	(set #exit-msg (cat
+		"Die Installation ist nun vollständig. Jetzt können Sie "
+		"die Demo-Archive mit vielen Beispielprogrammen besorgen "
+		"und installieren und so die StormMesa-Software ausprobieren".)
+	)
+))
+
+;
+; Procedure to copy a single library
+(procedure P_copy_single arg1
+    (if (exists (arg1))
+	(copylib
+		(confirm)
+		(prompt (cat #libs-copy-msg (fileonly(arg1))))
+		(help @copylib-help)
+		(source arg1)
+		(dest "LIBS:")
+		(optional "oknodelete" "askuser")
+	)
+    )
+)
+
+;
+; How can it be there's no way of specifying an environment variable?
+(procedure P_setenv arg1 arg2
+	(
+		(if (exists (tackon "ENV:" arg1) (noreq))
+			(delete (tackon "ENV:" arg1))
+		)
+		(if (exists (tackon "ENVARC:" arg1) (noreq))
+			(delete (tackon "ENVARC:" arg1))
+		)
+		(textfile
+			(dest (tackon "ENV:" arg1))
+			(append arg2)
+		)
+		(textfile
+			(dest (tackon "ENVARC:" arg1))
+			(append arg2)
+		)
+	)
+)
+
+; Load corresponding strings
+(if (= @language "deutsch")
+	(german-text)
+	(english-text)
+)
+
+(welcome #welcome)
+
+(if (exists "mesa:" (noreq))
+	(set #defdest "mesa:")
+	(
+	    (if (= @user-level 0)
+	      (
+		(if (not (exists "Work:StormMesa" (noreq)))
+		    (makedir "Work:StormMesa")
+		)
+		(set #defdest "Work:StormMesa")
+	      )
+	      (set #defdest "Work:")
+	    )
+	)
+)
+(set #defdest
+	(askdir
+		(prompt #dest-prompt)
+		(help @askdir-help)
+		(default #defdest)
+	)
+)
+(set @default-dest #defdest)
+(copyfiles
+	(prompt #main-copy-msg)
+	(help @copyfiles-help)
+	(source "AMIGA")
+	(dest (tackon #defdest "AMIGA"))
+	(all)
+	(infos)
+	(optional "oknodelete" "askuser")
+)
+
+
+; modify user-startup
+(if (NOT (exists "mesa:" (noreq)))
+    ((startup "StormMesa"
+	(prompt (cat
+		#startup-prompt
+		#defdest
+		#startup-prompt-2
+	))
+	(command (cat "Assign mesa: " #defdest))
+	(help @startup-help)
+    )
+    (makeassign "mesa" #defdest (safe)))
+)
+
+
+
+
+; Copy shared libraries
+; Single copy, because that's the only way to do version checking
+(P_copy_single "AMIGA/slibs/agl.library")
+(P_copy_single "AMIGA/slibs/aglu.library")
+(P_copy_single "AMIGA/slibs/aglut.library")
+(P_copy_single "AMIGA/slibs/agle.library")
+(P_copy_single "AMIGA/slibs/aglsmap.library")
+(P_copy_single "AMIGA/slibs/aglppc.library")
+(P_copy_single "AMIGA/slibs/agluppc.library")
+(P_copy_single "AMIGA/slibs/aglutppc.library")
+(P_copy_single "AMIGA/slibs/agleppc.library")
+(P_copy_single "AMIGA/slibs/aglsmapppc.library")
+
+; Create MESA and GLUT dirs in ENV:
+(makedir "ENV:MESA")
+(makedir "ENV:GLUT")
+(makedir "ENVARC:MESA")
+(makedir "ENVARC:GLUT")
+
+; - Ask and set MESA/STATS
+(set #stat
+	(askchoice
+		(prompt #stat-prompt)
+		(help @askchoice-help)
+		(choices #yes #no)
+		(default 0)
+	)
+)
+(if (= #stat 0)
+	(P_setenv "MESA/STATS" "1")
+	(P_setenv "MESA/STATS" "0")
+)
+
+; - Set MESA/NOCLAMP
+(if (exists "Devs:Monitors/CVision3D" (noreq))
+    (
+	(set #noclamp
+		(askchoice
+			(prompt #noclamp-prompt)
+			(help @askchoice-help)
+			(choices #yes #no)
+			(default 1)
+		)
+	)
+	(if (= #noclamp 0)
+		(P_setenv "MESA/NOCLAMP" "1")
+		(P_setenv "MESA/NOCLAMP" "0")
+	)
+    )
+    (
+		(P_setenv "MESA/NOCLAMP" "0")
+    )
+)
+(P_setenv "MESA/LOCKMODE" "3")
+
+(set #triple
+	(askchoice
+		(prompt #triple-prompt)
+		(help @askchoice-help)
+		(choices #yes #no)
+		(default 0)
+	)
+)
+(if (= #triple 0)
+	(P_setenv "MESA/TRIPLE" "1")
+	(P_setenv "MESA/TRIPLE" "0")
+)
+
+
+; - More env variables
+(P_setenv "MESA/FORCE_DB" "1")
+(P_setenv "GLUT/FORCE_DB" "1")
+
+; - Try to evaluate if NewWPA8 is required
+(if (= (database "chiprev") "AA")
+	(set #hasaga 1)
+	(set #hasaga 0)
+)
+	(if (= #hasaga 1)
+		(
+			(if (= (askchoice (prompt #aga-prompt) (help @askchoice-help) (choices #yes #no) (default 1) ) 0)
+				(
+					(copyfiles
+						(prompt #aga-copy)
+						(help @copyfiles-help)
+						(source "AMIGA/misc/NewWPA8/NewWPA8")
+						(dest "C:")
+						(optional "oknodelete force")
+						(confirm)
+					)
+					(message #aga-msg)
+				)
+			)
+		)
+	)
+
+(exit #exit-msg)

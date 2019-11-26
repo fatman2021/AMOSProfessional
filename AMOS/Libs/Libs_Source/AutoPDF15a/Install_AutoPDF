@@ -1,0 +1,7 @@
+echo Starting installation..
+copy AutoPDF c:
+copy AutoPDF.readme help:
+copy AutoPDF.library libs:
+echo AutoPDF can be found in your c: directory
+echo AutoPDF.readme can be found in your help: directory
+

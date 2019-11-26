@@ -1,0 +1,84 @@
+Version 0.1 :
+
+ -First release
+
+Version 0.2 :
+
+ -Added new return codes which are used by the new functions.
+
+ -Videoscape ASCII output in MWLMeshSave3D.
+
+ -Found a wrong surface handling in Lightwave in some special cases.
+
+ -The default name of materials changed, the old one was equal to a
+  chunk name in the Cinema4D file format.
+
+ -Added new shapes to the MeshWriter test program. Thanks to Sven for
+  his Plotter3D, in which I took the formulas for two mathematical shapes.
+
+ -Added the readme.mui file.
+
+ -Stephan gave me the hint to add a CTM, a current transformation matrix.
+  Like in VRML or OpenGL.
+  So you can change the translation, the rotation and the scale of the mesh,
+  which will be applied to all vertices when you add them.
+
+ -Added new functions :
+     MWLMeshVertexAdd
+       To add a vertex to the mesh, but the polygon of it is not
+       known for the moment.
+
+       Easier to make file converters by using this one, because
+       some file formats have a vertex list followed by a polygon
+       list, so you can convert the file by reading it once from
+       the top to the bottom.
+
+     MWLMeshPolygonVertexAssign
+       To assign an existing vertex to the most recent polygon.
+
+
+     MWLMeshCTMReset
+       Resets the current transformation matrix.
+
+     MWLMeshTranslationChange
+       Changes the current translation, in function of a
+       specific operation.
+
+     MWLMeshTranslationGet
+       Returns the current translation.
+
+     MWLMeshScaleChange
+       Changes the current scale, in function of a
+       specific operation.
+
+     MWLMeshScaleGet
+       Returns the current scale.
+
+     MWLMeshRotationChange
+       Changes the current rotation, in function of a
+       specific operation.
+
+     MWLMeshRotationGet
+       Returns the current rotation.
+
+     MWLMeshMaterialDiffuseColorSet
+       Set the diffuse color of a material.
+
+     MWLMeshMaterialDiffuseColorGet
+       Get the diffuse color of a material.
+
+ -Added a new sample with source : geo2any, inspired by Geo2Vrml.
+  Thanks to Stephan.
+
+ -Fixed the memory performance problem when deallocation it, thanks to Alex.
+
+ -Corrected the usage of the diffuse color instead of ambient.
+
+ -Enhanced the functionality of the MeshWriter testprogram.
+
+ -Fixed an uncorrect handling for the triangles theyr colorindexes
+  for Reflections output. So he Tron tank, by Stephan Bodmer, can
+  be converted with geo2any.
+
+ -Added the include file shortnames.h which redefines all function names,
+  but shorter, some one meant my function names are really large :)

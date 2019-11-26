@@ -1,0 +1,131 @@
+  
+
+                             Move 2.2a
+                             ---------
+Written by Asher Feldman
+
+Note: Move requires the Copy, Rename, and Delete commands in your c directory.
+
+Move 2.2a requires kickstart 2.04 or higher.   
+
+Changes since 2.2 
+-----------------
+Move 2.2 didn't work right with the '*' wildcard, even after it was
+activated.  This has been fixed, but in the process, Move grew to 
+a huge 872 bytes.  :-(
+
+What is it?
+-----------
+Move is a simple Un*x like "move" command.  It allows you to move files 
+to and from any device or directory.  It performs the same function as the 
+Move command on a directory utility, but from the CLI or Shell.  It can 
+also be used as a Rename command.  Move supports true (rename style) moves
+when moving files on the same device, while still allowing you to move files
+across volumes.
+
+Move will also allow you to move file links, and supports all standard 2.x
+wildcards.
+
+Usage
+-----
+                          Move [FROM] <arg1> [TO] <arg2>
+
+(The [FROM] and [TO] are optional)
+
+  <arg1> is the file you want to move.  It can contain wildcards, such as
+"#?.lha".  Or "*.lha" if you are using a program such as Starburst to
+enable the * wildcard on your system.
+
+  <arg2> is the destination.  It can be a filename, directory or device.
+  The "" wildcard may be used here, and stands for your current directory. 
+
+  To move the file "readme" to ram: you would enter: (FROM and TO not needed)
+
+                          Move FROM readme TO ram:
+
+
+  To move all files that have the prefix "mod" to the directory DH0:Music
+you would enter:
+
+                          Move mod* DH0:Music
+
+  To move "ram:readme" to your current directory you would enter:
+
+                          Move ram:readme ""
+
+  If you want to move every file in one directory to another, it would be:
+
+                          Move <dir> <dir>
+
+  Move can also be used to rename a file.  To change the name of the file 
+"SONG.MOD" to "MOD.SONG" you would enter:
+
+                          Move SONG.MOD MOD.SONG
+
+  You can move multiple files without using wildcards as well. For example,
+to move the files "lha", "uux", and "slect" to c: you could enter:
+  
+                          Move (lha|uux|slect) c:
+
+To move them all back to the current directory you would use:
+
+                          Move c:(lha|uux|slect) ""
+
+General Info
+------------
+  There were already two "Move" utilities floating around in the public
+domain that I knew of when I wrote this.  Both have built-in copy and
+delete routines.  I thought this was a waste of space, especially for those
+of us with very limited resources.  Thus I wrote Move, which takes advantage
+of the "Copy", "Rename, and "Delete" commands already on everyone's system. 
+This allows Move to be much smaller than the other "Move" utils, yet operate
+just as fast, or faster in some cases.  Move will accept all the standard
+2.0 wildcards (If you want to use * you must first activate it with a program
+such as Starburst)
+
+  Move will run much faster if you have the Copy, Rename, and 
+Delete commands in residence.
+
+                                 *     *     *
+
+NOTE:
+
+In the case of 
+
+   Move yy xx
+
+where the file xx already exists, xx will be overwritten without warning.
+
+
+How To Contact Me
+-----------------
+Send bug reports/comments, etc.. to:
+
+PORTAL:       Wizard0
+INTERNET:     asher@shell.portal.com
+              Wizard0@cup.portal.com  
+
+US Snail:     (send money here :-)                         
+
+   Asher Feldman
+   4791 Calle de Tosca             
+   San Jose, CA 95118
+
+Shareware Note
+--------------
+Move 2.2a is shareware.  If you find this program useful, and would like 
+to see further development, then please send a small donation (whatever you
+think Move is worth) to the above adress.  Thanks!
+
+And Now For The Legal Claptrap
+------------------------------
+If this program causes your computer to blow up, or your hard drive to 
+implode, or anything else that isn't too nice, then it's your fault, not
+mine.  This program is not "guaranteed" to do anything. (although if it
+doesn't, please send me (E)mail!)
+
+This program may be freely distributed as long as this doc file is included.
+
+
+                                                 A.F.
+

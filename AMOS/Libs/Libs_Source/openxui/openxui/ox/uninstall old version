@@ -1,0 +1,27 @@
+(set #hello_world "\n\nIf present, ALL of the previous OX version install is going to be deleted, including configuration and skins.\n\nYou should do this before you install the new version. If you have customized your skins and they are still in the default skins dir (sys:prefs/presets/ox) you might want to save them to annother place before you proceed.")
+
+(set #disclaimer "\n\nOX UN-INSTALL IS PROVIDED 'AS-IS' WITHOUT ANY WARRANTY. THE AUTHOR(S) CANNOT BE HELD LIABLE FOR ANY DAMAGE ARISING OUT OF THE (INABILITY OF MAKING) USE OF IT: USE AT YOUR OWN RISK.\n\nClick button to agree and to DELETE all the old OX files!")
+
+(set #ready "\n\nAll files of your installation of the previous OX version have been deleted.\n\nHave fun,\nAndreas G. Szabó ;-)")
+
+(message #hello_world)
+(message #disclaimer)
+
+(delete "sys:prefs/xuilibinfo" (infos))
+
+(delete "libs:xuimaster.library")
+(delete "libs:xui" (all))
+
+(delete "sys:prefs/presets/ox" (optional "force") (all) (infos))
+(delete "env:ox" (optional "force") (all))
+(delete "envarc:ox" (optional "force") (all))
+
+(delete "sys:prefs/presets/xui" (optional "force") (all) (infos))
+(delete "env:xui" (optional "force") (all))
+(delete "envarc:xui" (optional "force") (all))
+
+(message #ready)
+
+(exit (quiet))
+
+(welcome)

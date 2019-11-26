@@ -1,0 +1,85 @@
+head	1.1;
+access;
+symbols;
+locks
+	msbethke:1.1; strict;
+comment	@* @;
+
+
+1.1
+date	2000.01.25.16.45.59;	author msbethke;	state Exp;
+branches;
+next	;
+
+
+desc
+@Assembler routines for MRQ
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@
+; MRQasm.a
+; Assembler routines for MRQ
+;
+; ©1997-1999 by Matthias.Bethke <Matthias.Bethke@@gmx.net>
+; You are free to modify this source or use parts of it in your
+; own programs as long as they are distributed as freeware.
+
+; $Id:$
+;
+; $Log:$
+
+
+	MACHINE 68020
+
+	XREF _rtEZRequestAPatch
+	XREF _OldEasyRequestArgs
+	XREF _OldrtEZRequestA
+
+	XDEF _rtEZRequestA_Wedge
+	XDEF @@RDF_StuffChar
+	XDEF _CallOldERA
+	XDEF _CallOldrtEZRA
+
+_LVOEasyRequestArgs	= -558
+_LVOrtEZRequestA	= -66
+
+
+; StuffChar-function for RawDoFmt() with buffer checking
+@@RDF_StuffChar:
+	movem.l	a0/d1-d2,-(sp)
+	movem.l	(a3),d1/d2/a0
+	cmp.l	d2,d1
+	bge.s	.nowrite
+	move.b	d0,(a0,d1.w)
+	addq.l	#1,d1
+	move.l	d1,(a3)
+.nowrite:
+	movem.l	(sp)+,a0/d1-d2
+	rts
+
+
+; patched into rtEZRequestA() to avoid parameter register a4 to clash
+; with SAS/C's relative addressing via a4
+_rtEZRequestA_Wedge:
+	move.l	a5,-(sp)
+	move.l	a4,a5
+	jsr	_rtEZRequestAPatch
+	move.l	(sp)+,a5
+	rts
+
+
+; Calls the old EasyRequestArgs() function
+_CallOldERA:
+	move.l	_OldEasyRequestArgs,-(sp)
+	rts
+; Calls the old rtEZRequestA() function
+_CallOldrtEZRA:
+	move.l	_OldrtEZRequestA,-(sp)
+	rts
+@

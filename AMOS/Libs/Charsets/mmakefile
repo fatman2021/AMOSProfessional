@@ -1,0 +1,26 @@
+#   $Id: mmakefile.src 48431 2013-11-19 01:52:16Z jmcmullan $
+
+#   AROS metamakefile for codesetslib
+
+include $(TOP)/config/make.cfg
+
+#MM- workbench-libs-codesets : workbench-libs-codesets-charsets
+
+#MM workbench-libs-codesets-charsets
+
+
+.PHONY : workbench-libs-codesets-charsets
+
+#MM
+workbench-libs-codesets-charsets :
+	@cd $(SRCDIR)/$(CURDIR) && $(CPYDIRREC) -s $(SRCDIR)/$(CURDIR) -d $(AROS_LIBRARIES)/Charsets -e 
+
+
+# Delete generated makefiles
+#MM
+clean ::
+	@$(RM) $(TOP)/$(CURDIR)/mmakefile $(TOP)/$(CURDIR)/mmakefile.bak
+
+include $(SRCDIR)/config/make.tail
+
+BDID := $(BDTARGETID)

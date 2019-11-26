@@ -1,0 +1,85 @@
+currently Gallium3d shaders predefine all their inputs/outputs. We've
+handled all inputs/outputs the same way. e.g.
+VERT
+DCL IN[0]
+DCL OUT[0], POSITION
+DCL OUT[1], COLOR
+DCL CONST[0..9]
+DCL TEMP[0..3]
+or
+FRAG
+DCL IN[0], COLOR, LINEAR
+DCL OUT[0], COLOR
+-------------------------------------------------
+Geometry shaders introduce a new shader type, run after the vertices have been transformed (after the vertex shader), but before color clamping, flat shading and clipping.
+
+
+Along the support for geometry shaders we have added two major features to TGSI ("Tokenized Gallium Shader Instructions", our low level graphics language). 
+The first one was support for properties. Geometry shaders in Gallium introduced the notion of state aware compile. This is because compilation of a geometry shader is specific to, at the very least, the input and output primitive they respectively operate on and output. We deal with it by injecting PROPERTY instructions to the program as so:
+GEOM
+PROPERTY GS_INPUT_PRIMITIVE TRIANGLES
+PROPERTY GS_OUTPUT_PRIMITIVE TRIANGLE_STRIP
+(rest of geometry shader follows)
+The properties are easily extendable and are the perfect framework to support things like work-group size in OpenCL.
+The second feature is support for multidimensional inputs in shaders. The syntax looks as follows:
+DCL IN[][0], POSITION
+DCL IN[][1], COLOR
+which declares two input arrays. Note that the size of the arrays is implicit, defined by the GS_INPUT_PRIMITIVE property.
+
+-------------------------------------------------
+/**
+ * Make simple fragment texture shader:
+ *  IMM {0,0,0,1}                         // (if writemask != 0xf)
+ *  MOV OUT[0], IMM[0]                    // (if writemask != 0xf)
+ *  TEX OUT[0].writemask, IN[0], SAMP[0], 2D;
+ *  END;
+ */
+-------------------------------------------------
+void *
+util_make_fragment_tex_shader_writemask(struct pipe_context *pipe,
+                                        unsigned writemask )
+{
+   struct pipe_shader_state shader;
+   struct tgsi_token tokens[100];
+   struct tgsi_header *header;
+   struct tgsi_processor *processor;
+   struct tgsi_full_declaration decl;
+   struct tgsi_full_instruction inst;
+   const uint procType = TGSI_PROCESSOR_FRAGMENT;
+
+   case MODE_REPLACE: 
+      if (mask == WRITEMASK_XYZW && !saturate)
+	 return src[0];
+      else
+	 return emit_arith( p, OPCODE_MOV, dest, mask, saturate, src[0], undef, undef );
+   case MODE_MODULATE: 
+      return emit_arith( p, OPCODE_MUL, dest, mask, saturate,
+			 src[0], src[1], undef );
+
+
+-------------------------------------------------
+Context: Shaders
+VERT1.1
+DCL IN[0]
+DCL IN[1]
+DCL OUT[0], POSITION
+DCL OUT[1], COLOR
+DCL CONST[0..3]
+DCL TEMP[0]
+0: MUL TEMP[0], IN[0].xxxx, CONST[0]
+1: MAD TEMP[0], IN[0].yyyy, CONST[1], TEMP[0]
+2: MAD TEMP[0], IN[0].zzzz, CONST[2], TEMP[0]
+3: MAD OUT[0], IN[0].wwww, CONST[3], TEMP[0]
+4: MOV OUT[1], IN[1]
+5: END
+FRAG1.1
+DCL IN[0], COLOR, LINEAR
+DCL OUT[0], COLOR
+0: MOV OUT[0], IN[0]
+1: END
+Shaders delivered to driver as stream of tokens.
+Vertex shader inputs matched to context state by number.
+Vertex outputs matched to fragment inputs by semantic tags.
+Fragment inputs include interpolation information.
+Fragment outputs matched to fixed-function blending behaviour by semantic tags.
+Gallium shader representation was fairly complicated – ongoing simplification.

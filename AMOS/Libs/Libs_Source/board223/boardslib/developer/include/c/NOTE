@@ -1,0 +1,21 @@
+Note:
+
+The inline files in directory inline will work with GCC.
+The pragma files will work with SAS, Maxon, Storm, Dice and Aztec compiler.
+The proto files will work with all of these compilers!
+
+All these files were automatically made either by FD2Pragma or fd2inline.
+
+For GCC you may delete the pragma directory.
+
+For all the others you may delete the inline directory, but use pragma
+instead. Do not rename pragma to pragmas or change the file names! When
+pragma does not exist, please create it.
+
+You need not to modify any of the include files or change their names!
+
+
+Dirk Stöcker <stoecker@amigaworld.com>
+
+17. December 1997
+

@@ -1,0 +1,137 @@
+
+RexxMustHave 23.3
+   - Fixed a char added  to the result of System()
+   - Added ConverToUTF8() and ConvertUTF8()
+
+RexxMustHave 23.2
+   - Added SameLock() function
+
+RexxMustHave 23.1
+   - Recompile
+
+RexxMustHave 23.0
+   - Added Open/CloseWorkBench() functions
+
+RexxMustHave 22.8
+   - ReadTextClip() generating error 3 on empty
+     clip: fixed
+
+RexxMustHave 22.7
+   - StemFields() function added
+
+RexxMustHave 22.6
+   - ReadTextClip() changed to make it work with that
+     EditPad
+
+RexxMustHave 22.5
+    - New rxtoolkit.library to fix some ReadTextClip()
+      problem
+    - ReadTextClip() documentation fixed
+
+RexxMustHave 22.4
+    - System() fixed
+
+RexxMustHave 22.3
+    - IsRexxMsg() added
+    - WriteFile() modified to prevent clearing a file
+      on a write-protected device
+    - Temp-files modified to check if the file exists
+      on exit to prevent nosense waiting
+
+RexxMustHave 22.2
+    - IsIcon() added
+    - AddressOfVar() added
+    - RawReplyMsg() added
+
+RexxMustHave 22.1
+    - ARexxCopyright() added
+
+RexxMustHave 22.0
+    - Little changes to WriteToolTypes() and
+      SetIconAttrs()
+
+RexxMustHave 21.9
+    - System() fixed against Inuput()==Output() again
+
+RexxMustHave 21.8
+    - System() fixed against Inuput()==Output()
+
+RexxMustHave 21.7
+    - Some changes and added to icons and
+      appicons manipulation
+
+RexxMustHave 21.6
+    - Some changes to time and date functions
+
+RexxMustHave 21.5
+    - Internal
+
+RexxMustHave 21.4
+    - Sort function now permits to create an index
+      rather that makeing an in place sort
+
+RexxMustHave 21.3
+    - Sort function reads from 0: fixed
+
+RexxMustHave 21.2
+    - Sort function added
+
+RexxMustHave 21.1
+    - Some optimization
+
+RexxMustHave 20.3
+    - Bug in objects deallocation: fixed
+
+RexxMustHave 20.2
+    - Memory allocations are now all pooled
+    - MacroEnv() was broken: fixed
+
+RexxMustHave 20.1
+    - EasyRequest() reads from 0: fixed
+
+RexxMustHave 20.0
+    - Some little changes
+    - Sources made public
+
+RexxMustHave 19.2
+    - Now all RexxMustHave allocated resources are freed
+      after any other (f.e. a TempFile an application is
+      disposed after a RxMUI/Application and after a
+      RxSocket/Socket)
+
+RexxMustHave 19.1
+    - Internal
+
+RexxMustHave 19.0
+    - Many changes
+    - Linked with a new rxtoolkit.lib
+    - New dispatcher interface
+
+RexxMustHave 18.0
+    - Hummmmmmm
+
+RexxMustHave 17.1
+    - System() fixed and documentated. It also accepts
+      a third arguments: a var name heree to store the
+      output
+    - some optimization
+
+RexxMustHave 17.0
+    - RadToolTypes returns wrong result if no
+      tooltype was found: fixed
+    - Recompiled with a new rxtoolkit.lib
+
+RexxMustHave 16.6
+    - Added the FixEBug to AddCx()
+
+RexxMustHave 16.5
+    - Internal debugging
+
+RexxMustHave 16.2
+    - ReadArgs() rewritten
+    - ReadToolTypes() and WriteToolTypes() added
+
+RexxMustHave 15.1
+    - SetStem() bugged: fixed
+    - Functions dispatcher updated
+    - français catalog added

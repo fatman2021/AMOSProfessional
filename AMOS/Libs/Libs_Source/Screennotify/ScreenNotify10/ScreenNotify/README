@@ -1,0 +1,159 @@
+ScreenNotify 1.0                                               26.03.1995
+
+
+I. DISCLAIMER
+-------------
+
+   Permission is granted to make and distribute verbatim copies  of  this
+manual provided the copyright  notice  and  this  permission  notice  are
+preserved on all copies.
+
+COPYRIGHT
+
+   Copyright (C) 1995 Stefan Becker
+
+   No program, document, data file or  source  code  from  this  software
+package, neither in whole nor in part, may be included or used  in  other
+software packages unless it is authorized by a  written  permission  from
+the author.
+
+
+NO WARRANTY
+
+   There is no warranty for this software package.  Although  the  author
+has tried to prevent errors, he can't guarantee that the software package
+described in this document is 100% reliable. You are therefore using this
+material at your own risk. The author cannot be made responsible for  any
+damage which is caused by using this software package.
+
+
+DISTRIBUTION
+
+   This software package is freely distributable. It may be  put  on  any
+media which is used for the distribution of free  software,  like  Public
+Domain disk collections, CDROMs, FTP servers or bulletin board systems.
+
+   In  order  to  ensure  the  integrity  of   this   software   package,
+distributors should use the original  archive  file  ScreenNotify1_0.lha.
+The author cannot be made responsible if this software package has become
+unusable due to modifications of the archive contents or of  the  archive
+file itself.
+
+   There is no limit on the costs  of  the  distribution,  e.g.  for  the
+media, like floppy disks, streamer tapes or compact discs, or the process
+of duplicating. Such limits have been proven to be harmful to the idea of
+freely distributable software, e.g. instead of reducing the price of  the
+floppy disk below the limit, the software was  simply  removed  from  the
+master disk.
+
+   Although the author does not impose any limit on the  distribution  of
+this software package, he would like to express his personal opinions  on
+this matter:
+
+   * This software package should be made available to everyone  free  of
+     charge whenever it is possible.
+
+   * If you have acquired this software package under  normal  conditions
+     from a Public Domain dealer on a floppy disk at a price higher  than
+     5DM or US $5, then you have definitely paid too much.  Please  don't
+     support this improper profit making  any  longer  and  switch  to  a
+     cheaper source as soon as possible.
+
+
+USAGE RESTRICTIONS
+
+   No program, document, data file or  source  code  from  this  software
+package, neither in whole nor in part, may be used on any  machine  which
+is used
+
+   * for the research, development, construction, testing  or  production
+     of weapons or other military applications. This  also  includes  any
+     machine which is  used  in  the  education  for  any  of  the  above
+     mentioned purposes.
+
+   * by people who accept, support or use violence against other  people,
+     e.g. citizens from foreign countries.
+
+
+II. What is ScreenNotify?
+-------------------------
+
+Starting with AmigaOS V37 the Workbench offers a library with some useful
+functions for applications. Although this is a _BIG_ improvement over the
+old Workbench there are still some important features missing.  The  most
+annoying one is that an application with an open window on the  Workbench
+screen prevents the closing of the screen, e.g. after pressing  "Use"  in
+the ScreenMode preferences editor.
+
+To circumvent these programs have either to  patch  the  CloseWorkBench()
+and OpenWorkBench() functions  in  the  intuition.library  or  to  add  a
+notification for the screenmode.prefs file. The ideal solution would be a
+new App* message from the Workbench, but  as  we  all  know  a  Workbench
+update/rewrite is not very likely in the near future :-(
+
+ScreenNotify offers  an  intermediate  solution.  It  patches  the  above
+mentioned functions and offers a notification service for  clients.  This
+hides the "dirty" things in one location and offers a clean interface  to
+the outside world. Clients only  have  to  close  their  windows  on  the
+Workbench screen after receiving a CLOSE notification. They may open them
+again after receiving an OPEN notification.
+
+Additionally ScreenNotify patches CloseScreen() and PubScreenStatus(). It
+can therefore offer a notification when a  public  screen  is  closed  or
+opened. This may be useful for utilities  which  open  their  windows  on
+public screens.
+
+
+III. Installation
+-----------------
+
+Just copy libs/screennotify.library to LIBS:. When a  program  opens  the
+library the patches will be  installed.  The  library  can  remove  those
+patches as long as no other program  patches  the  functions.  This  will
+automatically happen when the library is asked to remove itself.
+
+NOTE: Removing patches is a dangerous operation! The library tries to  be
+careful when removing the patches, but the machine may still crash  under
+certain conditions.
+
+Programs which use ScreenNotify should be started after  IPrefs,  because
+it also patches CloseWorkBench()/OpenWorkBench().
+
+
+IV. Warnings
+------------
+
+Programs which use ScreenNotify  will  cause  dead  locks  under  certain
+conditions. When a dead lock occurs you  can't  move  the  mouse  pointer
+anymore or enter anything on the keyboard. These dead locks occur most of
+the time when other programs want to close a public screen.
+
+Unfortunately there is no way to  circumvent  this  problem,  so  if  you
+experience dead locks with many of  your  normal  applications  then  you
+can't use ScreenNotify at all and MUST remove the screennotify.library.
+
+
+V. History
+----------
+
+1.0 (26.03.1995)
+    - Initial release
+
+
+V. Other information
+--------------------
+
+The programs in this package were developed using DICE 3.0. You will find
+the source codes in the directory  "src".  Use  "dmake"  to  compile  the
+programs.
+
+Authors EMail address:
+
+    stefanb@yello.ping.de
+
+Authors postal address:
+
+            Stefan Becker
+            Verkehrstrasse 11
+    D-44809 Bochum
+            GERMANY

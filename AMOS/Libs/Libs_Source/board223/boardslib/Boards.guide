@@ -1,0 +1,295 @@
+@database Boards.guide
+@width 80
+@wordwrap
+@Node Main "Boards.library: Table of contents"
+
+    
+
+                     boards.library V 2.23
+
+        (c) by Thomas Barth (18-Mai-2000)
+        (c) by Torsten Bach (22-Nov-98)
+
+        email: tbarth@t-online.de
+
+
+
+          -- TABLE OF CONTENTS --
+
+
+    1. @{" Introduction             " link Introduction}
+    2. @{" Copyright                " link Copyright}
+    5. @{" Usage                    " link Usage}
+    4. @{" ShowBoards               " link ShowBoards}
+    5. @{" Address                  " link Address}
+    6. @{" History                  " link History}
+    7. @{" Credits                  " link Credits}
+
+@EndNode
+@Node Introduction "Boards.library: Introduction"
+
+The idea to write this library was the "expname.library", which was written
+by Richard Koerber. But his update-morale wasn't not very good (only after
+releasing my first version a new expname.library was available) and the code
+is also full of errors. That`s why I wrote my own.
+
+This library is able to decode the manufacturer ID and product ID of the
+expansion boards. If the board name is known, its string is returned;
+otherwise you will receive the string "Unknown" followed by the decimal
+value of the ID.
+
+If you found any unknown board then don't hestitate and send me the
+* Manufacturer name and ID number
+* Product name and ID number
+of all unknown boards fast as possible! :-)
+You can use @{"ShowBoards" link ShowBoards 0} to list your boards. Contact me under my @{"Address" link Address 0}.
+
+@EndNode
+@Node Copyright "Boards.library: Copyright"
+
+@{U}  COPYRIGHT  @{UU}
+
+This software and also the name "boards.library" is copyright by
+Thomas Barth. That means that you are @{b}NOT ALLOWED@{ub} to modify the
+program and documentation in any way.
+
+You are also @{b}NOT@{ub} allowed to use this software or any part of it for
+any other purpose than that one mentioned in its documentation. You
+are @{b}NOT@{ub} allowed to resource any part of the packet.
+
+
+@{U}  DISTRIBUTION  @{UU}
+
+This package is @{i}FREEWARE. @{ui}That means you are allowed to redistribute
+this package as long as you match the following items:
+
+- It`s not allowed to use the name "boards.library" for pseudo-libraries
+  (especially by Richard Koerber)
+
+- You are allowed to add the boards.library (the orginal) to your own
+  archives without the complete package without my permission. (But only
+  for not commercial use !) 
+
+- This package may be freely distributed  via  BBSs,  InterNet/UseNet,
+  software  libraries such as Fred Fish's and Aminet CD-ROM, and other
+  similar electronic channels.
+
+- Disk magazines and services that charge extra for file transfers may
+  NOT distribute it without written permission by the developer!
+
+- You are allowed to use the boards.library in a commercial product,
+  but only with permission of me.
+
+
+@{U}  DISCLAIMER  @{UU}
+
+  THERE IS NO LIABILITY TO THIS PROGRAM-PACKAGE,IN REFERENCE TO THE
+  ASSERTED LAWS. THE COPYRIGHT OWNERS, AND/OR A  THIRD PARTY, PLACE
+  THIS PROGRAM PACKAGE AT YOUR DISPOSAL "AS  IS" (EXCEPT WHERE THIS
+  IS FIXED ANYWHERE ELSE IN A WRITTEN WAY) WITHOUT ANY GUARANTEE IN
+  ANY  FORM (INDIRECT OR DIRECT FORM). THE FULL RISK OF QUALITY AND
+  FUNCTIONALITY  OF THIS PROGRAM IS AT YOUR OWN. IF THE PROGRAM HAS
+  A BUG, YOU HAVE TO PAY  ALL COSTS  OF THE NECESSARY SERVICE-WORKS
+  AND REPAIRS FOR YOURSELF.
+
+  UNDER  NO  CIRCUMSTANCES,  THE  COPYRIGHT OWNERS OR A THIRD PARTY 
+  DISTRIBUTING THIS PROGRAM PACKAGE, AS ALLOWED, JUST  BEFORE,  CAN
+  NOT  BE  HELD  RESPONSIBLE  FOR  ANY  DAMAGE CAUSED IN ANY USUAL,
+  SPECIAL, OR ACCIDENTAL WAY OR BY THE PROGRAM PACKAGE (SURROUNDING
+  BUT NOT RESTRICTED ARE THE LOSS OF DATA OR NOTCORRECTLY DISPLAYED
+  DATA OR LOSSES CAUSED BY YOU OR A THIRD PARTY OR BY A FAULTY WORK
+  OF THIS PROGRAM PACKAGE  WITH  OTHER PROGRAMS), ALSO IF THE OWNER
+  OR A THIRD PARTY HAS BEEN POINTED AT SUCH POSSIBILITIES OF DAMAGE.
+
+@EndNode
+@Node Usage "Boards.library: Usage"
+
+@{U}  USAGE  @{UU}
+
+It is very simple to use the boards.library.
+
+1.    GetBoardName()
+----------------------------------------------------------------------
+
+If you want to get the name of a special expansion board, you can pass
+the manufacturer ID and product ID directly to GetBoardName() by
+setting the pointer of the ConfigDev parameter to NULL.
+
+If you want to get the name of all expansion boards or of a special
+expansion board, you have to get a ConfigDev structure first. Pass
+this structure to GetBoardName(), and ... :-)
+
+
+2.    NextBoardInfo()
+----------------------------------------------------------------------
+
+You have to use AllocBoardInfo() to allocate BoardInfo-structure. You're
+able to change the stringformat with some flags.
+Then you can use NextBoardInfo() to fill the BoardInfo-structure. Many
+informations are available (all in ASCII). For futher informations look
+into the autodocs and includes.
+If you don't need the BoardInfo-structure anymore, you have to
+deallocate it with FreeBoardInfo().
+ 
+
+@EndNode
+@Node ShowBoards "Boards.library: ShowBoards"
+
+ShowBoards
+----------
+
+ShowBoards is a small tool which uses the boards.library. It lists all
+connected expansion boards, shows names (if possible), address , size, 
+manufacturer ID, product ID, flags, type and Serialnumber.
+If you use the argument "ALLKNOWN", all known boards are displayed.
+
+ShowBoardsMUI
+-------------
+
+This is the MUI-Version of ShowBoards. It shows all your boards and some
+information about your system on the mainpage. On the other page you
+can see all known boards. You can print your boards to a selected path
+by using "Print". "About" shows some informations about the program a the
+author.
+
+
+
+If there are entries which are introduced by a 'unknown' instead of a name,
+you should send @{"me" link Address 0} a description of the missing board
+asap with the following infos:
+
+    - ManufacturerID   Manufacturer name
+    - ProductID        Product name
+
+    e.g.    Manufacturer    #2167    Village Tronic
+            Product         #12      Picasso II
+
+            I would appreciate your support ...
+
+@EndNode
+@Node Address "Boards.library: address"
+
+@{U}  E-MAIL  @{UU}
+
+  Please send bug-reports, board descriptions, flames to...
+
+    @{B}tbarth@t-online.de@{UB}
+
+
+@{U}  SNAIL MAIL  @{UU}
+
+  If you want to send me a letter, then write to:
+
+    @{B}Thomas Barth
+    Prager Starﬂe 2/0305
+    99091 Erfurt
+    Germany@{UB}
+
+@EndNode
+@Node History "Boards.library: History"
+
+@{B}V 1.0 @{UB}    ∑ First release
+        ∑ Knows 150+ Boards
+
+@{B}V 2.0 @{UB}
+        ∑ added new Boards
+        ∑ added new Offsets
+        ∑ minor bug fixed (GetBoardName TRUE<->FALSE )
+        ∑ Guide+Developer files rewritten
+
+@{B}V 2.1 @{UB}
+        ∑ added new Boards
+
+@{B}V 2.2 @{UB}
+        ∑ added new Boards (209 Boards known)
+
+@{B}V 2.3 @{UB}
+        ∑ added new Boards (216 Boards known)
+
+@{B}V 2.4 @{UB}
+        ∑ added new Boards (247 Boards known)
+        ∑ added C-Includes
+        ∑ ShowBoards littlebit changed
+
+@{B}V 2.5 @{UB}
+        ∑ added new Boards (279 Boards known)
+
+@{B}V 2.6 @{UB}
+        ∑ added new Boards (293 Boards known)
+        ∑ added ShowBoardsMUI
+
+@{B}V 2.7 @{UB}
+        ∑ added new Boards (300 Boards known)
+        ∑ new ShowBoardsMUI
+
+@{B}V 2.8 @{UB}
+        ∑ added new Boards (309 Boards known)
+        ∑ added E-Modules
+
+@{B}V 2.9 @{UB}
+        ∑ added new Boards (314 Boards known)
+
+@{B}V 2.10 @{UB}
+        ∑ added new Boards (317 Boards known)
+        ∑ new ShowBoardsMUI (MUI 3.7 fix, Locale)
+
+@{B}V 2.11 @{UB}
+        ∑ added new Boards (346 Boards known)
+
+@{B}V 2.12 @{UB}
+        ∑ added new Boards (355 Boards known)
+
+@{B}V 2.13 @{UB}
+        ∑ added new Boards (357 Boards known)
+
+        ∑ i have changed my EMail
+
+@{B}V 2.14 @{UB}
+        ∑ added new Boards (361 Boards known)
+        ∑ new ShowBoards added
+
+@{B}V 2.15 @{UB}
+        ∑ added new Boards (365 Boards known)
+        ∑ some ShowBoardsMUI-Catalogs added
+
+@{B}V 2.16 @{UB}
+        ∑ added new Boards (370 Boards known)
+
+@{B}V 2.17 @{UB}
+        ∑ added new Boards (375 Boards known)
+
+        ∑ new Includes (thanx to Dirk Stoecker)
+
+@{B}V 2.18 @{UB}
+        ∑ added new Boards (379 Boards known)
+
+        ∑ new Catalogs added
+
+@{B}V 2.19 @{UB}
+        ∑ added new Boards (386 Boards known)
+
+@{B}V 2.20 @{UB}
+        ∑ added new Boards (388 Boards known)
+
+@{B}V 2.23 @{UB}
+        ∑ added new Boards (419 Boards known)
+
+@EndNode
+@Node Credits "Boards.library: Credits"
+
+ "Thanx" to the following guys
+ ------------------------------
+   - all people for sending me your board names
+   - Rainer Koschnick for C-Includes
+   - Eric Sauvageau for E-Modules
+   - Special thanks to Stefan Sommerfeld for his support
+     and the new WB-Replacement Scalos
+   - all guys from ALiENDESiGN for Bugreports, new ideas
+   - Commodore for the Amiga, one of the best computers!
+
+   - thanks to Torsten Bach, he creates this library
+
+                            ... enjoy  !!
+
+
+@EndNode

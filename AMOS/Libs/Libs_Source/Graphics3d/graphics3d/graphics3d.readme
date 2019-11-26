@@ -1,0 +1,140 @@
+Short:      3D graphics shared library V15.10
+Uploader:   p.biancalani@mbox.match.it
+Author:     p.biancalani@mbox.match.it
+Type:       util/libs
+Version	    15.10
+
+--- English ----
+First sorry for my bad English but I don't know it very well.
+This is a simple but complete graphic 3D library that use for visualization
+only the system library .
+Main feature include :
+
+   - Visualization of object in systems windows with single buffering.
+   - Support of polygons with one, two, tree and four vertex.
+   - Use of only fix point value than the math coprocessor is not
+     necessary, and is relatively fast on machines us A1200 base too.
+   - Implementation of visualization in Wire Frame ,Solid shading ,
+     Flat shading and now Goraud shading all simultaneous too and with light 
+     source freely placeable .
+   - Support of Z-Buffering.
+   - Support of Texture mapping with combination of other metod (except of
+     wireframe)and support of trasparent color.
+   - Add support of virtual color so the color of object is can be indipendent
+     from the number of color of the screen, see doc and example for more
+     informations.
+   - Direct loading of object with a custom format (is present an object converter
+     from .plg and .tddd object to this format)
+
+New in this version:
+Any bugs fixed in clipping and rotate function and any minor change on tree 
+function, see history file.
+
+Is tested on (for now): 
+   A4000/40 with S.O. 3.0
+
+Sorry but I have suppressed the 68000 version for problem in linking.
+But if any necessed of this its will can be reintegrated. 
+ 
+THIS LIBRARY IS A COPYRIGHT OF THE AUTHOR PATRIZIO BIANCALANI AND IS A 
+FREEWARE SOFTWARE THAN FREELY USABLE AND DISTRIBUITE BUT WITH ALL FILE OF 
+ORIGINAL ARCHIVE AND NOT FOR RESALE OR IT CAN'T BE SOLD, THAN I PROVIDE 
+ABSOLUTELY NO WARRANTY FOR THIS SOFTWARE.
+IF YOU WANT MODIFY THE ORIGINAL SOURCES TELL ME THIS THAN ,IF IT IS OK, 
+I CAN UPDATE ALL ORIGINAL ARCHIVE.
+It is very pleasant if you send me an e-mail if you use it.
+
+I have included an example write in E (and full commented) and all the source
+in C of this library .The executable is 3dlib and it must be in the same
+directory of #?.plg files.It can use more colours with the parameter "256" in the
+command string (for machine with almost AGA and S.O. 3.0).
+
+The file graphics3d_020_CPU.library is the library for CPU from 68020 with new metod of rendering.
+The file graphics3d_020_BLT.library is the library for CPU from 68020 with old metod of rendering.
+You must rename the correct library to graphics3d.library before use it.
+
+Thanks to:
+   Maciej R.Gorny for the original routin of engine 3D.
+   Alessandro Franchi for beta testing on A1200.
+   VolKer Barthelmann author of VBCC the C compiler used by me to write the
+   library.
+   Andreas Kleinert author of the optimal startupcode for write shared
+   library. 
+   Nautilus that have explain to me the algoritm to do goraud shading , z-buffer
+   and texture mapping.
+   The authors of Tornado3D for the suggetions to implemented the single
+   buffering in a window. 
+   All ones that have write an e-mail to me.
+
+I'am Patrizio Biancalani from Prato (Italy) and the my E-Mail for
+suggestions and signaling is :p.biancalani@mbox.match.it
+
+Support site :www.amigaworld.com/support/graphics3dlib/welcome.html
+
+--- Italiano ---
+
+Questa e' una semplice ma completa libreria grafica 3D che si appoggia
+interamente sulle librerie di sistema per la visualizzazione.
+Le caratteristiche principali sono:
+   
+   - Visualizzazione oggetti nelle finestre con single buffering.
+   - Supporto di poligoni a uno, due, tre e quattro vertici. 
+   - Usa valori solo in fix point quindi il coprocessore non serve
+     ed e' relativamente veloce anche su macchine come il A1200 base.
+   - Implementa la visualizzazione in Wire Frame ,Solid shading, 
+     Flat shading ed ora Goraud shading anche tutti contemporaneamente e con 
+     la fonte di luce posizionabile a piacere.
+   - Supporto dello Z-Buffering.
+   - Supporto del Texture mapping in combinazione con gli altri metodi (ad
+     eccezione del wireframe) e supporto del colore trasparente.
+   - Aggiunto il supporto dei colori virtuali cosi' che il colore degli oggetti
+     oggetti sia indipendente dal numero di colori dello schermo.
+     Per maggiori informazioni vedi l'esempio e la documentazione.
+   - Supporta il caricamento di oggetti in formato propietario.(E' presente un 
+     convertitore da oggetti .plg e .tddd verso tale formato).
+
+Novita' in questa versione:
+Eliminati alcuni bug nelle funzioni di clipping e rotazione , effettuate anche
+alcune variazioni su tre funzioni , vedere l'history file.
+
+E' stata testata su(per ora):
+   A4000/40 con S.O. 3.0
+
+Spiacente ma il supporto del 68000 e' stato soppresso per problemi nel linkaggio.
+Ma se fosse necessario a qualcuno posso sempre cercare di reintegrarlo.
+ 
+QUESTA LIBRERIA E' UN COPYRIGHT DELL'AUTORE PATRIZIO BIANCALANI ED E' UN
+FREEWARE SOFTWARE QUINDI LIBERAMENTE DISTRIBUIBILE MA CON TUTTI I FILE
+DELL'ARCHIVIO ORIGINALE E NON PER FINI DI LUCRO, IO NON FORNISCO 
+ASSOLUTAMENTE ALCUNA GARANZIA SU QUESTO SOFTWARE.
+SE VOLETE MODIFICARE I SORGENTI ORIGINALI COMUNICATEMELO, SE E' ACCETTABILE
+IO AGGIORNERO' L'ARCHIVIO ORIGINALE.
+E' molto gradita la ricezione di un e-mail in caso di uso della libreria. 
+
+Ho incluso anche un esempio di uso scritto in E e i sorgenti in C della
+libreria.L'eseguibile si chiama 3dlib e deve essere nella stessa directory
+dei file #?.plg .Se si da il parametro "256" nella stringa di comando si potranno
+usare piu' colori (solo per macchine con almeno l'AGA e il S.O. 3.0). 
+
+Il file graphics3d_020_CPU.library e' per le CPU dal 68020 con nuovo metodo di visualizzazione.
+Il file graphics3d_020_BLT.library e' per le CPU dal 68020 con vecchio metodo di visualizzazione.
+Occorre rinominare la corretta libreria in graphics3d.library prima di
+usarla.
+
+Si ringrazia :
+   Maciej R.Gorny per le routin del motore 3D.
+   Alessandro Franchi per il parziale beta testing su A1200.
+   VolKer Barthelmann autore del compilatore C VBCC da me usato per
+   la stesura della libreria.
+   Andreas Kleinert autore dell'ottimo startupcode per le shared
+   library. 
+   Nautilus che mi ha spiegato l'algoritmo per il goraud shading , lo z-buffer
+   e il texture mapping.
+   Gli autori di Tornado3D per il suggerimento su come implementare 
+   il single buffering in una finestra.
+   Tutti quelli che mi hanno scritto.
+
+Io sono Patrizio Biancalani residente a Prato Italy e il mio E-Mail per
+suggerimenti e segnalazioni e': p.biancalani@mbox.match.it
+
+Sito di supporto :www.amigaworld.com/support/graphics3dlib/welcome.html

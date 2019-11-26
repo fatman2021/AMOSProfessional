@@ -1,0 +1,80 @@
+CFLAGS  = CPU=68020 GST=MRQ.g NODEBUG OPTIMIZE
+MRQ_OBJS = mrq.o config.o Requesters.o gfxfiles.o MRQasm.o \
+		mrqwindowclass.o
+MYHDRS = mrq.h config.h gfxfiles.h mui_macros.h muistuff.h \
+		Requesters.h MRQasm.h mrqwindowclass.h
+GST = MRQ.g
+
+.c.o:
+	sc $(CFLAGS) $*.c
+
+.a.o:
+	phxass $*.a
+
+all:	mrq
+
+mrq:	$(GST) $(MRQ_OBJS)
+	slink <with <
+	TO MRQ
+	FROM lib:c.o $(MRQ_OBJS)
+	LIB lib:sc.lib lib:amiga.lib lib:mb_utils.lib lib:debug.lib
+	MAP MRQ.map
+	<
+
+GST: $(GST)
+$(GST): mgst.c $(MYHDRS)
+	sc MGST $@ mgst.c IGNORE=105
+	rm mgst.o
+
+misc/dumpcat: misc/dumpcat.c
+	execute <<
+	failat 21
+	cd misc
+	sc dumpcat.c LINK
+	<
+
+clean:
+	delete *.o *.g MRQ
+
+dist: dist/MRQ.lha
+
+dist/MRQ.lha: all misc/dumpcat MRQ.guide MRQ.readme
+	execute <<
+	failat 21
+	delete dist/MRQ.lha
+	if exists ram:MRQ
+	  delete ram:MRQ ALL
+	endif
+
+	copy MRQ MRQ.guide misc/dumpcat s:MRQ.config RAM:MRQ
+	copy Install Install_Deutsch.info Install_English.info RAM:MRQ
+	copy MRQ_dist.info RAM:MRQ/MRQ.info
+
+	copy Work:Graphics/Icons/mrq-images/~(anim\#?) RAM:MRQ/MRQ-images ALL
+	makedir RAM:MRQ/MUI
+	copy MUI:Libs/MUI/Guigfx.mcc RAM:MRQ/MUI/libs
+
+	copy Requesters.c config.c gfxfiles.c mgst.c mrq.c mrqwindowclass.c MRQasm.h RAM:MRQ/Source
+	copy Requesters.h config.h gfxfiles.h mrq.h mrqwindowclass.h mrqwindowclass_private.h mui_macros.h muistuff.h RAM:MRQ/Source
+	copy RCS/\#? RAM:MRQ/Source/RCS
+	makedir RAM:MRQ/Source/include
+	copy include:lib/mb_utils.h RAM:MRQ/Source/include/lib
+	copy lib:mb_utils.lib RAM:MRQ/Source/lib
+	copy SCOPTIONS smakefile RAM:MRQ/Source
+
+	copy MRQ.readme RAM:
+
+	lha m dist/MRQ.lha RAM:MRQ.readme
+	lha -r m dist/MRQ.lha RAM:MRQ
+	delete RAM:MRQ ALL
+	<
+
+
+mrq.o:		mrq.c mrq.h config.h MRQasm.h mrqwindowclass.h
+config.o:	config.c mrq.h config.h gfxfiles.h MRQasm.h
+Requesters.o:	Requesters.c Requesters.h mrq.h config.h
+gfxfiles.o:	gfxfiles.c gfxfiles.h
+MRQasm.o:	MRQasm.a
+
+mrqwindowclass.o: mrqwindowclass.c mrqwindowclass_private.h
+mrqwindowclass_private.h: mrqwindowclass.h

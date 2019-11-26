@@ -1,0 +1,168 @@
+
+See "http://megacz.back2roots.org/portsbttr.html" for complete archive.
+
+NB: I have rebuilt the 040+ version as 020+. See the "extras" directory
+    for the modified "Makefile".
+
+hvlplay2007(hvlplay)-0.5
+-------------------------- 
+
+---
+
+This is improved hvl/ahx player, it is able to play smoothly mods up to
+14 channels in 16000 Hz on 68040. Player can also export songs to AIFF
+or write them as RAW. 
+
+HivelyTracker by Peter Gordon (pete@petergordon.org.uk)
+
+---
+
+NEWS:
+      [03-Jan-2009]   0.5   Engine has been updated, this is version 1.6
+                            that fixes wierd distortions in AHX tunes.
+                            Small fix has been applied to 'hvl_2007.c'
+                            -piping was impossible when built with
+                            '-DUSE_WRITE'. Thanks to Lorence Lombardo.
+
+      [28-Dec-2008]   0.4-p ixlibrary ID has been changed, see this file:
+                            http://megacz.back2roots.org/A2IXREGISTRY ,if 
+                            you dont use 'ixemul' 48.3 then you have to find 
+                            non-collisious ID in range of 0 to 99 and patch 
+                            it with 'ixidset' from 'ixidtools'.
+
+      [12-Sep-2008]   0.4   Updated to replayer 1.5, it seems this version 
+                            is as fast as the one used in the first ver.
+                            Player has been improved even more, from now 
+                            on there is only one executable and three
+                            flavours. Changes in the command line opts.
+                            Thanks to Lombi for helping me hunting down
+                            nasty bugs.
+
+      [13-Mar-2008]   0.3   Updated the replayer engine to latest version 
+                            so all the hvl tunes should play now with no 
+                            probs. This replayer is a little bit slower 
+                            than the one used in the previous version.
+
+      [10-Feb-2008]   0.2   Removed AHI related bugs, increased extra
+                            buffer factor from 48 to 128(multichannel hvl
+                            tunes should now play smoothly on slow cpus).
+                            Some other clean ups. Duration is now 
+                            calculated by default(fast!).
+
+---
+
+NOTES:
+
+[*]
+'hvlplay.emu' is mainly targeted at users on some emulator, but may
+be used on real Amiga as well, requires 68040+ with FPU,
+mathieeedoubbas 37+, mathieeedoubtrans 37+.
+
+'hvlplay.020' has precalculated waveforms and is the speed freak, but
+yes its biiiiig, requires 68020(no FPU)+, mathieeedoubbas 37+,
+mathieeedoubtrans 37+
+
+'hvlplay.ix' is a hack that depends on 'ixemul', it is also quite fast
+and can be great solution if your 'mathieee...' setup is old. It uses
+shared library to hold replayer and waveforms that are generated only
+once. It needs 68040+ with FPU. Important, this build may produce
+samples that sound somewhat different, sensitive ear will catch that.
+
+All builds require OS 2.04+, 1+ MiB of free memory, [ahi 4+]
+
+[*]
+This program doesnt like some exotic mixing frequencies like for example
+11025 or 17640, this is due to its buffer organization, so you should use
+these from template screen to avoid messy sound.
+
+[*]
+Output is 16 bit stereo, so real time output in some acceptabe quality
+may be impossible on 68030 and less - lots of data to process. 68020/14
+with fast mem is able to play smoothly 4 channel tunes in 6000Hz - very
+poor quality, but at least works ;]
+
+[*]
+If you want to use 'AUDIO:' for output then here is few tips:
+
+ - Dont set too large buffers anywhere.
+ - Try to keep buffers cascaded, like small buffer feeds large buffer.
+ - Use '-b<fct/n>' to adjust extra buffer in the player.
+ - Calculate how much memory will be needed in 'AUDIO:',
+
+    (frequency * bits * channum) / 8 = /buf=result
+    (  24000   * 16   *    2   ) / 8 = /buf=96000
+  
+    You may even divide the result by 2, if you hear gaps.
+
+ - Set the priority to above 0('changetaskpri 1') before starting.
+
+[*]
+If you hear gaps while playing through AHI then you may try to either
+decrease the '-f<fhz/n>' and/or increase the '-b<fct/n>' or as a last
+resort convert to a file and then listen.
+
+[*]
+'-l<num/n>' may not be able to loop subsongs that explicitly end - short
+'ahx' subsongs mainly, so you have to use '-L<num/n>' and 'U<num/n>' but
+this may not be as smooth as with '-l<num/n>'.
+
+[*]
+When building, the best results can be achived with GCC-3.4.0.
+
+---
+
+TEMPLATE:
+
+ ### HivelyTracker by Peter Gordon (pete@petergordon.org.uk).
+ ### hvlplay(2007/0.5) using hvl_replay.c(1.6) by megacz@usa.com
+ *** template: hvlplay [options] <tune>
+
+     options(example: -A0 or "-A 0"):
+
+        -A<unit/n>  -  AHI Music Unit(0(def.)-3), this is default
+        -a<file/k>  -  AIFF 16 bit output to a file
+        -r<file/k>  -  RAW 16 bit output to a file or pipe
+        -f<fhz/n>   -  Mixing frequency(4000-56000), works best with:
+                       8000, 12000, 16000(def.), 24000, 32000, 44100, 48000
+        -b<fct/n>   -  Auto buffer factor(1-128), def. 32, more=better
+        -s<lev/n>   -  Stereo level(0=mono-4=st), ahx only, def. 2
+        -l<num/n>   -  Loops single tune(0-126), can be used with -L
+        -L<num/n>   -  Loops all tunes(0-126), can be used with -l
+        -u<num/n>   -  Starts playing from this subtune(0(def.)-126)
+        -U<num/n>   -  Starts playing only this subtune(0-126)
+        -i          -  Dumps info only and quits(-u and -U can be used)
+
+---
+
+SPEED:
+
+Here are the cmd lines used in the test(measured on 68020/14 with fast mem
+and 68040/33):
+
+   > changetaskpri 1
+   > delete ram:latino.raw
+   > getspeed hvlplay.<flav> -rram:latino.raw ahx.latino
+
+
+68020/14
+^^^^^^^^^
+      ---------------------------------------------------- 
+      |    binary   | song len  | conv time | slowness % |  
+      |-------------|-----------|-----------|------------| 
+      | hvlplay.emu |     78    |     -     |     -      | 
+      | hvlplay.020 |     78    |  153.08   |  196.20    | 
+      | hvlplay.ix  |     78    |     -     |     -      | 
+      ---------------------------------------------------- 
+
+68040/33
+^^^^^^^^^
+      ---------------------------------------------------- 
+      |    binary   | song len  | conv time | slowness % |  
+      |-------------|-----------|-----------|------------| 
+      | hvlplay.emu |     78    |   29.08   |   37.28    | 
+      | hvlplay.020 |     78    |   26.48   |   33.94    | 
+      | hvlplay.ix  |     78    |   28.00   |   35.89    | 
+      ---------------------------------------------------- 
+
+---
+megacz@usa.com

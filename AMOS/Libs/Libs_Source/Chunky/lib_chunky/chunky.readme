@@ -1,0 +1,259 @@
+Short:    link library for fast chunky-gfx-routines
+Author:   pernathw@cip.ub.uni-muenchen.de (Wanja Pernath)
+Uploader: Author
+Type:     dev/c
+Requires: AGA, OS3.x, MC68020 + some FASTRAM
+Version:  1.0
+
+INTRODUCTION
+============
+
+A while ago I've tried to code a game for  the  Amiga  which  should  have  SVGA
+quality.  But  I don't have expected the sillyness of Commodore as they designed
+the new AGA-Custom chips. My tears have washed my t-shirt when I saw the 'great'
+chip-ram-bandwidth and my neighbours thought of a bloody-mess as I expected that
+the Blitter is simply useless when it comes to a display of 640x480x256
+
+After a while I saw that the cpu is several times faster  in  blitting  with  or
+without a mask and later I expected that it is more-than-10-times as fast as the
+system graphics routines when I  use  a  temporary  chunky  buffer  to  draw  my
+graphics in and then blast it over the bitmap.
+
+That  was  the  time  I  decided  to  code  a  chunky-graphics-link-library  for
+everybody's use.
+
+And that's it.
+
+
+CONTENTS
+========
+
+When you receive a copy of chunky.lha, it should contain this files:
+
+lib-src/
+  chunky.c            the main chunky-gfx-routines
+  chunky.h            the header file
+  text.c              functions for rendering text
+  c2p.asm             a simple chunky to planar routine by Morten Eriksen
+  p2c.asm             a simple planar to chunky routine by Morten Eriksen
+  makefile            a makefile for GNU/C
+  libchunky.a         the link lib for GNU/C
+
+tst-src/
+  chunky.h            a copy of the above
+  test1.c             the lines test source
+  test2.c             the Insertion test source
+  test3.c             the text test source
+  test4.c             the fixed-width font test for WB
+
+chunky.readme         this file
+test1                 the lines test executable
+test2                 the Insertion test executable
+test3                 the text test executable
+test4                 the fixed-width font test for WB
+results040.txt        all test results for a MC68040
+results030.txt        all test results for a MC68030
+
+
+TIME TABLE
+==========
+
+This is the result of the program 'test' which opens a  display  of  640x480x256
+and  calls  several  timed graphic routines with the original gfx.OS and with my
+new gfx.chunky.
+
+Test-Machine: A1200 with MC68040 and 8MB Fast
+
+I suppose, you should have a MC68030 + 4MB as minimum
+
+
+1. Several Graphic functions ( test1.c )
+----------------------------------------
+  I've timed DrawChunkyPort() seperatly to make the results clearer.
+
+  Draw 640 vertical lines with color raising:
+  Elapsed time for function v_lines_chk():    0.195829 sec.
+  Elapsed time for function v_lines_rpt():    12.308480 sec.
+
+  Draw 480 horizontal lines with color raising:
+  Elapsed time for function h_lines_chk():    0.058839 sec.
+  Elapsed time for function h_lines_rpt():    12.255457 sec.
+
+  Draw 480 diagonal lines from 0/0 -> 640/y with color raising:
+  Elapsed time for function s_lines_chk():    0.418446 sec.
+  Elapsed time for function s_lines_rpt():    12.247091 sec.
+
+  Draw 256 filled boxes with color raising from 0->255:
+  Elapsed time for function rect1_chk():      0.052174 sec.
+  Elapsed time for function rect1_rpt():      0.873216 sec.
+
+  Time to convert the 640x480x256 ChunkyPort to the display:
+  Elapsed time for function DrawChunkyPort(): 0.299809 sec.
+
+
+2. Draw on background ( test2.c )
+---------------------------------
+  The first function creates its own ChunkyPort, draws there and
+  then copy the chunkyContents into the RastPort w/o destroying
+  background gfx
+
+  The second one creates its ChunkyPort from RastPort at the position
+  of the later rewritten ChunkyBuffer. This ensures that all the rendering
+  does not destroy the background.
+
+  As you can see, the second one is four times as fast as the first one
+
+  Elapsed time for function InsertChunkyPort():         0.417537 sec.
+  Elapsed time for function CreateChunkyFromRastPort(): 0.108726 sec.
+
+
+3. Draw some text ( test3.c )
+-----------------------------
+  This program writes 512 times the text 'This is a test...' with
+  different colors onto the screen
+
+  The font is set to 'courier.font/13'
+  Elapsed time for function chk_test: 0.721666 sec.
+  Elapsed time for function rpt_test: 3.921369 sec.
+
+
+4. Fixed-Font-Width test ( test4.c )
+------------------------------------
+  This is only present, because I've expected last-minute that the fixed-width
+  fonts do not use the TextFont->tf_CharSpace and TextFont->tf_CharKern entries.
+  Indeed this pointers are set to NULL --> GURU on some times.
+
+  Now I use a better TextLength-Algorithm and Text()- one, so you can use those
+  fixed-width-bitmapped fonts, too.
+
+
+FUNCTIONS
+=========
+
+The functions in libchunky.a are namely the same as in the Amiga OS. The
+exeption is the suffix 'Chk'
+
+See lib-src/*.c for more details.
+
+
+USAGE
+=====
+
+Very simple. Open your screen with preferrable 256 colors and setup the
+so-called 'struct ChunkyPort' using the function like this:
+
+  ...
+  struct ChunkyPort *cp;
+  struct RastPort   *rport = INITIALIZE_IT;
+
+  // Initialize ChunkyPort
+  if( cp = InitChunkyPort( CHUNKY_SIZEX, CHUNKY_SIZEY ) ){
+
+    // Do your rendering here
+    ...
+    SetAPenChk( cp, x );
+    RectFillChk( cp, x1, y1, x2, y2 );
+    ...
+
+    // Blast the ChunkyPort onto the screen
+    DrawChunkyPort( cp, rport, POS_ON_SCREEN_X, POS_ON_SCREEN_Y );
+    FreeChunkyPort( cp );
+  }
+  ...
+
+Now you're able to use most of the chunky-rendering functions, except the
+text ones. To use text-rendering, you _MUST_ first call SetFontChk():
+
+  ...
+  struct ChunkyPort *cp;
+  struct RastPort   *rport = INITIALIZE_IT;
+
+  if( cp = InitChunkyPort( CHUNKY_SIZEX, CHUNKY_SIZEY ) ){
+
+    // Setup the struct TextFont you want to use
+    SetFontChk( cp, rport->Font );
+
+    // Do your rendering here
+
+    SetAPenChk(cp, x);
+    MoveChk( cp, 100, 100 );
+    TextChk( cp, "Hi, my name is Wanja" );
+
+    // Blast the ChunkyPort onto the screen
+    DrawChunkyPort( cp, rport, POS_ON_SCREEN_X, POS_ON_SCREEN_Y );
+
+    // Free ChunkyPort
+    FreeChunkyPort( cp );
+  }
+  ...
+
+See tst-src/test#? for further details
+
+
+DISCLAIMER & THANKS
+===================
+
+libchunky.a and all the corresponding files are FREEWARE. Spread it  around  the
+world as much as you can, but please remember to spread the full archive. If you
+have used the whole or a part of  libchunky.a's  code  and  files,  remember  to
+mention me.
+
+I've used libchunky.a for a while and I've not expected any bugs, but I can't be
+sure of this. If you found a bug (or two), I would be glad to hear from you.
+
+In other words: I take no responsibility for any crashes that might occur during
+developement or during execution of the executable program.
+
+ ----
+
+I would like to thank the following people for help, suggestions and bug-reports:
+
+  - Andreas Zunke (Na, wie geht's Deinem MEMCONTROL?)
+  - Stefan Dirnstorfer ( For math-hints )
+  - Morten Eriksen for the great but slow c2p/p2c routines
+  - various AMIGA-Magazines for programming tips and tricks
+
+ ----
+
+
+THE FUTURE
+==========
+
+There are many things to do but the highest priority on my own  to-do-list  have
+those pretty routines for cpu-blitting from ChunkyPort to ChunkyPort and with or
+without a mask using.
+
+Another one is to implement this functions as a standard amiga library.
+
+Further I want to fix this ugly DrawEllipseChk() bug.  If  there's  anybody  out
+there  who knows of a good and fast standard Circle() routine, then please email
+me.
+
+And if there's anybody out there who knows of  a  highly  optimized  speedy  c2p
+routine for standard amiga OS-Bitmaps as a replacement for the ones I used in my
+code, then please, please email me, too.
+
+And your questions and suggestions are highly wellcome.
+
+Write to:
+                                 Wanja Pernath
+                                  Joergstr. 74
+                                D-80689 München
+
+                               Tel.: 089/54662171
+
+                     email: pernathw@cip.ub.uni-muenchen.de
+
+
+  ----
+
+
+And always remember:
+
+            TAKE THIS PICE OF CODE AND PROGRAM GREAT AMIGA SOFTWARE
+
+                           HELP THE AMIGA TO BE ALIVE
+
+                HELP THE DEVELOPERS BY BUYING GFX-CARDS AND SOFT
+
+                                      BYE

@@ -1,0 +1,536 @@
+@database FindGUI
+@wordwrap
+
+@node "Main" "FindGUI"
+
+ ********************************************************************
+                          FindGUI.rexx V1.0
+                     Copyright (C) 1996 Nils Görs
+
+                      Dieses Skript ist FREEWARE
+ ********************************************************************
+
+ FindGUI.rexx  ist  eine Oberfläche für das Shell-Programm @{"Find" link "find.doc"} von
+ Ralph Seichter.
+
+ FindGUI.rexx  verwendet  zur  Darstellung  der  gesamten Oberfläche die
+ 'triton.library' von Stefan Zeiger.
+
+
+ Allgemeines
+
+   @{" Copyright                " link copyright    }   Copyright und sonstige rechtliche Dinge
+   @{" Autor                    " link autor        }   Adresse des Autors
+   @{" Systemvoraussetzungen    " link system       }   Pe*tium/200MhZ, CD-ROM...
+   @{" Danksagungen             " link Danke        }   wer hat Dank verdient ??
+   @{" Programmentwicklung      " link History      }   was bisher geschah
+
+
+ Menüs
+
+  Projekt
+   @{" Speichere Fileliste      " link savefilelist }   Ausgabe in eine Datei sichern
+   @{" über                     " link about        }   Informationen über das Programm anzeigen
+   @{" Hilfe                    " link QuickHelp    }   Einen kurzen Hilfstext anfordern
+   @{" PubScreen wechseln       " link ChangePub    }   Programm auf einen anderen Screen öffnen
+   @{" Ikonifizieren            " link Iconify      }   Oberfläche verkleinern.
+   @{" Beenden                  " link Quit         }   Programm beenden
+
+  Aktion
+   @{" Suchpfad auswählen...    " link SearchArea   }   Wo soll gesucht werden.
+   @{" Wähle Programm...        " link ExecCommand  }   Externes Kommando auswählen.
+   @{" LFormat wählen...        " link LFormat      }   Formatierungsstrings.
+   @{" WhatIsBase laden         " link Reload       }   Befehlskonfiguration nachladen.
+
+
+ Oberfläche
+
+   @{" Suchpfad                 " link SearchArea   }   Wo soll gesucht werden.
+   @{" Suchen nach              " link SearchFor    }   Wonach soll gesucht werden.
+   @{" Suchtiefe                " link SearchDepth  }   Suchtiefe.
+   @{" Ausgabe                  " link Output       }   Sortieren oder nicht ?
+   @{" Erweiterte Informationen " link ExtendetInfo }   mehr Input...
+   @{" Ausführen                " link Execute      }   Zeigen,Spielen,Starten...
+   @{" Filetype                 " link Filetyp      }   TEXT, GUIDE, IFF
+   @{" Pfad                     " link Path         }   C:
+   @{" Voll                     " link Full         }   C:, REXXC:, WBSTARTUP
+   @{" Exec                     " link Exec         }   Kommando ausführen?
+   @{" LFormat                  " link LFormat      }   Formatierungsstrings.
+   @{" Exec Kommando            " link ExecCommand  }   Externes Kommando auswählen.
+   @{" Start                    " link Start        }   ?????
+
+
+ Einstellungen
+
+   @{" Shell Argumente       " link Args         }   Welche Argumente versteht das Programm ?
+   @{" Skript Parameter      " link internArgs   }   Welche Parameter kann ich verändern ?
+
+@endnode
+
+@node "SearchArea" "Suchpfad"
+@toc main
+
+Sie  können,  in  dem  String-Gadget,  ein  oder mehrere Verzeichnisse
+angeben, in denen Sie suchen möchten.
+Eine  Multiauswahl  mittels  dem Verzeichnisrequester ist leider nicht
+möglich, da das von dem Requester nicht unterstützt wird.
+
+Beispiel: DH0: DH1:Tools DH2:Beta-Software
+@endnode
+
+@node "Searchfor" "Suchen nach"
+@toc main
+
+Tragen  Sie  bitte  ein,  nach  welchem File gesucht werden soll.  Die
+OS-Namensmuster werden bei der Suche unterstützt.
+
+Beispiel: #?.info
+@endnode
+
+@node "Searchdepth" "Suchtiefe"
+@toc main
+
+Gibt  die Suchtiefe in Pfaden an, in denen gesucht werden soll.  "Aus"
+bedeutet, das die Funktion deaktiviert ist.
+@endnode
+
+@node "Output" "Ausgabe"
+@toc main
+sortiert oder unsortiert, das ist hier die Frage. Ob Edler im Gemüt..
+@endnode
+
+@node "ExtendetInfo" "Erweiterte Information"
+@toc main
+
+Wenn  Sie  zu  einem  gefundenen File mehr informationen möchten, dann
+drücken  Sie  dieses Gadget.  Es wird ihnen dann das Erstellungsdatum,
+die   Filegröße   in   Bytes   und  Blöcken,  die  Fileattribute,  der
+Filekommentar und der Filetype dargestellt.
+
+Wenn Sie die whatis.library installiert haben sollten, dann können Sie
+sich  z.B.  ein gefundenes Bild direkt anzeigen lassen, ein Musikmodul
+abspielen etc.  etc.
+@endnode
+
+@node "Execute" "Ausführen"
+@toc main
+
+Mit  diesem  Knopf  veranlassen Sie FindGUI dazu, das File auf welchem
+der Markierungsbalken steht auszuführen.
+Um  diese  Funktion nutzen zu können, benötigen Sie die whatis.library
+und  ein  Konfigurationsfile,  daß  Sie  nach  ihren Wünschen anpassen
+müssen.
+@endnode
+
+@node "Filetyp" "Filetype"
+@toc main
+
+Gibt den Filetypen, direkt hinter dem Filenamen, im Ausgabefenster mit
+an.  Für diese Funktion wird die whatis.library benötigt.
+@endnode
+
+@node "Path" "Pfad"
+@toc main
+
+Es  wird  nur  das  erste  File  angezeigt,  welches im 'CLI Suchpfad'
+gefunden  wurde.   Den  CLI-Suchpfad können Sie mittels dem CLI Befehl
+PATH erweitern, kürzen, anzeigen etc.
+@endnode
+
+@node "Full" "Voll"
+@toc main
+
+Es  wird  der komplette CLI Suchpfad durchsucht und alle Files die auf
+das Suchmuster passen ausgegeben.
+@endnode
+
+@node "Exec" "Exec"
+@toc main
+
+Wenn  Sie  dieses  Gadget  aktiviert  haben,  wird  das Shell-Kommando
+ausgeführt, welches Sie in  @{"Exec Kommando" link ExecCommand} eingetragen haben.
+Sie MÜSSEN auch @{"LFORMAT" link lformat} gesetzt haben.
+
+Beispiel:
+LFORMAT      : %f
+Exec Kommando: Delete
+
+Dies  hätte  zur  folge,  das  alle  gefundenen Files gelöscht werden.
+Seien  Sie  also deshalb extrem vorsichtig, mit dem was Sie tun.  Denn
+ich übernehme keinerlei Haftung!
+@endnode
+
+@node "LFORMAT" "LFORMAT"
+@toc main
+
+Dies legt fest, wie die Ausgabe erfolgen soll. Bedenken Sie bitte, das
+wenn LFORMAT gesetzt ist, die @{"Erweiterten Informationen" link ExtendetInfo} deaktiviert sind.
+
+@endnode
+
+@node "ExecCommand" "Exec Kommando"
+@toc main
+
+Hier  geben  Sie  an,  welches  CLI  Kommando  genutzt  werden soll um
+gefundene Files zu bearbeiten.
+
+@endnode
+
+@node "Start" "Start"
+@toc main
+
+tja, was passiert wohl ?!?
+
+Seien  Sie  sich bitte im klaren das der Suchvorgang, mittels FindGUI,
+nicht  abgebrochen  werden kann.  Sie müßten, falls ihnen die Suche zu
+lange dauert, mittels "Break" ein CTRL-C an den Find-Task schicken.
+@endnode
+
+@node "Reload" "WhatIsBase laden"
+@toc main
+
+Es  wird  die externe Datei, die Sie in @{b}WhatisExe@{ub} eingetragen haben,
+nachgeladen.   Dies  kann  von  nutzem  sein,  falls Sie änderungen an
+dieser vorgenommen haben.  Der Aufbau der Liste ist folgender:
+
+FILETYP
+KOMMANDO
+
+Beipiel:
+Guide
+Multiview "%s" PUBSCREEN=%p
+
+Wie  Sie  sehen,  werden  zwei  Parameter  verwendet.  Für %s wird der
+Filename eingesetzt und für %p der Name des öffentlichen Bildschirmes,
+auf dem FindGUI läuft.
+@endnode
+
+@node savefilelist "Speichere Fileliste"
+@toc main
+
+  Speichere Fileliste
+  *******************
+
+  hier  haben Sie die Möglichkeit, die dargestellte Fileliste in eine
+  Datei  zu sichern.  Dies geschieht entweder "mit kompletten Pfaden"
+  oder "nur mit Dateinamen".
+
+  Bedenken  Sie  das  wenn Sie ein anderes @{"LFORMAT" link "LFORMAT"} gesetzt haben, ich
+  nicht zaubern, sprich den kompletten  Pfad abspeichern kann sondern
+  nur den Dateinamen.
+@endnode
+
+@node "about" "Über das Programm"
+@toc main
+
+  Über das Programm...
+  ********************
+
+  Zeigt Copyright-Informationen über das Programm an.
+@endnode
+
+@node "QuickHelp" "kurzer Hilfstext"
+@toc main
+
+  kurzer Hilfstext
+  ****************
+
+  sollten Sie diese Funktion eingeschaltet haben dann wird zu jedem
+  Objekt, über dem sich der Mauszeiger befindet, in einem kleinen
+  Fenster ein Hilfstext angezeigt.
+@endnode
+
+@node "ChangePub" "wechseln auf einen anderen Bildschirm"
+@toc main
+
+  wechseln auf einen anderen Bildschirm
+  *************************************
+
+  Sie können FindGUI auf jedem öffentlichen Bildschirm öffnen.
+  Wählen Sie dazu aus der Liste der öffentlichen Bildschirme einen
+  aus und prompt wird FindGUI auf diesem geöffnet.
+
+siehe @{"PUBSCREEN/K" link "Args"}
+@endnode
+
+@node "Iconify" "Oberfläche schlafen legen"
+@toc main
+
+  Oberfläche verstecken
+  *********************
+
+  mittels  dieser  Funktion  ist  es  möglich  die  Oberfläche  zu
+  verkleinern, falls Sie das Programm z.Zt.  nicht benötigen.
+
+  Wenn  Sie  die  Oberfläche wieder benötigen, drücken Sie einfach
+  auf das Schließsymbol und die Oberfläche wird geöffnet.
+@endnode
+
+@node "Quit" "Programm beenden"
+@toc main
+
+ Beendet das Programm, nach einer Sicherheitsabfrage.
+
+ Wenn Sie FindGUI ohne Sicherheitsabfrage beenden möchten, dann
+ klicken Sie einfach auf das CLOSEGADGET
+@endnode
+
+@node copyright "FindGUI.guide: Copyright"
+@toc main
+
+   Copyright
+   *********
+
+   Alle zu FindGUI gehörenden Dateien sind FREEWARE, das Copyright
+   liegt bem Autor, @{"Nils Görs" link autor}. Der Quelltext darf von jedem für
+   seinen persönlichen Gebrauch angepaßt werden, er darf jedoch
+   weder unter dem Namen FindGUI noch unter einem anderen Namen neu
+   veröffentlicht werden!
+   Wenn die Veröffentlichung von Änderungen gewünscht wird muß dies
+   in jedem Fall von mir durchgeführt werden!
+
+   Der Vertrieb von FindGUI zu kommerziellen Zwecken jeglicher Art
+   ist nur mit Genehmigung des Autors gestattet!
+
+   Der Autor gibt keine Garantie für die Zuverlässigkeit von
+   FindGUI! Sie benutzen das Programm auf eigene Gefahr!
+   Der Autor kann nicht für irgendwelche Schäden haftbar gemacht
+   werden, die durch die Anwendung von FindGUI entstehen!
+
+
+
+   FindGUI verwendet folgende Libraries
+   ************************************
+
+    'triton.library' ist Copyright (C) Stefan Zeiger.
+
+    'tritonrexx.library' ist Copyright (C) Jürgen Kohrmeyer.
+
+    'rexxtricks.library' ist Copyright (C) Jürgen Kohrmeyer.
+
+    'rexxsupport.library' und 'locale.library' sind Copyright (C) Commodore.
+
+    RexxReqTools is Copyright © 1992-1994 Rafael D'Halleweyn.
+
+@endnode
+
+@node "Autor" "autor"
+@toc main
+
+  Postanschrift:
+
+      Nils Görs
+      Kaiserstr.97a
+      42329 Wuppertal
+
+      Deutschland
+
+
+   Telefon:
+
+      +49-(0)202-78xxxx
+
+
+   E-Mail:
+
+      N.Goers@Art-Line.Art-Line.de (für Faule: N.Goers@Art-Line.de ;)
+
+ Bitte nutzen Sie die E-Mail Adresse.
+@endnode
+
+@node system "Systemvoraussetzungen"
+@toc main
+
+Systemvoraussetzungen
+*********************
+
+Sie   benötigt   mindestens   Kickstart   und   Workbench  2.04.   Der
+ARexx-Interpreter @{b}RexxMast@{ub} muß vor der Verwendung gestartet werden.
+
+Ein  68020+  Prozessor  wird  dringend  empfohlen,  da  die Oberfläche
+mittels  tritonrexx.library erstellt wird.  Das Skript läuft aber auch
+auf 68000er Systemen.
+
+
+Sie benötigen, für dieses Skript, folgende Libraries:
+
+'tritonrexx.library'   (liegt dem Archiv bei)
+'rexxtricks.library'   (liegt dem Archiv bei)
+'triton.library'       (liegt dem Archiv NICHT bei)
+'rexxsupport.library'  (liegt dem Archiv NICHT bei)
+'rexxreqtools.library' (liegt dem Archiv NICHT bei)
+
+Die  Shell  Programme  'delete'  und  'list', sollten sich in Ihrem C:
+Verzeichnis befinden.
+
+
+Die  'whatis.library'  sollte  man in jeder gut sortierten Mailbox mit
+Amiga-Filebereich bekommen.  Die Version 4.0 der Library befindet sich
+auch auf der AmigaLibDisk 995 der Fred Fish Serie.
+
+Die anderen libraries finden sie auch in jeder gut sortierten Mailbox,
+im Aminet bzw.  auf den Aminet CD's.
+@endnode
+
+@node "Args" "Welche Argumente versteht das Programm ?"
+@toc main
+
+In der vorliegenden Version von FindGUI.rexx werden folgende Argumente
+unterstützt:
+
+@{b}PUBSCREEN/K@{ub}         dies öffnet die Oberfläche auf dem angegebenen
+                    öffentlichen Bildschirm.
+
+@{b}SEARCHAREA/K@{ub}        gibt einen oder mehrere Suchpfad(e) an der/die
+                    direkt in den Stringgadget übernommen wird.
+@endnode
+
+@node "InternArgs" "Welche Parameter kann ich verändern?"
+@toc main
+
+Sie  müssen/können im Skript selber evtl.  auch noch einige Änderungen
+vornehmen.
+
+@{b}Find.exe@{ub}      sagt dem Skript, wo sich das Programm 'Find' befindet.
+@{b}Directory@{ub}     Pfad für den Verzeichnissrequester. 
+@{b}CommandPath@{ub}   Pfad für den Programmrequester.
+@{b}WhatisExe@{ub}     wo befindet sich das Konfigurationsfile für Whatis() ?
+@endnode
+
+@node "Danke" "Danke 'kinnings'"
+@toc main
+
+@{b}Ralph Seichter@{ub}                   für sein Programm Find. Der einzige
+                                 'Finder', der meinen Anforderungen entspricht.
+                                 Und für seine Pointsoftware Zodiac's Point.
+
+@{b}Jürgen Kohrmeyer@{ub}                 für seine wirklich großartige Arbeit,
+                                 die er mit der tritonrexx.lib geleistet hat.
+
+@{b}Sascha Siegler@{ub}                   Er hat mir als einziger ein Icon für
+                                 FindGUI.rexx geschickt wofür er mit der Bürde
+                                 des Beta-testens bestraft wurde (was diesem
+                                 Tool einige Funktionen mehr eingebracht hat:)
+@endnode
+
+@node "History" "Programmentwicklung"
+@toc main
+
+V1.0: erste veröffentlichte Version.
+@endnode
+
+@node "Find.doc" "find.doc"
+@toc main
+          ============================================================
+           $VER: find.doc 36.2 (17.1.96) Copyright (c) Ralph Seichter
+          ============================================================
+
+
+DESCRIPTION
+
+   I wrote 'find' because I needed a tool to find files (obviously :) which
+match a given name pattern. 'find' is able to search multiple directories,
+including all subdirectories, the current directory and its subdirs, or the
+current CLI command path only. The output can be formatted in a way which
+tries to imitate 'List LFORMAT' behaviour, and you can make 'find' create
+shell scripts for you and execute them on the fly.
+
+   Please note that 'find' is pure, you can make it resident. As it is less
+than 3 KB in size, this is recommended. Check the executable by using the
+List command (you should see output like the following line) and modify the
+file protection bits if necessary:
+
+        find   2760 --p-rwed 17-Jan-96 16:45:55
+
+   Requires 'dos.library' V36 (OS 2.0) or better.
+
+
+COPYRIGHT NOTICE
+
+   This program is Copyright (c) 1996 Ralph Seichter, all rights reserved.
+You may however freely use it and give copies to your friends, as long as
+you don't add data to or remove data from the distribution archive. You may
+*NOT* include any part of the distribution archive in a commercial software
+package. If you have comments or suggestions, feel free to contact me. Use
+PGP-encrypted Email when possible, you can find my public key at the end of
+this file.
+
+        Ralph Seichter         Email: zodiac@darkness.gun.de
+        Am Christenrain 12
+        56479 Stein
+        Germany
+
+
+USAGE EXAMPLES
+
+   Locate all C source files on partition DH1:
+   -> find #?.c dh1:
+
+   Find all Icons in the current directory and all its subdirs, but
+   don't display the ".info" suffix.
+   -> find #?.info lformat %m
+
+   Print file name stems and extensions as a formatted table.
+   -> find #? RAM: lformat "%-20N|%3.3e"
+
+   Get rid of all files with the prefix "foo" on some partitions, but
+   don't go deeper than three subdirectory levels while scanning.
+   -> find foo#? sys: dh2: bozo: depth=3 lformat="delete %p%n" exec
+
+   Find 'Type' in the command path.
+   -> find Type path
+
+   Find all occurences of 'bar' in the command path.
+   -> find bar full
+
+   I hope that these few examples show some of the potential of 'find'. The
+possibility to create shell scripts and have them executed without further
+interaction is certainly very useful for many tasks.
+
+
+COMMAND TEMPLATE
+
+   PATTERN/A     Any OS name pattern, i.e. "#?.info".
+
+   DIRECTORY/M   List of directories to scan. If omitted, only the current
+                 directory and its subdirectories will be searched.
+
+   DEPTH/K/N     Number of subdirectory levels (recursion depth). DEPTH=0
+                 means no subdirs, DEPTH=1 one subdir level, and so on.
+
+   LFORMAT/K     Format string (%[flags][width.limit][length]type). You can
+                 use a subset of the templates known from 'List LFORMAT' to
+                 modify the output. As an example, a file "DH0:Foo/Bar.c"
+                 shall be used.
+
+                    %e   Name suffix            .c
+                    %f   Full path and name     DH0:Foo/Bar.c
+                    %m   Name without suffix    Bar
+                    %N   Full name              Bar.c
+                    %n   Full name (lowercase)  bar.c
+                    %p   Fully qualified path   DH0:Foo/
+                    %%   Percent sign           %
+
+                 LFORMAT defaults to %f (full path and name).
+
+   EXEC/S        Create shell script using the given LFORMAT string. You
+                 must specify LFORMAT, or EXEC will be ignored.
+
+   FULL/S        Check full command path instead of stopping with the first
+                 match (FULL implies PATH).
+
+   PATH/S        Find first matching file in the current CLI command path.
+
+   VERBOSE/S     Print the names of all directories when they are scanned.
+
+
+DISCLAIMER
+
+   THIS MATERIAL IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+EXPRESS OR IMPLIED, STATUTORY OR OTHERWISE, INCLUDING WITHOUT LIMITATION
+ANY IMPLIED WARRANTIES OF NONINFRINGEMENT, MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE USE, RESULTS, AND
+PERFORMANCE OF THIS MATERIAL IS ASSUMED BY YOU AND IF THE PRODUCT SHOULD
+PROVE TO BE DEFECTIVE, YOU ASSUME THE ENTIRE COST OF ALL NECESSARY
+SERVICING, REPAIR, OR OTHER REMEDIATION.
+@endnode

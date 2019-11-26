@@ -1,0 +1,61 @@
+Short:        xfr ripper monitor with gui using openxui
+Uploader:     silva@psi5.com
+Author:       silva@psi5.com (Andreas 'da Silva' Szabo)
+Type:         util/moni
+Version:      beta
+Requires:     any amiga or amiga emulator
+Architecture: m68k-amigaos >= 3.0
+
+
+          B E T A   V E R S I O N
+
+
+
+This Ripper and Monitor makes use of
+
+- the openxui gui-toolkit
+- the eXternal Format Rippers library
+- the disassembler library
+- xfd library
+
+
+To run this app you need from Aminet:
+
+http://aminet.net/package/util/libs/DisLib
+
+
+and from my homepage:
+
+http://otaku.onlinehome.de/xfrmaster.lha
+http://otaku.onlinehome.de/openxui.lha
+
+
+
+	FEATURES
+
+- compatible to any amiga os or emulator starting from v3.0 (v39)
+
+- recognize and decrunch files with XFD
+  requires http://aminet.net/package/util/pack/xfdmaster
+  (yet not implemented)
+
+- recognize and scan file/memory with eXternal Format Rippers
+
+- disassemble, requires http://aminet.net/package/util/libs/DisLib
+
+- view file/memory as bitplane, hex and asc
+
+- EOR de/code data
+
+- optionally check files for viruses with XVS,
+  needs http://aminet.net/package/util/virus/xvslibrary
+  (not yet implemented)
+
+
+
+       KNOWN BUGS THAT NEED DEBUG INFO FROM YOU
+
+- unknown if this buf still exists: xfr crash on file load under morphos
+
+
+ps: Zak McKracken for President

@@ -1,0 +1,71 @@
+;
+; ShowBoardsMUI.catalog
+;
+## version $VER: ShowBoardsMUI.catalog 1.0 (14.3.98) by Dámaso D. Estévez <amidde@arrakis.es>
+## codeset 0
+## language español
+;
+MSG_EXPANSIONS
+Expansiones
+;Expansions
+;
+MSG_KNOWN_BOARDS
+Tarjetas conocidas
+;known Boards
+;
+MSG_PRINT
+Imprimir
+;Print
+;
+MSG_ABOUT
+Sobre
+;About
+;
+MSG_SHOW_EXPANSIONS
+Mostrar expansiones
+;show Expansions
+;
+MSG_CONFIGDEV_BOARDADDR_BOARDSIZE
+ConfigDev\n\
+Dirección tarjeta\n\
+Tamaño tarjeta
+;ConfigDev\n\
+;BoardAddr\n\
+;BoardSize
+;
+MSG_SLOTADDR_SLOTSIZE_DRIVER
+Dirección conector\n\
+Tamaño conector\n\
+Gestor
+;SlotAddr\n\
+;Slotsize\n\
+;Driver
+;
+MSG_PRODUCT_MANUFACTURER_SERIALNUMBER
+Producto\n\
+Fabricante\n\
+Nº de serie
+;Product\n\
+;Manufacturer\n\
+;SerialNumber
+;
+MSG_NO_BOARDS
+¡No hay tarjetas!
+;no_Boards_!
+;
+MSG_CHIPSET
+Juego de chips:
+;ChipSet:
+;
+MSG_MANUFACTURER
+Fabricante
+;Manufacturer
+;
+MSG_PRODUCT
+Producto
+;Product
+;
+MSG_SIZE
+Tamaño
+;Size
+;

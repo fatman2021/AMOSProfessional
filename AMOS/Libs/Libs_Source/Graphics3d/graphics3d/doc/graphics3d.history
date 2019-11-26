@@ -1,0 +1,90 @@
+
+ ------ Graphics3d.library history ------------
+
+01.02.98 - V.10.0(beta)  
+	My firts pubblic release of this library.
+
+29.02.98 - V.10.10(beta) 
+	Translate and refined all documentation in English (the translation 
+	is not very good ,sorry) and correct the algoritm to erase the 
+	hidden faces, but it is not very visible in the test program 3dlib.
+
+26.03.98 - V.10.13(beta)
+	Add new functions to test the light source in the demo program.
+	Minor modify on memory use, correct a bugs on back side elimination
+	and any minor bugs.
+
+21.04.98 - V.12.20(beta) - MAYOR RELEASE -
+	Add new functions to edit to modify the scene caratteristic,to
+	trasform integer to fix point, single float ,double float and
+	viceversa.
+	Last but not list add support of degener poligons as in lightware
+	that is with one and to vertex.
+	Add the support of parallel projections but for now is only an
+	experiment.
+	Remove any hard bugs in clipping objects routins that can crash
+	the systems.
+	This is the last beta release I will hope.
+
+22.10.98 - V.13.00(beta) - MAYOR RELEASE - (not released) 
+        Totaly rewrite visualization routins in _CPU version of new library,
+	(the old metod in _BLT instead) here i use a chunky buffer to render
+	the scene and not a shadow rastport and not use the blitter to draw
+	but the CPU then on machines whit fast memory and/or fast CPU and/or
+	fast graphics card the library is more faster than before.
+        On my machines is 2 time faster an AGA screen and almost 3 time on
+	a Picasso screen.
+        I also add the possibility to select the screen mode on demo program
+	and an index that say the speed of repaint of scene in tick for second
+	(in europe it is second/50).
+
+24.10.98 - V.13.01(beta)
+        Remove a stupid bug that not permit the visualization of new metod of
+	render on machines without the picasso96 library (AGA only tipically).
+        
+15.11.98 - V.13.10(beta) (Not released)
+	Add function to do the direct object load of object in a custom format.
+	Add also a program (conv) to convert object from .plg and .tddd to this
+	custom format.
+
+20.12.98 - V.14.20 - MAYOR RELEASE -
+	Add support of Goraud shading an Z-buffering (only for CPU version, the BLT
+	version accept ths parameters but ignore its)thanks to Nautilus for this.
+	Remove any minor bugs and rewrite the code of flat shading.
+
+23.01.99 - V.15.00 - MAYOR RELEASE -
+	Add support of Texture Mapping (only for CPU version the BLT version accept 
+	this parameter but ignore it)thanks to Nautilus for this ,add the collision 
+	detect behind objects, add the the possibility of change all parameter of 
+	poligons, add the possibility of deactivate the objects (and so speed up the 
+	visualization) ,add the possibilty of to know the actual position of view 
+	point and add the support of virtual color (so the object color is indipendent 
+	from the phisical color palette) and trasparent color to create holes in 
+	polygon with texture mapping. 
+	
+15.05.99 - V.15.10 
+	In this version I have fixed any bug in the clipping and visualization and I
+	have do any minor change to three functions.
+	Bugs fixed:
+	-Now the objects is clipped correctly if you zoommed or dezoommed the all
+	 scene (with GD_cascene(  CS_ZOOM,val )) and reflect correct the change do on
+	 distance of projection plane and value near e far in GD_frustum() and run
+	 correctly the FRUSTUM method of clipping.
+	-Corrected the function GD_rotateobject() , there is any error in the
+	 calculation of new value of object vertex.
+	-Corrected the calculation of new scene if you change the visual angle, there
+	 was any bug in the compute of the matrix to trasfor the 
+	 coordinates of all object to the new angle.
+	I have do also any little change on three functions:
+	1# Gd_translateobject() now do a relative translate of the object vertex in
+	   respect of yours axis (not the world axis) and the value
+	   change always the originally object vertex and not the actual than
+	   this value isn't cumulative like in GD_scaleobject() and GD_rotateobject().
+	2# GD_positionobject() change the object axis in respect of the world
+ 	   origin axis (0,0,0) the it is cumulative and is absolute value.
+	   This function is always applied after all other trasformation in the
+	   scene calculation is not relevant your position in respect of the other.
+	3# GD_frustum() the value near and far is now total free (before near
+	   is always maior of distance of projection plane) the only limit is that far >
+	   near.
+

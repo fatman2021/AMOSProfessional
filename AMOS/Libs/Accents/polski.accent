@@ -1,0 +1,312 @@
+# Polish pronounciation rules for translator.library V42
+# $VER: polski.accent 1.0 (10.4.95)
+# By P.Szczygielski <qus@ife.p.lodz.pl>
+#
+
+%class bez chi ch ci cz c ê fi f hi h ki k pi p si sz s ô t
+%class szczel1 ch f sz s ô w z ú û
+%class zwar b p
+%class war cz c d g k t
+%class licz 0 1 2 3 4 5 6 7 8 9 
+
+%stress -2
+%emphasis 2
+
+[A]=AA
+
+[ÂÎ]=AOWW
+[Â](zwar)=AOMM
+[Â](war)=AONN
+[Â]=AHOH
+
+$[B]$=BBAE
+[BB]=BBQBB
+[BI]=BBYY
+[B](bez+)=PP
+[B]$=PP
+[B]=BB
+
+$[C]$=TSAE
+$[CH.]=/HAA
+[CC]=TSQTS
+[CÊ]=TSQCHIH
+[CCI]=TSQCHIH
+[CHI]=/HYY
+[CH]=/H
+[CI]$=CHIY
+[CI]=CHIH
+[CZI]=CHIH
+[CZ]=CH
+[C]=TS
+
+$[Ê]$=CHAE
+[Ê]=CH
+
+$[D]$=DDAE
+[DCZ]=TTQCH
+[DC]=TTQTTS
+[DD]=DDQDD
+[DI]=DDYY
+[DRZ]=DDZHZH
+$[DR]$=DDAOKKTTAORDXR
+[DR]=DDQRDXR
+[DZI]=DZHIY
+[DZ](bez+)=TS
+[DZ]$=TS
+[DZ]=DDZZ
+[DÚ](bez+)=CH
+[DÚ]$=CH
+[DÚ]=DZHIH
+[DÛI]=JIY
+[DÛ](bez+)=CH
+[DÛ]$=CH
+[DÛ]=J
+[D](bez+)=TT
+[D]$=TT
+[D]=DD
+
+[E]=AE
+
+[ËÎ]=AEWW
+[Ë]$=AEAE
+[Ë](zwar+)=AEMM
+[Ë](war+)=AENN
+[Ë]=AEUH
+
+$[F]$=AEFF
+[FF]=FFQFF
+[FI]=FFYY
+[F]=FF
+
+$[G]$=GGIYAE
+[GG]=GGQGG
+[GI]=GGYY
+[G](bez+)=KK
+[G]$=KK
+[G]=GG
+
+$[H]$=/HAA
+[HH]=/HQ/H
+[HI]=/HIH
+[H]=/H
+
+$[INÛ.]=IYNNZHZHIXIXNXNXAERDXR
+$[ITD.]="IY TTAAKK DDAALLAEYY"
+$[ITP.]="IY TTIXIXMM PPAODDAOBBNNAE"
+[IJ]=IYY
+[I]=IY
+
+$[J]$=YYAOTT
+[JABÎK]=YYAAPPKK
+[J]=YY
+
+$[K]$=KKAA
+[KI]=KKYY
+[KK]=KKQKK
+[K]=KK
+
+$[L]$=AELL
+[LI]=LLYY
+[LL]=LLQLL
+[L]=LL
+
+$[Î]$=AEWW
+[ÎI]=WWYY
+[ÎÎ]=WWQWW
+[Î]=WW
+
+$[M]$=AEMM
+$[MGR]$=MMAAGGYYSSTTAERDXR
+[MI]=MMIY
+[MM]=MMQMM
+[M]=MM
+
+$[NR]$=NNUWMMAERDXR
+$[NP.]="NNAA PPSHIXIXKKWWAADD"
+$[N]$=AENN
+[NI]$=NXIY
+[NI]=NXIHIH
+[NNI]=NNQNXIHIH
+[NN]=NNQNN
+[N]=NN
+
+$[Ï]$=AENXNX
+[Ï]=NXNX
+
+$[OB.]=AOBBIXIXVVAATTAELL
+[OM](szczel1+)=AHOH
+[ON](szczel1+)=AHOH
+[O]=AO
+
+[Ó]=UW
+
+$[P]$=PPAE
+$[PROF.]=PPRDXRAOFFAESSAORDXR
+[PI]=PPYY
+[PP]=PPQPP
+[P]=PP
+
+$[Q]$=KKUW
+[Q]=K
+
+$[R]$=AERDXR
+[RI]=RDXRIH
+[RR]=RDXRQRDXR
+[RZI]=ZHZHIH
+[RZ](bez+)=SH
+(bez+)[RZ]=SH
+[RZ]$=SH
+[RZ]=ZHZH
+[R]=RDXR
+
+$[S]$=AESS
+[SI]$=SHIY
+[SI]=SHIH
+[SSI]=SSQSHIH
+[SS]=SSQSS
+[SZI]=SHIH
+[SZ]=SH
+[S]=SS
+
+$[Ô]$=AESHSH
+[ÔÊ]=SHQCH
+[Ô]=SHSH
+
+$[T]$=TTAE
+[TI]=TTYY
+[TJ.]="TTAO YYAESSTT"
+[TRZ]=CHQSH
+[TR]=TTQRDXR
+[TT]=TTQTT
+[T]=TT
+
+[U]=UW
+
+$[V]$=FFAAWW
+[V]=VV
+
+$[WC]$="VVAARDXRTTAO2SHSHCHIH /HSHAESHSHCHIHYYAA2NXNXSSKKYYAE"
+$[WG]$=VVAEDDWWUWGG
+$[W.]=VVUW
+(bez+)[WI]=FFYY
+[WI]=VVYY
+[WW]=WWQWW
+(bez+)[W]=FF
+[W](bez+)=FF
+[W]$=FF
+[W]=VV
+
+$[X]$=IYKKSS
+[X]=KS
+
+$[Y]$=IXIXGGRDXRAEKK
+[Y]=IXIX
+
+$[Z.]=ZZAETT
+$[Z]$=ZZ
+[ZI]$=ZHIY
+[ZI]=ZHIH
+[ZMARZÎ]=ZZMMAARDXRZZ
+[ZZI]=ZZQZHIH
+[ZZ]=ZZQZZ
+[Z](bez+)=SS
+[Z]$=SS
+[Z]=ZZ
+
+$[Ú]$=ZHAETT
+(bez+)[Ú]=SHSH
+[Ú](bez+)=SHSH
+[Ú]$=SHSH
+[Ú]=ZH
+
+$[Û]$=ZHZHAETT
+[ÛI]=ZHZHIH
+[Û](bez+)=SH
+[Û]$=SH
+[Û]=ZHZH
+
+$[0]=ZAE2RDXRAO
+[0](licz)(licz)$=" "
+[0](licz)$=" "
+[0]=" "
+[1](licz)(licz)(licz)$=TTIXIXSHIH2AONNTS
+[1](licz)(licz)$=SSTTAO
+[10]=DZHIYAE2SHIHAEUHCH
+[11]=YYAE2DDAENNAA2SHSHCHIHAE
+[12]=DDVVAA2NNAA2SHSHCHIH2AE
+[13]=CHQSHIXIX2NNAA2SHSHCHIH2AE
+[14]=CHTTAE2RDXRNNAA2SHSHCHIH2AE
+[15]=PPYYAE2NNTTNNAA2SHSHCHIH2AE
+[16]=SHAE2SSNNAA2SHSHCHIH2AE
+[17]=SHIHAE2DDAEMMNNAA2SHSHCHIH2AE
+[18]=AOSHIHAE2MMNNAA2SHSHCHIH2AE  
+[19]=DZHIYAE2VVYYAENNTTNNAA2SHSHCHIH2AE
+[1]=YYAE2DDAENN
+[2](licz)(licz)(licz)$="DVVAA TTIXIXSHIHAO2NNTSAE"
+[2](licz)(licz)$=DDVVYYAESHSHCHIH2AE
+[2](licz)$=DDVVAADZHIYAESHSHCHIH2AA
+[2]=DVVAA
+[3](licz)(licz)(licz)$="CHQSHIXIX TTIXIXSHIHAO2NNTSAE"
+[3](licz)(licz)$=CHQSHIXIXSSTTAA   
+[3](licz)$=CHQSHIXIXDZHIYAE2SHSHCHIH  
+[3]=CHQSHIXIX
+[4](licz)(licz)(licz)$="CHTTAERDXRIXIX TTIXIXSHIHAO2NNTSAE"
+[4](licz)(licz)$=CHTTAE2RDXRIXIXSSTTAA    
+[4](licz)$=CHTTAERDXRDZHIYAE2SHSHCHIH   
+[4]=CHTTAERDXRIXIX
+[5](licz)(licz)(licz)$="PPYYAENXNXCH TTIXIXSHIH2AENNTSIXIX"
+[5](licz)(licz)$=PPYYAE2NXTSAETT  
+[5](licz)$=PPYYAENXNXDZHIYAESHIH2AONNTT   
+[5]=PPYYAENXNXCH
+[6](licz)(licz)(licz)$="SHAESHQCH TTIXIXSHIH2AENNTSIXIX"
+[6](licz)(licz)$=SHAE2YYSSAETT  
+[6](licz)$=SHAESHSHDZHIYAESHIH2AONNTT 
+[6]=SHAESHQCH
+[7](licz)(licz)(licz)$="SHIHAE2DDAEMM TTIXIXSHIH2AENNTSIXIX"
+[7](licz)(licz)$=SHIHAEDDAE2MMSSAETT  
+[7](licz)$=SHIHAEDDAEMMDZHIYAESHIH2AONNTT   
+[7]=SHIHAE2DDAEMM
+[8](licz)(licz)(licz)$="AO2SHIH2AEMM TTIXIXSHIH2AENNTSIXIX"
+[8](licz)(licz)$=AOSHIHAE2MMSSAETT 
+[8](licz)$=AOSHIHAEMMDZHIYAESHIH2AONNTT    
+[8]=AO2SHIH2AEMM
+[9](licz)(licz)(licz)$="DZHIYAE2VVYYAEUHCH TTIXIXSHIH2AENNTSIXIX"
+[9](licz)(licz)$=DZHIYAEVVYYAE2NXTSAETT  
+[9](licz)$=DZHIYAEVVYYAENNDZHIYAESHIH2AONNTT  
+[9]=DZHIYAE2VVYYAEUHCH
+
+$[-]$ = -
+(licz)[.](licz)=PPSHAECHIH2NNAEKK     
+[+]=PPLLUWSS
+(licz)[-](licz)=MMIY2NNUWSS  
+[*]=RDXRAAZZIXIX  
+[/]=NNAA
+[<]="-YYAESSTT MMNXIHIHAE2YYSHAE NXIHIHSH-"
+[>]="-YYAESSTT VVYYAE2NNKKSHAE NXIHIHSH-"
+[§]=PPAARDXRAA2GGRDXRAAFF  
+["\$"]=DDAO2LLAARDXR 
+[°C]="SSTTAO2PPNXIHIH TSAELLSSYYUWSHAA"
+[°F]="SSTTAO2PPNXIHIH FFAARDXRAANN/HAAYYTTAA"
+[°K]="SSTTAO2PPNXUHIH KKAELLVVIYNNAA"
+[°]=SSTTAO2PPNXIHIH   
+[%]=PPRDXRAO2TSAENNTT  
+[=]="RDXRUW2VVNNAA SHIHAE2AE"
+[^]="DDAO PPAO2TTAENNGGYY"
+[#]=NNUW2MMAERDXR
+[.]$ = .
+[!]$ = .
+[,]$ = -
+[.] = " "
+[:] = ". "
+[;] = .
+[?] = ?
+[ "\(" ] = " "
+[ "\)" ] = " "
+[\\] = " "
+[ "\[" ] = " "
+[{] = " "
+[}] = " "
+[_] = "-"
+[`] = " "
+[ "]" ] = " "
+[" "] = " "

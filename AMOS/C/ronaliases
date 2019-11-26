@@ -1,0 +1,6 @@
+alias ronls rx "address ron_II;list stem l;do i=0 to l.count; say l.i; end;"
+alias ronquit rx "address ron_ii; quit"
+alias ronadd rx "address ron_ii; add '[]'"
+alias ronclean rx "address ron_ii; clean"
+
+

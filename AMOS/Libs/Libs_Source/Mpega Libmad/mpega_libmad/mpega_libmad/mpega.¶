@@ -1,0 +1,330 @@
+Storm Shell Project (0018)
+Settings (Start)
+C/C++ Environment
+"StormC:include"
+0
+"mycodec:cisc/mpega_library/mad"
+0
+Includepath (End)
+0 "" 80
+1 "objects_debug"
+1 0 "makelog.txt"
+""
+0
+0 0
+0
+0 0
+C/C++ Preprozessor
+0 "NDEBUG" ""
+0
+1 "__MIXEDBINARY__" ""
+0
+Defines (End)
+1 1 1
+0 0
+C/C++ Options
+0 1 1 2 1 0 0 0 1 0 0 0 0 0 1
+0 0 0
+0
+0 1 0
+C/C++ Optimizer
+9
+C/C++ Warnings
+1 1 1 1 1 1 0 1
+0 0
+GCC Options (1)
+1 "NDEBUG" ""
+0
+1 "__MIXEDBINARY__" ""
+0
+1 "BUILD_WARPUP" ""
+0
+Defines (End)
+1 0 0 1 0
+0 0 0 0 0 1 0
+0 2 0 0 0
+0 0 1 0 1 0 1
+6 0 0 0
+0 ""
+2 1 0 0
+1 0 0 1 0 1 0 1 0 1
+1 1 0 1 0 1
+0 1 1 1 1 0 0
+0 0 0 0 0
+Assembler
+0 ""
+0 "CON://640/200/Storm Assembler/AUTO/WAIT/SCREEN StormScreen"
+0 0
+0 1 60 0 1 0 0 20 0
+Sets (End)
+0 1 0 0 0 2 1 0 0
+1 1 1 1 0 0 0 0 0
+1 0
+0 0 0 0 0
+Linker
+2 0 "PROGDIR:startup.o" 0 0 2 4 1 0 0
+"StormC:lib/" 0 "StormC:lib/logfile" 0 0 0
+0 "_WizardSurface"
+0 0 50 0 50 0 50 0 0
+0 0 0 0 0 0 0 0
+Run
+30 "" "" "" 0
+""
+
+1 "CON://400/180/Storm Console/AUTO/WAIT/SCREEN StormScreen" "RAM:Output" "RAM:Input"
+1 0
+0 0 0 "" ""
+Settings (End)
+Storm Shell Project (Custom Sections End)
+Section
+1 1 100
+0 1 1 0
+4
+File
+1 "library_init.c"
+"library_init.c"
+"library_init.h"
+"library_base.h"
+"compiler.h"
+"wrap_mpega.h"
+"support.h"
+Storm Shell Project (Dependencies)
+"objects_debug/library_init.o" "objects_debug/library_init.debug"
+""
+1 1
+Section
+2 1 95
+0 1 1 0
+2
+File
+2 "library_init.h"
+"library_init.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "library_base.h"
+"library_base.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "compiler.h"
+"compiler.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "wrap_mpega.h"
+"wrap_mpega.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "support.h"
+"support.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+Section
+16 1 75
+0 1 1 0
+8
+File
+16 "mpega.fd"
+"mpega.fd"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+Section
+10 1 40
+0 0 0 0
+7
+File
+10 "mpega.library.wos"
+"mpega.library.wos"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+Section
+9 1 -10
+0 0 0 0
+5
+File
+9 "mpega_PPC.¶"
+"mpegawos_PPC.¶"
+"mpega_PPC.¶"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+Section
+3 1 -40
+0 0 0 0
+7
+File
+3 "objects_ppc_debug/bit.o"
+"objects_ppc_debug/bit.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/filter.o"
+"objects_ppc_debug/filter.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/fixed.o"
+"objects_ppc_debug/fixed.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/frame.o"
+"objects_ppc_debug/frame.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/huffman.o"
+"objects_ppc_debug/huffman.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/layer12.o"
+"objects_ppc_debug/layer12.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/layer3.o"
+"objects_ppc_debug/layer3.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/resample.o"
+"objects_ppc_debug/resample.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/stream.o"
+"objects_ppc_debug/stream.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/synth.o"
+"objects_ppc_debug/synth.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/timer.o"
+"objects_ppc_debug/timer.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/wrap_mpega.o"
+"objects_ppc_debug/wrap_mpega.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/support.o"
+"objects_ppc_debug/support.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/crc.o"
+"objects_ppc_debug/crc.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+3 "objects_ppc_debug/tag.o"
+"objects_ppc_debug/tag.o"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+Section
+5 1 -50
+0 0 0 0
+7
+File
+5 "libmoto.lib"
+"libmoto.lib"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+5 "gcclibnix603.lib"
+"gcclibnix603.lib"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+5 "gcclibnix020.lib"
+"gcclibnix020.lib"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+5 "storm.lib"
+"storm.lib"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+5 "amiga.lib"
+"amiga.lib"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+5 "debug.lib"
+"debug.lib"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+5 "amiga603.lib"
+"amiga603.lib"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+Storm Shell Project (End)

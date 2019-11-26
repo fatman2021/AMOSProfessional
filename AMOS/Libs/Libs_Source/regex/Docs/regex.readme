@@ -1,0 +1,14 @@
+
+Name: regex.library
+Version: 5.1
+Date: 17.11.01
+Author: Alfonso Ranieri <alforan@tin.it>
+Copyright: Henry Spencer
+Status: freeware
+
+Description: regex.library is an AmigaOS shared library that implements regular
+             expressions (REs) as defined in POSIX 1003.2 .
+             The library is based on the code by Henry Spencer (see the Copyright file),
+             included in sources of Apaches_1.3.4 .
+             The library offers also an ARexx interface to REs .
+

@@ -1,0 +1,58 @@
+.key AtariPicFile
+.bra {
+.ket }
+; ViewAtari image script by Lorence Lombardo 3-Aug-2012 to 5-Aug-2012
+if "{AtariPicFile}" eq ""
+   set AtariPicFile `Requestfile TITLE "Select an atari pic file"`
+else
+   set AtariPicFile "{AtariPicFile}"
+endif
+if not exists $AtariPicFile
+   echo "*N $AtariPicFile not found...!!!*N"
+   quit
+endif 
+if not exists sys:utilities/multiview
+   echo "*N sys:utilities/multiview not found...!!!*N"
+   quit
+endif 
+echo ""
+set defStack `getstack`
+stack 500000  ; <- had to lift this coz DEBIL1.ART sed so
+failat 9999
+version >nil: ixemul.library 48
+if warn
+   set ix 0
+else
+   set ix 1
+   assign >nil: amitcp: exists
+   if warn 
+      assign >nil: amitcp: t:
+   endif
+endif
+CPU CHECK FPU >nil:
+if warn
+   if $ix eq 0
+      fail2png.nofpu.noixemul -o t:temp.png $AtariPicFile
+   else
+      fail2png.nofpu -o t:temp.png $AtariPicFile
+   endif
+else
+   if $ix eq 0
+      fail2png.fpu.noixemul -o t:temp.png $AtariPicFile
+   else
+      fail2png.fpu -o t:temp.png $AtariPicFile
+   endif
+endif
+if exists t:temp.png
+   if exists Devs:DataTypes/png  ; <- here we make the reasonable assumption that the PNG DT is correctly installed, if not then its up to u finish the job. ;)
+      sys:utilities/multiview t:temp.png
+      delete >nil: t:temp.png
+   else
+      PNGtoPNM t:temp.png >t:temp.pnm
+      delete >nil: t:temp.png
+      wasp -zap -ham t:temp.pnm t:temp.ilbm
+      sys:utilities/multiview t:temp.ilbm
+      delete >nil: t:temp.ilbm
+   endif
+endif 
+stack $defStack

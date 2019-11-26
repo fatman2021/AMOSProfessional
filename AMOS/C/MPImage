@@ -1,0 +1,9 @@
+.key garbage
+.bra {
+.ket }
+RunMPGui gui/MPImage.gui TO=t:mpimage.temp{$$} HELP=MPImage.guide RELMOUSE
+if $rc gt 0
+	quit
+endif
+execute t:mpimage.temp{$$}
+execute mpimage

@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc
+END
+rpc_msg.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc/rpc_msg.h
+END
+svc.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc/svc.h
+END
+svc_auth.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc/svc_auth.h
+END
+pmap_clnt.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc/pmap_clnt.h
+END
+xdr.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc/xdr.h
+END
+pmap_rmt.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc/pmap_rmt.h
+END
+clnt.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc/clnt.h
+END
+auth.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc/auth.h
+END
+pmap_prot.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc/pmap_prot.h
+END
+auth_unix.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc/auth_unix.h
+END
+rpc.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc/rpc.h
+END
+types.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/amiga/!svn/ver/6/ixemul/include/rpc/types.h
+END

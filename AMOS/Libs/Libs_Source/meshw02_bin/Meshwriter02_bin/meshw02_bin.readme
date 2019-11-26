@@ -1,0 +1,64 @@
+Short:    3d mesh writer library, supports a lot of 3d file formats
+Uploader: stephan.bielmann@rega-sense.ch
+Author:   stephan.bielmann@rega-sense.ch
+Type:     gfx/misc
+
+meshwriter.library is to simplify the creation of a 3d mesh and to
+write it down to a file. The library supports already a few 3d file
+formats like Lightwave,Imagine,POV,Reflections,...
+
+The sources of this project are free and can be located at dev/src.
+I will not longer develop for this package.
+
+Listing of archive 'meshw02_bin.lha':
+Original  Packed Ratio    Date     Time    Name
+-------- ------- ----- --------- --------  -------------
+    4040    4040  0.0% 05-Dec-99 15:18:06  Meshwriter02_bin/images/axis.jpg
+    7068    7068  0.0% 05-Dec-99 15:18:16  Meshwriter02_bin/images/axis2.jpg
+   33696   33696  0.0% 05-Dec-99 15:18:26  Meshwriter02_bin/images/landscape.jpg
+   23577   23577  0.0% 05-Dec-99 15:18:36  Meshwriter02_bin/images/pawn.jpg
+     343     217 36.7% 11-Mar-99 21:44:50  Meshwriter02_bin/images/readme
+   26060   26060  0.0% 05-Dec-99 15:18:44  Meshwriter02_bin/images/ripples.jpg
+    8029    8029  0.0% 05-Dec-99 15:18:50  Meshwriter02_bin/images/rotate.jpg
+   27445   27445  0.0% 05-Dec-99 15:19:00  Meshwriter02_bin/images/shell.jpg
+   26324   26324  0.0% 05-Dec-99 15:19:08  Meshwriter02_bin/images/tank.jpg
+   17896   17896  0.0% 05-Dec-99 15:19:16  Meshwriter02_bin/images/wave.jpg
+   57817    7776 86.5% 28-Mar-99 15:41:30  Meshwriter02_bin/Library/autodoc/meshwriter.doc
+    2557    1044 59.1% 28-Mar-99 17:33:14  Meshwriter02_bin/Library/changes.readme
+     464     218 53.0% 14-Feb-99 20:26:30  Meshwriter02_bin/Library/changes.readme.info
+   12016    7445 38.0% 28-Mar-99 17:25:54  Meshwriter02_bin/Library/demo/geo2any
+   40400   15933 60.5% 28-Mar-99 16:34:48  Meshwriter02_bin/Library/demo/MeshWriter
+    3578    1029 71.2% 14-Feb-99 20:26:10  Meshwriter02_bin/Library/demo/MeshWriter.info
+     970     485 50.0% 27-Feb-99 18:42:10  Meshwriter02_bin/Library/demo/ReadMe.mui
+    1416     524 62.9% 27-Feb-99 18:42:10  Meshwriter02_bin/Library/demo/ReadMe.mui.info
+    2876     649 77.4% 28-Mar-99 16:31:36  Meshwriter02_bin/Library/fd/meshwriter.fd
+    4025     801 80.0% 28-Mar-99 15:57:14  Meshwriter02_bin/Library/include/clib/meshwriter_protos.h
+    4437    1450 67.3% 28-Mar-99 16:23:58  Meshwriter02_bin/Library/include/meshwriter/meshwriter.h
+     590     290 50.8% 28-Mar-99 16:00:40  Meshwriter02_bin/Library/include/meshwriter/meshwriterbase.h
+    3005     752 74.9% 28-Mar-99 15:00:20  Meshwriter02_bin/Library/include/meshwriter/shortnames.h
+    7822    1248 84.0% 28-Mar-99 16:31:00  Meshwriter02_bin/Library/include/pragma/meshwriter_lib.h
+    3934     756 80.7% 28-Mar-99 16:31:22  Meshwriter02_bin/Library/include/pragmas/meshwriter_pragmas.h
+     299     181 39.4% 28-Mar-99 16:06:10  Meshwriter02_bin/Library/include/proto/meshwriter.h
+   55124   20322 63.1% 28-Mar-99 15:47:32  Meshwriter02_bin/Library/libs/meshwriter.library
+   12226    5020 58.9% 28-Mar-99 17:49:04  Meshwriter02_bin/Library/meshwriter.readme
+     464     217 53.2% 14-Feb-99 20:26:10  Meshwriter02_bin/Library/meshwriter.readme.info
+    2758     802 70.9% 28-Mar-99 16:11:30  Meshwriter02_bin/Library/samples/checkboard.c
+    2207     655 70.3% 28-Mar-99 16:11:30  Meshwriter02_bin/Library/samples/circle.c
+    3626     782 78.4% 28-Mar-99 16:11:30  Meshwriter02_bin/Library/samples/cube.c
+    4660    1029 77.9% 28-Mar-99 16:11:30  Meshwriter02_bin/Library/samples/cubetower.c
+    3333     981 70.5% 28-Mar-99 16:11:30  Meshwriter02_bin/Library/samples/galaxy.c
+    6175    1814 70.6% 28-Mar-99 17:26:50  Meshwriter02_bin/Library/samples/geo2any.c
+    2448     663 72.9% 28-Mar-99 16:11:30  Meshwriter02_bin/Library/samples/ground.c
+    5092    1288 74.7% 28-Mar-99 16:11:30  Meshwriter02_bin/Library/samples/landscape.c
+    3077     916 70.2% 28-Mar-99 16:11:30  Meshwriter02_bin/Library/samples/pawn.c
+    3273     730 77.6% 28-Mar-99 16:11:30  Meshwriter02_bin/Library/samples/pyramid.c
+    3343     829 75.2% 28-Mar-99 16:11:30  Meshwriter02_bin/Library/samples/ripples.c
+    2761     758 72.5% 28-Mar-99 16:11:30  Meshwriter02_bin/Library/samples/wave.c
+    5361    1664 68.9% 14-Feb-99 20:26:10  Meshwriter02_bin/Library/source/compiler.h
+    5191    1875 63.8% 28-Mar-99 15:45:52  Meshwriter02_bin/Library/source/LibInit.c
+    2670     639 76.0% 28-Mar-99 15:47:16  Meshwriter02_bin/Library/source/meshwriter.project
+   11677    2865 75.4% 28-Mar-99 15:45:26  Meshwriter02_bin/Library/source/StartUp.c
+    4764    1410 70.4% 05-Dec-99 15:42:42  Meshwriter02_bin/meshw02_bin.readme
+     464     224 51.7% 05-Dec-99 15:54:24  Meshwriter02_bin/meshw02_bin.readme.info
+-------- ------- ----- --------- --------
+  461378  260416 43.5% 05-Dec-99 15:54:52   47 files

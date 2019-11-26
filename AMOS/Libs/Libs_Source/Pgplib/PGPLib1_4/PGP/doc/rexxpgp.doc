@@ -1,0 +1,24 @@
+$Id: rexxpgp.doc,v 1.5 1998/02/09 00:22:56 andre Exp $
+
+               Documentation of the ARexx Inteface
+                         for pgp.library
+
+
+pgp.library  is an ARexx function library.  The query function is at offset
+-30.   Use  addlib()  or  RXLIB to install it in the global library list of
+ARexx.
+
+Please  refer  the autodoc  of  pgp.library  and the supplied sample script
+pgptest.rexx to get a general understanding of the functions.
+
+Datatypes:
+==========
+  string   - a string (e.g. "Hello!")
+  number   - a cardinal number
+
+Functions:
+==========
+  number = PGPEncrypt(filename: string; userid: string; [outfile: string]; [conoutput: string])
+  number = PGPDecrypt(filename: string; password: string; [outfile: string]; [conoutput: string])
+  string = PGPFault(code: number; header: string)
+  number = PGPSign(filename: string; password: string; [outfile: string]; [userid: string]; [conoutput: string])

@@ -1,0 +1,123 @@
+
+                               WBStartEmu
+                    © 1999-2001 de Stephan Rupprecht
+                     Todos los derechos reservados
+
+
+DERECHOS LEGALES Y RESPONSABILIDADES
+
+ `WBStartEmu' es propiedad de:  Copyright © 1999-2001 Stephan Rupprecht.
+ Todos  los  derechos reservados.  Este programa es gratuito, así que no
+ se  exige  ningún  tipo  de  donación  económica.  La redistribución se
+ permite  siempre  que  el paquete se distribuya sin modificaciones.  El
+ autor  no se responsabiliza de cualquier daño causado por el uso (o mal
+ uso) de esta documentación y/o del/de los programa/s que describe.
+
+
+REQUERIMIENTOS
+
+ Cualquier  ordenador  Amiga®  (o  compatible)  con  la  versión 3.5 del
+ sistema operativo o superior y microprocesador 68020 o superior.
+
+
+DESCRIPCIÓN
+
+ Desde  la versión 45 de la biblioteca `workbench.library', herramientas
+ como  la  biblioteca  `wbstart.library'  (de  Stefan  Becker) ya no son
+ necesarias para poner en marcha un programa como si se hiciese desde el
+ Workbench.   Esta  es  la  razón por la que escribí una emulación de la
+ biblioteca `wbstart.library' que utiliza la interfaz para programadores
+ de  la  versión  45  del  sistema  operativo  para  invocar a programas
+ ejecutables desde el Workbench.
+
+
+ERRORES CONOCIDOS
+
+ La  biblioteca  original `wbstart.library' le permite definir el tamaño
+ de  la  pila y la prioridad del programa a ejecutar.  Estas opciones no
+ son  soportadas por la emulación debido a una limitación de la (versión
+ actual  de  la)  biblioteca  `workbench.library'.  Sin embargo, esto no
+ debería  suponer  ningún  problema  puesto  que el Workbench obtiene la
+ información necesaria del icono del programa.
+
+ Una  prestación  (que  no  un error) es que como efecto colateral puede
+ abrir cajones también con esta emulación.
+
+ Debido a un error en la versión 44 de la biblioteca `workbench.library'
+ se exige la versión 45 para poder utilizar esta emulación.
+
+ La  emulación  del Workbench desde DirOpus es INCOMPLETA, de manera que
+ `WBStartEmu' no funcionará con él.
+
+
+INSTALACIÓN
+
+ Copie  el  fichero  `wbstart.library'  en su cajón `LIBS:' y el fichero
+ `wbstart-handler' en `L:'.
+
+
+HISTORIA
+
+ 44.0   Primera versión pública.
+ 44.1   ¡Uuups!  Cuando se copiaba la estructura WBArg, el puntero no se
+        incrementaba,  de  manera  que cuando se suministraban múltiples
+        argumentos,  el  mismo argumento era proporcionado varias veces.
+        ¡Pero  qué  estúpido!...   también  olvidé  añadir  la  etiqueta
+         TAG_DONE para terminar la lista :(.
+ 44.2   Corregido   un   error   muy   grave  en  el  código  LibExpunge
+        (relacionado  con liberar  memoria ya liberada)... gracias a las
+        funciones Forbid/Permit este error nunca ha causado problemas ;)
+        Gracias  especialmente  a  Thomas  Richter,  que  es quien lo ha
+        descubierto.
+ 45.0   Debido  a un error en la biblioteca Workbench, ahora se exige la
+        versión 3.9 del sistema operativo/de la biblioteca para utilizar
+        este paquete.
+ 45.1   Cambiado  el  manejo  del  camino ligeramente; esto, por suerte,
+        corrige  el problema de algunos programas que no podían volver a
+        ser ejecutandos cuando esta biblioteca era utilizada.
+ 45.1a  Añadido el sustituto `l:wbstart-handler'
+        que utiliza la biblioteca `wbstart.library'.
+ 45.1b  Añadido el comando `wbrun',
+        el fichero `l:wbstart-handler' es ahora incluso más pequeño :).
+ 45.1c  El comando `wbrun' siempre devolvía el código de error (20).
+ 45.1d  Actualizado  `l:wbstart-handler',  de manera que ahora permanece
+        en  memoria.   Esto  debería  solventar  el posible problema con
+        AsimCDFS <Patrick Smith>.
+ 45.2   Otro  intento  de corregir el último problema que quedaba con el
+        camino  de  acceso  (programa  no  encontrado,  el  programa  no
+        encuentra  su  icono).   Gracias  a  Andreas  Kürzinger  por las
+        pruebas.
+ 45.2a  Añadida  una nueva versión del comando `wbrun'.  Tenga en cuenta
+        que no es la del S.O.  3.9.  ¡La incluida no requiere la versión
+        3.9  del  S.O.   ni WBStartEmu!  Como novedad en esta versión se
+        incluye un mejor soporte de DefIcons.
+
+
+AUTOR
+
+ Por favor, informe de los errores detectados y envíe sus ideas a:
+
+	Stephan Rupprecht
+	Apfeldweg 1
+	D44359 Dortmund
+	Alemania
+
+ Envíe el correo electrónico a
+
+	info@stephan-rupprecht.de
+
+ Página
+
+ 	 http://stephan-rupprecht.de
+
+
+TRADUCCIÓN AL ESPAÑOL
+
+         Copyright © 2001 Dámaso D. Estévez <amidde@arrakis.es>
+                     Todos los derechos reservados
+
+ El  traductor  no  se responsabiliza de la fiabilidad de la traducción:
+ por  favor,  consulte  la  documentación original.  Su modificación sin
+ permiso previo y por escrito, como todas que hago, está terminantemente
+ prohibida.
+

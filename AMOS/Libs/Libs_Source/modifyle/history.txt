@@ -1,0 +1,103 @@
+
+
+                    * MODIFYLE *
+
+
+             CHANGES AND FEATURES HISTORY
+
+
+Feb. 24, 2012		version 1.1.1
+
+ 	* Reworked Progressbars. Now better.
+	
+
+
+Feb. 21, 2012		version 1.1.0.1 (inofficial)
+
+	* Added copy/move file(s) from Workbench via
+	  drag & drop of icons. Only from, not to.
+
+	* Fixed some misbehaviour when copying/moving
+	  partial directories.
+
+
+
+Feb. 17, 2012
+
+	* Makedir, Rename, Delete added
+	* middle Mouse Button displays Assigns
+
+
+
+Feb. 14, 2012
+
+	* Copy and move via Drag & Drop
+	* Open files with Multiview
+
+
+
+Feb. 10, 2012
+
+        * Drag & Drop feature partially working.
+
+
+
+Feb. 2, 2012
+
+        * Stable release 1.0!
+        * Created nice Modifyle icon.
+        * Working on drag and drop feature
+          and more to come.
+
+
+
+Jan. 25, 2012
+
+Implemented ASL Tags / Functions:
+
+		ASLFR_AcceptPattern
+		ASLFR_RejectPattern
+		ASLFR_UserData
+		ASLFR_DoMultiSelect (and FRF_DOMULTISELECT)
+		ASLFR_Window
+		ASLFR_SleepWindow
+
+Wrote patch "modifyleasl" that makes the Modiflye Requester
+pop up in place of the ASL requester. Yet works only for
+68k based software, it won't change the ASL requester that
+is used on PPC natively. It will work for 68k based (emulated)
+programs that run on PPC based Amigas though.
+
+
+
+
+Jan. 21, 2012
+
+Implemented ASL tags / functions:
+
+		ASLFR_TitleText
+		ASLFR_PositiveText
+		ASLFR_NegativeText
+		ASLFR_InitialLeftEdge
+		ASLFR_InitialTopEdge
+		ASLFR_InitialWidth
+		ASLFR_InitialHeight
+		ASLFR_InitialFile
+		ASLFR_InitialDrawer
+		ASLFR_InitialPattern
+		ASLFR_Flags1	(except multiselect)
+		ASLFR_Flags2
+		ASLFR_DrawersOnly
+		ASLFR_FilterDrawers
+		ASLFR_RejectIcons
+		ASLFR_DoSaveMode
+		ASLFR_DoPatterns
+
+
+
+
+Jan. 18, 2012
+
+First beta release supports the filerequester w/ single file
+select only and no dir select. Yet no save mode and no tags.
+

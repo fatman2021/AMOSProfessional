@@ -1,0 +1,174 @@
+TABLE OF CONTENTS
+
+boards.library/AllocBoardInfo
+boards.library/FreeBoardInfo
+boards.library/GetBoardName
+boards.library/NextBoardInfo
+
+
+boards.library/AllocBoardInfo                   boards.library/AllocBoardInfo
+
+   NAME
+	AllocBoardInfo - allocate a BoardInfo structure , that can be
+			 filled with NextBoardInfo (V2)
+
+   SYNOPSIS
+	BoardInfo = AllocBoardInfo (BoardInfoFlags)
+	  D0				D0
+
+	APTR AllocBoardInfo(ULONG);
+
+   FUNCTION
+	allocate a BoardInfo structure
+
+   INPUTS
+	BoardInfoFlags - with this flags you can manipulate the Stringformat
+			 ( 0 = Default settings )
+
+		These Flags are known in V 2.0 :
+
+		SB_EXPANSION_SIZE_HEX	;Expansion size HEX (ASCII)
+		SB_MANUFACTURERID_HEX	;ManufacturerID HEX (ASCII)
+		SB_PRODUCTID_HEX	;ProductID HEX (ASCII)
+		SB_SERIALNUMBER_HEX	;SerialNumber HEX (ASCII)
+		SB_CONFIGDEV_FLAGS_DEC	;ConfigDev flags DEC (ASCII)
+		SB_EXPANSION_TYPE_DEC	;Expansion type DEC (ASCII)
+
+
+   RESULT
+	BoardInfo      - Pointer to BoardInfo structure or NULL.
+
+   NOTE
+	You must use this function, before you call NextBoardInfo().
+	If BoardInfo structure not used anymore, you must call
+	FreeBoardInfo().
+	This call is guaranteed to preserve all registers except D0.
+
+   BUGS
+
+   SEE ALSO
+	NextBoardInfo, FreeBoardInfo
+
+
+boards.library/FreeBoardInfo                     boards.library/FreeBoardInfo
+
+   NAME
+	FreeBoardInfo - deallocate BoardInfo structure (V2)
+
+   SYNOPSIS
+	FreeBoardInfo (BoardInfo)
+			  A0
+
+	VOID FreeBoardInfo(struct BoardInfo*);
+
+   FUNCTION
+	deallocate BoardInfo structure
+
+   INPUTS
+	BoardInfo     - Pointer to BoardInfo structure
+
+   RESULT
+
+   NOTE
+	This call is guaranteed to preserve all registers.
+
+   BUGS
+
+   SEE ALSO
+	AllocBoardInfo, NextBoardInfo
+
+
+boards.library/GetBoardName                       boards.library/GetBoardName
+
+   NAME
+	GetBoardName - get the name of manufacturer and product
+                       of the given expansion board
+
+   SYNOPSIS
+	Success = GetBoardName(ManName,ProdName,ConfigDev,ManuID,ProdID)
+	  D0                     A0       A1       A2       D0     D1
+
+	BOOL GetBoardName(UBYTE *,UBYTE *,struct ConfigDev*,UWORD,UBYTE);
+
+   FUNCTION
+	Gets the name of the manufacturer and product of the given
+        expansion board.
+
+   INPUTS
+	ManName       - Stringbuffer to be filled with the manufacturer name.
+			Must be at least 48 chars long.
+
+	ProdName      - Stringbuffer to be filled with the product name.
+			Must be at least 48 chars long.
+
+	ConfigDev     - Pointer to ConfigDev structure (from expansion.library)
+			or NULL.
+			If a ConfigDev structure given, Manufacturer and Product
+			was ignored ( ConfigDev have a higher priority )
+			
+
+	ManuID	      - ID of the board's manufacturer.
+
+	ProdID        - ID of the board's product number.
+
+			If you use Manufacturer and Product, the ConfigDev must
+			be NULL.
+
+
+   RESULT
+	Success       - True if both manufacturer and product are known. False
+			if one of them are not known.
+
+   NOTE
+	If the manufacturer or the product is not known, the string will be
+	filled with a "unknown" and its number. It`s NOT a real fault if this
+	function fails, only the library not known the board by the name.
+
+	This call is guaranteed to preserve all registers except D0.
+
+   BUGS
+	There are by far not all existing boards implemented. Please send
+	me the manufacturer id and name and the products id and name of all
+	unknown boards. E-Mail: "lsi@berlin.snafu.de".
+
+   SEE ALSO
+
+	The "boards.library" use the same method like "expname.library".
+	You can simple replace them.
+
+
+boards.library/NextBoardInfo                     boards.library/NextBoardInfo
+
+   NAME
+	NextBoardInfo - filled BoardInfo structure and the StringPointers
+			with Data (V2)
+
+   SYNOPSIS
+	ConfigDev = NextBoardInfo (BoardInfo,ConfigDev)
+	  D0			     A0		A1
+
+	APTR NextBoardInfo(struct BoardInfo*,struct ConfigDev*);
+
+   FUNCTION
+	filled BoardInfo structure and the StringPointers with Data 
+
+   INPUTS
+	BoardInfo     - Pointer to BoardInfo structure
+
+	ConfigDev     - Pointer to ConfigDev structure or NULL.
+			(if ConfigDev=NULL -> search for first board )
+			if ConfigDev not NULL -> search for the next
+			board after that ConfigDev 		 
+
+   RESULT
+	ConfigDev     - Pointer to ConfigDev structure or NULL.
+
+   NOTE
+	You must allocate the BoardInfo structure with AllocBoardInfo().
+	This call is guaranteed to preserve all registers except D0.
+
+   BUGS
+
+   SEE ALSO
+	AllocBoardInfo, FreeBoardInfo
+

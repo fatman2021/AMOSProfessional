@@ -1,0 +1,59 @@
+.version
+3.5
+.date
+1997.02.06
+.name
+RexxDosSupport
+.type
+Library
+.short
+ARexx function lib for V37+ functions (ReadArgs, pattern matching, etc.)
+.description
+Copyright (C) 1994-1997 by hartmut Goebel
+
+ARexx function library for accessing Dos V37+ functions.
+Amungst are ReadArgs(), GetVar() etc. and pattern matching.
+
+After programming ARexx script for quite a while, I missed some
+function found in dos.library --  especially access to
+environment variables and the comfortable argument parsing. Since
+there seamed to be no ARexx function library which implements
+this functions, I decited to write my own. And here it is.
+
+This are the functions handled by this library.
+· ReadArgs()
+· GetVar(), SetVar(), DeleteVar()
+· ParsePattern(), MatchPattern() - even case-insensitive
+· Fault()
+· Delete(), Rename(), MakeDir()
+· SetComment(), SetProtection()
+
+V3 enables /T for ReadArgs() and adds some more functions:
+· FilePart(), PathPart(), AddPart(), AbsolutePath()
+
+.beschreibung
+Diese ARexx Funktionsbibliothek ermöglicht den Zugriff auf Funktionen
+von AmigaOS V37 und besser. Darunter befinden sich ReadArgs(),
+GetVar() usw. und Namensmuster-Erkennung (pattern matching).
+.installsize
+8K
+.source
+Oberon source included (33K)
+.construction
+AmigaOberon 3.11
+.docs
+RexxDosSupport.doc
+.author
+hartmut Goebel
+.requirements
+Requires AmigaOS 2.04 (V37)
+.distribution
+Freeware
+.address
+Aufseßplatz 5
+90459 Nürnberg
+Germany
+.email
+hartmut@oberon.nbg.sub.org
+.exectype
+Oberon

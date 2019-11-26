@@ -1,0 +1,17 @@
+mhimdev.library CHANGES
+
+1.3 (Mon 03-Oct-2011)
+    -fixed a crash when playing songs in a row using a device which replies the play
+     command immediately (like delfinampeg.device and possibly others as well)
+
+1.2 (Mon 23-May-2011)
+    -ported the code to StormC4 project
+    -use SendIO() instead of DoIO() for play command (more compatible with Commodore spec)
+
+1.1 (Sun 03-Jun-2001)
+    -minor code polishing / optimizing
+    -added backup email address (Strato sucks!)
+
+
+1.0 (Wed 16-May-2001)
+    -initial release

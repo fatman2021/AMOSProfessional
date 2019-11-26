@@ -1,0 +1,7 @@
+LinkLibrary
+rexxdossupport
+VERSION 3
+REVISION 5
+COPYRIGHT "Copyright © 1994-1997 by hartmut Goebel"
+NOGC
+PROC rexxdossupport.Dispatch

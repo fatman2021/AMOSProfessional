@@ -1,8 +1,0 @@
-##base _BestCommBase
-##bias 6
-*
-* Automatically generated from '/home/vsts/work/1/s/arch/ppc-chrp/efika/bestcomm/bestcomm.conf'.
-* Edits will be lost. This file is supposed to be a support file for identify.library.
-*
-##public
-##end

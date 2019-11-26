@@ -1,0 +1,17 @@
+Note about the contents of this Directory:
+
+rtgmaster.library.V27 is the OLD 68k rtgmaster.library. Note: You don't need to
+install this, if you have an 68k Machine, for an 68k Machine the Fat Binary
+rtgmaster.library will just be fine. You only need this V27 thing, if you
+heavily need ppc.library stuff (currently rtgmaster.library does not run, when
+ppc.library is active - seems to be another bug in ppc.library, in the cache
+handling, appearently... ppc.library does not like WarpOS Mixed Binary Libraries
+which take stack space or such...)
+
+The other libs in this directory are the sublibs of V27. Note: rtgPICA.library
+was not developped by me, it was for the old Picasso II WB Emulation. It runs
+quite unstable, better don't install it (but who uses the old PII WB Emu still,
+anyways ?)
+
+Steffen Haeuser
+

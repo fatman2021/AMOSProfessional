@@ -1,0 +1,112 @@
+# Finnish pronounciation rules for translator.library V42
+# $VER: suomi.accent 0.1 (28.3.95)
+# By Osma Ahvenlampi
+
+%class digit 0 1 2 3 4 5 6 7 8 9
+
+# Stress the second syllable with level 2.
+
+%stress 2
+%emphasis 2
+
+[AU] = AWWH
+[AO] = AW
+[AI] = AY
+[A] = AA
+
+[B] = B
+
+[C] = S
+
+[D] = D
+
+[EI] = EY
+[E] = EH
+
+[F] = F
+
+[G] = G
+
+[H] = /H
+
+[IE] = IHEH
+[I] = IHIX
+
+[J] = Y
+[K] = K
+
+[L] = L
+
+[M] = M
+
+[NA] = NAX
+[NG] = NX
+[N] = N
+
+[O] = AO
+
+[P] = P
+
+[Q] = K
+
+[R] = RX
+
+[S] = S
+
+[T] = TT
+
+[U] = UH
+
+[V] = V
+
+[W] = WH
+
+[X] = KS
+
+[Y] = IY
+
+[Z] = Z
+
+[Å] = AO
+
+[Ä] = AE
+
+[Ö] = ER
+
+[0] = " NAOLLAX "
+[1] = " IYKSIY "
+[2] = " KAAKSIY "
+[3] = " KOHLMEH "
+[4] = " NEHLYAE "
+[5] = " VIHIXIHSIX "
+[6] = " KUHUHSIX "
+[7] = " SEHIYTSEHMAEN "
+[8] = " KAHDEHKSAHN "
+[9] = " IYDEHKSAHN "
+
+[ "\ " ] = " "
+
+(digit+)[.](digit+) = " PIXSTEH "
+(digit+)[,](digit+) = " PIXLKKUH "
+(digit+)[/](digit+) = " KAWWHTTAH "
+(digit+)[-](digit+) = " VIHIXIHVAH "
+
+$[-]$ = -
+
+[,]$ = ,
+[.]$ = .
+[!]$ = .
+[.] = " "
+[%] = PROHSEHNTTIX
+[:] = ". "
+[;] = .
+[?] = ?
+[ "\(" ] = ,
+[ "\)" ] = ,
+[\\] = " "
+[ "\[" ] = " "
+[{] = " "
+[}] = " "
+[_] = " "
+[`] = " "
+[ "]" ] = " "

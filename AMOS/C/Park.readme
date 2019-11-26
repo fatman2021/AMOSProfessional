@@ -1,0 +1,257 @@
+Short:    Parks devices and ejects media
+Uploader: thor@math.tu-berlin.de (Thomas Richter)
+Author:   thor@math.tu-berlin.de (Thomas Richter)
+Type:     disk/misc    
+Version:  1.09
+Requires: Os 2.04
+
+This tool ejects, parks or restarts a HD unit, either given by its DOS 
+device name or the name and unit of the exec device driver. All partitions 
+on the parked unit will be unaccessible to the dos afterwards. To be able to
+restart the HD, "Park" can be made resident.
+
+_____________________________________________________________________________
+
+Version 1.08:
+
+Added more sanity checks to avoid Enforcer hits.
+_____________________________________________________________________________
+
+Version 1.08:
+
+If the NOCHECK option is present, Park no longer rejects to "eject"
+empty drives, i.e. to open an empty CD drive or similar. 
+Thanks to Nils Goers for testing.
+
+_____________________________________________________________________________
+
+Version 1.07:
+
+Fixed a bug that caused an unnecessary "out of memory" failure in case no
+disk to be ejected is present.
+
+Park uses now a smarter algorithm to decide whether the given argument is
+a dos device or an exec device name.
+
+Better check for the SCSI result codes, the error code returned is now
+more "AmigaDos like".
+_____________________________________________________________________________
+
+Version 1.06:
+
+Added a workaround for a feature of the gvpscsi.device and the FFS.
+_____________________________________________________________________________
+
+Version 1.05:
+
+Added a workaround for a bug in the AmiCFDS, added the NOCHECK option.
+_____________________________________________________________________________
+
+Version 1.04:
+
+Internal release, unpublished.
+_____________________________________________________________________________
+
+Version 1.03:
+
+Added the EJECT argument - *should* be used with the SCSI argument, too.
+Added the EJECTDELAY, STARTDELAY and FLUSHDELAY arguments that define 
+command specific delays.
+_____________________________________________________________________________
+
+Version 1.02:
+
+Park checks now if a device is already parked (or, to be precise, if the
+filing system is shut down) and fails if the user tries to park it again.
+_____________________________________________________________________________
+
+Version 1.01:
+
+Added an explicit check whether the handler name supplied does really contain
+a colon.
+_____________________________________________________________________________
+
+Synopsis:
+
+Park 	HANDLER=DEVICE/A,UNIT/N,FLAGS/N,SCSI/S,
+	ON=START/S,EJECT/S,EJECTDELAY/K/N,STARTDELAY/K/N,
+	FLUSHDELAY/K/N,INHIBITDELAY/K/N,NOCHECK/S
+
+
+HANDLER:	DOS Device name to be parked, or name of the volume. To 
+		restart a unit, this must be the device name.
+		This *must* be the name of the dos device driver, i.e.
+		a string like "DH0:" or "SYS:".		
+		Alternatively, this may be the name of the exec.device, i.e.
+		"oktagon.device" or "gvpscsi.device".
+
+UNIT:		The unit number of the exec device. Makes only sense if
+		HANDLER is an exec style device name.
+
+FLAGS:		The flags for opening the device. Defaults to zero and is
+		usually not required.
+
+SCSI:		If given, try to park the unit with direct SCSI commands.
+		This should work with all scsi.device compatible device
+		drivers.
+		If not given, try to use the TD_EJECT, CMD_START 
+		and CMD_STOP.
+
+		Unfortunately, most device drivers do not support 
+		TD_EJECT, CMD_START/STOP. The "SCSI" keyword is 
+		therefore almost always required.
+
+ON=START:	Restart the device and the partitions in question.
+
+
+EJECT:		Eject the given device, if possible. In almost all
+		cases the SCSI keyword IS required since there is almost
+		no device which implements the - documented though -
+		command TD_EJECT
+
+EJECTDELAY:	The delay in 50th of seconds Park should wait after
+		ejecting and before re-running the filing system. Defaults
+		to 50, i.e. one second.
+
+STARTDELAY:	The delay in 50th of seconds Park has to wait after
+		having started a device until the filing system is allowed
+		to touch the disk again. Thus, this should be the spin-up
+		delay of the device. Defaults to 50, i.e. one second.
+
+FLUSHDELAY:	The delay in 50th of seconds Park waits for the filing 
+		system to execute ACTION_FLUSH, i.e. to flush its buffers
+		to the disk. Unfortunately, this packet is broken - which
+		requires this ugly, and unsafe(!) workaround.
+
+INHIBITDELAY:	The delay in 50th of a second park waits after stopping
+		the filing system and before parking the device. This is
+		required by the gvpscsi.device since this device fiddles
+		on its own in the device list of the DOS (Bah!) and may
+		lead to enforcer hits of the FFS. Defaults to one second. 
+
+NOCHECK:	Bypasses the test if the filing system of the drive(s) to
+		be parked is up and working. If you see a message like
+		"Drive xyz is already stopped", but the handler is just
+		disabled for whatever reason, insert this argument.
+
+_____________________________________________________________________________
+
+Examples:
+
+Park all partitions on the oktagon.device, unit 2: 
+(The oktagon knowns CMD_STOP, SCSI is not required)
+
+	Park oktagon.device unit 2
+
+
+Park all partitions on the gvpscsi.device, unit 6:
+(The gvpscsi.device does NOT know the CMD_STOP, SCSI is required)
+
+	Park gvpscsi.device unit 6 scsi
+
+The "device" keyword is very important in both cases.
+
+
+Park the partition DH0: and all other partitions on the same device:
+
+	Park DH0: scsi
+
+
+Restart DH0: and all other partitions on that device:
+
+	Park DH0: on scsi
+
+
+Eject a ZIP drive, named ZIP:
+
+	Park ZIP: scsi eject
+
+
+Eject a SCSI CD, named CD0:
+
+	Park CD0: scsi eject nocheck flushdelay=0 ejectdelay=0
+
+A flush delay isn't needed here because a CD filing system can't write
+anything to a CD.
+
+_____________________________________________________________________________
+
+                         The THOR-Software Licence (v2, 24th June 1998)
+
+
+This License applies to the computer programs known as "Park".
+The "Program", below, refers to such program. The "Archive" refers to 
+the package of distribution, as prepared by the author of the Program, 
+Thomas Richter. Each licensee is addressed as "you".
+
+
+The Program and the data in the archive are freely distributable
+under the restrictions stated below, but are also Copyright (c)
+Thomas Richter.
+
+Distribution of the Program, the Archive and the data in the Archive by a
+commercial organization without written permission from the author to any
+third party is prohibited if any payment is made in connection with such
+distribution, whether directly (as in payment for a copy of the Program) or
+indirectly (as in payment for some service related to the Program, or
+payment for some product or service that includes a copy of the Program
+"without charge"; these are only examples, and not an exhaustive enumeration
+of prohibited activities).
+
+
+However, the following methods of distribution
+involving payment shall not in and of themselves be a violation of this
+restriction:
+
+
+(i) Posting the Program on a public access information storage and
+retrieval service for which a fee is received for retrieving information
+(such as an on-line service), provided that the fee is not
+content-dependent (i.e., the fee would be the same for retrieving the same
+volume of information consisting of random data).
+
+
+(ii) Distributing the Program on a CD-ROM, provided that
+
+a) the Archive is reproduced entirely and verbatim on such CD-ROM, including
+especially this licence agreement;
+
+b) the CD-ROM is made available to the public for a nominal fee only,
+
+c) a copy of the CD is made available to the author for free except for
+shipment costs, and
+
+d) provided further that all information on such CD-ROM is redistributable
+for non-commercial purposes without charge.
+
+
+Redistribution of a modified version of the Archive, the Program or the
+contents of the Archive is prohibited in any way, by any organization,
+regardless whether commercial or non-commercial. Everything must be kept
+together, in original and unmodified form.
+
+
+
+
+Limitations.
+
+
+THE PROGRAM IS PROVIDED TO YOU "AS IS", WITHOUT WARRANTY. THERE IS NO
+WARRANTY FOR THE PROGRAM, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. THE ENTIRE
+RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD
+THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY
+SERVICING, REPAIR OR CORRECTION.
+
+
+IF YOU DO NOT ACCEPT THIS LICENCE, YOU MUST DELETE THE PROGRAM, THE ARCHIVE
+AND ALL DATA OF THIS ARCHIVE FROM YOUR STORAGE SYSTEM. YOU ACCEPT THIS
+LICENCE BY USING OR REDISTRIBUTING THE PROGRAM.
+
+
+                                                        Thomas Richter
+____________________________________________________________________________
+
+Thomas,		
+	March 1999

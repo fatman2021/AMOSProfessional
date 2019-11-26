@@ -1,0 +1,48 @@
+;
+; ShowBoardsMUI.catalog
+;
+MSG_EXPANSIONS (0//)
+Expansions
+;
+MSG_KNOWN_BOARDS (1//)
+known Boards
+;
+MSG_PRINT (2//)
+Print
+;
+MSG_ABOUT (3//)
+About
+;
+MSG_SHOW_EXPANSIONS (4//)
+show Expansions
+;
+MSG_CONFIGDEV_BOARDADDR_BOARDSIZE (5//)
+ConfigDev\n\
+BoardAddr\n\
+BoardSize
+;
+MSG_SLOTADDR_SLOTSIZE_DRIVER (6//)
+SlotAddr\n\
+Slotsize\n\
+Driver
+;
+MSG_PRODUCT_MANUFACTURER_SERIALNUMBER (7//)
+Product\n\
+Manufacturer\n\
+SerialNumber
+;
+MSG_NO_BOARDS (8//)
+no_Boards_!
+;
+MSG_CHIPSET (9//)
+ChipSet:
+;
+MSG_MANUFACTURER (10//)
+Manufacturer
+;
+MSG_PRODUCT (11//)
+Product
+;
+MSG_SIZE (12//)
+Size
+;

@@ -1,0 +1,23 @@
+==id $Id: xvs_lib.sfd,v 33.37 2001/12/13 19:28:23 stoecker Exp $
+==base _xvsBase
+==basetype struct Library *
+==libname xvs.library
+==bias 30
+==public
+==include <exec/types.h>
+==include <libraries/xvs.h>
+BOOL xvsSelfTest() ()
+struct xvsVirusList * xvsCreateVirusList(ULONG listtype) (d0)
+void xvsFreeVirusList(struct xvsVirusList * list) (a1)
+APTR xvsAllocObject(ULONG objecttype) (d0)
+void xvsFreeObject(APTR object) (a1)
+ULONG xvsObjectType(APTR object) (a1)
+ULONG xvsCheckBootblock(struct xvsBootInfo * bootinfo) (a0)
+void xvsInstallBootblock(APTR bootblock, ULONG boottype, ULONG dostype) (a0,d0,d1)
+void xvsSumBootblock(APTR bootblock, ULONG offset) (a0,d0)
+ULONG xvsCheckSector(struct xvsSectorInfo * sectorinfo) (a0)
+BOOL xvsRepairSector(struct xvsSectorInfo * sectorinfo) (a0)
+ULONG xvsCheckFile(struct xvsFileInfo * fileinfo) (a0)
+BOOL xvsRepairFile(struct xvsFileInfo * fileinfo) (a0)
+ULONG xvsSurveyMemory(struct xvsMemoryInfo * memoryinfo) (a0)
+==end

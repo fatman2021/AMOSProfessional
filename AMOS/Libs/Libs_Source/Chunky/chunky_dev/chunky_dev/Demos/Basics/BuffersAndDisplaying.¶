@@ -1,0 +1,132 @@
+Storm Shell Project (0013)
+Settings (Start)
+C/C++ Environment
+"StormC:include"
+Includepath (End)
+0 "" 80
+1 "objects"
+C/C++ Preprozessor
+1 "NDEBUG" ""
+Defines (End)
+1 1 1
+C/C++ Options
+0 0 0 1 0 0 0 0 0 1 0 0 0 0 0
+C/C++ Optimizer
+9
+C/C++ Warnings
+1 1 1 1 1 1 0 1
+Assembler
+0 ""
+0 "CON://640/200/Storm Assembler/AUTO/WAIT/SCREEN StormScreen"
+0 0
+0 1 60 0 1 0 0 20 0
+Sets (End)
+0 1 0 0 0 2 1 0 0
+1 1 1 1 0 0 0 0 0
+1 0
+0 0 0 0 0
+Linker
+0 0 "PROGDIR:startup.o" 0 0 1 0 0 0 0
+"StormC:lib/" 0 "StormC:lib/logfile" 0 1 1
+0 "_WizardSurface"
+0 0 50 0 50 0 50 0 0
+0 0 0 0 0 0 0 0
+Run
+30 "" "" "" 0
+""
+
+1 "CON://400/180/Storm Console/AUTO/WAIT/SCREEN StormScreen" "RAM:Output" "RAM:Input"
+1 0
+0 0 0 "" ""
+Settings (End)
+File
+1 "BuffersAndDisplaying.c"
+"BuffersAndDisplaying.c"
+"Projects:chunky_lib/examples/Basics//_shared/loadcp.h"
+"Projects:chunky_lib/examples/Basics//_shared/screen.h"
+"Projects:chunky_lib/examples/Basics//_shared/waitbutton.h"
+"Projects:chunky_lib/examples/Basics//_shared/requester.h"
+Storm Shell Project (Dependencies)
+"objects/BuffersAndDisplaying.o" "objects/BuffersAndDisplaying.debug"
+""
+"objects/BuffersAndDisplaying.o" "objects/BuffersAndDisplaying.debug"
+File
+1 "Projects:chunky_lib/examples/_shared/loadcp.c"
+"Projects:chunky_lib/examples/_shared/loadcp.c"
+Storm Shell Project (Dependencies)
+"objects/loadcp.o" "objects/loadcp.debug"
+""
+"objects/loadcp.o" "objects/loadcp.debug"
+File
+1 "Projects:chunky_lib/examples/_shared/requester.c"
+"Projects:chunky_lib/examples/_shared/requester.c"
+Storm Shell Project (Dependencies)
+"objects/requester.o" "objects/requester.debug"
+""
+"objects/requester.o" "objects/requester.debug"
+File
+1 "Projects:chunky_lib/examples/_shared/screen.c"
+"Projects:chunky_lib/examples/_shared/screen.c"
+Storm Shell Project (Dependencies)
+"objects/screen.o" "objects/screen.debug"
+""
+"objects/screen.o" "objects/screen.debug"
+File
+1 "Projects:chunky_lib/examples/_shared/waitbutton.c"
+"Projects:chunky_lib/examples/_shared/waitbutton.c"
+Storm Shell Project (Dependencies)
+"objects/waitbutton.o" "objects/waitbutton.debug"
+""
+"objects/waitbutton.o" "objects/waitbutton.debug"
+Section
+1 1 100
+File
+2 "Projects:chunky_lib/examples/Basics//_shared/loadcp.h"
+"Projects:chunky_lib/examples/Basics//_shared/loadcp.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+File
+2 "Projects:chunky_lib/examples/Basics//_shared/screen.h"
+"Projects:chunky_lib/examples/Basics//_shared/screen.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+File
+2 "Projects:chunky_lib/examples/Basics//_shared/waitbutton.h"
+"Projects:chunky_lib/examples/Basics//_shared/waitbutton.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+File
+2 "Projects:chunky_lib/examples/Basics//_shared/requester.h"
+"Projects:chunky_lib/examples/Basics//_shared/requester.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+Section
+2 1 95
+File
+10 "BuffersAndDisplaying"
+"BuffersAndDisplaying"
+Storm Shell Project (Dependencies)
+"" ""
+""
+"BuffersAndDisplaying.link"
+Section
+10 1 40
+File
+5 "storm.lib"
+"storm.lib"
+Storm Shell Project (Dependencies)
+"" ""
+""
+File
+5 "amiga.lib"
+"amiga.lib"
+Storm Shell Project (Dependencies)
+"" ""
+""
+Section
+5 1 -50
+Storm Shell Project (End)

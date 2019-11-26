@@ -1,0 +1,15 @@
+*
+* wbstart_lib.fd  V2.2
+*
+* wbstart.library function offsets
+*
+* (c) 1991-1996 Stefan Becker
+*
+##base _WBStartBase
+##bias 30
+##private
+Reserved1()()
+##public
+WBStartTagList(tags)(a0)
+*tagcall
+##end

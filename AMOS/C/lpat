@@ -1,0 +1,17 @@
+.key com/a,pat/a,opt1,opt2,opt3,opt4
+.bra {
+.ket }
+failat 21
+list >t:q{$$} {pat} lformat="%s%s {opt1} {opt2} {opt3} {opt4} "
+IF NOT FAIL
+oneLine >t:s{$$} <t:q{$$}
+echo >t:r{$$} noline "{com} "
+join t:r{$$} t:s{$$} as t:p{$$}
+execute t:p{$$}
+delete t:p{$$} t:q{$$} t:r{$$} t:s{$$}
+ELSE
+echo "<pat> not found"
+delete t:q{$$}
+ENDIF
+failat 10
+;do wildcards for single arg command

@@ -1,0 +1,7 @@
+;procedure to recompile the example
+
+assign emodules: "" add
+
+JOIN 3dlibh.h gad.h gen.h 3dlib.h 3dlibdemo.e TO 3dlib.e
+
+EC 3dlib

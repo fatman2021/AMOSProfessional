@@ -1,0 +1,70 @@
+*
+*  $VER: ConfigFile_lib.fd 2.2 (11.2.97)
+*
+*  ConfigFile.library fd file
+*
+*  (C) Copyright 1996-1997 min'MAX Developer's Group
+*      All Rights Reserved.
+*
+*  (C) Copyright 1996-1997 Marcel Karas
+*      All Rights Reserved.
+*
+##base _CFBase
+##bias 30
+##public
+cf_Open(Name,Mode,ErrorCode)(A0,D0,A1)
+cf_Close(Header)(A0)
+cf_Read(Header,ErrorCode)(A0,A1)
+cf_Write(Header,Mode,ErrorCode)(A0,D0,A1)
+cf_AddGroup(Header,GrpNode)(A0,A1)
+cf_AddArgument(Group,ArgNode)(A0,A1)
+cf_AddItem(Argument,ItemNode)(A0,A1)
+cf_NewGroup(Header,Name)(A0,A1)
+cf_NewArgument(GrpNode,Name)(A0,A1)
+cf_NewItem(ArgNode,Content,Type,SpecialType)(A0,D0,D1,D2)
+cf_NewArgItem(GrpNode,Name,Contents,Type,SpecialType)(A0,A1,D0,D1,D2)
+cf_DisposeGroup(GrpNode)(A0)
+cf_DisposeArgument(ArgNode)(A0)
+cf_DisposeItem(ItemNode)(A0)
+cf_CloneGroup(GrpNode)(A0)
+cf_CloneArgument(ArgNode)(A0)
+cf_CloneItem(ItemNode)(A0)
+cf_RemoveGroup(GrpNode)(A0)
+cf_RemoveArgument(ArgNode)(A0)
+cf_RemoveItem(ItemNode)(A0)
+cf_ClearGrpList(Header)(A0)
+cf_ClearArgList(GrpNode)(A0)
+cf_ClearItemList(ArgNode)(A0)
+cf_ChangeGroup(GrpNode,Name)(A0,A1)
+cf_ChangeArgument(ArgNode,Name)(A0,A1)
+cf_ChangeItem(ItemNode,Content,Type,SpecialType)(A0,D0,D1,D2)
+cf_FindGroup(Header,Name)(A0,A1)
+cf_FindArgument(GrpNode,Name)(A0,A1)
+cf_FindItem(ArgNode,Contents,Type)(A0,D0,D1)
+cf_GetItem(ItemNode,Type,Default)(A0,D0,D1)
+cf_GetItemNum(ArgNode,Position,Type,Default)(A0,D0,D1,D2)
+cf_LockGrpList(Header)(A0)
+cf_LockArgList(GrpNode)(A0)
+cf_LockItemList(ArgNode)(A0)
+cf_UnlockGrpList(Header)(A0)
+cf_UnlockArgList(GrpNode)(A0)
+cf_UnlockItemList(ArgNode)(A0)
+cf_NextGroup(GrpNode)(A0)
+cf_NextArgument(ArgNode)(A0)
+cf_NextItem(ItemNode)(A0)
+cf_LastGroup(GrpNode)(A0)
+cf_LastArgument(ArgNode)(A0)
+cf_LastItem(ItemNode)(A0)
+*
+*  Functions in V2 or higher (Release 1.1)
+*
+cf_OpenPS(Name,Mode,ErrorCode,PuddleSize)(A0,D0,A1,D1)
+cf_GetItemType(ItemNode)(A0)
+cf_GetItemSType(ItemNode)(A0)
+cf_GetGrpName(GrpNode)(A0)
+cf_GetArgName(ArgNode)(A0)
+cf_GetHdrOfGrp(GrpNode)(A0)
+cf_GetGrpOfArg(ArgNode)(A0)
+cf_GetArgOfItem(ItemNode)(A0)
+cf_GetItemOnly(ItemNode)(A0)
+##end

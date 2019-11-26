@@ -1,0 +1,70 @@
+
+               **********************************************
+
+                                   Triton
+
+                   An object oriented GUI creation system.
+
+                                 Release 1.3
+
+                         (c) 1993-1995 Stefan Zeiger
+
+               **********************************************
+
+
+    This  is  a  minimum  distribution version of Triton, the object oriented
+graphical  user  interface creation system for AmigaOS.  Not included in this
+minimum distribution are:
+
+    - A Prefs editor for customizing Triton GUIs
+    - An optimized version of triton.library for OS3.0+
+    - Language catalogs
+    - Developer support material
+
+    If you want a full distribution,  you may download Triton from the BBS of
+'Tec Mania Systems':
+
+                  >---------------------------------------<
+                    Tec Mania Systems
+
+                    SysOp: Bernd Hassenzahl
+
+                    Phone: +49-6157-8742-7 (V34 28k8)
+                           +49-6157-8742-8 (V32t 19k2)
+                           +49-6157-91012-1 (ISDN X75)
+                           +49-6157-91012-2 (ISDN X75)
+                  >---------------------------------------<
+
+    Please  log  in  as  a  guest  and  download  Triton  from  the directory
+'/T-M-S/BINAER/AMIGA/WIZARD-WORKS'.
+
+    The latest  Triton user  archive can  also be  obtained  via FidoNet file
+request as 'TRITON' from 'Publishers Treff BBS':
+
+                  >---------------------------------------<
+                    Publishers Treff
+                
+                    SysOp: Christoph Reichert
+
+                    FidoNet: 2:244/6302.0
+                  >---------------------------------------<
+
+
+    Contacting the author:
+
+        EMail:      s.zeiger@laren.rhein-main.de
+
+        FidoNet:    Stefan Zeiger 2:244/6302.15
+
+        Mail:       Stefan Zeiger
+                    Seligenstädter Weg 24
+                    D-63796 Kahl
+                    Germany
+
+        Voice:      +49-6188-2684 (new!)
+
+    Please use  EMail if possible.  This is  more convenient  for me and your
+chance of getting a reply quickly is much better.
+
+
+                                                Live long and prosper!

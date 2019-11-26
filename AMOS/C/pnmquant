@@ -1,0 +1,228 @@
+#!/usr/bin/perl -w
+
+##############################################################################
+#                         pnmquant 
+##############################################################################
+#  By Bryan Henderson, San Jose CA; December 2001.
+#
+#  Contributed to the public domain by its author.
+##############################################################################
+
+require v5.6.1;
+
+use strict;
+use English;
+use Getopt::Long;
+use File::Temp "tempfile";
+#use Fcntl ":seek";  # not available in Perl 5.00503
+use Fcntl ":seek";
+
+my ($TRUE, $FALSE) = (1,0);
+
+my ($SEEK_SET, $SEEK_CUR, $SEEK_END) = (0, 1, 2);
+
+sub parseCommandLine(@) {
+
+    local @ARGV = @_;  # GetOptions takes input from @ARGV only
+
+    my ($opt_center, $opt_meancolor, $opt_meanpixel, $opt_floyd,
+        $opt_spreadbrightness, $opt_spreadluminosity, $opt_mapfile,
+        $opt_quiet);
+
+    my $validOptions = GetOptions
+        (
+         "center" => \$opt_center,
+         "meancolor" => \$opt_meancolor,
+         "meanpixel" => \$opt_meanpixel,
+         "spreadbrightness" => \$opt_spreadbrightness,
+         "spreadluminosity" => \$opt_spreadluminosity,
+         "floyd|fs!" => \$opt_floyd,
+         "quiet" => \$opt_quiet,
+         );
+
+    if (!$validOptions) {
+        print(STDERR "Invalid option syntax.\n");
+        exit(1);
+    }
+    if (@ARGV > 2) {
+        print(STDERR "This program takes at most 2 arguments.  You specified ",
+              scalar(@ARGV), "\n");
+        exit(1);
+    } 
+    if (@ARGV < 1) {
+        print(STDERR 
+              "You must specify the number of colors as an argument.\n");
+        exit(1);
+    }
+    my $infile;
+    my $ncolors = $ARGV[0];
+    
+    if (!($ncolors =~ m{ ^[[:digit:]]+$ }x ) || $ncolors == 0) {
+        print(STDERR 
+              "Number of colors argument '$ncolors' is not a positive " .
+              "integer.\n");
+        exit(1);
+    }
+
+    if (@ARGV > 1) {
+        $infile = $ARGV[1];
+    } else {
+        $infile = "-";
+    }
+
+    return($opt_meanpixel, $opt_meancolor, $opt_spreadluminosity, $opt_floyd,
+           $ncolors, $infile);
+}
+
+
+
+sub openSeekableAsStdin($) {
+    my ($infile) = @_;
+
+    # Open the input file $infile and connect it to Standard Input
+    # (assuming Standard Input is now open as the Perl file handle STDIN).
+    # If $infile is "-", that means just leave Standard Input alone.  But if
+    # Standard Input is not seekable, copy it to a temporary regular
+    # file and return a file handle for that.  I.e. the file handle we
+    # return is guaranteed to be seekable.
+
+    # Note: this all works only because STDIN is already set up on file
+    # descriptor 0.  Otherwise, open(STDIN, ...) would just create a brand
+    # new file handle named STDIN on some arbitrary file descriptor.
+    
+    if ($infile eq "-") {
+        my $seekWorked = sysseek(STDIN, 0, SEEK_SET);
+        if ($seekWorked) {
+            # STDIN is already as we need it.
+        } else {
+            # It isn't seekable, so we must copy it to a temporary regular file
+            # and return that as the input file.
+            
+            my ($inFh) = tempfile("pnmquantSeekableInputXXXX", 
+                                  SUFFIX => ".pnm",
+                                  UNLINK => $TRUE,
+                                  DIR => File::Spec->tmpdir());
+            if (!defined($inFh)) {
+                die("Unable to create temporary file.  Errno=$ERRNO\n");
+            }
+            my($oldfh)=select($inFh);
+            $|=1;
+            select($oldfh);
+            while (<STDIN>) {
+                print($inFh $_);
+            }
+            sysseek($inFh, 0, SEEK_SET) 
+                or die("Seek of temporary input file failed!  " .
+                       "Errno = $ERRNO");
+            *INFH = *$inFh;  # Because open() rejects '<&$inFh' 
+            open(STDIN, "<&INFH");
+            tell(INFH);  # Avoids bogus "INFH is not referenced" warning
+        }
+    } else {
+        open(STDIN, "<", $infile) 
+            or die("Unable to open input file '$infile'.  Errno=$ERRNO");
+    }
+}
+
+
+
+sub makeColormap($$$$) {
+
+    my ($ncolors, $opt_meanpixel, $opt_meancolor, $opt_spreadluminosity) = @_;
+
+    # Make a colormap of $ncolors colors from the image on Standard Input.
+    # Put it in a temporary file and return its name.
+
+    my ($mapfileFh, $mapfileSpec) = tempfile("pnmquantMapXXXX", 
+                                             SUFFIX => ".pnm",
+                                             UNLINK => $TRUE,
+                                             DIR => File::Spec->tmpdir());
+
+    if (!defined($mapfileFh)) {
+        print(STDERR "Unable to create temporary file for colormap.  " .
+              "errno = $ERRNO\n");
+        exit(1);
+    }
+
+    my $averageOpt;
+    if (defined($opt_meanpixel)) {
+        $averageOpt = "-meanpixel";
+    } elsif (defined($opt_meancolor)) {
+        $averageOpt = "-meancolor";
+    } else {
+        $averageOpt = "-center";
+    }
+
+    my $spreadOpt;
+    if (defined($opt_spreadluminosity)) {
+        $spreadOpt = "-spreadluminosity";
+    } else {
+        $spreadOpt = "-spreadbrightness";
+    }
+
+    open(STDOUT, ">", $mapfileSpec);
+
+    my $maprc = system("pnmcolormap", $ncolors, $averageOpt, $spreadOpt);
+
+    if ($maprc != 0) {
+        print(STDERR "pnmcolormap failed, rc=$maprc\n");
+        exit(1);
+    } 
+    return $mapfileSpec;
+}
+
+
+
+sub remap($$) {
+
+    my ($mapfileSpec, $opt_floyd) = @_;
+
+    # Remap the image on Standard Input to Standard Output, using the colors
+    # from the colormap file named $mapfileSpec.
+
+    my $floydOpt = $opt_floyd ? "-floyd" : "-nofloyd";
+
+    my $remaprc = system("pnmremap", "-mapfile=$mapfileSpec", $floydOpt);
+    
+    if ($remaprc != 0) {
+        print(STDERR "pnmremap failed, rc=$remaprc\n");
+        exit(1);
+    }
+}
+
+
+
+##############################################################################
+#                              MAIN PROGRAM
+##############################################################################
+
+my ($opt_meanpixel, $opt_meancolor, $opt_spreadluminosity, $opt_floyd,
+    $ncolors, $infile) = 
+    parseCommandLine(@ARGV);
+
+openSeekableAsStdin($infile); 
+
+# Save Standard Output for our eventual output
+open(OLDOUT, ">&STDOUT");
+select(OLDOUT);  # avoids Perl bug where it says we never use STDOUT 
+
+
+my $mapfileSpec = makeColormap($ncolors, 
+                               $opt_meanpixel, 
+                               $opt_meancolor, 
+                               $opt_spreadluminosity);
+
+# Note that we use sysseek() instead of seek(), because we're positioning
+# the file to be read by our non-Perl child process, rather than for reading
+# through the Perl I/O layer.
+
+sysseek(STDIN, 0, SEEK_SET) 
+    or die("seek back to zero on input file failed.\n");
+
+open(STDOUT, ">&OLDOUT");
+
+remap($mapfileSpec, $opt_floyd);
+
+
+
+

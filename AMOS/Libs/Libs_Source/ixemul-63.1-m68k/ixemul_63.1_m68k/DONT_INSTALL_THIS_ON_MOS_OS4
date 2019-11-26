@@ -1,0 +1,3 @@
+Do not install it on OS4 or MOS,because these 68k Emu do not emulate
+68k correct and test show that all ixemul 68k cant work if the 68k
+Emu of this system do not emulate SuperVisor or USP SSP stack correct.

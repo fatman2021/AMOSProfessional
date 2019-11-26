@@ -1,0 +1,11 @@
+##base _MPEGABase
+##bias 30
+##public
+LIB_MPEGA_open(filename,ctrl)(a0,a1)
+LIB_MPEGA_close(mpds)(a0)
+LIB_MPEGA_decode_frame(mpds,pcm)(a0,a1)
+LIB_MPEGA_seek(mpds,ms_time_position)(a0,d0)
+LIB_MPEGA_time(mpds,ms_time_position)(a0,a1)
+LIB_MPEGA_find_sync(buffer,buffer_size)(a0,d0)
+LIB_MPEGA_scale(mpds,scale_percent)(a0,d0)
+##end

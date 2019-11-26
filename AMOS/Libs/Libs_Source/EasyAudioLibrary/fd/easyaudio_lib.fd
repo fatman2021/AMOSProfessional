@@ -1,0 +1,19 @@
+* ------------------------------------------------------------------
+* $VER: easyaudio_lib.fd 39.01 (12.12.1999)
+*
+* PUBLIC Functions ONLY - Dont call it if you cant see it.
+*
+* (C) Copyright 1999-2000 Matthew J Fletcher - All Rights Reserved.
+* amimjf@connectfree.co.uk - www.amimjf.connectfree.co.uk
+* ------------------------------------------------------------------
+##base _EasyaudioBase
+##bias 30
+##public
+EA_Request(title,body,gadgets)(D1/D2/D3)
+EA_Speech(text)(D1)
+EA_Beep(frequency,duration)(D1/D2)
+EA_PrepareSound(file)(D1)
+EA_PlaySound(info,volume,channel,priority,delta_rate,times,start,time,wait)(D1/D2/D3/D4/D5/D6/A2/A3/A4)
+EA_StopSound(channel)(D1)
+EA_RemoveSound(info)(D1)
+##end

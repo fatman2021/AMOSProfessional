@@ -1,0 +1,38 @@
+#
+# DMakefile V2.2
+#
+# Makefile for wbstart.library 2.2
+#
+# (c) 1991-96 Stefan Becker
+#
+PRE    = t:wslib.m
+FLAGS  = -3.1 -mi -mRR -ms
+IDIRS  = -I /dev/c/include -I //DOSPath/dev/c/include
+#CFLAGS = $(FLAGS) -DDEBUG $(IDIRS) -proto -H$(PRE)=wbstart.h -c
+CFLAGS = $(FLAGS) $(IDIRS) -proto -H$(PRE)=wbstart.h -c
+#LFLAGS = $(FLAGS) -s
+LFLAGS = $(FLAGS)
+#LIBS   = -l0 -ldebug -lamiga31 -lamiga31s -lc
+LIBS   = -l0 -lamiga31 -lc
+
+CSRCS  = wbstart.c handler.c memory.c paths.c start.c
+COBJS  = $(CSRCS:"*.c":"T:*.o")
+
+DEST   = /libs/wbstart.library
+
+all      : $(DEST)
+
+$(DEST)  : $(COBJS)
+         dcc $(LFLAGS) -o %(left) $(COBJS) $(LIBS)
+
+$(COBJS) : $(CSRCS)
+         dcc $(CFLAGS) -o %(left) %(right)
+
+$(COBJS) : $(PRE)
+
+$(PRE)   : wbstart.h /dev/C/include/libraries/wbstart.h \
+           DMakefile
+         -Delete %(left) QUIET
+
+clean    :
+         -Delete $(PRE) $(COBJS) QUIET

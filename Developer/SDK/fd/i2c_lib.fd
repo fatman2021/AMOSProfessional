@@ -1,8 +1,0 @@
-##base _I2CBase
-##bias 30
-*
-* Automatically generated from '/home/vsts/work/1/s/workbench/hidds/i2c/i2c.conf'.
-* Edits will be lost. This file is supposed to be a support file for identify.library.
-*
-##public
-##end

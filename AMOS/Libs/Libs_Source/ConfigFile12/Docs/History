@@ -1,0 +1,99 @@
+----------------------------------------------------------------------------
+Release: 1.2                            (configfile.library V2.19 01-Oct-97)
+----------------------------------------------------------------------------
+
+NEWS: - I have written a special ARexx version of this library.
+        The RexxConfigFile.library required this library too.
+
+      - The source codes of the two libraries and the extra tools
+        are available now. At the Aminet dev/src/ConfigFileSrc.lha.
+
+- Cleaned up code
+
+- Rewrote WriteBuffer routines. Speeded file writing about 35%!
+
+- Rewrote string converting routines.
+
+- Rewrote cf_FindArgNode() and cf_FindGrpNode() functions.
+  Speeded node finding about 20%!
+
+- Changed default puddle and WriteBuffer size setting to
+  dynamic size calculation. The library divides the largest
+  free memory block with 100 (Puddle) and 10 (WriteBuffer).
+
+- Removed special Kick 3.0 version distribution.
+
+- Rewrote the ReadASCII() part of cf_Read().
+
+- Removed MEMF_CLEAR flag. cf_Open#?() creates the MemPool without
+  this flag now.
+
+----------------------------------------------------------------------------
+Release: 1.1                            (configfile.library V2.11 19-Feb-97)
+----------------------------------------------------------------------------
+
+- Speeded file reading about 25%, file writing about 10%, and file
+  closing about 100%. (no joke !!!)
+
+- Implemented full support of memory pools to reduce memory fragmentation
+  and speed up. Every open file uses now their own memory pool.
+
+- All Grp/Arg/Item nodes are now private. See docs for more details.
+
+- Changed the maximum length of Grp/Arg/Item strings/names to 220 chars.
+
+- Corrected some autodocs bugs.
+
+- Changed the default WriteBuffer from 512 to 4096 bytes.
+
+- Fixed some major bugs in cf_Read() and cf_Write().
+
+- Removed the bug with SpecialType.
+
+- Removed the german docs.
+
+- Included Amiga-E interface.
+
+- Rewrote some parts of cf_Read() for speeds up.
+
+- Implemented CF_OFLG_READ_TOO, CF_WFLG_WRITE_ALWAYS,
+  CF_HFLG_WRITE_BY_CLOSE, and CF_HFLG_CHANGED. See autodocs for details.
+
+- Implemented CF_RERR_FORMAT and CF_RERR_UNKOWN_ITYPE errorcodes.
+  See autodocs for details.
+
+- Implemented 9 functions:
+
+  cf_OpenPS(), cf_GetItemType(), cf_GetItemSType(), cf_GetGrpName(),
+  cf_GetArgName(), cf_GetHdrOfGrp(), cf_GetGrpOfArg(), cf_GetArgOfItem(),
+  cf_GetItemOnly()
+
+----------------------------------------------------------------------------
+Release: 1.0                            (configfile.library V1.00 05-Dec-96)
+----------------------------------------------------------------------------
+
+- First public version
+
+----------------------------------------------------------------------------
+Release: ---                            (configfile.library V0.90 10-Nov-96)
+----------------------------------------------------------------------------
+
+- Second beta version
+
+----------------------------------------------------------------------------
+Release: ---                            (configfile.library V0.83 08-Nov-96)
+----------------------------------------------------------------------------
+
+- First beta version
+
+----------------------------------------------------------------------------
+Release: ---                            (configfile.library V0.50 24-Aug-96)
+----------------------------------------------------------------------------
+
+- First alpha version
+
+----------------------------------------------------------------------------
+Release: ---                            (configfile.library V0.00 18-Aug-96)
+----------------------------------------------------------------------------
+
+- Project begun

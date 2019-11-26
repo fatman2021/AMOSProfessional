@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svnroot/amiga/!svn/ver/6/ixemul/include/arpa
+END
+ftp.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svnroot/amiga/!svn/ver/6/ixemul/include/arpa/ftp.h
+END
+nameser.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/amiga/!svn/ver/6/ixemul/include/arpa/nameser.h
+END
+telnet.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/amiga/!svn/ver/6/ixemul/include/arpa/telnet.h
+END
+tftp.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/amiga/!svn/ver/6/ixemul/include/arpa/tftp.h
+END
+inet.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/amiga/!svn/ver/6/ixemul/include/arpa/inet.h
+END

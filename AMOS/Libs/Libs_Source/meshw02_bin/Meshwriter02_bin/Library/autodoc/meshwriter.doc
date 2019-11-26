@@ -1,0 +1,2112 @@
+TABLE OF CONTENTS
+
+meshwriter.library/MWL2DFileFormatExtensionGet
+meshwriter.library/MWL2DFileFormatIDGet
+meshwriter.library/MWL2DFileFormatNamesGet
+meshwriter.library/MWL2DFileFormatNumberOfGet
+meshwriter.library/MWL3DFileFormatExtensionGet
+meshwriter.library/MWL3DFileFormatIDGet
+meshwriter.library/MWL3DFileFormatNamesGet
+meshwriter.library/MWL3DFileFormatNumberOfGet
+meshwriter.library/MWLDrawModeIDGet
+meshwriter.library/MWLDrawModeNamesGet
+meshwriter.library/MWLDrawModeNumberOfGet
+meshwriter.library/MWLMeshCameraLightDefaultSet
+meshwriter.library/MWLMeshCameraLookAtGet
+meshwriter.library/MWLMeshCameraLookAtSet
+meshwriter.library/MWLMeshCameraPositionGet
+meshwriter.library/MWLMeshCameraPositionSet
+meshwriter.library/MWLMeshCopyrightGet
+meshwriter.library/MWLMeshCopyrightSet
+meshwriter.library/MWLMeshCTMReset
+meshwriter.library/MWLMeshDelete
+meshwriter.library/MWLMeshLightColorGet
+meshwriter.library/MWLMeshLightColorSet
+meshwriter.library/MWLMeshLightPositionGet
+meshwriter.library/MWLMeshLightPositionSet
+meshwriter.library/MWLMeshMaterialAdd
+meshwriter.library/MWLMeshMaterialAmbientColorGet
+meshwriter.library/MWLMeshMaterialAmbientColorSet
+meshwriter.library/MWLMeshMaterialDiffuseColorGet
+meshwriter.library/MWLMeshMaterialDiffuseColorSet
+meshwriter.library/MWLMeshMaterialNameGet
+meshwriter.library/MWLMeshMaterialNameSet
+meshwriter.library/MWLMeshMaterialShininessGet
+meshwriter.library/MWLMeshMaterialShininessSet
+meshwriter.library/MWLMeshMaterialTransparencyGet
+meshwriter.library/MWLMeshMaterialTransparencySet
+meshwriter.library/MWLMeshNameGet
+meshwriter.library/MWLMeshNameSet
+meshwriter.library/MWLMeshNew
+meshwriter.library/MWLMeshNumberOfMaterialsGet
+meshwriter.library/MWLMeshNumberOfPolygonsGet
+meshwriter.library/MWLMeshNumberOfVerticesGet
+meshwriter.library/MWLMeshPolygonAdd
+meshwriter.library/MWLMeshPolygonMaterialSet
+meshwriter.library/MWLMeshPolygonVertexAdd
+meshwriter.library/MWLMeshPolygonVertexAssign
+meshwriter.library/MWLMeshRotationChange
+meshwriter.library/MWLMeshRotationGet
+meshwriter.library/MWLMeshSave2D
+meshwriter.library/MWLMeshSave3D
+meshwriter.library/MWLMeshScaleChange
+meshwriter.library/MWLMeshScaleGet
+meshwriter.library/MWLMeshTranslationChange
+meshwriter.library/MWLMeshTranslationGet
+meshwriter.library/MWLMeshTriangleAdd
+meshwriter.library/MWLMeshVertexAdd
+meshwriter.library/MWL2DFileFormatExtensionGet                 meshwriter.library/MWL2DFileFormatExtensionGet
+ 
+   NAME	
+ 	MWL2DFileFormatExtensionGet -- Get the file extension of a specific 2D file format.
+ 
+   SYNOPSIS
+	ext = MWL2DFileFormatExtensionGet( ffid )
+	                                   D1
+
+	STRPTR MWL2DFileFormatExtensionGet
+	     ( ULONG );
+
+   FUNCTION
+	You will get a pointer to the extension of the specified 2D file format.
+	This strings are READ_ONLY and only valid as long as the library is opened.
+ 
+   INPUTS
+	ffid - ID of the format you search the extension for.
+	
+   RESULT
+ 	ext - Pointer to the file extension string or NULL if the format is unknown.
+
+   EXAMPLE
+	ext = MWL2DFileFormatExtensionGet(id);
+
+   NOTES
+	This extensions are proposals of the format creators, but you are free
+	to use them.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWL2DFileFormatNamesGet(),MWL2DFileFormatIDGet()
+	MWL2DFileFormatNumberOfGet()
+ 
+meshwriter.library/MWL2DFileFormatIDGet                               meshwriter.library/MWL2DFileFormatIDGet
+ 
+   NAME	
+ 	MWL2DFileFormatIDGet -- Get the ID of a specific 2D file format.
+ 
+   SYNOPSIS
+	id = MWL2DFileFormatIDGet( ffname )
+	                           D1
+
+	ULONG MWL2DFileFormatIDGet
+	     ( STRPTR );
+
+   FUNCTION
+	You will get the ID of the 2D file format of which you passed its name.
+ 
+   INPUTS
+	ffname - Name of the format you search the ID for.
+	
+   RESULT
+ 	id - The ID of the 2D file format or 0 if not found/supported.
+
+   EXAMPLE
+	id = MWL2DFileFormatIDGet("PostScript");
+
+   NOTES
+	Even if the values of the IDs wont change in future versions, it is
+	recomended to show the list of all names to the user and let him choose
+	the format. With the help of this function you will get the correct
+	ID which is needed for further function calls.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWL2DFileFormatNamesGet(),MWL2DFileFormatExtensionGet()
+	MWL2DFileFormatNumberOfGet()
+ 
+meshwriter.library/MWL2DFileFormatNamesGet                         meshwriter.library/MWL2DFileFormatNamesGet
+ 
+   NAME	
+ 	MWL2DFileFormatNamesGet -- Get a name list of all supported 2D file formats.
+ 
+   SYNOPSIS
+	list = MWL2DFileFormatNamesGet(  )
+
+	STRPTR * MWL2DFileFormatNamesGet
+	     (  );
+
+   FUNCTION
+	You will get a pointer to the namelist of all supported 2D file formats.
+	This strings are READ_ONLY and only valid as long as the library is opened.
+
+	The list is sorted alphabetically.
+
+	The resulting pointer can directly be used to fill up cycle or list gadgets
+	for example.
+ 
+   INPUTS
+	
+   RESULT
+ 	list - A NULL terminated array of string pointers. Or NULL if no
+	       files are supported.
+
+   EXAMPLE
+	list = MWL2DFileFormatNamesGet();
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWL2DFileFormatIDGet(),MWL2DFileFormatExtensionGet()
+	MWL2DFileFormatNumberOfGet()
+ 
+meshwriter.library/MWL2DFileFormatNumberOfGet                   meshwriter.library/MWL2DFileFormatNumberOfGet
+ 
+   NAME	
+ 	MWL2DFileFormatNumberOfGet -- Get the number of supported 2D file formats.
+ 
+   SYNOPSIS
+	number = MWL2DFileFormatNumberOfGet( )
+
+	ULONG MWL2DFileFormatNumberOfGet
+	     ( );
+
+   FUNCTION
+	You will get the number of supported 2D file formats of this library version.
+ 
+   INPUTS
+	
+   RESULT
+ 	number - Number of supported file formats or 0 if none.
+
+   EXAMPLE
+	number = MWL2DFileFormatNumberOfGet();
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWL2DFileFormatNamesGet(),MWL2DFileFormatIDGet()
+	MWL2DFileFormatNumberExtensionGet()
+ 
+meshwriter.library/MWL3DFileFormatExtensionGet                 meshwriter.library/MWL3DFileFormatExtensionGet
+ 
+   NAME	
+ 	MWL3DFileFormatExtensionGet -- Get the file extension of a specific 3D file format.
+ 
+   SYNOPSIS
+	ext = MWL3DFileFormatExtensionGet( ffid )
+	                                   D1
+
+	STRPTR MWL3DFileFormatExtensionGet
+	     ( ULONG );
+
+   FUNCTION
+	You will get a pointer to the extension of the specified 3D file format.
+	This strings are READ_ONLY and only valid as long as the library is opened.
+ 
+   INPUTS
+	ffid - ID of the file format you search the extension for.
+	
+   RESULT
+ 	ext - Pointer to the file extension string or NULL if the format is unknown.
+
+   EXAMPLE
+	ext = MWL3DFileFormatExtensionGet(id);
+
+   NOTES
+	This extensions are proposals of the format creators, but you are free
+	to use them.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWL3DFileFormatNamesGet(),MWL3DFileFormatIDGet()
+	MWL3DFileFormatNumberOfGet()
+ 
+meshwriter.library/MWL3DFileFormatIDGet                               meshwriter.library/MWL3DFileFormatIDGet
+ 
+   NAME	
+ 	MWL3DFileFormatIDGet -- Get the ID of a specific 3D file format.
+ 
+   SYNOPSIS
+	id = MWL3DFileFormatIDGet( ffname )
+	                            D1
+
+	ULONG MWL3DFileFormatIDGet
+	     ( STRPTR );
+
+   FUNCTION
+	You will get the ID of the 3D file format of which you passed its name.
+ 
+   INPUTS
+	ffname - Name of the format you search the ID for.
+	
+   RESULT
+ 	id - The ID of the 3D file format or 0 if not found/supported.
+
+   EXAMPLE
+	id = MWL3DFileFormatIDGet("Lightwave");
+
+   NOTES
+	Even if the values of the IDs wont change in future versions, it is
+	recomended to show the list of all names to the user and let him choose
+	the format. With the help of this function you will get the correct
+	ID which is needed for further function calls.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWL3DFileFormatNamesGet(),MWL3DFileFormatExtensionGet()
+	MWL3DFileFormatNumberOfGet()
+ 
+meshwriter.library/MWL3DFileFormatNamesGet                         meshwriter.library/MWL3DFileFormatNamesGet
+ 
+   NAME	
+ 	MWL3DFileFormatNamesGet -- Get a name list of all supported 3D file formats.
+ 
+   SYNOPSIS
+	list = MWL3DFileFormatNamesGet(  )
+
+	STRPTR * MWL3DFileFormatNamesGet
+	     (  );
+
+   FUNCTION
+	You will get a pointer to the namelist of all supported 3D file formats.
+	This strings are READ_ONLY and only valid as long as the library is opened.
+
+	The list is sorted alphabetically.
+
+	The resulting pointer can directly be used to fill up cycle or list gadgets
+	for example.
+ 
+   INPUTS
+	
+   RESULT
+ 	list - A NULL terminated array of string pointers. Or NULL if no
+	       files are supported.
+
+   EXAMPLE
+	list = MWL3DFileFormatNamesGet();
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWL3DFileFormatIDGet(),MWL3DFileFormatExtensionGet()
+	MWL3DFileFormatNumberOfGet()
+ 
+meshwriter.library/MWL3DFileFormatNumberOfGet                   meshwriter.library/MWL3DFileFormatNumberOfGet
+ 
+   NAME	
+ 	MWL3DFileFormatNumberOfGet -- Get the number of supported 3D file formats.
+ 
+   SYNOPSIS
+	number = MWL3DFileFormatNumberOfGet( )
+
+	ULONG MWL3DFileFormatNumberOfGet
+	     ( );
+
+   FUNCTION
+	You will get the number of supported 3D file formats of this library version.
+ 
+   INPUTS
+	
+   RESULT
+ 	number - Number of supported file formats or 0 if none.
+
+   EXAMPLE
+	number = MWL3DFileFormatNumberOfGet();
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWL3DFileFormatNamesGet(),MWL3DFileFormatIDGet()
+	MWL3DFileFormatNumberExtensionGet()
+ 
+meshwriter.library/MWLDrawModeIDGet                                       meshwriter.library/MWLDrawModeIDGet
+ 
+   NAME 
+        MWLDrawModeIDGet -- Get the ID of a specific drawing mode.
+ 
+   SYNOPSIS
+        id = MWLDrawModeIDGet( dmname )
+                               D1
+
+        ULONG MWLDrawModeIDGet
+             ( STRPTR );
+
+   FUNCTION
+        You will get the ID of the drawing mode of which you passed its name.
+ 
+   INPUTS
+        dm - Name of the drawing mode you search the ID for.
+        
+   RESULT
+        id - The ID of the drawing mode or 0 if not found/supported.
+
+   EXAMPLE
+        id = MWLDrawModeIDGet("Points");
+
+   NOTES
+        Even if the values of the IDs wont change in future versions, it is
+        recomended to show the list of all names to the user and let him choose
+        the format. With the help of this function you will get the correct
+        ID which is needed for further function calls.
+
+   BUGS
+ 
+   SEE ALSO
+        MWLDrawModeNamesGet(),MWLDrawModeNumberOfGet()
+ 
+meshwriter.library/MWLDrawModeNamesGet                                 meshwriter.library/MWLDrawModeNamesGet
+ 
+   NAME 
+        MWLDrawModeNamesGet -- Get a name list of all supported drawing modes.
+ 
+   SYNOPSIS
+        list = MWLDrawModeNamesGet(  )
+
+        STRPTR * MWLDrawModeNamesGet
+             (  );
+
+   FUNCTION
+        You will get a pointer to the namelist of all supported drawing modes.
+        This strings are READ_ONLY and only valid as long as the library is opened.
+
+        The resulting pointer can directly be used to fill up cycle or list gadgets
+        for example.
+
+   INPUTS
+        
+   RESULT
+        list - A NULL terminated array of string pointers. Or NULL if no
+               modes are supported.
+
+   EXAMPLE
+        list = MWLDrawModeNamesGet();
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+        MWLDrawModeIDGet(),MWLDrawModeNumberOfGet()
+ 
+meshwriter.library/MWLDrawModeNumberOfGet                           meshwriter.library/MWLDrawModeNumberOfGet
+ 
+   NAME 
+        MWLDrawModeNumberOfGet -- Get the number of supported drawing modes.
+ 
+   SYNOPSIS
+        number = MWLDrawModeNumberOfGet( )
+
+        ULONG MWLDrawModeNumberOfGet
+             ( );
+
+   FUNCTION
+        You will get the number of supported drawing modes of this library version.
+ 
+   INPUTS
+        
+   RESULT
+        number - Number of supported drawing modes or 0 if none.
+
+   EXAMPLE
+        number = MWLDrawModeNumberOfGet();
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+        MWLDrawModeNamesGet(),MWLDrawModeIDGet()
+ 
+meshwriter.library/MWLMeshCameraLightDefaultSet               meshwriter.library/MWLMeshCameraLightDefaultSet
+ 
+   NAME	
+ 	MWLMeshCameraLightDefaultSet -- Set the camera and light to defaults.
+ 
+   SYNOPSIS
+	error = MWLMeshCameraLightDefaultSet( meshhandle )
+	                                      D1
+
+	ULONG MWLMeshCameraLightDefaultSet
+	     ( ULONG )
+
+   FUNCTION
+	This function sets the camera and light properties as follows :
+	Camera looks to the center of the mesh and is positioned to view the whole mesh.
+	Light is positioned at the same point than the camera and gets a white color.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+
+   EXAMPLE
+	error= MWLMeshCameraLightDefaultSet(meshhandle);
+
+   NOTES
+	Camera and light will be used by some file formats only,
+	and for 2D or display functions.
+
+	If no values are set, this function will be called internally before
+	using functions which need a camera or a light source.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshCameraPositionSet(),MWLMeshCameraLookAtSet(),
+	MWLMeshLightPositionSet(),MWLMeshLightColorSet()
+ 
+meshwriter.library/MWLMeshCameraLookAtGet                           meshwriter.library/MWLMeshCameraLookAtGet
+ 
+   NAME	
+ 	MWLMeshCameraLookAtGet -- Get the view point of the camera.
+ 
+   SYNOPSIS
+	error = MWLMeshCameraLookAtGet( meshhandle,lookat )
+	                                D1          A0
+
+	ULONG MWLMeshCameraLookAtGet
+	     ( ULONG,TOCLVertex * );
+
+   FUNCTION
+	The view point of the camera will be written in the passed vertex structure.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	lookat          - Pointer to a vertex structure which will contain
+	                  the position information.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshCameraLookAtGet(meshhandle,&myvertex);
+
+   NOTES
+	The camera will be used by some file formats only,
+	and for 2D or display functions.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshCameraLookAtSet(),MWLMeshCameraPositionSet()
+	MWLMeshCameraPositionGet()
+ 
+meshwriter.library/MWLMeshCameraLookAtSet                           meshwriter.library/MWLMeshCameraLookAtSet
+ 
+   NAME	
+ 	MWLMeshCameraLookAtSet -- Set the camera its view point.
+ 
+   SYNOPSIS
+	error = MWLMeshCameraLookAtSet( meshhandle,lookat )
+	                                D1          A0
+
+	ULONG MWLMeshCameraLookAtSet
+	     ( ULONG,TOCLVertex * );
+
+   FUNCTION
+	The view point of the camera will be set to the values passed by the
+	vertex structure.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	lookat          - Pointer to a vertex structure containing the position information.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshCameraLookAtSet(meshhandle,&myvertex);
+
+   NOTES
+	The camera will be used by some file formats only,
+	and for 2D or display functions.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshCameraLookAtGet(),MWLMeshCameraPositionSet()
+	MWLMeshCameraPositionSet()
+ 
+meshwriter.library/MWLMeshCameraPositionGet                       meshwriter.library/MWLMeshCameraPositionGet
+ 
+   NAME	
+ 	MWLMeshCameraPositionGet -- Get the position of the camera.
+ 
+   SYNOPSIS
+	error = MWLMeshCameraPositionGet( meshhandle,position )
+	                                  D1          A0
+
+	ULONG MWLMeshCameraPositionGet
+	     ( ULONG,TOCLVertex * );
+
+   FUNCTION
+	The position of the camera will be written in the passed vertex structure.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	position        - Pointer to a vertex structure which will contain
+	                  the position information.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshCameraPositionGet(meshhandle,&myvertex);
+
+   NOTES
+	The camera will be used by some file formats only,
+	and for 2D or display functions.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshCameraPositionSet(),MWLMeshCameraLookAtSet()
+	MWLMeshCameraLookAtGet()
+ 
+meshwriter.library/MWLMeshCameraPositionSet                       meshwriter.library/MWLMeshCameraPositionSet
+ 
+   NAME	
+ 	MWLMeshCameraPositionSet -- Set the camera position.
+ 
+   SYNOPSIS
+	error = MWLMeshCameraPositionSet( meshhandle,position )
+	                                  D1          A0
+
+	ULONG MWLMeshCameraPositionSet
+	     ( ULONG,TOCLVertex * );
+
+   FUNCTION
+	The position of the camera will be set to the values passed by the
+	vertex structure.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	position        - Pointer to a vertex structure containing the position information.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+`	        RCNOMESH     if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshCameraPositionSet(meshhandle,&myvertex);
+
+   NOTES
+	The camera will be used by some file formats only,
+	and for 2D or display functions.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshCameraPositionGet(),MWLMeshCameraLookAtSet(),
+	MWLMeshCameraLookAtGet()
+ 
+meshwriter.library/MWLMeshCopyrightGet                                 meshwriter.library/MWLMeshCopyrightGet
+ 
+   NAME	
+ 	MWLMeshCopyrightGet -- Get the copyright of a mesh.
+
+   SYNOPSIS
+	error = MWLMeshCopyrightGet( meshhandle,copyright )
+	                             D1         D2
+
+	ULONG MWLMeshCopyrightGet
+	     ( ULONG,STRPTR * );
+
+   FUNCTION
+	You will get a pointer to the copyright of the mesh. This string is READ_ONLY
+	and only valid as long as the mesh exists.
+ 
+   INPUTS
+ 	meshhandle    - A valid handle of a mesh.
+	copyright     - Pointer to the copyright of the mesh.
+	
+   RESULT
+ 	error - RCNOERROR if all went well.
+	        RCNOMESH  if the handle is not valid.
+ 
+   EXAMPLE
+	error = MWLMeshCopyrightGet(meshhandle,&mystring);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshCopyrightSet()
+ 
+meshwriter.library/MWLMeshCopyrightSet                                 meshwriter.library/MWLMeshCopyrightSet
+ 
+   NAME	
+ 	MWLMeshCopyrightSet -- Set the copyright of the mesh.
+ 
+   SYNOPSIS
+	error = MWLMeshCopyrightSet( meshhandle,copyright )
+	                             D1         D2
+
+	ULONG MWLMeshCopyrightSet
+	     ( ULONG,STRPTR );
+
+   FUNCTION
+	A copy of the passed string will be made and assigned to the mesh its
+	copyright string.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	copyright       - String which contains the copyright.
+	
+   RESULT
+ 	error - RCNOERROR  if all went well.
+	        RCNOMESH   if the handle is not valid.
+ 	        RCNOMEMORY if there is not enough memory.
+
+   EXAMPLE
+	error = MWLMeshCopyrightSet(meshhandle,"This mesh was created with GreatShaper V2.0 for Beethoven");
+
+   NOTES
+	This should be only a single line !
+
+	This function can be called as often as you need, which will replace
+	the old value.
+
+	Not all formats support copyrights, and the written length of the
+	string depends of the format too.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshCopyrightGet()
+ 
+meshwriter.library/MWLMeshCTMReset                                         meshwriter.library/MWLMeshCTMReset
+ 
+   NAME	
+ 	MWLMeshCTMReset -- Resets the current transformation matrix and the scale.
+
+   SYNOPSIS
+	error = MWLMeshCTMReset( meshhandle )
+	                         D1
+
+	ULONG MWLMeshCTMReset
+	     ( ULONG );
+
+   FUNCTION
+	The translation, rotation and scale factors will be set to the default values.
+	Translation is 0, rotation is 0 and scale is 1, for all axis.
+
+ 
+   INPUTS
+ 	meshhandle   - A valid handle of a mesh.
+	
+   RESULT
+ 	error - RCNOERROR          if all went well.
+	        RCNOMESH           if the handle is not valid.
+ 
+   EXAMPLE
+	error = MWLMeshCTMReset(meshhandle);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshTranslationChange(), MWLMeshTranslationGet()
+	MWLMeshRotationChange(),MWLMeshRotationGet()
+	MWLMeshScaleChange(),MWLMeshScaleGet()
+ 
+meshwriter.library/MWLMeshDelete                                             meshwriter.library/MWLMeshDelete
+ 
+   NAME	
+ 	MWLMeshDelete -- Delete a mesh which was created whith MWLMeshNew() before.
+ 
+   SYNOPSIS
+	error = MWLMeshDelete( meshhandle )
+	                       D1
+
+	ULONG MWLMeshDelete
+	     ( ULONG );
+
+   FUNCTION
+	Free the memory occupied by the mesh, and delete the mesh itself.
+ 
+   INPUTS
+ 	meshhandle    - A valid handle of a mesh.
+	
+   RESULT
+ 	error - RCNOERROR if all went well.
+	        RCNOMESH  if the handle is not valid.
+
+   EXAMPLE
+ 
+   NOTES
+	Can take some time.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshNew()
+ 
+meshwriter.library/MWLMeshLightColorGet                               meshwriter.library/MWLMeshLightColorGet
+ 
+   NAME	
+ 	MWLMeshLightColorGet -- Get the color of the light source.
+ 
+   SYNOPSIS
+	error = MWLMeshLightColorGet( meshhandle,color )
+	                              D1          A0
+
+	ULONG MWLMeshLightColorGet
+	     ( ULONG,TOCLColor * );
+
+   FUNCTION
+	The color of the light source will be written in the passed color structure.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	color           - Pointer to a color structure which will contain
+	                  the color information.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshLightColorGet(meshhandle,&mycolor);
+
+   NOTES
+	The light will be used by some file formats only,
+	and for 2D or display functions.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshLightColorSet(),MWLMeshLightPositionSet()
+	MWLMeshLightPositionGet()
+ 
+meshwriter.library/MWLMeshLightColorSet                               meshwriter.library/MWLMeshLightColorSet
+ 
+   NAME	
+ 	MWLMeshLightColorSet -- Set the light source its color.
+ 
+   SYNOPSIS
+	error = MWLMeshLightColorSet( meshhandle,color )
+	                              D1          A0
+
+	ULONG MWLMeshLightColorSet
+	     ( ULONG,TOCLColor * );
+
+   FUNCTION
+	The color of the light source will be set to the values passed by the
+	color structure.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	color           - Pointer to a color structure containing the color information.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshLightColorSet(meshhandle,&mycolor);
+
+   NOTES
+	The light will be used by some file formats only,
+	and for 2D or display functions.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshLightColorGet(),MWLMeshLightPositionSet()
+	MWLMeshLightPositionGet()
+ 
+meshwriter.library/MWLMeshLightPositionGet                         meshwriter.library/MWLMeshLightPositionGet
+ 
+   NAME	
+ 	MWLMeshLightPositionGet -- Get the position of the light source.
+ 
+   SYNOPSIS
+	error = MWLMeshLightPositionGet( meshhandle,position )
+	                                 D1          A0
+
+	ULONG MWLMeshLightPositionGet
+	     ( ULONG,TOCLVertex * );
+
+   FUNCTION
+	The position of the light source will be written in the passed vertex structure.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	position        - Pointer to a vertex structure which will contain
+	                  the position information.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshLightPositionGet(meshhandle,&myvertex);
+
+   NOTES
+	The light will be used by some file formats only,
+	and for 2D or display functions.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshLightPositionSet(),MWLMeshLightColorSet()
+	MWLMeshLightColorGet()
+ 
+meshwriter.library/MWLMeshLightPositionSet                         meshwriter.library/MWLMeshLightPositionSet
+ 
+   NAME	
+ 	MWLMeshLightPositionSet -- Set the light source its position.
+ 
+   SYNOPSIS
+	error = MWLMeshLightPositionSet( meshhandle,position )
+	                                 D1          A0
+
+	ULONG MWLMeshLightPositionSet
+	     ( ULONG,TOCLVertex * );
+
+   FUNCTION
+	The position of the light source will be set to the values passed by the
+	vertex structure.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	position        - Pointer to a vertex structure containing the position information.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshLightPositionSet(meshhandle,&myvertex);
+
+   NOTES
+	The light will be used by some file formats only,
+	and for 2D or display functions.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshLightPositionGet(),MWLMeshLightColorSet()
+	MWLMeshLightColorGet()
+ 
+meshwriter.library/MWLMeshMaterialAdd                                   meshwriter.library/MWLMeshMaterialAdd
+ 
+   NAME	
+ 	MWLMeshMaterialAdd -- Add a new material to the mesh.
+
+   SYNOPSIS
+	error = MWLMeshMaterialAdd( meshhandle,materialhandle )
+	                            D1         D2
+
+	ULONG MWLMeshMaterialAdd
+	     ( ULONG,ULONG * );
+
+   FUNCTION
+	A new material will be created and added to the mesh. You will get a handle to it.
+	All material properties will be set to 0.
+ 
+   INPUTS
+ 	meshhandle     - A valid handle of a mesh.
+	materialhandle - Pointer to a variable which will contain 
+	                 the handle to the new material.
+	
+   RESULT
+ 	error - RCNOERROR  if all went well.
+	        RCNOMESH   if the handle is not valid.
+	        RCNOMEMORY if there is not enough memory. 
+ 
+   EXAMPLE
+	error = MWLMeshMaterialAdd(meshhandle,&mylong);
+
+   NOTES
+	A default name will be assigned to the new material.
+	Like MWLMATX, where X is an internal count of the material.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshMaterialNameSet(),MWLMeshMaterialAmbientColorSet(),
+   MWLMeshMaterialDiffuseColorSet(),MWLMeshMaterialShininessSet()
+	MWLMeshMaterialTransparencySet()
+ 
+meshwriter.library/MWLMeshMaterialAmbientColorGet           meshwriter.library/MWLMeshMaterialAmbientColorGet
+ 
+   NAME	
+ 	MWLMeshMaterialAmbientColorGet -- Get the ambient color of a material.
+ 
+   SYNOPSIS
+	error = MWLMeshMaterialAmbientColorGet( meshhandle,materialhandle,color )
+	                                        D1         D2              A0
+
+	ULONG MWLMeshMaterialAmbientColorGet
+	     ( ULONG,ULONG,TOCLColor * );
+
+   FUNCTION
+	The ambient color of the material will be written in the passed color structure.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	materialhandle  - A valid handle of a material.
+	color           - Pointer to a color structure which will contain
+	                  the color information.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+	        RCNOMATERIAL if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshMaterialAmbientColorGet(meshhandle,materialhandle,&mycolor);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshMaterialAmbientColorSet()
+ 
+meshwriter.library/MWLMeshMaterialAmbientColorSet           meshwriter.library/MWLMeshMaterialAmbientColorSet
+ 
+   NAME	
+ 	MWLMeshMaterialAmbientColorSet -- Set the ambient color of a material.
+ 
+   SYNOPSIS
+	error = MWLMeshMaterialAmbientColorSet( meshhandle,materialhandle,color )
+	                                        D1         D2              A0
+
+	ULONG MWLMeshMaterialAmbientColorSet
+	     ( ULONG,ULONG,TOCLColor * );
+
+   FUNCTION
+	The ambient color of the material will be set to the values passed by the
+	color structure.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	materialhandle  - A valid handle of a material.
+	color           - Pointer to a color structure containing the color information.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+	        RCNOMATERIAL if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshMaterialAmbientColorSet(meshhandle,materialhandle,&mycolor);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshMaterialAmbientColorGet()
+ 
+meshwriter.library/MWLMeshMaterialDiffuseColorGet           meshwriter.library/MWLMeshMaterialDiffuseColorGet
+ 
+   NAME	
+ 	MWLMeshMaterialDiffuseColorGet -- Get the diffuse color of a material.
+ 
+   SYNOPSIS
+	error = MWLMeshMaterialDiffuseColorGet( meshhandle,materialhandle,color )
+	                                        D1         D2              A0
+
+	ULONG MWLMeshMaterialDiffuseColorGet
+	     ( ULONG,ULONG,TOCLColor * );
+
+   FUNCTION
+	The diffuse color of the material will be written in the passed color structure.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	materialhandle  - A valid handle of a material.
+	color           - Pointer to a color structure which will contain
+	                  the color information.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+	        RCNOMATERIAL if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshMaterialDiffuseColorGet(meshhandle,materialhandle,&mycolor);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshMaterialDiffuseColorSet()
+ 
+meshwriter.library/MWLMeshMaterialDiffuseColorSet           meshwriter.library/MWLMeshMaterialDiffuseColorSet
+ 
+   NAME	
+ 	MWLMeshMaterialDiffuseColorSet -- Set the diffuse color of a material.
+ 
+   SYNOPSIS
+	error = MWLMeshMaterialDiffuseColorSet( meshhandle,materialhandle,color )
+	                                        D1         D2              A0
+
+	ULONG MWLMeshMaterialDiffuseColorSet
+	     ( ULONG,ULONG,TOCLColor * );
+
+   FUNCTION
+	The diffuse color of the material will be set to the values passed by the
+	color structure.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	materialhandle  - A valid handle of a material.
+	color           - Pointer to a color structure containing the color information.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+	        RCNOMATERIAL if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshMaterialDiffuseColorSet(meshhandle,materialhandle,&mycolor);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshMaterialDiffuseColorGet()
+ 
+meshwriter.library/MWLMeshMaterialNameGet                           meshwriter.library/MWLMeshMaterialNameGet
+ 
+   NAME	
+ 	MWLMeshMaterialNameGet -- Get the name of a material.
+
+   SYNOPSIS
+	error = MWLMeshMaterialNameGet( meshhandle,materialhandle,name )
+	                                D1         D2             D3
+
+	ULONG MWLMeshMaterialNameGet
+	     ( ULONG,ULONG,STRPTR * );
+
+   FUNCTION
+	You will get a pointer to the name of the material. This string is READ_ONLY
+	and only valid as long as the mesh exists.
+ 
+   INPUTS
+ 	meshhandle     - A valid handle of a mesh.
+	materialhandle - A valid handle of a material.
+	name           - Pointer to the name of the material.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+	        RCNOMATERIAL if the handle is not valid.
+ 
+   EXAMPLE
+	error = MWLMeshMaterialNameGet(meshhandle,materialhandle,&mystring);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshMaterialNameSet()
+ 
+meshwriter.library/MWLMeshMaterialNameSet                           meshwriter.library/MWLMeshMaterialNameSet
+ 
+   NAME	
+ 	MWLMeshMaterialNameSet -- Set the name of the material.
+ 
+   SYNOPSIS
+	error = MWLMeshMaterialNameSet( meshhandle,materialhandle,materialname )
+	                                D1         D2             D3
+
+	ULONG MWLMeshMaterialNameSet
+	     ( ULONG,ULONG,STRPTR );
+
+   FUNCTION
+	A copy of the passed string will be made and assigned to the material its
+	name string.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	materialhandle  - A valid handle of a material.
+	materialname    - String which contains the name.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+	        RCNOMATERIAL if the handle is not valid.
+ 	        RCNOMEMORY   if there is not enough memory.
+
+   EXAMPLE
+	error = MWLMeshMaterialNameSet(meshhandle,materialhandle,"DeepBlue");
+
+   NOTES
+	This function can be called as often as you need which will
+	replace the old value.
+
+	Not all formats support names, and the written length of the
+	string depends of the format too.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshMaterialNameGet()
+ 
+meshwriter.library/MWLMeshMaterialShininessGet                 meshwriter.library/MWLMeshMaterialShininessGet
+ 
+   NAME	
+ 	MWLMeshMaterialShininessGet -- Get the shininess of a material.
+ 
+   SYNOPSIS
+	error = MWLMeshMaterialShininessGet( meshhandle,materialhandle,shininess )
+	                                     D1         D2             D3
+
+	ULONG MWLMeshMaterialShininessGet
+	     ( ULONG,ULONG,TOCLFloat * );
+
+   FUNCTION
+	The shininess of the material will be put into the variable pointed by shininess.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	materialhandle  - A valid handle of a material.
+	shininess       - Pointer to the variable which will contain the shininess.
+	
+   RESULT
+ 	error - RCNOERROR         if all went well.
+	        RCNOMESH          if the handle is not valid.
+	        RCNOMATERIAL      if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshMaterialShininessGet(meshhandle,materialhandle,&myfloat);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshMaterialShininessSet()
+ 
+meshwriter.library/MWLMeshMaterialShininessSet                 meshwriter.library/MWLMeshMaterialShininessSet
+ 
+   NAME	
+ 	MWLMeshMaterialShininessSet -- Set the shininess of a material.
+ 
+   SYNOPSIS
+	error = MWLMeshMaterialShininessSet( meshhandle,materialhandle,shininess )
+	                                     D1         D2             D3
+
+	ULONG MWLMeshMaterialShininessSet
+	     ( ULONG,ULONG,TOCLFloat );
+
+   FUNCTION
+	The shininess of the material will be set to the value passed by
+	shininess.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	materialhandle  - A valid handle of a material.
+	shininess       - Value of the shininess between 0.0 and 1.0.
+	
+   RESULT
+ 	error - RCNOERROR         if all went well.
+	        RCNOMESH          if the handle is not valid.
+	        RCNOMATERIAL      if the handle is not valid.
+	        RCVALUEOUTOFRANGE if the value is out of range.
+
+   EXAMPLE
+	error = MWLMeshMaterialShininessSet(meshhandle,materialhandle,0.34);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshMaterialShininessGet()
+ 
+meshwriter.library/MWLMeshMaterialTransparencyGet           meshwriter.library/MWLMeshMaterialTransparencyGet
+ 
+   NAME	
+ 	MWLMeshMaterialTransparencyGet -- Get the transparency of a material.
+ 
+   SYNOPSIS
+	error = MWLMeshMaterialTransparencyGet( meshhandle,materialhandle,transparency )
+	                                        D1         D2             D3
+
+	ULONG MWLMeshMaterialTransparencyGet
+	     ( ULONG,ULONG,TOCLFloat * );
+
+   FUNCTION
+	The transparency of the material will be put into the variable pointed by transparency.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	materialhandle  - A valid handle of a material.
+	transparency    - Pointer to the variable which will contain the transparency.
+	
+   RESULT
+ 	error - RCNOERROR         if all went well.
+	        RCNOMESH          if the handle is not valid.
+	        RCNOMATERIAL      if the handle is not valid.
+
+   EXAMPLE
+	error = MWLMeshMaterialTransparencyGet(meshhandle,materialhandle,&myfloat);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshMaterialTransparencySet()
+ 
+meshwriter.library/MWLMeshMaterialTransparencySet           meshwriter.library/MWLMeshMaterialTransparencySet
+ 
+   NAME	
+ 	MWLMeshMaterialTransparencySet -- Set the transparency of a material.
+ 
+   SYNOPSIS
+	error = MWLMeshMaterialTransparencySet( meshhandle,materialhandle,transparency )
+	                                        D1         D2             D3
+
+	ULONG MWLMeshMaterialTransparencySet
+	     ( ULONG,ULONG,TOCLFloat );
+
+   FUNCTION
+	The transparency of the material will be set to the value passed by
+	transparency.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	materialhandle  - A valid handle of a material.
+	transparency    - Value of the transparency between 0.0 and 1.0.
+	
+   RESULT
+ 	error - RCNOERROR         if all went well.
+	        RCNOMESH          if the handle is not valid.
+	        RCNOMATERIAL      if the handle is not valid.
+	        RCVALUEOUTOFRANGE if the value is out of range.
+
+   EXAMPLE
+	error = MWLMeshMaterialTransparencySet(meshhandle,materialhandle,0.9);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshMaterialTransparencyGet()
+ 
+meshwriter.library/MWLMeshNameGet                                           meshwriter.library/MWLMeshNameGet
+ 
+   NAME	
+ 	MWLMeshNameGet -- Get the name of a mesh.
+
+   SYNOPSIS
+	error = MWLMeshNameGet( meshhandle,name )
+	                        D1         D2
+
+	ULONG MWLMeshNameGet
+	     ( ULONG,STRPTR * );
+
+   FUNCTION
+	You will get a pointer to the name of the mesh. This string is READ_ONLY
+	and only valid as long the as mesh exists.
+ 
+   INPUTS
+ 	meshhandle    - A valid handle of a mesh.
+	name          - Pointer to the name of the mesh.
+	
+   RESULT
+ 	error - RCNOERROR if all went well.
+	        RCNOMESH  if the handle is not valid.
+ 
+   EXAMPLE
+	error = MWLMeshNameGet(meshhandle,&mystring);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshNameSet()
+ 
+meshwriter.library/MWLMeshNameSet                                           meshwriter.library/MWLMeshNameSet
+ 
+   NAME	
+ 	MWLMeshNameSet -- Set the name of the mesh.
+ 
+   SYNOPSIS
+	error = MWLMeshNameSet( meshhandle,name )
+	                        D1         D2
+
+	ULONG MWLMeshNameSet
+	     ( ULONG,STRPTR );
+
+   FUNCTION
+	A copy of the passed string will be made and assigned to the mesh its
+	name string.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	name            - String which contains the name.
+	
+   RESULT
+ 	error - RCNOERROR  if all went well.
+	        RCNOMESH   if the handle is not valid.
+ 	        RCNOMEMORY if there is not enough memory.
+
+   EXAMPLE
+	error = MWLMeshNameSet(meshhandle,"GreatShape");
+
+   NOTES
+	This function can be called as often as you need, which will
+	replace the old value.
+
+	Not all formats support names, and the written length of the
+	string depends of the format too.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshNameGet()
+ 
+meshwriter.library/MWLMeshNew                                                   meshwriter.library/MWLMeshNew
+ 
+   NAME	
+ 	MWLMeshNew -- Creates a new mesh
+ 
+   SYNOPSIS
+	meshhandle = MWLMeshNew( )
+	          
+
+	ULONG MWLMeshNew
+	     ( );
+
+   FUNCTION
+	Allocates the memory for a new mesh, initializes all its contents and
+	returns a handle to the new mesh. The mesh has to be deleted after usage
+	with MWLMeshDelete().   
+
+   INPUTS
+ 
+   RESULT
+ 	meshhandle - A handle to the new mesh, or 0 in error case, which means
+	             that there is not enough memory available.
+ 
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshDelete()
+
+meshwriter.library/MWLMeshNumberOfMaterialsGet                 meshwriter.library/MWLMeshNumberOfMaterialsGet
+ 
+   NAME	
+ 	MWLMeshNumberOfMaterialsGet -- Get the number of materials in a mesh.
+ 
+   SYNOPSIS
+	number = MWLMeshNumberOfMaterialsGet( meshhandle )
+	                                      D1
+
+	ULONG MWLMeshNumberOfMaterialsGet
+	     ( ULONG )
+
+   FUNCTION
+	The current number of materials found in the mesh will be returned.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	
+   RESULT
+ 	number - Number of materials, 0 if any or no valid mesh.
+
+   EXAMPLE
+	number = MWLMeshNumberOfMaterialsGet(meshhandle);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshNumberOfPolygonsGet(),MWLMeshNumberOfVerticesGet()
+ 
+meshwriter.library/MWLMeshNumberOfPolygonsGet                   meshwriter.library/MWLMeshNumberOfPolygonsGet
+ 
+   NAME	
+ 	MWLMeshNumberOfPolygonsGet -- Get the number of polygons in a mesh.
+ 
+   SYNOPSIS
+	number = MWLMeshNumberOfPolygonsGet( meshhandle )
+	                                     D1
+
+	ULONG MWLMeshNumberOfPolygonsGet
+	     ( ULONG )
+
+   FUNCTION
+	The current number of polygons found in the mesh will be returned.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	
+   RESULT
+ 	number - Number of polygons, 0 if any or no valid mesh.
+
+   EXAMPLE
+	number = MWLMeshNumberOfPolygonsGet(meshhandle);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshNumberOfMaterialsGet(),MWLMeshNumberOfVerticesGet()
+ 
+meshwriter.library/MWLMeshNumberOfVerticesGet                   meshwriter.library/MWLMeshNumberOfVerticesGet
+ 
+   NAME	
+ 	MWLMeshNumberOfVerticesGet -- Get the number of vertices in a mesh.
+ 
+   SYNOPSIS
+	number = MWLMeshNumberOfVerticesGet( meshhandle )
+	                                     D1
+
+	ULONG MWLMeshNumberOfVerticesGet
+	     ( ULONG )
+
+   FUNCTION
+	The current number of vertices found in the mesh will be returned.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	
+   RESULT
+ 	number - Number of vertices, 0 if any or no valid mesh.
+
+   EXAMPLE
+	number = MWLMeshNumberOfVerticesGet(meshhandle);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshNumberOfMaterialsGet(),MWLMeshNumberOfPolygonsGet()
+ 
+meshwriter.library/MWLMeshPolygonAdd                                     meshwriter.library/MWLMeshPolygonAdd
+ 
+   NAME	
+ 	MWLMeshPolygonAdd -- Add a new polygon to the mesh.
+
+   SYNOPSIS
+	error = MWLMeshPolygonAdd( meshhandle,materialhandle )
+	                           D1         D2
+
+	ULONG MWLMeshPolygonAdd
+	     ( ULONG,ULONG );
+
+   FUNCTION
+	A new polygon will be created and added to the mesh.
+	With MWLMeshPolygonVertexAdd you can add vertices to this polygon.
+ 
+   INPUTS
+ 	meshhandle     - A valid handle of a mesh.
+	materialhandle - A valid handle of a material or 0 if you wont
+	                 assign a material to this polygon now.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+	        RCNOMATERIAL if the handle is not valid.
+	        RCNOMEMORY   if there is not enough memory. 
+ 
+   EXAMPLE
+	error = MWLMeshPolygonAdd(meshhandle,materialhandle);
+
+   NOTES
+	Only convex polygons are supported.
+
+	    Correct              Incorrect
+
+	    *-----*              *----*
+	   / \   /                \  /
+	  /   \ /                  \/
+	 / __--*                   /\
+	*--                       /  \
+	                         *----*
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshPolygonMaterialSet(),MWLMeshPolygonVertexAdd()
+ 
+meshwriter.library/MWLMeshPolygonMaterialSet                     meshwriter.library/MWLMeshPolygonMaterialSet
+ 
+   NAME	
+ 	MWLMeshPolygonMaterialSet -- Set the material of the most recent polygon.
+ 
+   SYNOPSIS
+	error = MWLMeshPolygonMaterialSet( meshhandle,materialhandle )
+	                                   D1         D2
+
+	ULONG MWLMeshPolygonMaterialSet
+	     ( ULONG,ULONG );
+
+   FUNCTION
+	The material of the most recent polygon will be set to the one you
+	pass by the handle.
+ 
+   INPUTS
+ 	meshhandle      - A valid handle of a mesh.
+	materialhandle  - A valid handle of a material.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+	        RCNOMATERIAL if the handle is not valid.
+	        RCNOPOLYGON  if there is no polygon to work with.     
+
+   EXAMPLE
+	error = MWLMeshPolygonMaterialSet(meshhandle,materialhandle);
+
+   NOTES
+	As all is a polygon, after calling MWLMeshTriangleAdd() with this
+	function you can set the material of the new triangle too.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshPolygonAdd(),MWLMeshTriangleAdd()
+ 
+meshwriter.library/MWLMeshPolygonVertexAdd                         meshwriter.library/MWLMeshPolygonVertexAdd
+ 
+   NAME	
+ 	MWLMeshPolygonVertexAdd -- Add a new vertex to the most recent polygon,
+	                           according the CTM.
+
+   SYNOPSIS
+	error = MWLMeshPolygonVertexAdd( meshhandle,vertex )
+	                                 D1          A0
+
+	ULONG MWLMeshPolygonAdd
+	     ( ULONG,TOCLVertex * );
+
+   FUNCTION
+	A new vertex will be added to the polygon. A copy of the contents passed
+	by the vertex pointer will be made.
+ 
+   INPUTS
+ 	meshhandle   - A valid handle of a mesh.
+	vertex       - Pointer to a vertex structure which contains the coordinates
+	               of the new vertex.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+	        RCNOMEMORY   if there is not enough memory. 
+	        RCNOPOLYGON  if there is no polygon to work with.
+ 
+   EXAMPLE
+	error = MWLMeshPolygonVertexAdd(meshhandle,&myvertex);
+
+   NOTES
+	Vertices have to be added in counterclock wise direction.
+
+	      v3
+	     / |
+	    /  |
+	   /   |
+	  /    |
+	 /     |
+	v1--->v2
+
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshPolygonAdd()
+ 
+meshwriter.library/MWLMeshPolygonVertexAssign                   meshwriter.library/MWLMeshPolygonVertexAssign
+ 
+   NAME	
+ 	MWLMeshPolygonVertexAssign -- Assigns an existing vertex to the most recent polygon.
+
+   SYNOPSIS
+	error = MWLMeshPolygonVertexAssign ( meshhandle,index )
+	                                     D1         D2
+
+	ULONG MWLMeshPolygonAssign
+	     ( ULONG,ULONG );
+
+   FUNCTION
+	An already existing vertex will be assigned to the polygon.
+ 
+   INPUTS
+ 	meshhandle   - A valid handle of a mesh.
+	index        - The index of the vertex.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+	        RCNOMEMORY   if there is not enough memory. 
+	        RCNOPOLYGON  if there is no polygon to work with.
+	        RCNOVERTEX   if the vertex is not existing.
+ 
+   EXAMPLE
+	error = MWLMeshPolygonVertexAssign(meshhandle,index);
+
+   NOTES
+	Vertices have to be assigned in counterclock wise direction.
+
+	      v3
+	     / |
+	    /  |
+	   /   |
+	  /    |
+	 /     |
+	v1--->v2
+
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshVertexAdd()
+ 
+meshwriter.library/MWLMeshRotationChange                             meshwriter.library/MWLMeshRotationChange
+ 
+   NAME	
+ 	MWLMeshRotationChange -- Changes the rotation of the CTM of the mesh.
+
+   SYNOPSIS
+	error = MWLMeshRotationChange( meshhandle,rotation,operation )
+	                               D1          A0      D2
+
+	ULONG MWLMeshRotationChange
+	     ( ULONG,TOCLVertex *,ULONG );
+
+   FUNCTION
+	The rotation of the CTM will be modified in function of the rotation
+	and the operation to perform.
+ 
+   INPUTS
+ 	meshhandle - A valid handle of a mesh.
+	rotation   - Pointer to a vertex structure which contains the angles in radian
+	             of the rotation.
+	operation  - A valid CTM operation.
+ 	             CTMADD,CTMSUB,CTMMUL
+	             CTMDIV,CTMSET,CTMRESET
+
+   RESULT
+ 	error - RCNOERROR          if all went well.
+	        RCNOMESH           if the handle is not valid.
+	        RCINVALIDOPERATION if the operation is not value.
+ 
+   EXAMPLE
+	error = MWLMeshRotationChange(meshhandle,&myrotation,myoperation);
+
+   NOTES
+	If you pass 0 values for a division operation,
+	the corresponding CTM entry will be set to 0.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshTranslationChange(), MWLMeshTranslationGet()
+	MWLMeshCTMReset(),MWLMeshRotationGet()
+	MWLMeshScaleChange(),MWLMeshScaleGet()
+ 
+meshwriter.library/MWLMeshRotationGet                                   meshwriter.library/MWLMeshRotationGet
+ 
+   NAME	
+ 	MWLMeshRotationGet -- Get the rotation of the mesh its CTM.
+
+   SYNOPSIS
+	error = MWLMeshRotationGet( meshhandle,rotation )
+	                            D1          A0
+
+	ULONG MWLMeshRotationGet
+	     ( ULONG,TOCLVertex * );
+
+   FUNCTION
+	The rotation of the CTM will be returned in the passed vertex structure.
+ 
+   INPUTS
+ 	meshhandle - A valid handle of a mesh.
+	rotation   - Pointer to a vertex structure which will contain the
+	             rotation angles in radian.
+
+   RESULT
+ 	error - RCNOERROR          if all went well.
+	        RCNOMESH           if the handle is not valid.
+ 
+   EXAMPLE
+	error = MWLMeshRotationGet(meshhandle,&myrotation);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshtranslationChange(), MWLMeshTranslationChange()
+	MWLMeshRotationChange(),MWLMeshCTMReset()
+	MWLMeshScaleChange(),MWLMeshScaleGet()
+ 
+meshwriter.library/MWLMeshSave2D                                             meshwriter.library/MWLMeshSave2D
+ 
+   NAME	
+ 	MWLMeshSave2D -- Saves the mesh as 2D file.
+
+   SYNOPSIS
+	error = MWLMeshSave2D( meshhandle,id,filename,viewtype,drawmode,taglist )
+	                       D1         D2 D3       D4       D5        A0
+
+	ULONG MWLMeshSave2D
+	     ( ULONG,ULONG,STRPTR,ULONG,ULONG,struct TagItem * );
+
+   FUNCTION
+	The mesh, this means vertices, polygons, materials, camera and light will
+	be used to generate and save a 2D file from a specific view point and
+	drawing mode.
+ 
+   INPUTS
+ 	meshhandle  - A valid handle of a mesh.
+	id          - A valid 2D file format id, to spedify the output format.
+	filename    - Name and path of the file.
+	viewtype    - Type of view, like perspective ...
+	drawmode    - Type of drawing, points, lines, surfaces ...
+	taglist     - NULL, for future use.
+	
+   RESULT
+	error - RCNOERROR         if all went well.
+	        RCNOMESH          if the handle is not valid.
+	        RCUNKNOWNFTYPE    if the id is not known.
+	        RCUNKNOWNDMODE    if the view mode in not known.
+	        RCNOPOLYGON       if there are no polygons to save.
+	        RCCHGBUF          if an error occured to allocate the save buffer.
+	        RCWRITEDATA       if an error occured while writing data, no more space...
+	        RCVERTEXOVERFLOW  if the format does not support as much vertices.
+	        IoErr()           if possible to catch it, you will get its codes.
+
+   EXAMPLE
+	error = MWLMeshSave2D(meshhandle,id,"ram:test",TVWPERSP,dm,NULL);
+
+   NOTES
+	No file existence tests are made here! Existent files will be overwritten.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWL2DFileFormatIDGet(),MWLDrawModeGet(),MWLMeshSave3D()
+ 
+meshwriter.library/MWLMeshSave3D                                             meshwriter.library/MWLMeshSave3D
+ 
+   NAME	
+ 	MWLMeshSave3D -- Saves the mesh as 3D file..
+
+   SYNOPSIS
+	error = MWLMeshSave3D( meshhandle,id,filename,taglist )
+	                       D1         D2 D3        A0
+
+	ULONG MWLMeshSave3D
+	     ( ULONG,ULONG,STRPTR,struct TagItem * );
+
+   FUNCTION
+	The mesh, this means vertices, polygons, materials, camera and light will
+	be saved in the specified 3d file format.
+ 
+   INPUTS
+ 	meshhandle  - A valid handle of a mesh.
+	id          - A valid 3D file format id, to spedify the output format.
+	filename    - Name and path of the file.
+	taglist     - NULL, for future use.
+	
+   RESULT
+	error - RCNOERROR                  if all went well.
+	        RCNOMESH                   if the handle is not valid.
+	        RCUNKNOWNFTYPE             if the id is not known.
+	        RCNOPOLYGON                if there are no polygons to save.
+	        RCCHGBUF                   if an error occured to allocate the save buffer.
+	        RCWRITEDATA                if an error occured while writing data, no more space...
+	        RCVERTEXOVERFLOW           if the format does not support as much vertices.
+	        RCVERTEXINPOLYGONOVERFLOW  if the format does not support as much vertices in a polygon.
+	        IoErr()                    if possible to catch it, you will get its codes.
+
+   EXAMPLE
+	error = MWLMeshSave3D(meshhandle,id,"ram:test",NULL);
+
+   NOTES
+	No file existence tests are made here! Existent files will be overwritten.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWL3DFileFormatIDGet(),MWLMeshSave2D()
+ 
+meshwriter.library/MWLMeshScaleChange                                   meshwriter.library/MWLMeshScaleChange
+ 
+   NAME	
+ 	MWLMeshScaleChange -- Changes the scale of the CTM of the mesh.
+
+   SYNOPSIS
+	error = MWLMeshScaleChange( meshhandle,scale,operation )
+	                            D1          A0   D2
+
+	ULONG MWLMeshScaleChange
+	     ( ULONG,TOCLVertex *,ULONG );
+
+   FUNCTION
+	The scale of the CTM will be modified in function of the scale
+	and the operation to perform.
+ 
+   INPUTS
+ 	meshhandle  - A valid handle of a mesh.
+	scale       - Pointer to a vertex structure which contains the factor
+	              of the scaling.
+	operation   - A valid CTM operation.
+ 	              CTMADD,CTMSUB,CTMMUL
+	              CTMDIV,CTMSET,CTMRESET
+
+   RESULT
+ 	error - RCNOERROR          if all went well.
+	        RCNOMESH           if the handle is not valid.
+	        RCINVALIDOPERATION if the operation is not value.
+ 
+   EXAMPLE
+	error = MWLMeshScaleChange(meshhandle,&myscale,myoperation);
+
+   NOTES
+	If you pass 0 values for a division operation,
+	the corresponding CTM entry will be set to 0.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshTranslationChange(), MWLMeshTranslationGet()
+	MWLMeshRotationChange(),MWLMeshRotationGet()
+	MWLMeshCTMReset(),MWLMeshScaleGet()
+ 
+meshwriter.library/MWLMeshScaleGet                                         meshwriter.library/MWLMeshScaleGet
+ 
+   NAME	
+ 	MWLMeshScaleGet -- Get the scale of the mesh its CTM.
+
+   SYNOPSIS
+	error = MWLMeshScaleGet( meshhandle,scale )
+	                         D1          A0
+
+	ULONG MWLMeshScaleGet
+	     ( ULONG,TOCLVertex * );
+
+   FUNCTION
+	The scale of the CTM will be returned in the passed vertex structure.
+ 
+   INPUTS
+ 	meshhandle  - A valid handle of a mesh.
+	scale       - Pointer to a vertex structure which will contain the scale factors.
+
+   RESULT
+ 	error - RCNOERROR          if all went well.
+	        RCNOMESH           if the handle is not valid.
+ 
+   EXAMPLE
+	error = MWLMeshScaleGet(meshhandle,&myscale);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshTranslationChange(), MWLMeshTranslationChange()
+	MWLMeshRotationChange(),MWLMeshRotationGet()
+	MWLMeshScaleChange(),MWLMeshCTMReset()
+ 
+meshwriter.library/MWLMeshTranslationChange                       meshwriter.library/MWLMeshTranslationChange
+ 
+   NAME	
+ 	MWLMeshTranslationChange -- Changes the translation of the CTM of the mesh.
+
+   SYNOPSIS
+	error = MWLMeshTranslationChange( meshhandle,translation,operation )
+	                                  D1          A0         D2
+
+	ULONG MWLMeshTranslationChange
+	     ( ULONG,TOCLVertex *,ULONG );
+
+   FUNCTION
+	The translation of the CTM will be modified in function of the translation
+	and the operation to perform.
+ 
+   INPUTS
+ 	meshhandle  - A valid handle of a mesh.
+	translation - Pointer to a vertex structure which contains the coordinates
+	              of the translation.
+	operation   - A valid CTM operation.
+ 	              CTMADD,CTMSUB,CTMMUL
+	              CTMDIV,CTMSET,CTMRESET
+
+   RESULT
+ 	error - RCNOERROR          if all went well.
+	        RCNOMESH           if the handle is not valid.
+	        RCINVALIDOPERATION if the operation is not value.
+ 
+   EXAMPLE
+	error = MWLMeshTranslationChange(meshhandle,&mytranslation,myoperation);
+
+   NOTES
+	If you pass 0 values for a division operation,
+	the corresponding CTM entry will be set to 0.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshCTMReset(), MWLMeshTranslationGet()
+	MWLMeshRotationChange(),MWLMeshRotationGet()
+	MWLMeshScaleChange(),MWLMeshScaleGet()
+ 
+meshwriter.library/MWLMeshTranslationGet                             meshwriter.library/MWLMeshTranslationGet
+ 
+   NAME	
+ 	MWLMeshTranslationGet -- Get the translation of the mesh its CTM.
+
+   SYNOPSIS
+	error = MWLMeshTranslationGet( meshhandle,translation )
+	                               D1          A0
+
+	ULONG MWLMeshTranslationGet
+	     ( ULONG,TOCLVertex * );
+
+   FUNCTION
+	The translation of the CTM will be returned in the passed vertex structure.
+ 
+   INPUTS
+ 	meshhandle  - A valid handle of a mesh.
+	translation - Pointer to a vertex structure which will contain the translation.
+
+   RESULT
+ 	error - RCNOERROR          if all went well.
+	        RCNOMESH           if the handle is not valid.
+ 
+   EXAMPLE
+	error = MWLMeshTranslationGet(meshhandle,&mytranslation);
+
+   NOTES
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshCTMReset(), MWLMeshTranslationChange()
+	MWLMeshRotationChange(),MWLMeshRotationGet()
+	MWLMeshScaleChange(),MWLMeshScaleGet()
+ 
+meshwriter.library/MWLMeshTriangleAdd                                   meshwriter.library/MWLMeshTriangleAdd
+ 
+   NAME	
+ 	MWLMeshTriangleAdd -- Add a new triangle to the mesh according the CTM.
+
+   SYNOPSIS
+	error = MWLMeshTriangleAdd( meshhandle,materialhandle,vertex1,vertex2,vertex3 )
+	                            D1         D2              A0       A1      A2
+
+	ULONG MWLMeshTriangleAdd
+	     ( ULONG,ULONG,TOCLVertex *,TOCLVertex *,TOCLVertex * );
+
+   FUNCTION
+	A new triangle will be added to the mesh.
+	This means a new polygon with 3 vertices.
+	A copy of the contents passed by the vertex pointers will be made.
+ 
+   INPUTS
+ 	meshhandle     - A valid handle of a mesh.
+	materialhandle - A valid handle of a material or 0 if you wont
+	                 assign a material to this polygon now.
+	vertex1        - Pointer to the first vertex structure.
+	vertex2        - Pointer to the second vertex structure.
+	vertex3        - Pointer to the third vertex structure.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+	        RCNOMATERIAL if the handle is not valid.
+	        RCNOMEMORY   if there is not enough memory. 
+ 
+   EXAMPLE
+	error = MWLMeshTriangleAdd(meshhandle,materialhandle,&v1,&v2,&v3);
+
+   NOTES
+	Vertices have to be added in counterclock wise direction.
+
+	      v3
+	     / |
+	    /  |
+	   /   |
+	  /    |
+	 /     |
+	v1--->v2
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshPolygonMaterialSet()
+ 
+meshwriter.library/MWLMeshVertexAdd                                       meshwriter.library/MWLMeshVertexAdd
+ 
+   NAME	
+ 	MWLMeshVertexAdd -- Add a new vertex to the mesh its vertex list according the CTM.
+
+   SYNOPSIS
+	error = MWLMeshVertexAdd( meshhandle,vertex,index )
+	                          D1          A0    D2
+
+	ULONG MWLMeshVertexAdd
+	     ( ULONG,TOCLVertex *,ULONG * );
+
+   FUNCTION
+	A new vertex will be added to the mesh its vertex list, without binding it to any
+	polygon, which can be made later.
+ 
+   INPUTS
+ 	meshhandle   - A valid handle of a mesh.
+	vertex       - Pointer to a vertex structure which contains the coordinates
+	               of the new vertex.
+	index        - Pointer to a variable which will contain the index of the vertex,
+	               which will be needed for further use.
+	
+   RESULT
+ 	error - RCNOERROR    if all went well.
+	        RCNOMESH     if the handle is not valid.
+	        RCNOMEMORY   if there is not enough memory. 
+ 
+   EXAMPLE
+	error = MWLMeshVertexAdd(meshhandle,&myvertex,&myindex);
+
+   NOTES
+	File formats which have an internal vertex list will get all vertices
+	of the mesh, even if they were never used in a polygon.
+
+   BUGS
+ 
+   SEE ALSO
+ 	MWLMeshPolygonVertexAssign()
+ 
+

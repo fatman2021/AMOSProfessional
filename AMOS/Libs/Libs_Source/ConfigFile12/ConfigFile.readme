@@ -1,0 +1,117 @@
+Short:    lib to easy handle of cfg files V1.2
+Type:     util/libs
+Author:   MKS@Allgaeu.org (Marcel Karas)
+Uploader: MKS@Allgaeu.org (Marcel Karas)
+Version:  1.2
+Requires: Kick 2.0+
+Replaces: util/libs/ConfigFile.lha
+
+TITLE
+
+   ConfigFile.library     2.19
+   RexxConfigFile.library NEW!
+
+VERSION
+
+   Release 1.2
+
+REQUIREMENTS
+
+   Kickstart 2.0 or higher
+
+DESCRIPTION
+
+   The  ConfigFile.library,  a  system  to  make  accessing  config  files
+   particularly  easy.  The  format of the files are like the from Windows
+   only with some extensions. The user can easy change the contents  of  a
+   file with a text editor. The programm that needs the files can easy use
+   the ConfigFile.library to handle.
+
+   A example of a config file:
+
+   CFFT
+
+   [House]
+
+   Size=1245
+   Name="The White House"
+   Position=123,678,$DFe34,%10111
+   Cellar=YES
+
+   [HouseII]
+
+CHANGES
+
+   Date: 01.10.1997 Release: 1.2 Version: 2.19
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   NEWS: - I have written a special ARexx version of this library.
+           The RexxConfigFile.library required this library too.
+
+         - The source codes of the two libraries and the extra tools
+           are available now. At the Aminet dev/src/ConfigFileSrc.lha.
+
+   - Cleaned up code
+
+   - Rewrote WriteBuffer routines. Speeded file writing about 35%!
+
+   - Rewrote string converting routines.
+
+   - Rewrote cf_FindArgNode() and cf_FindGrpNode() functions.
+     Speeded node finding about 20%!
+
+   - Changed default puddle and WriteBuffer size setting to
+     dynamic size calculation. The library divides the largest
+     free memory block with 100 (Puddle) and 10 (WriteBuffer).
+
+   - Removed special Kick 3.0 version distribution.
+
+   - Rewrote the ReadASCII() part of cf_Read().
+
+   - Removed MEMF_CLEAR flag. cf_Open#?() creates the MemPool without
+     this flag now.
+
+FEATURES
+
+   - Small Library
+
+   - Needs not many memory
+
+   - Very fast on a 68000 processor
+
+   - Easy API for programmer
+
+   - Special ARexx version
+
+AUTHOR
+
+   Email:
+   
+   MKS@Allgaeu.org or
+   MKS@AG-Trek.Allgaeu.org
+
+   FidoNet:
+
+   Marcel Karas 2:2487/2982.39
+
+   Snail-Mail:
+
+   Marcel Karas
+   Str. d. Chemiearbeiter 47
+   06766 Wolfen Nord
+   Germany 
+
+SUPPORT BBS
+
+   AG-Trek ( SYSOP: Andreas Kerber )
+
+   +49(0)8386 -   7862  USR Sportster V34/VFast    28.8k
+   +49(0)8386 - 961150  USR Sportster VI V34+      33.6k 
+   +49(0)8386 - 961151  Elsa Microlink ISDN/TL-V34 28.8.k/64.0k
+   +49(0)8386 - 961152  Elsa Microlink ISDN/pro    64.0k  
+
+DISTRIBUTABILITY 
+
+   The archive and its contents are freely distributable.   
+   See documentation for details.    
+  
+   The package is (c) 1996-1997 Marcel Karas

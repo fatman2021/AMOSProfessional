@@ -1,0 +1,21 @@
+Three little demonstrations of RainbowSystem!
+
+
+
+1) Demo, show all graphic functions of the 'rainbow.library'. You can  find  the
+complete source of this example in the drawer "Developer"
+
+2) PictureView, a clone of Multiview (but show only pictures!). Try  to  open  a
+big number of pictures and enjoy the high quality of the rendering! :))
+To scroll the pictures, just click the left mouse button  into  the  window  and
+move the mouse! And take a look to menus!
+
+3) ImageReq, a little (unfinished) side project, which show the great  power  of
+RainbowSystem!
+
+
+After using this programs, try to change driver  in  the  RainbowManager...  and
+dreams the result if you use the registered drivers! :-)))
+
+
+PS: PictureView and ImageReq needs JFIF Codec to show JPEG pictures!

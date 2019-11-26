@@ -1,0 +1,715 @@
+@database "ReadRDB.guide"
+@remark
+@remark "$VER: ReadRDB 0.5 (30.1.96) Gérard Cornu
+@Index INDEX
+
+@node main "ReadRDB 0.5 ©1995-96 Gérard Cornu - Sommaire"
+
+
+
+                     @{b}ReadRDB 0.5 - Sommaire @{ub} - (30-Jan-96)
+
+                            by @{" Gérard Cornu " link author} 
+
+
+                           @{"   Copyright            " link copyright}
+                           @{"   Distribution         " link distribution}
+                           @{"   Besoins              " link requirement}
+                           @{"   Introduction         " link introduction}
+                           @{"   Installation         " link installation}
+                           @{"   Utiliser ReadRDB     " link using}   
+                           @{"   Adresse de l'auteur  " link author}
+                           @{"   Restrictions d'usage " link restrictions}
+                           @{"   Garantie             " link warranty}
+                           @{"   Remerciements        " link thanks}
+                           @{"   History              " link history}
+                           @{"   Index                " link index}
+
+@endnode
+@node copyright "ReadRDB copyright and other boring stuff"
+@prev main
+@next distribution
+
+                 @{b}ReadRDB@{ub}   -  version 0.5   30-Jan-96
+
+         ©1995 @{" Gérard Cornu " link author}  -   @{i}Compilé avec @{" SAS/C ® " link thanks 45} 6.56@{ui}
+
+   ReadRDB, ainsi que tous les fichiers d'accompagnement, 
+   est ©1995-96 Gérard Cornu.
+   
+   Une bonne partie de ReadRDB est basé sur le fichier source @{" Readrdsk.c " link readrdsk}.
+
+@endnode
+@node warranty "NO warranty for ReadRDB"
+@prev restrictions
+@next thanks
+
+   PAS DE GARANTIE                                                          
+   ~~~~~~~~~~~~~~~
+                                                                            
+   Ce logiciel n'est accompagné d'aucune garantie. Bien que l'auteur ai     
+   essayé d'éviter les erreurs (!), il ne peut garantir que le logiciel     
+   décris dans ce document est sûr à 100%. Vous utilisez donc ce logiciel   
+   à vos propres risques (et périls!). L'auteur ne peut être tenu respon-   
+   sable d'aucun dommage causé par l'utilisation de ce logiciel.            
+                                                                            
+@endnode
+@node distribution "ReadRDB distribution"
+@prev copyright
+@next requirement
+
+   DISTRIBUTION                                                             
+   ~~~~~~~~~~~~
+                                                                            
+   Ce logiciel est librement distribuable. Il peut être inclus sur tout     
+   support utilisé pour la distribution de logiciels librement distri-      
+   buables, comme les collections de disques du Domaine Public, CD-ROMs,    
+   serveurs FTP ou BBS.                                                     
+                                                                            
+   De façon à assurer l'intégrité de ce logiciel, les distributeurs doivent 
+   re-distribuer l'ensemble complet des fichiers originaux. L'auteur ne     
+   peut être tenu responsable si ce logiciel est devenu inutilisable à      
+   cause de modifications survenues au contenu de la distribution ou à des  
+   fichiers même de la distribution.                                        
+                                                                            
+   Il n'y a pas de limites imposées sur le coût de la distribution, par ex: 
+   pour le support, comme les disquettes, bandes magnétiques ou disques     
+   compacts, ou le traitement de la duplication. Il s'est avéré que de      
+   telles limites allaient â l'encontre de l'idée de logiciels librement    
+   distribuables, par ex: plutôt que de réduire le prix du disque en deça   
+   de la limite, les logiciels étaient purement et simplement enlevés du    
+   disque à distribuer.                                                     
+                                                                            
+   Bien que l'auteur n'impose aucune limite sur la distribution de ce       
+   logiciel, il voudrait exprimer ses opinions personnelles sur le sujet:   
+                                                                            
+       * Ce logiciel devrait être mis librement et gratuitement à la        
+         disposition de quiquonque, chaque fois que cela est possible.      
+                                                                            
+       * Si vous vous êtes procuré ce logiciel dans des conditions          
+         normales, par l'intermédiaire d'un revendeur de Domaine Public,    
+         à un prix supérieur à 25 Francs (ou 5 Dollars), vous avez          
+         définitivement payé trop cher. S'il vous plait, n'encouragez plus  
+         ce moyen inconvenant de faire du profit et changer pour un         
+         distributeur meilleur marché, dès que possible.                    
+                                                                            
+                                                                            
+                                    ---------
+
+   Alan Pfeil est certainement autorisé â inclure AppISizer dans la 
+   librairie Amiga @{" I.C.P.U.G. " link icpug}.
+
+  @{" Fred Fish " link thanks 18} est évidemment autorisé â inclure AppISizer dans sa librairie 
+   exceptionnelle @{" AmigaLibDisk " link fred}
+
+  @{" Thierry Colin " link thanks 50} est bien sur autorisé à inclure AppISizer dans la
+   collection @{" D.P.A.T. " link dpat}.
+
+
+@endnode
+@node fred "Fred FISH and the AmigaLibDisk library"
+@prev distribution
+@next main
+
+   Fred FISH et la librairie AmigaLibDisk
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Maintenant que Fred compile des CDROMs et que personne ne semble
+   avoir repris la collection sur disquette...
+   
+   Achetez les CDs de Fred chez ceux qui se 'gavent' le moins, ils
+   ne sont pas supposés 'faire' du fric avec, alors choisissez bien
+   votre revendeur de CDs Fish (Aminet et autre d'ailleurs).
+
+@endnode
+@node restrictions "Usage restrictions for ReadRDB"
+@prev author
+@next warranty
+
+   RESTRICTIONS D'UTILISATION                                               
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Aucun programme, document, fichier de données ou code source faisant     
+   partie de ce logiciel, ni en entier ni en partie, ne peut être utilisé   
+   sur une machine qui est employée                                         
+                                                                            
+       * pour la recherche, le développement, la construction, le test ou   
+         la production d'armes ou toute autre application militaire. Ceci   
+         comprend également toute machine qui est utilisée dans l'éducation 
+         à toutes fins énoncées ci-dessus.                                  
+                                                                            
+       * par des personnes qui acceptent, soutiennent ou exercent toute     
+         violence à l'encontre d'autre personnes, (par ex. contre des       
+         citoyens originaires de pays  étrangers).                          
+                                                                            
+
+@endnode
+@node requirement "ReadRDB requirements"
+@prev distribution
+
+
+   Important!
+   ~~~~~~~~~~
+   ReadRDB a besoin du système 2.04 ou supérieur. Il a été développé et
+   testé sous KickStart 37.175 et WB 38.35. Je ne vois aucune raison 
+   pourquoi il ne marcherait pas sur les versions supérieures. 
+
+   Étant donné la nature de cet utilitaire, un ou plusieurs disques
+   durs employant le système du @{" Rigid Disk Block " link rdb} spécifié par Commodore
+   ne seront pas de trop!
+
+@endnode
+@node installation "Installing ReadRDB"
+@next introduction
+
+   Installation de ReadRDB:
+   ~~~~~~~~~~~~~~~~~~~~~~~
+   
+   Cliquez simplement sur l'icône d'installation de votre choix. Ceci
+   suppose que vous avez le programme "Installer" dans un répertoire
+   se trouvant dans votre chemin de commandes (path ;-)
+
+   Vous préférez une installation manuelle? (tout aussi rapide!), copiez
+   simplement ReadRDB dans un répertoire se trouvant dans votre chemin
+   de commandes.
+
+@endnode
+@node introduction "Introduction to ReadRDB"
+@prev installation
+
+   INTRODUCTION                                       @{" (Préambule...) " link preambule}
+   ~~~~~~~~~~~~
+
+   ReadRDB vous permet de sauvegarder le @{" Rigid Disk Block " link rdb} d'un disque
+   dur dans un fichier, en tant que copie de sauvegarde, et ensuite de 
+   ré-écrire ce RDB sur le disque dur.
+   
+   Une bonne chose à faire, si vous voulez être un peu plus tranquille au
+   sujet de vos disques durs (uniquement!), est de sauvegarder chaque RDB 
+   de chacun de vos disques durs sur une ou plusieurs disquettes, ainsi 
+   qu'une copie du programme "ReadRDB". Peut-être qu'un jour vous vous 
+   remercierez de l'avoir fait. (Cela m'est arrivé plusieurs fois déjà!).
+
+   Un programme du type virus ou trojan, ou simplement une mauvaise
+   manipulation lors de l'utilisation d'HDToolBox ou autre utilitaire
+   d'installation de disques durs peuvent endommager ou même détruire
+   votre RDB. Si cela se produit et vous n'avez pas de copie de sauvegarde 
+   de votre RDB, la seule façon de vous en sortir est de ré-installer le 
+   disque dur. Pas très marrant, n'est-ce pas ;-)
+
+   Lisez tout de même ce petit @{" avertissement " link warning}.
+
+@endnode
+@node preambule "Sur la localisation et tout ce cinéma ;-)"
+
+   J'ai commencé à "bosser" sur ReadRDB en anglais, comme d'habitude,
+   et je n'ai pas pensé un instant à la localisation. Et maintenant que 
+   j'en suis là je n'ai pas envie de faire marche arrière et de localiser
+   ReadRDB. De plus c'est un programme plutôt simple et je suis en train
+   de vous traduire la doc, c'est déjà pas si mal!
+
+   Vous pouvez remercier Jérôme Chesnot pour m'avoir plus ou moins poussé
+   à traduire la doc en français, si cela n'avait tenu qu'à moi...
+
+@endnode   
+@node warning "Warning!"
+
+   AVERTISSEMENT
+   ~~~~~~~~~~~~~
+   Faites très ATTENTION lorsque vous utilisez l'option @{" WRITE " link cli} de 
+   "READRDB", due à sa fonction, qui est d'écrire un @{" RDB " link rdb} sauvegardé
+   sur un fichier, par dessus celui d'un disque dur, il est possible 
+   de rendre un disque dur totalement inutilisable par AmigaDOS. 
+   
+   Ceci peut se produire si par exemple vous écrivez le RDB d'un disque
+   dur sur un autre disque dur. Une façon d'éviter ce problème est de
+   nommer vos RDB sauvegardés avec le nom de la marque et du modèle
+   du disque dur concerné.
+
+   Ne vous laissez tout de même pas impressionner par cet avertissement,
+   si vous utilisez ReadRDB en réfléchissant à ce que vous faites (;-)
+   vous ne devriez pas rencontrer de problème. Qui sait, vous pourrez 
+   peut-être le remercier le jour ou vous aurez pu 'restoré' votre RDB
+   si celui de votre disque dur est corrompu ou détruit par quoi que ce
+   soit. J'ai dû le faire plusieurs fois déjà, et je remercie Randell
+   Jesup, l'auteur de @{" Readrdsk.c" link readrdsk}.
+
+@endnode
+@node readrdsk "Readrdsk.c"
+
+   "Readrdsk.c" est la source d'un petit utilitaire que j'ai trouvé sur
+   Usenet il y a déjà pas mal de temps (début 1991!).
+    
+   Une bonne partie de ReadRDB est basée sur cette source. J'ai ajouté des
+   tests supplémentaires et simplifié la ligne de commande. L'original 
+   permettait de spécifier l'offset de début ainsi que la longueur du
+   RDB à sauvegarder (ou à écrire).
+   
+   Randell Jesup est l'auteur de Readrdsk.c, et a été "Le Gardien d'AmigaDos"
+   chez Commodore Engineering.
+   
+@endnode
+@node rdb "Rigid Disk Block"
+@prev introduction
+
+   RDB:
+   ~~~
+   Le RDB, ou Rigid Disk Block, est une spécification élaborée par 
+   Commodore, qui définie des blocs de données sur un disque dur, de facon
+   à décrire ce disque. Ces blocs sont crées et modifiés par des utilitaires
+   d'installation de disques durs tels que HDToolBox, et ils sont lus et 
+   utilisés par le code de la ROM du pilote de périphérique (device driver).
+   
+   Ces blocs contiennent des informations sur le disque, telles que le
+   nombre et la taille des blocs, le nombre de pistes, de cylindres, la
+   list des blocs endommagés (BadBlockList), des données concernant les 
+   partitions, le 'filesystem' et l'initialisation du disque.
+   
+   Ces blocs ne sont pas accessibles normalement par l'utilisateur
+   puisqu'ils n'apparaissent sur aucune unité DOS. 
+      
+   Pour plus d'information sur le RDB et les autres 'hardblocks', consultez
+   le "RKRM Libraries", 3ème édition (ISBN 0-201-56774-1), pages 769 à 776.
+   (Ou les pages 538 à 545 de la seconde édition de "RKRM Libraries & 
+   Devices").
+
+@endnode
+@node using "Using ReadRDB"
+
+   Utilisation de ReadRDB
+   ~~~~~~~~~~~~~~~~~~~~~~
+
+   ReadRDB est un utilitaire pour le Shell uniquement.
+
+                  @{" Template                   " link template}
+
+                  @{" Exemples                   " link examples}
+
+                  @{" Information supplémentaire " link info}
+                     
+@endnode
+@node template "The template for ReadRDB"
+   
+   La @{" template " link silly} est la suivante:
+   
+   @{" D=DEVICE/K,U=UNIT/K/N,WRITE/S,FILE,H=HELP/S,FORCE/S " link cli}
+   
+   Le prochain paragraphe est seulement pour ceux qui ne lisent pas leur
+   manuel ;-):
+   
+      /K signifie que le mot clé doit être donné avec le paramètre.
+      /N le paramètre est numérique.
+      /S le paramètre fonctionne comme un interrupteur.
+      =  le signe égal indique que les deux formes (celle avant et celle
+         après le signe égal!) du mot clé sont équivalentes, et chacune
+         sera acceptée.
+   
+   Le premier paramètre, D ou @{" DEVICE " link cli}, doit être suivi du nom de 
+   votre pilote d'unités SCSI (device driver name). Ce paramètre est 
+   optionnel, par défaut le nom est "scsi.device".
+   
+   Le second paramètre, U ou @{" UNIT " link cli 10}, doit être suivi du numéro de
+   l'unité SCSI. Ce paramètre est également optionnel, l'unité par défaut 
+   est l'unité 6 (six!).
+   
+   Quand au troisième paramètre, @{" WRITE " link cli 17}, il ne doit être employé que
+   si vous voulez remplacer le @{" RDB " link rdb} du disque concerné, par celui
+   sauvegardé dans un fichier. Cet argument est un commutateur optionnel.
+   Par défaut l'action est de lire le RDB et de le sauvegarder dans un 
+   fichier. Si vous avez une seconde, lisez ce petit @{" avertissement " link warning}.      
+
+   Le quatrième paramètre, @{" FILE " link cli 24}, doit être suivi du nom du fichier
+   (y compris le chemin, s'il ne s'agit pas du répertoire courant) qui 
+   contiendra le @{" RDB " link rdb} de l'unité spécifiée, si l'option @{" WRITE " link cli 17}
+   n'est pas spécifiée, ou par le nom du fichier contenant le RDB que vous 
+   souhaitez écrire par dessus le RDB existant sur le disque si l'option 
+   WRITE est également spécifiée. Ce paramètre est optionel si l'option 
+   WRITE n'est pas stipulée, et dans ce cas le nom du fichier par défaut 
+   est "T:RDB". D'un autre côté, si 'loption WRITE est spécifiée le 
+   paramètre FILE est obligatoire, par manière de précaution.
+
+   Le 5ème paramètre, @{" HELP " link cli 30}, vous donnera quelques indications,
+   en anglais (oeuf course!) sur la manière d'utiliser ReadRDB.
+
+   Le dernier paramètre FORCE (nouveau, depuis la version 0.4) est seulement pour 
+   la lecture et l'écriture de RDB non standard, ceux qui ne contiennent pas RDSK 
+   pour leur 4 premiers octets. 
+
+@endnode
+@node silly "Pourquoi y veut qu'j'traduise cette doc le Jérôme... ;-)"
+
+   Vous savez c'qui dit mon dico anglais/français (et dans l'aut'sens!), 
+   Le Robert & Collins Senior (!), pour le mot "template"?
+   
+   ....(Computer) patron
+   
+   Quand j'dis qu'il devrait être interdit de traduire les termes anglais
+   informatique....   ;-)
+
+@endnode   
+@node cli "Grrrrrrr......."
+
+   Aller, j'vais êt'sympa, j'vais traduire!
+   
+   DEVICE: unité physique de périphérique (c'est-y pas beau ça ;-)
+
+           Peut-être, mais ici c'est du pilote du 'device' qu'on parle,
+           c'est à dire le logiciel qui gère ce device, et non pas du 
+           'device' lui-même! Cela peut être par exemple: scsi.device, 
+           gvpscsi.device, hddisk.device, truc_muche.device, etc...
+
+   
+   UNIT  : unité (elle était dure celle là!!!!)
+
+           Le @{" numéro de l'unité " link unit} (SCSI Target ID) concernée, qui devrait
+           avoir une valeur de 0 à 6. La valeur 7 étant généralement
+           celle du contrôleur SCSI.
+
+
+   WRITE : écrire (bof!)
+
+           Option à utiliser seulement si vous désirez @{" écraser " link warning} le RDB
+           de l'unité concernée par un RDB préalablement sauvegardé par
+           ReadRDB.
+
+
+   FILE  : fichier (quand même!)   
+
+           Doit inclure le chemin complet si le fichier ne concerne pas 
+           le répertoire courant.
+
+
+   HELP  : aide (j'vous parle pas ce celle là!)
+   
+   
+   @{" Bon, revenons à nos moutons (ou n'était-ce pas notre 'patron' ;-) " link using}
+
+@endnode      
+@node unit "Comment j'sais quelle est le numéro d'unité de mon dur... ;-)"
+
+   Si vous ne connaissez pas le numéro d'unité de votre disque dur, lancé
+   HDToolBox (NON, pas par la f'nêtre!) et une fois que monsieur aura 
+   ouvert la sienne (de f'nêtre!) vous devriez voir quelque chose dans 
+   ce style:
+   
+                  Hard Drives in System
+                  
+   Interface    Address   LUN  ...
+   SCSI            x
+                   ^
+                   |
+   Le numéro de l'unité du disque est le chiffre affiché ici,
+   dans la colonne "Address".   
+   
+   Si vous avez utilisé un autre utilitaire lors de l'installation de 
+   votre disque dur, il devrait également vous donner quelque part
+   le numéro d'unité.
+   
+@endnode   
+@node examples "Exemples"
+
+   Exemples:
+   ~~~~~~~~
+   Supposons que votre disque dur utilise un pilote SCSI nommé
+   "truc_scsi.device" et soit adressé en tant qu'unité 0:
+   
+   Si vous souhaitez sauvegarder le @{" RDB " link rdb} de ce disque dur
+   sur un fichier nommé "DF1:RDBs/Barracuda", la syntax sera la suivante:   
+   
+   ReadRDB DEVICE=truc_scsi.device UNIT=0 FILE=DF1:RDBs/Barracuda
+   
+   Si vous souhaitez maintenant remplacer (écraser!) le RDB de ce disque
+   dur par celui sauvegardé dans ce même fichier:
+   
+   ReadRDB DEVICE=truc_scsi.device UNIT=0 WRITE FILE=DF1:RDBs/Barracuda
+   
+@endnode
+@node info "Information supplémentaire (et gratuite ;-)"
+
+   ReadRDB donne également des informations contenues dans le @{" RDB " link rdb}.
+      
+   La première partie concerne 'l'agencement' du disque. Cet agencement 
+   n'est pas la disposition physique réelle du disque, mais un équivalent
+   élaboré par l'utilitaire utilisé lors de l'installation, qui est
+   utilisé par le pilote (device driver). Par exemple il peut être indiqué
+   1 pour le nombre de têtes, mais physiquement le disque peut avoir 
+   réellement 4 têtes (de lecture/écriture!). Ceci est fait dans le but 
+   de simplifier l'agencement utilisé par le pilote. Mais la taille
+   totale, qui est égale à:
+
+   (cylindres * secteurs * têtes) * octets par bloc
+   
+   correspondra à la taille réelle du disque.
+   
+   Ensuite ReadRDB vous dira si 'reselection' est autorisée ou non pour
+   ce disque. Certains pilotes SCSI ne supportent pas correctement
+   'reselection'. Si vous avez des problèmes (blocages) avec plusieurs 
+   disques durs connectés sur le même contrôleur, vous pouvez essayer 
+   'd'interdire' 'reselection' sur TOUS ces disques SCSI. Vous pouvez 
+   le faire (il peut le faire ;-) avec "Prod_Prep" et les scripts 
+   l'accompagnant. Prod_Prep se trouve normalement sur la disquette 
+   "Install" qui fait partie de vos disquettes Workbench. Ceci peut être
+   utile en attendant la nouvelle ROM pour votre contrôleur, que vous avez
+   commandée ;-)
+   
+   Pour terminer, ReadRDB va vérifier si les 'drapeaux' suivants de 
+   'rdb_Flags' sont établis:
+         
+   Ces 'drapeaux' (flags) sont définis comme suit dans le fichier
+   'include' "devices/hardblocks.h" de Commodore:
+   
+   RDBFF_LAST     aucun disque n'existe pour être configuré après celui-ci
+                  sur ce contrôleur.
+               
+   RDBFF_LASTLUN  aucun LUN après celui-ci n'existe pour être configuré 
+                  à cette adresse SCSI (unité, 'SCSI Target ID')
+                  
+   RDBFF_LASTTID  aucune adresse SCSI (unité, 'Target ID') après celle-ci 
+                  n'existe pour être configuré sur ce bus SCSI.
+                  
+   RDBFF_SYNCH    ce disque supporte le mode synchrone 
+                  PEUT ÊTRE DANGEREUX D'UTILISÉ SI LE DISQUE NE LE 
+                  SUPPORTE PAS!
+
+@endnode
+@node author "ReadRDB author"
+@prev main
+@next main
+
+   Envoyez toutes suggestions, rapports de 'bug', compliments ;-), 
+   chocolat NOIR (69% minimum ;-), tabac Bergerac Affiné, logiciels 
+   librement distribuables ou originaux, disques durs de 4 GO, (pas 
+   plus de 4 GB sinon ReadRDB va se tromper en affichant sa taille 
+   (ULONG) ;-), scanners couleurs au format A3 en 48 bits et demi, 
+   lecteurs de CDROM (SCSI 2 Seulement ;-), disques CDROM, AMIGA 8000 
+   avec microprocesseur RISC , etc..., etc...
+                                                                          
+   OU SIMPLEMENT UNE CARTE POSTALE à:              
+
+
+                         Gérard CORNU
+                         11 avenue Edouard Aynard
+                         69130 ECULLY
+
+                         FRANCE.  @{" (CMP) " link wpc}
+
+   Email: gerard@ariane.univ-lyon2.fr
+
+                Passez une bonne journée! ...moi aussi!!!
+                                                                          
+                         @{" Traductions... " link plug}     
+
+@endnode
+@node wpc "W.P.C."
+@prev author
+@next main
+
+                     Communauté Mondiale des Peuples ;-)
+
+@endnode
+@node plug "Translations ..."
+@prev author
+@next main
+
+   Je peux traduire vos documentations commerciales (sur logiciels ou 
+   matériels), de l'Anglais ou de l'Américain au Français. Je possède 
+   une très bonne connaissance et expérience de l'Amiga ainsi que de 
+   l'informatique en général.
+   
+   Adressez vos propositions à:
+   
+                        Gérard Cornu
+                        11 Avenue Edouard Aynard 
+                        69130 Écully
+                        (France)
+                        
+
+   Email: gerard@ariane.univ-lyon2.fr
+
+@endnode
+@node dpat "D.P.A.T."
+@prev distribution
+@next main
+
+   D.P.A.T
+   ~~~~~~~
+
+   Domaine Public Amiga Toulouse.
+   
+   Collection de logiciels en langue française librement distribuable,
+   lancée et dirigée par @{ " Thierry Colin " link thanks 50} â @{" AmigaNews " link thanks 5}.
+
+@endnode
+@node icpug "ICPUG"
+@prev distribution
+@next main
+
+   I.C.P.U.G
+   ~~~~~~~~~
+   ICPUG  est un club britannique, équivalent à une association loi 1901, 
+          indépendant d'utilisateurs de matériel Commodore (et autre 
+          d'ailleurs!).
+
+   ICPUG = Independent Commodore Products Users Group.
+
+   Pour devenir membre de ce club, ou pour avoir de plus amples 
+   renseignements, veuillez contacter:
+
+   Jonathan Cooley
+   ICPUG Membership secretary
+   10 Willson Road,
+   EGHAM, Surrey, 
+   TW20 0QB
+   
+   ANGLETERRE
+
+
+@endnode
+@node thanks "ReadRDB's author would like to thank..."
+@prev main
+@next main
+
+   (par ordre alphabétique...)
+
+   Amiga                Pour être la meilleure plateforme sur laquelle
+                        'travailler'.
+
+   AmigaNews            Le premier magazine français consacré à l'Amiga, 
+                        à être édité et mis en page sur Amiga.
+
+   Bernard Kubler       Pour les délicieux chocolats (noirs, bien sûr!).
+   
+   Christian Marz       Pour l'envoi du CDROM AMinet 4, les ModLists et 
+                        bien d'autres choses
+
+   Commodore-Amiga      Pour toutes les améliorations apportées au système. 
+   Software and         
+   Hardware Teams
+
+  @{" Fred Fish " link distribution 42}           Pour l'exceptionnelle  librairie @{" AmigaLibDisk " link fred}.
+
+   Gérard Cornu         Pour les excellentes traductions du fichier 
+                        d'installation, et de la doc au format
+                        AmigaGuide en français    @{" ;-) ;-) ;-) " link smiley}.
+
+  @{" I.C.P.U.G. " link icpug}          Pour les sympatiques personnes constituant ce club!
+
+   Jen Allen            Pour le chocolat, et tout le reste!
+
+   Jérôme Chesnot       Pour m'avoir fait découvrir son très beau pays dans les
+                        Pyrénées, ainsi que le parapente par l'intermédiaire
+                        de Pierre-Nicolas et Ariane. Pour tout le support et 
+                        beaucoup d'autres choses encore. Jérôme m'a poussé à
+                        écrire RDB (d'après Readrdsk.c) en me disant dit que
+                        Readrdsk avait 'crashé' sur son 4000@{"." link smiley}
+
+   Joy & John Harding   Pour leur gentillesse, et pour les visites de leur
+                        merveilleux comté du Devon.
+
+   Mark J. Lednor       Pour me procurer les AmigaLibDisks, et des tonnes de
+                        fichiers en provenance d'Aminet.
+
+   Peter Miles          Pour m'avoir procuré les AmigaLibDisks, les textes
+                        des Amiga newsgroups sur Usenet et pour tout le reste.
+
+   Randell Jesup        L'auteur de @{" Readrdsk.c " link readrdsk}, sur lequel est basé
+                        ReadRDB.
+
+   Roman Patzner        Pour m'avoir incité à ajouter le 'switch' FORCE.
+   
+  @{" SAS/C ® " link copyright} Team        Pour mon compilateur préféré!
+
+   "Sheer Panic"        Pour l'émail au sujet de la bug dans 0.4.
+
+   Stefan Becker        Pour l'incontournable ToolManager, et pour m'avoir
+                        permis d'utilisé son 'disclaimer'.
+
+   Thierry Colin        Pour le maintien de la collection @{" DPAT " link dpat}, et
+                        pour être passé directement du 1.3 au 3.x@{"!" link smiley}
+
+
+   Et tous les autres pour @{" me supporter " link smiley}, et supporter l'Amiga ;-)
+
+
+@endnode
+@node smiley "Pour ceux qui manquent d'humour ... ;-)"
+
+
+                                              ******          
+                                              ******          
+          ****                                    ****        
+          ****                                    ****        
+          ****                                      ****      
+          ****                                      ****      
+                        ****************            ****      
+                        ****************            ****      
+                                                    ****      
+                                                    ****      
+          ****                                    ****        
+          ****                                    ****        
+          ****                                ******          
+          ****                                ******          
+        ****                                                  
+        ****                                                  
+                                                            
+@endnode
+
+@NODE INDEX "Index"
+
+          Index created by AGIX 1.2 (5.8.94) Copyright © Ralph Seichter
+          modifié et reformaté par Gérard Cornu ;-)
+
+          @{" Adresse de l'auteur         " link author}
+          @{" AmigaLibDisk                " link fred}
+          @{" AmigaNews                   " link thanks 5}
+          @{" avertissement               " link warning}
+          @{" Besoins                     " link requirement}
+          @{" Copyright                   " link copyright}
+          @{" DEVICE                      " link cli}
+          @{" Distribution                " link distribution}
+          @{" DPAT                        " link dpat}
+          @{" Exemples                    " link examples}
+          @{" FILE                        " link cli}
+          @{" FORCE                       " link template 42}  
+          @{" Fred Fish                   " link distribution 42}
+          @{" Fred Fish (bis ;-)          " link thanks 18}
+          @{" Garantie                    " link warranty}
+          @{" Gérard Cornu                " link author}
+          @{" HELP                        " link cli}
+          @{" I.C.P.U.G.                  " link icpug}
+          @{" Information supplémentaire  " link info}
+          @{" Installation                " link installation}
+          @{" Introduction                " link introduction}
+          @{" RDB                         " link rdb}
+          @{" Readrdsk.c                  " link readrdsk}
+          @{" Remerciements               " link thanks}
+          @{" Restrictions d'usage        " link restrictions}
+          @{" Rigid Disk Block            " link rdb}
+          @{" SAS/C ®                     " link copyright}
+          @{" SAS/C ® (bis ;-)            " link thanks 45}
+          @{" template                    " link silly}
+          @{" Template (bis ;-)           " link template}
+          @{" Traductions                 " link plug}
+          @{" UNIT                        " link unit}
+          @{" Utiliser ReadRDB            " link using}
+          @{" WRITE                       " link cli}
+
+@endnode
+@node history "History"
+
+   0.1   Première version publique
+   
+   0.2   Correction de la 'bug' empêchant, sous l'OS 39.x, de ré-écrire
+         un RDB. 
+   
+   0.3   Version privée.
+
+   0.4   Ajout du switch FORCE. Suggéré par Roman Patzner. Merci Roman.
+
+   0.5   La correction de la 'bug' dans la version 0.2, en fait en 
+         introduisait une nouvelle: impossibilité de ré-écrire un
+         RDB sous AmigaOS 2.x :-(
+         Merci à "Sheer Panic" pour m'le dire!.
+   
+@endnode
+         

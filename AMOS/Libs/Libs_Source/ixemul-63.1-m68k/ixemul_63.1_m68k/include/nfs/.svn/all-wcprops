@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs
+END
+nfsmount.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs/nfsmount.h
+END
+xdr_subs.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs/xdr_subs.h
+END
+nfsnode.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs/nfsnode.h
+END
+rpcv2.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs/rpcv2.h
+END
+nfsv2.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs/nfsv2.h
+END
+krpc.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs/krpc.h
+END
+nfsm_subs.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs/nfsm_subs.h
+END
+nfsrtt.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs/nfsrtt.h
+END
+nfsrvcache.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs/nfsrvcache.h
+END
+nqnfs.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs/nqnfs.h
+END
+nfs.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs/nfs.h
+END
+nfsdiskless.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/amiga/!svn/ver/6/ixemul/include/nfs/nfsdiskless.h
+END

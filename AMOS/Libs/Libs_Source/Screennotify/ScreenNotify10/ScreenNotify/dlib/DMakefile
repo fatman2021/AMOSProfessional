@@ -1,0 +1,29 @@
+#
+# DMakefile for DICE link library "screennotify"
+#
+LIBNAME = screennotify
+SRCS    =
+#
+SNDIR   = /
+LIBDIR  =
+FDFILE  = $(SNDIR)fd/$(LIBNAME)_lib.fd
+SLIB    = $(LIBDIR)$(LIBNAME)s.lib
+SRLIB   = $(LIBDIR)$(LIBNAME)sr.lib
+LLIB    = $(LIBDIR)$(LIBNAME)l.lib
+LRLIB   = $(LIBDIR)$(LIBNAME)lr.lib
+FTLOPTS = $(FDFILE) -h $(SNDIR)include/clib/$(LIBNAME)_protos.h \
+          -I $(SNDIR)include -I DINCLUDE:amiga31 -auto $(LIBNAME).library -v
+
+all       : $(SLIB) $(SRLIB) $(LLIB) $(LRLIB)
+
+$(SLIB)   : $(FDFILE)
+      fdtolib $(FTLOPTS) -md -o %(left)
+
+$(SRLIB)  : $(FDFILE)
+      fdtolib $(FTLOPTS) -md -mRR -o %(left)
+
+$(LLIB)   : $(FDFILE)
+      fdtolib $(FTLOPTS) -mD -o %(left)
+
+$(LRLIB)  : $(FDFILE)
+      fdtolib $(FTLOPTS) -mD -mRR -o %(left)

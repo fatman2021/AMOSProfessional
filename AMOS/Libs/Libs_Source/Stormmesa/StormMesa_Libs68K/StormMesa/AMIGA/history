@@ -1,0 +1,140 @@
+*******************************************************************************
+*
+*               Storm-MESA history
+*
+*               milestones:
+*               V3.0  - Second major release of Storm-MESA
+*
+*******************************************************************************
+
+ 2.10.98        - first beta release of Storm-Mesa 3.0
+                - V3.0 beta 1
+
+ 2.10.98        - Added two new tags for AmigaMesaCreateContext:
+                  AMA_FAST and AMA_VERYFAST. These tags allow to select
+                  a desired rendering quality. AMA_FAST tries to find
+                  a compromise between quality and speed, while AMA_VERYFAST
+                  doesn't care at all for OpenGL compliance. These tags will
+                  be supported by the hardware driver.
+ 3.10.98        - Added a new environment variable MESA/NOHW, which
+                  forbids the use of 3D hardware. Might be of use, if
+                  100 percent GL compliant results are desired and the
+                  hardware is unable to provide exact results.
+                - Added EGCS/GCC Storm-MESA adaption to the archive
+                  (see StMesa_Dev.lha/StormMesa/AMIGA/llibs/egcs)
+ 4.10.98        - New environment variables MESA/FAST and MESA/VERYFAST
+                  can be used to force Mesa to render with less quality,
+                  but maybe with higher speed. Will be supported by the
+                  hardware driver.
+                - Corrected some FD files
+                - Stripped a few C++ comments from AmigaMesa.h to support
+                  compilers which don't like them
+ 8.10.98        - New GLUT parameters -fast -vfast -nohw, which use the
+                  corresponding new tags of AmigaMesaCreateContext.
+                - New environment variable MESA/STATS enables hardware
+                  rendering statistics
+
+ 9.10.98
+   |
+10.12.98        - Warp3D support completed
+                - PPC implementations done
+                - Added three new tags for AmigaMesaCreateContext/
+                  AmigaMesaCreateVisual: AMA_NoDepth, AMA_NoStencil
+                  and AMA_NoAccum to prevent Mesa to allocate the
+                  corresponding buffers, if they aren't needed
+                - Added more ASM optimiziations
+                - Added support for all colormodels for direct
+                  rendering/fullscreen mode
+
+12.12.98        - Included the 'NewWPA8' patch in the StormMesa 3.0
+                  distribution. This patch is necessary for AGA users
+                  with OS 3.0.
+
+13.12.98        - Added VBCC 68K/PPC adaption to the StormMesa archive
+                  (see StMesa_Dev.lha/StormMesa/AMIGA/llibs/vbcc)
+
+15.12.98        - All shared libs start with version number 1.0
+                - V3.0
+
+31.12.98        - Fixed some small bugs in the hardware driver
+                - Found out, that demos using the accumulation buffer
+                  in some cases don't work correctly with hardware
+                  acceleration. Switch off the acceleration if you
+                  want to see the correct results.
+
+ 1. 1.99        - Added optimizations for triangle strips/fans and
+                  quad strips. This can accelerate hardware rendering
+                  in some cases.
+
+ 2. 1.99        - Added more speed optimizations
+                - Added new locking strategies for hardware rendering:
+                  env:powerpc/lockmode
+                  0 : default, indirect drawing, very system friendly, slow
+                      for complex scenes
+                  1 : lock per glBegin/glEnd, very slow, at the moment
+                      completely useless
+                  2 : full locking during the whole display function, freezes
+                      the system for a long time, but is very fast
+
+ 9. 1.99        - Problem solved: some of the Viewperf tests mask out
+                  the alpha plane, which resulted in clearing the
+                  buffer using the Mesa core instead of the driver.
+                  Corrected in gl. Leads to big performance improve
+                  of some tests.
+                - A lot of more optimizations added.
+
+10. 1.99        - Still optimizing like hell. Added optimiziations
+                  of linestrips/lineloops. StormMesa ist getting
+                  faster and faster.
+                - Window mode is now unsynchronized. It speeds up
+                  a lot of demos without noticeable flickering.
+                - New env variable 'MESA/SYNC' allows to enable
+                  synchronisation for window mode
+                - New env variable 'MESA/TRIPLE' enables
+                  triple buffering. A lot of demos accelerate very
+                  much, but triple buffering consumes much VRAM, so
+                  800*600*16 is usually the max. resolution, when
+                  using 3d hardware rendering on 8MB boards.
+
+12. 1.99        - More optimizations in StormMesa and in the 3D
+                  hardware driver in W3D gave another performance
+                  boost. Note, that some of the newer optimizations
+                  were only done for PPC.
+
+16. 1.99        - Fixed a bug, which resulted in clearing the color
+                  buffer with the wrong color, when calling glClearColor.
+                  Only Hi/Truecolor modes in indirect render mode were
+                  affected.
+
+23. 1.99        - Added support for Warp3D V2. StormMesa doesn't work
+                  with W3D V1 anymore.
+                - More small bugfixes.
+
+26. 1.99        - Changed internal vertex buffer size, leaded to
+                  performance improvement.
+
+30. 1.99        - GLUT now passes the 'char' parameter to the keyboard
+                  callback function compiler-sensitive. To change
+                  the behaviour to non-StormC, new linklibs for the
+                  other 68K compilers have to be used.
+
+31. 1.99        - Added new locking mode (mesa/lockmode = 3). It's a
+                  compromise between mode 0 and mode 2, which achieves
+                  a much better speed than mode 0 and a much better
+                  system friendliness than mode 2. Mode 3 will be set
+                  by default by the installer.
+
+ 2. 2.99        - An internal change leaded 'accidentally' to another
+                  noticeable performance improvement.
+
+ 4. 2.99        - Added new link libs for vbcc 68k/egcs 68k to the
+                  archive. These new link libs must be used whenever
+                  the keyboard callback of GLUT is used in programs
+                  compiled with these compilers (this only applies
+                  to GLUT 68K).
+                - Added link libs for egcs WarpUp.
+
+ 5. 2.99        - New library version numbers:
+                  GLUT (68K/PPC): 1.2
+                  GL (68K/PPC):   2.0
+                - V3.1

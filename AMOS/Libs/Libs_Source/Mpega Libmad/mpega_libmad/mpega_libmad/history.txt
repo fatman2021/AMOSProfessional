@@ -1,0 +1,51 @@
+03 Mar 2004: 7th release
+- Added some more compiler options to squeeze out more speed.
+- Fixed cases where buffersize would be wrong for apps that try to reset it to
+  another value through the hook (this is not recommended however, as I try to
+  force a recommended minimum (and absolute minimum is 2880 bytes (not counting
+  freeformat which can be upto 5760 bytes per frame (perhaps even more))))...
+- Now preserves A4, might fix some apps.
+- Reenabled -fschedule-insns2 for PPC since new asm doesn't trigger bug, gained
+  whopping 15% speed (with new asm)... ;)
+- More compatibility tweaks, hopefully SongPlayer is less fuzzy about files now.
+- Updated to libmad 0.15.1 with new IMDCT for Layer3,
+  should increase speed *and* accuracy! ;)
+- Added support for LAMEtag, using ReplayGain info when decoding.
+
+23 Jun 2002: 6th release
+- Fixed prebuffering to properly handle large ID3v2 tags.
+- Minor cleanups.
+- Enabled libmad PPC-asm optimization (didn't work before due to -fschedule-insns2 bug).
+- Added fast bzero() support-function, and favoured that over memset(..,0,..).
+- Added StormC/WarpOS project/source and binary (done by Jarmo Laakkonen).
+
+07 Dec 2001: 5th release
+- Optimized PCM routine, 20% speedup.
+- Inlined some of the supporting functions for efficiency.
+- Increased minimum buffer and mempool size.
+- Override check_mpeg if whole file fits in buffer without finding sync.
+- Improved SongPlayer (and other bad apps that pass library base across tasks)
+  workaround, should no longer crash when appending playlists while playing.
+
+17 Nov 2001: 4th release
+- Updated to libmad 0.14.2.
+- Fixed VBR bitrate calculation bug.
+- Enabled slight speedup for .040 version.
+- Now ignores CRC errors on quality-level <= 1 (thus making mp3s with
+  corrupt CRC headers playable).
+- Improved PowerUP dispatcher, the .ppc version is now fully multithreaded.
+
+10 Nov 2001: 3rd release
+- Improved safety.
+- Fixed the callback hook for 68k.
+- Added automatic stack-swap on complex function-entrypoints, this should
+  (finally?) fix applications like AMPlifier, Prayer and HippoPlayer...
+
+07 Nov 2001: 2nd release
+- Allow pcm[1] to be unallocated, implying mono decoding.
+- Make a copy of the MPEGA_CTRL structure instead of assuming it to remain
+  allocated and valid after MPEGA_open() (fixes DeliTracker and AMPlifier
+  (and Prayer?)).
+
+02 Nov 2001: Initial release
+- Fully working API

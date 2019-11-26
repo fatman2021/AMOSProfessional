@@ -1,0 +1,507 @@
+
+neuralnet.library documentation
+-------------------------------
+
+
+table of contents
+
+1. preface
+2. basic terms
+3. applications
+4. basic usage
+5. function overview
+6. finding the number of hidden neurons
+7. normalization
+8. example
+9. implementation details
+10. literature
+
+
+
+
+1. preface
+----------
+
+using neural networks, you can include artificial
+intelligence (AI) to applications and games. referring to
+common literature, you will probably notice that AI appears
+to be a complex and mathematical subject. theory often seems
+to be too complicated, and this might turn out to be an
+obstacle for daily applications.
+
+this Amiga shared library is an attempt to make this
+technology available to all programmers. when you ever tried
+to get into the theory and failed to approach
+implementation, then neuralnet.library is probably the right
+means for you.
+
+neuralnet.library nicely encapsulates the theory into a
+black box. there is no need for you to comprehensively
+understand the chemistry inside. neuralnet.library focuses
+on a simple, straightforward programming interface. we want
+you to create intelligent applications and games with ease.
+
+
+
+
+2. basic terms
+--------------
+
+there exist different kinds of neural networks, called
+topologies. some topologies are highly specific for certain
+tasks. one of the most common and most flexible network
+types is the backpropagation network. this is currently the
+only topology supported by neuralnet.library.
+
+in analogy to biologcal neural systems, a neural network
+consists of basic entities called neurons. each neuron
+contains a single numeric value, also refferred to as its
+'activation energy'. this value is computed from other
+neurons inside the neural network.
+
+the topology determines how neurons are connected. a
+backpropagation network consists of three layers: input,
+hidden, and output. each layer consists of a number of
+neurons. each neuron of one layer is connected with all
+neurons of the following layer.
+
+
+
+
+3. applications
+---------------
+
+the general use of backpropagation networks is to recognize
+patterns in data. in many cases this is used to reduce a
+large number of input parameters to a simple qualification,
+such as 'the situation is dangerous', or to trigger a basic
+action, e.g. 'run and hide'.
+
+imagine you were writing a complex role playing game, and
+you want the monsters not to behave completely silly. assume
+you want some clever monsters to run and hide when the party
+turns out to be stronger, and when the monster had few
+chance to survive a fight. would you like to find an
+algorithm that covers dozens of relevant parameters, and
+spend days with adjusting their respective factors?
+
+a possible application for a neural network in this scenario
+would look like this: you create a neural network for each
+race of monsters. for training, you create a special version
+of your game - pressing a magic key tells a monster to run
+and hide, thus training its neural network with the current
+set of parameters. now let the monsters face some fights,
+train them, and stop training when all monster races behave
+as desired. now save the network, disable the magic key, and
+voilá. you will never touch a single line of code for the
+monsters' behavior, even when you decide to change it.
+
+there is no reason why differentiation should exhaust in
+'fight' and 'run'. design your network to recall
+'aggression', 'fear', and 'awareness', and make the monsters
+behave accordingly. all you need is some more output neurons
+and some more magic keys in the training version.
+
+you may interprete pattern recognition literally.
+backpropagation networks can recognize characters, mouse
+movements and motion vectors, moreover they can predict a
+new number from a set of known numbers, they can compose
+music, and they can detect (and even correct) typing errors.
+last not least, they can make applications adapt to their
+users' preferred way of interaction.
+
+
+
+
+4. basic usage
+--------------
+
+neural networks are completely unconditioned (= stupid) in
+the beginning, and they require intellectual assistance.
+they cannot answer the question for the meaning of life from
+the age of your cat. you will get nonsense out of a neural
+network when you don't feed it with useful data - no matter
+how intensively it is trained (this is also known as the
+'garbage in - garbage out principle'). your primary task is
+to find parameters that might contain useful informations.
+let neuralnet.library find the relevant conclusions.
+
+follow a simple rule: use your intuition to find useful
+parameters, and try to avoid parameters that are of no
+relevance. (remember, what we call 'intuition' is the result
+of an elaborated neural network, thus highly compatible to
+the terms of technical neural networks. we can decide
+without knowing exactly 'why' we decided that way.)
+
+after you have choosen what kind of data is to be
+considered, you feed it to a neural network's input layer.
+referring to the example given in the previous chapter, the
+input layer's neurons might be fed with some of the
+following parameters:
+
+1. the monster's current life power.
+
+2. the number of hitpoints the monster lost in the round
+before.
+
+3. the number of hitpoints the party lost in the round
+before.
+
+4. the monster's worst loss of hitpoints in a single round.
+
+5. the party's worst loss of hitpoints in a single round.
+
+6. the number of characters in the party.
+
+7. the number of monsters attending your monster.
+
+
+once the input layer is set, there are two possibilities:
+
+1) training. set the output layer to the desired result for
+the given set of input parameters. this result might be a
+single neuron indicating the monster's tendency to run and
+hide. if you decide that the situation is critical for the
+monster, set this value to the maximum; if you decide that
+the monster should continue fighting, leave it at zero. then
+call the training function.
+
+2) recalling. the recall function will produce an output in
+the output layer. read the output neuron (i.e. the tendency
+to run and hide), and let your monster run away if some
+threshold is exceeded.
+
+stop training once your network is very well conditioned.
+neural networks can suffer from over-training effects. when
+your neural network produces stable predictions, there is no
+need to teach it more lessons.
+
+
+
+
+5. function overview
+--------------------
+
+now we interrupt theory for a quick overview to the most
+important functions inside neuralnet.library. as you can
+see, a neural network API requires only a very small set of
+functions.
+
+overview:
+
+1.    NEURALNET net;
+      net = NN_Create(input_neurons, hidden_neurons,
+            output_neurons, tags);
+
+this will create a net. refer to the next chapter for
+finding a reasonable number of hidden_neurons.
+
+
+2.    NEURON inputlayer[input_neurons];
+      NN_SetInputLayer(net, inputlayer);
+
+set the input layer.
+
+
+3.    NN_Recall(net);
+
+recall the net, produce an output and the output layer.
+
+
+4.    NEURON outputlayer[output_neurons];
+      NN_GetOutputLayer(net, outputlayer);
+
+read the output layer.
+
+
+5.    NEURON outputlayer[output_neurons];
+      NN_SetOutputLayer(net, outputlayer);
+
+set the output layer.
+
+
+6.    float error_value;
+      NN_Train(net, &error_value);
+
+train the net. we will discuss the error_value later.
+
+
+
+
+6. finding the number of hidden neurons
+---------------------------------------
+
+finding a good value for the number of hidden-layer neurons
+is vital. keep in mind that
+
+a) if a neural network contains too few hidden neurons, it
+is possible that it cannot differentiate complex patterns,
+or cannot produce useful output when inhomogenous input
+should lead to similar output. example: imagine a neural
+network that has to differentiate the characters I, f, t and
+l, and must produce the same results for Q and q.
+
+b) if a neural network contains too many hidden neurons, it
+might be unable to generalize. it might tend to learn 'by
+heart', and demand too specific input. in addition to that,
+training becomes hard and time-consuming. this effect is not
+to be neglected; when in doubt, you better start with rather
+few than many hidden neurons.
+
+typically the number of hidden neurons is somewhere between
+the number of input and output neurons:
+
+      num_input > num_hidden > num_output
+
+e.g. use 3 hidden neurons when your network consists of 6
+input and 1 output layer neurons.
+
+facing exotic problems with extremely inhomogenous and
+complex input, you might find it necessary to supply even
+more hidden than input neurons, but this is unlikely.
+
+experiment and use your intuition. when facing complex
+problems, a good idea might be to use multiple neural
+networks with different numbers of hidden neurons in
+parallel. after training a while, you can usually well
+decide what network suits your application.
+
+
+
+7. normalization
+----------------
+
+a neuron's state is also known as its 'activation energy', a
+term that derives from neurobiology. in neuralnet.library,
+it is expressed by a floating-point number in a range from
+0.0 to 1.0.
+
+there is no need for you to check input values against these
+boundaries. neuralnet.library simply doesn't care of lower
+or higher values; they will be cut off and limited to that
+corridor internally.
+
+however natural parameters do not tend to appear in that
+range from 0.0 to 1.0. therefore you need to normalize
+parameters that are to be applied as input neurons. 
+
+in many cases it is sufficient to calculate a fraction of
+the current in relation to the maximum value, thus creating
+a dimensionless number and eliminating the units:
+
+  n = current_lifepower [points] / 
+          maximum_lifepower [points]
+
+as you can see, the unit [points] gets eliminated in this
+evaluation, and you get a dimensionless number in the range
+from 0.0 to 1.0.
+
+this can be generalized as follows - if you know the minimum
+and maximum values:
+
+void normalize(float *array, int numValues, 
+               float minValue, float maxValue)
+{
+  int i;
+  float factor = 1.0f / (maxValue - minValue);
+
+  for (i = 0; i < numValues; ++i)
+  {
+    array[i] = (array[i] - minValue) * factor;
+  }
+}
+
+
+things are getting more difficult when the minimum and
+maximum values are unknown. finding a reasonable
+normalization in this case might turn out to be tricky.
+example:
+
+  n' = pow((n + shift) * factor, exponent);
+
+shift, factor and exponent are subject to your intuition,
+experiments, or to statistics. it's a good idea to use a
+normalization that covers the typical input at least.
+anyway, there is nothing that could keep you from qualifying
+extreme values as 'huge' or 'neglectable', i.e. to specify
+values below 0.0 or above 1.0.
+
+
+
+
+8. example
+----------
+
+as you can see, the programmer's main task is not to call
+some library functions, but rather to find relevant data, a
+reasonable number of neurons, to do normalization, and to
+interprete the output.
+
+let's get back to our example and setup the monster's input
+layer.
+
+
+NEURON monster_input[7];
+NEURON monster_hidden[4];
+NEURON monster_output[1];
+
+void setmonsterinput()
+{
+  monster_input[0] = monster_currentpower / monster_maxpower;
+  monster_input[1] = monster_powerlost / monster_currentpower;
+  monster_input[2] = party_powerlost / party_currentpower;
+  monster_input[3] = monster_worstpowerloss / monster_maxpower;
+  monster_input[4] = party_worstpowerloss / party_maxpower;
+  monster_input[5] = party_number_of_members / 20.0f;
+  monster_input[6] = monster_number_of_friends / 20.0f;
+}
+
+
+notes:
+
+- looking at neurons [5] and [6], you see that we've
+qualified groups of 20 or more attendants as 'huge', i.e.
+we don't care about overflows.
+
+- neurons [3] and [4] have been set to fractions of the
+maximum power (not the current power), otherwise we risked a
+loss information when the worst loss of power in a single
+round exceeds the current power.
+
+
+now face the network with 'real-life' situations for
+training. (keep in mind that if a net is trained with
+artificial input, it will generate artificial results.) play
+your game, and let the monsters recall their neural networks
+when they are involved in fights:
+
+
+     setmonsterinput();
+
+     NN_SetInputLayer(monster_net, monster_input);
+
+     NN_Recall(monster_net);
+     
+     if (monster_output[0] > 0.85)
+     {
+        run_and_hide();
+     }
+     else
+     {
+        continue_fight();
+     }
+
+
+we decided that monsters should not run and hide until the
+output neuron indicates that its situation is extremely
+dangerous. (monsters in role playing games are not known to
+behave like suckers, and the party must have some chance to
+kill them :-) feel free to adjust this threshold
+differently, e.g. according to the monster's race.
+
+when a neural network is initialized, it is filled with
+random noise, and it's very unlikely that it can produce
+anything useful. so whenever a monster doesn't behave as you
+intend, you must interact and train it:
+
+
+#ifdef TRAINING_VERSION
+
+     float error_value;
+     
+     switch (keypressed()) 
+     {
+         case 'R':
+            /*
+            **  teach it to run and hide
+            */
+            monster_output[0] = 1.0f;
+            do
+            {
+               NN_Train(monster_net, &error_value);
+            } while (error_value > 0.01f);
+            break;
+          
+         case 'F':
+            /*
+            **  teach it to continue fighting
+            */
+            monster_output[0] = 0.0f;
+            for (i = 0; i < 10; ++i)
+            {
+               NN_Train(monster_net, NULL);
+            }
+            break;
+     }            
+
+#endif
+
+
+you see two different training versions in this example: the
+first version will train the net until an error indicator
+drops below a given value. the second version will train the
+net with a predefined number of training cycles.
+
+calling the training function once does not necessarily
+teach a neural network a lesson. when new and unexpected
+data appear at the input layer, the network must be trained
+multiple times to recall it - it adapts slowly.
+
+the error value represents the net's 'awareness' of the
+relationship between the current input and output data. the
+lower this value, the better the given pattern has been
+incorporated to the network. a given pattern is perfectly
+recognized when the error value returned is 0, but it is not
+advised to train a net that far; the ability to generalize
+will suffer from perfect recognition of certain patterns,
+and you risk that other patterns will be forgotten
+completely.
+
+
+
+
+9. implementation details
+-------------------------
+
+neuralnet.library defines the type NEURON like this:
+
+typedef float NEURON;
+
+neuralnet.library operates with single precision (32bit)
+IEEE floating point numbers. this is very important to know,
+for you must adjust your compiler settings to not use a
+different internal representation.
+
+with the 68k version of SAS/C this can be achieved
+throughout the following compiler settings:
+
+- PRECISION=MIXED
+
+- MATH=68882 or MATH=STANDARD or MATH=IEEE
+
+the only type known not to work is MATH=FFP. however, beware
+of misguiding interpretations - the only math type assumed
+to be hardware-independent is MATH=IEEE.
+
+link with either scm.lib or scm040.lib.
+
+
+
+10. literature
+--------------
+
+selected titles for further reference. 
+
+[1] "AI Agents in VR Worlds", Mark Watson, John Wiley & Son Press, 1996
+[2] "Neuronale Netze & Fuzzy Logik", Marco Seraphin, Franzis-Verlag,
+    1994
+[3] "Neuronale Netze - Computersimulation biologischer Intelligenz",
+    J. Stanley et al, Systhema-Verlag, 1991
+[4] "Neuronale Netze - Einführung in Neuroinformatik", Helge Ritter et al,
+    Addison-Wesley, 1991
+[5] "Industrielle Anwendung Neuronaler Netze", Eberhard Schöneburg,
+    Addison-Wesley, 1993
+[6] "Neural Networks in Finance and Investing", Trippi Turban, 
+    Irwin press, 1996
+[7] "Neuro Compiler Handbuch", ?, Hamburg, 1991
+[8] "Neurochart Handbuch", ?, ?

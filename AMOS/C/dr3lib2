@@ -1,0 +1,22 @@
+.key lib,lib2,file1,file2,file3
+if not exists drlib:<lib>.lib
+   echo "File drlib:<lib>.lib does not exist.  Try again."
+   quit 20
+endif
+if not exists drlib:<lib2>.lib
+   echo "File drlib:<lib2>.lib does not exist.  Try again."
+   quit 20
+endif
+if not exists <file1>.r
+   echo "File <file1>.r does not exist.  Try again."
+   quit 20
+endif
+if not exists <file2>.r
+   echo "File <file2>.r does not exist.  Try again."
+   quit 20
+endif
+if not exists <file3>.r
+   echo "File <file3>.r does not exist.  Try again."
+   quit 20
+endif
+blink drlib:drstart.o+<file1>.r+<file2>.r+<file3>.r lib drlib:<lib>.lib+drlib:<lib2>.lib+drlib:drio.lib+drlib:draco.lib+drlib:dos.lib+drlib:exec.lib to <file1> smallcode

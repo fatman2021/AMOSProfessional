@@ -1,0 +1,97 @@
+
+ BREAKNAME, written by Kai Iske April 18. 1994
+            This is PUBLIC DOMAIN; you may do with it whatever you like
+
+If you change/republish/delete/sell the program or do anything similar, please
+be so kind to keep my name within the program and all the other files, even
+though you`re not obliged to, as for the definition of Public Domain
+
+This is a simple addition to the C:Break command. BreakName may break
+processes by issuing either
+
+ a) the complete path + filename as shown by the C:Status command
+ b) only the filename
+
+BREAKNAME was written using DevPac 3.04....
+
+!!! BreakName requires OS 2.x and up to run, BreakName is PURE !!!
+
+
+
+-----------------------
+What does BREAKNAME ???
+-----------------------
+
+As stated above you may break a CLI process by issuing it`s name or the
+complete path+filename as shown by the status command. Why that, c:Break
+may break processes as well ?
+
+Assume you have a script which launches several processes and another script
+for breaking those processes. How can you know which CLI number applies to
+which process ??? Noone can tell, but you know the names of the programs
+launched, don`t you ??? Well, this is it, simply use BREAKNAME in such a
+script to remove those processes again. I use such scripts to launch and quit
+my TeX environment (for example).
+
+
+Commandline options :
+
+  BreakName PROCESS/A,ALL/S,C/S,D/S,E/S,F/S
+
+Explanation
+
+  PROCESS : This is the name of the process to signal. You can either supply
+            the complete path+filename here or simply supply the filename.
+            The process search is handled case-insensitively.
+  ALL     : Will tell BREAKNAME to send all signals (CDEF) to the process
+  C       : CTRL-C will be sent to the process
+  D       : CTRL-D will be sent to the process
+  E       : CTRL-E will be sent to the process
+  F       : CTRL-F will be sent to the process
+  
+
+----------------------------
+How to install BREAKNAME ???
+----------------------------
+
+Simply copy it to a directory within you search path (eg. C:)
+
+
+
+
+------------
+Version 37.0
+------------
+  - initial release
+
+------------
+Version 37.1
+------------
+  - FindTask was called with A0=NULL instead of A1=NULL ;)
+    Whoops, better check registers next time
+  - ReturnCode wasn`t set correctly
+
+------------
+Version 37.2
+------------
+  - Permit was only called when the process was not found
+    (Reported by: David Jameson)
+  - Didn`t check for length of name to copy
+    (Reported by: David Jameson)
+
+Hope you like it, if not, delete it......
+
+
+
+So long,
+
+     Kai
+
+
+
+
+ --- Kai Iske
+ Brucknerstrasse 18, 63452 Hanau, Germany, Tel.: +49-(0)6181-850181
+ Z-Net    : KAI@SWEET.ZER            usenet : kai@iske.adsp.sub.org
+ internet : iske@informatik.uni-frankfurt.de              IRC:kiske
+ ---- Life sucks ----

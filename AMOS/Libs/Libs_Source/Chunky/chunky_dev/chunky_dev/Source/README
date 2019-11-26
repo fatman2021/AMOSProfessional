@@ -1,0 +1,11 @@
+Note that from 3.21+, library source code is  private, available on
+request.  See the other documentation for information on obtaining it.
+
+You'll find the C2P and P2C code used in the library, which is public
+domain.  Feel free to modify.
+
+Fancy converting these C2P/P2C routines to PPC?  E-mail me:
+oondy@bigfoot.com.
+
+Oondy
+15-Feb-98

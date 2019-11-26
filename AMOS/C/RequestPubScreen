@@ -1,0 +1,7 @@
+.key SORT/S,NOQUOTES/S,NOSTRIP/S,OTHER/F
+.bra [
+.ket ]
+listpubscreen >t:lps_tempt
+requestlv t:lps_tempt FROMFILE [SORT] [NOQUOTES] [NOSTRIP] [OTHER]
+delete t:lps_tempt QUIET
+

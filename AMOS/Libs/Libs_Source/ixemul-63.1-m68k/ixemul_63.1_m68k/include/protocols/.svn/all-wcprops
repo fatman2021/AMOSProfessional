@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/amiga/!svn/ver/6/ixemul/include/protocols
+END
+dumprestore.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/amiga/!svn/ver/6/ixemul/include/protocols/dumprestore.h
+END
+talkd.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/amiga/!svn/ver/6/ixemul/include/protocols/talkd.h
+END
+routed.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/amiga/!svn/ver/6/ixemul/include/protocols/routed.h
+END
+timed.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/amiga/!svn/ver/6/ixemul/include/protocols/timed.h
+END
+rwhod.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/amiga/!svn/ver/6/ixemul/include/protocols/rwhod.h
+END

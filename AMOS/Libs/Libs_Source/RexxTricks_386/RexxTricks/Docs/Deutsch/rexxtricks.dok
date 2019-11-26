@@ -1,0 +1,3909 @@
+
+
+##########################################################################
+
+                    'rexxtricks.library' 38.6 (12.4.96)
+
+   Copyright (C) 1994,95 Jürgen Kohrmeyer, <J_Kohrmeyer@wilam.north.de>
+
+##########################################################################
+
+   Die 'rexxtricks.library' ist eine ARexx-Funktionslibrary. Die Funktionen
+lassen sich keinem bestimmten Anwendungsgebiet zuordnen, es ist vielmehr
+eine Sammlung von Funktionen die ich schon immer beim Programmieren mit
+ARexx vermißt habe.  Vorschläge für andere nützliche Funktionen sind
+immer willkommen, also teilt mir Eure Wünsche bitte mit.
+
+* Copyright                   Copyright und sonstige rechtliche Dinge
+* History                     Geschichtliche Entwicklung der Library
+* Danksagungen                Ich möchte mich bedanken bei...
+* Adresse des Autors          Wohin man Kommentare und Bugreports schickt
+* Systemvoraussetzungen       68040, 18MB Ram ;-)
+* Installation                Installation der Library
+* Funktionen der Library      Übersicht über die Funktionen der Library
+* Das VIEWLIST() Fenster      Bedienung des Auswahlfensters
+* Index                       Inhaltsverzeichnis
+
+Copyright und sonstige rechtliche Dinge
+***************************************
+
+   Die 'rexxtricks.library' ist FREEWARE, das Copyright liegt weiterhin beim
+Autor, Jürgen Kohrmeyer. Die Library darf von jedem benutzt werden. Das
+Archiv darf frei kopiert werden solange es unverändert weitergegeben, und
+nur eine geringe Kopiergebühr erhoben wird. Die Weitergabe per DFUe wird
+von mir befürwortet. Das Archiv darf in Public-Domain Sammlungen
+aufgenommen werden, es darf jedoch [1m*nicht*[0m auf Disketten vertrieben
+werden die mehr als 3,- DM kosten! Dieses Limit gilt [1m*insbesondere*[0m für
+deutsche PD-Händler! Die 'rexxtricks.library' darf nur auf 'CD-ROM'
+vertrieben werden, wenn der Preis für eine CD 30,- DM nicht übersteigt!
+
+   Der Autor gibt keine Garantie für die Zuverlässigkeit der im Archiv
+befindlichen Dateien! Sie benutzen die Library auf eigene Gefahr! Der Autor
+kann nicht für irgendwelche Schäden haftbar gemacht werden, die durch die
+Anwendung der 'rexxtricks.library' entstehen.
+
+
+Programme die im Archiv enthalten sind:
+--------------------------------------
+Das ARexx-Programm 'FindGUI' verwendet das Programm 'Find'.
+'FindGUI' ist Copyright (C) by Nils Görs.
+'Find' ist Copyright (C) by Ralph Seichter.
+
+Das Arexx-Programm 'RDBBackup' verwendet das Programm 'ReadRDB'.
+'ReadRDB' ist Copyright (C) by Gérard Cornu.
+
+'FindGUI' und 'RDBBackup' verwenden die 'triton.library'.
+Die 'triton.library' ist Copyright (C) by Stefan Zeiger.
+
+
+Programme die nicht im Archiv enthalten sind:
+--------------------------------------------
+Die Funktionen 'WHATIS' und 'WHATISTYPES' benutzen die 'whatis.library'.
+Die 'whatis.library' ist Copyright (C) Sylvain Rougier und Pierre Carrette.
+
+Die Funktionen 'FILEID_IDENTIFY', 'FILEID_GETHIGHID', 'FILEID_GETIDSTRING'
+und 'FILEID_GETTYPES' benutzen die 'FileID.library'. Die 'FileID.library'
+ist Copyright (C) Oliver Lange.
+
+Die Funktion 'CRC32' verwendet die 32-Bit CRC-Tabelle die auch beim ZModem
+Protokoll Verwendung findet. Diese Tabelle ist Copyright (C) by Gary S.
+Brown. Der Quelltext der Funktion wurde dem Programm 'crc32' von Stephen
+Satchell, Satchell Evaluations und Chuck Forsberg, Omen Technology entnommen.
+
+Entstehungsgeschichte
+*********************
+
+[1mV37.9ß[0m
+        * Erste Betaversion
+
+[1mV37.10ß[0m
+        * Schlimmer Bug im Dispatcher beseitigt, der Aufruf einer nicht
+          bekannten Funktion führte zu Fehlern. Da ARexx selbst Funktionen
+          an Libraries schickt, wenn diese sonst nicht bekannt sind, kam
+          der ARexx-Interpreter durcheinander.
+
+        * Mehrere Enforcer-Hits beseitigt
+
+[1mV37.11ß[0m
+        * Die Funktion 'VIEWLIST' kann eine Liste jetzt aufsteigend
+          sortiert anzeigen
+
+        * Neue Funktion 'QSORT' implementiert
+
+        * Neue Funktion 'BSEARCH' implementiert
+
+        * Neue Funktion 'SEQSEARCH' implementiert
+
+[1mV37.12ß[0m
+        * Bei der Funktion 'VIEWLIST' kann jetzt die Breite des Fensters
+          angegeben werden
+
+        * Das Fenster der 'VIEWLIST'-Funktion hat eine Suchfunktion bekommen
+
+        * Die Tastaturbedienung des Fensters der 'VIEWLIST'-Funktion wurde
+          stark erweitert
+
+[1mV37.13ß[0m
+        * Im Fenster der 'VIEWLIST'-Funktion lassen sich Einträge jetzt
+          auch mit der Leertaste markieren
+
+[1mV37.14ß[0m
+        * 'SEQSEARCH' umbenannt in 'LSEARCH' für lineare Suche
+
+        * 'QSORT' kann jetzt auch eine Stem-Variable direkt sortieren
+
+        * Neue Funktion 'GETKEY' implementiert
+
+[1mV37.15[0m
+        * Erste öffentliche Release
+
+        * Kleinere interne Bugs beseitigt
+
+        * Neue Funktion 'MATCHPATTERN' implementiert
+
+        * 'QSORT', 'BSEARCH' und 'LSEARCH' können jetzt optional auch
+          Groß- und Kleinbuchstaben unterscheiden
+
+        * Neue Dokumentation, jetzt auch als AmigaGuide
+
+[1mV37.16[0m
+        * Bug in der Funktion 'MAKEPATH' beseitigt
+
+        * Neue Funktion 'WHATIS' implementiert
+
+        * Neue Funktion 'WHATISTYPES' implementiert
+
+[1mV37.17[0m
+        * Neue Funktion 'GETDEFAULTPUBSCREEN' implementiert
+
+        * Neue Funktion 'SETDEFAULTPUBSCREEN' implementiert
+
+        * Neue Funktion 'GETPUBSCREENMODES' implementiert
+
+        * Neue Funktion 'SETPUBSCREENMODES' implementiert
+
+        * Neue Funktion 'PUBSCREENTOFRONT' implementiert
+
+        * Neue Funktion 'PUBSCREENTOBACK' implementiert
+
+        * Neue Funktion 'PUBSCREENLIST' implementiert
+
+[1mV37.18[0m
+        * Das Fenster der 'VIEWLIST'-Funktion hat ein Zoom-Gadget bekommen
+
+        * Die 'locale.library' wird jetzt vollständig unterstützt
+
+        * Neue Funktion 'CRC32' implementiert
+
+[1mV37.19[0m
+        * Einige interne Bugs beseitigt
+
+[1mV37.20[0m
+        * Neue Funktion 'READFILE' implementiert
+
+        * Neue Funktion 'WRITEFILE' implementiert
+
+[1mV37.21ß[0m
+        * Bug in der Funktion 'QSORT' entfernt, Strings mit mehr als 2048
+          Zeichen wurden nicht korrekt sortiert
+
+        * Bug in der Dispatch-Funktion entfernt. Alle Funktionen, die auf
+          Dateien zugreifen, lieferten einen Fehler wenn die angegebene
+          Datei nicht existierte, und brachen damit das Script ab.
+
+        * Die Funktion 'READFILE' arbeitet jetzt schneller wenn genügend
+          Speicher für die gesamte Datei vorhanden ist
+
+        * Neue Funktion 'COUNTCHARS' implementiert
+
+[1mV37.22ß[0m
+        * Erweiterung der Funktion 'VIEWLIST', anstelle der Gadgets
+          'Benutzen' und 'Abbrechen' können jetzt beliebig viele Gadgets
+          eingebunden werden
+
+        * Erweiterung der Funktion 'VIEWLIST', neues Gadget zum
+          automatischen Markieren nach Muster
+
+        * Neue Funktion 'SEARCHPATTERN' implementiert
+
+        * Neue Funktion 'GETTOOLTYPEVALUE' implementiert
+
+        * Neue Funktion 'SETTOOLTYPEVALUE' implementiert
+
+        * Neue Funktion 'GETTOOLTYPES' implementiert
+
+        * Neue Funktion 'SETTOOLTYPES' implementiert
+
+        * Neue Funktion 'GETDEFAULTTOOL' implementiert
+
+        * Neue Funktion 'SETDEFAULTTOOL' implementiert
+
+        * Neue Funktion 'GETSTACK' implementiert
+
+        * Neue Funktion 'SETSTACK' implementiert
+
+        * Neue Funktion 'CREATEICON' implementiert
+
+        * Neue Funktion 'WBINFO' implementiert (Ab Kickstart 39.xx)
+
+[1mV37.23ß[0m
+        * Bug in der Funktion 'VIEWLIST' beseitigt, beim Markieren nach
+          Muster kam die Anzeige teilweise durcheinander
+
+        * Im Listview-Fenster wird jetzt ein Busypointer angezeigt, wenn
+          das Suchen oder Markieren länger dauert (Ab Kickstart 39.xx)
+
+        * Neue Funktion 'SUFFIXPART' implementiert
+
+        * Neue Funktion 'MAKESUFFIX' implementiert
+
+[1mV37.24[0m
+        * Bug in der Funktion 'BSEARCH' beseitigt, die Funktion gab
+          manchmal fälschlicherweise einen Fehler zurück
+
+        * Im Listview-Fenster wird jetzt bei Auswahl der Funktionen
+          'Suchen' und 'Nach Muster markieren' das Texteingabefeld
+          aktiviert, wenn noch kein Muster eingegeben ist.
+
+        * Neues Argument 'start' bei der Funktion 'SEARCHPATTERN', damit
+          kann angegeben werden ab welcher Zeile oder welchem Byte in der
+          Datei gesucht werden soll.
+
+        * Neues Argument 'start' bei der Funktion 'BSEARCH'! Scripts, die
+          für eine ältere Version der 'RexxTricks.library' geschrieben
+          wurden, funktionieren weiterhin, dennoch sollte jeder seine
+          Scripts an die neue Version anpassen!
+
+[1mV38.2[0m
+        * Neu übersetzt mit SAS/C V6.55
+
+        * Änderung des Datenformates bei sämtlichen Listen! Aus Gründen
+          der Kompatibilität zu anderen ARexx-Anwendungen wird die Anzahl
+          der Elemente ab der Version 38.2 in 'stemvar.0' gespeichert, die
+          Daten beginnen bei 'stemvar.1'. Das alte Element 'stemvar.count'
+          existiert nicht mehr! Alle alten Scripts, die von dieser
+          Änderung betroffene Funktionen verwenden, sind nicht mehr
+          lauffähig und müssen entsprechend geändert werden!
+
+        * Alle Funktionen können jetzt auch über ein Alias aufgerufen
+          werden, indem man dem Funktionsnamen 'RXTR_' voranstellt. Dadurch
+          ist es möglich gleichnamige Funktionen zu verwenden, wenn man die
+          'rexxtricks.library' mit niedriger Priorität einbindet.
+
+        * Bug in der Funktion 'READFILE' beseitigt, die Funktion kann jetzt
+          auch aus 'PIPE:' lesen
+
+        * Bug in der Funktion 'VIEWLIST' beseitigt, bei Abbruch wurde als
+          Nummer des ausgewählten Gadgets nicht 0 zurückgegeben
+
+        * Bug in der Funktion 'VIEWLIST' beseitigt, auf einem Screen mit
+          einer anderen Hintergrundfarbe als 0 konnte man fast nichts mehr
+          erkennen
+
+        * Beim Listview-Fenster kann jetzt auch die Höhe und die linke
+          obere Ecke angegeben werden, außerdem läßt sich die Position
+          des verkleinerten Fensters bestimmen.
+
+        * Der Multiselect-Modus des Listview-Fensters kann jetzt
+          abgeschaltet werden
+
+        * Im Listview-Fenster kann jetzt die Auswahl durch Doppelklick auf
+          einen Eintrag beendet werden, als ausgewähltes Gadget wird dann
+          1 zurückgegeben
+
+        * Neues Gadget 'Umschalten' im Listview-Fenster, damit kann die
+          Markierung aller Einträge umgschaltet werden.
+
+        * Die Funktion 'LSEARCH' kann jetzt auch nach Namensmustern suchen,
+          Namensmuster werden durch das Argument 'PATTERN' eingeschaltet.
+
+        * Neue Funktion 'REXXTRICKSVERSION' implementiert
+
+[1mV38.3[0m
+        * Bug in der Funktion 'QSORT()' beseitigt. Das Sortieren mit
+          Speichern der Ergebnisse in eine neue Variable (destvar) brachte
+          den Rechner in vielen Fällen zum Absturz.
+
+        * Bug beseitigt, der die Versionserkennung durch den Installer
+          verhinderte. Im RomTag der Library war der Versionsstring nicht
+          korrekt eingetragen.
+
+[1mV38.4[0m
+        * Bug in der Funktion 'VIEWLIST()' beseitigt. Beim Vergrößern des
+          Fensters mit dem Zoom-Gadget wurde zu langer Text nicht
+          abgeschnitten, und der Rollbalken dadurch überschrieben.
+
+        * Bug in der Funktion 'GETTOOLTYPES()' beseitigt. Bei einem Icon
+          ohne Tooltypes brach die Funktion mit einem Fehler ab.
+
+        * Bug in der Funktion 'READFILE()' beseitigt. Beim Lesen einer
+          leeren Datei wurde 'stemvar.0' auf den Wert 1 anstatt auf 0
+          gesetzt.
+
+[1mV38.5[0m
+        * Neue Funktion 'READLINES'
+
+        * Neue Funktion 'WRITELINES'
+
+        * Neue Funktion 'STEMCOPY'
+
+        * Neue Funktion 'STEMREMOVE'
+
+        * Neue Funktion 'RAND'
+
+        * Neue Funktion 'READCLIPBOARD'
+
+        * Neue Funktion 'WRITECLIPBOARD'
+
+        * Neue Funktion 'SCSI_MANUFACTURER'
+
+        * Neue Funktion 'SCSI_PRODUCT'
+
+        * Neue Funktion 'SCSI_REVISION'
+
+        * Neue Funktion 'SCSI_DEVICETYPE'
+
+        * Neue Funktion 'SCSI_TESTREADY'
+
+[1mV38.6[0m
+        * Englische Dokumentation
+
+        * Bug in der Funktion 'VIEWLIST' entfernt, bei aktiviertem Fenster
+          funktionierte kein MouseBlanker
+
+        * Erweiterung der Funktion 'QSORT' durch mehrere neue Optionen
+
+        * Die Funktion 'SEARCHPATTERN' speichert nun die gefundene Zeile in
+          der ARexx Variablen 'RESULT'.
+
+        * Neue Funktion 'FILEID_IDENTIFY'
+
+        * Neue Funktion 'FILEID_GETHIGHID'
+
+        * Neue Funktion 'FILEID_GETIDSTRING'
+
+        * Neue Funktion 'FILEID_GETTYPES'
+
+        * Neue Funktion 'UUDECODE'
+
+        * Neue Funktion 'UUENCODE'
+
+        * Neue Funktion 'STEMINSERT'
+
+        * Neue Funktion 'GETDIR'
+
+Danksagungen
+************
+
+Ich möchte mich bedanken bei:
+
+[1m"Gérard Cornu"[0m für sein hervorragendes Programm 'ReadRDB'.
+
+[1m"Hermann 'Uso' Doerries"[0m für seine großartige Arbeit und für 'Wilam', das
+beste Mailbox-System. :-)
+
+[1m"Nils Görs"[0m für 'FindGUI' und seine anderen Skripts, Ideen,
+Bugmeldungen, Testen der Beta-Versionen ...
+
+[1m"Ralph Seichter"[0m für sein hervorragendes Programm 'Find'.
+
+[1m"Stefan Zeiger"[0m für 'Triton', eines der besten GUI-Layout Systeme.
+
+Allen anderen, die mir ihre Ideen mitgeteilt, oder Fehler gemeldet haben.
+
+Adresse des Autors
+******************
+
+   Der Autor ist unter folgenden Adressen erreichbar, bitte vorzugsweise
+die E-Mail Adresse benutzen:
+
+[1mPostanschrift:[0m
+          Jürgen Kohrmeyer
+          Oststraße 2
+          49143 Bissendorf
+          
+          GERMANY
+
+[1mTelefon:[0m
+          +49-5402-5195
+
+[1mE-Mail:[0m
+          j_kohrmeyer@wilam.north.de
+
+[1mSupport-Mailbox:[0m
+          WILAM Mailboxsystem Wildeshausen
+          
+          Port 1 - +49-4431-92081 : USR DualStandard V.34
+          Port 2 - +49-4431-92082 : ZyXel 19.2k
+          Port 3 - +49-4431-92082 : ISDN X.75
+          
+          Login mit Username MD, Download per Menüauswahl
+
+Systemvoraussetzungen
+*********************
+
+   Die 'rexxtricks.library' benötigt mindestens Kickstart und Workbench
+2.04.  Der ARexx-Interpreter [1mRexxMast[0m muß vor der Verwendung gestartet
+werden.
+
+   Die Funktionen 'WHATIS' und 'WHATISTYPES' benutzen die 'whatis.library'.
+Die 'whatis.library' muß sich dazu im logischen Verzeichnis [1mLIBS:[0m
+befinden.
+
+   Die 'whatis.library' sollte man in jeder gut sortierten Mailbox mit
+Amiga-Filebereich bekommen. Die Version 4.0 der Library befindet sich auch
+auf der AmigaLibDisk 995 der Fred Fish Serie.
+
+Installation
+************
+
+   Kopieren Sie die [1m'rexxtricks.library'[0m ins logische Verzeichnis
+[1mLIBS:[0m.  Zur Unterstützung einer anderen Sprache als Deutsch wird die
+Datei [1mrexxtricks.catalog[0m benötigt, kopieren Sie die Datei nach
+[1mLOCALE:catalogs[0m ins entsprechende Unterverzeichnis. Zur Zeit ist
+leider nur ein englischer Catalog verfügbar.
+
+   Die Verwendung der Library setzt voraus daß der ARexx-Interpreter zuvor
+gestartet wurde. Das Programm, das den Arexx-Interpreter startet, befindet
+sich in der Schublade [1mSYS:System[0m und heißt [1mRexxMast[0m. Falls dieses Programm
+in Ihrem System nicht automatisch gestartet wird müssen Sie es manuell
+starten. Die einfachste Methode ist es aber, das Programm [1mRexxMast[0m in der
+Batchdatei [1mS:User-Startup[0m aufzurufen. Dadurch wird ARexx bei jedem Start
+des Rechners automatisch aufgerufen und im System installiert.
+
+   Zum Starten des ARexx-Interpreters fügen Sie folgende Zeile in Ihre
+[1mS:User-Startup[0m ein:
+
+     SYS:System/RexxMast >NIL:
+
+Die Funktionen der 'rexxtricks.library' 38.6 (12.4.96)
+******************************************************
+
+AmigaDOS-Funktionen
+
+* GETENV()                 Environment-Variable auslesen
+* SETENV()                 Environment-Variable einstellen
+* UNSETENV()               Environment-Variable löschen
+
+* PATHPART()               Verzeichnis eines Pfades ermitteln
+* FILEPART()               Dateiname eines Pfades ermitteln
+* MAKEPATH()               Pfad aus Verzeichnis- und Datei zusammensetzen
+
+* SUFFIXPART()             Endung eines Dateinamens ermitteln
+* MAKESUFFIX()             Dateinamen mit neuer Endung versehen
+
+* GETCOMMENT()             Dateikommentar auslesen
+* SETCOMMENT()             Dateikommentar einstellen
+
+* GETPROTECTION()          Schutzbits einer Datei auslesen
+* SETPROTECTION()          Schutzbits einer Datei einstellen
+
+* MATCHPATTERN()           String mit Namensmuster vergleichen
+* SEARCHPATTERN()          Datei nach Namensmuster durchsuchen
+
+* GETKEY()                 Auf einen Tastendruck warten
+
+* GETDIR()                 Verzeichnis in Stem-Variable einlesen
+
+* READFILE()               Textdatei in Stem-Variable einlesen
+* WRITEFILE()              Stem-Variable als Textdatei speichern
+* READLINES()              Teil einer Textdatei in Stem-Variable einlesen
+* WRITELINES()             Textdatei teilweise überschreiben, Zeilen einfügen
+
+
+SCSI-Funktionen
+
+* SCSI_DEVICETYPE()        Typ eines SCSI-Gerätes ermitteln, DISK, TAPE etc.
+* SCSI_MANUFACTURER()      Hersteller eines SCSI-Gerätes ermitteln
+* SCSI_PRODUCT()           Produktbezeichnung eines SCSI-Gerätes ermitteln
+* SCSI_REVISION()          Revision eines SCSI-Gerätes ermitteln
+* SCSI_TESTREADY()         Feststellen, ob ein SCSI-Gerät betriebsbereit ist
+
+
+Clipboard-Funktionen
+
+* READCLIPBOARD()          Text aus dem Clipboard einlesen
+* WRITECLIPBOARD()         Text im Clipboard speichern
+
+
+Listen-Funktionen
+
+* QSORT()                  Liste mit QuickSort sortieren
+* BSEARCH()                String mit Binärsuche suchen
+* LSEARCH()                String mit Linearsuche suchen
+
+* STEMCOPY()               Stem-Variable ganz oder teilweise kopieren
+* STEMINSERT()             Elemente in eine Stem-Variable einfügen
+* STEMREMOVE()             Elemente einer Stem-Variablen entfernen
+
+* VIEWLIST()               Liste im Auswahlfenster anzeigen
+
+
+Publicscreen-Funktionen
+
+* GETDEFAULTPUBSCREEN()    Default-Publicscreen ermitteln
+* SETDEFAULTPUBSCREEN()    Neuen Default-Publicscreen einstellen
+
+* GETPUBSCREENMODES()      Publicscreen-Modi ermitteln
+* SETPUBSCREENMODES()      Neue Publicscreen-Modi einstellen
+
+* PUBSCREENTOFRONT()       Publicscreen nach vorne bringen
+* PUBSCREENTOBACK()        Publicscreen nach hinten legen
+
+* PUBSCREENLIST()          Liste aller Publicscreens erstellen
+
+* BEEP()                   Bildschirm blitzen
+
+
+Icon-Funktionen
+
+* GETTOOLTYPEVALUE()       Argument eines Tooltypes ermitteln
+* SETTOOLTYPEVALUE()       Argument eines Tooltypes einstellen
+
+* GETTOOLTYPES()           Tooltypes eines Icons ermitteln
+* SETTOOLTYPES()           Tooltypes eines Icons neu einstellen
+
+* GETDEFAULTTOOL()         Standardprogramm eines Icons ermitteln
+* SETDEFAULTTOOL()         Standardprogramm eines Icons einstellen
+
+* GETSTACK()               Stackgröße eines Icons ermitteln
+* SETSTACK()               Stackgröße eines Icons einstellen
+
+* CREATEICON()             Ein neues Icon erstellen
+* WBINFO()                 Icon-Informationsfenster der Workbench öffnen
+
+
+Sonstige Funktionen
+
+* WHATIS()                 Dateityp mit Hilfe der 'whatis.library' ermitteln
+* WHATISTYPES()            Alle Dateitypen der 'whatis.library' ermitteln
+
+* FILEID_IDENTIFY()        Dateityp mit Hilfe der 'FileID.library' ermitteln
+* FILEID_GETHIGHID()       Größte ID-Nummer der 'FileID.library' ermitteln
+* FILEID_GETIDSTRING()     Zu einer ID-Nummer gehörende Beschreibung ermitteln
+* FILEID_GETTYPES()        Alle Dateitypen der 'FileID.library' ermitteln
+
+* UUDECODE()               uuencodete Datei dekodieren
+* UUENCODE()               Binärdatei uuencoden
+
+* CRC32()                  32-Bit CRC Prüfsumme einer Datei berechnen
+
+* COUNTCHARS()             Anzahl bestimmter Zeichen in einem Text zählen
+
+* RAND()                   Zufallszahl ermitteln
+
+* REXXTRICKSVERSION()      Version der 'rexxtricks.library' ermitteln
+
+
+Alle Funktionen in alphabetisch sortierter Reihenfolge
+
+* BEEP()                   Bildschirm blitzen
+* BSEARCH()                String mit Binärsuche suchen
+* COUNTCHARS()             Anzahl bestimmter Zeichen in einem Text zählen
+* CRC32()                  32-Bit CRC Prüfsumme einer Datei berechnen
+* CREATEICON()             Ein neues Icon erstellen
+* FILEID_GETHIGHID()       Größte ID-Nummer der 'FileID.library' ermitteln
+* FILEID_GETIDSTRING()     Zu einer ID-Nummer gehörende Beschreibung ermitteln
+* FILEID_GETTYPES()        Alle Dateitypen der 'FileID.library' ermitteln
+* FILEID_IDENTIFY()        Dateityp mit Hilfe der 'FileID.library' ermitteln
+* FILEPART()               Dateiname eines Pfades ermitteln
+* GETCOMMENT()             Dateikommentar auslesen
+* GETDEFAULTPUBSCREEN()    Default-Publicscreen ermitteln
+* GETDEFAULTTOOL()         Standardprogramm eines Icons ermitteln
+* GETDIR()                 Verzeichnis in Stem-Variable einlesen
+* GETENV()                 Environment-Variable auslesen
+* GETKEY()                 Auf einen Tastendruck warten
+* GETPROTECTION()          Schutzbits einer Datei auslesen
+* GETPUBSCREENMODES()      Publicscreen-Modi ermitteln
+* GETSTACK()               Stackgröße eines Icons ermitteln
+* GETTOOLTYPES()           Tooltypes eines Icons ermitteln
+* GETTOOLTYPEVALUE()       Argument eines Tooltypes ermitteln
+* LSEARCH()                String mit Linearsuche suchen
+* MAKEPATH()               Pfad aus Verzeichnis- und Datei zusammensetzen
+* MAKESUFFIX()             Dateinamen mit neuer Endung versehen
+* MATCHPATTERN()           String mit Namensmuster vergleichen
+* PATHPART()               Verzeichnis eines Pfades ermitteln
+* PUBSCREENLIST()          Liste aller Publicscreens erstellen
+* PUBSCREENTOBACK()        Publicscreen nach hinten legen
+* PUBSCREENTOFRONT()       Publicscreen nach vorne bringen
+* QSORT()                  Liste mit QuickSort sortieren
+* RAND()                   Zufallszahl ermitteln
+* READCLIPBOARD()          Text aus dem Clipboard einlesen
+* READFILE()               Textdatei in Stem-Variable einlesen
+* READLINES()              Teil einer Textdatei in Stem-Variable einlesen
+* REXXTRICKSVERSION()      Version der 'rexxtricks.library' ermitteln
+* SCSI_DEVICETYPE()        Typ eines SCSI-Gerätes ermitteln, DISK, TAPE etc.
+* SCSI_MANUFACTURER()      Hersteller eines SCSI-Gerätes ermitteln
+* SCSI_PRODUCT()           Produktbezeichnung eines SCSI-Gerätes ermitteln
+* SCSI_REVISION()          Revision eines SCSI-Gerätes ermitteln
+* SCSI_TESTREADY()         Feststellen, ob ein SCSI-Gerät betriebsbereit ist
+* SEARCHPATTERN()          Datei nach Namensmuster durchsuchen
+* SETCOMMENT()             Dateikommentar einstellen
+* SETDEFAULTPUBSCREEN()    Neuen Default-Publicscreen einstellen
+* SETDEFAULTTOOL()         Standardprogramm eines Icons einstellen
+* SETENV()                 Environment-Variable einstellen
+* SETPROTECTION()          Schutzbits einer Datei einstellen
+* SETPUBSCREENMODES()      Neue Publicscreen-Modi einstellen
+* SETSTACK()               Stackgröße eines Icons einstellen
+* SETTOOLTYPES()           Tooltypes eines Icons neu einstellen
+* SETTOOLTYPEVALUE()       Argument eines Tooltypes einstellen
+* STEMCOPY()               Stem-Variable ganz oder teilweise kopieren
+* STEMINSERT()             Elemente in eine Stem-Variable einfügen
+* STEMREMOVE()             Elemente einer Stem-Variablen entfernen
+* SUFFIXPART()             Endung eines Dateinamens ermitteln
+* UNSETENV()               Environment-Variable löschen
+* UUDECODE()               uuencodete Datei dekodieren
+* UUENCODE()               Binärdatei uuencoden
+* VIEWLIST()               Liste im Auswahlfenster anzeigen
+* WBINFO()                 Icon-Informationsfenster der Workbench öffnen
+* WHATIS()                 Dateityp mit Hilfe der 'whatis.library' ermitteln
+* WHATISTYPES()            Alle Dateitypen der 'whatis.library' ermitteln
+* WRITECLIPBOARD()         Text im Clipboard speichern
+* WRITEFILE()              Stem-Variable als Textdatei speichern
+* WRITELINES()             Textdatei teilweise überschreiben, Zeilen einfügen
+
+Die Funktion GETENV()
+*********************
+
+[1mNAME[0m
+     inhalt = GETENV(variable)
+
+[1mALIAS[0m
+     inhalt = RXTR_GETENV(variable)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt den Inhalt einer Environment-Variablen
+
+[1mARGUMENTE[0m
+     variable - Name der Variablen, deren Inhalt ermittelt werden soll
+
+[1mERGEBNIS[0m
+     inhalt   - Inhalt der Variablen
+
+[1mBEISPIEL[0m
+     /* Ermitteln der Kickstart-Version */
+     
+     inhalt = GETENV('Kickstart')
+     SAY 'Kickstart-Version =' inhalt
+
+[1mSIEHE AUCH[0m
+     SETENV(), UNSETENV()
+
+Die Funktion SETENV()
+*********************
+
+[1mNAME[0m
+     bool = SETENV(variable,text)
+
+[1mALIAS[0m
+     bool = RXTR_SETENV(variable,text)
+
+[1mBESCHREIBUNG[0m
+     Stellt den Inhalt einer Environment-Variablen ein, wenn die Variable
+     noch nicht existiert wird sie neu angelegt.
+
+[1mARGUMENTE[0m
+     variable - Name der Variablen, deren Inhalt eingestellt werden soll
+     text     - der neue Inhalt der Variablen
+
+[1mERGEBNIS[0m
+     bool     - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /* Einstellen der Editor-Variablen */
+     
+     IF SETENV('Editor','C:ED') THEN
+        SAY 'ED ist jetzt als Editor eingestellt!'
+     ELSE
+        SAY 'Fehler beim Einstellen des Editors!'
+
+[1mSIEHE AUCH[0m
+     GETENV(), UNSETENV()
+
+Die Funktion UNSETENV()
+***********************
+
+[1mNAME[0m
+     bool = UNSETENV(variable)
+
+[1mALIAS[0m
+     bool = RXTR_UNSETENV(variable)
+
+[1mBESCHREIBUNG[0m
+     Entfernt eine Environment-Variable aus dem System, die Variable wird
+     NICHT aus [1mENVARC:[0m gelöscht.
+
+[1mARGUMENTE[0m
+     variable - Name der Variablen, die entfernt werden soll
+
+[1mERGEBNIS[0m
+     bool     - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /* Entfernen der Variablen 'Editor' */
+     
+     IF UNSETENV('Editor') THEN
+        SAY 'Die Variable Editor ist entfernt!'
+     ELSE
+        SAY 'Fehler beim Entfernen der Variablen Editor!'
+
+[1mSIEHE AUCH[0m
+     GETENV(), SETENV()
+
+Die Funktion PATHPART()
+***********************
+
+[1mNAME[0m
+     verzeichnis = PATHPART(pfadname)
+
+[1mALIAS[0m
+     verzeichnis = RXTR_PATHPART(pfadname)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt den Verzeichnis eines Pfadnamens
+
+[1mARGUMENTE[0m
+     pfadname    - ein kompletter Pfadname, der aus Verzeichnis- und
+                   Dateiname besteht
+
+[1mERGEBNIS[0m
+     verzeichnis - Das ermittelte Verzeichnis
+
+[1mBEISPIEL[0m
+     /* Verzeichnis eines komplatten Pfades ermitteln */
+     
+     verzeichnis = PATHPART('DH0:Daten/Testfile')
+     SAY 'Verzeichnis =' verzeichnis
+
+[1mSIEHE AUCH[0m
+     FILEPART(), MAKEPATH()
+
+Die Funktion FILEPART()
+***********************
+
+[1mNAME[0m
+     dateiname = FILEPART(pfadname)
+
+[1mALIAS[0m
+     dateiname = RXTR_FILEPART(pfadname)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt den Dateiname eines Pfades
+
+[1mARGUMENTE[0m
+     pfadname    - ein kompletter Pfadname, der aus Verzeichnis-
+                   und Dateiname besteht
+
+[1mERGEBNIS[0m
+     dateiname   - Der ermittelte Dateiname
+
+[1mBEISPIEL[0m
+     /* Dateiname aus einem komplatten Pfad ermitteln */
+     
+     dateiname = FILEPART('DH0:Daten/Testfile')
+     SAY 'Dateiname =' dateiname
+
+[1mSIEHE AUCH[0m
+     PATHPART(), MAKEPATH()
+
+Die Funktion MAKEPATH()
+***********************
+
+[1mNAME[0m
+     pfadname = MAKEPATH(verzeichnis,dateiname)
+
+[1mALIAS[0m
+     pfadname = RXTR_MAKEPATH(verzeichnis,dateiname)
+
+[1mBESCHREIBUNG[0m
+     Erstellt aus einem Verzeichnis und einem Dateinamen einen kompletten
+     Pfad
+
+[1mARGUMENTE[0m
+     verzeichnis - Verzeichnis, das in den Pfad eingebaut werden soll
+     dateiname   - Dateiname, der in den Pfad eingebaut werden soll
+
+[1mERGEBNIS[0m
+     pfadname    - ein kompletter Pfadname, der aus dem angegebenen
+                   Verzeichnis- und Dateinamen besteht
+
+[1mBEISPIEL[0m
+     /* Pfad aus Verzeichnis und Dateiname zusammensetzen */
+     
+     pfadname = MAKEPATH('DH0:Daten','Testfile')
+     SAY 'Pfad =' pfadname
+
+[1mSIEHE AUCH[0m
+     PATHPART(), FILEPART()
+
+Die Funktion SUFFIXPART()
+*************************
+
+[1mNAME[0m
+     endung = SUFFIXPART(pfadname)
+
+[1mALIAS[0m
+     endung = RXTR_SUFFIXPART(pfadname)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt die Endung des Dateinamens eines Pfades
+
+[1mARGUMENTE[0m
+     pfadname - ein kompletter Pfadname, der aus Verzeichnis- und
+                Dateiname bestehen kann
+
+[1mERGEBNIS[0m
+     endung   - Die ermittelte Endung des Dateinamens OHNE den Punkt.
+                Bei der Datei 'Test.lha' würde z.B. 'lha' zurückgegeben.
+
+[1mBEISPIEL[0m
+     /* Endung eines Dateinamens ermitteln */
+     
+     endung = SUFFIXPART('DH0:Daten/Testfile.txt')
+     SAY 'Endung =' endung
+
+[1mSIEHE AUCH[0m
+     MAKESUFFIX()
+
+Die Funktion MAKESUFFIX()
+*************************
+
+[1mNAME[0m
+     neuer_pfadname = MAKESUFFIX(pfadname,endung,modus)
+
+[1mALIAS[0m
+     neuer_pfadname = RXTR_MAKESUFFIX(pfadname,endung,modus)
+
+[1mBESCHREIBUNG[0m
+     Versieht einen Dateinamen mit einer neuen Endung, die alte Endung kann
+     wahlweise im Namen gelassen oder überschrieben werden.
+
+[1mARGUMENTE[0m
+     pfadname       - Ein kompletter Pfadname, der aus Verzeichnis- und
+                      Dateiname bestehen kann
+     
+     endung         - Die Endung, mit der der Dateinamen versehen werden soll.
+                      Der Punkt darf nicht mit angegeben werden.
+     
+     modus          - Hier kann angegeben werden, ob eine eventuell bestehende
+                      Endung überschrieben werden soll, oder ob die neue Endung
+                      einfach angehängt wird.
+     
+                      Mögliche Angaben sind:
+     
+                      'APPEND'  oder 'A' - Die Endung wird einfach angehängt
+     
+                      'REPLACE' oder 'R' - Eine eventuell bestehende Endung
+                                           wird mit der neuen überschrieben
+
+[1mERGEBNIS[0m
+     neuer_pfadname - Der mit der neuen Endung versehene Pfadname. Wenn ein
+                      Dateiname durch das Anhängen der Endung länger als
+                      30 Zeichen wird, dann wird der Name vor dem Anhängen
+                      entsprechend gekürzt.
+
+[1mBEISPIEL[0m
+     /* Dateinamen mit einer neuen Endung versehen */
+     
+     jpegfile = MAKESUFFIX('DH0:Grafik/Bild.IFF','JPEG','REPLACE')
+     SAY 'Der neue Name ist' jpegfile
+
+[1mSIEHE AUCH[0m
+     SUFFIXPART()
+
+Die Funktion GETCOMMENT()
+*************************
+
+[1mNAME[0m
+     kommentar = GETCOMMENT(dateiname)
+
+[1mALIAS[0m
+     kommentar = RXTR_GETCOMMENT(dateiname)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt den Kommentar einer Datei
+
+[1mARGUMENTE[0m
+     dateiname - Datei, deren Kommentar ermittelt werden soll
+
+[1mERGEBNIS[0m
+     kommentar - der Kommentar der angegebenen Datei
+
+[1mBEISPIEL[0m
+     /* Dateikommentar ermitteln */
+     
+     kommentar = GETCOMMENT('DH0:Daten/Testfile')
+     SAY 'Kommentar =' kommentar
+
+[1mSIEHE AUCH[0m
+     SETCOMMENT()
+
+Die Funktion SETCOMMENT()
+*************************
+
+[1mNAME[0m
+     bool = SETCOMMENT(dateiname,kommentar)
+
+[1mALIAS[0m
+     bool = RXTR_SETCOMMENT(dateiname,kommentar)
+
+[1mBESCHREIBUNG[0m
+     Stellt den Kommentar einer Datei ein
+
+[1mARGUMENTE[0m
+     dateiname - Datei, deren Kommentar eingestellt werden soll
+
+[1mERGEBNIS[0m
+     bool      - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /* Dateikommentar einstellen */
+     
+     IF SETCOMMENT('DH0:Daten/Testfile','Dies ist eine Testdatei') THEN
+        SAY 'Der Kommentar wurde eingestellt!'
+     ELSE
+        SAY 'Fehler beim Einstellen des Kommentars!'
+
+[1mSIEHE AUCH[0m
+     GETCOMMENT()
+
+Die Funktion GETPROTECTION()
+****************************
+
+[1mNAME[0m
+     schutzbits = GETPROTECTION(dateiname)
+
+[1mALIAS[0m
+     schutzbits = RXTR_GETPROTECTION(dateiname)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt die Schutzbits einer Datei
+
+[1mARGUMENTE[0m
+     dateiname  - Datei, deren Schutzbits ermittelt werden sollen
+
+[1mERGEBNIS[0m
+     schutzbits - String, der die ermittelten Schutzbits im bekannten
+                  Format 'HSPARWED' enthält. Ein gesetztes Bit wird
+                  durch den entsprechenden Buchstaben repräsentiert,
+                  ein gelöschtes Bit durch '-'.
+
+[1mBEISPIEL[0m
+     /* Schutzbits einer Datei ermitteln */
+     
+     schutzbits = GETPROTECTION('DH0:Daten/Testfile')
+     SAY 'Schutzbits =' schutzbits
+
+[1mSIEHE AUCH[0m
+     SETPROTECTION()
+
+Die Funktion SETPROTECTION()
+****************************
+
+[1mNAME[0m
+     bool = SETPROTECTION(schutzbits)
+
+[1mALIAS[0m
+     bool = RXTR_SETPROTECTION(schutzbits)
+
+[1mBESCHREIBUNG[0m
+     Stellt die Schutzbits einer Datei ein
+
+[1mARGUMENTE[0m
+     schutzbits - String, der die einzustellenden Schutzbits im
+                  bekannten Format 'HSPARWED' enthält. Ein gesetztes
+                  Bit wird durch den entsprechenden Buchstaben
+                  repräsentiert, ein gelöschtes Bit durch '-'.
+
+[1mERGEBNIS[0m
+     bool       - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /* Schutzbits einer Datei einstellen */
+     
+     IF SETPROTECTION('DH0:Daten/Testfile','-S-RWE-') THEN
+        SAY 'Die Schutzbits wurden eingestellt!'
+     ELSE
+        SAY 'Fehler beim Einstellen der Schutzbits!'
+
+[1mSIEHE AUCH[0m
+     GETPROTECTION()
+
+Die Funktion MATCHPATTERN()
+***************************
+
+[1mNAME[0m
+     bool = MATCHPATTERN(string,pattern,case)
+
+[1mALIAS[0m
+     bool = RXTR_MATCHPATTERN(string,pattern,case)
+
+[1mBESCHREIBUNG[0m
+     Vergleicht einen String mit einem AmigaDOS-Namensmuster
+
+[1mARGUMENTE[0m
+     string  - String der verglichen werden soll
+     
+     pattern - AmigaDOS-Namensmuster
+     
+     case    - Hier kann angegeben werden ob zwischen Groß- und
+               Kleinbuchstaben unterschieden werden soll, ist das
+               Argument nicht angegeben dann wird nicht unterschieden.
+     
+               Mögliche Angaben sind:
+     
+               'CASE'   oder 'C' - Groß- und Kleinbuchstaben werden
+                                   unterschieden
+               'NOCASE' oder 'N' - Groß- und Kleinbuchstaben werden
+                                   nicht unterschieden
+
+[1mERGEBNIS[0m
+     bool    - 1 wenn String und Muster übereinstimmen, 0 wenn nicht
+
+[1mBEISPIEL[0m
+     /* String mit Namensmuster vergleichen */
+     
+     IF MATCHPATTERN('Testtext','t#?','CASE') THEN
+        SAY 'Übereinstimmung gefunden'
+     ELSE
+        SAY 'Keine Übereinstimmung'
+
+[1mSIEHE AUCH[0m
+     SEARCHPATTERN()
+
+Die Funktion SEARCHPATTERN()
+****************************
+
+[1mNAME[0m
+     ergebnis = SEARCHPATTERN(dateiname,pattern,start,modus,case)
+
+[1mALIAS[0m
+     ergebnis = RXTR_SEARCHPATTERN(dateiname,pattern,start,modus,case)
+
+[1mBESCHREIBUNG[0m
+     Durchsucht eine Textdatei zeilenweise nach dem Auftreten eines
+     Namensmusters.
+
+[1mARGUMENTE[0m
+     dateiname - Datei, deren Inhalt durchsucht werden soll
+     
+     pattern   - AmigaDOS-Namensmuster
+     
+     start     - Gibt eine Stelle in der Datei an, ab der nach dem
+                 Namensmuster gesucht werden soll. Hier kann entweder
+                 eine Zeilennummer oder ein Byte-Offset angegeben
+                 werden, das Argument 'modus' gibt an um um was es
+                 sich handelt.
+     
+     modus     - Hier kann angegeben werden ob das Argument 'start' eine
+                 Zeilennummer angibt, oder einen Byte-Offset. Das Ergebnis
+                 der Funktion richtet sich ebenfalls nach dem angegebenen
+                 Modus. Wenn dieses Argument nicht angegeben ist wird mit
+                 Zeilennummern gearbeitet.
+     
+                 Mögliche Angaben sind:
+     
+                 'BYTE' oder 'B' - Offset in Bytes
+                                   Byte-Offsets beginnen immer bei 0
+     
+                 'LINE' oder 'L' - Nummer der Zeile
+                                   Zeilennummern beginnen immer bei 1
+     
+                 Bei Byte-Offsets wird als Ergebnis immer der Offset in
+                 Bytes zurückgegeben, an dem die entsprechende Zeile beginnt.
+                 So kann man z.B. nach dem Suchen die Datei öffnen, mit der
+                 ARexx-Funktion 'SEEK()' an die gefundene Stelle springen,
+                 und danach mit READLN() die Zeile einlesen.
+     
+     case      - Hier kann angegeben werden ob zwischen Groß- und
+                 Kleinbuchstaben unterschieden werden soll, ist das
+                 Argument nicht angegeben dann wird nicht unterschieden.
+     
+                 Mögliche Angaben sind:
+     
+                 'CASE'   oder 'C' - Groß- und Kleinbuchstaben werden
+                                     unterschieden
+                 'NOCASE' oder 'N' - Groß- und Kleinbuchstaben werden
+                                     nicht unterschieden
+
+[1mERGEBNIS[0m
+     ergebnis  - Je nach angegebenem 'modus' die Nummer Textzeile oder der
+                 Offset in Bytes, an dem die gefundene Textzeile beginnt.
+                 -1 wenn keine Übereinstimmung gefunden wurde.
+     
+                 Die gefundene Zeile wird in der Variablen 'RESULT'
+                 gespeichert.
+
+[1mBEISPIEL[0m
+     /* Namensmuster in einer Datei suchen */
+     
+     zeile = SEARCHPATTERN('S:User-Startup','Assign#?MAILFILTER:',1,'LINE','NOCASE')
+     
+     IF zeile ~= -1 THEN
+        SAY 'MailFilter-Assign gefunden in Zeile:' zeile
+     ELSE
+        SAY 'Schade, kein MailFilter-Assign gefunden'
+
+[1mSIEHE AUCH[0m
+     MATCHPATTERN()
+
+Die Funktion GETDIR()
+*********************
+
+[1mNAME[0m
+     bool = GETDIR(dirname,muster,stemvar,typ,ergebnis,subdirs)
+
+[1mALIAS[0m
+     bool = RXTR_GETDIR(dirname,muster,stemvar,typ,ergebnis,subdirs)
+
+[1mBESCHREIBUNG[0m
+     Liest ein Verzeichnis in eine Stem-Variable ein.
+
+[1mARGUMENTE[0m
+     dirname  - Name des Verzeichnisses, das gelesen werden soll
+     
+     muster   - Ein AmigaDOS Namensmuster. Nur Einträge die mit diesem
+                Muster übereinstimmen werden in 'stemvar' gespeichert.
+                Wenn kein Muster angegeben ist werden alle Einträge
+                gespeichert.
+     
+     stemvar  - Stem-Variable, in der die Einträge des Verzeichnisses
+                gespeichert werden sollen. Jedes Feld der Stem-Variablen
+                enthält jeweils einen Verzeichniseintrag:
+     
+                stemvar.0 - enthält die Anzahl der Einträge
+                stemvar.1 - enthält den ersten Eintrag
+                stemvar.2 - enthält den zweiten Eintrag
+                stemvar.n - enthält den n-ten Eintrag
+     
+     typ      - Typ der Einträge, die in 'stemvar' gespeichert werden
+                sollen.
+     
+                Mögliche Angaben sind:
+     
+                'ALL'   oder 'A' - Alle gefundenen Einträge werden
+                                   gepeichert
+     
+                'FILES' oder 'F' - Einträge werden nur dann gespeichert
+                                   wenn es sich um Dateien handelt
+     
+                'DIRS'  oder 'D' - Einträge werden nur dann gespeichert
+                                   wenn es sich um Verzeichnisse handelt
+     
+                Wenn hier nichts angegeben ist werden alle Einträge
+                gespeichert.
+     
+     ergebnis - Gibt an, ob nur der Name oder der komplette Pfad der
+                gefundenen Einträge in 'stemvar' gespeichert werden soll.
+     
+                Mögliche Angaben sind:
+     
+                'NAME' oder 'N' - Nur die Namen der Einträge werden
+                                  gespeichert
+     
+                'PATH' oder 'P' - Der komplette Pfad der Einträge wird
+                                  gespeichert
+     
+                Wenn hier nichts angegeben ist werden nur die Namen der
+                Einträge gespeichert.
+     
+     subdirs  - Gibt an, ob alle gefundenen Unterverzeichnisse ebenfalls
+                eingelesen werden sollen.
+     
+                Mögliche Angaben sind:
+     
+                'SUBDIRS' oder 'S' - Alle gefundenen Unterverzeichnisse
+                                     werden vollständig eingelesen
+     
+                Wenn hier nichts angegeben ist wird nur das bei 'dirname'
+                angegebene Verzeichnis eingelesen.
+
+[1mERGEBNIS[0m
+     bool     - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /*
+     ** Verzeichnis mit allen Unterverzeichnissen einlesen und den
+     ** kompletten Pfad aller Dateien außer den Icons anzeigen
+     */
+     
+     IF GETDIR('DEVS:','~(#?.info)','stemvar','FILES','PATH','SUBDIRS') THEN DO
+        SAY 'Anzahl Einträge:' stemvar.0
+     
+        DO i = 1 TO stemvar.0
+           SAY stemvar.i
+        END
+     END
+
+[1mSIEHE AUCH[0m
+     -/-
+
+Die Funktion GETKEY()
+*********************
+
+[1mNAME[0m
+     key = GETKEY(timeout)
+
+[1mALIAS[0m
+     key = RXTR_GETKEY(timeout)
+
+[1mBESCHREIBUNG[0m
+     Wartet die angegebene Zeit auf das Betätigen einer Taste
+
+[1mARGUMENTE[0m
+     timeout - Zeit in [1mSekunden[0m
+
+[1mERGEBNIS[0m
+     key     - Wird innerhalb der angegebenen Zeit eine Taste gedrückt,
+               dann wird das entsprechende Zeichen zurückgegeben, nach
+               Ablauf der Zeit ohne Tastendruck wir -1 zurückgegeben.
+     
+               Die Sondertasten werden, wenn sie nicht mit einem Text
+               belegt sind, wie folgt zurückgegeben:
+
+                    Taste          | allein  | mit [1mSHIFT[0m
+                    ---------------+---------+------------
+                    [1mF1[0m             | F1      | SHIFT F1
+                    [1mF2[0m             | F2      | SHIFT F2
+                    [1mF3[0m             | F3      | SHIFT F3
+                    [1mF4[0m             | F4      | SHIFT F4
+                    [1mF5[0m             | F5      | SHIFT F5
+                    [1mF6[0m             | F6      | SHIFT F6
+                    [1mF7[0m             | F7      | SHIFT F7
+                    [1mF8[0m             | F8      | SHIFT F8
+                    [1mF9[0m             | F9      | SHIFT F9
+                    [1mF10[0m            | F10     | SHIFT F10
+                                   |         |
+                    [1mEsc[0m            | ESC     | ESC
+                    [1mHelp[0m           | HELP    | HELP
+                                   |         |
+                    [1mReturn[0m         | CR      | CR
+                    [1mEnter[0m          | CR      | CR
+                                   |         |
+                    [1mBackspace[0m      | BS      | BS
+                    [1mDelete[0m         | DEL     | DEL
+                                   |         |
+                    [1mCursor Oben[0m    | UP      | SHIFT UP
+                    [1mCursor Unten[0m   | DOWN    | SHIFT DOWN
+                    [1mCursor Links[0m   | LEFT    | SHIFT LEFT
+                    [1mCursor Rechts[0m  | RIGHT   | SHIFT RIGHT
+     
+               Wenn eine der Tasten mit einem Text belegt ist,
+               z.B. mit Hilfe des Commodities 'FKey', dann wird
+               der entsprechende Text zurückgegeben.
+
+[1mBEISPIEL[0m
+     /* Zehn Sekunden auf das Betätigen einer Taste warten */
+     
+     key = GETKEY(10)
+     
+     IF key ~= (-1) THEN
+        SAY 'Taste gedrückt:' key
+     ELSE
+        SAY 'Zeit ist abgelaufen, keine Taste wurde gedrückt!'
+
+[1mSIEHE AUCH[0m
+     -/-
+
+Die Funktion READFILE()
+***********************
+
+[1mNAME[0m
+     bool = READFILE(dateiname,stemvar)
+
+[1mALIAS[0m
+     bool = RXTR_READFILE(dateiname,stemvar)
+
+[1mBESCHREIBUNG[0m
+     Liest den Inhalt einer Textdatei zeilenweise in eine Stem-Variable
+     ein. Zeilenvorschübe (ASCII-Code: 10) werden nicht gespeichert.
+
+[1mARGUMENTE[0m
+     dateiname  - Datei, deren Inhalt eingelesen werden soll
+     
+     stemvar    - Stem-Variable, in der die aus der Datei gelesenen Zeilen
+                  gespeichert werden sollen. Jedes Feld der Stem-Variablen
+                  enthält jeweils eine Zeile  der Datei:
+     
+                  stemvar.0 - enthält die Anzahl der Zeilen
+                  stemvar.1 - enthält die erste Zeile
+                  stemvar.2 - enthält die zweite Zeile
+                  stemvar.n - enthält die n-te Zeile
+
+[1mERGEBNIS[0m
+     bool       - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /* Datei 's:user-startup' in Stem-Variable einlesen und anzeigen */
+     
+     IF READFILE('s:user-startup','array') THEN DO
+        SAY 'Anzahl Zeilen:' array.0
+     
+        DO i = 1 TO array.0
+           SAY 'Zeile' i||':' array.i
+        END
+     END
+
+[1mSIEHE AUCH[0m
+     WRITEFILE()
+
+Die Funktion WRITEFILE()
+************************
+
+[1mNAME[0m
+     bool = WRITEFILE(dateiname,stemvar,append)
+
+[1mALIAS[0m
+     bool = RXTR_WRITEFILE(dateiname,stemvar,append)
+
+[1mBESCHREIBUNG[0m
+     Speichert den Inhalt einer Stem-Variablen als Textdatei, an jede Zeile
+     wird automatisch ein Zeilenvorschub angehängt.
+
+[1mARGUMENTE[0m
+     dateiname  - Datei, in der der Inhalt der Stem-Variablen gespeichert
+                  werden soll.
+     
+     stemvar    - Stem-Variable, die in der Datei gespeichert werden soll.
+                  Die Stem-Variable muß folgenden Inhalt haben:
+     
+                  stemvar.0 - muß die Anzahl der Zeilen enthalten
+                  stemvar.1 - muß die erste Zeile enthalten
+                  stemvar.2 - muß die zweite Zeile enthalten
+                  stemvar.n - muß die n-te Zeile enthalten
+     
+     append     - Gibt an, daß die Zeilen an eine bereits existierende
+                  Datei angehängt werden sollen. Wenn die angegebene
+                  Datei nicht existiert wird ein Fehler zurückgegeben.
+     
+                  Mögliche Angaben sind:
+     
+                  'APPEND' oder 'A' - Die Zeilen werden angehängt
+     
+                  Alle anderen Angaben bewirken nichts.
+
+[1mERGEBNIS[0m
+     bool       - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /* Stem-Variable in Datei schreiben */
+     
+     liste.0 = 4
+     liste.1 = 'Hallo'
+     liste.2 = 'Moin'
+     liste.3 = 'Tach'
+     liste.4 = 'Mahlzeit'
+     
+     IF WRITEFILE('RAM:Test','liste') THEN
+        SAY 'Fertig, keine Fehler!'
+
+[1mSIEHE AUCH[0m
+     READFILE()
+
+Die Funktion READLINES()
+************************
+
+[1mNAME[0m
+     bool = READLINES(dateiname,start,anzahl,format,stemvar)
+
+[1mALIAS[0m
+     bool = RXTR_READLINES(dateiname,start,anzahl,format,stemvar)
+
+[1mBESCHREIBUNG[0m
+     Liest einen Teil einer Textdatei zeilenweise ein. Die Zeilen werden
+     anhand des angegebenen Formatstrings umgewandelt und in den
+     angegebenen Stem-Variablen gespeichert. Zeilenvorschübe (ASCII-Code:
+     10) werden nicht gespeichert.
+
+[1mARGUMENTE[0m
+     dateiname  - Datei, deren Inhalt eingelesen werden soll
+     
+     start      - Nummer der Zeile, ab der aus der Datei gelesen werden
+                  soll. Die Zeilennummern beginnen immer bei 1. Wenn hier
+                  nichts angegeben ist wird ab der ersten Zeile der Datei
+                  eingelesen.
+     
+     anzahl     - Anzahl der Zeilen, die eingelesen werden sollen. Wenn
+                  hier nichts angegeben ist wird die Datei bis zum Ende
+                  eingelesen.
+     
+     format     - Formatstring, der angibt wie jede einzelne Zeile beim
+                  Einlesen umgewandelt werden soll. Dieser Formatstring
+                  kann beliebig viele Formatieranweisungen enthalten, für
+                  jede der Anweisungen muß unter stemvar der Name einer
+                  Stem-Variablen angegeben werden.
+     
+                  [1mJedes durch eine Formatieranweisung umgewandelte Element
+                  darf maximal 1024 Zeichen lang sein! Die Zeilenlänge ist
+                  begrenzt auf 4096 Zeichen![0m
+     
+                  Bei der Umwandlung wird im Formatstring nach der ersten
+                  Formatieranweisung gesucht, dann wird anhand dieser
+                  Anweisung ein Teil der Zeile in der ersten Stem-Variablen
+                  gespeichert. Danach wird die nächste Formatieranweisung
+                  gesucht, ein Teil der Zeile in der nächsten Variablen
+                  gespeichert usw.
+     
+                  Der Formatstring kann drei verschiedene Arten von Zeichen
+                  und Anweisungen enthalten:
+     
+                  1. Blanks (Leerzeichen und Tabulatoren)
+     
+                     Wenn ein Blank im Formatstring vorkommt werden alle
+                     folgenden Blanks übersprungen.
+     
+                  2. Alle anderen Zeichen außer dem Prozentzeichen '%'
+     
+                     Wenn ein normales Zeichen im Formatstring vorkommt
+                     wird ein gleiches Zeichen aus der Zeile eingelesen,
+                     aber nicht gespeichert.
+     
+                  3. Formatieranweisungen
+     
+                     Durch eine Formatieranweisung wird festgelegt, wie der
+                     nächste Teil der Zeile in eine Variable umgewandelt
+                     werden soll. Eine Formatieranweisung wird immer durch
+                     ein Prozentzeichen '%' eingeleitet und hat folgende
+                     Form, in Klammern stehende Anweisungen sind optional:
+     
+                     %[*][Länge]Typ
+     
+                     [*]     - Die Formatieranweisung wird ganz normal auf
+                               die Zeile angewendet, das Ergebnis wird aber
+                               nicht gespeichert, sondern irnoriert. Für
+                               diese Anweisung darf keine Stem-Variable
+                               angegeben werden.
+     
+                     [Länge] - Eine Integerzahl, die angibt wieviele Zeichen
+                               maximal eingelesen werden sollen. Wenn bis
+                               zum nächsten Blank weniger Zeichen in der
+                               Zeile vorhanden sind wird die Umwandlung bei
+                               dem ersten Blank beendet. Dies gilt jedoch
+                               nicht für den Typ 'c', hier wird immer die
+                               angegebene Anzahl Zeichen umgewandelt.
+     
+                     Typ     - Der Typ gibt an wie das nächste Element der
+                               Zeile umgewandelt werden soll. Es gibt zwei
+                               verschiedene Typen:
+     
+                               s - Eine Zeichenkette soll eingelesen werden.
+                                   Die Umwandlung wird beendet wenn entweder
+                                   die angegebene Länge erreicht ist, oder
+                                   in der Zeile ein Blank vorkommt.
+     
+                               c - Ein Zeichen soll eingelesen werden. Bei
+                                   angegebener Länge wird genau diese Anzahl
+                                   Zeichen eingelesen, ein Blank wird dabei
+                                   wie ein normales Zeichen behandelt.
+     
+     stemvar    - Stem-Variablen, in denen die eingelesenen Elemente der
+                  Zeilen gespeichert werden sollen. Da je nach Formatstring
+                  beliebig viele Variablen angegeben werden müssen, werden
+                  diese Variablen durch Leerzeichen oder Tabulatoren getrennt
+                  hintereinander geschrieben. Jedes Feld einer Stem-Variablen
+                  enthält ein Element einer eingelesenen Zeile der Datei.
+     
+                  Beispiel: READLINES(datei,10,3,'%s %5c','stemvar1 stemvar2')
+     
+                  stemvar1.0 - enthält die Anzahl der eingelesenen Zeilen,
+                               in diesem Fall 3
+                  stemvar1.1 - enthält das erste Element der ersten Zeile
+                               in diesem Fall Zeile 10 der Datei
+                  stemvar1.2 - enthält die erste Element der zweiten Zeile
+                               in diesem Fall Zeile 11 der Datei
+                  stemvar1.3 - enthält die erste Element der dritten Zeile
+                               in diesem Fall Zeile 12 der Datei
+     
+                  stemvar2.0 - enthält die Anzahl der eingelesenen Zeilen,
+                               in diesem Fall 3
+                  stemvar2.1 - enthält das zweite Element der ersten Zeile
+                               in diesem Fall Zeile 10 der Datei
+                  stemvar2.2 - enthält die zweite Element der zweiten Zeile
+                               in diesem Fall Zeile 11 der Datei
+                  stemvar2.3 - enthält die zweite Element der dritten Zeile
+                               in diesem Fall Zeile 12 der Datei
+
+[1mERGEBNIS[0m
+     bool       - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /*
+     ** Mit dem Dos-Befehl 'List' eine Datei erzeugen, diese
+     ** Datei einlesen und einen Teil des Inhalts anzeigen.
+     */
+     
+     ADDRESS COMMAND 'List >T:tempfile LFORMAT "%-30N %L Byte %A %D %T"'
+     
+     IF READLINES('T:tempfile',5,20,'%30c %s Byte %s %s %s','name bytes flags datum zeit') THEN DO
+        SAY 'Anzahl Zeilen:' name.0
+        SAY
+     
+        DO i = 1 TO name.0
+           IF bytes.i = 'Dir' THEN
+              SAY 'Nr.' i '-> Verzeichnis:' STRIP(name.i)
+           ELSE
+              SAY 'Nr.' i '-> Datei:' STRIP(name.i) '-' bytes.i 'Byte'
+     
+           SAY 'Flags:' flags.i
+           SAY 'Datum:' datum.i
+           SAY 'Zeit :' zeit.i
+           SAY
+        END
+     END
+
+[1mSIEHE AUCH[0m
+     WRITELINES()
+
+Die Funktion WRITELINES()
+*************************
+
+[1mNAME[0m
+     bool = WRITELINES(dateiname,start,stemvar,modus)
+
+[1mALIAS[0m
+     bool = RXTR_WRITELINES(dateiname,start,stemvar,modus)
+
+[1mBESCHREIBUNG[0m
+     Überschreibt einen Teil einer Textdatei mit dem Inhalt der angegebenen
+     Stem-Variablen, oder fügt den Inhalt der Variablen in die Textdatei
+     ein.
+
+[1mARGUMENTE[0m
+     dateiname  - Datei, in die geschrieben werden soll
+     
+     start      - Nummer der Zeile, ab der in die Datei geschrieben werden
+                  soll. Die Zeilennummern beginnen immer bei 1. Wenn hier
+                  nichts angegeben ist wird ab der ersten Zeile in die
+                  Datei geschrieben.
+     
+     stemvar    - Stem-Variable, deren Inhalt in die Datei geschrieben werden
+                  soll. Diese Stem-Variable muß folgenden Inhalt haben:
+     
+                  stemvar.0 - muß die Anzahl der Zeilen enthalten
+                  stemvar.1 - muß die erste Zeile enthalten
+                  stemvar.2 - muß die zweite Zeile enthalten
+                  stemvar.n - muß die n-te Zeile enthalten
+     
+     modus      - Gibt an, wie die Stem-Variable in die Datei geschrieben
+                  werden soll. Es gibt zwei Möglichkeiten:
+     
+                  'REPLACE' oder 'R'- Die Datei wird ab der bei 'start'
+                                      angegebenen Zeile überschrieben.
+                                      Jedes Feld der Stem-Variablen
+                                      ersetzt eine Zeile in der Datei,
+                                      eine Stem-Variable mit 10 Feldern
+                                      ersetzt also 10 Zeilen der Datei.
+                                      Alle nachfolgenden Zeilen werden
+                                      wieder aus der Quelldatei übernommen.
+     
+                  'INSERT' oder 'I' - Der Inhalt der Stem-Variablen wird
+                                      ab der bei 'start' angegebenen Zeile
+                                      in die Datei eingefügt.
+
+[1mERGEBNIS[0m
+     bool       - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /*
+     ** Die Zeilen 10, 11 und 12 der Datei 'RAM:testfile' einlesen,
+     ** verändern und in die Datei zurückschreiben.
+     */
+     
+     IF READLINES('RAM:testfile',10,3,'%256c','zeile') THEN DO
+        DO i = 1 TO zeile.0
+           zeile.i = 'Dies ist Zeile' i+9 '-' zeile.i
+        END
+     
+        IF ~WRITELINES('RAM:testfile',10,'zeile','REPLACE') THEN
+           SAY 'Fehler beim Schreiben in die Datei!'
+     END
+     ELSE
+        SAY 'Fehler beim Lesen aus der Datei!'
+
+[1mSIEHE AUCH[0m
+     READLINES()
+
+Die Funktion SCSI_DEVICETYPE()
+******************************
+
+[1mNAME[0m
+     typ = SCSI_DEVICETYPE(device,unit)
+
+[1mALIAS[0m
+     typ = RXTR_SCSI_DEVICETYPE(device,unit)
+
+[1mBESCHREIBUNG[0m
+     Gibt den Typ eines angeschlossenen SCSI-Gerätes zurück.
+
+[1mARGUMENTE[0m
+     device - Device, mit dem das SCSI-Gerät angesteuert wird.
+     
+     unit   - Unit Nummer des SCSI-Gerätes.
+
+[1mERGEBNIS[0m
+     typ    - Der Typ des Gerätes:
+     
+              DISK          - Plattenlaufwerk, Festplatte, Wechselplatte
+              TAPE          - Bandlaufwerk
+              PRINTER       - Drucker
+              PROCESSOR     - Prozessor-Gerät
+              WORM          - WORM-Platte
+              CDROM         - CD-ROM Laufwerk
+              SCANNER       - Scanner
+              OPTICAL       - Optisches Laufwerk
+              MEDIACHANGER  - Medienwechsler
+              COMMUNICATION - Kommunikationsgerät
+              UNKNOWN       - Unbekannter Gerätetyp
+     
+              Wenn kein Gerät gefunden wurde wird ein Leerstring " zurückgegeben.
+
+[1mBEISPIEL[0m
+     /* Typ des Geräts an 'scsi.device' Unit 0 ermitteln */
+     
+     SAY SCSI_DEVICETYPE('scsi.device',0)
+
+[1mSIEHE AUCH[0m
+     SCSI_MANUFACTURER(), SCSI_PRODUCT(), SCSI_REVISION(), SCSI_TESTREADY()
+
+Die Funktion SCSI_MANUFACTURER()
+********************************
+
+[1mNAME[0m
+     hersteller = SCSI_MANUFACTURER(device,unit)
+
+[1mALIAS[0m
+     hersteller = RXTR_SCSI_MANUFACTURER(device,unit)
+
+[1mBESCHREIBUNG[0m
+     Gibt den Hersteller eines angeschlossenen SCSI-Gerätes zurück.
+
+[1mARGUMENTE[0m
+     device     - Device, mit dem das SCSI-Gerät angesteuert wird.
+     
+     unit       - Unit Nummer des SCSI-Gerätes.
+
+[1mERGEBNIS[0m
+     hersteller - Der Hersteller des Gerätes, wenn kein Gerät gefunden
+                  wurde wird ein Leerstring " zurückgegeben.
+
+[1mBEISPIEL[0m
+     /* Hersteller des Geräts an 'scsi.device' Unit 0 ermitteln */
+     
+     SAY SCSI_MANUFACTURER('scsi.device',0)
+
+[1mSIEHE AUCH[0m
+     SCSI_DEVICETYPE(), SCSI_PRODUCT(), SCSI_REVISION(), SCSI_TESTREADY()
+
+Die Funktion SCSI_PRODUCT()
+***************************
+
+[1mNAME[0m
+     produkt = SCSI_PRODUCT(device,unit)
+
+[1mALIAS[0m
+     produkt = RXTR_SCSI_PRODUCT(device,unit)
+
+[1mBESCHREIBUNG[0m
+     Gibt die Produktbezeichnung eines angeschlossenen SCSI-Gerätes
+     zurück.
+
+[1mARGUMENTE[0m
+     device  - Device, mit dem das SCSI-Gerät angesteuert wird.
+     
+     unit    - Unit Nummer des SCSI-Gerätes.
+
+[1mERGEBNIS[0m
+     produkt - Die Produktbezeichnung des Gerätes, wenn kein Gerät
+               gefunden wurde wird ein Leerstring " zurückgegeben.
+
+[1mBEISPIEL[0m
+     /* Produktbezeichnung des Geräts an 'scsi.device' Unit 0 ermitteln */
+     
+     SAY SCSI_PRODUCT('scsi.device',0)
+
+[1mSIEHE AUCH[0m
+     SCSI_DEVICETYPE(), SCSI_MANUFACTURER(), SCSI_REVISION(),
+     SCSI_TESTREADY()
+
+Die Funktion SCSI_REVISION()
+****************************
+
+[1mNAME[0m
+     revision = SCSI_REVISION(device,unit)
+
+[1mALIAS[0m
+     revision = RXTR_SCSI_REVISION(device,unit)
+
+[1mBESCHREIBUNG[0m
+     Gibt die Revision eines angeschlossenen SCSI-Gerätes zurück.
+
+[1mARGUMENTE[0m
+     device   - Device, mit dem das SCSI-Gerät angesteuert wird.
+     
+     unit     - Unit Nummer des SCSI-Gerätes.
+
+[1mERGEBNIS[0m
+     revision - Die Revision des Gerätes, wenn kein Gerät gefunden wurde
+                wird ein Leerstring " zurückgegeben.
+
+[1mBEISPIEL[0m
+     /* Revision des Geräts an 'scsi.device' Unit 0 ermitteln */
+     
+     SAY SCSI_REVISION('scsi.device',0)
+
+[1mSIEHE AUCH[0m
+     SCSI_DEVICETYPE(), SCSI_MANUFACTURER(), SCSI_PRODUCT(),
+     SCSI_TESTREADY()
+
+Die Funktion SCSI_TESTREADY()
+*****************************
+
+[1mNAME[0m
+     bool = SCSI_TESTREADY(device,unit)
+
+[1mALIAS[0m
+     bool = RXTR_SCSI_TESTREADY(device,unit)
+
+[1mBESCHREIBUNG[0m
+     Stellt fest, ob ein Gerät betribsbereit ist. Bei Wechselplatten läßt
+     sich mit dieser Funktion z.B. feststellen ob ein Medium eingelegt ist.
+
+[1mARGUMENTE[0m
+     device - Device, mit dem das SCSI-Gerät angesteuert wird.
+     
+     unit   - Unit Nummer des SCSI-Gerätes.
+
+[1mERGEBNIS[0m
+     bool   - 1 wenn das Gerät betriebsbereit ist, 0 wenn nicht
+
+[1mBEISPIEL[0m
+     /* Feststellen ob das Gerät an 'scsi.device' Unit 0 bereit ist */
+     
+     IF SCSI_TESTREADY('scsi.device',0) THEN
+        SAY 'Gerät ist bereit!'
+     ELSE
+        SAY 'Gerät ist nicht bereit!'
+
+[1mSIEHE AUCH[0m
+     SCSI_DEVICETYPE(), SCSI_MANUFACTURER(), SCSI_PRODUCT(), SCSI_REVISION()
+
+Die Funktion READCLIPBOARD()
+****************************
+
+[1mNAME[0m
+     result = READCLIPBOARD(unit,destvar)
+
+[1mALIAS[0m
+     result = RXTR_READCLIPBOARD(unit,destvar)
+
+[1mBESCHREIBUNG[0m
+     Liest Text zeilenweise aus dem Clipboard in eine Stem-Variable ein,
+     oder gibt den gesamten Inhalt des Clipboards zurück.
+
+[1mARGUMENTE[0m
+     unit    - Clipboard-Unit, aus der gelesen werden soll.
+     
+     destvar - Name der Stem-Variablen, in der aus dem Clipboard
+               gelesene Text gespeichert werden soll. Der Text wird
+               zeilenweise in der Variablen gespeichert:
+     
+               destvar.0 - enthält die Anzahl der gelesenen Zeilen
+               destvar.1 - enthält die erste Zeile
+               destvar.2 - enthält die zweite Zeile
+               destvar.n - enthält die n-te Zeile
+     
+               [1mWenn keine Variable angegeben ist wird der gesamte
+               gelesene Inhalt als Rückgabewert zurückgegeben.[0m
+
+[1mERGEBNIS[0m
+     result  - Wenn 'stemvar' [1mnicht[0m angegeben ist wird der gesamte
+               Clipboard-Inhalt zurückgegeben.
+     
+               Wenn eine Variable angegeben ist wird immer ein Leerstring
+               " zurückgegeben, 'result' kann deshalb ignoriert werden.
+
+[1mBEISPIEL[0m
+     /* Clipboard auslesen und anzeigen */
+     
+     SAY READCLIPBOARD(0)
+     
+     SAY '------------------'
+     
+     CALL READCLIPBOARD(0,'array')
+     
+     SAY 'Anzahl Zeilen:' array.0
+     
+     DO i = 1 TO array.0
+        SAY 'Zeile' i || ':' array.i
+     END
+
+[1mSIEHE AUCH[0m
+     WRITECLIPBOARD()
+
+Die Funktion WRITECLIPBOARD()
+*****************************
+
+[1mNAME[0m
+     bool = WRITECLIPBOARD(unit,string,stemvar)
+
+[1mALIAS[0m
+     bool = RXTR_WRITECLIPBOARD(unit,string,stemvar)
+
+[1mBESCHREIBUNG[0m
+     Speichert einen String oder den Inhalt einer Stem-Variablen im
+     Clipboard.
+
+[1mARGUMENTE[0m
+     unit    - Clipboard-Unit, in die gespeichert werden soll.
+     
+     string  - String, der im Clipboard gespeichert werden soll.
+     
+     stemvar - Name einer Stem-Variablen, deren Inhalt im Clipboard
+               gespeichert werden soll. Jedes Element der Variablen
+               wird als eine Zeile gespeichert, ein Zeilenvorschub
+               wird automatisch angehängt. Die Variable muß folgenden
+               Inhalt haben:
+     
+               stemvar.0 - muß die Anzahl der Zeilen enthalten
+               stemvar.1 - muß die erste Zeile enthalten
+               stemvar.2 - muß die zweite Zeile enthalten
+               stemvar.n - muß die n-te Zeile enthalten
+     
+               [1mEs kann entweder nur 'string', oder nur 'stemvar' im
+               Clipboard gespeichert werden. Wenn 'stemvar' nicht
+               angegeben ist wird 'string' gespeichert.[0m
+
+[1mERGEBNIS[0m
+     bool    - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /* Text im Clipboard in Unit 0 speichern */
+     
+     IF WRITECLIPBOARD(0,'Dies ist ein Test') THEN
+        SAY 'Okay!'
+     ELSE
+        SAY 'Fehler beim Speichern ins Clipboard!'
+
+[1mSIEHE AUCH[0m
+     READCLIPBOARD()
+
+Die Funktion QSORT()
+********************
+
+[1mNAME[0m
+     bool = QSORT(liste,destvar,case,feld,separator)
+
+[1mALIAS[0m
+     bool = RXTR_QSORT(liste,destvar,case,feld,separator)
+
+[1mBESCHREIBUNG[0m
+     Sortiert eine in einer Stem-Variablen gespeicherte Liste aufsteigend
+
+[1mARGUMENTE[0m
+     liste     - Die Liste, die sortiert werden soll. Dies muß eine
+                 Stem-Variable mit folgendem Inhalt sein:
+     
+                 liste.0 - muß die Anzahl der Elemente enthalten
+                 liste.1 - muß das erste Element enthalten
+                 liste.2 - muß das zweite Element enthalten
+                 liste.n - muß das n-te Element enthalten
+     
+     destvar   - Stem-Variable, in der die sortierte Liste gespeichert
+                 werden soll. Die fertig sortierte Liste wird in dieser
+                 Variablen genauso gespeichert wie in der übergebenen
+                 Liste:
+     
+                 destvar.0 - enthält die Anzahl der Elemente
+                 destvar.1 - enthält das erste Element
+                 destvar.2 - enthält das zweite Element
+                 destvar.n - enthält das n-te Element
+     
+                 Die Angabe dieser Variablen ist optional, wenn nichts
+                 angegeben ist wird die liste direkt sortiert.
+     
+     case      - Gibt an ob bei der Sortierung zwischen Groß- und
+                 Kleinbuchstaben unterschieden werden soll, ist
+                 hier nichts angegeben dann wird nicht unterschieden.
+     
+                 Mögliche Angaben sind:
+     
+                 'CASE'   oder 'C'    - Groß- und Kleinbuchstaben werden
+                                        unterschieden
+                 'NOCASE' oder 'N'    - Groß- und Kleinbuchstaben werden
+                                        nicht unterschieden
+                 'NUMERIC' oder 'NUM' - Es wird nach Zahlen sortiert
+     
+     feld      - Die Nummer des Feldes, nach dem sortiert werden soll.
+                 Felder werden durch das bei 'separator' angegebene
+                 Zeichen voneinander getrennt. Feldnummern beginnen
+                 immer bei 1. Wenn nichts angegeben ist wird nach dem
+                 gesamten Inhalt der Variablen sortiert.
+     
+     separator - Zeichen, mit dem die Felder in den einzelnen Elementen
+                 der Liste voneinander getrennt sind. Dieses Argument
+                 wird nur verwendet wenn bei 'feld' eine Nummer angegeben
+                 ist. Standard für 'separator' ist das Leerzeichen ' ',
+                 es wird dann verwendet wenn eine Feldnummer angegeben
+                 ist aber kein Separator.
+
+[1mERGEBNIS[0m
+     bool    - 1 wenn die Liste korrekt sortiert werden konnte
+               0 wenn beim Sortieren ein Fehler aufgetreten ist
+
+[1mBEISPIEL[0m
+     /* Liste nach 'destvar' sortieren */
+     
+     liste.0 = 4
+     liste.1 = 'Musterfrau|Sabine|Bergstraße 75|12345 Musterdorf'
+     liste.2 = 'Poweruser|Heinz|Megabitallee 128|87654 Mipshausen'
+     liste.3 = 'Mustermann|Peter|Feldweg 3|35487 Teststadt'
+     liste.4 = 'Kohrmeyer|Jürgen|Oststraße 2|49143 Bissendorf'
+     
+     IF QSORT('liste','destvar','NUMERIC',4,'|') THEN DO
+        SAY 'Anzahl Elemente:' destvar.0
+     
+        DO i = 1 TO destvar.0
+           SAY destvar.i
+        END
+     END
+     
+     /* Und jetzt die Liste auch direkt sortieren */
+     
+     IF QSORT('liste',,,2,'|') THEN DO
+        DO i = 1 TO liste.0
+           SAY liste.i
+        END
+     END
+
+[1mSIEHE AUCH[0m
+     BSEARCH(), LSEARCH()
+
+Die Funktion BSEARCH()
+**********************
+
+[1mNAME[0m
+     nummer = BSEARCH(key,liste,start,case)
+
+[1mALIAS[0m
+     nummer = RXTR_BSEARCH(key,liste,start,case)
+
+[1mBESCHREIBUNG[0m
+     Sucht in einer Liste mit dem Binärverfahren nach einen bestimmten
+     Element, die Liste muß aufsteigend sortiert sein!!!
+     
+     [1mAchtung:[0m Seit der Version 37.24 der 'RexxTricks.library' hat diese
+              Funktion ein neues Argument: 'start'! ARexx-Scripts, die
+              für eine ältere Version geschrieben wurden, funktionieren
+              weiterhin, dennoch sollte jeder seine Scripts an die neue
+              Version anpassen!
+
+[1mARGUMENTE[0m
+     key     - das Element, nach dem gesucht werden soll
+     
+     liste   - Die Liste, in der gesucht werden soll. Dies muß eine
+               Stem-Variable mit folgendem Inhalt sein:
+     
+               liste.0 - muß die Anzahl der Elemente enthalten
+               liste.1 - muß das erste Element enthalten
+               liste.2 - muß das zweite Element enthalten
+               liste.n - muß das n-te Element enthalten
+     
+     start   - Die Nummer des Elements bei dem mit der Suche begonnen
+               werden soll. Dieses Argument ist optional, wenn nichts
+               angegeben ist wird bei Element 0 mit der Suche begonnen.
+     
+     case    - Gibt an ob bei der Suche zwischen Groß- und Klein-
+               buchstaben unterschieden werden soll, ist hier nichts
+               angegeben dann wird nicht unterschieden.
+     
+               Mögliche Angaben sind:
+     
+               'CASE'   oder 'C' - Groß- und Kleinbuchstaben werden
+                                   unterschieden
+               'NOCASE' oder 'N' - Groß- und Kleinbuchstaben werden
+                                   nicht unterschieden
+
+[1mERGEBNIS[0m
+     nummer  - die Nummer des gesuchten Elements in der Liste oder -1 wenn
+               das Element nicht gefunden wurde
+
+[1mBEISPIEL[0m
+     /* Element in einer Liste mit dem Binärverfahren suchen */
+     
+     liste.0 = 4
+     liste.1 = 'Hallo'
+     liste.2 = 'Mahlzeit'
+     liste.3 = 'Moin'
+     liste.4 = 'Tach'
+     
+     nummer = BSEARCH('Moin','liste',0,'CASE')
+     
+     IF nummer ~= (-1) THEN
+        SAY 'Moin ist Element Nr:' nummer
+     ELSE
+        SAY 'Element nicht gefunden'
+
+[1mSIEHE AUCH[0m
+     QSORT(), LSEARCH()
+
+Die Funktion LSEARCH()
+**********************
+
+[1mNAME[0m
+     nummer = LSEARCH(key,liste,start,case,pattern)
+
+[1mALIAS[0m
+     nummer = RXTR_LSEARCH(key,liste,start,case,pattern)
+
+[1mBESCHREIBUNG[0m
+     Sucht ab dem angegebenen Startelement linear in einer Liste nach
+     dem ersten Auftreten eines bestimmten Elements, die Liste muß nicht
+     sortiert sein!!!
+
+[1mARGUMENTE[0m
+     key     - das Element nach dem gesucht werden soll, in Verbindung
+               mit dem Argument 'pattern' können hier alle AmigaDOS
+               Namensmuster verwendet werden.
+     
+     liste   - Die Liste, in der gesucht werden soll. Dies muß eine
+               Stem-Variable mit folgendem Inhalt sein:
+     
+               liste.0 - muß die Anzahl der Elemente enthalten
+               liste.1 - muß das erste Element enthalten
+               liste.2 - muß das zweite Element enthalten
+               liste.n - muß das n-te Element enthalten
+     
+     start   - Die Nummer des Elements bei dem mit der Suche begonnen
+               werden soll. Dieses Argument ist optional, wenn nichts
+               angegeben ist wird bei Element 0 mit der Suche begonnen.
+     
+     case    - Gibt an, ob bei der Suche zwischen Groß- und Klein-
+               buchstaben unterschieden werden soll, ist hier nichts
+               angegeben dann wird nicht unterschieden.
+     
+               Mögliche Angaben sind:
+     
+               'CASE'   oder 'C' - Groß- und Kleinbuchstaben werden
+                                   unterschieden
+               'NOCASE' oder 'N' - Groß- und Kleinbuchstaben werden
+                                   nicht unterschieden
+     
+     pattern - Gibt an, ob das bei 'key' angegebene Element AmigaDOS
+               Namensmuster enthält. Wenn nichts angegeben ist wird
+               bei der Suche ein einfacher Textvergleich durchgeführt.
+     
+               Mögliche Angaben sind:
+     
+               'PATTERN' oder 'P' - Namensmuster werden unterstützt
+     
+               'STRCMP'  oder 'S' - Bei der Suche wird ein einfacher
+                                    Textvergleich durchgeführt
+
+[1mERGEBNIS[0m
+     nummer  - die Nummer des nächsten gesuchten Elements in der Liste
+               oder -1 wenn kein passendes Element mehr gefunden wurde
+
+[1mBEISPIEL[0m
+     /* Element in einer Liste suchen */
+     
+     liste.0 = 4
+     liste.1 = 'Hallo'
+     liste.2 = 'Moin'
+     liste.3 = 'Tach'
+     liste.4 = 'Mahlzeit'
+     
+     nummer = LSEARCH('tach','liste')
+     
+     IF nummer ~= (-1) THEN
+        SAY 'Tach ist Element Nr:' nummer
+     ELSE
+        SAY 'Element nicht gefunden'
+
+[1mSIEHE AUCH[0m
+     QSORT(), BSEARCH()
+
+Die Funktion STEMCOPY()
+***********************
+
+[1mNAME[0m
+     bool = STEMCOPY(quelle,start1,ziel,start2,anzahl)
+
+[1mALIAS[0m
+     bool = RXTR_STEMCOPY(quelle,start1,ziel,start2,anzahl)
+
+[1mBESCHREIBUNG[0m
+     Kopiert die Inhalte einer Stem-Variablen in eine andere Stem-Variable.
+
+[1mARGUMENTE[0m
+     quelle - Name der Stem-Variablen, deren Inhalt kopiert werden soll.
+              Diese Variable muß wie folgt aufgebaut sein:
+     
+              quelle.0 - muß die Anzahl der Elemente enthalten
+              quelle.1 - muß das erste Element enthalten
+              quelle.2 - muß das zweite Element enthalten
+              quelle.n - muß das n-te Element enthalten
+     
+     start1 - Index, ab dem aus der bei 'quelle' angegebenen
+              Stem-Variablen kopiert werden soll.
+     
+     ziel   - Name der Stem-Variablen, in die kopiert werden soll.
+     
+     start2 - Index, ab dem in die bei 'ziel' angegebene Variable
+              kopiert werden soll.
+     
+     anzahl - Anzahl der Elemente, die kopiert werden sollen. Wenn nichts
+              angegeben ist werden ab dem bei 'start1' angegebenen Element
+              alle Elemente kopiert.
+
+[1mERGEBNIS[0m
+     bool   - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /* Stem-Variable teilweise kopieren */
+     
+     liste.0 = 4
+     liste.1 = 'Hallo'
+     liste.2 = 'Moin'
+     liste.3 = 'Tach'
+     liste.4 = 'Mahlzeit'
+     
+     IF STEMCOPY('liste',2,'neuliste',1,2) THEN DO
+        SAY 'Neue Anzahl:' neuliste.0
+     
+        DO i = 1 TO neuliste.0
+           SAY neuliste.i
+        END
+     END
+     ELSE
+        SAY 'Fehler beim Kopieren!'
+
+[1mSIEHE AUCH[0m
+     STEMINSERT() STEMREMOVE()
+
+Die Funktion STEMINSERT()
+*************************
+
+[1mNAME[0m
+     bool = STEMINSERT(stemvar,start,anzahl,inhalt)
+
+[1mALIAS[0m
+     bool = RXTR_STEMINSERT(stemvar,start,anzahl,inhalt)
+
+[1mBESCHREIBUNG[0m
+     Fügt ein oder mehrere Elemente in eine Stem-Variable ein, alle
+     nachfolgenden Felder werden entsprechend nach hinten verschoben.
+
+[1mARGUMENTE[0m
+     stemvar - Name der Stem-Variablen, in die Elemente eingefügt werden
+               sollen. Diese Variable muß folgenden Aufbau haben:
+     
+               stemvar.0 - muß die Anzahl der Elemente enthalten
+               stemvar.1 - muß das erste Element enthalten
+               stemvar.2 - muß das zweite Element enthalten
+               stemvar.n - muß das n-te Element enthalten
+     
+     start   - Index, ab dem Elemente eingefügt werden sollen
+     
+     anzahl  - Anzahl der Elemente, die eingefügt werden sollen. Wenn
+               nichts angegeben ist wird ein Element eingefügt.
+     
+     inhalt  - Standard Inhalt für die eingefügten Elemente, wenn hier
+               nichts angegeben ist wird ein Leerstring '' verwendet.
+
+[1mERGEBNIS[0m
+     bool    - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /* 2 Elemente einfügen */
+     
+     liste.0 = 4
+     liste.1 = 'Hallo'
+     liste.2 = 'Moin'
+     liste.3 = 'Tach'
+     liste.4 = 'Mahlzeit'
+     
+     IF STEMINSERT('liste',3,2,'Neu') THEN DO
+        SAY 'Neue Anzahl:' liste.0
+     
+        DO i = 1 TO liste.0
+           SAY liste.i
+        END
+     END
+     ELSE
+        SAY 'Fehler beim Einfügen!'
+
+[1mSIEHE AUCH[0m
+     STEMCOPY() STEMREMOVE()
+
+Die Funktion STEMREMOVE()
+*************************
+
+[1mNAME[0m
+     bool = STEMREMOVE(stemvar,start,anzahl)
+
+[1mALIAS[0m
+     bool = RXTR_STEMREMOVE(stemvar,start,anzahl)
+
+[1mBESCHREIBUNG[0m
+     Entfernt ein oder mehrere Elemente einer Stem-Variablen, alle
+     nachfolgenden Felder werden entsprechend nach vorne verschoben.
+
+[1mARGUMENTE[0m
+     stemvar - Name der Stem-Variablen, aus der die Elemente entfernt
+               werden sollen. Diese Variable muß folgenden Aufbau haben:
+     
+               stemvar.0 - muß die Anzahl der Elemente enthalten
+               stemvar.1 - muß das erste Element enthalten
+               stemvar.2 - muß das zweite Element enthalten
+               stemvar.n - muß das n-te Element enthalten
+     
+     start   - Index, ab dem Elemente entfernt werden sollen
+     
+     anzahl  - Anzahl der Elemente, die entfernt werden sollen. Wenn nichts
+               angegeben ist wird nur das bei 'start' angegebene Element
+               entfernt.
+
+[1mERGEBNIS[0m
+     bool    - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /* Das dritte Element einer Stem-Variablen entfernen */
+     
+     liste.0 = 4
+     liste.1 = 'Hallo'
+     liste.2 = 'Moin'
+     liste.3 = 'Tach'
+     liste.4 = 'Mahlzeit'
+     
+     IF STEMREMOVE('liste',3) THEN DO
+        SAY 'Neue Anzahl:' liste.0
+     
+        DO i = 1 TO liste.0
+           SAY liste.i
+        END
+     END
+     ELSE
+        SAY 'Fehler beim Entfernen!'
+
+[1mSIEHE AUCH[0m
+     STEMCOPY() STEMINSERT()
+
+Die Funktion VIEWLIST()
+***********************
+
+[1mNAME[0m
+     bool = VIEWLIST(liste,fenster,destvar)
+
+[1mALIAS[0m
+     bool = RXTR_VIEWLIST(liste,fenster,destvar)
+
+[1mBESCHREIBUNG[0m
+     Stellt eine Liste von in einem ListView-Fenster dar und gestattet
+     die komfortable Auswahl eines oder mehrerer Elemente.
+
+[1mARGUMENTE[0m
+     liste   - Die Liste, die im Fenster dargestellt werden soll. Dies
+               muß eine Stem-Variable mit folgendem Inhalt sein:
+     
+               liste.0 - muß die Anzahl der Elemente enthalten
+               liste.1 - muß das erste Element enthalten
+               liste.2 - muß das zweite Element enthalten
+               liste.n - muß das n-te Element enthalten
+     
+     fenster - Stem-Variable, die einige Definitionen für das zu verwendende
+               Fenster enthält. Für nicht angegebene Definitionen werden
+               Standardwerte verwendet:
+     
+               fenster.title       - der Titel des Fensters
+                                     Standardwert: RexxTricks-ListView
+     
+               fenster.postext     - der Text des 'Benutzen'-Gadgets. Dieses
+                                     Gadget wird nur dann eingebunden, wenn
+                                     'fenster.gadgettext' nicht angegeben ist.
+                                     Standardwert: Benutzen
+     
+               fenster.negtext     - der Text des 'Abbrechen'-Gadgets. Dieses
+                                     Gadget wird nur dann eingebunden, wenn
+                                     'fenster.gadgettext' nicht angegeben ist.
+                                     Standardwert: Abbrechen
+     
+               fenster.gadgettext  - Texte für Gadgets, die anstelle von 'Okay'
+                                     und 'Abbruch', verwendet werden sollen.
+                                     Hier können beliebig viele Texte, getrennt
+                                     durch '|', angegeben werden Für jeden Text
+                                     wird dann ein eigenes Gadget erstellt. Durch
+                                     Voranstellen des Zeichens '_' werden die
+                                     jeweils folgenden Zeichen als Tastenbefehl
+                                     für das entsprechende Gadget konfiguriert.
+     
+                                     '_Beenden|S_peichern & Beenden|_Abbrechen'
+                                     würde im Fenster z.B. drei Gadgets mit den
+                                     Tastenbefehlen 'b', 'p' und 'a' ergeben.
+     
+               fenster.pubscreen   - der Publicscreen, auf dem das Fenster
+                                     geöffnet werden soll
+                                     Standardwert: Default-Publicscreen
+     
+               fenster.font        - der Font, der verwendet werden soll
+                                     DEFAULT     : der Standard-Systemfont
+                                     SCREEN      : der Font des Screens
+                                     Standardwert: Standard-Systemfont
+     
+               fenster.left        - X-Koordinate der linken, oberen Ecke des
+                                     Fensters. Wenn nichts angegeben ist wird
+                                     das Fenster auf dem Bildschirm zentriert.
+     
+               fenster.top         - Y-Koordinate der linken, oberen Ecke des
+                                     Fensters. Wenn nichts angegeben ist wird
+                                     das Fenster auf dem Bildschirm zentriert.
+     
+               fenster.width       - die Breite des Fensters, wenn nichts
+                                     angegeben wird passt sich das Fenster
+                                     an die Breite der Gadgets an. Wenn die
+                                     angegebene Breite zur Darstellung der
+                                     Gadgets nicht ausreicht wird das Fenster
+                                     automatisch verbreitert.
+     
+               fenster.height      - die Höhe des Fensters, wenn nichts angegeben
+                                     ist wird das Fenster mit ca. 3/4 der Höhe des
+                                     Bildschirms geöffnet.
+     
+               fenster.zoomleft    - X-Koordinate der linken, oberen Ecke des
+                                     verkleinerten Fensters. Wenn nichts angegeben
+                                     ist wird die Koordinate des normalen Fensters
+                                     verwendet.
+     
+               fenster.zoomtop     - Y-Koordinate der linken, oberen Ecke des
+                                     verkleinerten Fensters. Wenn nichts angegeben
+                                     ist wird die Koordinate des normalen Fensters
+                                     verwendet.
+     
+               fenster.sort        - gibt an ob die Liste sortiert werden soll
+                                     TRUE        : sortieren
+                                     FALSE       : nicht sortieren
+                                     Standardwert: sortieren
+     
+               fenster.multiselect - schaltet Mehrfachauswahl ein oder aus
+                                     TRUE        : eingeschaltet
+                                     FALSE       : ausgeschaltet
+                                     Standardwert: eingeschaltet
+     
+     destvar - Stem-Variable, in der die ausgewählten Elemente gespeichert
+               werden sollen. Die ausgewählten Elemente werden in dieser
+               Variablen genauso gespeichert wie die übergebene Liste:
+     
+               destvar.0 - enthält die Anzahl der ausgewählten Elemente
+               destvar.1 - enthält das erste ausgewählte Element
+               destvar.2 - enthält das zweite ausgewählte Element
+               destvar.n - enthält das n-te ausgewählte Element
+     
+               Außerdem enthält diese Stem-Variable noch die Nummer des
+               zum Schließen ausgewählten Gadgets:
+     
+               destvar.gadget - 1 entspricht dem Gadget ganz links, 2 dem
+                                zweiten, 3 dem dritten Gadget usw. Das Gadget
+                                ganz rechts bricht immer die Auswahl ab und
+                                liefert, ebenso wie das Schließen des Fensters,
+                                einen Wert von 0.
+
+[1mERGEBNIS[0m
+     bool    - 1 wenn mindestens ein Element ausgewählt wurde
+               0 im Fehlerfall oder wenn kein Element ausgewählt wurde
+
+[1mBEISPIEL[0m
+     /* ListView aufrufen und Auswahl auswerten */
+     
+     liste.0 = 4
+     liste.1 = 'Hallo'
+     liste.2 = 'Moin'
+     liste.3 = 'Tach'
+     liste.4 = 'Mahlzeit'
+     
+     fenster.title      = 'Bitte wählen'
+     fenster.gadgettext = '_Jawoll|_Hmm...|Lieber _nicht'
+     fenster.pubscreen  = 'MICRODOT'
+     fenster.font       = 'SCREEN'
+     fenster.sort       = 'TRUE'
+     
+     IF VIEWLIST('liste','fenster','destvar') THEN DO
+        SAY 'Anzahl der ausgewählten Einträge:' destvar.0
+        SAY 'Nummer des ausgewählten Gadgets :' destvar.gadget
+     
+        DO i = 1 TO destvar.0
+           SAY destvar.i
+        END
+     END
+
+[1mSIEHE AUCH[0m
+     Das VIEWLIST() Fenster
+
+Die Funktion BEEP()
+*******************
+
+[1mNAME[0m
+     dummy = BEEP()
+
+[1mALIAS[0m
+     dummy = RXTR_BEEP()
+
+[1mBESCHREIBUNG[0m
+     Läßt alle Bilschirme aufblitzen
+
+[1mARGUMENTE[0m
+     -/-
+
+[1mERGEBNIS[0m
+     dummy - ist immer 1
+
+[1mBEISPIEL[0m
+     /* Bildschirmblitz */
+     
+     dummy = BEEP()
+
+[1mSIEHE AUCH[0m
+     -/-
+
+Die Funktion GETDEFAULTPUBSCREEN()
+**********************************
+
+[1mNAME[0m
+     screen = GETDEFAULTPUBSCREEN()
+
+[1mALIAS[0m
+     screen = RXTR_GETDEFAULTPUBSCREEN()
+
+[1mBESCHREIBUNG[0m
+     Ermittelt den Namen des Default-Publicscreen
+
+[1mARGUMENTE[0m
+     -/-
+
+[1mERGEBNIS[0m
+     screen - Der Name des Default-Publicscreen
+
+[1mBEISPIEL[0m
+     /* Namen des Default-Publicscreen ermitteln */
+     
+     screen = GETDEFAULTPUBSCREEN()
+     SAY 'Default-Publicscreen ist:' screen
+
+[1mSIEHE AUCH[0m
+     SETDEFAULTPUBSCREEN(), PUBSCREENLIST()
+
+Die Funktion SETDEFAULTPUBSCREEN()
+**********************************
+
+[1mNAME[0m
+     oldscreen = SETDEFAULTPUBSCREEN(newscreen)
+
+[1mALIAS[0m
+     oldscreen = RXTR_SETDEFAULTPUBSCREEN(newscreen)
+
+[1mBESCHREIBUNG[0m
+     Stellt den angegebenen Screen als neuen Default-Publicscreen ein.  Die
+     Funktion liefert den Namen des bisherigen Default-Publicscreen zurück.
+
+[1mARGUMENTE[0m
+     newscreen - Der Name des Screens der als Default-Publicscreen
+                 eingestellt werden soll. Wenn dieses Argument nicht
+                 angegeben ist, dann wird der Workbench-Screen als
+                 Default-Publicscreen eingestellt.
+
+[1mERGEBNIS[0m
+     oldscreen - Der Name des bisherigen Default-Publicscreen
+
+[1mBEISPIEL[0m
+     /* Den CED-Screen als Default-Publicscreen einstellen */
+     
+     oldscreen = SETDEFAULTPUBSCREEN('CygnusEdScreen1')
+     SAY 'Bisheriger Default-Publicscreen war:' oldscreen
+
+[1mSIEHE AUCH[0m
+     GETDEFAULTPUBSCREEN(), PUBSCREENLIST()
+
+Die Funktion GETPUBSCREENMODES()
+********************************
+
+[1mNAME[0m
+     publicmodes = GETPUBSCREENMODES()
+
+[1mALIAS[0m
+     publicmodes = RXTR_GETPUBSCREENMODES()
+
+[1mBESCHREIBUNG[0m
+     Ermittelt die eingestellten Publicscreen-Modi
+
+[1mARGUMENTE[0m
+     -/-
+
+[1mERGEBNIS[0m
+     publicmodes - Ein 2 Zeichen langer String der die Publicscreen-Modi
+                   enthält. Das erste Zeichen stellt den [1mSHANGHAI[0m-Modus
+                   dar, das zweite Zeichen den [1mPOPPUBSCREEN[0m-Modus.
+     
+                   Bei eingeschaltetem [1mSHANGHAI[0m-Modus werden alle
+                   Workbench-Fenster auf dem Default-Publicscreen geöffnet.
+     
+                   Bei eingeschaltetem [1mPOPPUBSCREEN[0m-Modus wird beim
+                   Öffnen eines Fensters der entsprechende PublicScreen in
+                   den Vordergrund gebracht.
+     
+                   [1m--[0m SHANGHAI und POPPUBSCREEN ausgeschaltet
+     
+                   [1mS-[0m SHANGHAI eingeschaltet
+     
+                   [1m-P[0m POPPUBSCREEN eingeschaltet
+     
+                   [1mSP[0m SHANGHAI und POPPUBSCREEN eingeschaltet
+
+[1mBEISPIEL[0m
+     /* Publicscreen-Modi ermitteln */
+     
+     publicmodes = GETPUBSCREENMODES()
+     SAY 'Publicscreen-Modi:' publicmodes
+
+[1mSIEHE AUCH[0m
+     SETPUBSCREENMODES()
+
+Die Funktion SETPUBSCREENMODES()
+********************************
+
+[1mNAME[0m
+     oldmodes = SETPUBSCREENMODES(publicmodes)
+
+[1mALIAS[0m
+     oldmodes = RXTR_SETPUBSCREENMODES(publicmodes)
+
+[1mBESCHREIBUNG[0m
+     Stellt neue Publicscreen-Modi ein
+
+[1mARGUMENTE[0m
+     publicmodes - Ein 2 Zeichen langer String der die Publicscreen-Modi
+                   enthält. Das erste Zeichen stellt den [1mSHANGHAI[0m-Modus
+                   dar, das zweite Zeichen den [1mPOPPUBSCREEN[0m-Modus.
+     
+                   Bei eingeschaltetem [1mSHANGHAI[0m-Modus werden alle
+                   Workbench-Fenster auf dem Default-Publicscreen geöffnet.
+     
+                   Bei eingeschaltetem [1mPOPPUBSCREEN[0m-Modus wird beim
+                   Öffnen eines Fensters der entsprechende PublicScreen in
+                   den Vordergrund gebracht.
+     
+                   [1m--[0m SHANGHAI und POPPUBSCREEN werden ausgeschaltet
+     
+                   [1mS-[0m SHANGHAI wird eingeschaltet
+     
+                   [1m-P[0m POPPUBSCREEN wird eingeschaltet
+     
+                   [1mSP[0m SHANGHAI und POPPUBSCREEN werden eingeschaltet
+
+[1mERGEBNIS[0m
+     oldmodes    - Die vorher eingestellten Publicscreen-Modi im oben
+                   beschriebenen Format.
+
+[1mBEISPIEL[0m
+     /* SHANGHAI-Modus einschalten, POPPUBSCREEN-Modus ausschalten */
+     
+     oldmodes = SETPUBSCREENMODES('S-')
+     SAY 'Vorher eingestellte Publicscreen-Modi:' oldmodes
+
+[1mSIEHE AUCH[0m
+     GETPUBSCREENMODES()
+
+Die Funktion PUBSCREENTOFRONT()
+*******************************
+
+[1mNAME[0m
+     bool = PUBSCREENTOFRONT(screen)
+
+[1mALIAS[0m
+     bool = RXTR_PUBSCREENTOFRONT(screen)
+
+[1mBESCHREIBUNG[0m
+     Bringt den angegebenen Publicscreen nach vorne vor alle anderen Screens
+
+[1mARGUMENTE[0m
+     screen - Der Name des Publicscreen, der nach vorne gebracht werden
+              soll
+
+[1mERGEBNIS[0m
+     bool    - 1 wenn alles geklappt hat
+               0 wenn der Screen nicht nach vorne gebracht werden konnte
+
+[1mBEISPIEL[0m
+     /* CED-Screen nach vorne bringen */
+     
+     IF PUBSCREENTOFRONT('CygnusEdScreen1') THEN
+        SAY 'Der CED-Screen ist jetzt vorne!'
+     ELSE
+        SAY 'Der Screen konnte nicht nach vorne gebracht werden!'
+
+[1mSIEHE AUCH[0m
+     PUBSCREENTOBACK()
+
+Die Funktion PUBSCREENTOBACK()
+******************************
+
+[1mNAME[0m
+     bool = PUBSCREENTOBACK(screen)
+
+[1mALIAS[0m
+     bool = RXTR_PUBSCREENTOBACK(screen)
+
+[1mBESCHREIBUNG[0m
+     Legt den angegebenen Publicscreen hinter alle anderen Screens
+
+[1mARGUMENTE[0m
+     screen - Der Name des Publicscreen, der nach hinten gelegt werden soll
+
+[1mERGEBNIS[0m
+     bool    - 1 wenn alles geklappt hat
+               0 wenn der Screen nicht nach hinten gelegt werden konnte
+
+[1mBEISPIEL[0m
+     /* Workbench-Screen nach hinten legen */
+     
+     IF PUBSCREENTOBACK('Workbench') THEN
+        SAY 'Der Workbench-Screen ist jetzt ganz hinten!'
+     ELSE
+        SAY 'Der Workbench-Screen konnte nicht nach hinten gelegt werden!'
+
+[1mSIEHE AUCH[0m
+     PUBSCREENTOFRONT()
+
+Die Funktion PUBSCREENLIST()
+****************************
+
+[1mNAME[0m
+     bool = PUBSCREENLIST(destvar)
+
+[1mALIAS[0m
+     bool = RXTR_PUBSCREENLIST(destvar)
+
+[1mBESCHREIBUNG[0m
+     Erstellt eine Liste der im System vorhandenen Publicscreens
+
+[1mARGUMENTE[0m
+     destvar - Stem-Variable, in der die Namen der Screens gespeichert
+               werden sollen. Die Namen werden wie folgt gespeichert:
+     
+               destvar.0 - enthält die Anzahl der Publicscreens
+               destvar.1 - enthält den Namen des ersten Screens
+               destvar.2 - enthält den Namen des zweiten Screens
+               destvar.n - enthält den Namen des n-ten Screens
+
+[1mERGEBNIS[0m
+     bool    - 1 wenn alles geklappt hat
+               0 wenn ein Fehler aufgetreten ist
+
+[1mBEISPIEL[0m
+     /* Namen aller Publicscreens anzeigen */
+     
+     IF PUBSCREENLIST('screenliste') THEN DO
+        SAY 'Anzahl Publicscreens:' screenliste.0
+        DO i = 1 TO screenliste.0
+           SAY screenliste.i
+        END
+     END
+
+[1mSIEHE AUCH[0m
+     GETDEFAULTPUBSCREEN(), SETDEFAULTPUBSCREEN()
+
+Die Funktion GETTOOLTYPEVALUE()
+*******************************
+
+[1mNAME[0m
+     argument = GETTOOLTYPEVALUE(dateiname,schlüsselwort)
+
+[1mALIAS[0m
+     argument = RXTR_GETTOOLTYPEVALUE(dateiname,schlüsselwort)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt das Argument, das dem angegebenen Schlüsselwort zugeordnet
+     ist.  Format eines Tooltypes: <Schlüsselwort>=<Argument>
+
+[1mARGUMENTE[0m
+     dateiname     - Der Dateiname des Icons, ohne die Endung '.info'!!!
+     
+     schlüsselwort - Das Schlüsselwort, dessen Argument ermittelt werden
+                     soll.
+
+[1mERGEBNIS[0m
+     argument      - Das ermittelte Argument. Wenn das angegebene Schlüsselwort
+                     kein Argument besitzt wird ein Leerstring '' zurückgegeben.
+                     Wenn das Schlüsselwort, oder das Icon nicht gefunden wurde,
+                     wird ein Leerstring '' zurückgegeben. In diesem Fall wird
+                     zusätzlich die Variable [1mRC[0m auf 10 gesetzt.
+
+[1mBEISPIEL[0m
+     /* Hotkey des Commodities CrossDOS ermitteln */
+     
+     hotkey = GETTOOLTYPEVALUE('SYS:Wbstartup/CrossDOS','CX_POPKEY')
+     
+     IF hotkey ~= '' THEN
+        SAY 'Der Hotkey von CrossDos ist:' hotkey
+     ELSE DO
+        IF RC = 0 THEN
+           SAY 'Für den Tooltype ist kein Argument angegeben!'
+        ELSE
+           SAY 'Das Icon wurde nicht gefunden oder enthält den Tooltype nicht!'
+     END
+
+[1mSIEHE AUCH[0m
+     SETTOOLTYPEVALUE(), GETTOOLTYPES(), SETTOOLTYPES()
+
+Die Funktion SETTOOLTYPEVALUE()
+*******************************
+
+[1mNAME[0m
+     bool = SETTOOLTYPEVALUE(dateiname,schlüsselwort,argument)
+
+[1mALIAS[0m
+     bool = RXTR_SETTOOLTYPEVALUE(dateiname,schlüsselwort,argument)
+
+[1mBESCHREIBUNG[0m
+     Erstellt aus Schlüsselwort und Argument einen Tooltype-Eintrag in dem
+     angegebenen Icon, bereits bestehende Einträge werden überschrieben.
+     Format eines Tooltypes: <Schlüsselwort>=<Argument>
+
+[1mARGUMENTE[0m
+     dateiname     - Der Dateiname des Icons, ohne die Endung '.info'!!!
+     
+     schlüsselwort - Das Schlüsselwort für den Tooltype-Eintrag
+     
+     argument      - Das Argument für den Tooltype-Eintrag. Wenn hier ein
+                     Leerstring angegeben ist, dann wird das Schlüsselwort
+                     ohne Argument als Tooltype eingetragen.
+
+[1mERGEBNIS[0m
+     bool          - 1 wenn alles geklappt hat
+                     0 wenn ein Fehler aufgetreten ist
+
+[1mBEISPIEL[0m
+     /* Neuen Hotkey im Icon des Commodities CrossDOS eintragen */
+     
+     IF SETTOOLTYPEVALUE('SYS:Wbstartup/CrossDOS','CX_POPKEY','alt f1') THEN
+        SAY 'Neuer Hotkey wurde eingetragen!'
+     ELSE
+        SAY 'Fehler beim Eintragen des Hotkeys!'
+
+[1mSIEHE AUCH[0m
+     GETTOOLTYPEVALUE(), GETTOOLTYPES(), SETTOOLTYPES()
+
+Die Funktion GETTOOLTYPES()
+***************************
+
+[1mNAME[0m
+     bool = GETTOOLTYPES(dateiname,stemvar)
+
+[1mALIAS[0m
+     bool = RXTR_GETTOOLTYPES(dateiname,stemvar)
+
+[1mBESCHREIBUNG[0m
+     Erstellt eine Liste aller Tooltypes, die in einem Icon eingetragen
+     sind.
+
+[1mARGUMENTE[0m
+     dateiname - Der Dateiname des Icons, ohne die Endung '.info'!!!
+     
+     stemvar   - Stem-Variable, in der die Tooltypes gespeichert werden
+                 sollen. Die Tooltypes werden wie folgt gespeichert:
+     
+                 destvar.0 - enthält die Anzahl der Tooltypes
+                 destvar.1 - enthält den ersten Tooltype
+                 destvar.2 - enthält den zweiten Tooltype
+                 destvar.n - enthält den n-ten Tooltype
+
+[1mERGEBNIS[0m
+     bool      - 1 wenn alles geklappt hat
+                 0 wenn ein Fehler aufgetreten ist
+
+[1mBEISPIEL[0m
+     /* Tooltypes des Commodities CrossDOS ermitteln */
+     
+     IF GETTOOLTYPES('SYS:Wbstartup/CrossDOS','tooltypes') THEN DO
+        SAY 'Anzahl Tooltypes:' tooltypes.0
+        SAY
+     
+        DO i = 1 TO tooltypes.0
+           SAY tooltypes.i
+        END
+     END
+     ELSE
+        SAY 'Fehler beim Auslesen der Tooltypes!'
+
+[1mSIEHE AUCH[0m
+     SETTOOLTYPES(), GETTOOLTYPEVALUE(), SETTOOLTYPEVALUE()
+
+Die Funktion SETTOOLTYPES()
+***************************
+
+[1mNAME[0m
+     bool = SETTOOLTYPES(dateiname,tooltypes)
+
+[1mALIAS[0m
+     bool = RXTR_SETTOOLTYPES(dateiname,tooltypes)
+
+[1mBESCHREIBUNG[0m
+     Stellt die Tooltypes eines Icons neu ein, alle bereits bestehenden
+     Tooltypes werden vollständig gelöscht!
+
+[1mARGUMENTE[0m
+     dateiname  - Der Dateiname des Icons, ohne die Endung '.info'!!!
+     
+     tooltypes  - Stem-Variable, in der die Tooltypes für das neue Icon
+                  angegeben sind:
+     
+                  tooltypes.0 - muß die die Anzahl der Tooltypes enthalten
+                  tooltypes.1 - muß den ersten Tooltype enthalten
+                  tooltypes.2 - muß den zweiten Tooltype enthalten
+                  tooltypes.n - muß den n-ten Tooltype enthalten
+
+[1mERGEBNIS[0m
+     bool      - 1 wenn alles geklappt hat
+                 0 wenn ein Fehler aufgetreten ist
+
+[1mBEISPIEL[0m
+     /* Tooltypes des Commodities CrossDOS einstellen */
+     
+     tooltypes.0 = 6
+     tooltypes.1 = '«PC0,FILTER,TRANS,INTL.crossdos»'
+     tooltypes.2 = '«PC1,FILTER,TRANS,INTL.crossdos»'
+     tooltypes.3 = 'DONOTWAIT'
+     tooltypes.4 = 'CX_POPUP=NO'
+     tooltypes.5 = 'CX_PRIORITY=0'
+     tooltypes.6 = 'CX_POPKEY=ctrl alt c'
+     
+     IF SETTOOLTYPES('SYS:Wbstartup/CrossDOS','tooltypes') THEN
+        SAY 'Neue Tooltypes wurden eingestellt'
+     ELSE
+        SAY 'Fehler beim Einstellen der Tooltypes!'
+
+[1mSIEHE AUCH[0m
+     SETTOOLTYPES(), GETTOOLTYPEVALUE(), SETTOOLTYPEVALUE()
+
+Die Funktion GETDEFAULTTOOL()
+*****************************
+
+[1mNAME[0m
+     standardprogramm = GETDEFAULTTOOL(dateiname)
+
+[1mALIAS[0m
+     standardprogramm = RXTR_GETDEFAULTTOOL(dateiname)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt das in einem [1mProjekt-[0m, oder [1mDisk-Icon[0m eingetragene
+     Standardprogramm. Bei anderen Icon-Typen ist kein Standardprogramm
+     möglich.
+
+[1mARGUMENTE[0m
+     dateiname        - Der Dateiname des Icons, ohne die Endung '.info'!!!
+
+[1mERGEBNIS[0m
+     standardprogramm - Das im Icon eingetragene Standardprogramm.  Wenn im
+                        angegebenen Icon kein Standardprogramm eingetragen
+                        ist, oder ein Fehler auftritt, wird ein Leerstring
+                        '' zurückgegeben. Im Fehlerfall wird zusätzlich die
+                        Variable [1mRC[0m auf 10 gesetzt.
+
+[1mBEISPIEL[0m
+     /* Standardprogramm der Boot-Disk ermitteln */
+     
+     prg = GETDEFAULTTOOL('SYS:disk')
+     
+     IF prg ~= '' THEN
+        SAY 'Das Standardprogramm ist:' prg
+     ELSE DO
+        IF RC = 0 THEN
+           SAY 'Es ist kein Standardprogramm eingetragen!'
+        ELSE
+           SAY 'Fehler beim Ermitteln des Standardprogramms!'
+     END
+
+[1mSIEHE AUCH[0m
+     SETDEFAULTTOOL()
+
+Die Funktion SETDEFAULTTOOL()
+*****************************
+
+[1mNAME[0m
+     bool = SETDEFAULTTOOL(dateiname,standardprogramm)
+
+[1mALIAS[0m
+     bool = RXTR_SETDEFAULTTOOL(dateiname,standardprogramm)
+
+[1mBESCHREIBUNG[0m
+     Trägt ein Standardprogramm in einem Icon ein. Ein Standardprogramm
+     kann nur in [1mProjekt-[0m, oder [1mDisk-Icon[0m eingetragen werden.
+
+[1mARGUMENTE[0m
+     dateiname        - Der Dateiname des Icons, ohne die Endung '.info'!!!
+
+     standardprogramm - Das Standardprogramm, das eingetragen werden soll.
+
+[1mERGEBNIS[0m
+     bool      - 1 wenn alles geklappt hat
+                 0 wenn ein Fehler aufgetreten ist
+
+[1mBEISPIEL[0m
+     /* Standardprogramm der Boot-Disk eintragen */
+     
+     IF SETDEFAULTTOOL('SYS:disk','SYS:System/DiskCopy') THEN
+        SAY 'Das Standardprogramm wurde eingetragen!'
+     ELSE
+        SAY 'Fehler beim Eintragen des Standardprogramms!'
+
+[1mSIEHE AUCH[0m
+     GETDEFAULTTOOL()
+
+Die Funktion GETSTACK()
+***********************
+
+[1mNAME[0m
+     stackgröße = GETSTACK(dateiname)
+
+[1mALIAS[0m
+     stackgröße = RXTR_GETSTACK(dateiname)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt die in einem [1mProgramm-[0m, oder [1mProjekt-Icon[0m eingetragene
+     Stackgröße. Bei anderen Icon-Typen ist keine Stackgröße möglich.
+
+[1mARGUMENTE[0m
+     dateiname  - Der Dateiname des Icons, ohne die Endung '.info'!!!
+
+[1mERGEBNIS[0m
+     stackgröße - Die im Icon eingetragene Stackgröße in Bytes. Wenn im
+                  angegebenen Icon keine Stackgröße eingetragen ist, oder
+                  ein Fehler auftritt, wird ein Leerstring '' zurückgegeben.
+                  Im Fehlerfall wird zusätzlich die Variable [1mRC[0m auf 10
+                  gesetzt.
+
+[1mBEISPIEL[0m
+     /* Stackgröße des Commodities CrossDOS ermitteln */
+     
+     stack = GETSTACK('SYS:Wbstartup/CrossDOS')
+     
+     IF stack ~= '' THEN
+        SAY 'Die ermittelte Stackgröße ist' stack 'Bytes!'
+     ELSE DO
+        IF RC = 0 THEN
+           SAY 'Es ist keine Stackgröße eingetragen!'
+        ELSE
+           SAY 'Fehler beim Ermitteln des Stackgröße!'
+     END
+
+[1mSIEHE AUCH[0m
+     SETSTACK()
+
+Die Funktion SETSTACK()
+***********************
+
+[1mNAME[0m
+     bool = SETSTACK(dateiname,stackgröße)
+
+[1mALIAS[0m
+     bool = RXTR_SETSTACK(dateiname,stackgröße)
+
+[1mBESCHREIBUNG[0m
+     Trägt die Stackgröße in einem Icon ein. Die Stackgröße kann nur
+     in einem [1mProgramm-[0m, oder [1mProjekt-Icon[0m eingetragen werden.
+
+[1mARGUMENTE[0m
+     dateiname  - Der Dateiname des Icons, ohne die Endung '.info'!!!
+
+     stackgröße - Die Stackgröße in Bytes, die eingetragen werden soll.
+
+[1mERGEBNIS[0m
+     bool      - 1 wenn alles geklappt hat
+                 0 wenn ein Fehler aufgetreten ist
+
+[1mBEISPIEL[0m
+     /* Stackgröße in Icon des Commodities CrossDOS eintragen */
+     
+     IF SETSTACK('SYS:Wbstartup/CrossDOS',10240) THEN
+        SAY 'Die neue Stackgröße wurde eingetragen!'
+     ELSE
+        SAY 'Fehler beim Eintragen der Stackgröße!'
+
+[1mSIEHE AUCH[0m
+     GETSTACK()
+
+Die Funktion CREATEICON()
+*************************
+
+[1mNAME[0m
+     bool = CREATEICON(dateiname,quellicon,tooltypes,standardprogramm,stackgröße)
+
+[1mALIAS[0m
+     bool = RXTR_CREATEICON(dateiname,quellicon,tooltypes,standardprogramm,stackgröße)
+
+[1mBESCHREIBUNG[0m
+     Erstellt ein neues Icon für eine Datei
+
+[1mARGUMENTE[0m
+     dateiname  - Der Dateiname des Icons, das erstellt werden soll,
+                  ohne die Endung '.info'!!!
+     
+     quellicon  - Der Dateiname eines Icons, das als Grundlage für
+                  das neue Icon verwendet werden soll.
+     
+     tooltypes  - Stem-Variable, in der die Tooltypes für das neue Icon
+                  angegeben sind, wenn diese Variable nicht angegeben ist
+                  werden die Tooltypes aus dem Quellicon übernommen. Die
+                  Stem-Variable muß folgenden Inhalt haben:
+     
+                  tooltypes.0 - muß die die Anzahl der Tooltypes enthalten
+                  tooltypes.1 - muß den ersten Tooltype enthalten
+                  tooltypes.2 - muß den zweiten Tooltype enthalten
+                  tooltypes.n - muß den n-ten Tooltype enthalten
+     
+     standard-  - Das Standardprogramm für das neue Icon, wenn hier nichts
+                  angegeben ist wird das Standardprogramm aus dem Quellicon
+                  übernommen.
+     programm
+     
+     stackgröße - Die Stackgröße für das neue Icon, wenn hier nichts angegeben
+                  ist wird die Stackgröße aus dem Quellicon übernommen.
+
+[1mERGEBNIS[0m
+     bool       - 1 wenn alles geklappt hat
+                  0 wenn ein Fehler aufgetreten ist
+
+[1mBEISPIEL[0m
+     /* Icon für eine Textdatei erstellen */
+     
+     tooltypes.0 = 1
+     tooltypes.1 = 'FILETYPE=Text'
+     
+     IF CREATEICON('DH0:Text.txt','ENV:sys/def_Project','tooltypes','C:Ed',8192) THEN
+        SAY 'Das neue Icon wurde erstellt!'
+     ELSE
+        SAY 'Fehler beim Erstellen des Icons!'
+
+[1mSIEHE AUCH[0m
+     -/-
+
+Die Funktion WBINFO()
+*********************
+
+[1mNAME[0m
+     bool = WBINFO(dateiname,pubscreen)
+
+[1mALIAS[0m
+     bool = RXTR_WBINFO(dateiname,pubscreen)
+
+[1mBESCHREIBUNG[0m
+     Öffnet das Icon-Informationsfenster der Workbench auf einem
+     beliebigen Publicscreen.
+
+[1mARGUMENTE[0m
+     dateiname - Der Dateiname des Icons, das im Informationsfenster
+                 bearbeitet werden soll, ohne die Endung '.info'!!!
+     
+     pubscreen - Der Name des Publicscreens, auf dem das Fenster
+                 geöffnet werden soll. Wenn kein Screenname angegeben
+                 ist wird das Fensteer auf dem Default-Publicscreen
+                 geöffnet.
+
+[1mERGEBNIS[0m
+     bool      - 1 wenn das Fenster geöffnet wurde
+                 0 wenn beim Öffnen des Fensters ein Fehler aufgetreten ist
+
+[1mBEISPIEL[0m
+     /* Icon des Commodities CrossDOS auf einem Publicscreen anzeigen */
+     
+     IF WBINFO('SYS:Wbstartup/CrossDOS','CygnusEdScreen1') THEN
+        SAY 'Das Informationsfenster wurde geöffnet!'
+     ELSE
+        SAY 'Fehler beim Öffnen des Informationsfensters!'
+
+[1mSIEHE AUCH[0m
+     -/-
+
+Die Funktion WHATIS()
+*********************
+
+[1mNAME[0m
+     typ = WHATIS(dateiname)
+
+[1mALIAS[0m
+     typ = RXTR_WHATIS(dateiname)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt mit Hilfe der 'whatis.library' den Typ einer Datei.
+
+[1mARGUMENTE[0m
+     dateiname - Die Datei, deren Typ ermittelt werden soll
+
+[1mERGEBNIS[0m
+     typ       - Der ermittelte Dateityp. Eine Liste aller möglichen
+                 Dateitypen bekommt man mit der Funktion WHATISTYPES()
+
+[1mBEISPIEL[0m
+     /* Typ der Datei 'S:User-Startup' ermitteln */
+     
+     typ = WHATIS('S:User-Startup')
+     SAY 'S:User-Startup ist vom Typ:' typ
+
+[1mSIEHE AUCH[0m
+     WHATISTYPES()
+
+Die Funktion WHATISTYPES()
+**************************
+
+[1mNAME[0m
+     bool = WHATISTYPES(destvar)
+
+[1mALIAS[0m
+     bool = RXTR_WHATISTYPES(destvar)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt alle der 'whatis.library' bekannten Dateitypen und speichert
+     die Kennungen der gefundenen Typen in einer Stem-Variablen ab.
+
+[1mARGUMENTE[0m
+     destvar - Stem-Variable, in der die Dateitypen gespeichert werden
+               sollen. Die Dateitypen werden wie folgt gespeichert:
+     
+               destvar.0 - enthält die Anzahl der Dateitypen
+               destvar.1 - enthält die Kennung des ersten Typs
+               destvar.2 - enthält die Kennung des zweiten Typs
+               destvar.n - enthält die Kennung des n-ten Typs
+
+[1mERGEBNIS[0m
+     bool    - 1 wenn alles geklappt hat
+               0 wenn ein Fehler aufgetreten ist
+
+[1mBEISPIEL[0m
+     /* Alle Dateitypen der 'whatis.library' anzeigen */
+     
+     IF WHATISTYPES('destvar') THEN DO
+        SAY 'Anzahl bekannter Dateitypen:' destvar.0
+        DO i = 1 TO destvar.0
+           SAY destvar.i
+        END
+     END
+
+[1mSIEHE AUCH[0m
+     WHATIS()
+
+Die Funktion FILEID_IDENTIFY()
+******************************
+
+[1mNAME[0m
+     typ = FILEID_IDENTIFY(dateiname,modus)
+
+[1mALIAS[0m
+     typ = RXTR_FILEID_IDENTIFY(dateiname,modus)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt mit Hilfe der 'FileID.library' den Typ einer Datei. Durch
+     Angabe des Arguments 'modus' kann gewählt werden ob eine kurze
+     Beschreibung oder eine ID-Nummer zurückgegeben werden soll.
+
+[1mARGUMENTE[0m
+     dateiname - Die Datei, deren Typ ermittelt werden soll
+     
+     modus     - Hier kann die Art des Rückgabewertes angegeben werden.
+     
+                 Mögliche Angaben sind:
+     
+                 'DESCRIPTION' oder 'D' - Der Rückgabewert ist eine kurze
+                                          Beschreibung des Dateityps als
+                                          Text.
+     
+                 'ID' oder 'I'          - Der Rückgabewert ist die 'FileID'
+                                          interne ID-Nummer.
+     
+                                          Siehe auch FILEID_GETHIGHID().
+                                          Siehe auch FILEID_GETIDSTRING().
+     
+                 'DESCRIPTION' ist Standard, wenn 'modus' nicht angegeben
+                 ist wird eine kurze Beschreibung zurückgegeben.
+
+[1mERGEBNIS[0m
+     typ       - Der ermittelte Dateityp, wie unter 'modus' angegeben.
+
+[1mBEISPIEL[0m
+     /* Typ der Datei 'LIBS:rexxtricks.library' ermitteln */
+     
+     typ = FILEID_IDENTIFY('LIBS:rexxtricks.library','ID')
+     SAY 'LIBS:rexxtricks.library ist ID:' typ
+     
+     typ = FILEID_IDENTIFY('LIBS:rexxtricks.library')
+     SAY 'LIBS:rexxtricks.library ist:' typ
+
+[1mSIEHE AUCH[0m
+     FILEID_GETHIGHID() FILEID_GETIDSTRING() FILEID_GETTYPES()
+
+Die Funktion FILEID_GETHIGHID()
+*******************************
+
+[1mNAME[0m
+     id = FILEID_GETHIGHID()
+
+[1mALIAS[0m
+     id = RXTR_FILEID_GETHIGHID()
+
+[1mBESCHREIBUNG[0m
+     Ermittelt die größte ID-Nummer der 'FileID.library', dies ist
+     gleichzeitig die Anzahl der bekannten Dateitypen.
+
+[1mARGUMENTE[0m
+     -/-
+
+[1mERGEBNIS[0m
+     id - Die größte ID-Nummer, Anzahl der bekannten Dateitypen
+
+[1mBEISPIEL[0m
+     /* Anzahl der Dateitypen der 'FileID.library' anzeigen */
+     
+     SAY 'Anzahl bekannter Dateitypen:' FILEID_GETHIGHID()
+
+[1mSIEHE AUCH[0m
+     FILEID_IDENTIFY() FILEID_GETIDSTRING() FILEID_GETTYPES()
+
+Die Funktion FILEID_GETIDSTRING()
+*********************************
+
+[1mNAME[0m
+     string = FILEID_GETIDSTRING(id)
+
+[1mALIAS[0m
+     string = RXTR_FILEID_GETIDSTRING(id)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt die zu einer ID-Nummer gehörende kurze Beschreibung des
+     Dateityps.
+
+[1mARGUMENTE[0m
+     id     - ID-Nummer, zu der die Beschreibung ermittelt werden soll.
+
+[1mERGEBNIS[0m
+     string - Kurze Beschreibung des Dateityps mit der angegebenen ID.
+
+[1mBEISPIEL[0m
+     /* Beschreibung zur ID 25 anzeigen */
+     
+     SAY 'ID Nummer 25 ist:' FILEID_GETIDSTRING(25)
+
+[1mSIEHE AUCH[0m
+     FILEID_IDENTIFY() FILEID_GETHIGHID() FILEID_GETTYPES()
+
+Die Funktion FILEID_GETTYPES()
+******************************
+
+[1mNAME[0m
+     bool = FILEID_GETTYPES(destvar)
+
+[1mALIAS[0m
+     bool = RXTR_FILEID_GETTYPES(destvar)
+
+[1mBESCHREIBUNG[0m
+     Ermittelt alle der 'FileID.library' bekannten Dateitypen und speichert
+     die Beschreibungen der gefundenen Typen in einer Stem-Variablen ab.
+
+[1mARGUMENTE[0m
+     destvar - Stem-Variable, in der die Dateitypen gespeichert werden
+               sollen. Die Dateitypen werden wie folgt gespeichert:
+     
+               destvar.0 - enthält die Anzahl der Dateitypen
+               destvar.1 - enthält die Kennung des Typs mit ID 1
+               destvar.2 - enthält die Kennung des Typs mit ID 2
+               destvar.n - enthält die Kennung des Typs mit ID n
+     
+               Der Dateityp mit der ID 0 kann nicht in der Stem-Variablen
+               gespeichert werden, da das Feld 'stemvar.0' die Anzahl der
+               Dateitypen enthält.
+     
+               Dateityp mit ID 0 ist: 'unbekannte Datei'
+
+[1mERGEBNIS[0m
+     bool    - 1 wenn alles geklappt hat, 0 wenn ein Fehler aufgetreten ist
+
+[1mBEISPIEL[0m
+     /* Alle Dateitypen der 'FileID.library' anzeigen */
+     
+     IF FILEID_GETTYPES('destvar') THEN DO
+        SAY 'Anzahl bekannter Dateitypen:' destvar.0
+        DO i = 1 TO destvar.0
+           SAY RIGHT(i,4) destvar.i
+        END
+     END
+
+[1mSIEHE AUCH[0m
+     FILEID_IDENTIFY() FILEID_GETHIGHID() FILEID_GETIDSTRING()
+
+Die Funktion CRC32()
+********************
+
+[1mNAME[0m
+     crc = CRC32(dateiname,verbose)
+
+[1mALIAS[0m
+     crc = RXTR_CRC32(dateiname,verbose)
+
+[1mBESCHREIBUNG[0m
+     Berechnet die 32-Bit CRC Prüfsumme einer Datei.
+
+[1mARGUMENTE[0m
+     dateiname - Die Datei, deren Prüfsumme berechnet werden soll
+     
+     verbose   - Mit diesem Argument kann die Art des Ergebnisses
+                 beeinflußt werden.
+     
+                 Mögliche Angaben sind 'VERBOSE' oder 'V', dann wird
+                 ein aus vier Worten bestehender Text zurückgegeben:
+     
+                    1. Wort - Prüfsumme hexadezimal
+                    2. Wort - Prüfsumme dezimal
+                    3. Wort - Komplement der Prüfsumme hexadezimal
+                    4. Wort - Komplement der Prüfsumme dezimal
+     
+                 Wenn dieses Argument nicht angegeben ist wird
+                 nur das Komplement der Prüfsumme in hexadezimaler
+                 Schreibweise zurückgegeben.
+
+[1mERGEBNIS[0m
+     crc       - Die Checksumme der Datei, abhängig vom Argument 'verbose'.
+
+[1mBEISPIEL[0m
+     /* Prüfsumme der Datei 'S:User-Startup' berechnen */
+     
+     crc = CRC32('S:User-Startup')
+     SAY 'Prüfsumme =' crc
+
+[1mSIEHE AUCH[0m
+     -/-
+
+Die Funktion COUNTCHARS()
+*************************
+
+[1mNAME[0m
+     anzahl = COUNTCHARS(text,zeichen)
+
+[1mALIAS[0m
+     anzahl = RXTR_COUNTCHARS(text,zeichen)
+
+[1mBESCHREIBUNG[0m
+     Zählt wie oft die in 'zeichen' angegebenen Zeichen insgesamt in
+     'text' vorkommen, dabei wird zwischen Groß- und Kleinbuchstaben
+     unterschieden.
+
+[1mARGUMENTE[0m
+     text    - Der Text, in dem die Zeichen gezählt werden sollen
+     
+     zeichen - Die Zeichen, die gezählt werden sollen. Dies können auch
+               mehrere sein, dann wird die Gesamtanzahl gezählt.
+
+[1mERGEBNIS[0m
+     anzahl  - Die Anzahl der Zeichen, die gefunden wurden
+     
+               COUNTCHARS('aa,bb,cc,dd,ee','c,') ergibt 6
+               COUNTCHARS('aa,bb,cc,dd,ee',',')  ergibt 4
+               COUNTCHARS('aa,bb,cc,dd,ee','c')  ergibt 2
+
+[1mBEISPIEL[0m
+     /* Zeichen in einem Text zählen */
+     
+     anzahl = COUNTCHARS('Halli, hallo!','hH')
+     SAY 'Die Zeichen h und H kommen in dem Text insgesamt' anzahl 'mal vor.'
+
+[1mSIEHE AUCH[0m
+     -/-
+
+Die Funktion RAND()
+*******************
+
+[1mNAME[0m
+     integer = RAND(min,max)
+
+[1mALIAS[0m
+     integer = RXTR_RAND(min,max)
+
+[1mBESCHREIBUNG[0m
+     Gibt eine Zufallszahl zurück.
+
+[1mARGUMENTE[0m
+     min  - Die kleinste erlaubte Zahl
+     
+     max  - Die größte erlaubte Zahl
+
+[1mERGEBNIS[0m
+     integer - Zufallszahl im angegebenen Bereich
+
+[1mBEISPIEL[0m
+     /* Zufallszahlen zwischen 1 und 100 ermitteln */
+     
+     DO i = 1 TO 20
+        SAY RAND(1,100)
+     END
+
+[1mSIEHE AUCH[0m
+     -/-
+
+Die Funktion REXXTRICKSVERSION()
+********************************
+
+[1mNAME[0m
+     version = REXXTRICKSVERSION()
+
+[1mALIAS[0m
+     version = RXTR_REXXTRICKSVERSION()
+
+[1mBESCHREIBUNG[0m
+     Gibt die Version der 'rexxtricks.library' zurück.
+
+[1mARGUMENTE[0m
+     -/-
+
+[1mERGEBNIS[0m
+     Version - Die Version der 'rexxtricks.library' im Format
+     VERSION.REVISION
+
+[1mBEISPIEL[0m
+     /* Version der 'rexxtricks.library' ermitteln */
+     
+     version = REXXTRICKSVERSION()
+     SAY 'Sie verwenden die Version' version 'der rexxtricks.library.'
+
+[1mSIEHE AUCH[0m
+     -/-
+
+Die Funktion UUDECODE()
+***********************
+
+[1mNAME[0m
+     bool = UUDECODE(quelldatei,zielverzeichnis,zieldatei)
+
+[1mALIAS[0m
+     bool = RXTR_UUDECODE(quelldatei,zielverzeichnis,zieldatei)
+
+[1mBESCHREIBUNG[0m
+     Dekodiert eine uuencodete Datei und speichert die erzeugten
+     Binärdateien im Zielverzeichnis ab.
+
+[1mARGUMENTE[0m
+     quelldatei      - Name der Datei, die eine oder mehrere Binärdateien in
+                       uuencodeter Form enthält, es werden alle enthaltenen
+                       Dateien dekodiert.
+     
+                       Außerdem ist es möglich Dateien zu dekodieren, die aus
+                       mehreren uuencodeten Teilen bestehen. Die uuencodeten
+                       Teile müssen sich im gleichen Verzeichnis befinden und
+                       folgenden Aufbau haben (z.B. bei 3 Teilen):
+     
+                       1. Datei - Name:   Test.uaa
+     
+                                  Inhalt: begin 644 Test.lha
+                                          ...
+                                          include test.uab
+     
+                       2. Datei - Name:   Test.uab
+     
+                                  Inhalt: begin part b Test.uab
+                                          ...
+                                          include test.uac
+     
+                       3. Datei - Name:   Test.uac
+     
+                                  Inhalt: begin part c Test.uac
+                                          ...
+                                          end
+     
+                       Um solche Dateien zu dekodieren muß nur der Name der
+                       ersten Teildatei angegeben werden, alles weitere wird
+                       über die 'include' Zeilen gesteuert. Alle Teildateien
+                       müssen den richtigen Namen haben!
+     
+     zielverzeichnis - In dem hier angegebenen Verzeichnis werden die
+                       dekodierten Binärdateien gespeichert.
+     
+     zieldatei       - Dieses Argument ist optional und nur für besondere
+                       Fälle gedacht. Wenn hier ein Dateiname angegeben ist
+                       wird dieser für die dekodierte Binärdatei verwendet,
+                       der in der 'begin' Zeile der Quelldatei angegebene
+                       Dateiname wird dann ignoriert.
+
+[1mERGEBNIS[0m
+     bool            - 1 wenn alles geklappt hat, 0 im Fehlerfall
+     
+                       Wenn UUDECODE() fehlschlägt werden in folgenden
+                       Variablen Informationen über den Fehler gespeichert:
+     
+                       [1muuerror_number[0m
+     
+                          Diese Variable enthält eine Fehlernummer:
+                          ----------------------------------------------
+                          1 - Datei konnte nicht geöffnet werden
+                          2 - Falsche oder nicht vorhandene Include-Datei
+                          3 - Keine 'begin' Zeile gefunden
+                          4 - In einer Zeile stimmt die Checksumme nicht
+                          5 - Fehler beim Lesen aus einer Datei
+                          6 - Fehler beim Schreiben in eine Datei
+                          7 - Falsche Länge der dekodierten Binärdatei
+                          8 - Vorzeitiges Ende der Quelldatei
+     
+                       [1muuerror_text[0m
+     
+                          Diese Variable enthält eine Fehlermeldung.
+     
+                       [1muuerror_file[0m
+     
+                          Diese Variable enthält den Namen der Datei, in
+                          der der Fehler aufgetreten ist
+     
+                       [1muuerror_line[0m
+     
+                          Diese Variable enthält bei Fehler 4 die Nummer
+                          der Zeile, in der die Checksumme nicht stimmt.
+                          Bei allen anderen Fehlern wird die Variable auf
+                          0 gesetzt.
+     
+                       [1muuerror_size[0m
+     
+                          Diese Variable enthält bei Fehler 7 die erwartete
+                          Länge der dekodierten Binärdatei. Bei allen
+                          anderen Fehlern wird die Variable auf 0 gesetzt.
+
+[1mBEISPIEL[0m
+     /* Datei 'DH0:Test.uaa' nach 'RAM:' dekodieren */
+     
+     IF UUDECODE('DH0:Test.uaa','RAM:') THEN
+        SAY 'Datei dekodiert, keine Fehler!'
+     ELSE
+        SAY 'Fehler beim Dekodieren:' uuerror_text
+
+[1mSIEHE AUCH[0m
+     UUENCODE()
+
+Die Funktion UUENCODE()
+***********************
+
+[1mNAME[0m
+     bool = UUENCODE(datei,uudatei,limit,suffix)
+
+[1mALIAS[0m
+     bool = RXTR_UUENCODE(datei,uudatei,limit,suffix)
+
+[1mBESCHREIBUNG[0m
+     Wandelt eine Binärdatei in einen uuencodeten ASCII Text, so daß die
+     Datei über Netze verschickt werden kann, die kein Verschicken von
+     Binärdateien erlauben.
+
+[1mARGUMENTE[0m
+     datei   - Name der Binärdatei, die uuencodet werden soll.
+     
+     uudatei - Name der Ausgabedatei, an den hier angegebenen Namen werden
+               die Endungen '.uaa', '.uab', '.uac' usw. angehängt, je nach
+               Anzahl der erzeugten Ausgabedateien. Eine bereits vorhandene
+               Endung, z.B. '.lha', wird vorher entfernt.
+     
+               Das Format der Ausgabedateien entspricht dem bei 'UUDECODE()'
+               beschriebenen. Siehe auch UUDECODE().
+     
+     limit   - Die maximale Größe der kodierten Dateien in KB, erlaubt sind
+               16, 32, 64, 128, 256 oder 512. 'limit' ist optional, wenn
+               nichts angegeben ist wird nur eine kodierte Datei erzeugt.
+     
+     suffix  - Mit diesem Schalter kann angegeben werden, daß bereits
+               existierende Dateiendungen nicht überschrieben werden
+               sollen. Mögliche Angaben sind 'SUFFIX' oder 'S'.
+     
+               Wenn dieses Argument nicht angegeben ist werden bereits
+               existierende Endungen überschrieben.
+
+[1mERGEBNIS[0m
+     bool    - 1 wenn alles geklappt hat, 0 im Fehlerfall
+
+[1mBEISPIEL[0m
+     /* Datei 'DH0:Test.lha' nach 'RAM:Test.uXX' uuencoden, */
+     /* die Ausgabedateien dürfen maximal 64KB groß sein  */
+     
+     IF UUENCODE('DH0:Test.lha','RAM:Test',64) THEN
+        SAY 'Datei wurde kodiert, keine Fehler!'
+     ELSE
+        SAY 'Fehler beim Kodieren!'
+
+[1mSIEHE AUCH[0m
+     UUDECODE()
+
+Bedienung des Auswahlfensters
+*****************************
+
+[1mDarstellung von Einträgen im Fenster:[0m
+     Normaler Eintrag   - wird in der Screen-Textfarbe ohne Hintergrund
+                          dargestellt
+     
+     Markierter Eintrag - wird in den gleichen Farben wie der Text im
+                          Fensterrahmen dargestellt
+     
+     Aktueller Eintrag  - wird durch einen Rahmen dargestellt
+
+[1mGadgets:[0m
+     Scroller      - bestimmt den Ausschnitt der Liste, der angezeigt
+                     werden soll
+     
+     Alle          - markiert alle Einträge
+     
+     Nach Muster   - markiert alle Einträge, die mit dem im Eingabefeld
+                     angegebenen Namensmuster übereinstimmen, wenn kein
+                     Namensmuster angegeben ist wird das Eingabefeld
+                     aktiviert
+     
+     Umschalten    - schaltet den Zustand aller Einträge um, markierte
+                     Einträge werden demarkiert und umgekehrt
+     
+     Keine         - hebt alle bisherigen Markierungen wieder auf
+     
+     Suchen        - sucht ab dem aktuellen Eintrag nach dem im
+                     Eingabefeld eingegebenen Muster, wenn kein
+                     Namensmuster angegeben ist wird das Eingabefeld
+                     aktiviert
+     
+     Eingabefeld   - der Text nach dem gesucht werden soll, die AmigaDOS-
+                     Namensmuster werden vollständig unterstützt
+     
+     Benutzen      - schließt das Fenster und Übergibt die Inhalte aller
+                     markierten Eintäge an das aufrufende ARexx-Script
+     
+     Abbrechen     - schließt das Fenster ohne Übergabe von Ergebnissen
+     
+     Schließsymbol - schließt das Fenster ohne Übergabe von Ergebnissen
+
+[1mMaustasten:[0m
+     Linke Maustaste       - markiert einen Eintrag und demarkiert
+                             gleichzeitig alle anderen
+     
+     Shift-Linke Maustaste - markiert einen Eintrag, ist der angeklickte
+                             Eintrag bereits markiert wird er demarkiert
+     
+     Doppelklick           - schließt das Fenster und Übergibt die Inhalte
+                             aller markierten Eintäge an das aufrufende
+                             ARexx-Script. Als ausgewähltes Gadget wird
+                             1, also das ganz linke Gadget, zurückgegeben.
+
+[1mTastatur:[0m
+     Cursortasten        - bewegen den aktuellen Eintrag um einen Eintrag nach
+                           oben oder unten, bei Bedarf wird die Liste gescrollt
+     
+     Shift-Cursortasten  - bewegen den aktuellen Eintrag um eine Seite nach
+                           oben oder unten, bei Bedarf wird die Liste gescrollt
+     
+     Ctrl-Cursortasten   - bewegen den aktuellen Eintrag an den Anfang oder das
+                           Ende der Liste, bei Bedarf wird die Liste gescrollt
+     
+     Return, Enter       - markiert den aktuellen Eintrag, Mehrfachmarkierung
+                           ist möglich
+     
+     Leertaste           - markiert den aktuellen Eintrag, Mehrfachmarkierung
+                           ist möglich
+     
+     <Alle-Taste>        - markiert alle Einträge
+     
+     <Nach Muster-Taste> - markiert alle Einträge, die mit dem im Eingabefeld
+                           angegebenen Namensmuster übereinstimmen
+     
+     <Umschalten-Taste>  - schaltet den Zustand aller Einträge um, markierte
+                           Einträge werden demarkiert und umgekehrt
+     
+     <Keine-Taste>       - hebt alle bisherigen Markierungen wieder auf
+     
+     <Suchen-Taste>      - sucht ab dem aktuellen Eintrag nach dem im
+                           Eingabefeld eingegebenen Muster
+     
+     Tab                 - Aktiviert das Eingabefeld
+     
+     <Benutzen-Taste>    - schließt das Fenster und Übergibt die Inhalte aller
+                           markierten Eintäge an das aufrufende ARexx-Script
+     
+     <Abbrechen-Taste>   - schließt das Fenster ohne Übergabe von Ergebnissen
+     
+     Esc                 - schließt das Fenster ohne Übergabe von Ergebnissen
+
+Index und Stichwortverzeichnis
+******************************
+
+
+
+ 32-Bit CRC Prüfsumme einer Datei berechnenCRC32()
+ Adresse des Autors                     Adresse des Autors
+ Alle Dateitypen der 'FileID.library' ermittelnFILEID_GETTYPES()
+ Alle Dateitypen der 'whatis.library' ermittelnWHATISTYPES()
+ Anzahl bestimmter Zeichen zählen      COUNTCHARS()
+ Argument eines Tooltypes einstellen    SETTOOLTYPEVALUE()
+ Argument eines Tooltypes ermitteln     GETTOOLTYPEVALUE()
+ Auf einen Tastendruck warten           GETKEY()
+ Auswahlfenster                         Das VIEWLIST() Fenster
+ Autor                                  Adresse des Autors
+ Bedienung des Auswahlfensters          Das VIEWLIST() Fenster
+ BEEP()                                 BEEP()
+ Bildschirm blitzen                     BEEP()
+ Binärdatei uuencoden                  UUENCODE()
+ BSEARCH()                              BSEARCH()
+ Copyright                              Copyright
+ COUNTCHARS()                           COUNTCHARS()
+ CRC32()                                CRC32()
+ CRC32()                                CRC32()
+ CREATEICON()                           CREATEICON()
+ Danksagungen                           Danksagungen
+ Das VIEWLIST() Fenster                 Das VIEWLIST() Fenster
+ Datei nach Namensmuster durchsuchen    SEARCHPATTERN()
+ Dateikommentar auslesen                GETCOMMENT()
+ Dateikommentar einstellen              SETCOMMENT()
+ Dateiname eines Pfades ermitteln       FILEPART()
+ Dateinamen mit neuer Endung versehen   MAKESUFFIX()
+ Dateityp mit Hilfe der 'FileID.library' ermittelnFILEID_IDENTIFY()
+ Dateityp mit Hilfe der 'whatis.library' ermittelnWHATIS()
+ Default-Publicscreen ermitteln         GETDEFAULTPUBSCREEN()
+ Ein neues Icon erstellen               CREATEICON()
+ Elemente einer Stem-Variablen entfernenSTEMREMOVE()
+ Elemente in eine Stem-Variable einfügenSTEMINSERT()
+ Endung eines Dateinamens ermitteln     SUFFIXPART()
+ Entstehungsgeschichte                  History
+ Environment-Variable auslesen          GETENV()
+ Environment-Variable einstellen        SETENV()
+ Environment-Variable löschen          UNSETENV()
+ Feststellen, ob ein SCSI-Gerät betriebsbereit istSCSI_TESTREADY()
+ FILEID_GETHIGHID()                     FILEID_GETHIGHID()
+ FILEID_GETIDSTRING()                   FILEID_GETIDSTRING()
+ FILEID_GETTYPES()                      FILEID_GETTYPES()
+ FILEID_IDENTIFY()                      FILEID_IDENTIFY()
+ FILEPART()                             FILEPART()
+ Funktion BEEP()                        BEEP()
+ Funktion BSEARCH()                     BSEARCH()
+ Funktion COUNTCHARS()                  COUNTCHARS()
+ Funktion CRC32()                       CRC32()
+ Funktion CREATEICON()                  CREATEICON()
+ Funktion FILEID_GETHIGHID()            FILEID_GETHIGHID()
+ Funktion FILEID_GETIDSTRING()          FILEID_GETIDSTRING()
+ Funktion FILEID_GETTYPES()             FILEID_GETTYPES()
+ Funktion FILEID_IDENTIFY()             FILEID_IDENTIFY()
+ Funktion FILEPART()                    FILEPART()
+ Funktion GETCOMMENT()                  GETCOMMENT()
+ Funktion GETDEFAULTPUBSCREEN()         GETDEFAULTPUBSCREEN()
+ Funktion GETDEFAULTTOOL()              GETDEFAULTTOOL()
+ Funktion GETDIR()                      GETDIR()
+ Funktion GETENV()                      GETENV()
+ Funktion GETKEY()                      GETKEY()
+ Funktion GETPROTECTION()               GETPROTECTION()
+ Funktion GETPUBSCREENMODES()           GETPUBSCREENMODES()
+ Funktion GETSTACK()                    GETSTACK()
+ Funktion GETTOOLTYPES()                GETTOOLTYPES()
+ Funktion GETTOOLTYPEVALUE()            GETTOOLTYPEVALUE()
+ Funktion LSEARCH()                     LSEARCH()
+ Funktion MAKEPATH()                    MAKEPATH()
+ Funktion MAKESUFFIX()                  MAKESUFFIX()
+ Funktion MATCHPATTERN()                MATCHPATTERN()
+ Funktion PATHPART()                    PATHPART()
+ Funktion PUBSCREENLIST()               PUBSCREENLIST()
+ Funktion PUBSCREENTOBACK()             PUBSCREENTOBACK()
+ Funktion PUBSCREENTOFRONT()            PUBSCREENTOFRONT()
+ Funktion QSORT()                       QSORT()
+ Funktion RAND()                        RAND()
+ Funktion READCLIPBOARD()               READCLIPBOARD()
+ Funktion READFILE()                    READFILE()
+ Funktion READLINES()                   READLINES()
+ Funktion REXXTRICKSVERSION()           REXXTRICKSVERSION()
+ Funktion SCSI_DEVICETYPE()             SCSI_DEVICETYPE()
+ Funktion SCSI_MANUFACTURER()           SCSI_MANUFACTURER()
+ Funktion SCSI_PRODUCT()                SCSI_PRODUCT()
+ Funktion SCSI_REVISION()               SCSI_REVISION()
+ Funktion SCSI_TESTREADY()              SCSI_TESTREADY()
+ Funktion SEARCHPATTERN()               SEARCHPATTERN()
+ Funktion SETCOMMENT()                  SETCOMMENT()
+ Funktion SETDEFAULTPUBSCREEN()         SETDEFAULTPUBSCREEN()
+ Funktion SETDEFAULTTOOL()              SETDEFAULTTOOL()
+ Funktion SETENV()                      SETENV()
+ Funktion SETPROTECTION()               SETPROTECTION()
+ Funktion SETPUBSCREENMODES()           SETPUBSCREENMODES()
+ Funktion SETSTACK()                    SETSTACK()
+ Funktion SETTOOLTYPES()                SETTOOLTYPES()
+ Funktion SETTOOLTYPEVALUE()            SETTOOLTYPEVALUE()
+ Funktion STEMCOPY()                    STEMCOPY()
+ Funktion STEMINSERT()                  STEMINSERT()
+ Funktion STEMREMOVE()                  STEMREMOVE()
+ Funktion SUFFIXPART()                  SUFFIXPART()
+ Funktion UNSETENV()                    UNSETENV()
+ Funktion UUDECODE()                    UUDECODE()
+ Funktion UUENCODE()                    UUENCODE()
+ Funktion VIEWLIST()                    VIEWLIST()
+ Funktion WBINFO()                      WBINFO()
+ Funktion WHATIS()                      WHATIS()
+ Funktion WHATISTYPES()                 WHATISTYPES()
+ Funktion WRITECLIPBOARD()              WRITECLIPBOARD()
+ Funktion WRITEFILE()                   WRITEFILE()
+ Funktion WRITELINES()                  WRITELINES()
+ Funktionen der Library                 Funktionen der Library
+ Funktionsübersicht                    Funktionen der Library
+ GETCOMMENT()                           GETCOMMENT()
+ GETDEFAULTPUBSCREEN()                  GETDEFAULTPUBSCREEN()
+ GETDEFAULTPUBSCREEN()                  GETDEFAULTPUBSCREEN()
+ GETDEFAULTTOOL()                       GETDEFAULTTOOL()
+ GETDIR()                               GETDIR()
+ GETENV()                               GETENV()
+ GETKEY()                               GETKEY()
+ GETPROTECTION()                        GETPROTECTION()
+ GETPUBSCREENMODES()                    GETPUBSCREENMODES()
+ GETPUBSCREENMODES()                    GETPUBSCREENMODES()
+ GETSTACK()                             GETSTACK()
+ GETTOOLTYPES()                         GETTOOLTYPES()
+ GETTOOLTYPEVALUE()                     GETTOOLTYPEVALUE()
+ Größte ID-Nummer der 'FileID.library' ermittelnFILEID_GETHIGHID()
+ Hersteller eines SCSI-Gerätes ermittelnSCSI_MANUFACTURER()
+ History                                History
+ Index                                  Index
+ Informationsfenster der WB öffnen     WBINFO()
+ Installation                           Installation
+ Liste aller Publicscreens erstellen    PUBSCREENLIST()
+ Liste im Auswahlfenster anzeigen       VIEWLIST()
+ Liste mit QuickSort sortieren          QSORT()
+ LSEARCH()                              LSEARCH()
+ MAKEPATH()                             MAKEPATH()
+ MAKESUFFIX()                           MAKESUFFIX()
+ MATCHPATTERN()                         MATCHPATTERN()
+ Neue Publicscreen-Modi einstellen      SETPUBSCREENMODES()
+ Neuen Default-Publicscreen einstellen  SETDEFAULTPUBSCREEN()
+ PATHPART()                             PATHPART()
+ Pfad zusammensetzen                    MAKEPATH()
+ Produktbezeichnung eines SCSI-Gerätes ermittelnSCSI_PRODUCT()
+ Publicscreen nach hinten legen         PUBSCREENTOBACK()
+ Publicscreen nach vorne bringen        PUBSCREENTOFRONT()
+ Publicscreen-Modi ermitteln            GETPUBSCREENMODES()
+ PUBSCREENLIST()                        PUBSCREENLIST()
+ PUBSCREENLIST()                        PUBSCREENLIST()
+ PUBSCREENTOBACK()                      PUBSCREENTOBACK()
+ PUBSCREENTOBACK()                      PUBSCREENTOBACK()
+ PUBSCREENTOFRONT()                     PUBSCREENTOFRONT()
+ PUBSCREENTOFRONT()                     PUBSCREENTOFRONT()
+ QSORT()                                QSORT()
+ RAND()                                 RAND()
+ READCLIPBOARD()                        READCLIPBOARD()
+ READFILE()                             READFILE()
+ READLINES()                            READLINES()
+ Rechtliches                            Copyright
+ Revision eines SCSI-Gerätes ermitteln SCSI_REVISION()
+ REXXTRICKSVERSION()                    REXXTRICKSVERSION()
+ Schutzbits einer Datei auslesen        GETPROTECTION()
+ Schutzbits einer Datei einstellen      SETPROTECTION()
+ SCSI_DEVICETYPE()                      SCSI_DEVICETYPE()
+ SCSI_MANUFACTURER()                    SCSI_MANUFACTURER()
+ SCSI_PRODUCT()                         SCSI_PRODUCT()
+ SCSI_REVISION()                        SCSI_REVISION()
+ SCSI_TESTREADY()                       SCSI_TESTREADY()
+ SEARCHPATTERN()                        SEARCHPATTERN()
+ SETCOMMENT()                           SETCOMMENT()
+ SETDEFAULTPUBSCREEN()                  SETDEFAULTPUBSCREEN()
+ SETDEFAULTPUBSCREEN()                  SETDEFAULTPUBSCREEN()
+ SETDEFAULTTOOL()                       SETDEFAULTTOOL()
+ SETENV()                               SETENV()
+ SETPROTECTION()                        SETPROTECTION()
+ SETPUBSCREENMODES()                    SETPUBSCREENMODES()
+ SETPUBSCREENMODES()                    SETPUBSCREENMODES()
+ SETSTACK()                             SETSTACK()
+ SETTOOLTYPES()                         SETTOOLTYPES()
+ SETTOOLTYPEVALUE()                     SETTOOLTYPEVALUE()
+ Stackgröße eines Icons einstellen    SETSTACK()
+ Stackgröße eines Icons ermitteln     GETSTACK()
+ Standardprogramm einstellen            SETDEFAULTTOOL()
+ Standardprogramm ermitteln             GETDEFAULTTOOL()
+ Stem-Variable als Textdatei speichern  WRITEFILE()
+ Stem-Variable ganz oder teilweise kopierenSTEMCOPY()
+ STEMCOPY()                             STEMCOPY()
+ STEMINSERT()                           STEMINSERT()
+ STEMREMOVE()                           STEMREMOVE()
+ Stichwortverzeichnis                   Index
+ String mit Binärsuche suchen          BSEARCH()
+ String mit Linearsuche suchen          LSEARCH()
+ String mit Namensmuster vergleichen    MATCHPATTERN()
+ SUFFIXPART()                           SUFFIXPART()
+ Support-Mailbox                        Adresse des Autors
+ Systemvoraussetzungen                  Systemvoraussetzungen
+ Tastaturbedienung                      Das VIEWLIST() Fenster
+ Teil einer Textdatei in Stem-Variable einlesenREADLINES()
+ Text aus dem Clipboard einlesen        READCLIPBOARD()
+ Text im Clipboard speichern            WRITECLIPBOARD()
+ Textdatei in Stem-Variable einlesen    READFILE()
+ Textdatei teilweise überschreiben, Zeilen einfügenWRITELINES()
+ Tooltypes eines Icons ermitteln        GETTOOLTYPES()
+ Tooltypes eines Icons neu einstellen   SETTOOLTYPES()
+ Typ eines SCSI-Gerätes ermitteln, DISK, TAPE etc.SCSI_DEVICETYPE()
+ UNSETENV()                             UNSETENV()
+ UUDECODE()                             UUDECODE()
+ UUENCODE()                             UUENCODE()
+ uuencodete Datei dekodieren            UUDECODE()
+ Version der 'rexxtricks.library' ermittelnREXXTRICKSVERSION()
+ Verzeichnis eines Pfades ermitteln     PATHPART()
+ Verzeichnis in Stem-Variable einlesen  GETDIR()
+ VIEWLIST()                             VIEWLIST()
+ WBINFO()                               WBINFO()
+ WHATIS()                               WHATIS()
+ WHATISTYPES()                          WHATISTYPES()
+ WHATISTYPES()                          WHATISTYPES()
+ WRITECLIPBOARD()                       WRITECLIPBOARD()
+ WRITEFILE()                            WRITEFILE()
+ WRITELINES()                           WRITELINES()
+ Zu einer ID-Nummer gehörende Beschreibung ermittelnFILEID_GETIDSTRING()
+ Zufallszahl ermitteln                  RAND()
+

@@ -1,0 +1,74 @@
+(set #hello_world "\n\nAll standard files of the OX installation will be deleted!\n\nI recommend to do this before you install a newer version.\n\nYou will be asked if you want to keep your configuration and skins.")
+
+(set #disclaimer "\n\nOX UN-INSTALL IS PROVIDED 'AS-IS' WITHOUT ANY WARRANTY. THE AUTHOR(S) CANNOT BE HELD LIABLE FOR ANY DAMAGE ARISING OUT OF THE (INABILITY OF MAKING) USE OF IT: USE AT YOUR OWN RISK.\n\nClick button to agree and to DELETE all the standard OX files!")
+
+(set #ready "\n\nAll OX core files and the additional files you choosed have been deleted!\n\nHave fun,\nAndreas G. Szabó ;-)")
+
+(message #hello_world)
+(message #disclaimer)
+
+(delete "sys:prefs/oxlibinfo" (infos))
+
+(delete "libs:oxmaster.library")
+(delete "libs:ox" (all))
+
+
+; ask if skins should be deleted 
+
+(set #choice
+
+    (askchoice
+
+        (prompt "\n\n\Should I delete the skin(s)?\n\n")
+
+        (help "This is the question if you want to have the OX-skins deleted. To delete them the uninstaller assumes that you saved your own skins below the sys:prefs/presets/ox/ folder.")
+
+        (choices "Please keep!" "Please delete!")
+
+        (default 0)
+    )
+)
+
+; delete all skins
+
+(if (= #choice 1)
+
+    (delete "sys:prefs/presets/ox" (optional "force") (all) (infos))
+
+)
+
+
+; ask if the configurations should be kept
+
+(set #choice
+
+    (askchoice
+
+        (prompt "\n\n\Should I keep your OX configuration?\n\n")
+
+        (help "This is the question if you want to keep your OX configuration files in env: and envarc:.")
+
+        (choices
+
+            (cat "Please keep!")
+            (cat "Please delete!")
+
+        )
+
+        (default 0)
+    )
+)
+
+(if (= #choice 1)
+
+    (delete "env:ox" (optional "force") (all))
+    (delete "envarc:ox" (optional "force") (all))
+
+)
+
+
+(message #ready)
+
+(exit (quiet))
+
+(welcome)

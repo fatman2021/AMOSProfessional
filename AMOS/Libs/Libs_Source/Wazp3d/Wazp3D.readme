@@ -1,0 +1,304 @@
+Short:        CPU only Warp3D implementation
+Author:       thellier@free.fr (Alain Thellier)
+Uploader:     thellier free fr
+Type:         driver/video
+Version:      beta 50 (August 2011)
+Replaces:     driver/video/Wazp3D.lha
+Requires:     RTG system,68020-40,fpu
+Architecture: m68k-amigaos >= 3.0.0
+
+DESCRIPTION 
+Wazp3D  : Alain THELLIER - Paris - FRANCE 
+Wazp3D is a library intended to be compatible with the famous Warp3D.library for AmigaOS 68020-40 or PPC & Aros 
+                                                                                 
+LICENSE 
+GNU General Public License (GNU GPL) 
+
+MOST IMPORTANT FEATURES 
+o Compatible with the famous Warp3D.library for AmigaOS 
+o Inside Aros & WinUAE can also render in hardware    
+o StormMesa & MiniGL compatibility 
+o The 97 functions from the latest Warp3D.library v5 are presents :-) 
+o Sources included (...so Wazp3D has been ported to AROS) 
+o Can be software only (=slow) : no need to have 3D hardware 
+o Work in UAE so can serve to compile/test your 3D softwares inside UAE 
+o Wazp3D can lie and pretend to have a "perfect hardware driver"  so the 3D-softwares will not fail due to a lacking feature. 
+o Full Documentation, faq and grabs at http://thellier.free.fr/Wazp3D.htm 
+o Unlike QuarkTex you can run multiple Warp3D applications concurrently 
+o Built-in debugger                                                     
+o Demo-program http://aminet.net/dev/src/Cow3D.lha to use with Wazp3D                                              
+
+INSTALLATION 
+If you are not using WinUAE but a real OS3 Amiga 68k or another emulator then just
+  copy Wazp3D.library-full TO LIBS:Warp3D.library 
+
+If you are not using WinUAE but a real OS4 PPC Amiga
+  copy Wazp3D.library-ppc  TO LIBS:Warp3D.library 
+
+If you are using WinUAE then 
+  copy Wazp3D.library-winuae TO LIBS:Warp3D.library 
+  copy soft3d.library TO LIBS:soft3d.library 
+  and PC side copy soft3d.dll to the WinUAE directory
+ 
+Warning: upper/lower cases are important for libraries names
+
+HISTORY 
+Wazp3D was first created to test the "Tales of Tamar"'s 3D Map inside WinUAE.
+I have no time left to work more on this Wazp3D project. So i release the source & library                                                               
+
+VERSIONS  HISTORY 
+Changes from previous version 
+
+Beta 50 
+o NEW: Hardware OpenGL(Mesa) can be used in AROS (Option Renderer:hard) but dont works well
+  due to the fact that ArosMesa cant render in a specific bitmap as Warp3D do
+  Option Renderer:hard is still bugged as the ArosMesa display is offseted to window's position
+  Option Renderer:hard overlay almost works
+  Wazp3D-Aros works better in "Native driver" mode with LockBitmapTags() implemented
+o Bug fixes to make Blender/MiniGL/Warp3Dv5/OS4 works:
+  W3D_FreeTexObj(tex) with tex still used in context->CurrentTex[n] : fixed
+  MiniGL Set ZCompareMode but dont enable Zbuffer: patched
+  Bug for some ZCompareMode/Zupdate values: fixed
+  Need to flush pixels if texture was freed : fixed
+  In Soft3D the DrawLine function was not good : almost fixed
+  Menus partially drawn: patched with "Force IndirectMode:OFF" option in Wazp3D-Prefs
+  Bugs in W3D_DrawArray() W3D_DrawElements() W3D_ClearBuffers() W3D_GetScreenmodeList() W3D_SetTexEnv(): fixed
+  ... So Blender now works on Os4 machine without 3D-drivers :-) 
+  (Just remember that Wazp3D is limited to 1024x1024 screens)
+o Bug fixes to make QT/MiniGL/Warp3Dv5/OS4 almost works:
+  Fixed a bug in the blending function (transparency) W3D_ONE,W3D_ONE_MINUS_SRC_ALPHA
+o In WinUAE the option "Renderer:hard overlay" now works fine
+  overlay is now locked to current window so avoid to lock to shell-window like this "glExcess_os3 > nil:" 
+o Cube & TuxRacer for 68k/OS3/StormMesa now works in WinUAE. Need StormMesa libraries
+  Use also latest StormMesa2010 from Aminet + set VERYFAST + LOCKMODE2 in StormMesa-Prefs
+  in Wazp3D-Prefs set "Renderer:hard overlay" + "filtering" + "anti alias" Enjoy :-) 
+    http://aminet.net/util/libs/StormMesa_Libs68K.lha
+    http://aminet.net/util/libs/StormMesa2010.lha
+    http://dasixk.free.fr/tuxracer-0.61.lha
+    http://dasixk.free.fr/cube_16_10_2002.lzx
+
+Beta 49
+o Bugs fixed about pointers (may had cause crashes). 
+  W3D_SetBlendMode() is now perfectly emulated. 
+  Some optimizations: so drawing a simply textured object(CoW3D) on a 32 bits screen is now faster. Etc...
+o New Wazp3D.library-ppc (port to Amiga 0S4 PPC). Very slow so can only serve for debugging OS4-Warp3D programs
+  (Tested & working: Cube, AmiDark engine, Feather demo, TuxKart, GlGlobe, Glsmoke, etc...)
+o On OS4 machine the new Wazp3D.library-ppc can be used from old 68k programs (=legacy 68k compatibility)
+o The option Renderer "hard" is now faster  (Warning: This option still ONLY works on 32 bits BGRA)
+o Warp3D V5 implementation (but only compiled for Wazp3D.library-ppc) so compatible with latest MiniGL
+o AROS to OpenGL(Mesa) sources joined but not compiled yet (see soft3d_opengl.c & build-PPC.sh)
+o New Wazp3D-Prefs rewriten a more os-friendly way
+o Enforce Demo & The game "I have no tomatoes" works now (disable option "Hack RGB/RGBA/ARGB texs") 
+o Code clean-up so the sources can serve to write your own .library or .DLL
+
+Beta 48
+o Bugs fixed: vertices having a bad color (Blitzquake) + culling defaulting to CW (CoW3D) + Zbuffer clear value (WarpTest)
+o Early OPENGL32.DLL support: Like QuarkTex the latest Wazp3D/WinUAE is now hardware accelerated :-)   
+  Now can choose in Wazp3D-Prefs the Renderer:  soft or hard (then will use hardware OpenGL)
+  This hard mode works only inside WinUAE in windowed mode. 
+  Need also a 32bits BGRA Workbench or screen (support windowed & own-screen apps)
+  You can select Filtering & AntiAliasing & StateTracker in hardware mode too :-)
+  For the moment display is not perfect (GlExcess works 95%,BlitzQuake 99%) but most programs works
+  Some progs (GnuJump) need "ClearImage OFF" in Wazp3D-Prefs
+  Know bugs: Background or Flat colors are sometime lost
+Many hanks to the QuarkTex Author & WinUAE Team for their usefull sources
+o Fog dont works 
+
+Beta 47
+o New fast native soft3d.dll for WinUAE so all the drawings are maded with the X86 cpu 
+o Quake's perspective works now (so BlitzQuake is nearly perfect)
+o Simple Linear-filtering (a few bugged & very slow)
+o Option "Do Mipmaps" works now (it use more memory)
+o StateTracker: If the states dont really changes then dont call soft3d and continue to bufferize the output (faster) 
+  StateTracker cant works if Wazp3D-Prefs is still opened (cause the user can change states any time)
+o Enhanced Wazp3d-Prefs Gui
+
+Beta 46   (not released)
+o PayBack, ApoolGL, TiltNRoll works now :-)
+o All BlendModes (transparency effects) are implemented so W3D_SetBlendMode() is now 100% emulated
+  so better transparency emulation for GLeXcess,GlTron...
+ o Option "Directly draw in Bitmap" (default) supports now 15/16/24/32bits modes 
+
+Beta 45.6 (only AROS & AmiKit release)
+o a fatal bug from version 45.5 fixed for AROS (SC=NULL)
+o recompiled for 68020/68040 68881 for AmiKit 
+
+Beta 45.5 (not released)
+o GLeXcess for OS3 works almost perfectly :-) (some new BlendModes implemented )  
+
+Beta 45  
+o Zbuffer 100% emulated : (All Zbuffer functions & all ZCompareModes are implemented) 
+(So can do multipass texturing: BlitzQuake looks much better now with lightmaps. MesaDemo's UnderWater works now) 
+o Support big texture sizes > 256x256 (GnuJump use 1024x1024 ones) 
+o Window resize works perfectly in any case 
+o Misc: MesaDemo's texcyl bug fixed. TexEnvMode/BlendMode cleanup and better emulation. Skulpt works again. FPS display fixed 
+                                                
+Beta 44  
+o New Option "Simu Perspective" that use two quadratic-aproximations per raster to simulate the texturing in perspective 
+o So some Games/Demos using perspective works now perfectly (GLtron, Warp3D's Engine,etc..) 
+o Option "Directly draw in Bitmap" supports now ARGB/RGBA/BGRA
+o GnuJump(SDLJump) & BeastieWorker games & the StormMesa demo GLflare works now 
+o Various hits and StormMesa bugs have been fixed (Many thanks to Kas1e, Bernd Roesch, Matthey, Wawa for their bugs-reports) 
+o Some bugs concerning the current TexMode&ColorMode relative to W3D_SetState have been fixed too (Many thanks to Kas1e) 
+o Zbuffer and Fog use float now 
+o Debugger new options: 
+	Debug Adresses (memory adresses for all Warp3D's functions) 
+	Debug as JSR (display calls to Warp3D as an assembly JSR) 
+	Step DrawPoly  (Step after each polygon drawn)
+	StepFunction50 (Step after each 50 Warp3D functions calls)
+
+Beta 41 
+o Mainly BlitzQuake enhancements (light glows, menus) 
+o Additive blending. It fully emulate W3D_SetBlendMode(context,W3D_ONE,W3D_ONE) 
+o "Directly draw in Bitmap" works better . Use it now for a better StormMesa emulation on a 32 bits screen (window-resizing works now). 
+o GlTron works now but distorted. 
+o "Smooth Textures" works well now 
+o Smarter coloring (never do a stupid flat modulate with white, do gouraud only if color truly change) : Faster for simple coloring, fadein/out, etc... 
+o Default texenvmode is now W3D_MODULATE (OpenGL compliant) 
+o Less texture distorsion (but still distorted) 
+o Two new options are implemented "Do MipMaps" & "True Perspective" but they dont works :-( 
+o Skulpt no more works :-( 
+
+Beta 40 
+o Quake now WORKS :-) (BlitzQuake from Aminet) 
+o Fix a bug related to MiniGL implementation of DrawArray/DrawElements (D3GNOP,Quake,...) 
+o TexEnvMode full implementation (W3D_REPLACE/W3D_MODULATE/W3D_DECAL/W3D_BLEND) 
+o New Options "Use Coloring GL" "Use Ratio Alpha" "Use AlphaMin&Max" "Debug Tex Number" "Use Quake Patch" 
+o Fog seems to works now 
+
+Beta 39 
+o New option "Directly draw in Bitmap" that can be faster & more compatible in some case 
+o New option "Display FPS" that count the frames per second 
+o New demo-program http://aminet.net/package/dev/src/StarShip to use with Wazp3D (StormMesa libraries needed) 
+o The old option "Only Fast RGB24" is changed to "Only TrueColor 24&32" 
+o Full documentation also in french on http://thellier.free.fr/Wazp3D_français.htm 
+o French article on Web-magazine "Obligement" http://obligement.free.fr/articles/wazp3d.php 
+
+Beta 38 
+o StormMesa Works :-) (nearly 200 demos works now especially the impressive Atlantis and GlutMech demos) 
+o More compatible : some functions have been seriously debugged & cleaned 
+o New option "Dump Object" to dump all as an .OBJ/.MTL text file 
+o New option "UpdateClearZ" to force a ClearZbuffer at each update (only for Enforce) 
+o New option "Debug Sepia Image" that colorize in red the part that Wazp3D drawn 
+
+Beta 37 
+o Four new games are working now: Alybox, D3gnop, Sopoblock,YAPMG :-) 
+o New option "Reload Textures" to load a new texture set (to change ugly originals textures) 
+o Library also builded without debugger (smaller version) 
+o New option "Hack ARGB" to convert directly ARGB textures data to RGBA (for Tamar 3D) = economize memory 
+o Obsolete option "Clamp UV[0.0 1.0]" is removed (textures are allways W3D_REPEAT) 
+
+Beta 36 
+o Nicer & a few faster with some new optimised pixels functions 
+o Texture-repeat works (Bzone) 
+o Smooth Textures options 
+o More compatible : Fog or coloring works now on partially transparent faces (like trees in Tamar 3D) = new pixels functions 
+o Fog works better (not perfect yet) 
+o New options "Use ClearImage" & "Update At UnlockHardware " to enhance update for some programs like gears(screen),Engine, sKulpt or TheVague. 
+
+Beta 35 
+o Code clean-up and library enhancements from Gunther Nikl 
+o "Hack1 tex RGBA" works again (draw a textured-triangle as a Gouraud untextured one = faster) 
+o "Hack2 tex RGBA" works again (draw a textured-triangle as a Flat untextured one = faster) 
+
+Beta 34 
+o Brand new pixels functions that allow to render lighted textures :-) so looks now very nice 
+o Corrected a very bad bug concerning pixels-buffering. 
+o New Bug has appeared :-/ so 4D-clock & other StormMesa stuffs now crash... 
+o Library is smaller :-) 
+
+Beta 33 
+o Full Documentation at http://thellier.free.fr/Wazp3D.htm 
+o Corrected a very bad bug introduced in beta 32 concerning memory freeing (beta 32 line 644) 
+o Corrected a very bad bug in W3D_UpdateTexSubImage 
+o AROS port from Matthias Rustler 
+o Various pointer==NULL bugs corrected by Matthias Rustler 
+o ClampUV (if disabled allow texture_repeat) 
+o Perspective correction (disabling) 
+o Zbuffer enhanced = ReadZSpan/WriteZSpan/etc... 
+o Code CleanUp (no more ULONG used as pointers to texture) 
+o Bug fix in GetDriverTexFmtInfo : now if use UseAnyTexFmt is ON then return supported 
+o More compatible with new 3Dprogs (BattleZone,Lamintro,4D-Clock,StormMesa examples, etc) 
+o Support rectangular textures 
+o Bug fix in Alpha blending on 32 bits texture but no zbuffer 
+
+Beta 32 
+o No more warnings when recompiling 
+o Perspective correction (cant be disabled) 
+o 3D-Clipper works 
+o Less bugs (even some few fatals one) 
+o Fog works (not perfect) 
+o First Culling (CCW/CW face order) implementation (still bugged) 
+o "Hack1 tex RGBA" works (draw a textured-triangle as a Gouraud untextured one = faster) 
+o "Hack2 tex RGBA" works (draw a textured-triangle as a Flat untextured one = faster) 
+o "AntiAlias Screen" new & works (3x3 median per pixel) (slow) 
+o Library is smaller :-) 
+o More compatible with new 3Dprogs 
+
+Beta 31 (first public one) 
+o New tracked memory allocation 
+o Project's name changed to "Wazp3D" 
+
+KNOWN BUGS 
+A lots of works has been done to remove Wazp3D bugs 
+Now more than 200 programs works well with Wazp3D 
+But there are still some bugs... 
+
+BlitzQuake: quake patch = menu not transparents (texture1 & texture9 to 32)
+Mesa Demos: Demos that use W3D_updatetexture() sometime crash
+Tamar3D: dragon gold = All Fogs are false
+WazpTest: Fog is false (opengl fog use a standard z (=1/w)) (start 4.0 end 1.33 density 0.949999 GL=0.25 0.75)
+WarpTest: Fog is false (use curious fog_end w=0.20 -> 1/w=z=5.0???) (start 1.0 end 0.20)
+TheGoonies: use too much memory & crash
+Skulpt: works now :-) but 3d-preview got bad colors
+4Dtris: dont display well (zbuffer related)
+Mesa demo spheremap & Quake: polygon's edges dont ovelarp
+GeoFace: DumpObject dont works well (resulting file seems not good)
+LamIntro: crash at close
+TiltnRollDemo: crash at close
+GlMatrix: This program use a bad blending mode => use glmatrix patch 
+--------
+soft3d.dll: Fog exp/exp2 dont works with the dll 
+StateTracker dont works with glTron.
+StateTracker sometime slower. 
+soft3d.dll: If several programs then crash at exit 
+Reload textures dont works anymore
+
+IMPORTANT 
+Wazp3D is not perfect but it was good enough for me :-) 
+This Wazp3D binary is intended to be used within a very fast 68040 AmigaOS (= UAE emulator with JIT like WinUAE) 
+This Wazp3D binary is compiled for 68020/40-68881 (adjust your WinUAE settings) 
+Also need "full screen RTG" & JIT both to be activated to obtain enough speed 
+(also need picasso 96/cybergraphics and a 32 bits screen) 
+Wazp3D is NOT an UAE hack and so (should) not depend on a particular UAE version 
+But it only need much speed for his software rendering 
+Some 3Dprogs need a big stack to be able to run without crash (glsokoban,etc...) 
+
+IMPLEMENTED FEATURES 
+Texturing 
+Zbuffer (all modes) 
+Gouraud shading 
+Alpha blending (all modes) 
+Color blending (all modes) 
+All Fogs 
+All primitives 
+All vertex formats,etc... 
+
+UNIMPLEMENTED FEATURES 
+Stencil masking 
+Color masking 
+Alpha masking 
+Stippling 
+Mipmapping (badly implemented)
+Filtering, etc... 
+
+TESTED AND WORKING SOFTWARES     
+see full documentation at http://thellier.free.fr/Wazp3D.htm
+
+WAZP3D-PREFS
+The Wazp3D-Prefs tool allow to change some parameters of the Wazp3D
+library emulation: see full documentation at http://thellier.free.fr/Wazp3D.htm
+
+
+
+

@@ -1,0 +1,50 @@
+Q: Why is the 68k library so slow?
+A: Because. ;)
+
+Q: How can I make it faster?
+A: Try the lowest quality-level (esp. if you use freqdiv or freqmax).
+
+Q: Why is there no .060 version?
+A: Because there's really no point, nothing is gained by this.
+
+Q: What about the emulated mulu.l calls on 060?
+A: You noticed that, huh? ;) Well, GCC produces divul.l calls instead if I
+   compile for 060, so that gets us just as far...
+A: It's recommended that you run CyberPatcher/OxyPatcher or similar to
+   avoid the impact of this.
+
+Q: I have this mpeg-audio file and it refuses to play!
+A: Try the medium quality-level (turns off CRC), some files are encoded with
+   broken encoder that creates wrong CRCs...
+A: Try the lowest quality-level (ignores streamerrors), some players have a
+   maximum limit of errors, beware that this might cause audible artifacts!
+A: If none of the above works, please contact me (and arrange for
+   transferring a small snippet of the file).
+
+Q: MAD's dithering sucks! How do I turn it off?
+A: Really? Well, try the medium quality-level...
+
+Q: I encoded this mp3 using LAME, and when I play it back the volume is
+   higher/lower than the original, what's going on?!
+A: This is normal, this is because LAME analyzed the peak amplitude and
+   saved a ReplayGain value in the LAMEtag which is used to normalize the
+   volume to avoid clipping and distortion during playback.
+
+Q: The volume is too high/low, it's fine in other players that doesn't use
+   mpega.library, and it used to be fine before, what's wrong?
+A: This is not necessarily an error, see above. If you think it is, see below.
+A: Well, I recently added ReplayGain support, it's possible that the info in
+   the LAMEtag is wrong, try the medium quality-level to disable ReplayGain.
+
+Q: There's this mpeg-audio file which produces really crap distortions in
+   certain parts of the audio, what do I do?
+A: Well, this could be a crap encoding, but it could also be that the audio
+   doesn't quite fit in the output-range, try using the scale option, and
+   lower it to about 80% (or maybe even lower)...
+
+Q: Argh @#&%$! MakeCD pops up this requester saying there was an error in the
+   middle of making an audio CD from my MP3s, what's going on?
+A: Alot of MP3s have errors in them, either caused by buggy encoders or by
+   broken transfers, VIA/Articia bugs/features or whatever. ;)
+   To avoid getting these requesters you need to configure MakeCD to ignore
+   all such errors, like so; Settings->Further Settings->IO Error: Ignore.

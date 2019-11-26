@@ -1,0 +1,427 @@
+
+; Install script for Triton (Workbench 2.1 or higher)
+
+(set default-dest "")
+(set old_level @user-level)
+
+(set tritonlib37 "//libs37/triton.library")
+(set tritonlib39 "//libs39/triton.library")
+(set tritonprefs "//Prefs/Triton")
+(set trPrefsUpdate "//trPrefsUpdate")
+(set catalogdir "//Catalogs/")
+
+
+;=============================================================================
+; English strings
+
+(set default_lang 0)
+
+(set #bad-kick		"You must be using Kickstart 2.04+ to run Triton.")
+(set #ask-kick39 (cat	"You are running OS3.0 or higher. Do you want to install a special OS3.0+ "
+			"version of triton.library?"))
+(set #help-kick39 (cat	"The OS3.0+ version of triton.library is shorter and faster than the "
+			"general OS2.04+ version. It cannot be used with OS versions below 3.0."))
+(set #ask-prefs		"Do you want to install the Triton Preferences editor?")
+(set #help-prefs (cat	"The Triton Preferences editor allows you to change the look and feel "
+			"of all Triton applications' GUIs to fit your personal taste."))
+(set #ask-makedir1 	"Do you want to create the directory\n\nenv:Triton ?")
+(set #ask-makedir2 	"Do you want to create the directory\n\nenvarc:Triton ?")
+(set #help-makedir (cat	"Triton needs the directories env:Triton and envarc:Triton to save it's "
+			"configuration files. Without these directories you cannot use window "
+			"position remembering or the Triton Preferences editor. You may create "
+			"and delete these directories at any time with the Preferences editor.\n\n"
+			@makedir-help))
+(set #ask-updateprefs 	"\nDo you want to update the preferences files?")
+(set #help-updateprefs (cat "You have to update the Triton Preferences settings for your new "
+			"Triton version. This will be done automatically. You cannot use the new "
+			"settings files with older Triton versions."))
+(set #copying-triton	"Copying triton.library to Libs:...")
+(set #copying-prefs	"Copying Triton Preferences editor to sys:Prefs...")
+(set #install-msg (cat	"\n\nTriton installation script.\n"
+			"This script installs Triton on your Amiga.\n\n"
+			"Read the 'Distribution' file for\n"
+			"more information on the distribution\n"
+			"and commercial usage of Triton.\n\n"
+			"Triton © 1993-1995 Stefan Zeiger.\n"
+			"All rights reserved."))
+(set #which-language	"\nWhich languages should be installed?")
+(set #which-language-help (cat
+			"\nThe Amiga can be operated in many different"
+			" languages. If you want Triton to"
+			" use the same language as the Amiga Workbench,"
+			" a catalog file must be copied to your"
+			" system disk for each language supported.\n\n"
+			"To reduce the amount of space consumed by the"
+			" language files, you can select to have only the"
+			" files of specific languages copied.\n\n"
+			"Simply check the boxes of the languages you wish"
+			" to have available on your system.\n\n"
+			@askoptions-help))
+
+;=============================================================================
+; Portugues strings
+
+(if (= @language "português")
+(
+
+(set default_lang 0)
+
+(set #bad-kick
+(cat "É preciso de ter o Kickstart 2.04+ para poder instalar!" ))
+
+(set #copying-triton "Copiando triton.library para a Libs:...")
+
+(set #install-msg
+(cat "\n\nScript de Instalação do Triton.\n"
+     "Este script instala o Triton no seu Amiga.\n\n"
+     "Leia o ficheiro 'Distribution' para\n"
+     "mais informação acerca da distribuição\n"
+     "e uso comercial do Triton.\n\n"
+     "Triton © 1993-1995 Stefan Zeiger.\n"
+     "Todos os Direitos Reservados."
+))
+
+))
+
+;=============================================================================
+; Spanish strings
+
+(if (= @language "español")
+(
+
+(set default_lang 0)
+
+; string needs to be changed (see english string)
+(set #bad-kick
+(cat "Necesita usar el Kickstart 2.04+ para instalar!"
+))
+
+(set #copying-triton "Copiado triton.library a Libs:...")
+
+))
+
+;=============================================================================
+; French strings
+
+(if (= @language "français")
+(
+
+(set default_lang 2)
+
+(set #bad-kick "Vous devez utiliser le Kickstart 2.04+ pour pouvoir utiliser Triton")
+
+(set #copying-triton "Copie du fichier triton.library vers Libs:...")
+
+(set #install-msg
+(cat "\n\nScript d'installation de Triton.\n"
+     "Ce script installe Triton sur votre Amiga.\n\n"
+     "Lisez le fichier intitulé 'Distribution' pour\n"
+     "de plus amples informations sur la distribution\n"
+     "et l'utilisation commerciale de Triton.\n\n"
+     "Triton © 1993-1995 Stefan Zeiger.\n"
+     "Tous Droits réservés."
+))
+
+))
+
+;=============================================================================
+; German strings
+
+(if (= @language "deutsch")
+(
+
+(set default_lang 1)
+
+(set #bad-kick		"Triton benötigt mindestens OS2.04.")
+(set #ask-kick39 (cat	"Sie haben OS3.0 oder höher installiert. Wollen Sie die OS3.0+-Version "
+			"von triton.library installieren?"))
+(set #help-kick39 (cat	"Die OS3.0+-Version ist kürzer und schneller als die herkömmliche  "
+			"OS2.04+-Version. Sie kann allerdings nicht mit Betriebssystemversionen "
+			"kleiner als 3.0 verwendet werden."))
+(set #ask-prefs		"Wollen Sie den Triton-Voreinsteller installieren?")
+(set #help-prefs (cat	"Mit Hilfe des Triton-Voreinstellers können Sie alle mit Triton erstellten "
+			"Oberflächen Ihrem persönlichen Geschmack anpassen."))
+(set #ask-makedir1 	"Wollen Sie das Verzeichnis\n\nenv:Triton\n\nerzeugen?")
+(set #ask-makedir2 	"Wollen Sie das Verzeichnis\n\nenvarc:Triton\n\nerzeugen?")
+(set #help-makedir (cat	"Triton benötigt die Verzeichnisse env:Triton und envarc:Triton, um dort "
+			"Konfigurationsdateien zu sichern. Ohne diese Verzeichnisse können Sie z.B. "
+			"den Window-Manager und die Voreinstellungen von Triton nicht verwenden. "
+			"Sie können die Verzeichnisse jederzeit im Triton-Voreinsteller entfernen "
+			"oder einrichten lassen.\n\n"
+			@makedir-help))
+(set #ask-updateprefs 	"\nWollen Sie die Voreinstellungs-Dateien aktualisieren lassen?")
+(set #help-updateprefs (cat "Die Dateien müssen für eine neue Triton-Version aktualisiert "
+			"werden. Dies geschieht automatisch. Sie können dann nicht mehr von "
+			"älteren Triton-Systemen gelesen werden."))
+(set #copying-triton	"Kopiere triton.library nach Libs:...")
+(set #copying-prefs	"Kopiere Triton-Voreinsteller nach sys:Prefs...")
+(set #install-msg (cat	"\n\nTriton-Installationsskript.\n"
+			"Dieses Skript installiert Triton auf Ihrem Amiga.\n\n"
+			"Lesen Sie die Datei 'Distribution' für\n"
+			"weitere Informationen über Weitergabe\n"
+			"und kommerzielle Nutzung von Triton.\n\n"
+			"Triton © 1993-1995 Stefan Zeiger.\n"
+			"Alle Rechte vorbehalten."))
+(set #which-language	"\nWelche Sprachen wollen Sie installieren?")
+(set #which-language-help (cat
+			"\nDer Amiga kann in vielen verschiedenen Sprachen betrieben werden. "
+			"Wenn Sie wollen, daß Triton die gleiche Sprache "
+			"wie die Amiga-Workbench benutzt, müssen für jede zu installierende Sprache "
+			"zwei Dateien auf Ihre Festplatte kopiert werden.\n\n"
+			"Um den Platz in Grenzen zu halten, den die Sprachentreiberdateien "
+			"einnehmen, können Sie wählen, nur die Treiber für bestimmte "
+			"Sprachen zu installieren.\n\n"
+			"Markieren Sie einfach die Felder derjenigen Sprachen, die Sie in "
+			"Ihrem System verfügbar haben wollen.\n\n"
+			@askoptions-help))
+
+))
+
+;=============================================================================
+; Dutch strings
+
+(if (= @language "nederlands")
+(
+
+(set default_lang 4)
+
+; string needs to be changed (see english string)
+(set #bad-kick "U moet Kickstart 2.04+ gebruiken om met dit installatie script te installeren!")
+
+(set #copying-triton "Kopieer triton.library naar Libs:...")
+
+(set #install-msg
+(cat "\n\nTriton installatie script.\n"
+     "Dit script installeert Triton op uw Amiga.\n\n"
+     "Lees het 'Distribution' bestand voor\n"
+     "meer informatie over de verspreiding\n"
+     "en het commcerciële gebruik van Triton.\n\n"
+     "Triton © 1993-1995 Stefan Zeiger.\n"
+     "All rights reserved."
+))
+
+))
+
+;=============================================================================
+; Italian strings
+
+(if (= @language "italiano")
+(
+(set default_lang 0)
+
+; string needs to be changed (see english string)
+(set #bad-kick
+(cat "E' necessario il Kickstart 2.04+ per installare!"
+))
+
+(set #copying-triton "Copia triton.library nel Libs:...")
+
+))
+
+;=============================================================================
+; Danish strings
+
+(if (= @language "dansk")
+(
+
+(set default_lang 0)
+
+; string needs to be changed (see english string)
+(set #bad-kick "Din maskine har ikke Kickstart 2.04+, mindstekravet for Triton.")
+
+(set #copying-triton "Kopierer triton.library til Libs:...")
+
+))
+
+;=============================================================================
+; Swedish strings
+
+(if (= @language "svenska")
+(
+(set default_lang 8)
+
+(set #bad-kick		"Du måste använda Kickstart 2.04+ för att använda Triton.")
+(set #ask-kick39 (cat	"Du använder OS 3.0 eller högre. Vill du installera en speciell "
+			"OS 3.0+ version av triton.library?"))
+(set #help-kick39 (cat	"  OS 3.0+ versionen av triton.library är mindre och snabbare än den "
+			"generella OS 2.04+ versionen. OS 3.0+ versionen kan inte användas med "
+			"OS-versioner under 3.0."))
+(set #ask-prefs		"Vill du installera Tritons inställningsredigerare?")
+(set #help-prefs (cat	"  Triton installationsredigerare låter dig ändra utseendet för "
+			"alla program som använder sig av Triton, så att de passar din "
+			"personliga smak."))
+(set #ask-makedir1 	"Vill du skapa lådan\n\nEnv:Triton?")
+(set #ask-makedir2 	"Vill du skapa lådan\n\nEnvArc:Triton?")
+(set #help-makedir (cat	"Triton behöver lådorna Env:Triton och EnvArc:Triton för att spara sina "
+			"inställningsfiler. Utan dessa lådor kan inte Triton komma ihåg fönstrens "
+			"position, och inställningsredigeraren kan inte användas. Du kan skapa "
+			"och ta bort dessa lådor när du vill med hjälp av "
+			"inställningsredigeraren.\n\n"
+			@makedir-help))
+(set #copying-triton	"Kopierar triton.library till Libs:...")
+(set #copying-prefs	"Kopierar Tritons inställningsredigerare till Sys:Prefs...")
+(set #install-msg (cat	"\n\nTritons installationsprogram.\n"
+			"Det här programmet låter dig installera Triton i din Amiga.\n\n"
+			"Läs filen 'Distribution' för mer\n"
+			"information om distributionen\n"
+			"och kommersiell användning av Triton.\n\n"
+			"Triton © 1993-1995 Stefan Zeiger.\n"
+			"Alla rättigheter reserverade."))
+(set #which-language	"\nVilka språk vill du installera?")
+(set #which-language-help (cat
+			"\n  Amigan kan arbeta med flera olika språk. "
+			"Om du vill att Triton ska använda "
+			"samma språk som Amiga Workbench så måste"
+			"en så kallad katalogfil koiperas till din "
+			"systemdisk för varje språk.\n\n"
+			"  För att minimera diskutrymmet för språkfiler "
+			"kan du välja att bara istallera filerna för "
+			"vissa språk.\n"
+			"  Markera bara rutorna för de språk du önskar installera i "
+			"din dator.\n\n"
+			@askoptions-help))
+))
+
+;=============================================================================
+; Norwegian strings
+
+(if (= @language "norsk")
+(
+
+(set default_lang 0)
+
+; string needs to be changed (see english string)
+(set #bad-kick "Du må ha Kickstart 2.04+ for å installere!")
+
+(set #copying-triton "Kopier fil triton.library til Libs:...")
+
+))
+
+;=============================================================================
+; make sure we are running under Kickstart 2.04 (v37) or better
+
+(if (< (/ (getversion) 65536) 37)
+(
+    (abort #bad-kick)
+))
+
+;=============================================================================
+
+(message #install-msg)
+
+(if	(< (/ (getversion) 65536) 39)
+	(copylib
+		(prompt "\n" #copying-triton)
+		(help @copylib-help)
+		(source tritonlib37)
+		(dest "Libs:")
+		(confirm)
+	)
+	(if	(askbool (prompt "\n" #ask-kick39) (help #help-kick39))
+		(copylib
+			(prompt "\n" #copying-triton)
+			(help @copylib-help)
+			(source tritonlib39)
+			(dest "Libs:")
+			(confirm)
+		)
+		(copylib
+			(prompt "\n" #copying-triton)
+			(help @copylib-help)
+			(source tritonlib37)
+			(dest "Libs:")
+			(confirm)
+		)
+	)
+)
+
+(if	(askbool (prompt "\n" #ask-prefs) (help #help-prefs))
+	(
+		(copyfiles
+			(prompt "\n" #copying-prefs)
+			(source tritonprefs)
+			(dest "sys:Prefs/")
+			(infos)
+			(files)
+		)
+		(if	(= (exists ("env:Triton") (noreq)) 0)
+			(
+				(makedir
+					("env:Triton")
+					(confirm)
+					(prompt "\n" #ask-makedir1)
+					(help #help-makedir)
+				)
+				(makedir
+					("envarc:Triton")
+					(confirm)
+					(prompt "\n" #ask-makedir2)
+					(help #help-makedir)
+				)
+			)
+			(run trPrefsUpdate
+				(prompt #ask-updateprefs)
+				(help #help-updateprefs)
+				(confirm)
+			)
+		)
+	)
+)
+
+(if	(exists "SYS:Locale")
+	(if	(exists "LOCALE:")
+		(
+			(user 2)
+			(set lang	(askoptions	(prompt #which-language)
+							(help #which-language-help)
+							(choices
+;								"Dansk"
+								"Deutsch"
+;								"English"
+;								"Español"
+								"Français"
+;								"Italiano"
+								"Nederlands"
+;								"Norsk"
+;								"Português"
+								"Svenska"
+							)
+							(default default_lang)
+					 )
+			)
+			(user old_level)
+			(set n 0)
+			(while	(set language	(select n
+;							"dansk"
+							"deutsch"
+;							"english"
+;							"español"
+							"français"
+;							"italiano"
+							"nederlands"
+;							"norsk"
+;							"português"
+							"svenska"
+							""
+						)
+				)
+				(
+					(if	(IN lang n)
+						(
+							(if	(<> 2 n)
+								(
+									(makedir (cat "LOCALE:Catalogs/" language))
+									(copyfiles	(source (cat catalogdir language))
+										  	(dest (cat "LOCALE:Catalogs/" language))
+									  		(all)
+									)
+								)
+							)
+						)
+					)
+					(set n (+ n 1))
+				)
+			)
+		)
+	)
+)

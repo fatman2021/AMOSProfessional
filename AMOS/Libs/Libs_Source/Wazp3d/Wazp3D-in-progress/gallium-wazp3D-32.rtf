@@ -1,0 +1,926 @@
+{\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Courier New;}{\f1\fmodern\fprq1\fcharset0 Courier New;}{\f2\fswiss\fcharset0 Arial;}}
+{\colortbl ;\red0\green0\blue255;\red255\green0\blue0;}
+{\*\generator Msftedit 5.41.15.1507;}\viewkind4\uc1\pard\lang1036\f0\fs20 /* Wazp3D Beta 47 : Alain THELLIER - Paris - FRANCE - (November 2006 to Dec.  2009) */\par
+/* LICENSE: GNU General Public License (GNU GPL) for this file\tab\tab\tab\tab */\par
+\par
+/* This file contain the  Wazp3D -> Gallium3D wrapper\tab\tab\tab\tab\tab\tab */\cf1\par
+\cf0 /* Now this code do nothing usefull: it is only the firsts steps\tab\tab\tab\tab */\par
+/* this is "under construction" listing\tab\tab\tab\tab\tab\tab\tab\tab */\cf1\par
+/* Blue mean "almost finished part"\tab\tab\tab\tab\tab\tab\tab\tab\tab */\par
+\cf0 /* Black mean "not finished part"\tab\tab\tab\tab\tab\tab\tab\tab\tab */\cf1\par
+\cf2 /* Red mean "a problem here"\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab */\par
+\cf1\par
+\par
+================================================================================================\par
+#define StateON(s) ((GC->state & s)!=0)\par
+#define PIPE_FUNC_NONE   99\par
+#define W3D_NOW 99\par
+/* surface->texture->screen */\par
+/* pipe->screen */\par
+================================================================================================\par
+void  GALLIUM_States(struct GALLIUM3D_context *GC);    \par
+\{\par
+struct pipe_context *pipe=GC->mypipe;\par
+struct pipe_screen *screen= pipe->screen;\par
+\par
+ULONG\tab SrcFunc\tab\tab =WC->SrcFunc;\par
+ULONG\tab DstFunc\tab\tab =GC->DstFunc;\par
+ULONG\tab LogicOp\tab\tab =GC->LogicOp;\par
+ULONG\tab Zmode\tab\tab\tab =GC->Zmode;\par
+ULONG\tab AlphaMode\tab\tab =GC->AlphaMode;\par
+ULONG\tab StencilFunc\tab\tab =GC->StencilFunc;\par
+ULONG\tab Culling\tab\tab =GC->Culling;\par
+ULONG\tab StencilSfail\tab =GC->StencilSfail;\par
+ULONG\tab StencilZpass\tab =GC->StencilZpass;\par
+ULONG\tab StencilZfail\tab =GC->StencilZfail;\par
+ULONG\tab Smode\tab\tab\tab =GC->Smode;\par
+ULONG\tab Tmode\tab\tab\tab =GC->Tmode;\par
+ULONG\tab MinFilter\tab\tab =GC->MinFilter;\par
+ULONG\tab MagFilter\tab\tab =GC->MagFilter;\par
+ULONG\tab Primitive\tab\tab =GC->Primitive;\par
+ULONG\tab MinFilterMip;\par
+\par
+if(SrcFunc==W3D_ONE)\tab\tab\tab\tab SrcFunc=PIPE_BLENDFACTOR_ONE;   \par
+if(SrcFunc==W3D_SRC_COLOR)\tab\tab\tab SrcFunc=PIPE_BLENDFACTOR_SRC_COLOR;   \par
+if(SrcFunc==W3D_SRC_ALPHA)\tab\tab\tab SrcFunc=PIPE_BLENDFACTOR_SRC_ALPHA;   \par
+if(SrcFunc==W3D_DST_ALPHA)\tab\tab\tab SrcFunc=PIPE_BLENDFACTOR_DST_ALPHA;   \par
+if(SrcFunc==W3D_DST_COLOR)\tab\tab\tab SrcFunc=PIPE_BLENDFACTOR_DST_COLOR;   \par
+if(SrcFunc==W3D_SRC_ALPHA_SATURATE)\tab\tab SrcFunc=PIPE_BLENDFACTOR_SRC_ALPHA_SATURATE;   \par
+if(SrcFunc==W3D_CONSTANT_COLOR)\tab\tab SrcFunc=PIPE_BLENDFACTOR_CONST_COLOR;   \par
+if(SrcFunc==W3D_CONSTANT_ALPHA)\tab\tab SrcFunc=PIPE_BLENDFACTOR_CONST_ALPHA;   \par
+if(SrcFunc==W3D_ZERO)\tab\tab\tab\tab SrcFunc=PIPE_BLENDFACTOR_ZERO;   \par
+if(SrcFunc==W3D_ONE_MINUS_SRC_COLOR)\tab SrcFunc=PIPE_BLENDFACTOR_INV_SRC_COLOR;   \par
+if(SrcFunc==W3D_ONE_MINUS_SRC_ALPHA)\tab SrcFunc=PIPE_BLENDFACTOR_INV_SRC_ALPHA;   \par
+if(SrcFunc==W3D_ONE_MINUS_DST_ALPHA)\tab SrcFunc=PIPE_BLENDFACTOR_INV_DST_ALPHA;   \par
+if(SrcFunc==W3D_ONE_MINUS_DST_COLOR)\tab SrcFunc=PIPE_BLENDFACTOR_INV_DST_COLOR;   \par
+if(SrcFunc==W3D_ONE_MINUS_CONSTANT_COLOR)\tab SrcFunc=PIPE_BLENDFACTOR_INV_CONST_COLOR;   \par
+if(SrcFunc==W3D_ONE_MINUS_CONSTANT_ALPHA)\tab SrcFunc=PIPE_BLENDFACTOR_INV_CONST_ALPHA;   \par
+if(DstFunc==W3D_ONE)\tab  \tab\tab\tab DstFunc=PIPE_BLENDFACTOR_ONE;   \par
+if(DstFunc==W3D_SRC_COLOR)\tab\tab\tab DstFunc=PIPE_BLENDFACTOR_SRC_COLOR;   \par
+if(DstFunc==W3D_SRC_ALPHA)\tab\tab\tab DstFunc=PIPE_BLENDFACTOR_SRC_ALPHA;   \par
+if(DstFunc==W3D_DST_ALPHA)\tab\tab\tab DstFunc=PIPE_BLENDFACTOR_DST_ALPHA;   \par
+if(DstFunc==W3D_DST_COLOR)\tab\tab\tab DstFunc=PIPE_BLENDFACTOR_DST_COLOR;   \par
+if(DstFunc==W3D_SRC_ALPHA_SATURATE)\tab\tab DstFunc=PIPE_BLENDFACTOR_SRC_ALPHA_SATURATE;   \par
+if(DstFunc==W3D_CONSTANT_COLOR)\tab\tab DstFunc=PIPE_BLENDFACTOR_CONST_COLOR;   \par
+if(DstFunc==W3D_CONSTANT_ALPHA)\tab\tab DstFunc=PIPE_BLENDFACTOR_CONST_ALPHA;   \par
+if(DstFunc==W3D_ZERO)\tab\tab\tab\tab DstFunc=PIPE_BLENDFACTOR_ZERO;   \par
+if(DstFunc==W3D_ONE_MINUS_SRC_COLOR)\tab DstFunc=PIPE_BLENDFACTOR_INV_SRC_COLOR;   \par
+if(DstFunc==W3D_ONE_MINUS_SRC_ALPHA)\tab DstFunc=PIPE_BLENDFACTOR_INV_SRC_ALPHA;   \par
+if(DstFunc==W3D_ONE_MINUS_DST_ALPHA)\tab DstFunc=PIPE_BLENDFACTOR_INV_DST_ALPHA;   \par
+if(DstFunc==W3D_ONE_MINUS_DST_COLOR)\tab DstFunc=PIPE_BLENDFACTOR_INV_DST_COLOR;   \par
+if(DstFunc==W3D_ONE_MINUS_CONSTANT_COLOR)\tab DstFunc=PIPE_BLENDFACTOR_INV_CONST_COLOR;   \par
+if(DstFunc==W3D_ONE_MINUS_CONSTANT_ALPHA)\tab DstFunc=PIPE_BLENDFACTOR_INV_CONST_ALPHA;   \par
+if(LogicOp==W3D_LO_CLEAR)\tab\tab\tab LogicOp=PIPE_LOGICOP_CLEAR;   \par
+if(LogicOp==W3D_LO_NOR)\tab\tab\tab\tab LogicOp=PIPE_LOGICOP_NOR;   \par
+if(LogicOp==W3D_LO_AND_INVERTED)\tab\tab LogicOp=PIPE_LOGICOP_AND_INVERTED;   \par
+if(LogicOp==W3D_LO_COPY_INVERTED)\tab\tab LogicOp=PIPE_LOGICOP_COPY_INVERTED;   \par
+if(LogicOp==W3D_LO_AND_REVERSE)\tab\tab LogicOp=PIPE_LOGICOP_AND_REVERSE;   \par
+if(LogicOp==W3D_LO_INVERT)\tab\tab\tab LogicOp=PIPE_LOGICOP_INVERT;   \par
+if(LogicOp==W3D_LO_XOR)\tab\tab\tab\tab LogicOp=PIPE_LOGICOP_XOR;   \par
+if(LogicOp==W3D_LO_NAND)\tab\tab\tab LogicOp=PIPE_LOGICOP_NAND;   \par
+if(LogicOp==W3D_LO_AND)\tab\tab\tab\tab LogicOp=PIPE_LOGICOP_AND;   \par
+if(LogicOp==W3D_LO_EQUIV)\tab\tab\tab LogicOp=PIPE_LOGICOP_EQUIV;   \par
+if(LogicOp==W3D_LO_NOOP)\tab\tab\tab LogicOp=PIPE_LOGICOP_NOOP;   \par
+if(LogicOp==W3D_LO_OR_INVERTED)\tab\tab LogicOp=PIPE_LOGICOP_OR_INVERTED;   \par
+if(LogicOp==W3D_LO_COPY)\tab\tab\tab LogicOp=PIPE_LOGICOP_COPY;   \par
+if(LogicOp==W3D_LO_OR_REVERSE)\tab\tab LogicOp=PIPE_LOGICOP_OR_REVERSE;   \par
+if(LogicOp==W3D_LO_OR)\tab\tab\tab\tab LogicOp=PIPE_LOGICOP_OR;   \par
+if(LogicOp==W3D_LO_SET)\tab\tab\tab\tab LogicOp=PIPE_LOGICOP_SET;   \par
+if(Zmode==W3D_Z_NEVER)\tab\tab\tab\tab Zmode=PIPE_FUNC_NEVER;   \par
+if(Zmode==W3D_Z_LESS)\tab\tab\tab\tab Zmode=PIPE_FUNC_LESS;   \par
+if(Zmode==W3D_Z_EQUAL)\tab\tab\tab\tab Zmode=PIPE_FUNC_EQUAL;   \par
+if(Zmode==W3D_Z_LEQUAL)\tab\tab\tab\tab Zmode=PIPE_FUNC_LEQUAL;   \par
+if(Zmode==W3D_Z_GREATER)\tab\tab\tab Zmode=PIPE_FUNC_GREATER;   \par
+if(Zmode==W3D_Z_NOTEQUAL)\tab\tab\tab Zmode=PIPE_FUNC_NOTEQUAL;   \par
+if(Zmode==W3D_Z_GEQUAL)\tab\tab\tab\tab Zmode=PIPE_FUNC_GEQUAL;   \par
+if(Zmode==W3D_Z_ALWAYS)\tab\tab\tab\tab Zmode=PIPE_FUNC_ALWAYS;   \par
+if(AlphaMode==W3D_A_NEVER)\tab\tab\tab AlphaMode=PIPE_FUNC_NEVER;   \par
+if(AlphaMode==W3D_A_LESS)\tab\tab\tab AlphaMode=PIPE_FUNC_LESS;   \par
+if(AlphaMode==W3D_A_EQUAL)\tab\tab\tab AlphaMode=PIPE_FUNC_EQUAL;   \par
+if(AlphaMode==W3D_A_LEQUAL)\tab\tab\tab AlphaMode=PIPE_FUNC_LEQUAL;   \par
+if(AlphaMode==W3D_A_GREATER)\tab\tab\tab AlphaMode=PIPE_FUNC_GREATER;   \par
+if(AlphaMode==W3D_A_NOTEQUAL)\tab\tab\tab AlphaMode=PIPE_FUNC_NOTEQUAL;   \par
+if(AlphaMode==W3D_A_GEQUAL)\tab\tab\tab AlphaMode=PIPE_FUNC_GEQUAL;   \par
+if(AlphaMode==W3D_A_ALWAYS)\tab\tab\tab AlphaMode=PIPE_FUNC_ALWAYS;   \par
+if(StencilFunc==W3D_ST_NEVER)\tab\tab\tab StencilFunc=PIPE_FUNC_NEVER;   \par
+if(StencilFunc==W3D_ST_LESS)\tab\tab\tab StencilFunc=PIPE_FUNC_LESS;   \par
+if(StencilFunc==W3D_ST_EQUAL)\tab\tab\tab StencilFunc=PIPE_FUNC_EQUAL;   \par
+if(StencilFunc==W3D_ST_LEQUAL)\tab\tab StencilFunc=PIPE_FUNC_LEQUAL;   \par
+if(StencilFunc==W3D_ST_GREATER)\tab\tab StencilFunc=PIPE_FUNC_GREATER;   \par
+if(StencilFunc==W3D_ST_NOTEQUAL)\tab\tab StencilFunc=PIPE_FUNC_NOTEQUAL;   \par
+if(StencilFunc==W3D_ST_GEQUAL)\tab\tab StencilFunc=PIPE_FUNC_GEQUAL;   \par
+if(StencilFunc==W3D_ST_ALWAYS)\tab\tab StencilFunc=PIPE_FUNC_ALWAYS;   \par
+if(Culling==W3D_NOW)\tab\tab\tab\tab Culling=PIPE_WINDING_NONE;   \par
+if(Culling==W3D_CW)\tab\tab\tab\tab Culling=PIPE_WINDING_CW;   \par
+if(Culling==W3D_CCW)\tab\tab\tab\tab Culling=PIPE_WINDING_CCW;   \par
+if(StencilSfail==W3D_ST_KEEP)\tab\tab\tab StencilSfail=PIPE_STENCIL_OP_KEEP;   \par
+if(StencilSfail==W3D_ST_ZERO)\tab\tab\tab StencilSfail=PIPE_STENCIL_OP_ZERO;   \par
+if(StencilSfail==W3D_ST_REPLACE)\tab\tab StencilSfail=PIPE_STENCIL_OP_REPLACE;   \par
+if(StencilSfail==W3D_ST_INCR)\tab\tab\tab StencilSfail=PIPE_STENCIL_OP_INCR;   \par
+if(StencilSfail==W3D_ST_DECR)\tab\tab\tab StencilSfail=PIPE_STENCIL_OP_DECR;   \par
+if(StencilSfail==W3D_ST_INVERT)\tab\tab StencilSfail=PIPE_STENCIL_OP_INVERT;   \par
+if(StencilZpass==W3D_ST_KEEP)\tab\tab\tab StencilZpass=PIPE_STENCIL_OP_KEEP;   \par
+if(StencilZpass==W3D_ST_ZERO)\tab\tab\tab StencilZpass=PIPE_STENCIL_OP_ZERO;   \par
+if(StencilZpass==W3D_ST_REPLACE)\tab\tab StencilZpass=PIPE_STENCIL_OP_REPLACE;   \par
+if(StencilZpass==W3D_ST_INCR)\tab\tab\tab StencilZpass=PIPE_STENCIL_OP_INCR;   \par
+if(StencilZpass==W3D_ST_DECR)\tab\tab\tab StencilZpass=PIPE_STENCIL_OP_DECR;   \par
+if(StencilZpass==W3D_ST_INVERT)\tab\tab StencilZpass=PIPE_STENCIL_OP_INVERT;   \par
+if(StencilZfail==W3D_ST_KEEP)\tab\tab\tab StencilZfail=PIPE_STENCIL_OP_KEEP;   \par
+if(StencilZfail==W3D_ST_ZERO)\tab\tab\tab StencilZfail=PIPE_STENCIL_OP_ZERO;   \par
+if(StencilZfail==W3D_ST_REPLACE)\tab\tab StencilZfail=PIPE_STENCIL_OP_REPLACE;   \par
+if(StencilZfail==W3D_ST_INCR)\tab\tab\tab StencilZfail=PIPE_STENCIL_OP_INCR;   \par
+if(StencilZfail==W3D_ST_DECR)\tab\tab\tab StencilZfail=PIPE_STENCIL_OP_DECR;   \par
+if(StencilZfail==W3D_ST_INVERT)\tab\tab StencilZfail=PIPE_STENCIL_OP_INVERT;   \par
+if(Smode==W3D_REPEAT)\tab\tab\tab\tab Smode=PIPE_TEX_WRAP_REPEAT;   \par
+if(Smode==W3D_CLAMP)\tab\tab\tab\tab Smode=PIPE_TEX_WRAP_CLAMP;   \par
+if(Tmode==W3D_REPEAT)\tab\tab\tab\tab Tmode=PIPE_TEX_WRAP_REPEAT;   \par
+if(Tmode==W3D_CLAMP)\tab\tab\tab\tab Tmode=PIPE_TEX_WRAP_CLAMP;   \par
+if(MinFilter==W3D_NEAREST_MIP_NEAREST)\tab\{MinFilter=PIPE_TEX_FILTER_NEAREST; MinFilterMip=PIPE_TEX_MIPFILTER_NEAREST;\}   \par
+if(MinFilter==W3D_NEAREST_MIP_LINEAR)\tab\{MinFilter=PIPE_TEX_FILTER_NEAREST; MinFilterMip=PIPE_TEX_MIPFILTER_LINEAR; \}  \par
+if(MinFilter==W3D_LINEAR_MIP_NEAREST)\tab\{MinFilter=PIPE_TEX_FILTER_LINEAR;  MinFilterMip=PIPE_TEX_MIPFILTER_NEAREST;\}     \par
+if(MinFilter==W3D_LINEAR_MIP_LINEAR)\tab\{MinFilter=PIPE_TEX_FILTER_LINEAR;  MinFilterMip=PIPE_TEX_MIPFILTER_LINEAR; \}    \par
+if(MagFilter==W3D_NEAREST)\tab\tab\tab MagFilter=PIPE_TEX_FILTER_NEAREST;   \par
+if(MagFilter==W3D_LINEAR)\tab\tab\tab MagFilter=PIPE_TEX_FILTER_LINEAR;   \par
+if(Primitive==W3D_PRIMITIVE_POINTS)\tab\tab Primitive=PIPE_PRIM_POINTS;   \par
+if(Primitive==W3D_PRIMITIVE_LINES)\tab\tab Primitive=PIPE_PRIM_LINES;   \par
+if(Primitive==W3D_PRIMITIVE_LINELOOP)\tab Primitive=PIPE_PRIM_LINE_LOOP;   \par
+if(Primitive==W3D_PRIMITIVE_LINESTRIP)\tab Primitive=PIPE_PRIM_LINE_STRIP;   \par
+if(Primitive==W3D_PRIMITIVE_TRIANGLES)\tab Primitive=PIPE_PRIM_TRIANGLES;   \par
+if(Primitive==W3D_PRIMITIVE_TRISTRIP)\tab Primitive=PIPE_PRIM_TRIANGLE_STRIP;   \par
+if(Primitive==W3D_PRIMITIVE_TRIFAN)\tab\tab Primitive=PIPE_PRIM_TRIANGLE_FAN;   \par
+if(Primitive==W3D_PRIMITIVE_POLYGON)\tab Primitive=PIPE_PRIM_POLYGON; \par
+\tab\tab  \par
+/* =====>  struct pipe_rasterizer_state =====> Primitive (point/line/tri) rasterization info\tab */\cf0\tab\cf1\par
+#define STATE \f1 tmppipe_\f0 rasterizer_state\par
+STATE.flatshade=!GC->UseGouraud;\tab\tab\tab /*unsigned flatshade :1;\tab */\tab  \par
+STATE.light_twoside=FALSE;\tab\tab\tab\tab /*unsigned light_twoside :1;\tab */\tab  \par
+STATE.front_winding=Culling;\tab\tab\tab\tab /*unsigned front_winding :2; PIPE_WINDING_x \tab */\tab  \par
+STATE.cull_mode=PIPE_POLYGON_MODE_FILL;\tab\tab /*unsigned cull_mode :2; PIPE_WINDING_x \tab */\tab  \par
+STATE.fill_cw=PIPE_POLYGON_MODE_FILL;\tab\tab /*unsigned fill_cw :2; PIPE_POLYGON_MODE_x \tab */\tab  \par
+STATE.fill_ccw=FALSE;\tab\tab\tab\tab\tab /*unsigned fill_ccw :2; PIPE_POLYGON_MODE_x \tab */\tab  \par
+STATE.offset_cw=0;\tab\tab\tab\tab\tab /*unsigned offset_cw :1;\tab */\tab  \par
+STATE.offset_ccw=0;\tab\tab\tab\tab\tab /*unsigned offset_ccw :1;\tab */\tab  \par
+STATE.scissor=TRUE;\tab\tab\tab\tab\tab /*unsigned scissor :1;\tab */\tab  \par
+STATE.poly_smooth=StateON(W3D_ANTI_POLYGON);\tab /*unsigned poly_smooth :1;\tab */\tab  \par
+STATE.poly_stipple_enable=FALSE;\tab\tab\tab /*unsigned poly_stipple_enable :1;\tab */\tab  \par
+STATE.point_smooth=StateON(W3D_ANTI_POINT);\tab /*unsigned point_smooth :1;\tab */\tab  \par
+STATE.point_sprite=FALSE;\tab\tab\tab\tab /*unsigned point_sprite :1;\tab */\tab  \par
+STATE.point_size_per_vertex=FALSE;\tab\tab\tab /*unsigned point_size_per_vertex :1; size computed in vertex shader \tab */\tab  \par
+STATE.multisample=FALSE;\tab\tab\tab\tab /*unsigned multisample :1; XXX maybe more ms state in future \tab */\tab  \par
+STATE.line_smooth=StateON(W3D_ANTI_LINE);\tab\tab /*unsigned line_smooth :1;\tab */\tab  \par
+STATE.line_stipple_enable=FALSE;\tab\tab\tab /*unsigned line_stipple_enable :1;\tab */\tab  \par
+STATE.line_stipple_factor=0;\tab\tab\tab\tab /*unsigned line_stipple_factor :8; [1..256] actually \tab */\tab  \par
+STATE.line_stipple_pattern=0;\tab\tab\tab\tab /*unsigned line_stipple_pattern :16;\tab */\tab  \par
+STATE.line_last_pixel=FALSE;\tab\tab\tab\tab /*unsigned line_last_pixel :1;\tab */\tab  \par
+/* Vertex coordinates are pre-transformed to screen space. Skip the vertex shader,clipping and viewport processing. Note that\tab */\tab  \par
+/* a vertex shader is still needed though, to indicate the mapping from vertex elements to fragment shader input semantics.\tab */\tab  \par
+STATE.bypass_vs_clip_and_viewport=TRUE;\tab\tab /*unsigned bypass_vs_clip_and_viewport :1;\tab */\tab  \par
+STATE.flatshade_first=!GC->UseGouraud;\tab\tab /*unsigned flatshade_first :1; take color attribute from the first vertex of a primitive \tab */\tab  \par
+STATE.gl_rasterization_rules=FALSE;\tab\tab\tab /*unsigned gl_rasterization_rules :1; enable tweaks for GL rasterization? \tab */\tab  \par
+STATE.line_width=1.0;\tab\tab\tab\tab\tab /*float line_width;\tab */\tab  \par
+STATE.point_size=GC->PointSize;\tab\tab\tab /*float point_size; used when no per-vertex size \tab */\tab  \par
+STATE.point_size_min=1.0;\tab\tab\tab\tab /*float point_size_min; XXX - temporary, will go away \tab */\tab  \par
+STATE.point_size_max=1024.0;\tab\tab\tab\tab /*float point_size_max; XXX - temporary, will go away \tab */\tab  \par
+STATE.offset_units=1;\tab\tab\tab\tab\tab /*float offset_units;\tab */\tab  \par
+STATE.offset_scale=1;\tab\tab\tab\tab\tab /*float offset_scale;\tab */\tab\par
+NLOOP(PIPE_MAX_SHADER_OUTPUTS) \par
+\tab STATE.sprite_coord_mode[n]=0;\tab\tab /*??*/\tab /*ubyte sprite_coord_mode[PIPE_MAX_SHADER_OUTPUTS]; PIPE_SPRITE_COORD_ \tab */\tab  \par
+\f1\par
+GC->mypipe_\f0 rasterizer\f1 _state\f0 = pipe->create_rasterizer_state(pipe, &STATE);\par
+pipe->bind_rasterizer_state(pipe,\f1 GC->mypipe_\f0 rasterizer\f1 _state\f0 ); \par
+\par
+\cf0  \par
+\cf1 /* =====>  struct pipe_poly_stipple\tab */\par
+NLOOP(PIPE_MAX_CLIP_PLANES)\par
+\tab GC->mypipe_poly_stipple->stipple[n]=0;\tab\tab\tab\tab /*unsigned stipple[32];\tab */\tab  \par
+\par
+pipe->set_polygon_stipple(pipe,&GC->set_polygon_stipple);\par
+ \par
+\par
+/* =====>  struct pipe_viewport_state\tab */\tab  \par
+#define STATE GC->mypipe_viewport_state\par
+STATE->scale[0]=1.0;\tab\tab\tab\tab /*float scale[4];\tab */\tab  \par
+STATE->scale[1]=1.0;\par
+STATE->scale[2]=1.0;\par
+STATE->scale[3]=1.0;\par
+STATE->translate[0]=0.0;\tab\tab\tab /*float translate[4];\tab */\tab  \par
+STATE->translate[1]=0.0;\par
+STATE->translate[2]=0.0;\par
+STATE->translate[3]=0.0;\par
+\par
+pipe->set_viewport_state(pipe,&STATE);\par
+ \par
+ \par
+/* =====>  struct pipe_scissor_state\tab */\tab\par
+#define STATE GC->mypipe_scissor_state\par
+STATE->minx=GC->ClipMin.x;\tab\tab\tab\tab /*unsigned minx :16;\tab */\tab  \par
+STATE->miny=GC->ClipMin.y;\tab\tab\tab\tab /*unsigned miny :16;\tab */\tab  \par
+STATE->maxx=GC->ClipMax.x;\tab\tab\tab\tab /*unsigned maxx :16;\tab */\tab  \par
+STATE->maxy=GC->ClipMax.y;\tab\tab\tab\tab /*unsigned maxy :16;\tab */\tab  \par
+\par
+pipe->set_scissor_state(pipe, &STATE); \par
+\par
+ \par
+ \par
+/* =====>  struct pipe_clip_state\tab */\tab\par
+#define STATE GC->mypipe_clip_state\par
+NLOOP(PIPE_MAX_CLIP_PLANES)\par
+\{\par
+STATE->ucp[n][0]=0.0;\tab\tab\tab\tab\tab /*float ucp[PIPE_MAX_CLIP_PLANES][4];\tab */\tab  \par
+STATE->ucp[n][1]=0.0;\par
+STATE->ucp[n][2]=0.0;\par
+STATE->ucp[n][3]=0.0;\par
+\}\par
+STATE->nr=0;\tab\tab\tab\tab\tab\tab /*unsigned nr;\tab */\tab\par
+ \par
+pipe->set_clip_state(pipe,&STATE);\par
+\cf0\b  \par
+\b0\tab\tab  \par
+ \par
+\tab\tab\tab\tab\tab\tab /* Constants for vertex/fragment shaders\tab */\tab  \par
+/* =====>  struct pipe_constant_buffer\tab */\tab  \par
+GC->mypipe_constant_buffer->buffer;\tab\tab\tab /*struct pipe_buffer *buffer;\tab */\par
+\par
+\cf2 pipe->set_constant_buffer(pipe, uint shader, uint index,&GC->mypipe_constant_buffer); \par
+\cf0  \par
+\par
+/* =====>  struct pipe_shader_state\tab */\tab  \par
+GC->mypipe_shader_state->struct tgsi_token=;\tab /*const struct tgsi_token *tokens;\tab */\tab  \par
+\par
+    # vertex shader\par
+    vs = Shader('''\par
+        VERT1.1\par
+        DCL IN[0], POSITION, CONSTANT\par
+        DCL IN[1], COLOR, CONSTANT\par
+        DCL OUT[0], POSITION, CONSTANT\par
+        DCL OUT[1], COLOR, CONSTANT\par
+        0:MOV OUT[0], IN[0]\par
+        1:MOV OUT[1], IN[1]\par
+        2:END\par
+    ''')\par
+    ctx.set_vertex_shader(vs)\par
+\par
+    # fragment shader\par
+    fs = Shader('''\par
+        FRAG1.1\par
+        DCL IN[0], COLOR, LINEAR\par
+        DCL OUT[0], COLOR, CONSTANT\par
+        0:MOV OUT[0], IN[0]\par
+        1:END\par
+    ''')\par
+    ctx.set_fragment_shader(fs)\par
+ \par
+\par
+\par
+\par
+\cf1 /* =====>  struct pipe_depth_stencil_alpha_state\tab */\tab  \par
+#define STATE \f1 tmppipe_depth_stencil_alpha_state\f0\par
+\f1 STATE.depth.enabled=(\f0 ZbufferMode\f1 !=PIPE_FUNC_NONE);\tab\tab /*unsigned enabled :1; depth test enabled? \tab */\tab  \par
+STATE.depth.writemask=Zwrite;\tab\tab\tab\tab\tab\tab /*unsigned writemask :1; allow depth buffer writes? \tab */\tab  \par
+STATE.depth.func=\f0 ZbufferMode\f1 ;\tab\tab\tab\tab\tab\tab /*unsigned func :3; depth test func (PIPE_FUNC_x) \tab */\tab  \par
+STATE.depth.occlusion_count=FALSE;\tab\tab\tab\tab\tab /*unsigned occlusion_count :1; do occlusion counting? \tab */\tab  \par
+\f0  \par
+STATE.stencil[0].enabled=\f1 (\f0 StencilFunc\f1 !=PIPE_FUNC_NONE);\f0\tab /*unsigned enabled:1; stencil[0]:stencil enabled,stencil[1]:two-side enabled \tab */\par
+STATE.stencil[0].func=StencilFunc;\tab\tab\tab\tab\tab /*unsigned func :3; PIPE_FUNC_x \tab */\tab  \par
+STATE.stencil[0].fail_op=StencilSfail;\tab\tab\tab\tab /*unsigned fail_op :3; PIPE_STENCIL_OP_x \tab */\tab  \par
+STATE.stencil[0].zpass_op=StencilZpass;\tab\tab\tab\tab /*unsigned zpass_op :3; PIPE_STENCIL_OP_x \tab */\tab  \par
+STATE.stencil[0].zfail_op=StencilZfail;\tab\tab\tab\tab /*unsigned zfail_op :3; PIPE_STENCIL_OP_x \tab */\tab  \par
+STATE.stencil[0].ref_value=GC->StencilRef\tab\tab & 0xff;\tab /*ubyte ref_value;\tab */\tab  \par
+STATE.stencil[0].valuemask=GC->StencilMask\tab & 0xff;\tab /*ubyte valuemask;\tab */\tab  \par
+STATE.stencil[0].writemask=GC->StencilWriteMask\tab & 0xff;\tab /*ubyte writemask;\tab */\tab  \par
+\par
+STATE.stencil[1].enabled=\f1 (\f0 StencilFunc\f1 !=PIPE_FUNC_NONE);\f0\tab /*unsigned enabled:1; stencil[0]:stencil enabled,stencil[1]:two-side enabled \tab */\par
+STATE.stencil[1].func=StencilFunc;\tab\tab\tab\tab\tab /*unsigned func :3; PIPE_FUNC_x \tab */\tab  \par
+STATE.stencil[1].fail_op=StencilSfail;\tab\tab\tab\tab /*unsigned fail_op :3; PIPE_STENCIL_OP_x \tab */\tab  \par
+STATE.stencil[1].zpass_op=StencilZpass;\tab\tab\tab\tab /*unsigned zpass_op :3; PIPE_STENCIL_OP_x \tab */\tab  \par
+STATE.stencil[1].zfail_op=StencilZfail;\tab\tab\tab\tab /*unsigned zfail_op :3; PIPE_STENCIL_OP_x \tab */\tab  \par
+STATE.stencil[1].ref_value=GC->StencilRef\tab\tab & 0xff;\tab /*ubyte ref_value;\tab */\tab  \par
+STATE.stencil[1].valuemask=GC->StencilMask\tab & 0xff;\tab /*ubyte valuemask;\tab */\tab  \par
+STATE.stencil[1].writemask=GC->StencilWriteMask\tab & 0xff;\tab /*ubyte writemask;\tab */\tab  \par
+\tab  \par
+\f1 STATE.alpha.\f0 enabled=\f1 (\f0 AlphaMode\f1 !=PIPE_FUNC_NONE);\f0\tab\tab /*unsigned enabled :1;\tab */\tab  \par
+\f1 STATE.alpha.\f0 func=AlphaMode;\tab\tab\tab\tab\tab\tab /*unsigned func :3; PIPE_FUNC_x \tab */\tab  \par
+\f1 STATE.alpha.\f0 ref_value=GC->AlphaRef;\tab\tab\tab\tab\tab /*float ref_value; reference value \tab */\tab  \par
+ \par
+\f1 GC->my\f0 pipe_depth_stencil_alpha_state\f1 =pipe->create_depth_stencil_alpha_state (pipe,&STATE);\par
+pipe->bind_depth_stencil_alpha_state(pipe,GC->my\f0 pipe_depth_stencil_alpha_state\f1 );\f0  \cf0\par
+ \par
+ \par
+ \par
+\cf1\f1 /* =====>  struct pipe_blend_state\tab */\par
+#define STATE tmppipe_blend_state\par
+colormask=(GC->MaskRGBA[0]!=0)<<3+(GC->MaskRGBA[1]!=0)<<2+(GC->MaskRGBA[2]!=0)<<1+(GC->MaskRGBA[3]!=0)<<0;\par
+STATE.blend_enable=GC->BlendON;\tab\tab /*unsigned blend_enable :1;\tab */\tab  \par
+STATE.rgb_func=PIPE_BLEND_ADD;\tab\tab /*unsigned rgb_func :3; PIPE_BLEND_x \tab */\tab  \par
+STATE.rgb_src_factor=SrcFunc;\tab\tab\tab /*unsigned rgb_src_factor :5; PIPE_BLENDFACTOR_x \tab */\tab  \par
+STATE.rgb_dst_factor=DstFunc;\tab\tab\tab /*unsigned rgb_dst_factor :5; PIPE_BLENDFACTOR_x \tab */\tab  \par
+STATE.alpha_func=PIPE_BLEND_ADD;\tab\tab /*unsigned alpha_func :3; PIPE_BLEND_x \tab */\tab  \par
+STATE.alpha_src_factor=SrcFunc;\tab\tab /*unsigned alpha_src_factor :5; PIPE_BLENDFACTOR_x \tab */\tab  \par
+STATE.alpha_dst_factor=DstFunc;\tab\tab /*unsigned alpha_dst_factor :5; PIPE_BLENDFACTOR_x \tab */\tab  \par
+STATE.logicop_enable=(LogicOp!=PIPE_FUNC_NONE);\tab\tab\tab\tab /*unsigned logicop_enable :1;\tab */\tab  \par
+STATE.logicop_func=LogicOp;\tab\tab\tab /*unsigned logicop_func :4; PIPE_LOGICOP_x \tab */\tab  \par
+STATE.colormask=colormask;\tab\tab\tab /*unsigned colormask :4; bitmask of PIPE_MASK_R/G/B/A \tab */\tab  \par
+STATE.dither=GC->DitherON;\tab\tab\tab /*unsigned dither :1;\tab */\tab  \par
+\par
+GC->mypipe_blend_state=create_blend_state( pipe,&STATE);\par
+pipe->bind_blend_state(pipe, GC->mypipe_blend_state);\cf0\par
+ \f0\par
+\par
+\cf1 /* =====>  struct pipe_blend_color\tab */\par
+\f1 #define COLOR GC->mypipe_blend_\f0 color\f1\par
+\f0 COLOR.color[0]=GC->EnvRGBA[0]/255.0;\tab\tab\tab /*float color[4];\tab */\tab  \par
+COLOR.color[1]=GC->EnvRGBA[1]/255.0;\tab\tab\tab /*float color[4];\tab */\tab  \par
+COLOR.color[2]=GC->EnvRGBA[2]/255.0;\tab\tab\tab /*float color[4];\tab */\tab  \par
+COLOR.color[3]=GC->EnvRGBA[3]/255.0;\tab\tab\tab /*float color[4];\tab */\tab  \par
+\par
+\f1 pipe->\f0 set_blend_color(pipe,&\f1 COLOR\f0 ); \cf0\par
+ \par
+\tab\tab\tab  \par
+\cf1 /* =====>  struct pipe_framebuffer_state\tab */\par
+\f1 #define STATE \f0 GC->mypipe_framebuffer_state\f1\par
+\f0 STATE.width =GC->large;\tab\tab\tab\tab\tab\tab /*unsigned width, height;\tab */\par
+STATE.height=GC->high;\tab\tab\tab\tab\tab\tab /*unsigned width, height;\tab */\par
+STATE.nr_cbufs=1;\tab\tab\tab\tab\tab\tab\tab /*unsigned nr_cbufs;\tab  multiple colorbuffers for multiple render targets \tab */\par
+STATE.cbufs[0]=GC->myscreenpipe_surface;\tab\tab\tab /*struct pipe_surface *cbufs[PIPE_MAX_COLOR_BUFS];\tab */\tab  \par
+STATE.zsbuf=GC->myzsbuffpipe_surface;\tab\tab\tab /*struct pipe_surface *zsbuf; Z/stencil buffer \tab */\tab  \par
+\par
+\f1 pipe->\f0 set_framebuffer_state(pipe,&\f1 STATE\f0 ); \cf0\par
+\par
+\par
+/* =====>  struct pipe_surface =====> 2D surface. Basically a view into a memory buffer.May be a renderbuffer, texture mipmap level, etc.\tab */\par
+GC->mypipe_surface->reference;\tab\tab /*struct pipe_reference reference;\tab */\tab  \par
+GC->mypipe_surface->format;\tab\tab\tab /*enum pipe_format format; PIPE_FORMAT_x \tab */\tab  \par
+GC->mypipe_surface->width;\tab\tab\tab /*unsigned width; logical width in pixels \tab */\tab  \par
+GC->mypipe_surface->height;\tab\tab\tab /*unsigned height; logical height in pixels \tab */\tab  \par
+GC->mypipe_surface->layout;\tab\tab\tab /*unsigned layout; PIPE_SURFACE_LAYOUT_x \tab */\tab  \par
+GC->mypipe_surface->offset; \tab\tab\tab /*unsigned offset; offset from start of buffer, in bytes \tab */\tab  \par
+GC->mypipe_surface->usage;\tab\tab\tab /*unsigned usage; PIPE_BUFFER_USAGE__ \tab */\tab  \par
+GC->mypipe_surface->texture;\tab\tab\tab /*struct pipe_texture *texture; texture into which this is a view \tab */\tab  \par
+GC->mypipe_surface->face;\tab\tab\tab /*unsigned face;\tab */\tab  \par
+GC->mypipe_surface->level;\tab\tab\tab /*unsigned level;\tab */\tab  \par
+GC->mypipe_surface->zslice;\tab\tab\tab /*unsigned zslice;\tab */\tab  \par
+\par
+\par
+/* =====>  struct pipe_transfer =====>  Transfer object. For data transfer to/from a texture.\tab */\tab\par
+GC->mypipe_transfer->format;\tab\tab\tab /*enum pipe_format format; PIPE_FORMAT_x \tab */\tab  \par
+GC->mypipe_transfer->x;\tab\tab\tab\tab /*unsigned x; x offset from start of texture image \tab */\tab  \par
+GC->mypipe_transfer->y;\tab\tab\tab\tab /*unsigned y; y offset from start of texture image \tab */\tab  \par
+GC->mypipe_transfer->width;\tab\tab\tab /*unsigned width; logical width in pixels \tab */\tab  \par
+GC->mypipe_transfer->height;\tab\tab\tab /*unsigned height; logical height in pixels \tab */\tab  \par
+GC->mypipe_transfer->block;\tab\tab\tab /*struct pipe_format_block block;\tab */\tab  \par
+GC->mypipe_transfer->nblocksx;\tab\tab /*unsigned nblocksx; allocated width in blocks \tab */\tab  \par
+GC->mypipe_transfer->nblocksy;\tab\tab /*unsigned nblocksy; allocated height in blocks \tab */\tab  \par
+GC->mypipe_transfer->stride;\tab\tab\tab /*unsigned stride; stride in bytes between rows of blocks \tab */\tab  \par
+GC->mypipe_transfer->usage;\tab\tab\tab /*unsigned usage; PIPE_TRANSFER__ \tab */\tab  \par
+GC->mypipe_transfer->texture;\tab\tab\tab /*struct pipe_texture *texture; texture to transfer to/from \tab */\tab  \par
+GC->mypipe_transfer->face;\tab\tab\tab /*unsigned face;\tab */\tab  \par
+GC->mypipe_transfer->level;\tab\tab\tab /*unsigned level;\tab */\tab  \par
+GC->mypipe_transfer->zslice;\tab\tab\tab /*unsigned zslice;\tab */\tab  \par
+\tab\tab\tab\tab\tab  \par
+ \par
+\cf1 /* =====>  struct pipe_texture =====>  Texture object.\tab */\par
+\tab\cf2 texformat ???\cf1\par
+\f1 #define \f0 TEXTMP GC->tmppipe_texture\par
+TEXTMP.reference;\tab\tab\tab\tab\tab\tab\tab\tab /*struct pipe_reference reference;\tab */\tab  \par
+TEXTMP.target=PIPE_TEXTURE_2D;\tab\tab\tab\tab\tab /*enum pipe_texture_target target; PIPE_TEXTURE_x \tab */\tab  \par
+TEXTMP.format=texformat;\tab\tab\tab\tab\tab\tab /*enum pipe_format format; PIPE_FORMAT_x \tab */\tab  \par
+TEXTMP.width[0]=GT->large;\tab\tab\tab\tab\tab\tab /*unsigned width[PIPE_MAX_TEXTURE_LEVELS];\tab */\tab  \par
+TEXTMP.height[0]=GT->high;\tab\tab\tab\tab\tab\tab /*unsigned height[PIPE_MAX_TEXTURE_LEVELS];\tab */\tab  \par
+TEXTMP.depth[0]=1;\tab\tab\tab\tab\tab\tab\tab /*unsigned depth[PIPE_MAX_TEXTURE_LEVELS];\tab */\tab  \par
+pf_get_block(texformat, &TEXTMP.block);\tab\tab\tab\tab /*struct pipe_format_block block;\tab */\tab  \par
+TEXTMP.nblocksx[0]=pf_get_nblocksx(&pt->block,GT->large);\tab /*unsigned nblocksx[PIPE_MAX_TEXTURE_LEVELS]; allocated width in blocks \tab */\tab  \par
+TEXTMP.nblocksy[0]=pf_get_nblocksy(&pt->block,GT->high);\tab /*unsigned nblocksy[PIPE_MAX_TEXTURE_LEVELS]; allocated height in blocks \tab */\tab  \par
+TEXTMP.last_level=0;\tab\tab\tab\tab\tab\tab\tab /*unsigned last_level :8; Index of last mipmap level present/defined \tab */\tab  \par
+TEXTMP.nr_samples=0;\tab\tab\tab\tab\tab\tab\tab /*unsigned nr_samples :8; for multisampled surfaces, nr of samples \tab */\tab  \par
+TEXTMP.tex_usage=PIPE_TEXTURE_USAGE_SAMPLER; /*??*/\tab\tab /*unsigned tex_usage; PIPE_TEXTURE_USAGE__ \tab */\tab  \par
+TEXTMP.screen=GC->myscreenpipe_screen;\tab\tab\tab\tab /*struct pipe_screen *screen; screen that this texture belongs to \tab */\tab  \par
+\par
+GT->mypipe_texture=screen->texture_create(GC->myscreenpipe_screen,&TEXTMP);\cf0\par
+\par
+\par
+\cf1 /* =====>  struct pipe_sampler_state =====>  Texture sampler state.\tab */\par
+\f1 #define STATE \f0 GT->mypipe_sampler_state\f1\par
+\cf0\f0 srcLevel=0;\par
+\cf1 STATE->wrap_s=Smode;\tab\tab\tab\tab\tab\tab /*unsigned wrap_s :3; PIPE_TEX_WRAP_x \tab */\tab  \par
+STATE->wrap_t=Tmode;\tab\tab\tab\tab\tab\tab /*unsigned wrap_t :3; PIPE_TEX_WRAP_x \tab */\tab  \par
+STATE->wrap_r=PIPE_TEX_WRAP_REPEAT;\tab\tab\tab\tab /*unsigned wrap_r :3; PIPE_TEX_WRAP_x \tab */\tab  \par
+STATE->min_img_filter=MinFilterMip;\tab\tab\tab\tab /*unsigned min_img_filter :2; PIPE_TEX_FILTER_x \tab */\tab  \par
+STATE->min_mip_filter=MinFilter;\tab\tab\tab\tab /*unsigned min_mip_filter :2; PIPE_TEX_MIPFILTER_x \tab */\tab  \par
+STATE->mag_img_filter=MagFilter;\tab\tab\tab\tab /*unsigned mag_img_filter :2; PIPE_TEX_FILTER_x \tab */\tab  \par
+STATE->compare_mode=PIPE_TEX_COMPARE_NONE;\tab\tab /*unsigned compare_mode :1; PIPE_TEX_COMPARE_x \tab */\tab  \par
+STATE->compare_func=PIPE_FUNC_ALWAYS;\tab\tab\tab /*unsigned compare_func :3; PIPE_FUNC_x \tab */\tab  \par
+STATE->normalized_coords=TRUE;\tab\tab\tab\tab /*unsigned normalized_coords :1; Are coords normalized to [0,1]? \tab */\tab  \par
+STATE->prefilter=0;\tab\tab\tab\tab\tab\tab /*unsigned prefilter :4; Wierd sampling state exposed by some api's \tab */\tab  \par
+STATE->shadow_ambient=0.0f;\tab\tab\tab\tab\tab /*float shadow_ambient; shadow test fail color/intensity \tab */\tab  \par
+STATE->lod_bias\cf0 = (float) srcLevel;\cf1\tab\tab\tab\tab /*float lod_bias; LOD/lambda bias \tab\tab\tab */\tab  \par
+STATE->min_lod \cf0 = (float) srcLevel;\cf1\tab\tab\tab\tab /*float min_lod LOD clamp range, after bias \tab */\tab  \par
+STATE->max_lod \cf0 = (float) srcLevel;\cf1\tab\tab\tab\tab /*float max_lod LOD clamp range, after bias \tab */\tab  \par
+STATE->border_color[0]=GT->BorderRGBA[0]/255.0;\tab\tab /*float border_color[4];\tab */\tab  \par
+STATE->border_color[1]=GT->BorderRGBA[1]/255.0;\tab\tab /*float border_color[4];\tab */\tab  \par
+STATE->border_color[2]=GT->BorderRGBA[2]/255.0;\tab\tab /*float border_color[4];\tab */\tab  \par
+STATE->border_color[3]=GT->BorderRGBA[3]/255.0;\tab\tab /*float border_color[4];\tab */\tab  \par
+STATE->max_anisotropy=0.0f;\tab\tab\tab\tab\tab /*float max_anisotropy;\tab\tab */\par
+\tab  \par
+pipe->create_sampler_state(pipe,&\f1 STATE\f0 );\par
+pipe->\f1 bind_\f0 sampler\f1 _state(pipe, GT->mypipe_\f0 sampler\f1 _state);\cf0\par
+\f0\par
+nbtextures=1;\par
+\cf1 pipe->\cf0 set_sampler_textures(ctx->cso, nbtextures, &\cf1\f1 GT->mypipe_\f0 texture\cf0 );\par
+\par
+ \par
+\tab\tab\tab  \par
+================================================================================================\tab\tab\tab\tab\par
+================================================================================================\tab\tab\tab\tab\par
+#include "pipe/p_context.h"\par
+#include "pipe/p_defines.h"\par
+#include "pipe/p_inlines.h"\par
+#include "util/u_draw_quad.h"\par
+\par
+#define FSIZE sizeof(float)\par
+\par
+\par
+\par
+util_blit_pixels_writemask(struct blit_state *ctx,\par
+                           struct pipe_surface *src,\par
+                           int srcX0, int srcY0,\par
+                           int srcX1, int srcY1,\par
+                           struct pipe_surface *dst,\par
+                           int dstX0, int dstY0,\par
+                           int dstX1, int dstY1,\par
+                           float z, uint filter,\par
+                           uint writemask)\par
+\{\par
+   struct pipe_context *pipe = ctx->pipe;\par
+   struct pipe_screen *screen = pipe->screen;\par
+   struct pipe_texture tmppipe_texture, *GT->mypipe_texture;\par
+   struct pipe_surface *texSurf;\par
+   struct pipe_framebuffer_state fb;\par
+   const int large = abs(srcX1 - srcX0);\par
+   const int high = abs(srcY1 - srcY0);\par
+   const int srcLeft = MIN2(srcX0, srcX1);\par
+   const int srcTop = MIN2(srcY0, srcY1);\par
+   unsigned offset;\par
+   boolean overlap;\par
+\par
+   assert(filter == PIPE_TEX_MIPFILTER_NEAREST ||\par
+          filter == PIPE_TEX_MIPFILTER_LINEAR);\par
+\par
+   assert(screen->is_format_supported(screen, src->format, PIPE_TEXTURE_2D,PIPE_TEXTURE_USAGE_SAMPLER, 0));\par
+   assert(screen->is_format_supported(screen, dst->format, PIPE_TEXTURE_2D,PIPE_TEXTURE_USAGE_RENDER_TARGET, 0));\par
+   assert(screen->is_format_supported(screen, dst->format, PIPE_TEXTURE_2D,PIPE_TEXTURE_USAGE_RENDER_TARGET, 0));\par
+\par
+\par
+   /* create temp texture */\par
+   memset(&tmppipe_texture, 0, sizeof(tmppipe_texture));\par
+   tmppipe_texture.target = PIPE_TEXTURE_2D;\par
+   tmppipe_texture.format=  src->format;\par
+   tmppipe_texture.last_level=  0;\par
+   tmppipe_texture.width[0] = large;\par
+   tmppipe_texture.height[0] = high;\par
+   tmppipe_texture.depth[0]  =1;\par
+   pf_get_block(src->format, &tmppipe_texture.block);\par
+   GT->mypipe_texture = screen->texture_create(screen, &tmppipe_texture);\par
+   if (!GT->mypipe_texture)\par
+      return;\par
+\par
+   texSurf = screen->get_GT->mypipe_texture_surface(screen, GT->mypipe_texture, 0, 0,0,PIPE_BUFFER_USAGE_GPU_WRITE);\par
+\par
+   /* load temp texture */\par
+   pipe->surface_copy(pipe,texSurf, 0, 0,src, srcLeft, srcTop,large, high);     \par
+\par
+   /* free the surface, update the texture if necessary.\par
+    */\par
+   pipe_surface_reference(&texSurf, NULL);\par
+\par
+\par
+   util_draw_vertex_buffer(ctx->pipe, ctx->vbuf, offset,PIPE_PRIM_TRIANGLE_FAN,4,2); /* attribs/vert */\par
+\par
+   pipe_texture_reference(&GT->mypipe_texture, NULL);\par
+\}\par
+================================================================================================\par
+\tab pipe->set_sampler_textures(pipe, 1, &surface->texture);\par
+\par
+================================================================================================\par
+\cf1 struct GALLIUM3D_context *GALLIUM3D_Start(WORD large,WORD high,void *bm);  \par
+void  GALLIUM3D_ClearImage(struct GALLIUM3D_context *GC,WORD x,WORD y,WORD large,WORD high);    \par
+void  GALLIUM3D_ClearZBuffer(struct GALLIUM3D_context *GC,float fz);    \par
+void *GALLIUM3D_CreateTexture(struct GALLIUM3D_context *GC,UBYTE *pt,UWORD large,UWORD high,UWORD bits,BOOL MipMapped);  \par
+BOOL  GALLIUM3D_DoUpdate(struct GALLIUM3D_context *GC);\tab\par
+void  GALLIUM3D_DrawPrimitive(struct GALLIUM3D_context *GC,struct point3D *P,LONG Pnb,ULONG primitive);    \par
+void  GALLIUM3D_End(struct GALLIUM3D_context *GC);    \par
+void  GALLIUM3D_Fog(struct GALLIUM3D_context *GC,WORD FogMode,float FogZmin,float FogZmax,float FogDensity,UBYTE *FogRGBA);    \par
+void  GALLIUM3D_FreeTexture(struct GALLIUM3D_context *GC,void  *texture);\par
+void  GALLIUM3D_ReadZSpan(struct GALLIUM3D_context *GC, ULONG x, ULONG y,ULONG n, W3D_Double *z);\par
+void  GALLIUM3D_ReallocImage(struct GALLIUM3D_context *GC,WORD large,WORD high);\par
+void  GALLIUM3D_SetBackColor(struct GALLIUM3D_context *GC,UBYTE  *RGBA);    \par
+void  GALLIUM3D_SetBitmap(struct GALLIUM3D_context *GC,void  *bm,WORD x,WORD y,WORD large,WORD high);    \par
+void  GALLIUM3D_SetClipping(struct GALLIUM3D_context *GC,float xmin,float xmax,float ymin,float ymax,float zmin,float zmax);    \par
+void  GALLIUM3D_SetCulling(struct GALLIUM3D_context *GC,UWORD Culling);    \par
+void  GALLIUM3D_SetCurrentColor(struct GALLIUM3D_context *GC,UBYTE  *RGBA);    \par
+void  GALLIUM3D_SetDrawFunctions(struct GALLIUM3D_context *GC);    \par
+void  GALLIUM3D_SetDrawStates(struct GALLIUM3D_context *GC,struct GALLIUM3D_texture *ST,UBYTE ZMode,UBYTE BlendMode,UBYTE TexEnvMode,UBYTE UseGouraud,UBYTE UseFog);    \par
+void  GALLIUM3D_SetEnvColor(struct GALLIUM3D_context *GC,UBYTE  *RGBA);    \par
+void  GALLIUM3D_SetImage(struct GALLIUM3D_context *GC,WORD large,WORD high,ULONG *Image32);\par
+void  GALLIUM3D_SetPointSize(struct GALLIUM3D_context *GC,UWORD PointSize);    \par
+void  GALLIUM3D_SetZbuffer(struct GALLIUM3D_context *GC,ZBUFF *Zbuffer);    \par
+void  GALLIUM3D_WriteZSpan(struct GALLIUM3D_context *GC, ULONG x, ULONG y,ULONG n, W3D_Double *zD, UBYTE *mask);   \cf0\par
+================================================================================================\par
+\cf1\par
+\cf0\par
+\cf1\par
+\cf0 ================================================================================================\par
+struct GALLIUM3D_context\tab\{    \par
+struct pipe_rasterizer_state\tab\tab\tab mypipe_rasterizer_state;\tab    \par
+struct pipe_poly_stipple  \tab\tab\tab mypipe_poly_stipple;\tab    \par
+struct pipe_viewport_state  \tab\tab\tab mypipe_viewport_state;\tab    \par
+struct pipe_scissor_state  \tab\tab\tab mypipe_scissor_state;\tab    \par
+struct pipe_clip_state  \tab\tab\tab mypipe_clip_state;\tab    \par
+struct pipe_constant_buffer  \tab\tab\tab mypipe_constant_buffer;\tab    \par
+struct pipe_shader_state  \tab\tab\tab mypipe_shader_state;\tab    \par
+struct pipe_depth_state\tab  \tab\tab\tab mypipe_depth_state\tab    \par
+struct pipe_stencil_state  \tab\tab\tab mypipe_stencil_state;\tab    \par
+struct pipe_alpha_state  \tab\tab\tab mypipe_alpha_state;\tab    \par
+struct pipe_depth_stencil_alpha_state  \tab mypipe_depth_stencil_alpha_state;\tab    \par
+struct pipe_blend_state  \tab\tab\tab mypipe_blend_state;\tab    \par
+struct pipe_blend_color  \tab\tab\tab mypipe_blend_color;\tab    \par
+struct pipe_framebuffer_state  \tab\tab mypipe_framebuffer_state;\tab    \par
+struct pipe_surface  \tab\tab\tab\tab mypipe_surface;\tab    \par
+struct pipe_transfer  \tab\tab\tab\tab mypipe_transfer;\tab    \par
+struct pipe_buffer  \tab\tab\tab\tab *mypipe_buffer;\tab    \par
+struct pipe_vertex_buffer  \tab\tab\tab mypipe_vertex_buffer;\tab    \par
+struct pipe_vertex_element \tab\tab\tab mypipe_vertex_element[PIPE_MAX_ATTRIBS];\tab    \par
+void\tab pipe_sampler_state  \tab\tab\tab *mypipe_sampler_state;\par
+struct pipe_screen \tab\cf1\tab\tab\tab *myscreenpipe_screen;\cf0\par
+struct pipe_surface\cf1\tab\tab\tab\tab *myscreenpipe_surface;\cf0\par
+struct pipe_texture\tab\tab\tab\tab *\cf1 myscreenpipe_texture\cf0 ; \par
+struct pipe_surface \tab\tab\tab\tab\cf1 *myzsbuffpipe_surface;\cf0  \par
+\}\tab\tab     \par
+================================================================================================\tab\tab     \par
+struct GALLIUM3D_texture\tab\{    \par
+struct pipe_texture  \tab\tab mypipe_texture;\tab    \par
+struct pipe_sampler_state  \tab mypipe_sampler_state;\tab\par
+\par
+\par
+\par
+\cf1 ================================================================================================\par
+void  GALLIUM_Start(struct GALLIUM3D_context *GC);    \par
+\{\par
+struct pipe_context *pipe=GC->mypipe;\par
+struct pipe_screen *screen= pipe->screen;\par
+uint vsize= MAXPRIM * (4 * 4 * FSIZE);\par
+uint n;\par
+\par
+/*\par
+#define PIPE_CAP_MAX_TEXTURE_IMAGE_UNITS 1\par
+#define PIPE_CAP_NPOT_TEXTURES           2\par
+#define PIPE_CAP_TWO_SIDED_STENCIL       3\par
+#define PIPE_CAP_GLSL                    4  XXX need something better \par
+#define PIPE_CAP_S3TC                    5\par
+#define PIPE_CAP_ANISOTROPIC_FILTER      6\par
+#define PIPE_CAP_POINT_SPRITE            7\par
+#define PIPE_CAP_MAX_RENDER_TARGETS      8\par
+#define PIPE_CAP_OCCLUSION_QUERY         9\par
+#define PIPE_CAP_TEXTURE_SHADOW_MAP      10\par
+#define PIPE_CAP_MAX_TEXTURE_2D_LEVELS   11\par
+#define PIPE_CAP_MAX_TEXTURE_3D_LEVELS   12\par
+#define PIPE_CAP_MAX_TEXTURE_CUBE_LEVELS 13\par
+#define PIPE_CAP_MAX_LINE_WIDTH          14\par
+#define PIPE_CAP_MAX_LINE_WIDTH_AA       15\par
+#define PIPE_CAP_MAX_POINT_WIDTH         16\par
+#define PIPE_CAP_MAX_POINT_WIDTH_AA      17\par
+#define PIPE_CAP_MAX_TEXTURE_ANISOTROPY  18\par
+#define PIPE_CAP_MAX_TEXTURE_LOD_BIAS    19\par
+#define PIPE_CAP_GUARD_BAND_LEFT         20  < float \par
+#define PIPE_CAP_GUARD_BAND_TOP          21  < float \par
+#define PIPE_CAP_GUARD_BAND_RIGHT        22  < float \par
+#define PIPE_CAP_GUARD_BAND_BOTTOM       23  < float\par
+#define PIPE_CAP_TEXTURE_MIRROR_CLAMP    24\par
+#define PIPE_CAP_TEXTURE_MIRROR_REPEAT   25\par
+#define PIPE_CAP_MAX_VERTEX_TEXTURE_UNITS 26\par
+#define PIPE_CAP_TGSI_CONT_SUPPORTED     27\par
+*/\par
+\par
+\cf0\tab GC->Max2DTextureLevels=_min(screen->get_param(screen,PIPE_CAP_MAX_TEXTURE_2D_LEVELS),MAX_TEXTURE_LEVELS);\par
+\tab GC->Max3DTextureLevels=_min(screen->get_param(screen,PIPE_CAP_MAX_TEXTURE_3D_LEVELS),MAX_3D_TEXTURE_LEVELS);\par
+\tab GC->MaxCubeTextureLevels=_min(screen->get_param(screen,PIPE_CAP_MAX_TEXTURE_CUBE_LEVELS),MAX_CUBE_TEXTURE_LEVELS);\par
+\tab GC->MaxTextureRectSize=_min(1<<(Max2DTextureLevels-1),MAX_TEXTURE_RECT_SIZE);\par
+\tab GC->MaxTextureImageUnits=_min(screen->get_param(screen,PIPE_CAP_MAX_TEXTURE_IMAGE_UNITS),MAX_TEXTURE_IMAGE_UNITS);\par
+\tab GC->MaxVertexTextureImageUnits=_min(screen->get_param(screen,PIPE_CAP_MAX_VERTEX_TEXTURE_UNITS),MAX_VERTEX_TEXTURE_IMAGE_UNITS);\par
+\tab GC->MaxTextureCoordUnits=_min(GC->MaxTextureImageUnits,MAX_TEXTURE_COORD_UNITS);\par
+\tab GC->MaxTextureUnits=_min(GC->MaxTextureImageUnits,GC->MaxTextureCoordUnits);\par
+\tab GC->MaxDrawBuffers=_clamp(screen->get_param(screen,PIPE_CAP_MAX_RENDER_TARGETS),1,MAX_DRAW_BUFFERS);\par
+\tab GC->MaxLineWidth=_maxf(1.0f,screen->get_paramf(screen,PIPE_CAP_MAX_LINE_WIDTH));\par
+\tab GC->MaxLineWidthAA=_maxf(1.0f,screen->get_paramf(screen,PIPE_CAP_MAX_LINE_WIDTH_AA));\par
+\tab GC->MaxPointSize=_maxf(1.0f,screen->get_paramf(screen,PIPE_CAP_MAX_POINT_WIDTH));\par
+\tab GC->MaxPointSizeAA=_maxf(1.0f,screen->get_paramf(screen,PIPE_CAP_MAX_POINT_WIDTH_AA));\par
+\tab GC->MaxTextureMaxAnisotropy=_maxf(2.0f,screen->get_paramf(screen,PIPE_CAP_MAX_TEXTURE_ANISOTROPY));\par
+\tab GC->MaxTextureLodBias=screen->get_paramf(screen,PIPE_CAP_MAX_TEXTURE_LOD_BIAS);\par
+\tab GC->MaxDrawBuffers=CLAMP(screen->get_param(screen,PIPE_CAP_MAX_RENDER_TARGETS),1,MAX_DRAW_BUFFERS);\cf1\par
+\par
+\tab\par
+\par
+/* =====>  struct pipe_buffer\tab\tab\tab */\par
+\tab /* GC->mypipe_buffer->reference;\tab */\tab\tab\tab /*\tab    struct pipe_reference reference;\tab */\tab    \par
+\tab /* GC->mypipe_buffer->screen;\tab\tab */\tab\tab\tab /*\tab    struct pipe_screen *screen;\tab */\tab    \par
+\tab /* GC->mypipe_buffer->alignment;\tab */\tab\tab\tab /*\tab    unsigned alignment; \tab\tab\tab */\tab    \par
+\tab /* GC->mypipe_buffer->usage;\tab\tab */\tab\tab\tab /*\tab    unsigned usage; \tab\tab\tab */\tab    \par
+\tab /* GC->mypipe_buffer->size;\tab\tab */\tab\tab\tab /*\tab    unsigned size;\tab\tab\tab\tab */\tab  \par
+\tab GC->mypipe_buffer = screen->buffer_create(screen,32,PIPE_BUFFER_USAGE_VERTEX, vsize);\par
+\tab if (!GC->mypipe_buffer) goto panic;\par
+\par
+/* A vertex buffer. Typically, all the vertex data/attributes for\tab */\tab  \par
+/* drawing something will be in one buffer. But it's also possible, for\tab */\tab  \par
+/* example, to put colors in one buffer and texcoords in another.\tab */\par
+/* =====>  struct pipe_vertex_buffer\tab */\tab  \par
+/* Set the vertex buffer once for all */\par
+\tab #define VB GC->mypipe_vertex_buffer\par
+\tab VB.stride \tab\tab = 3 * 4 * FSIZE;\tab\tab /*unsigned stride; stride to same attrib in next vertex, in bytes = 1 vertex size */\par
+   \tab VB.max_index\tab = MAXPRIM - 1;\tab\tab /*unsigned max_index; number of vertices in this buffer \tab */\par
+\tab VB.buffer_offset\tab = 0;\tab\tab\tab\tab /*unsigned buffer_offset; offset to start of data in buffer, in bytes \tab */\par
+\tab VB.buffer \tab\tab = GC->mypipe_buffer;\tab /*struct pipe_buffer *buffer; the actual buffer \cf0\tab */\cf1\par
+\cf0\tab VB.Information\tab = ???;\tab\tab\tab /*Information to describe a vertex attribute (position, color, etc)\tab */\par
+\cf1\par
+\tab pipe->set_vertex_buffers(pipe, 1, &VB);\par
+\par
+\par
+/* =  struct pipe_vertex_element\tab */\tab  \par
+\tab /* Set the vertex buffer format once for all */\par
+\tab #define VE GC->mypipe_vertex_element\par
+\tab n=0;\par
+\tab VE[n].src_offset \tab\tab\tab = n*4*FSIZE;\tab\tab /*unsigned src_offset;\tab Offset of this attribute, in bytes, from the start of the vertex \tab */\par
+\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab /*Which vertex_buffer (as in pipe->set_vertex_buffer()) does this attribute live in?*/\tab  \par
+\tab VE[n].vertex_buffer_index\tab = 0;\tab\tab\tab\tab /*unsigned vertex_buffer_index :8; */\par
+\tab VE[n].nr_components \tab\tab = 4;\tab\tab\tab\tab /*unsigned nr_components :8;\tab */\tab  \par
+\tab VE[n].src_format \tab\tab\tab = PIPE_FORMAT_R32G32B32A32_FLOAT;\tab /*enum pipe_format src_format; PIPE_FORMAT__ */\tab\par
+\par
+\tab n=1;\par
+\tab VE[n].src_offset \tab\tab\tab = n*4*FSIZE;\tab\tab /*unsigned src_offset;\tab Offset of this attribute, in bytes, from the start of the vertex \tab */\par
+\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab /*Which vertex_buffer (as in pipe->set_vertex_buffer()) does this attribute live in?*/\tab  \par
+\tab VE[n].vertex_buffer_index\tab = 0;\tab\tab\tab\tab /*unsigned vertex_buffer_index :8; */\par
+\tab VE[n].nr_components \tab\tab = 4;\tab\tab\tab\tab /*unsigned nr_components :8;\tab */\tab  \par
+\tab VE[n].src_format \tab\tab\tab = PIPE_FORMAT_R32G32B32A32_FLOAT;\tab /*enum pipe_format src_format; PIPE_FORMAT__ */\tab\par
+\par
+\tab n=2;\par
+\tab VE[n].src_offset \tab\tab\tab = n*4*FSIZE;\tab\tab /*unsigned src_offset;\tab Offset of this attribute, in bytes, from the start of the vertex \tab */\par
+\tab\tab\tab\tab\tab\tab\tab\tab\tab\tab /*Which vertex_buffer (as in pipe->set_vertex_buffer()) does this attribute live in?*/\tab  \par
+\tab VE[n].vertex_buffer_index\tab = 0;\tab\tab\tab\tab /*unsigned vertex_buffer_index :8; */\par
+\tab VE[n].nr_components \tab\tab = 4;\tab\tab\tab\tab /*unsigned nr_components :8;\tab */\tab  \par
+\tab VE[n].src_format \tab\tab\tab = PIPE_FORMAT_R32G32B32A32_FLOAT;\tab /*enum pipe_format src_format; PIPE_FORMAT__ */\tab\par
+\tab pipe->set_vertex_elements(pipe,3,VE);\par
+\par
+panic:\par
+\tab return;\par
+\}\par
+================================================================================================\par
+void  GALLIUM_End(struct GALLIUM3D_context *GC);    \par
+\{\par
+struct pipe_context *pipe = GC->mypipe;\par
+struct pipe_screen *screen= pipe->screen;\par
+struct pipe_winsys *winsys= pipe->winsys;\par
+\par
+\tab /* XXX: Must unbind shaders before we can delete them for some reason */\par
+\tab pipe->bind_vs_state(pipe, NULL);\par
+\tab pipe->bind_fs_state(pipe, NULL);\par
+\tab pipe->delete_rasterizer_state(pipe,\f1 GC->mypipe_\f0 rasterizer\f1 _state\f0 ); \par
+\f1\tab pipe->delete_depth_stencil_alpha_state(pipe,GC->my\f0 pipe_depth_stencil_alpha_state\f1 );\f0  \par
+\f1\tab pipe->delete_blend_state(pipe, GC->mypipe_blend_state);\par
+\tab pipe->delete_\f0 sampler\f1 _state(pipe, GT->mypipe_\f0 sampler\f1 _state);\f0\par
+\tab pipe_buffer_reference(&GC->mypipe_buffer, NULL);\par
+\tab pipe->destroy(pipe);\par
+\tab screen->destroy(screen);\cf0\par
+\tab FREE(winsys);\cf1\par
+\}\par
+================================================================================================\par
+void  GALLIUM_DrawPrimitive(struct GALLIUM3D_context *GC,struct point3D *P,LONG Pnb,ULONG primitive);    \par
+\{\par
+struct pipe_context *pipe=GC->mypipe;\par
+float *v;\par
+\par
+\tab if(primitive==W3D_PRIMITIVE_TRIANGLES) \tab primitive=PIPE_PRIM_TRIANGLES;\par
+\tab if(primitive==W3D_PRIMITIVE_TRIFAN) \tab primitive=PIPE_PRIM_TRIANGLE_FAN;\par
+\tab if(primitive==W3D_PRIMITIVE_TRISTRIP) \tab primitive=PIPE_PRIM_TRIANGLE_STRIP;\par
+\tab if(primitive==W3D_PRIMITIVE_POINTS) \tab primitive=PIPE_PRIM_POINTS;\par
+\tab if(primitive==W3D_PRIMITIVE_LINES) \tab\tab primitive=PIPE_PRIM_LINES;\par
+\tab if(primitive==W3D_PRIMITIVE_LINELOOP) \tab primitive=PIPE_PRIM_LINE_LOOP;\par
+\tab if(primitive==W3D_PRIMITIVE_LINESTRIP)\tab primitive=PIPE_PRIM_LINE_STRIP;\par
+\tab if(primitive==W3D_PRIMITIVE_POLYGON) \tab primitive=PIPE_PRIM_POLYGON;\par
+\par
+\tab v = (float *) pipe_buffer_map(pipe->screen,GC->mypipe_buffer,PIPE_BUFFER_USAGE_CPU_WRITE);\par
+\tab if (v==NULL)\par
+\tab\tab return; \par
+\par
+\tab NLOOP(Pnb)\tab\tab /* Load vertex buffer */\par
+\tab\tab\{\par
+\tab\tab v[0] = P->x;\par
+\tab\tab v[1] = P->y;\par
+\tab\tab v[2] = P->z;\par
+\tab\tab v[3] = P->w;\par
+\par
+\tab\tab v[4] = P->u; /* s */\par
+\tab\tab v[5] = P->v; /* t */\par
+\tab\tab v[6] = 0.0 ; /* r */\par
+\tab\tab v[7] = 1.0 ; /* q */\par
+\par
+\tab\tab v[8] = P->RGBA[0]/255.0;\par
+\tab\tab v[9] = P->RGBA[1]/255.0;\par
+\tab\tab v[10]= P->RGBA[2]/255.0;\par
+\tab\tab v[11]= P->RGBA[3]/255.0;\par
+\par
+\tab\tab v += 12;\par
+\tab\tab P++;\par
+\tab\tab\}\par
+\par
+\tab pipe_buffer_unmap(pipe->screen, GC->mypipe_buffer);\par
+\tab pipe->draw_arrays(pipe,primitive,0,Pnb);\par
+\tab\}\par
+\}\par
+\cf0 ================================================================================================\par
+\cf1 /* quickly create an RGBA rendering surface of a certain size */\par
+\cf0 ================================================================================================\par
+BOOL MyCreateSurface(struct GALLIUM3D_context *GC)\par
+\{\par
+static const enum pipe_format rgbaFormats[] = \{PIPE_FORMAT_A8R8G8B8_UNORM,PIPE_FORMAT_B8G8R8A8_UNORM,PIPE_FORMAT_R8G8B8A8_UNORM,PIPE_FORMAT_NONE\};\par
+enum pipe_format format = PIPE_FORMAT_NONE;\par
+struct pipe_texture tmppipe_texture;\par
+uint n;\par
+\par
+   /* Choose surface format */\par
+NLOOP(4)\par
+\tab\{\par
+      if (GC->myscreen->is_format_supported(GC->myscreen, rgbaFormats[n],PIPE_TEXTURE_2D,PIPE_TEXTURE_USAGE_RENDER_TARGET,0))\par
+\tab  \{ format = rgbaFormats[n]; break; \}\par
+\tab\}\par
+   if (format == PIPE_FORMAT_NONE)\par
+      return FALSE;  /* unable to get an rgba format!?! */\par
+\par
+   /* create texture */\par
+   memset(&GC->myscreenpipe_texture, 0, sizeof(GC->myscreenpipe_texture));\par
+   tmppipe_texture.target\tab\tab =PIPE_TEXTURE_2D;\par
+   tmppipe_texture.format\tab\tab =format;\par
+   tmppipe_texture.last_level\tab\tab =0;\par
+   tmppipe_texture.width[0]\tab\tab =GC->large;\par
+   tmppipe_texture.height[0]\tab\tab =GC->high;\par
+   tmppipe_texture.depth[0]\tab\tab =1;\par
+   pf_get_block(format,&tmppipe_texture.block);\par
+   tmppipe_texture.tex_usage \tab\tab =PIPE_TEXTURE_USAGE_RENDER_TARGET;\par
+\par
+   GC->myscreenpipe_texture = GC->myscreen->texture_create(GC->myscreen, &tmppipe_texture);\par
+   if (!GC->myscreenpipe_texture)\par
+      return FALSE;\par
+\par
+   /* create surface / view into texture */\par
+   GC->myscreenpipe_surface = GC->myscreen->get_tex_surface(GC->myscreen, GC->myscreenpipe_texture,0,0,0,PIPE_BUFFER_USAGE_GPU_WRITE);\par
+   if (!GC->myscreenpipe_surface) \{\par
+      pipe_texture_reference(GC->myscreenpipe_texture, NULL);\par
+      return FALSE;\par
+   \}\par
+\par
+   return TRUE;\par
+\}\cf1\par
+\cf0 ================================================================================================\cf1\par
+void MyDestroySurface(struct GALLIUM3D_context *GC)\par
+\{\par
+   pipe_surface_reference(GC->myscreenpipe_surface, NULL);\par
+   pipe_texture_reference(GC->myscreenpipe_texture, NULL);\par
+\}\f2\par
+\cf0\f0 ================================================================================================\par
+\tab\tab\tab\tab\tab  \par
+\par
+void pipe_get_tile_z(struct pipe_transfer *pt,uint x, uint y, uint w, uint h,uint *z)\par
+void pipe_put_tile_z(struct pipe_transfer *pt,uint x, uint y, uint w, uint h,const uint *zSrc)\par
+\par
+================================================================================================\par
+static void\par
+fallback_copy_texsubimage(GLcontext *ctx, GLenum target, GLint level,\par
+                          struct st_renderbuffer *strb,\par
+                          struct st_texture_image *stImage,\par
+                          GLenum baseFormat,\par
+                          GLint destX, GLint destY, GLint destZ,\par
+                          GLint srcX, GLint srcY,\par
+                          GLsizei width, GLsizei height)\par
+\{\par
+   struct pipe_context *pipe = ctx->st->pipe;\par
+   struct pipe_screen *screen = pipe->screen;\par
+   struct pipe_transfer *src_trans;\par
+   GLvoid *texDest;\par
+   enum pipe_transfer_usage transfer_usage;\par
+\par
+   assert(width <= MAX_WIDTH);\par
+\par
+   if (st_fb_orientation(ctx->ReadBuffer) == Y_0_TOP) \{\par
+      srcY = strb->Base.Height - srcY - height;\par
+   \}\par
+\par
+   src_trans = st_cond_flush_get_tex_transfer( st_context(ctx),\par
+\tab\tab\tab\tab\tab        strb->texture,\par
+\tab\tab\tab\tab\tab        0, 0, 0,\par
+\tab\tab\tab\tab\tab        PIPE_TRANSFER_READ,\par
+\tab\tab\tab\tab\tab        srcX, srcY,\par
+\tab\tab\tab\tab\tab        width, height);\par
+\par
+   if (baseFormat == GL_DEPTH_COMPONENT &&\par
+       pf_is_depth_and_stencil(stImage->pt->format))\par
+      transfer_usage = PIPE_TRANSFER_READ_WRITE;\par
+   else\par
+      transfer_usage = PIPE_TRANSFER_WRITE;\par
+\par
+   st_teximage_flush_before_map(ctx->st, stImage->pt, 0, 0,\par
+\tab\tab\tab\tab transfer_usage);\par
+\par
+   texDest = st_texture_image_map(ctx->st, stImage, 0, transfer_usage,\par
+                                  destX, destY, width, height);\par
+\par
+   if (baseFormat == GL_DEPTH_COMPONENT ||\par
+       baseFormat == GL_DEPTH24_STENCIL8) \{\par
+      const GLboolean scaleOrBias = (ctx->Pixel.DepthScale != 1.0F ||\par
+                                     ctx->Pixel.DepthBias != 0.0F);\par
+      GLint row, yStep;\par
+\par
+      /* determine bottom-to-top vs. top-to-bottom order for src buffer */\par
+      if (st_fb_orientation(ctx->ReadBuffer) == Y_0_TOP) \{\par
+         srcY = height - 1;\par
+         yStep = -1;\par
+      \}\par
+      else \{\par
+         srcY = 0;\par
+         yStep = 1;\par
+      \}\par
+\par
+      /* To avoid a large temp memory allocation, do copy row by row */\par
+      for (row = 0; row < height; row++, srcY += yStep) \{\par
+         uint data[MAX_WIDTH];\par
+         pipe_get_tile_z(src_trans, 0, srcY, width, 1, data);\par
+         if (scaleOrBias) \{\par
+            _mesa_scale_and_bias_depth_uint(ctx, width, data);\par
+         \}\par
+         pipe_put_tile_z(stImage->transfer, 0, row, width, 1, data);\par
+      \}\par
+\par
+================================================================================================\par
+static INLINE struct pipe_transfer *\par
+st_cond_flush_get_tex_transfer(struct st_context *st,\par
+\tab\tab\tab        struct pipe_texture *pt,\par
+\tab\tab\tab        unsigned int face,\par
+\tab\tab\tab        unsigned int level,\par
+\tab\tab\tab        unsigned int zslice,\par
+\tab\tab\tab        enum pipe_transfer_usage usage,\par
+\tab\tab\tab        unsigned int x, unsigned int y,\par
+\tab\tab\tab        unsigned int w, unsigned int h)\par
+\{\par
+   struct pipe_screen *screen = st->pipe->screen;\par
+\par
+   st_teximage_flush_before_map(st, pt, face, level, usage);\par
+   return screen->get_tex_transfer(screen, pt, face, level, zslice, usage,x, y, w, h);\par
+\}\par
+\par
+================================================================================================\par
+const float rgba[4]\par
+double zd;\par
+ULONG color32;\par
+ULONG z32;\par
+\par
+\tab z32=util_pack_z(DstSurf->format,zd);\par
+      pipe->clear(pipe,DstSurf,z32);\par
+\par
+ \tab pipe->surface_copy(pipe,DstSurf,DstX,DstY,SrcSurf,SrcX,SrcY,SrcLarge,SrcHigh);     \par
+\par
+\tab util_pack_color(rgba, DstSurf->format, &color32);\par
+\tab DxtX=0;\par
+\tab DstY=0;\par
+\tab DstHigh =DstSurf->height;\par
+\tab Dstlarge=DstSurf->width;\par
+      pipe->surface_fill(pipe, DstSurf,DxtX,DstY,DstHigh,Dstlarge,color32);\par
+\par
+      pipe->clear(pipe, DstSurf,color32);\par
+================================================================================================\par
+st_mesa_format_to_pipe_format(GLuint mesaFormat)\par
+\{\par
+   switch (mesaFormat) \{\par
+      /* fix this */\par
+   case MESA_FORMAT_ARGB8888_REV:\par
+   case MESA_FORMAT_ARGB8888:\par
+      return PIPE_FORMAT_A8R8G8B8_UNORM;\par
+   case MESA_FORMAT_ARGB1555:\par
+      return PIPE_FORMAT_A1R5G5B5_UNORM;\par
+   case MESA_FORMAT_ARGB4444:\par
+      return PIPE_FORMAT_A4R4G4B4_UNORM;\par
+   case MESA_FORMAT_RGB565:\par
+      return PIPE_FORMAT_R5G6B5_UNORM;\par
+   case MESA_FORMAT_AL88:\par
+      return PIPE_FORMAT_A8L8_UNORM;\par
+   case MESA_FORMAT_A8:\par
+      return PIPE_FORMAT_A8_UNORM;\par
+   case MESA_FORMAT_L8:\par
+      return PIPE_FORMAT_L8_UNORM;\par
+   case MESA_FORMAT_I8:\par
+      return PIPE_FORMAT_I8_UNORM;\par
+   case MESA_FORMAT_Z16:\par
+      return PIPE_FORMAT_Z16_UNORM;\par
+   case MESA_FORMAT_Z32:\par
+      return PIPE_FORMAT_Z32_UNORM;\par
+   case MESA_FORMAT_Z24_S8:\par
+      return PIPE_FORMAT_Z24S8_UNORM;\par
+   case MESA_FORMAT_S8_Z24:\par
+      return PIPE_FORMAT_S8Z24_UNORM;\par
+}
+ 

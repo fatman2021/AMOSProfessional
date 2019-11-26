@@ -1,0 +1,13 @@
+CFFT
+
+[FooFiler]
+
+Drives=4
+ToolsGadgets="Copy","Rename","Run"
+FastStart=TRUE
+
+[FileTypes]
+
+FileType1="Icon",$34435,".icon"
+FileType2="Executable",$03F3,%101101
+

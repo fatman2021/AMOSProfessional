@@ -1,0 +1,39 @@
+INCLUDES README
+
+In this directory you'll find the required includes to use chunky.library
+with your C compiler.  Other languages will need modifications, but you can
+use these as a basis for other languages (e.g. Blitz Basic, etc.).
+
+Just copy these directories (and their contents) to your C include
+directory (include: under SAS/C).
+
+Then to use them in your application...
+
+...
+#include <libraries/chunky.h>
+#include <pragmas/chunky_pragmas.h>
+#include <proto/chunky_protos.h>
+...
+struct Library *ChunkyBase;
+...
+main()
+{
+  ...
+  if(ChunkyBase = OpenLibrary("chunky.library", 3))
+  {
+    ...
+    // Use chunky.library routines...
+    ...
+  }
+  if(ChunkyBase) CloseLibrary(ChunkyBase);
+}
+...
+
+... or see your C compiler manual if there are different directories,
+invocations, etc.
+
+This library was developed under StormC v3 so other compilers may need
+modification.
+
+Oondy
+15-Feb-99

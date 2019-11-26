@@ -1,0 +1,1217 @@
+@database rtgmaster_user.guide
+@$VER:rtgmaster_user.guide V 42.0
+@wordwrap
+
+@node Main "Rtgmaster.library V42.0"
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b}User Documentation@{ub}
+
+@{u}Table of contents@{uu}
+
+    Part A : @{"About RtgMaster          " link about}
+    Part B : @{"Supported Software       " link supp}
+    Part C : @{"About Amiga GFX Boards   " link gfx}
+    Part D : @{"Using it                 " link use}
+    Part E : @{"Benchmarks               " link bench}
+    Part F : @{"c2p algorithms           " link c2p}
+    Part G : @{"History                  " link history}
+    Part H : @{"Authors and Copyright    " link copy}
+    Part I : @{"The CV64 Problem         " link cv}
+    Part J : @{"Speaking about AGA-only  " link speak}
+    Part K : @{"Running on Workbench     " link wb}
+    Part L : @{"PPC Support              " link ppc}
+    Part M : @{"Problems with PPC        " link prob}
+    Part N : @{"About 3D                 " link 3d}
+
+Note: If you use MCP, i recommend using at least Version MCP131B8. Earlier
+versions might use up too much ramlib stack. According to a user, this was
+fixed with Version MCP131B8. So i recommend at least this version. If problems
+still appear, i recommend installing MCPramlibpatch. This might also apply
+to MCP-Clones like MCX.
+
+@endnode
+
+@node 3d "RtgMaster Library V42.0"
+@toc Main
+
+As you might know there was a "rtgCV3D.library" existing in Beta Stage, which
+supported the Virge-CPU of the CV/3D directly (without using Phase 5s
+cgxvirgin.library, but implementing support natively, it was even planned to
+make a PPC Native version of it). This library has been cancelled.
+
+There is a reason for this: Currently a much better 3D-API - which especially
+will support ANY Amiga 3D Hardware, including Virge and Permedia 2 CPUs - is
+in developpement. I did not want to add more confusion, because of that i
+cancelled rtgCV3D.library.
+
+The new system is called Warp3D, and supports both 68k and WarpUP. It will
+hopefully be released soon. Starting with rtgmaster V42, there is a interface
+between Warp3D and rtgmaster.
+
+Warp3D needs to know the following things:
+
+- Bitmap address
+
+The new tag grd_Bitmap of GetRtgScreenData of the V42 provides this. It provides
+always the address of the Bitmap that is currently "in front". If all of them
+are needed, the coder needs to switch through all prepared Bitmaps at program
+start with SwitchScreens and call each time GetRtgScreenData.
+
+- If ScrollVPort or "real" Doublebuffering is used
+
+The new tag grd_ScrollVPort does this. If it returns 1 (CGX) ScrollVPort is used
+by SwitchScreens, if 0 (P96, AMI, EGS) "true" Doublebuffering is used. If you
+have ScrollVPort (CGX only supports this... so i could not use "true" Doublebuffering
+for CGX), grd_Bitmap will always return the same Bitmap. Warp3D will then need the
+offsets, which you can calculate like this:
+
+offset = "Bitmap number" * "Height of Screen"
+
+"Bitmap number" is 0-2, Height of Screen you can get by using grd_Height.
+
+For "real" Doublebuffering, no offset is needed, but three bitmap pointers are
+returned instead (grd_Bitmap returns the address of the bitmap which is currently
+"in front").
+
+For closer information about Doublebuffering in Warp3D please refer to the documentation
+of Warp3D (currently only available for Betatesters).
+
+- I added two more new tags, which might be useful independent of 3D:
+
+* grd_Screen
+
+returns a pointer to the IntuitionScreen of the RtgScreen. This only works if the
+current RtgScreen *has* an IntuitionScreen, else it returns 0. AMI/CGX/P96 have
+a IntuitionScreen.
+
+Be careful, if you open requesters on the Screen, and then do CopyRtgBlit, you will
+kill your requester. So as long as you open intuition.library stuff on an RtgScreen,
+you should not do any rendering to the screen.
+
+* grd_Window
+
+The same about an IntuitionWindow (if this sublibrary uses one...). Same notes as
+to grd_Screen apply.
+
+Note: None of the new tags is supported by rtgEGS.library, here they all return 0.
+EGS uses "true" Doublebuffering, BTW.
+
+@endnode
+
+@node prob "RtgMaster Library V42.0"
+@toc Main
+
+Some people have encountered problems
+
+- with the CV/PPC GFX Board
+
+to fix it, install WarpUP V3.1 which can be downloaded at
+ftp://ftp.haage-partner.com/WarpUP.
+
+Then set the following env-variables:
+
+echo >env:powerpc/force "1"
+echo >env:powerpc/gfxaddr "$e0000000"
+echo >env:powerpc/TERMINATOR "2"
+echo >envarc:powerpc/force "1"
+echo >envarc:powerpc/gfxaddr "$e0000000"
+echo >envarc:powerpc/TERMINATOR "2"
+
+In a future version the WarpOS Installer will handle this automatically.
+
+The problem was that the CV/PPC is no Zorro 3 Board and has to be handled
+differently, if software directly accesses the Video RAM (like rtgmaster
+does).
+
+The same settings will probably be needed for the BV/PPC. I don't know yet,
+if the address ($e0000000) will be the same for the BV/PPC yet, and the people
+at Phase 5 could not yet tell me.
+
+You might need to install MCPramlibpatch additionally, which is now included
+to the rtgmaster archive, as under CGX - and especially when CV/PPC is present
+- we seem to be low on ramlib stack (I never was low on ramlib stack with P96).
+
+To install it just put:
+
+MCPramlibpatch >nil:
+
+to your startup-sequence ...
+
+- with later FlashROM Updates of the PPC Boards:
+
+These problems result in the author of the FlashROM's giving a sh*t about WarpOS
+programs and in the past even trying actively to disable WarpOS. In the latest
+FlashROM he patched the OS with a very unclean patch which would cause PPC Shared
+Libraries to fail. This can be fixed - if you upgraded to a new FlashROM - by:
+
+- Installing the above mentioned WarpOS V3.1
+- setting the ENV-Variables:
+
+echo >env:powerpc/TERMINATOR "2"
+echo >envarc:powerpc/TERMINATOR "2"
+
+rtgmaster will still fail, if you start ppc.library applications before you start
+a rtgmaster application. This is no bug. It is a direct result of the change in
+the FlashROM by the ppc.library author. A real fix for it would be if he would
+remove this unclean OS-Patch again. After all P5 and H&P are cooperating now.
+Partners don't do such things to each other, in my opinion.
+
+BTW: Be careful, latest 68060.library appearently loads ppc.library at bootup.
+This MIGHT cause problems (not sure about it, i deleted ppc.library to avoid any
+problems).
+
+rtgmaster is tested with the new WarpOS V3.1 on A1200 PPC (with 68060.library and
+ppc.library in ROM), it definitely runs without problems.
+
+IF you have any complaints about this strange stuff, direct them to Phase 5, not
+to me... a more clean solution (instead of a hack, that is disabled by a second
+hack...) would be if Phase 5 removed ppc.library from the A1200 PPC FlashROM, and
+would not try to load ppc.library inside the 68060.library anymore. There is no
+real need for it in there...
+
+@endnode
+
+
+@node wb "RtgMaster Library V42.0"
+@toc Main
+
+Since V31, it is possible to run rtgmaster programs in a Workbench Window. As
+some features of Screens are not available for the Workbench, not all programs
+can be run on Workbench, though. For those, where it is possible, this is decided
+by a Command-Line Parameter, currently (internally it is controlled by a special
+Tag, more information is found in the Developper Archive).
+
+Workbench Support is added for the following rtgmaster Demos:
+
+- flame runs on WB, if the parameter window is added, like
+
+  flame window
+
+- mandel runs always on a Window
+
+- mywolf runs on WB, if the parameter window is given, just like flame
+
+As to the limitations of programs on the Workbench Window, read the developper
+Docs. Also note, that a program running in a Workbench Window is MUCH slower than
+a program running in a screen, as a lot of optimizations are not possible on the
+Workbench. You can assume that a program on a WB Window runs slower than half-speed,
+even slower, if the Workbench is in 15/16/24 Bit Mode.
+
+Workbench Mode is available for CyberGraphX, Picasso96, Probench 3 and ECS/AGA. It
+is not available for EGS (EGS simply opens a screen anyways, even if you try to
+open a Workbench Window).
+
+With V31+, you choose using an extra parameter if a Program with Workbench Window Support
+should run in a window or on a screen. The Screenmodes in the rtgmaster Screenmode Reqeuster
+are simply giving Window-Sizes then. Starting from V33, it is also possible to control
+this with the Screenmode-Requester (if the appliation supports this). An example
+of this is provided in the demo flame, if you call it without parameters. Also,
+ZhaDoomPPC, which is on Aminet, supports this since V0.5.
+
+About existing rtgmaster applications running on Workbench: It takes the coder about 2 minutes
+to add Workbench Support to his program, if he uses rtgmaster V31+. But only, if his program
+does not use Doublebuffering. Doublebuffering is not possible on Workbench.
+
+The Workbench Feature in NO WAY slows down the Screen-Code of rtgmaster. Only if you open
+a Program on a Workbench Window, it will be slower.
+
+Note: Programs, that change the Palette, while the game is running are CRITICAL for
+WB Support. On V31+ it did not work at all, on V35 it works as much as is possible
+with Workbench Screens. With ZhaDoom for example it works nicely (Doom does dynamic
+Palette changes !!!) For games that do too fast changes, a "Change the WB Palette
+while the game is running" mode is provided, this mode can be controlled by the
+developper of the game.
+
+@endnode
+
+
+@node speak "RtgMaster Library V42.0"
+@toc Main
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+In the past, there have been some reports of rtgmaster not running on AGA-only
+systems, which gave some confusion. I want to solve the confusion now. Actually,
+there were several (now solved) problems.
+
+- Early versions of rtgmaster took too much ramlib-space, so that rtgmaster did
+  not run when tools like MCP were active. I fixed this bug with rtgmaster V24.
+  Now rtgmaster runs parallel with MCP (Appearently especially many AGA users
+  use MCP...)
+
+- rtgmaster had a serious bug in the Library Init Code, that made it crash
+  on some (mostly: AGA-)Systems. This was fixed with rtgmaster V25. On all
+  other systems it ran just fine.
+
+- rtgmaster V25/V26 had a small bug, making it crash on AGA-only-Systems, fixed
+  in rtgmaster V27. (Well, before V27 i did not too much testing on AGA-Only
+  Systems. I changed this now)
+
+There is one more thing to discuss:
+
+rtgmaster seriously needs a CORRECT installed AmigaDOS. When you install your
+system using the Workbench 3.x Installation disks, somewhere in your startup-sequence
+there will be a
+
+IF EXISTS DEVS:Monitors
+  IF EXISTS DEVS:Monitors/VGAOnly
+    DEVS:Monitors/VGAOnly
+  EndIF
+
+  C:List >NIL: DEVS:Monitors/~(#?.info|VGAOnly) TO T:M LFORMAT "DEVS:Monitors/%s"
+  Execute T:M
+EndIF
+
+or a
+
+IF EXISTS DEVS:Monitors
+  C:List >NIL: DEVS:Monitors/~(#?.info|VGAOnly) TO T:M LFORMAT "DEVS:Monitors/%s"
+  Execute T:M
+EndIF
+
+created. These strange lines install the Screenmodes to the system. If they are
+not present, rtgmaster won't run. Actually, this is not a bug. A correct installed
+Workbench HAS this two lines in the startup-sequence !!! (They have to be called
+before the IPREFS command).
+
+If these lines are not present on your startup-sequence, please add them. BTW,
+a GFX Board will not work without these lines (anyways, what software one uses),
+because of that such problems only appeared on AGA-Systems. On GFX Board Systems
+those lines are present by default.
+
+But well... they are installed by the Installer program on your Workbench Disks,
+so they should be there. Also install a monitor-Driver !!! (PAL or NTSC, for
+example...)
+
+@endnode
+
+@node ppc "RtgMaster Library V42.0"
+@toc Main
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+Maybe you did not notice, but: This rtgmaster version is a WarpOS
+Mixed/Fat Binary, with both code for PPC and 68k !!!
+
+What does this mean ? Well, of course this version of rtgmaster still
+runs on plain 68k Systems (and future versions will also do...), but it has
+also code for PPC inside. This code is not activated automatically. In fact,
+only doing the Screen refresh on PPC and the rest on 68k would not speed
+up a program, in fact it would slow it down, due to the Contextswitches.
+And no "Message-System" can help with this. So, if you use stuff like
+Genetic Species or Amigadoom or Diversia with rtgmaster, even if you have
+a PPC Board, only the usual 68k rtgmaster functions, well known from earlier
+versions, will be used.
+
+It would be possible for coders, though, to create games, which run nearly
+completely on the PPC, by using the extra PPC Functions of rtgmaster PPC (more
+information is found in the developer docs rtgmaster_dev.lha). These functions,
+of course, will only run on the PPC. You can do Screen refresh and Keyboard/Mouse
+Handling completely PPC Native then, without Contextswitch.
+
+Some notes about my choice of the WarpOS/WarpUP Software for the PPC Part of
+rtgmaster:
+
+- WarpOS is very efficient
+- WarpOS does not create a task each time a PPC function is called from 68k
+- WarpOS is - thanks to StormC - very easy to use, what is NOT the case for
+  the available compilers for ppc.library
+- WarpOS was created in the beginning as the coder was disappointed with the
+  speed and stability of ppc.library
+- Boards from other manufacturers which will soon be manufactured, will support
+  WarpOS, but not ppc.library
+- major Amiga Game firms (and those are the guys that will use rtgmaster PPC)
+  chose WarpOS as the PPC Software to use also
+- Fat/Mixed Binary Support
+- No Foreign Elf Executable Format needed
+- PPC Shared Library Supported
+
+Ah, in the Goodies-Section i included the old Version of rtgmaster (V27) to
+support ppc.library guys like knoble... of course V27 only includes the 68k
+Stuff... and some of the latest features of rtgmaster are not included...
+but well... i *had* to select one of the two PPC Softwares... and WarpOS
+is definitely the better one... and also the one which will soon run on
+more different Boards (other manufacturers will release WarpOS-based
+PPC Boards, still ...)
+
+@endnode
+
+@node cv "RtgMaster Library V42.0"
+@toc Main
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+If you own a Cybervision 64 (not 3D !!!) and some programs that use
+rtgmaster have a garbagy screen, here is the explanation for it :
+
+The Cybervision 64 internally looks a bit different as to other
+Amiga GFX Boards. There is a certain small thing, that coders have
+to do to make GFX Board Code running also on the Cybervision64 (this
+maybe takes 3 minutes coding times !!!) Some people have not included
+this to their code. If you know of a program that behaves like that,
+please give me the email of the coder. I can explain to him, what he
+has to do to make his program run on the CV64. This is also explained
+inside the Developper Archives of rtgmaster.
+
+@endnode
+
+@node about "RtgMaster Library V42.0"
+@toc Main
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+Welcome to the rtgmaster.library.
+
+There are a lot of Graphics Systems on the Amiga. There is OCS. There is
+ECS, there is AGA. There are a lot of Amiga Graphics Board Standards, the
+most famous of them being CyberGraphX.
+
+The problem of the Amiga in the last years was, that the hardware was
+ahead of the software, especially as to games. There was powerful hardware
+to be found, but nobody used it. The guys who created games and demos still
+stuck with AGA, the guys who created the Boards did not know anything about
+Games.
+
+RtgMaster is a link between the different systems, but it is more than this.
+RtgMaster is a system specifically dedicated to game/demo-coding on GFX Boards.
+The System includes high-speed GFX Board Support, and also partially ECS/AGA
+Backward-Compatibility. The system runs parallel with any existing WB Emulation.
+So you can use it, anyways, if you have installed CyberGraphX, Picasso96, EGS
+or what else. And it is even more. For developpers there exists special support,
+so that they can order a rtgmaster driver or rtgmaster adaption of their game,
+if they do not want to bother with the GFX Board Coding part themselves.
+
+What does this mean for you, the user ? Simply install the rtgmaster libraries
+and enjoy playing the next generation of Amiga Games. To install it, simply run
+the installer script. This will install rtgmaster.library to your system, also
+some sublibraries, for the different display systems.
+
+The following projects support rtgmaster (some of them are still unfinished).
+Note, that not all of them support the Original Picasso II Software, as the
+rtgmaster driver for this WB Emulation is not fully done. This is due to
+limitations of the Picasso II Software. Under CyberGraphX, a Picasso II works
+fine, though.
+
+Before you start i suggest you read the sections about supported software and
+about Amiga GFX Boards, to find out, if your favourite game has a rtgmaster
+driver (probably no, up to now) and if your GFX Board is supported (mostly yes).
+
+There are three rtgmaster archives: rtgmaster_user.lha contains the stuff for
+users, rtgmaster_dev.lha is the developper archive.
+
+@endnode
+
+@node supp "Rtgmaster.library V42.0"
+@toc Main
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+Name                  Firm or Group           Genre
+===========================================================
+
+Genetic Species       Vulcan Software         DOOM-Clone
+
+Genetic Species is a very fast-running DOOM-Clone that supports GFX Boards
+through rtgmaster.library and AGA through native AGA code.
+
+3D Games Creator      Vulcan Software         AB3D II Clone
+
+Cold Blood is a yet to appear DOOM-style game that will blow AB3DII away.
+It supports GFX Boards through rtgmaster, AGA through native AGA code.
+
+Note: The game will not be released, but a 3D Construction Kit based on the
+Engine will be released - hopefully.
+
+AB3D II               peabrain@usa.net        AB3D II GFX Board Port
+
+Well, just that... :) Will be released as public domain, but you will
+need a full version of the game (commercial) to use the new executable.
+Currently in Beta-Testing.
+
+Boulderdaesh          geit@DVZ-102.fh-muenster.de Boulderdash Game
+
+FrodoPPC              myselves                C64 Emulator for PPC
+
+Well, sadly only rtgmaster support for GFX Boards. Frodo needs a bit too
+much from c2p's like current rtgmaster c2p can handle. There are also
+other rtgmaster-using PPC projects of mine, like WarpView (Image
+Viewer for 68k and PPC).
+
+Well, just that :)
+
+There are some more projects in progress, mostly Shareware stuff. It even
+might be possible, that there will appear a rtgmaster driver for one of the
+AmigaDOS Clones AROS or p-OS in the future, but this is yet to be decided.
+PowerPC-enhanced versions of rtgmaster are already planned.
+
+Amigadoom             trance@master.echo.ch   Doom Port
+
+This is one of the many Doom ports. It supports GFX Boards, AGA and AHI.
+It uses rtgmaster.
+
+ZhaDoomPPC            Well, myself :)         Doom Port for PPC
+
+Well, says it all. 41 fps on a 150 MHz Board, should be around 60-70 fps
+on a 200 MHz.
+
+Crystal3D PPC         Well, myself :)         Nice 3D Engine
+
+Runs at 26-29 fps (68k version of Jyrki Saarinen runs on a 060 at about
+10-11 fps). Available on Aminet (now also works on AGA - if you set
+enough stack :) )
+
+NAPALM                ClickBOOM               C&C Clone
+
+Well, will hopefully soon be completely coded :) Nice game... was formerly
+known as Diversia.
+
+Abuse                 Hans-Joerg+Thomas       2D Game from PC
+                      Frieden (Port)
+
+WolfPac PPC           Guenter Erhart+myselves Note: the WarpUP version with
+                                              rtgmaster Support is 50% faster
+                                              than the ppc.library version !!!
+
+Probably, Explorer 2260 will also support rtgmaster (PPC).
+Maybe also Phoenix, but not sure yet.
+
+@endnode
+
+@node gfx "Rtgmaster.library V42.0"
+@toc Main
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+To get information about supported WB Emulations please click on
+the links.
+
+@{"CyberGraphX              " link cyber2}
+@{"CyberGraphX 3            " link cyber3}
+@{"Probench 3               " link probench}
+@{"EGS                      " link egs}
+@{"Picasso II Native        " link pic2}
+@{"Picasso96                " link pic96}
+@{"Retina WB Emu            " link retina}
+@{"Graffiti                 " link graf}
+@{"ECS/AGA                  " link old}
+@{"Other hardware           " link other}
+
+@endnode
+
+@node cyber2 "Rtgmaster.library V42.0"
+@toc gfx
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b} CyberGraphX 2@{ub}
+
+CyberGraphX 2 is probably the most used WB Emulation for Amiga GFX Boards.
+It is one of the best WB Emulations out there, but it lacks specific support
+for games. rtgmaster fills that gap. rtgmaster runs together with all CyberGraphX
+Boards that run NON-SEGMENTED. You might wonder what that limitation is about.
+The Commodore A2410 Board for example is a segmented Board. Segmented Boards
+lack the feature of Direct Access. Most Game Authors use Direct Access in their
+Games, so supporting those Boards would make no sense. Direct Access is much faster
+than all other methods, anyways. It might be possible that the Domino Board is
+also segmented. I do not know this, so i can't tell you, if rtgmaster supports
+the Domino or not. All other CyberGraphX Boards i know of are non-segmented.
+
+CyberGraphX 2 Support needs libs:rtgmaster.library, libs:rtg/rtgCGX.library and
+your CyberGraphX 2 Software installed. Installation is done by the Installers of
+RtgMaster and of CyberGraphX.
+
+@endnode
+
+@node cyber3 "Rtgmaster.library V42.0"
+@toc gfx
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b}CyberGraphX 3@{ub}
+
+CyberGraphX 3 is the most recent version of CyberGraphX, but up to now it does
+not support any other boards than the Cybervision 64 and the Cybervision/3D.
+RtgMaster always supports all NON-SEGMENTED CyberGraphX 3 Boards.
+It is one of the best WB Emulations out there, but it lacks specific support
+for games. rtgmaster fills that gap.
+
+You might wonder what that limitation about NON-SEGMENTED is about.
+The Commodore A2410 Board for example is a segmented Board. Segmented Boards
+lack the feature of Direct Access. Most Game Authors use Direct Access in their
+Games, so supporting those Boards would make no sense. Direct Access is much faster
+than all other methods, anyways.
+
+CyberGraphX 3 Support needs libs:rtgmaster.library, libs:rtg/rtgCGX.library and
+your CyberGraphX 3 Software installed. Installation is done by the Installers of
+RtgMaster and of CyberGraphX.
+
+@endnode
+
+@node probench "Rtgmaster.library V42.0"
+@toc gfx
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b}Probench 3@{ub}
+
+Probench is probably one of the first WB Emulations that exist at all. It is only
+used by the Boards Domino, Merlin and Merlin II, so it is quite an exote. Starting
+with Probench 3, there is some sort of partially-working CyberGraphX Emulation.
+RtgMaster runs together with Probench 3, if you have at least the Upgrade Package 7
+running. Earlier versions might work or not, but probably not. I do not know, if
+rtgmaster runs together with the Domino, as the Domino might still be a segmented
+GFX Board. Segmented Boards are old technology, that is not compatible with the
+way most games are coded. Because of that rtgmaster does not support them. If the
+Domino runs in Non-Segmented Mode, rtgmaster will support it, of course.
+
+rtgmaster does not run with Probench 2 or earlier.
+
+Probench 3 Support needs libs:rtgmaster.library, libs:rtg/rtgCGX.library and your
+Probench 3 Software installed. Installation is done by the installers of RtgMaster
+and of Probench.
+
+@endnode
+
+@node egs "Rtgmaster.library V42.0"
+@toc gfx
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b}EGS@{ub}
+
+EGS was a quite popular WB Emulation at its time. To tell the truth, the whole
+rtgmaster project started with EGS. rtgmaster needs at least EGS System 6, the
+most current version done by Viona Developpment is EGS System 7. EGS was dropped
+by Viona later, and someone else took it up, releasing a new version called
+EGS Plus. I never really tested rtgmaster with EGS Plus. I do not know if it works.
+If someone knows, tell me, i do no longer own a EGS Board.
+
+rtgmaster.library supports the following EGS Boards (not all of them tested, some
+of them might be segmented Boards, and rtgmaster never works with segmented Boards) :
+
+Piccolo
+Piccolo SD64
+EGS Spectrum
+Rainbow 3
+Rainbow 2
+EGS 110 from GVP
+bsc Graffity (do not confuse with Graffiti, this is something else)
+
+You might wonder, why rtgmaster does not support segmented Boards like the A2410.
+This is because those Boards lack a special feature needed for game programming.
+Segmented Boards are only the very old boards, anyways.
+
+I heard somewhere, that the old Board Visiona also used EGS. rtgmaster might
+run on it or not. If someone still uses this Board, please contact me.
+
+Under EGS it is possible, that the mousepointer of an rtgmaster application starts
+looking strange. Don't worry. This is normal, because of an unfinished part in
+the driver. Asides from that, rtgmaster runs fine under EGS.
+
+EGS Support needs libs:rtgmaster.library, libs:rtg/rtgEGS.library and your EGS
+Software insralled. Installation is done by the Installers of RtgMaster and EGS.
+
+@endnode
+
+@node pic2 "Rtgmaster.library V42.0"
+@toc gfx
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b}Picasso II Native WB Emulation@{ub}
+
+The Picasso II Native WB Emulation is one of the first WB Emulations. It is only
+available on the Picasso II and the Picasso II+ Boards. There is limited rtgmaster
+Support for this WB Emulation, limited only, because this WB Emulation does not
+support all rtgmaster features. Especially the Keyboard-Functions of rtgmaster
+are not supported. So probably most Software won't support this sublibrary.
+Please consider updating to CyberGraphX or Picasso96. These WB Emulations have
+full rtgmaster Support.
+
+Picasso II Native Support needs libs:rtgmaster.library, libs:rtg/rtgPICA.library
+and your Picasso II/II+ Native Software installed. Installation is done by the
+installers of RtgMaster and of the Picasso Software.
+
+@endnode
+
+@node pic96 "Rtgmaster.library V42.0"
+@toc gfx
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b}Picasso96@{ub}
+
+Picasso96 is a new WB Emulation standard. With the exception of the Cybervision/3D
+nearly all Boards have a Picasso96 Driver. And a CV/3D Driver is currently in
+developpement.
+
+Until just recently, Picasso96 did not have the feature called "Doublebuffering". In
+one of the latest Picasso96 versions this was fixed. If you have the latest version,
+install rtgP96.library instead of rtgCGX.library, then finally Doublebuffering will
+work on your system. If you do not have the latest version, exchange rtgP96.library
+by rtgCGX.library manually. Don'þ install both at a time, or you will get all
+Screenmodes twice, and Screenmode Save will bring strange results. I really recommend
+updating to the latest Picasso96 version, as soon games might appear, that won't
+run without Doublebuffering. The Doublebuffering of P96 is more efficient than that
+of CGX, BTW...
+
+Picasso96 Support needs libs:rtgmaster.library, libs:rtg/rtgP96.library
+(or rtgCGX.library for older Picasso96 versions) and your
+Picasso96 Software installed. Installation is done by the Installers of RtgMaster
+and of Picasso96.
+
+@endnode
+
+@node retina "Rtgmaster.library V42.0"
+@toc gfx
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b}The Retina WB Emulation@{ub}
+
+The Retina WB Emulation was used by the Boards Retina BLT Z3, Retina Z2 and
+by the DraCo. There are now CyberGraphX Drivers for Retina BLT Z3 and the
+DraCo, though. Retina WB Emulation is not supported by rtgmaster. If someone wants to
+do support for it, i could give him developper docs to support it, though. (A new
+rtgmaster sublibrary had to be created, this takes about 1 week of coding, maybe
+less. Myself i can't do it, as i do not have a Retina that would be needed for testing).
+
+rtgmaster in no way supports the Retina Z2, as the Retina Z2 is a segmented Board.
+Segmented Boards miss some features needed for Game programming. They are quite
+old boards, anyways.
+
+@endnode
+
+@node graf "Rtgmaster.library V42.0"
+@toc gfx
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b}The Graffiti@{ub}
+
+There is not yet Graffiti Support for rtgmaster. It is planned, though. My problem is,
+i do not have a Graffiti, and it would also not run on my system, as i do not have
+a 15 kHz monitor (i use 15 kHz modes through a internal flickerfixer). If someone
+wants to help with the Graffiti Support, please contact me.
+
+Latest News: I just was contacted by someone who said he might do Graffiti-Support for
+rtgmaster...
+
+@endnode
+
+@node other "Rtgmaster.library V42.0"
+@toc gfx
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b}Other Hardware@{ub}
+
+There are some other very old Boards. For example the Opalvision or the Firecracker.
+RtgMaster does not support them. Most of these Boards not even have a real WB Emulation,
+only some special drivers for some programs. A RtgMaster Driver might be possible
+for some of those Boards, so if you have such a Board and would be interesting in
+doing a driver, please contact me. Most of those Boards probably are segmented Boards,
+though, and segmented Boards miss some feature needed for fast Amiga GFX Board Games.
+
+In the future there will be some new Boards not yet listed here, that WILL be supported.
+There will be a special version of the Picasso IV that will run through PCI on a special
+Turbo-Board that ships with a PCI slot. This is one of the next Boards that will be supported.
+As this Board probably uses Picasso96, there won't be a problem, probably.
+
+Also, after Phase 5 announced a CAIPIRINHA Board for the Cyberstorm PPC, there might be
+CAIPIRINHA Support for rtgmaster in the future. But as i do not know much about
+CAIPIRINHA yet, i can't tell.
+
+@endnode
+
+@node old "Rtgmaster.library V42.0"
+@toc gfx
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b}ECS/AGA@{ub}
+
+rtgmaster supports also ECS/AGA. The problem is only, that the fastest possible function
+of rtgmaster, CopyRtgPixelArray, won't run on ECS/AGA, as it assumes a chunky display. Only
+the slower function CallRtgC2P will support it. But with some minutes work, a rtgmaster
+program runs on ECS/AGA with no problems. Most rtgmaster programs feature native AGA Support,
+that is probably faster, though. About the ECS Support there is a special problem. If a
+rtgmaster program uses 256 colors, it principially runs on ECS, but 192 of the colors are
+simply ignored and get Black. So the result might look strange on ECS.
+
+ECS/AGA support needs libs:rtgmaster.library and libs:rtg/rtgAMI.library (installed by the
+rtgmaster installation script). Also it needs a monitor driver like PAL or NTSC in the
+devs:monitors directory. Without this you won't get any ECS/AGA Screenmodes.
+
+@endnode
+
+@node use "Rtgmaster.library V42.0"
+@toc Main
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+To use rtgmaster.library, simply start an executable using rtgmaster.library.
+You can then choose a Screenmode. If you save it, it will be saved to the local
+Directory, and the next time you start a rtgmaster program from this directory,
+the Screenmode-Requester will only popup, if you press SHIFT while starting the
+program. If you have any problems using rtgmaster, please check out the section
+about Amiga GFX Boards, to check out, if your GFX Board Software is installed
+correctly.
+
+@endnode
+
+@node bench "Rtgmaster.library V42.0"
+@toc Main
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b} Benchmarks and Demos @{ub}
+
+Provided demos are in the Demos Directory.
+
+These are :
+
+(remember to run these at 30000 stack at least, some of these demos require
+more stack...). If you have problems with ramlib, install the MCP Ramlib
+Patch !!!
+
+@{"flame   " link "pics/flame.iff/Main" 0}
+
+Flame is a Plasma effect. It runs on all Systems. It is coded nearly completely
+in C (the main-Plasma-Loop is in ASM). As default it runs on a Screen, if you
+add the parameter Window it runs on a Workbench Window.
+
+@{"flamme  " link "pics/flamme.iff/Main" 0}
+
+Flamme is another Plasma Effect. It runs on all Systems, but it has to be
+started from the Shell. It does not work from Workbench. It is coded in ASM.
+
+@{"Mandel  " link "pics/mandel.iff/Main" 0}
+
+Mandel is a Mandelbrot set. It runs on GFX Board Systems. It is coded in C.
+I coded it the way that it always runs on a Workbench Window.
+
+Moon was removed, as it did not run on 060, and i had no time (yet)recoding it.
+
+@{"Mywolf  " link "pics/Mywolf.iff/Main" 0}
+
+Mywolf is a Wolf3D style texturemapping engine. It runs on all Systems.
+It is coded completely in C. The only current rtgmaster c2p with that
+this demo runs is GD. As it is the only c2p, that currently supports
+c2p'ing "not-Full-Screen".
+
+There are some more demos in the developper archive. But those are mostly
+not that impressive.
+
+Benchmarks :
+
+@{"Flame   " link flame}
+@{"Flamme  " link flamme}
+@{"Moon    " link moon}
+@{"Mywolf  " link mywolf}
+
+@endnode
+
+@node flame "Rtgmaster.library V42.0"
+@toc bench
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b} Benchmarks of Flame @{ub}
+
+Machine                      GFX System        320x200       160x120
+====================================================================
+
+A4000/030+Cybervision        CyberGraphX       24 fps        30 fps
+A4000/030                    AGA               10 fps        10 fps
+A2000/030+Picasso II         Picasso WB-Emu    15 fps        24 fps
+A4000/040+PiccoloSD64        EGS               34 fps        63 fps
+A4000/040+PiccoloSD64        CyberGraphX       34 fps        63 fps
+A4000/040                    AGA (020opt.c2p)  14 fps        16 fps
+A4000/060+Cybervision        CyberGraphX       69 fps       136 fps
+A4000/060+Retina Z3          CyberGraphX       50 fps       118 fps
+A4000/060                    AGA               29 fps        31 fps
+A4000/040                    AGA (040opt.c2p)  18 fps        22 fps
+A3000/030+Piccolo            EGS               22 fps        30 fps
+A3000/030+Piccolo            CyberGraphX       22 fps        30 fps
+A4000/040+Cybervision        CyberGraphX       35 fps        77 fps
+A2000/040+Picasso(33MHz)     CyberGraphX       19 fps        50 fps
+A2000/030+SD64               CyberGraphX       17 fps        26 fps
+A2000/060+SD64               CyberGraphX       26 fps        77 fps
+A4000/040/40MHz+Cyberv.      CyberGraphX       60 fps       105 fps
+68030 25 MHz+RetinaZ3        CyberGraphX       21 fps
+A1200/030 50 MHz             AGA               11 fps        19 fps
+A2000/030 50 MHz+Picasso     Picasso WB Emu    21 fps
+A4000/040 25 MHz+Ret.Z3      CyberGraphX       29 fps
+A4000/040 40 MHz+Ret.Z3      CyberGraphX       34 fps        90 fps
+A3000T 25 MHz + SD64         CyberGraphX       22 fps
+A4000/030 25 MHz + Merlin II Probench3.0       21 fps
+A4000/060 50 MHz + Merlin II Probench3.0       51 fps
+A3000/040 25 MHz             ECS 64 colors     19 fps        23 fps
+A4000/040 40 MHz+CV/3D       CyberGraphX 3     37 fps        80 fps
+A2000/030 25 MHz+Domino      Picasso96         18 fps
+
+Note: These are the result of the OLD version of flame. The new version
+from V24+ of flame is faster on GFX Boards, as it uses a Fastram Buffer,
+which the older version did not do... !!!
+
+@endnode
+
+@node flamme "Rtgmaster.library V42.0"
+@toc bench
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b} Benchmarks of Flamme @{ub}
+
+Machine                      GFX System        320x200
+======================================================
+
+A4000/040 40 Mhz CV/3D       CyberGraphX 3      74 fps
+A4000/040 40 MHz SD64        CyberGraphX       102 fps
+A4000/040 40 MHz             AGA                23 fps
+A4000/040 40 MHz             AGA (040opt. c2p)  40 fps
+A2000/030 25 MHz Domino      Picasso96          23 fps
+
+@endnode
+
+@node moon "Rtgmaster.library V42.0"
+@toc bench
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b} Benchmarks of Moon @{ub}
+
+Machine                      GFX System        320x200
+======================================================
+
+A4000/040 40 Mhz CV/3D       CyberGraphX 3      8 fps
+A4000/040 40 MHz             AGA                6 fps
+A4000/040 40 MHz             AGA (040opt. c2p)  8 fps
+A2000/030 25 MHz Domino      Picasso96          1 fps
+
+@endnode
+
+@node mywolf "Rtgmaster.library V42.0"
+@toc bench
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b} Benchmarks of Mywolf @{ub}
+
+Machine                      GFX System        240x200
+======================================================
+
+A4000/040 40 Mhz CV/3D       CyberGraphX 3      36 fps
+A4000/040 40 MHz             AGA                21 fps
+A2000/030 25 MHz Domino      Picasso96           9 fps
+
+@endnode
+
+@node history "Rtgmaster.library V42.0"
+@toc Main
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b} The History of rtgmaster.library @{ub}
+
+Version        Changes
+
+V0.1           First Alpha release (that one with the famous
+               Screenmode requester that contained more Bugs
+               than functions :) )
+V1.0           First Beta Version with the new Screenmode
+               requester. Only worked with rtgCGX.library.
+V2.0           First official Aminet release of rtgmaster.library
+               Bug in V1.0 about it only loading rtgCGX.library
+               is fixed in V2.0, many bugfixes, new implemented
+               stuff and complete rework of the Autodocs !!!
+               c2p Support, new Screenmodereqeuster...
+V3.0           Some Bugs fixed...
+V4.0           First version with TCP/IP Support
+V5.0           First version with TCP/IP Support with
+               "One Server - Multiple Clients"
+V6.0           A Major Speed enhancement for the  function
+               RunServer. Do not use V5.0 for TCP/IP, use
+               V6.0... it is really MUCH faster (i throwed
+               out a LOT of Forbid()/Permit() Stuff, as the
+               programmers of AmiTCP explained me by email,
+               how to do this stuff without a single Forbid() :)
+V7.0           First version with UDP Support
+               RunServer does not run with UDP yet, though...
+V8.0           UDP Support finished
+V9.0           Finally not-fixed-resolution c2p works (gd
+               and gdecs c2p are provided), due to a bugfix.
+V10.0          Text/Font Support added, "Automatic ECS Support"
+               added (every AGA c2p supports ECS, too...)
+V11.0          Expanded features of CopyRtgPixelArray
+               V11 did not run on some systems with Cybergraphics.library
+               V40.92 ... V12.0 fixed that, though...
+V12.0          Added RDCMP for Input Handling
+V13.0          Fixed "RtgBlit will crash under EGS with Minterm
+               0xc0 and willdo strange things when blitting to
+               Buffer 2" Bug
+               Removed d6/d7 Parameters of CopyRtgPixelArray
+               (this time it is final !!!), Recompiling/Assemblong
+               needed,sorry...
+               Fixed Installer Script and some minor Bugs
+               OffX/OffY parameters of CopyRtgPixelArray
+               implemented for rtgCGX.library and rtgEGS.library.
+               Sadly, rtgPICA.library still crashes for unimplemented
+               calls (for example RDCMP is not yet implemented for
+               Picasso II, only for the other three sublibs, but
+               the rtgPICA.library is currently in question anyways,
+               as some stuff is NOT POSSIBLE using that WB Emulation !!!)
+               BTW, does someone know how to access the VGA Registers
+               of some boards (information about SD64 and CV64 !!!) ?
+               I really would like a Mode X Support to rtgmaster, if
+               this is possible...
+V14.0          Fixed the "Crash on some system with smr_PlanarSupport or
+               smr_ProgramUsesC2P =0" bug
+               Fixed the Screen Depth Bug with 16 Bit Piccolo SD64 Screens
+               libs:rtgc2p is now default for c2p algorithms
+               SrcWidth/SrcHeight of CopyRtgPixelArray removed again, and
+               THIS TIME the function CopyRtgPixelArray will stay as it is
+               As many people use rtgmaster to convert some PC stuff to Amiga,
+               i included the asmconv program, that converts Intel ASM to
+               Motorola ASM.
+
+V15.0          Changed rtgCGX.library, so that it runs on both CyberGraphX 2 and
+               CyberGraphX 3 (for Cybervision/3D Support). Still, rtgmaster.library
+               won't run with cgxsystem.library versions smaller than 41.1 (41.0 had
+               a serious bug in the LockBitmapTagList call). rtgPICA.library now no
+               longer crashes, if a pointer, text or RDCMP function was called. It does
+               not do anything, nevertheless. rtgCGX.library MIGHT run with Picasso96
+               Software, maybe not, i do not know, up to now, but will test, as soon
+               as possible (maybe someone can tell me ?) Removed rtggadgets sources,
+               added RtgGadTools.library (which replaces the rtggadgets sources).
+V16.0          Added flickerfree DBuffering to rtgCGX.library (only does its job
+               for CyberGraphX 3, for CyberGraphX 2 it is ignored, as CGX 2 can't
+               REALLY do Flickerfree buffering currently). Added support for mp_sigbit
+               to all sublibs with exception of rtgPICA.library (yet to do), added
+               gamecoderhelp for game coders in goodies directory.
+V17.0          Fixed bug concerning new V16.0 features of RtgInitRDCMP
+               Updated Autodocs&Includes. Best: Do not use V16.0 anymore,
+               as programs might use the new feature.
+V20.0          Complete rework of the Package to make it more professional,
+               split into User, Driver and Developper Archive
+V21.0          Update of rtgCGX.library (bug in 15/16/24 Bit modes fixed)
+               Completely new Installer script, as it seems that the "Installer Example"
+               lha from some BBS that i used to do the first installer scripts used
+               copyrighted material. I removed the old installer scripts completely.
+               Thanks to Robert C. Reiswig for reporting. (I also offered him to
+               alternatively overtake the developpement of the scripts, but he did
+               not answer to my mail, so i had to think of something new... so i
+               took a whole afternoon to rewrite the scripts from the beginning...
+               BTW, these new Scripts now finally WORK !!!)
+V22.0          Some internal changes, mainly. Added note about CV64 problems and
+               of how to fix them. Added workaround for Doublebuffering problems
+               under CyberGraphX 3 V55. Note: Doublebuffering function might change
+               again in a new version released in some weeks. For the end-user
+               that won't make a difference, though.
+V23.0          Under OS3.0 SwitchScreens will now run 2000% faster than with the
+               old version (only of ECS/AGA sublibrary). Also, there are some bugs
+               fixed, especially the bugs concerning rtgmaster and MCP. The fixed
+               version of rtgEGS.library is still not tested, so anyone who still
+               has installed EGS, please test and email me, if it runs. rtgPICA.library
+               still does not work with MCP, but as nearly nobody uses this sublibrary
+               anymore, anyways, i moved this sublibrary to the new Goodies directory.
+               Install it on your own risk.
+V24.0          A lot of internal updates, among others it now runs without setpatch
+               or devs:monitors drivers running. Removed rtgmaster_driv.lha as it
+               was not very useful at all, and also buggy. Speedup in flame demo.
+V25.0          Internal version (also was given to some people on the net).
+               Fixed a serious problem with the library init of some of the libs.
+               Actually this bug was in since day one, and i did not notice, as this
+               bug only appeared on very few Amigas (not on mine). Well, now it is fixed.
+V26.0          A lot of minor Bugfixes concerning rtgAMI.library (for example concerning
+               FillRtgRect). Added rtgP96.library (Nearly the same like rtgCGX.library,
+               but supports Picasso96 Style Doublebuffering... use this lib only with
+               Picasso96, and do not install rtgCGX.library and rtgP96.library at the
+               same time, else you will get all Screenmodes twice, and Save Screenmode
+               will give strange effects. Also you need a quite new version of Picasso96,
+               older versions did not support Doublebuffering). Fixed "PAL Modes appear
+               twice" Bug. rtgmaster no longer crashes, if a .info file is inside libs:rtg.
+V27.0          Finally fixed it, so that it runs on ALL AGA-only systems, also. Added info
+               about past AGA-only problems (mostly the problem is a incorrect
+               startup-sequence or a missing monitor-driver). Added info about upcoming
+               rtgmaster with additional PPC Support (of course it also runs on a 68k
+               Amiga !!! Fat Binary !!!)
+V34.0          Added PPC Support (executables run on both 68k+PPC !!!), Workbench+Public
+               Screen Window Support (much slower than on Screen), Software Sprite Support
+               and much more... (look at Developper Docs for more info...)
+V35.0          "WB Window Mode" or "Screen Mode" choosable using the Screenmode Requester,
+               if an application supports this (not many rtgmaster applications do so until
+               now, hopefully this will change). Zorro3-Detection bug with CV/3D fixed,
+               WB Window Mode much optimized (especially on PPC, using PPC Assembler, thanks
+               to Sam Jordan for help), now also supports Dynamic Palettechanges (if it
+               is not overused, rtgmaster now supports this as much as is possible in a
+               WB Window). Small bugfixes, as usual...
+V37.0          Mainly bugfixes. Special thanks to marusa@vadium.sk for ongoing reports :)
+V38.0          Bugfix concerning RtgSetFont, Bugfix concerning CyberGraphX, added Support
+               for vbcc-WarpOS PPC-Compiler
+V40.0          Added the functions RtgScreenToFront (needed for NAPALM) and RtgConvert
+               (making 24 Bit stuff more easy), "Abuse bugfix" for rtgP96.library,
+               Mousemove bugfix for rtgCGX.library...
+V41.0          Fixed some bugs that caused crashes on some systems.
+               Added mandelppc demo (needs WarpOS Installed)
+               Added MCPramlibpatch to the archive
+V42.0          Added rtgmaster<->Warp3D interface
+               Fixed GetRtgScreenData MouseX/Y Bug in rtgAMI.library (but best
+               use RtgInitRDCMP anyways for Mouse-Access...)
+               Hopefully fixed rtgCGX.library 16/24 Bit Bug (happened with CV64
+               and CV/PPC Boards, should now work on those Boards... :) )
+               Added new highspeed c2p Module "Azure" (after the name of the coder)
+               Added possibility to access Screen/Window for most sublibs
+
+@endnode
+
+@node copy "RtgMaster Library V42.0"
+@toc Main
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+Some basic notes :
+
+the original rtg.library was developped on an idea of John Hendrikx. He later
+gave developpement to me and i made the rtgmaster.library out of it. Most work
+(main library, rtgCGX.library, rtgEGS.library, rtgAMI.library, Docs)
+was done by myself, Steffen P. Haeuser.
+
+- The rtgPICA.library and the rtggad.library were done by Hans-Joerg Frieden
+- Some of the examples were done by Hans-Joerg&Thomas Frieden
+- The Moon Example was done by Olaf Asholz
+- The Screenmode Requester was done by Wolfram Schenk
+- The    x0 to    x0 ASM converter was done by Nikolaus Mausz
+
+The original installer scripts were done based on some "installer examples" found
+on different BBS systems. I was notified some weeks ago, that those "examples" in
+fact used copyrighted work of Robert C. Reiswig. I offered Robert to overtake the
+developpement of the rtgmaster installer script and to notify him in the docs. As
+he did not answer to my mail after over a week, i simply rewrote the installer
+scripts without using those infamous examples. If i had known at the beginning, that
+those "examples" used Copyrighted material, i would never have used them. The
+Uploader of the Examples Archive did not say anything about that.
+
+@{b} Authors and Copyright @{ub}
+
+This section is mainly interesting for Developpers, but i also include it to the user
+archive. (Well, take this part not too seriously... of COURSE you can use rtgmaster
+for free... but if you want to give me some few money/free games back, i won't
+say no... also i offer help for PPC Conversions of your 68k Games, if you are
+interested...)
+
+@{b}User Information@{ub}
+
+rtgmaster.library is done by Steffen P. Häuser (that's me). Some of the sublibraries
+are done by other persons. I take no guarantee that it works on your system. Also i
+don't take guarantee that it not damages your system (don't be upset, this is only
+a standard disclaimer ... of course this software should work on your system, and
+it won't damage it... but to keep trouble away i included this standard disclaimer.
+
+@{b}Basic Developper License@{ub}
+
+Developpers can include any part of this archive to their programs, as long as
+the part they include is still functional. They should read the stuff below,
+and do like it says. Principially, rtgmaster.library is for free, but i would
+appreciate some good will to give me at least a free copy of the program using it.
+Exact informations for different sorts of software are listed below.
+
+@{b}Freeware/PD Developpers@{ub}
+
+I would appreciate being mentioned in the Credits or Docs of your program.
+Asides from that you can use rtgmaster.library for free.
+
+@{b}Shareware Developper@{ub}
+
+I would appreciate being mentioned in the Credits or Docs of your program.
+I would appreciate a free copy of your program, if this is ok for you.
+Asides from that you can use rtgmaster.library for free.
+
+@{b}Commercial Developper@{ub}
+
+I would appreciate being mentioned in the Credits/Docs and a free version
+of your program (if this is OK for you/your publisher). I also would appreciate
+some extra-bucks from your publisher, if this is OK for him. If it is not okay
+for him, a free game will be ok also. Give my email to your publisher,
+so that i can clear things up with him. My Email is MagicSN@Birdland.es.bawue.de.
+
+@{b}Developper - Extra Support@{ub}
+
+If you are a Developper of a Commercial Game, want it to run on a GFX Board,
+but do not want to have to bother with writing the GFX Board Part of the Code
+yourselves, i can do this for you. Simply mail your specifications for the
+needed functions to MagicSN@Birdland.es.bawue.de and i will do the job for you.
+In this case, we should definitely speak about a free Game and some extra Bucks.
+Maybe $100 or something like that. But well, this is open to discussion. But
+think about it, $100 definitely will come in with the sales for the GFX Board
+Version. Of course will be cheaper for Shareware programs.
+
+Well, if your publisher does not want to pay me, i probably will make the GFX
+Board Version anyways, but then he is a skinflint !!!
+
+My Address, if email is not possible :
+
+Steffen P. Haeuser
+Limburgstr. 127
+73265 Dettingen/Teck
+Germany
+Tel. 07021-51787
+Co-Sysop of Birdland BBS (07021-861920/862428/862429 and some other numbers)
+MagicSN@Birdland.es.bawue.de
+
+@endnode
+
+@node c2p "RtgMaster Library V42.0"
+@toc Main
+
+@{b}The RtgMaster Library for GFX Board Using Demos/Games@{ub}
+
+@{b} c2p Algorithms @{ub}
+
+The rtgmaster c2p format is currently not optimal. It probably will
+change in the future, but that should not bother the user. It is only to
+the user to know, that the ECS/AGA Support currently is not speed-optimal,
+because of this problems. But luckily most rtgmaster-using programs also
+support native AGA Support.
+
+Currently there are this c2p :
+
+Azure:    The probably fastest rtgmaster c2p. Slightly faster than Suzy/cpu040.
+          Coded by Azure, adapted to rtgmaster by Rady Marusa (the NAPALM Coder).
+          No Doublebuffering needed (but supported, of course).
+Suzy:     It is optimized for 030, but on 060 it
+          even outperforms the 040 c2p. It only supports Fullscreen c2p.
+          Games/Demos that do Smaller-Than-Fullscreen-c2p won't run with this
+          c2p.
+ecs:      As fast as Suzy, but for ECS. It is a true ECS c2p, it does not
+          leave higher colors out, it c2ps to 64 colors. The program still
+          needs an (optional) 64 Color Color-Table to look good, of course.
+          Supports Smaller-than-Fullscreen and Y Destination Offset.
+Leony:    This is a 2x1 Pixelsize c2p. It doubles horizontally. You need
+          programs specially coded for 2x1 to be able to use this c2p (try
+          the flamme demo...). Supports Smaller-than-Fullscreen and X and
+          Y Destination Offset.
+040 :     040 optimized, needs a 040/060 to run. Only runs in 320x200.
+          On some 060 Boards this one does not run.
+GD  :     020 optimized. Runs in all resolution. Currently the only
+          rtgmaster c2p that supports c2p'ing stuff smaller than
+          Fullscreen.
+Chunky4 : 030 optimized. On 040 and above, this c2p is the slowest one,
+          only supports 320x200.
+
+cpu040:   Another ultra-fast c2p, based on code by Mikael Kalms. Only is
+          fast on 040/060. But there it is the fastest one.
+
+Suzy, Ecs and Leony flicker, if they c2p to the front screen without Doublebuffering.
+As they are the fastest c2p available for rtgmaster, c2p should ALWAYS be coded to
+c2p to the Backscreen and perform Doublebuffering after this. (More info in the
+Developper Docs...)
+
+Note: These are 68k c2p. Currently, only one c2p for the PPC exists, a direct port
+of a c2p very similar to 040, and it is always used on PPC-side. The PPC c2p only
+supports Fullscreen-c2p, but all resolutions.
+
+@endnode

@@ -1,0 +1,119 @@
+;MaxonCPP-Project
+
+<Project-Options>
+-dir "Lang:3doconverter/release02/library/source/" -args "" -stack 10 -pri 0
+<End>
+
+
+<Linker-Options>
+-gD -gs -gh50 -w600 
+-j "PROGDIR:amiga/mcpp-libs/" 
+<End>
+
+<C-Options>
+-wACEFNMOPRTV -pc -g00 -g80 -go -gb0 -gM -bs0 -a0 -t -px -b0 -mX 
+-i "PROGDIR:amiga/c-inc/" 
+-i "Lang:3doConverter/meshwriter/" 
+<End>
+
+<ASM-Options>
+-c cWSElMo0F -0xff 
+<End>
+
+
+<CSources>
+"StartUp.c" "StartUp.o"
+	<Dependencies>
+		"/include/meshwriter/meshwriterbase.h"
+		"compiler.h"
+		"StartUp.c"
+	<End>
+"LibInit.c" "LibInit.o"
+	<Dependencies>
+		"/include/meshwriter/meshwriterbase.h"
+		"compiler.h"
+		"LibInit.c"
+	<End>
+"///meshwriter/dxf.c" "///meshwriter/dxf.o"
+	<Dependencies>
+		"///meshwriter/dxf.c"
+		"///meshwriter/meshwriter_private.h"
+	<End>
+"///meshwriter/imagine.c" "///meshwriter/imagine.o"
+	<Dependencies>
+		"///meshwriter/imagine.c"
+		"///meshwriter/meshwriter_private.h"
+		"///meshwriter/utilities.h"
+	<End>
+"///meshwriter/lightwave.c" "///meshwriter/lightwave.o"
+	<Dependencies>
+		"///meshwriter/lightwave.c"
+		"///meshwriter/meshwriter_private.h"
+		"///meshwriter/utilities.h"
+	<End>
+"///meshwriter/pov3.c" "///meshwriter/pov3.o"
+	<Dependencies>
+		"///meshwriter/meshwriter_private.h"
+		"///meshwriter/pov3.c"
+	<End>
+"///meshwriter/raw.c" "///meshwriter/raw.o"
+	<Dependencies>
+		"///meshwriter/meshwriter_private.h"
+		"///meshwriter/raw.c"
+		"///meshwriter/utilities.h"
+	<End>
+"///meshwriter/vrml1.c" "///meshwriter/vrml1.o"
+	<Dependencies>
+		"///meshwriter/meshwriter_private.h"
+		"///meshwriter/vrml1.c"
+	<End>
+"///meshwriter/utilities.c" "///meshwriter/utilities.o"
+	<Dependencies>
+		"///meshwriter/utilities.c"
+	<End>
+"///meshwriter/reflections.c" "///meshwriter/reflections.o"
+	<Dependencies>
+		"///meshwriter/meshwriter_private.h"
+		"///meshwriter/reflections.c"
+		"///meshwriter/utilities.h"
+	<End>
+"///meshwriter/meshwriter.c" "///meshwriter/meshwriter.o"
+	<Dependencies>
+		"///meshwriter/compiler.h"
+		"///meshwriter/dxf.h"
+		"///meshwriter/geo.h"
+		"///meshwriter/imagine.h"
+		"///meshwriter/lightwave.h"
+		"///meshwriter/meshwriter.c"
+		"///meshwriter/meshwriter_private.h"
+		"///meshwriter/pov3.h"
+		"///meshwriter/raw.h"
+		"///meshwriter/reflections.h"
+		"///meshwriter/vrml1.h"
+	<End>
+"///meshwriter/geo.c" "///meshwriter/geo.o"
+	<Dependencies>
+		"///meshwriter/geo.c"
+		"///meshwriter/meshwriter_private.h"
+		"///meshwriter/utilities.h"
+	<End>
+<End>
+
+<CIncludes>
+"compiler.h"
+"/include/meshwriter/meshwriterbase.h"
+"///meshwriter/meshlib.h"
+"///meshwriter/meshwriter_private.h"
+<End>
+
+<Executable>
+"Ram Disk:meshwriter.library"
+	<Options>
+		-autowrite
+	<End>
+<End>
+
+<LinkLibs>
+"Lang:MCPP4.0_PRO/amiga/c-libs/amiga.lib"
+<End>
+

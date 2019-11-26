@@ -1,0 +1,94 @@
+.KEY KEYWORD/A
+.BRA {
+.KET }
+
+;$VER: Help 45.2 (26.4.2001) #AMIGADOS © Roger Hågensen MCMXCXI, rescator@emsai.net or www.emsai.net
+
+SET currentpath `cd`
+SET amigaguidepath `GETENV AmigaGuide/Path`
+
+ECHO "Document search, please wait..." NOLINE
+
+CD HELP:$LANGUAGE/Sys/
+IF EXISTS {KEYWORD}.guide
+   RUN >NIL: $amigaguidepath {KEYWORD}.guide
+   SKIP found
+ENDIF
+IF EXISTS {KEYWORD}.doc
+   RUN >NIL: $amigaguidepath {KEYWORD}.doc
+   SKIP found
+ENDIF
+
+CD /
+IF EXISTS {KEYWORD}.guide
+   RUN <>NIL: $amigaguidepath {KEYWORD}.guide
+   SKIP found
+ENDIF
+IF EXISTS {KEYWORD}.doc
+   RUN <>NIL: $amigaguidepath {KEYWORD}.doc
+   SKIP found
+ENDIF
+
+CD HELP:
+IF EXISTS HELP:{KEYWORD}.guide
+   RUN <>NIL: $amigaguidepath {KEYWORD}.guide
+   SKIP found
+ENDIF
+IF EXISTS HELP:{KEYWORD}.doc
+   RUN <>NIL: $amigaguidepath {KEYWORD}.doc
+   SKIP found
+ENDIF
+
+CD HELP:english/Sys/
+IF EXISTS {KEYWORD}.guide
+   RUN >NIL: $amigaguidepath {KEYWORD}.guide
+   SKIP found
+ENDIF
+IF EXISTS {KEYWORD}.doc
+   RUN >NIL: $amigaguidepath {KEYWORD}.doc
+   SKIP found
+ENDIF
+
+CD /
+IF EXISTS {KEYWORD}.guide
+   RUN <>NIL: $amigaguidepath {KEYWORD}.guide
+   SKIP found
+ENDIF
+IF EXISTS {KEYWORD}.doc
+   RUN <>NIL: $amigaguidepath {KEYWORD}.doc
+   SKIP found
+ENDIF
+
+ECHO "Document not found!*NTrying document match, please stand by..." NOLINE
+
+SEARCH >NIL: "" SEARCH "#?{KEYWORD}#?" QUIET ALL FILE
+IF NOT WARN
+   ECHO "found document(s):*N"
+   LIST "" PAT "#?{KEYWORD}#?" lformat "%-24m (%p%n)" FILES QUICK ALL
+   SKIP searchinfo
+ENDIF
+
+ECHO "No matches found!*NStarting content search, please stand by..." NOLINE
+SEARCH >T:searchresult.tmp "" SEARCH "{KEYWORD}" QUIET ALL
+IF NOT WARN
+   ECHO "*NKeyword *"{KEYWORD}*" found in the following documents:*N"
+   TYPE T:searchresult.tmp
+   SKIP searchinfo
+ENDIF
+
+ECHO "*NNo help available for *"{KEYWORD}*"..."
+SKIP exit
+
+LAB searchinfo
+ECHO "*NEnter *"Help *<documentname*>*" or *"Help *<documentpath*>*" to view the document(s)!*N(if you get paths like *"system:locale/help/english/sys/workbench.guide*"*Nthen you must enter *"Help english/sys/workbench*" to get the help!"
+SKIP exit
+
+LAB found
+ECHO "Found!"
+
+LAB exit
+CD $currentpath
+UNSET currentpath
+UNSET amigaguidepath
+DELETE >NIL: T:searchresult.tmp QUIET FORCE
+QUIT 0

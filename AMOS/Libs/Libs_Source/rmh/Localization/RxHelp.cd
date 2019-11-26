@@ -1,0 +1,45 @@
+ERR_NOMEM (1//)
+not enogh memory
+;
+ERR_NOREXXLIB (//)
+can't open rexxsyslib.library
+;
+ERR_NOAREXXSERV (//)
+ARexx server not active
+;
+ERR_CANTOPENBASE (//)
+can't open '%s'
+;
+ERR_NOTFOUND (//)
+function '%s' not found
+;
+ERR_NOFUNLIST (//)
+can't obtain help info from '%s'
+;
+ERR_INTERRUPTED (//)
+user break
+;
+ERR_NOAMIGAGUIDELIB (//)
+can't open amigaguide.library 37+
+;
+ERR_NOINTUITIONLIB (//)
+can't open intuition.library 37+
+;
+ERR_NOGUIDE (//)
+guide not found
+;
+STRING_FUNCTIONLIST (100//)
+%s functions list
+;
+STRING_NAME (201//)
+Name
+;
+STRING_ARGS (202//)
+Args
+;
+STRING_TEMPLATE (203//)
+Template
+;
+STRING_FUNCTIONS (204//)
+%s functions: %ld
+;

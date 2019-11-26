@@ -1,0 +1,88 @@
+TABLE OF CONTENTS
+
+wbstart.library/WBStartTagList
+
+wbstart.library/WBStartTagList                  wbstart.library/WBStartTagList
+wbstart.library/WBStartTags                         wbstart.library/WBStartTags
+
+   NAME
+        WBStartTagList -- Start a program as WB program
+
+   SYNOPSIS
+        success = WBStartTagList(tags)
+        D0                       A0
+
+        LONG WBStartTagList(struct TagItem *)
+
+        success = WBStartTags(tag1, ...)
+
+        LONG WBStartTags(Tag, ...)
+
+   FUNCTION
+        Start a file as WB program.
+
+        The following tags are currently supported. All information is copied
+        so you can free the resources after the library call.
+
+         WBStart_Name            (const char *)
+
+            Name of the file to start. It may be the name of a program, a tool
+            or a project. If the name does not contain an absolute path name
+            then the file will be searched relative to WBStart_DirectoryName
+            or WBStart_DirectoryLock.
+
+            This tag must be specified. Otherwise WBStartTagList() will fail.
+
+         WBStart_DirectoryName   (const char *)
+
+            Name of a directory where the search for WBStart_Name starts.
+            Mutually exclusive to WBStart_DirectoryLock.
+
+            Default: NULL lock
+
+         WBStart_DirectoryLock   (BPTR)
+
+            Lock of a directory where the search for WBStart_Name starts.
+            Mutually exclusive to WBStart_DirectoryName.
+
+            NOTE: If you supply a NULL lock then the name supplied with
+                  WBStart_Name has to contain an absolute path!
+
+            Default: NULL lock
+
+         WBStart_Stack           (ULONG)
+
+            Stack size of the new process. A larger stack setting in the tool
+            or project icons overrides this value.
+
+            Default: 4096 Bytes
+
+         WBStart_Priority        (LONG)
+
+            Priority of the new process.
+
+            Default: 0
+
+         WBStart_ArgumentsCount  (ULONG)
+
+            Number of arguments in the list specified by WBStart_ArgumentList.
+
+            Default: 0
+
+         WBStart_ArgumentList    (struct WBArg *)
+
+            Pointer to an array of Workbench arguments. This list will be
+            appended to the argument list for the tool.
+
+            If a list is specified then WBStart_ArgumentsCount must be
+            specified too, otherwise WBStartTagList() will fail.
+
+            Default: NULL, i.e. no argument list
+
+   INPUTS
+        tags - list of TagItems
+
+   RESULTS
+        success - RETURN_OK if the program could be started
+
+

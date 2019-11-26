@@ -1,0 +1,376 @@
+@database "neuralnet"
+@master "Zeitgeist:neuralnet.doc"
+
+@Node Main "neuralnet.doc"
+    @{" NN_Clone() " Link "NN_Clone()"}
+    @{" NN_CreateA() " Link "NN_CreateA()"}
+    @{" NN_Delete() " Link "NN_Delete()"}
+    @{" NN_GetOutputLayer() " Link "NN_GetOutputLayer()"}
+    @{" NN_LoadA() " Link "NN_LoadA()"}
+    @{" NN_Recall() " Link "NN_Recall()"}
+    @{" NN_Reset() " Link "NN_Reset()"}
+    @{" NN_SaveA() " Link "NN_SaveA()"}
+    @{" NN_SetInputLayer() " Link "NN_SetInputLayer()"}
+    @{" NN_SetOutputLayer() " Link "NN_SetOutputLayer()"}
+    @{" NN_Train() " Link "NN_Train()"}
+@EndNode
+
+@Node "NN_Clone()" "neuralnet.library/NN_Clone"
+
+@{b}   NAME@{ub}
+        NN_Clone - create a duplicate from a neural network.
+
+@{b}   SYNOPSIS@{ub}
+        cloned_net = NN_Clone(net);
+        d0                    a0
+        
+        NEURALNET NN_Clone(NEURALNET);
+
+@{b}   FUNCTION@{ub}
+        create a duplicate from a neural network, including
+        all its attributes and the current training status.
+        
+@{b}   INPUTS@{ub}
+        net             - pointer to a neural net created
+                          with @{"NN_CreateA()" Link "NN_CreateA()"}.
+        
+@{b}   RESULTS@{ub}
+        cloned_net      - vanilla copy of the neural network,
+                          or NULL if out of memory.
+        
+@{b}   SEE ALSO@{ub}
+        @{"NN_CreateA()" Link "NN_CreateA()"}
+
+
+@EndNode
+
+@Node "NN_CreateA()" "neuralnet.library/NN_CreateA"
+
+@{b}   NAME@{ub}
+        NN_CreateA - create a neural network.
+        NN_Create  - varargs stub for NN_CreateA.
+
+@{b}   SYNOPSIS@{ub}
+        net = NN_CreateA(input,hidden,output,taglist)
+        d0               d0    d1     d2     a0
+
+        NEURALNET NN_CreateA(ULONG,ULONG,ULONG,struct @{"TagItem" Link "TEXT_INCLUDE:utility/tagitem.h/Main" 31} *)
+
+        NEURALNET NN_Create(ULONG,ULONG,ULONG,tag,...,TAG_DONE)
+
+@{b}   FUNCTION@{ub}
+        create and initialize a neural backpropagation network.
+        
+@{b}   INPUTS@{ub}
+        input           - number of input layer neurons.
+        hidden          - number of hidden layer neurons.
+        output          - number of output layer neurons.
+        taglist         - pointer to an array of TagItems.
+
+@{b}   TAGS@{ub}
+        none defined
+        
+@{b}   RESULTS@{ub}
+        net             - backpropagation network ready
+                          for usage, or NULL if out of memory.
+        
+@{b}   SEE ALSO@{ub}
+        @{"NN_Delete()" Link "NN_Delete()"}
+
+
+@EndNode
+
+@Node "NN_Delete()" "neuralnet.library/NN_Delete"
+
+@{b}   NAME@{ub}
+        NN_Delete  - dispose a neural network.
+
+@{b}   SYNOPSIS@{ub}
+        NN_Delete(net)
+                  a0
+
+        void NN_Delete(NEURALNET)
+
+@{b}   FUNCTION@{ub}
+        remove a neural network and free all associated memory.
+        
+@{b}   INPUTS@{ub}
+        net             - pointer to a neural network.
+
+@{b}   SEE ALSO@{ub}
+        @{"NN_CreateA()" Link "NN_CreateA()"}
+
+
+@EndNode
+
+@Node "NN_GetOutputLayer()" "neuralnet.library/NN_GetOutputLayer"
+
+@{b}   NAME@{ub}
+        NN_GetOutputLayer - read a neural network's output layer.
+
+@{b}   SYNOPSIS@{ub}
+        NN_GetOutputLayer(net,array)
+                          a0  a1
+        
+        void NN_GetOutputLayer(NEURALNET,@{"NEURON" Link "TEXT_INCLUDE:libraries/neuralnet.h/Main" 24} *)
+
+@{b}   FUNCTION@{ub}
+        Transfer a neural network's output layer to an array of
+        the type @{"NEURON" Link "TEXT_INCLUDE:libraries/neuralnet.h/Main" 24}.
+
+        The array must allow to hold at least the number of
+        output neurons the net was created with.
+        
+@{b}   INPUTS@{ub}
+        net             - pointer to a neural network.
+        array           - pointer to an array of type @{"NEURON" Link "TEXT_INCLUDE:libraries/neuralnet.h/Main" 24}.
+
+@{b}   NOTES@{ub}
+        The type @{"NEURON" Link "TEXT_INCLUDE:libraries/neuralnet.h/Main" 24} is assumed to store short (32bit) IEEE
+        floating point numbers. you must set the compiler options
+        accordingly. refer to the manual for further details.
+
+@{b}   SEE ALSO@{ub}
+        @{"NN_CreateA()" Link "NN_CreateA()"}, @{"NN_SetOutputLayer()" Link "NN_SetOutputLayer()"}, NN_GetOutputNeuron()
+
+
+@EndNode
+
+@Node "NN_LoadA()" "neuralnet.library/NN_LoadA"
+
+@{b}   NAME@{ub}
+        NN_LoadA - load a neural network's training status from disk.
+        NN_Load  - varargs stub for NN_LoadA.
+
+@{b}   SYNOPSIS@{ub}
+        success = NN_LoadA(net,filename,taglist)
+        d0                 a0  a1       a2
+        
+        @{"BOOL" Link "TEXT_INCLUDE:exec/types.h/Main" 68} NN_LoadA(NEURALNET,@{"STRPTR" Link "TEXT_INCLUDE:exec/types.h/Main" 53},struct @{"TagItem" Link "TEXT_INCLUDE:utility/tagitem.h/Main" 31} *)
+
+        @{"BOOL" Link "TEXT_INCLUDE:exec/types.h/Main" 68} NN_Load(NEURALNET,@{"STRPTR" Link "TEXT_INCLUDE:exec/types.h/Main" 53},tag,...,TAG_DONE)
+
+@{b}   FUNCTION@{ub}
+        Load a training status from disk and insert it
+        to a neural network.
+        
+        The disk data must comply to the network's topology,
+        i.e. result from the same number of input, hidden,
+        and output layer neurons. Otherwise this function
+        returns FALSE.
+        
+@{b}   INPUTS@{ub}
+        net             - pointer to a neural network.
+        filename        - filename of a neural network's
+                          training status.
+        taglist         - pointer to an array of TagItems.
+
+@{b}   TAGS@{ub}
+        none defined
+   
+@{b}   RESULTS@{ub}
+        success         - boolean, TRUE if the net was
+                          successfully loaded.
+
+@{b}   SEE ALSO@{ub}
+        NN_Save()
+
+
+@EndNode
+
+@Node "NN_Recall()" "neuralnet.library/NN_Recall"
+
+@{b}   NAME@{ub}
+        NN_Recall - recall a neural network.
+
+@{b}   SYNOPSIS@{ub}
+        NN_Recall(net)
+                  a0
+        
+        void NN_Recall(NEURALNET)
+
+@{b}   FUNCTION@{ub}
+        Recall a neural network, thus producing an output
+        at its output layer.
+        
+@{b}   INPUTS@{ub}
+        net             - pointer to a neural network.
+
+@{b}   SEE ALSO@{ub}
+        @{"NN_Train()" Link "NN_Train()"}, @{"NN_SetInputLayer()" Link "NN_SetInputLayer()"}, @{"NN_GetOutputLayer()" Link "NN_GetOutputLayer()"}
+
+
+@EndNode
+
+@Node "NN_Reset()" "neuralnet.library/NN_Reset"
+
+@{b}   NAME@{ub}
+        NN_Reset - reset a neural network.
+
+@{b}   SYNOPSIS@{ub}
+        NN_Reset(net)
+                 a0
+        
+        void NN_Reset(NEURALNET)
+
+@{b}   FUNCTION@{ub}
+        Clear a neural network's training status. It will behave
+        as stupid as if it were freshly created with @{"NN_CreateA()" Link "NN_CreateA()"}.
+        
+@{b}   INPUTS@{ub}
+        net             - pointer to a neural network.
+
+@{b}   SEE ALSO@{ub}
+        @{"NN_CreateA()" Link "NN_CreateA()"}
+
+
+@EndNode
+
+@Node "NN_SaveA()" "neuralnet.library/NN_SaveA"
+
+@{b}   NAME@{ub}
+        NN_SaveA - save a neural network's training status to disk.
+        NN_Save  - varargs stub for NN_SaveA.
+
+@{b}   SYNOPSIS@{ub}
+        success = NN_SaveA(net,filename,taglist)
+        d0                 a0  a1       a2
+        
+        @{"BOOL" Link "TEXT_INCLUDE:exec/types.h/Main" 68} NN_SaveA(NEURALNET,@{"STRPTR" Link "TEXT_INCLUDE:exec/types.h/Main" 53},struct @{"TagItem" Link "TEXT_INCLUDE:utility/tagitem.h/Main" 31} *)
+
+        @{"BOOL" Link "TEXT_INCLUDE:exec/types.h/Main" 68} NN_Save(NEURALNET,@{"STRPTR" Link "TEXT_INCLUDE:exec/types.h/Main" 53},tag,...TAG_DONE)
+
+@{b}   FUNCTION@{ub}
+        Save a neural network's current training status to disk.
+        
+@{b}   INPUTS@{ub}
+        net             - pointer to a neural network.
+        filename        - filename of a neural network's
+                          training status.
+        taglist         - pointer to an array of TagItems.
+
+@{b}   TAGS@{ub}
+        none defined
+   
+@{b}   RESULTS@{ub}
+        success         - boolean, TRUE if the net was
+                          successfully saved.
+
+@{b}   SEE ALSO@{ub}
+        NN_Load()
+
+
+@EndNode
+
+@Node "NN_SetInputLayer()" "neuralnet.library/NN_SetInputLayer"
+
+@{b}   NAME@{ub}
+        NN_SetInputLayer - set a neural network's input layer.
+
+@{b}   SYNOPSIS@{ub}
+        NN_SetInputLayer(net,array)
+                         a0  a1
+        
+        void NN_SetInputLayer(NEURALNET,@{"NEURON" Link "TEXT_INCLUDE:libraries/neuralnet.h/Main" 24} *)
+
+@{b}   FUNCTION@{ub}
+        Transfer an array of the type @{"NEURON" Link "TEXT_INCLUDE:libraries/neuralnet.h/Main" 24} to a neural network's
+        input layer.
+
+        The array must contain at least the number of
+        input neurons the net was created with.
+        
+@{b}   INPUTS@{ub}
+        net             - pointer to a neural network.
+        array           - pointer to an array of type @{"NEURON" Link "TEXT_INCLUDE:libraries/neuralnet.h/Main" 24}.
+
+@{b}   NOTES@{ub}
+        The type @{"NEURON" Link "TEXT_INCLUDE:libraries/neuralnet.h/Main" 24} is assumed to store short (32bit) IEEE
+        floating point numbers. you must set the compiler options
+        accordingly. refer to the manual for further details.
+
+@{b}   SEE ALSO@{ub}
+        @{"NN_CreateA()" Link "NN_CreateA()"}, @{"NN_SetOutputLayer()" Link "NN_SetOutputLayer()"}, NN_SetInputNeuron()
+
+
+@EndNode
+
+@Node "NN_SetOutputLayer()" "neuralnet.library/NN_SetOutputLayer"
+
+@{b}   NAME@{ub}
+        NN_SetOutputLayer - set a neural network's output layer.
+
+@{b}   SYNOPSIS@{ub}
+        NN_SetOutputLayer(net,array)
+                          a0  a1
+        
+        void NN_SetOutputLayer(NEURALNET,@{"NEURON" Link "TEXT_INCLUDE:libraries/neuralnet.h/Main" 24} *)
+
+@{b}   FUNCTION@{ub}
+        Transfer an array of the type @{"NEURON" Link "TEXT_INCLUDE:libraries/neuralnet.h/Main" 24} to a neural network's
+        output layer.
+
+        The array must contain at least the number of
+        output neurons the net was created with.
+        
+@{b}   INPUTS@{ub}
+        net             - pointer to a neural network.
+        array           - pointer to an array of type @{"NEURON" Link "TEXT_INCLUDE:libraries/neuralnet.h/Main" 24}.
+
+@{b}   NOTES@{ub}
+        The type @{"NEURON" Link "TEXT_INCLUDE:libraries/neuralnet.h/Main" 24} is assumed to store short (32bit) IEEE
+        floating point numbers. you must set the compiler options
+        accordingly. refer to the manual for further details.
+
+@{b}   SEE ALSO@{ub}
+        @{"NN_CreateA()" Link "NN_CreateA()"}, @{"NN_GetOutputLayer()" Link "NN_GetOutputLayer()"}, NN_SetOutputNeuron()
+
+
+@EndNode
+
+@Node "NN_Train()" "neuralnet.library/NN_Train"
+
+@{b}   NAME@{ub}
+        NN_Train - train a neural network.
+
+@{b}   SYNOPSIS@{ub}
+        NN_Train(net,errorptr)
+                 a0  a1
+        
+        void NN_Train(NEURALNET,float *)
+
+@{b}   FUNCTION@{ub}
+        Train a neural network the current input/output pattern.
+        
+        If you supply an error pointer, this value will be filled
+        with the network's current degree of 'unawareness' of the
+        data to be trained. The lower this value, the better the
+        pattern has been recognized. An error of 0.0 indicates
+        perfect recognition, but it is not always recommended to
+        train a net that far.
+        
+@{b}   INPUTS@{ub}
+        net             - pointer to a neural network.
+        errorptr        - pointer to a float number.
+
+@{b}   EXAMPLE@{ub}
+        Train a neural network until an error value of 0.01
+        has been reached:
+
+        float err;
+        do
+        {
+            NN_Train(net, &err);
+
+        } while (err > 0.01);
+
+@{b}   NOTES@{ub}
+        The errorptr is assumed to point to a short (32bit) IEEE
+        floating point number. you must set the compiler options
+        accordingly. refer to the manual for further details.
+
+@{b}   SEE ALSO@{ub}
+        @{"NN_Recall()" Link "NN_Recall()"}
+
+@EndNode
+

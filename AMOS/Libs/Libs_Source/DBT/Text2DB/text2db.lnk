@@ -1,0 +1,4 @@
+FROM LIB:c.o "text2db.o"
+TO "text2db"
+LIB LIB:sc.lib LIB:amiga.lib
+

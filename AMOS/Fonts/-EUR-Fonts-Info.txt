@@ -1,0 +1,91 @@
+=========
+EUROFONTS
+=========
+
+Version 1.1
+
+- Breite der Fonts angepaßt
+- Einige Zeichensätze waren leider noch die alten (z.B. Broadway)
+- Taste #164 (ALT-Z) auch als Euro angepaßt. (hat mir keiner gesagt,
+  dass dies ein neuer Standard fürn Amiga sein soll)
+  Achtung, bei Mails zu einem PC/MAC User sollte die ALT-Shift-E als
+  Euro Zeichen benutzt werden, sonst bekoomen die die kleine nette
+  Sonne als Euro Symbol, was dann bestimmt freundlich aussieht,
+  allerdings bei Überweisungen etc. etwas Verwirrung stiften wird...
+  
+  Da der Topaz Font im Rom festgelegt worden ist, kann ich nur einen
+  halb konvertierten Topaz Zeichensatz liefern, man sollte also auf 
+  den TopazF Zeichensatz zurückgreifen!!! Das ROM verbietet mir leider
+  die Änderung und alle Arbeit ist umsonst!
+  Der Topaz/11 und 7  Zeichensatz sind vollständig und funktionieren
+  mit beiden Tastenkombinationen...
+
+
+
+Die Auswahl der Fonts haben wir im Computer-Club ausgemacht,
+bei Bedarf koennen natuerlich auch andere Zeichensaetze er-
+stellt werden.
+
+Diese Fonts haben das Eurozeichen nach Windows-Norm. (Seufz)
+
+Das heisst, an der #128 & #164 Stelle des Zeichensatzes 
+befinden sich jetzt die EURO Zeichen, ansonsten ist der 
+Zeichensatz unverändert.
+
+Mit der Tastenkombination ALT+Shift+E oder ALT+128 wird
+der Font angezeigt. Leider nicht im Shell (CON), dieser 
+kann nur durch die Kombination ALT-z angezeigt werden.
+Da bedarf es einem Rom-Update und das sollten doch die 
+Jungz von H&P hinbekommen.
+
+=============
+Installation:
+=============
+
+Der deutsche Keymap muß in DEVS:KeyMaps kopiert werden.
+Die Zeichensätze natürlich in das Font-Verzeichnis kopieren.
+
+==================
+Info Zeichensätze:
+==================
+
+Neu sind die Arial Schriften (Proportional)
+Neu ist auch der Workbench_FIX Zeichensatz (Feste Größe, also 
+auch für die Shell geeignet.
+Die Schriftweite habe ich bei allen Zeichensätzen nicht
+getestet, also erst mal n Backup ziehen, bevor man kopiert!
+
+Jochen Grus / PTC 2002
+
+PS: for other languages, try the program Editkeys (don`t know
+    if this is at the AmiNet) or SetKeys (both programs are very
+    old and crashes often on my Amigas) to change your keymap!
+    If you have trouble with it, send a mail and we will help
+    you!
+
+
+========
+ENGLISH:
+========
+
+Version 1.1
+
+- Changed the width of some fonts
+- Some of the fonts were the old ones (f.e. Broadway)
+- the key #164 (ALT-Z) shows now the EURO (for the shell/con)!
+  Warning! If you write a letter/mail to a MAC/PC user you
+  should use the ALT-SHIFT-E (key #128) solution otherwise they 
+  will get the little SUN symbol on the screen! 
+
+- It is forbidden to changed the Topaz font completly, coz
+  it is used by the AMIGA ROM, so try the TopazF font from
+  the archive for the shell! (-> Prefs:fonts) The Topaz/11
+  and 7 font works fine with both key combinations...
+
+=============
+Installation:
+=============
+
+Unpack the archive to ram...
+Copy all the fonts you want to the FONTS: directory.
+

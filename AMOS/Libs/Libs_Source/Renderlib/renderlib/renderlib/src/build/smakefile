@@ -1,0 +1,64 @@
+
+RM = delete all quiet
+CC = sc resopt nover noerrhigh noicons nominc memsize=huge params=r data=fo prec=mixed strsect=code strmer nochkabort nostkchk idir=/include
+LD = slink quiet noicons define smallcode smalldata
+DEBUG = debug=line def=DEBUG
+CPU = cpu=68060 math=68882
+#OPT = opt opttime optloop optinline optinlocal optsched optpeep
+
+CFLAGS = $(CPU) $(OPT) $(DEBUG)
+
+LIBS = lib:scm881nb.lib lib:scnb.lib lib:debug.lib lib:amiga.lib
+
+OBJS = 	lib/lib_init_68k.o lib/lib_global.o lib/rnd_memory.o \
+		lib/rnd_histogram.o lib/rnd_palette.o lib/rnd_quant.o \
+		lib/rnd_mapping.o lib/rnd_conversion.o lib/rnd_diversity.o \
+		lib/rnd_alpha.o lib/rnd_scale.o lib/rnd_render.o 
+
+all: /libs/render.library
+
+lib/lib_global.o: lib_global.c lib_init.h
+	$(CC) $(CFLAGS) lib_global.c objname $@
+
+lib/lib_init_68k.o: lib_init_68k.c lib_init.h
+	$(CC) $(CFLAGS) lib_init_68k.c objname $@
+
+lib/rnd_memory.o: rnd_memory.c lib_init.h
+	$(CC) $(CFLAGS) rnd_memory.c objname $@
+
+lib/rnd_histogram.o: rnd_histogram.c lib_init.h
+	$(CC) $(CFLAGS) rnd_histogram.c objname $@
+
+lib/rnd_palette.o: rnd_palette.c lib_init.h
+	$(CC) $(CFLAGS) rnd_palette.c objname $@
+
+lib/rnd_quant.o: rnd_quant.c lib_init.h
+	$(CC) $(CFLAGS) rnd_quant.c objname $@
+
+lib/rnd_mapping.o: rnd_mapping.c lib_init.h
+	$(CC) $(CFLAGS) rnd_mapping.c objname $@
+
+lib/rnd_conversion.o: rnd_conversion.c lib_init.h
+	$(CC) $(CFLAGS) rnd_conversion.c objname $@
+
+lib/rnd_diversity.o: rnd_diversity.c lib_init.h
+	$(CC) $(CFLAGS) rnd_diversity.c objname $@
+
+lib/rnd_alpha.o: rnd_alpha.c lib_init.h
+	$(CC) $(CFLAGS) rnd_alpha.c objname $@
+
+lib/rnd_scale.o: rnd_scale.c lib_init.h
+	$(CC) $(CFLAGS) rnd_scale.c objname $@
+
+lib/rnd_render.o: rnd_render.c lib_init.h
+	$(CC) $(CFLAGS) rnd_render.c objname $@
+
+/libs/render.library: $(OBJS)
+	$(LD) with <<
+		from $(OBJS)
+		to $@ lib $(LIBS)
+		define __XCEXIT=@__dummy
+	<
+
+clean:
+	-$(RM) lib/*.o /libs/render.library

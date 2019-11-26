@@ -1,0 +1,403 @@
+@DATABASE ConfigFile.guide
+@AUTHOR "Marcel Karas"
+@(c) "Copyright © 1996-1997 Marcel Karas"
+@$VER: ConfgFile.guide 2.4 (2.10.97)
+
+@INDEX "Index"
+@NODE "Main" "ConfigFile.guide"
+@{b}#############################################################################@{ub}
+
+                            @{b}ConfigFile  Library@{ub}
+
+                                @{b}Release 1.2@{ub}
+
+                   @{b}Copyright © 1996-1997 by Marcel Karas,@{ub}
+                            @{b}All rights reserved.@{ub}
+
+@{b}#############################################################################@{ub}
+
+@{b}1. GENERAL INFORMATION@{ub}
+
+   1.1 @{" Introduction " link "Introduction"}...................................What is ConfigFile
+   1.2 @{" Features " link "Features"}......................................ConfigFile Features
+   1.3 @{" Requirements " link "Requirements"}.....................................What do you need
+   1.4 @{" Installation " link "Installation"}....................................Where to put what
+   1.5 @{" Important changes " link "ImportantChanges"}..............................For V1 programmers
+
+@{b}2. PROGRAMMERS INFORMATION@{ub}
+
+   2.1 @{" Examples " link "Examples"}....................................How to use ConfigFile
+   2.2 @{" ASCII format " link "ASCII"}........................................Simple format
+   2.3 @{" SHORT format " link "SHORT"}..........................................Fast format
+   2.4 @{" ASCII vs. SHORT " link "ASCIIvsSHORT"}...................................What is better?
+
+@{b}3. USERS INFORMATION@{ub}
+
+   3.1 @{" Tools " link "Tools"}..................................Small Tools for ConfigFile
+
+@{b}4. LEGAL STUFF@{ub}
+
+   4.1 @{" FreeWare " link "FreeWare"}...............................................What else!
+   4.2 @{" Copyright " link "Copyright"}......................................About legal issues
+   4.3 @{" Disclaimer " link "Disclaimer"}.........................................No Warrentries
+   4.4 @{" Distribution " link "Distribution"}...........................Distribution of ConfigFile
+
+@{b}A. APPENDIX@{ub}
+
+   A.1 @{" Future plans " link "FuturePlans"}...................................What I have planed
+   A.2 @{" The Author " link "The Author"}................................How to reach the Author
+   A.3 @{" Updates " link "Updates"}........................................How to get Updates
+   A.4 @{" History " link "History/main"}.............................The History of the ConfigFile
+   A.5 @{" Index " link "Index"}..............................................Contents Index
+
+@{b}#############################################################################@{ub}
+@ENDNODE
+
+@NODE "Introduction" "ConfigFile.guide | 1.1 Introduction"
+@{b}1.1 Introduction@{ub}
+@{b}****************@{ub}
+
+   The  ConfigFile.library,  a  system  to  make  accessing  config  files
+   particularly  easy.  The  format  of the files is like the from Windows
+   only with some extensions. The user can easy change the contents  of  a
+   file with a text editor. The programm that needs the files can easy use
+   the ConfigFile.library to handle.
+@ENDNODE
+
+@NODE "Features" "ConfigFile.guide | 1.2 Features"
+@{b}1.2 Features@{ub}
+@{b}************@{ub}
+
+   @{b}·@{ub} Small Library
+
+   @{b}·@{ub} Needs not many memory
+
+   @{b}·@{ub} Very fast on a 68000 processor
+
+   @{b}·@{ub} Easy API for programmer
+
+   @{b}·@{ub} Special ARexx version
+@ENDNODE
+
+@NODE "Requirements" "ConfigFile.guide | 1.3 Requirements"
+@{b}1.3 Requirements@{ub}
+@{b}****************@{ub}
+
+   ConfigFile only requires Amiga operating system 2.0 or higher.
+@ENDNODE
+
+@NODE "Installation" "ConfigFile.guide | 1.4 Installation"
+@{b}1.4 Installation@{ub}
+@{b}****************@{ub}
+
+   Copy one of the library versions and the ARexx version to LIBS:.
+   That's all.
+
+   ConfigFile.library        - 1
+   ConfigFile.library.020    - 2
+
+   1. Compiled for 68000 processor.
+   2. Compiled for 68020/030/040/060 processors.
+@ENDNODE
+
+@NODE "ImportantChanges" "ConfigFile.guide | 1.5 Important changes"
+@{b}1.5 Important changes@{ub}
+@{b}*********************@{ub}
+
+   Important changes since V2.19 for programmer: No important changes
+
+@ENDNODE
+
+@NODE "Examples" "ConfigFile.guide | 2.1 Examples"
+@{b}2.1 Examples@{ub}
+@{b}************@{ub}
+
+   Examples for the ConfigFile.library:
+
+   Read  - Reads a CF file and shows the contents.
+   Write - Writes a new CF file.
+   Count - Reads a CF file and count all nodes.
+@ENDNODE
+
+@NODE "ASCII" "ConfigFile.guide | 2.2 ASCII format"
+@{b}2.2 ASCII format@{ub}
+@{b}****************@{ub}
+
+   The ASCII format is like the from Windows only with some extensions.
+   Example of a CF file:
+
+   CFFT        <- This must be in every CF file.
+
+   [ExampleGroup]     <- Start of a new group
+
+   ExampleArgument=YES,1245,%1011,"ExampleString" <- Argument with items
+   ExampleArgII    <- Arguments without items
+   ExampleArgIII=  <- This cause an error
+
+   [ExampleGroupII] <- End of the "ExampleGroup" and start of the a group
+
+   The declaration of new groups begins with "[" and ends with "]". For
+   example:
+
+   CFFT
+
+   [ ExampleGroup ]
+    ^            ^ This is okay
+
+   [ Example  Group ]
+            ^^ No spaces in the name
+
+   Arguments begins with the name. For example:
+
+   CFFT
+
+   [ExampleGroup]
+
+   ExampleArgument = ...      <-+
+     ExampleArgumentII        <-|
+   ExampleArgumentIII   = ... <-+- This is okay
+
+   ExampleArgument II = ...   <-+
+   Example  Argument          <-|
+   Example    Argument = ...  <-+- This cause an error
+
+   Items have following types:
+
+   String e.g. "The is a string"
+   Number e.g. 234623 for decimal or $DFABCD567 for hexdecimal or
+               %1110111 for binary
+   Bool e.g. TRUE, FALSE, YES, NO, ON, and OFF
+@ENDNODE
+
+@NODE "SHORT" "ConfigFile.guide | 2.3 SHORT format"
+@{b}2.3 SHORT format@{ub}
+@{b}****************@{ub}
+
+   The SHORT format is not changeable with a text editor. If you  want  to
+   toggle   the   format   between   SHORT   and   ASCII,   you  must  use
+   @{" ToggleFormat " link "ToggleFormat"}. If you open a file with cf_Open (...)  you  can  check
+   which format has the file. For example:
+
+   CFHeader *Header;
+   
+   if ( Header = cf_Open ("S:system.cfg", CF_OMODE_OLDFILE |
+      CF_OFLG_READ_TOO, 0) )
+   {
+      if ( Header->Flags & CF_HFLG_SHORT_FILE )
+         printf ("The open file is in SHORT format.\n");
+      else if ( Header->Flags & CF_HFLG_ASCII_FILE )
+         printf ("The open file is in ASCII format.\n");
+      else
+         printf ("The open file has an unknown CF format.\n");
+
+      cf_Close (Header);
+   }
+   else printf ("Couldn't open the CF file.\n");
+@ENDNODE
+
+@NODE "ASCIIvsSHORT" "ConfigFile.guide | 2.4 ASCII vs. SHORT"
+@{b}2.4 ASCII vs. SHORT@{ub}
+@{b}*******************@{ub}
+
+               ASCII         |          SHORT
+     ------------------------+------------------------
+      - Slower to reading    | - Faster to reading
+      - Greater files        | - Smaller files
+      - Changeable with a    | - Not changeable with a
+        text editor          |   text editor
+@ENDNODE
+
+@NODE "Tools" "ConfigFile.guide | 3.1 Tools"
+@{b}3.1 Tools@{ub}
+@{b}*********@{ub}
+
+   Usefully Tools:
+
+   @{" ClearUpFile " link "ClearUpFile"}........................................Clearups a CF file
+   @{" ToggleFormat " link "ToggleFormat"}..........................Changes the format of a CF file
+@ENDNODE
+
+@NODE "ClearUpFile" "ConfigFile.guide | 3.1 Tools : ClearUpFile"
+   @{b}NAME@{ub}
+        ClearUpFile -- Clearups a CF file.
+
+   @{b}SYNOPSIS@{ub}
+        ClearUpFile ConfigFile/A.
+
+   @{b}FUNCTION@{ub}
+        ClearUpFile clearups a CF file, it reads and writes the file new.
+
+   @{b}INPUTS@{ub}
+        ConfigFile - The CF file to clearup.
+@ENDNODE
+
+@NODE "ToggleFormat" "ConfigFile.guide | 3.1 Tools : ToggleFormat"
+   @{b}NAME@{ub}
+        ToggleFormat -- Changes the format of the CF file.
+
+   @{b}SYNOPSIS@{ub}
+        ToggleFormat ConfigFile/A.
+
+   @{b}FUNCTION@{ub}
+        ToggleFormat changes the format of the CF file between the
+        @{" ASCII format " link "ASCII"} and the @{" SHORT format " link "SHORT"}, it reads and write
+        the file new.
+
+   @{b}INPUTS@{ub}
+        ConfigFile - CF Datei.
+
+   @{b}SEE ALSO@{ub}
+        @{" ASCII format " link "ASCII"}, @{" SHORT format " link "SHORT"}
+@ENDNODE
+
+@NODE "FreeWare" "ConfigFile.guide | 4.1 FreeWare"
+@{b}4.1 FreeWare@{ub}
+@{b}************@{ub}
+
+   ConfigFile may be freely distributed for  non-commercial  purposes,  as
+   long  as all the files in the original archive are present and have not
+   been modified in any way.
+@ENDNODE
+
+@NODE "Copyright" "ConfigFile.guide | 4.2 Copyright"
+@{b}4.2 Copyright@{ub}
+@{b}*************@{ub}
+
+   ConfigFile is written and copyright © 1996-1997  by  Marcel  Karas.  No
+   parts  of  this  program may be modified or recompiled to a new program
+   named ConfigFile. Ideas, techniques and the API from this  program  can
+   be freely adopted to other programs.
+@ENDNODE
+
+@NODE "Disclaimer" "ConfigFile.guide | 4.3 Disclaimer"
+@{b}4.3 Disclaimer@{ub}
+@{b}**************@{ub}
+
+   THERE IS NO WARRANTY FOR  THIS  PROGRAM  TO  THE  EXTENT  PERMITTED  BY
+   APPLICABLE  LAW. EXCEPT WHERE OTHERWISE STATED IN WRITING THE COPYRIGHT
+   HOLDER AND/OR  OTHER  PARTIES  PROVIDE  THE  PROGRAM  "AS  IS"  WITHOUT
+   WARRANTY  OF  ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT
+   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+   PARTICULAR  PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE
+   OF THE PROGRAM IS WITH YOU. SHOULD THE  PROGRAM  PROVE  DEFECTIVE,  YOU
+   ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+   IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO  IN  WRITING
+   WILL  ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY REDISTRIBUTE THE
+   PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY
+   GENERAL,  SPECIAL,  INCIDENTAL  OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+   THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT  LIMITED  TO
+   LOSS  OF  DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY
+   YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO  OPERATE  WITH  ANY
+   OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF
+   THE POSSIBILITY OF SUCH DAMAGES.
+@ENDNODE
+
+@NODE "Distribution" "ConfigFile.guide | 4.4 Distribution"
+@{b}4.4 Distribution@{ub}
+@{b}****************@{ub}
+
+   Neither fees may be charged nor profits may  be  made  by  distributing
+   this  piece  of  software. CD Manufactures are specifically granted the
+   right to include this program on CD collections, as long  as  they  are
+   for the Public Domain.
+@ENDNODE
+
+@NODE "FuturePlans" "ConfigFile.guide | A.1 Future plans"
+@{b}A.1 Future plans@{ub}
+@{b}****************@{ub}
+
+   My future plans of the ConfigFile.library:
+
+   - New docs (My English is terrible 8-( )
+   - More examples
+   - New Itemtypes (Octal, Floating Points)
+   - Functions to add own Itemtypes to the library
+   - Fast memory-management
+   - Filesharing between different tasks
+@ENDNODE
+
+@NODE "The Author" "ConfigFile.guide | A.2 The Author"
+@{b}A.2 The Author@{ub}
+@{b}**************@{ub}
+
+   Send comments, suggestions and (hopefully not) bug reports to:
+
+   Email:
+   
+   MKS@Allgaeu.org or
+   MKS@AG-Trek.Allgaeu.org
+
+   FidoNet:
+
+   Marcel Karas 2:2487/2982.39
+
+   Snail-Mail:
+
+   Marcel Karas
+   Str. d. Chemiearbeiter 47
+   06766 Wolfen Nord
+   Germany 
+@ENDNODE
+
+@NODE "Updates" "ConfigFile.guide | A.3 Updates"
+@{b}A.3 Updates@{ub}
+@{b}***********@{ub}
+
+   The newest version of ConfigFile should  always  be  available  in  the
+   AG-Trek  (see below), on AmiNet or Public Domain collections, which are
+   up-to-date.
+
+@{b}Support BBS@{ub}
+@{b}~~~~~~~~~~~@{ub}
+
+   AG-Trek Bulletin Board System, Oberstaufen, Germany
+      _______________________    ____________________      ______  ____   __
+     /                      \\\\  /                   \\\\    /     \\\\|  ||  / \\\\
+    |   ___    ___   _____  //  \\  __    __________  \\\\  /  ___  \\|  || /  //
+    |  //  |  || |  ||    \\//    \\// |  ||   ___   \\  \\\\/  //  \\_/|  ||/  //
+____|  ||__|  ||_|  ||_____          |  ||  |  ||  /  //  //___   |  |/  //
+\\   |  |   |  |  |  |     \\\\         |  ||  |  || /  //|      \\\\  |     //
+ \\__|  |___|  |__|  |___   \\\\        |  ||  |  ||/  // |  ____//  |     \\\\
+    |  ||  |  || |  ||  |  ||        |  ||  |  ||\\  \\\\ \\  \\\\    _ |  |\\  \\\\
+    |  ||  |  || |  ||__/  ||        |  ||  |  || \\  \\\\ \\  \\\\__/ \\|  ||\\  \\\\
+    |  ||  |  || |         ||        |  ||  |  ||  \\  \\\\ \\       /|  || \\  \\\\
+    |  ||  |__|| |________//         |  ||  |__||   \\__\\\\ \\_____//|__||  \\_//
+    |  ||                            |  ||                         SAVAGE`96
+    | //                             | //
+    |// Running on Prometheus 1.XX   |//  AMIGA 1200/30-50/34 MB, 3,7GB HD
+
+
+    Node 1 : +49-(0)8386 -   7862  USR Sportster V34/VFast    28.8k
+    Node 2 : +49-(0)8386 - 961150  USR Sportster VI V34+      33.6k 
+    Node 3 : +49-(0)8386 - 961151  Elsa Microlink ISDN/TL-V34 28.8.k/64.0k
+    Node 4 : +49-(0)8386 - 961152  Elsa Microlink ISDN/pro    64.0k  
+@ENDNODE
+
+@NODE "Index" "ConfigFile.guide | A.5 Index"
+@{b}A.5 Index@{ub}
+@{b}*********@{ub}
+
+   @{" ASCII format " link "ASCII"}.............................................ASCII format
+   @{" ASCII vs. SHORT " link "ASCIIvsSHORT"}.......................................ASCII vs. SHORT
+   @{" ClearUpFile " link "ClearUpFile"}...............................................ClearUpFile
+   @{" Copyright " link "Copyright"}...................................................Copyright
+   @{" Disclaimer " link "Disclaimer"}.................................................Disclaimer
+   @{" Distribution " link "Distribution"}.............................................Distribution
+   @{" Examples " link "Examples"}.....................................................Examples
+   @{" Features " link "Features"}.....................................................Features
+   @{" File Format " link "File Format"}...............................................File Format
+   @{" Future plans " link "FuturePlans"}.............................................Future plans
+   @{" FreeWare " link "FreeWare"}.....................................................FreeWare
+   @{" History " link "History/main"}.......................................................History
+   @{" Important changes " link "ImportantChanges"}...................................Important changes
+   @{" Installation " link "Installation"}.............................................Installation
+   @{" Introduction " link "Introduction"}.............................................Introduction
+   @{" Requirements " link "Requirements"}.............................................Requirements
+   @{" SHORT format " link "SHORT"}.............................................SHORT format
+   @{" Support BBS " link "Updates"}...................................................Updates
+   @{" The Author " link "The Author"}.................................................The Author
+   @{" ToggleFormat " link "ToggleFormat"}.............................................ToggleFormat
+   @{" Tools " link "Tools"}...........................................................Tools
+   @{" Updates " link "Updates"}.......................................................Updates
+@ENDNODE

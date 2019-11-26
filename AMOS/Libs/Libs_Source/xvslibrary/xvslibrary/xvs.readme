@@ -1,0 +1,60 @@
+Short:    External Virus Scanner Library v33.40
+Author:   ghoermann@gmx.de (Georg Hörmann)
+Uploader: ghoermann@gmx.de (Georg Hörmann)
+Version:  33.40
+Type:     util/virus
+
+============================================================================
+==            xvs.library - The eXternal Virus Scanner Library            ==
+============================================================================
+==            Copyright © 1997-1999/2001-2003 by Georg Hörmann            ==
+==                 Copyright © 1999-2001 by Alex van Niel                 ==
+==                  Copyright © 2001 by Jan Erik Olausen                  ==
+============================================================================
+
+The xvs.library contains all the virus recognition and removal code that was
+formerly included in VirusZ.  This step has been taken for one major reason:
+VirusZ,  Virus_Checker,  Virus_Executor and all the other antivirus software
+can be updated quickly without releasing the whole packages every time a new
+virus appears.
+
+So simply install the xvs.library from this archive to your LIBS:  drawer to
+get 100% protection against the latest viruses.
+
+To be able to check if the library in this archive really came straight from
+the  author,  you  can use my public key with the .sig files in the archive.
+If  you  are  not sure or do not trust the included key, then you can always
+request  an  original  copy straight from me (by email, see below) or get it
+from the VHT-Denmark homepage.
+
+Currently  I'm  developing  the  xvs.library package alone again, so for bug
+reports, comments or new ideas just contact me at the following addresses:
+
+snail-mail: Georg Hörmann
+            Martinswinkelstr. 16c
+            82467 Garmisch-Partenkirchen
+            Germany
+
+e-mail:     ghoermann@gmx.de (don't use ghoermann@epost.de any longer,
+                              it will be closed in the near future!)
+
+============================================================================
+
+   xvs.library 33.40 (size: 61.912 bytes)
+	- Added file recognition for some very old installer programs of the
+	  following bootblock viruses: Blizzard, CLI-Manager, SystemZ 5.0
+	  and SystemZ 6.4. Thanks to Dirk Stöcker for sending the files.
+	- Added special recognition for "Zeeball AV-Testfile" from Zeeball's
+	  antivirus test archive.
+	- Changed several often-used CacheClearU() calls to CacheClearE()
+	  for better performance on JIT 68k emulated systems (file analysis
+	  and repair code for polymorphic linkviruses have not been changed,
+	  as these only get called if some patterns match first). Thanks to
+	  Harry Sintonen for the hint.
+	- Fixed bug in xvsCheckFile() that accessed two bytes following the
+	  actual file buffer under certain circumstances. Thanks must go to
+	  Mikolaj Calusinski for the report and for beta-testing.
+	- Did some compatibility fixes for Pegasos/MorphOS systems. Thanks
+	  again to Harry Sintonen for the report and for beta-testing.
+	- Replaced old installer script with an updated version written once
+	  again by Dave 'Targhan' Crawford. Thanks!

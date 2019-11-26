@@ -1,0 +1,24 @@
+#### install directory (please don't delete this) ####
+BASEDIR		"AmiKit:Executive"
+
+#### catch- and dynamic ranges ####
+CATCHMAX	1
+CATCHMIN	-105
+DYNAMICMAX	-50
+DYNAMICMIN	-70
+
+#### options ####
+#NOFOCUS
+#SCHEDWB
+#DONTFIXOPENWB
+#LED
+SCHEDULER	STANDARD
+TIMER		DEVICE
+
+#### tasks ####
+TASK		BB.Module                         SCHEDULE	20
+TASK		MCP*                              NOSCHEDULE	ABOVE
+TASK		MagicMenu                         NOSCHEDULE	ABOVE
+TASK		WBStart*Handler                   NOSCHEDULE	ABOVE
+CHILDTASKS	ShapeShifter                      NOSCHEDULE	ABOVE
+CHILDTASKS	XiPaint*                          RELATIVE	

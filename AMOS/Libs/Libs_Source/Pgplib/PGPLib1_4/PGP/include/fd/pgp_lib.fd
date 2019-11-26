@@ -1,0 +1,11 @@
+*
+*   pgp_lib.fd   © 1997 André Schenk
+*
+##base _PGPBase
+##bias 36
+##public
+PGPEncrypt(filename,userid,tagitems)(A0,A1,D0)
+PGPDecrypt(filename,password,tagitems)(A0,A1,D0)
+PGPFault(code,header,buffer,len)(D0,A0,A1,D1)
+PGPSign(filename,password,tagitems)(A0,A1,D0)
+##end

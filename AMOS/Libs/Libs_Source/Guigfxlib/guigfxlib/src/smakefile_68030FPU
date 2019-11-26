@@ -1,0 +1,38 @@
+#
+#	GuiGFX.Library makefile
+#
+.c.o:
+	sc $< $(CFLAGS)
+
+###############################################################################
+
+CPU =			68030
+MATH =			68882
+DEBUG =			LINE
+OPTIMIZE = optimize optschedule nooptsize opttime \
+optinline optinlocal optloop nooptalias optpeep \
+optrdepth=3 optdepth=3 optcomplexity=6
+
+CFLAGS =	cpu=$(CPU) math=$(MATH) $(OPTIMIZE) debug=$(DEBUG) define=MATH_$(MATH) \
+memsize=huge commentnest nomultipleincludes noerrorhighlight noicons \
+code=near data=far params=r precision=mixed \
+nocheckabort nostackcheck nostackextend stringmerge \
+define=NDEBUG
+
+LFLAGS =	stripdebug smallcode smalldata noicons define @__chkabort=@__dummy define __XCEXIT=@__dummy
+
+LIBS = 		lib:scnb.lib lib:scm881.lib
+
+OBJS = 		guigfx_lib.o guigfx_initexit.o \
+			guigfx_picturemethod.o guigfx_picture.o guigfx_rasthandle.o \
+			guigfx_data.o guigfx_pensharemap.o guigfx_colorhandle.o \
+			guigfx_draw.o guigfx_drawhandle.o guigfx_loading.o guigfx_bitmap.o \
+			guigfx_convolve.o
+
+guigfx.library:		$(OBJS)
+			slink with <<
+			   	from $(OBJS)
+			   	to $@
+			   	lib $(LIBS)
+			   	$(LFLAGS)
+			<

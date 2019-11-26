@@ -1,0 +1,231 @@
+==========================================================================
+KNOWN PROBLEMS WITH ORIGINAL WARP3D 
+Alain Thellier - 2011
+==========================================================================
+
+==========================================================================
+ULONG W3D_DrawElements(W3D_Context* context, ULONG primitive, ULONG type, ULONG count,void *indices)
+ This function dont works for some drivers 
+==========================================================================
+ULONG W3D_DrawLine(W3D_Context *context, W3D_Line *line)
+ULONG W3D_DrawLineStrip(W3D_Context *context, W3D_Lines *lines)
+ULONG W3D_DrawLineLoop(W3D_Context *context, W3D_Lines *lines)
+ULONG W3D_DrawPoint(W3D_Context *context, W3D_Point *point)
+ some drivers/version dont support linewidth/pointsize != 1.0 
+ some drivers/version dont support blended line/point 
+ some drivers/version dont support textured line/point 
+==========================================================================
+W3D_GetTexFmtInfo()
+W3D_QueryDriver()
+W3D_Query()
+1) Often warp3D return incoherents results when the driver is asked with W3D_QueryDriver/W3D_Query realated to the supported driver->formats
+See debug from CoW3D :
+
+W3D_Driver  INFERIOR S3 ViRGE> soft:0 ChipID:2 formats:27
+So 16+8+2+1 are the supported screen modes 
+1=clut (so 256 colors)
+2=R5G5B5 (32768 colors)
+8=R5G5B5PC (32768 colors)
+16=B5G5R5PC (32768 colors)
+
+Current bitmap destformat is 128
+so R5G6B5PC that is an incompatible format
+
+But Warp3D answer
+QueryDriver[x] Query[x] DRAW_POINT for destformat R5G6B5PC 
+QueryDriver[x] Query[x] DRAW_LINE for destformat R5G6B5PC 
+QueryDriver[x] Query[x] DRAW_TRIANGLE for destformat R5G6B5PC 
+Meaning it can do points/lines/triangles in this current 16bits mode but in fact it cant :-/
+
+2) Same for textures and W3D_GetTexFmtInfo()
+cow3d use a 24 bits texture so R8G8B8
+Hardware Support for texfmt R8G8B8 
+desfmt CLUT [....][........][....][NO][...]
+desfmt R5G5B5 [....][........][....][..][SUP]
+desfmt B5G5R5 [....][........][....][..][SUP]
+desfmt R5G5B5PC [....][........][....][..][SUP]
+desfmt B5G5R5PC [....][........][....][..][SUP]
+desfmt R5G6B5 [....][........][....][..][SUP]
+desfmt B5G6R5 [....][........][....][..][SUP]
+desfmt R5G6B5PC [....][........][....][..][SUP]
+
+So we learn that it can use 16M colors textures on a 256 colors screen = it should be right and is a good information 
+For a R5G5B5 screen we get  [SUP] so a supported texture format  (after internal conversion) = coherent 
+For a R5G6B5PC  screen we get [SUP] so a supported texture format but on a screen mode we know that it is not supported =uncoherent
+==========================================================================
+ULONG W3D_ReadZSpan(W3D_Context *context, ULONG x, ULONG y,ULONG n, W3D_Double *z)
+void W3D_WriteZSpan(W3D_Context *context, ULONG x, ULONG y,ULONG n, W3D_Double *z, UBYTE *mask)
+ULONG W3D_ReadZPixel(W3D_Context *context, ULONG x, ULONG y,W3D_Double *dz)
+void W3D_WriteZPixel(W3D_Context *context, ULONG x, ULONG y,W3D_Double *dz)
+	 Those functions dont works for some drivers 
+	 Those functions return a corrupted result on Sam440 = zvalues are not read sequentially 
+==========================================================================
+ULONG W3D_SetBlendMode(context,srcfunc,dstfunc);
+	Often it return W3D_SUCCESS when it should not
+	Should return W3D_ILLEGALINPUT for all the modes that cant be used as srcfunc
+	Should return W3D_ILLEGALINPUT for all the modes that cant be used as dstfunc
+	Should return W3D_ILLEGALINPUT for all the combinations srcfunc+dstfunc that got no sense or are unsupported
+
+ dest only 
+	if(srcfunc==W3D_SRC_COLOR) return(W3D_ILLEGALINPUT);
+	if(srcfunc==W3D_ONE_MINUS_SRC_COLOR) return(W3D_ILLEGALINPUT);
+
+ source only 
+	if(dstfunc==W3D_DST_COLOR) return(W3D_ILLEGALINPUT);
+	if(dstfunc==W3D_ONE_MINUS_DST_COLOR) return(W3D_ILLEGALINPUT);
+	if(dstfunc==W3D_SRC_ALPHA_SATURATE) return(W3D_ILLEGALINPUT);
+
+	if(WC->SrcFunc==W3D_ZERO)
+	if(WC->DstFunc==W3D_ZERO)
+		return(W3D_ILLEGALINPUT);
+==========================================================================
+W3D_Texture	*W3D_AllocTexObj(W3D_Context *context, ULONG *error,struct TagItem *taglist)
+W3D_Context	*W3D_CreateContext(ULONG *error, struct TagItem *taglist)
+	 StormMesa Problem: error can be NULL if you don`t want an error code returned 
+==========================================================================
+ULONG W3D_QueryDriver(W3D_Driver* driver, ULONG query, ULONG destfmt)
+ULONG W3D_GetDriverTexFmtInfo(W3D_Driver* driver, ULONG texfmt, ULONG destfmt)
+	 StormMesa Problem: can send driver=NULL 
+	 StormMesa Problem: can send this undocumented destfmt=0 meaning all dest_formats 
+==========================================================================
+void W3D_FreeTexObj(W3D_Context *context, W3D_Texture *texture)
+void W3D_ReleaseTexture(W3D_Context *context, W3D_Texture *texture)
+ULONG W3D_SetTexEnv(W3D_Context *context, W3D_Texture *texture,ULONG envparam, W3D_Color *envcolor)
+	 StormMesa Problem: use this undocumented NULL value for texture 
+==========================================================================
+ULONG W3D_DrawPoint(W3D_Context *context, W3D_Point *point)
+	 Skulpt Problem: dont set point->pointsize so this value stay at 0 ==> no point
+==========================================================================
+ULONG W3D_SetBlendMode(W3D_Context *context, ULONG srcfunc, ULONG dstfunc)
+	 BlitzQuake/MiniGL Problem:  use SetBlendMode but forget to activate the blending with SetState(context,W3D_BLENDING,TRUE); 
+==========================================================================
+ULONG W3D_DrawArray(W3D_Context* context, ULONG primitive, ULONG base, ULONG count)
+ULONG W3D_DrawElements(W3D_Context* context, ULONG primitive, ULONG type, ULONG count,void *indices)
+	 MiniGL Problem: it dont use W3D_VertexPointer & W3D_TexCoordPointer & W3D_ColorPointer  
+	 it directly change context->VertexPointer; context->TexCoordPointer[unit]; context->ColorPointer; 
+
+	 MiniGL Problem: it dont use W3D_BindTexture it directly change context->CurrentTex 
+==========================================================================
+ULONG W3D_SetDrawRegion(W3D_Context *context, struct BitMap *bm,int yoffset, W3D_Scissor *scissor)
+ULONG W3D_SetDrawRegionWBM(W3D_Context *context, W3D_Bitmap *bm,W3D_Scissor *scissor)
+
+	 StormMesa Problem: If window is resized then it call W3D_SetDrawRegion			
+	  so change the drawregion(=bitmap) dimensions but dont allways change the Zbuffer(size)
+==========================================================================
+ Quake dont set blending for the transparent texs 
+ so I force blending if 32bits tex  
+
+	if(WC->TexEnvMode==W3D_REPLACE)			 if tex and no coloring function 
+	if(WC->BlendMode ==BLENDREPLACE)			 and write flat with src=W3D_ONE + dst=W3D_ZERO 
+	if(Wazp3D->QuakeMatrixPatch.ON)
+		{
+		SREM(Quake use own BlendMode )
+		WC->BlendMode=WT->BlendMode;	 then use current tex BlendMode (BLENDNOALPHA or BLENDALPHA or BLENDFASTALPHA) 
+		}
+==========================================================================
+ULONG W3D_SetState(W3D_Context *context, ULONG state, ULONG action)
+	 MiniGL/OS4  forgot to enable zbuffer when setting zbufferupdate 
+	if( state==W3D_ZBUFFERUPDATE)
+	if(action==W3D_ENABLE)
+		SetState(context,W3D_ZBUFFER,W3D_ENABLE);	
+==========================================================================
+void W3D_FreeTexObj(W3D_Context *context, W3D_Texture *texture)
+	driver need to flush all fragments that use this texture before freeing it
+==========================================================================
+ULONG W3D_SetBlendMode(W3D_Context *context, ULONG srcfunc, ULONG dstfunc)
+{
+
+MiniGL/OS4 send some opengl's src & dst unimplemented values 
+	if(srcfunc==GL_CONSTANT_COLOR)		srcfunc=W3D_CONSTANT_COLOR;
+	if(srcfunc==GL_ONE_MINUS_CONSTANT_COLOR)	srcfunc=W3D_ONE_MINUS_CONSTANT_COLOR;
+	if(srcfunc==GL_CONSTANT_ALPHA )		srcfunc=W3D_CONSTANT_ALPHA;
+	if(srcfunc==GL_ONE_MINUS_CONSTANT_ALPHA)	srcfunc=W3D_ONE_MINUS_CONSTANT_ALPHA;
+
+	if(dstfunc==GL_CONSTANT_COLOR)		dstfunc=W3D_CONSTANT_COLOR;
+	if(dstfunc==GL_ONE_MINUS_CONSTANT_COLOR)	dstfunc=W3D_ONE_MINUS_CONSTANT_COLOR;
+	if(dstfunc==GL_CONSTANT_ALPHA )		dstfunc=W3D_CONSTANT_ALPHA;
+	if(dstfunc==GL_ONE_MINUS_CONSTANT_ALPHA)	dstfunc=W3D_ONE_MINUS_CONSTANT_ALPHA;
+
+	if(15 INFERIOR srcfunc) return(W3D_ILLEGALINPUT);
+	if(15 INFERIOR dstfunc) return(W3D_ILLEGALINPUT);
+They only converted the src/destmodes that existed in Warp3D v4
+and forgot that OpenGL can also send some other values.
+It is only a "parameter is not converted nor checked" problem
+
+Error is in MiniGL/others.c in cgl_GLBlendFunc() -> It should be like that:
+
+switch(sfactor)
+{
+BLS(ZERO);
+BLS(ONE);
+BLS(DST_COLOR);
+BLS(ONE_MINUS_DST_COLOR);
+BLS(SRC_ALPHA);
+BLS(ONE_MINUS_SRC_ALPHA);
+BLS(DST_ALPHA);
+BLS(ONE_MINUS_DST_ALPHA);
+BLS(SRC_ALPHA_SATURATE);
+BLS(CONSTANT_COLOR);
+BLS(ONE_MINUS_CONSTANT_COLOR);
+BLS(CONSTANT_ALPHA );
+BLS(ONE_MINUS_CONSTANT_ALPHA);
+
+default:
+GLFlagError(context, 1, GL_INVALID_ENUM);
+}
+
+switch(dfactor)
+{
+BLD(ZERO);
+BLD(ONE);
+BLD(SRC_COLOR);
+BLD(ONE_MINUS_SRC_COLOR);
+BLD(SRC_ALPHA);
+BLD(ONE_MINUS_SRC_ALPHA);
+BLD(DST_ALPHA);
+BLD(ONE_MINUS_DST_ALPHA);
+BLD(CONSTANT_COLOR);
+BLD(ONE_MINUS_CONSTANT_COLOR);
+BLD(CONSTANT_ALPHA );
+BLD(ONE_MINUS_CONSTANT_ALPHA);
+default:
+GLFlagError(context, 1, GL_INVALID_ENUM);
+}
+
+==========================================================================
+ULONG W3D_SetBlendMode(W3D_Context *context, ULONG srcfunc, ULONG dstfunc)
+ BlitzQuake/MiniGL use SetBlendMode but forget to activate with SetState() the blending 
+	if(!CallSetBlending)
+		SetState(context,W3D_BLENDING,TRUE);
+
+==========================================================================
+ULONG W3D_SetZCompareMode(W3D_Context *context, ULONG mode)
+{
+MiniGL/OS4 forgot to enable zbuffer
+	if(mode!=W3D_Z_ALWAYS)	 if truly need a z testing ? then need the zbuffer
+	if(mode!=W3D_Z_NEVER)	
+		SetState(context,W3D_ZBUFFER,W3D_ENABLE);	
+
+==========================================================================
+ULONG W3D_ClearBuffers(W3D_Context *context, W3D_Color *color,W3D_Double *depth, ULONG* stencil)
+{
+QT on OS4 clear the Zbuffer with value z=0.0 : that is stupid
+	if(depth!=NULL)			
+	if(*depth==0)
+	{
+		*depth=0.999;
+	}
+==========================================================================
+ GlMatrix dont use the good BlendMode 
+
+	if(Wazp3D->QuakeMatrixPatch.ON)			 : for glmatrix transparency 
+	if(BlendMode==W3D_ONE_MINUS_SRC_ALPHA*16 +  W3D_SRC_ALPHA)
+		BlendMode=W3D_SRC_ALPHA*16 + W3D_ONE_MINUS_SRC_ALPHA;
+==========================================================================
+ Blender/OS4 use direct mode so it can draw text with graphics.library upside 3d-polygons 
+ In Wazp3D need to finish (=flush) each polygon (=dont keep fragments in the buffer)
+void DrawPolyP()
+	if(Wazp3D->BlenderPatch.ON)
+		SOFT3D_Flush(SC);	patch: For Blender flush buffer = finish this poly so Blender can draw texts upside menus
+==========================================================================
+

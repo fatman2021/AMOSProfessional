@@ -1,0 +1,62 @@
+Short:    Fullscreen spectrometer plugin for AmigaAMP
+Author:   Thomas Wenzel
+Type:     mus/play
+Version:  1.4
+
+Homepage
+--------
+http://www.amigaamp.de/
+
+
+Usage
+-----
+Just start the plugin by clicking on its icon while AmigaAMP is running
+in skin mode.
+
+
+Key assignments
+---------------
+ESC  -  quit
+F1   -  show 1024 lines
+F2   -  show 512 lines (default)
+F3   -  show 256 lines
+
+
+Tooltypes
+---------
+AUTOIDLE  = YES or NO
+            enable or disable the auto-idle function (see v1.2 entry in history)
+
+TRACKINFO = TOP, BOTTOM or OFF
+            place to display the track info line (top of the screen, bottom
+            of the screen or not at all)
+
+
+Minimum requirements
+--------------------
+AmigaOS 3.0
+68030-50MHz processor
+AmigaAMP 2.3
+CyberGraphX 3
+Graphics card capable of displaying 640x480 / 256 colours
+
+
+History
+-------
+v1.0 - initial release
+
+v1.1 - screen close bug fixed
+
+v1.2 - The plugin will now automatically switch to idle mode when its window
+       is deactivated (click on another screen)
+     - PPC version included (ELF executable for PowerUP)
+
+v1.3 - various optimizations
+     - configuration tooltypes added
+
+v1.4 - some minor bugfixes
+
+
+More info
+---------
+See AmigaAMP's documentation

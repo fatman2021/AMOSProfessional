@@ -1,0 +1,146 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+
+Überprüfung der im Archiv enthaltenen Dateien:
+**********************************************
+
+Die unten angegebenen Checksummen wurden mit 'md5sum' berechnet, 'md5sum'
+ist ein Zusatzprogramm von 'PGP'. Zur Überprüfung aller Dateien dieses
+Archivs öffnen Sie bitte eine Shell und geben dort folgendes ein:
+
+cd <RexxTricks-Verzeichnis>
+md5sum -c -v checksum
+
+Wenn bei jeder Datei 'OK' angezeigt wird sind alle Dateien unverändert
+und alles ist in Ordnung.
+
+
+
+Checking of all files in the archive:
+*************************************
+
+The checksums below have been calculated with 'md5sum', 'md5sum' is an
+utility program of 'PGP'. To check all files of this archive, please
+open a shell and type the following commands:
+
+cd <RexxTricks-Directory>
+md5sum -c -v checksum
+
+If 'OK' is displayed for each file, then all files are unchanged and
+everything is fine.
+
+
+
+e6ec70531435da0b73fbf64afa73ab6f  C/LoadLib
+31e665deab37fe896026ba74d753b21d  Devs/system-configuration
+f1e213994c7583862cb4cd0bc52c6fb0  Docs/Deutsch/rexxtricks.dok
+9545e92aca01119a0bb3046ab63d2abb  Docs/Deutsch/rexxtricks.guide
+213f2a4da8a198556d4285cfeca7a92c  Docs/Deutsch/RexxTricks.dok.info
+31914a38621bc5083c0a00109fc8bfd6  Docs/Deutsch/RexxTricks.guide.info
+18dd4ad1a86634c5b521bc5238b5d5ca  Docs/Deutsch.info
+c569fe14c5c02fd038df725208c5162c  Docs/English.info
+07b0f555319940b05e6faddb9a0e4576  Docs/English/rexxtricks.guide
+80b167809e0d963a80d9aed49081c407  Docs/English/RexxTricks.doc.info
+ffe579df47ae0c65541ece5e54347adc  Docs/English/RexxTricks.guide.info
+452564cb37a0e1b65be714f602e1d7da  Docs/English/rexxtricks.doc
+0dc9d1423caa068567bfce5c1c930c16  FindGUI/Find.doc.info
+5234f08bfbda242e9ded3fc83d1e9c17  FindGUI/FindGUI.guide.info
+fb1ebd07665a02c0a6c002d7b7ac9c38  FindGUI/FindGUI.info
+f98869083aef5c50a6e5e87cb6201d10  FindGUI/whatis.findGUI
+b540cf8514353113c99d648abb977016  FindGUI/FindGUI.rexx
+9dff941c04fc20a3c485a7a1cb7b7602  FindGUI/FindGUI.strings
+0cd8a3e509bf004ac27b9b0b5e246227  FindGUI/Catalogs/deutsch.ct
+878b1e648fa8ad02115a6b867a0aaf01  FindGUI/Catalogs/FindGUI.ct
+5316dbbbb5a380cd25cf1a3da45c9ae5  FindGUI/Catalogs/FindGUI.cd
+ddd69358f1547846278a2698f099fa8e  FindGUI/Catalogs/deutsch/FindGUI.catalog
+48f262f0a77e63fe243ee129268ff0d9  FindGUI/find.doc
+a7f1026efd0a42f55a2d16077bc56fb5  FindGUI/FindGUI
+c660bec6b5d7e3eb536a79dcb150a537  FindGUI/find
+5664e4fefa561a392b10e989ce3ebae0  FindGUI/FindGUI.guide
+1ebd60f17ce3819947fc3a67bee96934  Libs/TritonRexx.ReadMe.info
+71d6a5e9dc6985d0ccceb44294c23a58  Libs/rexxtricks.library
+6f0f20fc5c9c34c014ca14390dadb932  Libs/tritonrexx.library
+c4eac219f4725f7b2cddd8cc67485b98  Libs/TritonRexx.ReadMe
+366794bd0a8b3ebb814cb8ad5c271f09  Locale/catalogs/english/rexxtricks.catalog
+9f2ae7abb033d8938e1eaeae3067cde3  Locale/english.ct
+a575113b9ed3ff41bb73b2e2475582f7  Locale/rexxtricks.cd
+5272fb20912edb24da3f8d41617c68bb  Locale/rexxtricks.ct
+d8e1403bab6012742796c15b2a46ed04  RDBBackup/RDBBackupD.guide.info
+278d382c7104ebc32f3a4dabeb042d60  RDBBackup/RDBBackupD.guide
+4280d08625c02a72fa33c31a45bb1f70  RDBBackup/RDBBackupE.guide.info
+3e77e2820482d74397b2896e37a0db79  RDBBackup/ReadRDB_0.5.info
+fc7dcf1c41e8259c0cd67736a2e83731  RDBBackup/RDBBackup.rexx
+e6617d244b9ff9e091cc5629fdcd04e1  RDBBackup/RDBBackup
+1fde836b6fe4a9bfc29f5ac740b653b2  RDBBackup/RDBBackup.prefs
+18edcf0f36cd46412f5ecd6034b2a645  RDBBackup/RDBBackup.windows
+bcd4356449ae3670a2adb2cda76d48b1  RDBBackup/Catalogs/deutsch.ct
+5d46550582745874fbee2e02965d68f9  RDBBackup/Catalogs/RDBBackup.ct
+9462b6d393b54c21061ee29c5d2384c4  RDBBackup/Catalogs/RDBBackup.cd
+2718d3982fb0330584ab4e5642ca7683  RDBBackup/Catalogs/deutsch/RDBBackup.catalog
+cae666312c9aac6597bbdfac1e873601  RDBBackup/RDBBackup.strings
+9f4c8fd70016a6e4355a44c95d10e463  RDBBackup/ReadRDB_0.5/ReadRDB.readme
+60446d34f19b6578d8a4307cb396c0cf  RDBBackup/ReadRDB_0.5/Install.info
+766935d460f284571f54e41426c6f20b  RDBBackup/ReadRDB_0.5/Docs.info
+3bb561c4f2de1f4cd8abc86e30397b8f  RDBBackup/ReadRDB_0.5/Install/Français.info
+d3ac1cc71cfa9a32c7aa62251966c73b  RDBBackup/ReadRDB_0.5/Install/English.info
+d2d052e358921924303ccdfe059aa03d  RDBBackup/ReadRDB_0.5/Install/Install_ReadRDB
+c7f7d3e15dad0ef5513907e32734701e  RDBBackup/ReadRDB_0.5/Docs/English.Guide
+6c2cefbfbb5bcc338ed30edf1e8d570c  RDBBackup/ReadRDB_0.5/Docs/Français.Guide.info
+ea3fde3a18b75bc847cc32035eabc309  RDBBackup/ReadRDB_0.5/Docs/English.Guide.info
+d3510c5cbbfddb25a87da74b90146bcc  RDBBackup/ReadRDB_0.5/Docs/Français.guide
+6bc01b8cfbdfa99108768af8010d62e6  RDBBackup/ReadRDB_0.5/.Product-Info
+20688a32d7aa73506c747f13a3bfd04e  RDBBackup/ReadRDB_0.5/ReadRDB
+2253e093364dd947d859546817742117  RDBBackup/RDBBackup.info
+6f77a607a28f18ef47e07a247ad9b4dc  RDBBackup/RDBBackupE.guide
+c1df55c748e49646bcb09635916ffb64  Triton/Install
+0e9981ba8b2d73f20405b9442e8795a5  Triton/Install.info
+71135b2902aee911ad987a18ec69b911  Triton/ReadMe
+95553efbeec2cc4e683ad327801f379c  Triton/ReadMe.info
+f7b593ce04bd84d9647345a20d3043ae  Triton/triton.library
+c156aa5f95bfd289d44f0643e1139ff4  ClickMe.first.info
+8276f391bcec1a7e0481c59534ce7d44  Docs.info
+359bb112948d11c9211b523eb65f913d  FindGUI.info
+82ec8a7166cde440d6c23c04c40de5d4  Install_Deutsch.info
+726d8ad76a2d922c30ce9768a73fd24d  Install_English.info
+85828658c7ee430105067b588baf72c9  install_rexxtricks
+87ab0ef410155f083ef5748849b4752a  Libs.info
+057a96afe26967b8aeb90b71c1db0a63  RDBBackup.info
+8616bd892fb1a6aaf796b37d22cb958d  rexxtricks.liesmich
+a6538f60f12c9132d116e84e4beac960  RexxTricks.liesmich.info
+8d80f9a3ba3123f153945b374aa25e65  rexxtricks.readme
+1cc6e7a3bfbd3e0a4038fc9f34b11466  RexxTricks.readme.info
+442464347a68846f183bdcc825e8ab9a  Triton.info
+edf6e3826a1b796c09c2822dba590929  clickme.first
+
+
+-----BEGIN PGP SIGNATURE-----
+Version: 2.6
+
+iQBVAgUBMXj/422hcA/0/6VxAQGx0QH9HHQXXtOVNIdIeZsDQsiHk+Mh2GqsNu69
+9/TKy022CWjysG6YHMks/af2hSkPSfGPCGaBpdpTNXvNxwcdeokupA==
+=yBLw
+-----END PGP SIGNATURE-----
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: 2.6
+
+mQBNAi2fkssAAAECAMzI2rp4OZ3OZbm7wphSR7ZBujwUPx1OaBI1vR5dkWxQMBw9
+ckg0KQOv+saxAR0rfBR2//KUmcplbaFwD/T/pXEABRG0Lkp1ZXJnZW4gS29ocm1l
+eWVyIDxqX2tvaHJtZXllckB3aWxhbS5ub3J0aC5kZT6JAFUCBRAtzZYPVsVD3DuJ
+FRkBARhcAgCoaocSQdrdKdTnR0l4ycoiZ3AdZtwG4hzfCaoUXjgEHFYKdit8XUoV
+NBzUn0dqy11jBffRGnpSUUn+bBHAUJTziQBVAgUQLc5mpOM/6A7PmPTFAQGDKgH/
+df+LGn1J7RMs3/87X+vDE77XqCK7uZ+cXht3wcjfSJu2woKcpBisG9kX5qncPESy
+6Dk81eJD+5dw4kPkRywo24kAlQIFEC3NusnzJuauzZ3OdQEBqqcD/00hpUXEzG3W
+lOUcPup7KWjCcLu7l7IN31beseEEUO6QLaZb1khQiPNUPm+I8tqS20kaOwsc3gTp
+QjDwhnfmLZ8sdyZdYiBJnbGBSsc40f2njGoU8pOzuyo1DoaMV80ztquriyjdfn6m
+L5si2/snTpUHEYcr9gIuemp/oMMNo30GiQCVAgUQLczPCpoTh9tHBpEVAQHQ7wP9
+HvJmLghZBsGUfqZvKHSxitWWM1JcLzhyMK6Q5H+xM/UN4ASyK+2KksNW5ssi4HHW
+Xm1xjfzhEkZ4T4UZxOr1IEGuz3hziEobHnpcMNefdmwd+60adhiFEPqSqTZX1doJ
+1WNUQYskdH7ORYL8GfT7BsnL4X1UQAlsqdEEsvACthqJAFUCBRAty1KmtQeiWPFs
+Rz0BAXOvAf4kkbg8O71MaFX4i5vY0cxEKS00R3R8t3Iebdyx++yu+4R18ACrn5TH
+0797UrSGIsqQa1Di1Q0MkTnGjofRcvDDiQBVAgUQLcqsNbcm0zrnIiqpAQEGvQH9
+EFbw10DirPHyx7ukusNI30V5fJd+C2xFekbBIhZzrrw7ITjbYZlDLuu+nAK6Fnxn
+gq7owgbxmMp+WzMOA4KGL4kAVQIFEC2iM94jcDrH50wGVQEBaX4B/RwR88j3GxWV
+zPbPZ0QJwaNBMZArORohtf0wLVV486Ebf6iyiodIsOLSKtHKwZBqH95zHAD3edm3
+dZlMUkgMSAmJAFUCBRAtn5dGbaFwD/T/pXEBAQAGAgDKmHavXqeTnUbgRzOx6mtQ
+vzg8w9P/SuGA9BXdt/3CPUqcDYKtsnEHqhpMomu/WgANLEhQBtLMp2kC9P3K36l5
+=aOOR
+-----END PGP PUBLIC KEY BLOCK-----

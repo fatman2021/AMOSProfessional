@@ -1,0 +1,26 @@
+CC      = gcc
+LD      = gcc
+STRIP   = strip
+
+CFLAGS  = -D__USE_INLINE__ -O3
+LDFLAGS = -nostartfiles
+LDLIBS  = -lm
+
+OBJS =  lib_init_os4.o lib_init_os4_68k.o lib_global.o rnd_memory.o rnd_histogram.o \
+	rnd_palette.o rnd_quant.o rnd_mapping.o rnd_conversion.o \
+	rnd_render.o rnd_diversity.o rnd_alpha.o rnd_scale.o
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+render.library: $(OBJS)
+	$(LD) -o $@ $(LDFLAGS) $(OBJS) $(LDLIBS)
+	$(STRIP) --strip-unneeded --remove-section .comment $@
+	copy render.library libs:
+	avail >nil: flush
+
+all: render.library
+
+clean:
+	delete $(OBJS)
+

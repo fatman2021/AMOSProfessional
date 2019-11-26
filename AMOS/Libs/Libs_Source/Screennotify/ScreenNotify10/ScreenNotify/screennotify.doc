@@ -1,0 +1,309 @@
+TABLE OF CONTENTS
+
+screennotify.library/AddCloseScreenClient
+screennotify.library/AddPubScreenClient
+screennotify.library/AddWorkbenchClient
+screennotify.library/RemCloseScreenClient
+screennotify.library/RemPubScreenClient
+screennotify.library/RemWorkbenchClient
+
+screennotify.library/AddCloseScreenClient screennotify.library/AddCloseScreenClient
+
+   NAME
+        AddCloseScreenClient -- Add a client for CloseScreen() notifications
+
+   SYNOPSIS
+        handle = AddCloseScreenClient(screen, msgport, priority)
+        D0                            A0      A1       D0
+
+        APTR AddCloseScreenClient(struct Screen *, struct MsgPort *, BYTE);
+
+   FUNCTION
+        Add a task as client for CloseScreen() notifications. Each time
+        the specified (or any) screen will be closed a ScreenNotifyMessage
+        is sent to the message port. The snm_Type field will contain the
+        value SCREENNOTIFY_TYPE_CLOSESCREEN. The snm_Value field will
+        contain the pointer to the screen structure.
+
+   NOTES
+        When a task with an active CloseScreen() notification calls
+        CloseScreen() it won't receive a notification in order to
+        prevent a dead lock!
+
+        When a task with no free signal bits calls CloseScreen() the
+        notification will not be sent!
+
+   INPUTS
+        screen   - pointer to the screen structure or NULL to match any screen
+        msgport  - pointer to a message port to which the notification
+                   messages should be sent
+        priority - priority for client in the notification list [-128..127]
+
+   RESULTS
+        handle   - non-NULL if registration was successful
+
+   EXAMPLES
+        struct Screen *s;
+        struct MsgPort *p;
+        APTR handle;
+        struct ScreenNotifyMessage *snm;
+
+        if (p = CreateMsgPort()) {
+         if (handle = AddCloseScreenClient(s, p, 0)) {
+          ....
+          while (snm = (struct ScreenNotifyMessage *) GetMsg(p)) {
+
+           if (snm->snm_Type == SCREENNOTIFY_TYPE_CLOSESCREEN) {
+            /* Screen was closed, do your stuff */
+           ....
+           }
+           ReplyMsg((struct Message *) snm);
+          }
+          ....
+          while (!RemCloseScreenClient(handle)) Delay(10);
+         }
+         DeleteMsgPort(p);
+        }
+
+   SEE ALSO
+        RemCloseScreenClient(), libraries/screennotify.h
+
+screennotify.library/AddPubScreenClient screennotify.library/AddPubScreenClient
+
+   NAME
+        AddPubScreenClient -- Add a client for PubScreenStatus() notifications
+
+   SYNOPSIS
+        handle = AddPubScreenClient(msgport, priority)
+        D0                          A0       D0
+
+        APTR AddPubScreenClient(struct MsgPort *, BYTE);
+
+   FUNCTION
+        Add a task as client for PubScreenStatus() notifications. Each time
+        this function is called to modify the PSNF_PRIVATE flag of a public
+        screen a ScreenNotifyMessage is sent to the message port. The snm_Type
+        field will contain the value SCREENNOTIFY_TYPE_PUBLICSCREEN when the
+        flag is cleared (the screen is made public). The snm_Type field will
+        contain the value SCREENNOTIFY_TYPE_PRIVATESCREEN when the flag is set
+        (the screen will be made private). The snm_Value field will contain
+        the pointer to the PubScreenNode structure.
+
+   NOTES
+        When a task with an active PubScreenStatus() notification calls
+        PubScreenStatus() it won't receive a notification to in order to
+        prevent a dead lock!
+
+        When a task with no free signal bits calls PubScreenStatus() the
+        notification will not be sent!
+
+        Under certain circumstances it may not be possible to find out the
+        PubScreenNode for the screen. In these cases no notification will
+        be sent.
+
+   WARNING
+        Programs using PubScreenStatus() (or Intuition functions which use
+        this function) after locking the public screen list will cause a
+        dead lock. E.g. MUI 2.3 (or older) has this problem, but it will be
+        fixed in future MUI versions.
+
+   INPUTS
+        msgport  - pointer to a message port to which the notification
+                   messages should be sent
+        priority - priority for client in the notification list [-128..127]
+
+   RESULTS
+        handle   - non-NULL if registration was successful
+
+   EXAMPLES
+        struct Screen *s;
+        struct MsgPort *p;
+        APTR handle;
+        struct ScreenNotifyMessage *snm;
+
+        if (p = CreateMsgPort()) {
+         if (handle = AddPubScreenClient(s, p, 0)) {
+          ....
+          while (snm = (struct ScreenNotifyMessage *) GetMsg(p)) {
+
+           switch (snm->snm_Type) {
+            case SCREENNOTIFY_TYPE_PUBLICSCREEN:
+             /* A screen was made public, do your stuff */
+             ....
+             break;
+            case SCREENNOTIFY_TYPE_PRIVATESCREEN:
+             /* A screen will be made private, do your stuff */
+             ....
+             break;
+           }
+           ReplyMsg((struct Message *) snm);
+          }
+          ....
+          while (!RemCloseScreenClient(handle)) Delay(10);
+         }
+         DeleteMsgPort(p);
+        }
+
+   SEE ALSO
+        RemCloseScreenClient(), libraries/screennotify.h
+
+screennotify.library/AddWorkbenchClient screennotify.library/AddWorkbenchClient
+
+   NAME
+        AddWorkbenchClient -- Add a client for Workbench notifications
+
+   SYNOPSIS
+        handle = AddWorkbenchClient(msgport, priority)
+        D0                          A0       D0
+
+        APTR AddWorkbenchClient(struct MsgPort *, BYTE);
+
+   FUNCTION
+        Add a task as client for Workbench notifications. Each time the
+        Workbench will be closed or opened a ScreenNotifyMessage is sent
+        to the message port. The snm_Type field will contain the value
+        SCREENNOTIFY_TYPE_WORKBENCH. The snm_Value field will contain one
+        of the following values:
+
+            FALSE - The Workbench will be closed. The client should close
+                    all its windows on the Workbench screen.
+
+            TRUE  - The Workbench is open. The client may open its windows
+                    on the Workbench screen again.
+
+   NOTES
+        When a task with an active Workbench notification calls
+        CloseWorkBench() or OpenWorkBench() it won't receive a
+        notification in order to prevent a dead lock!
+
+        When a task with no free signal bits calls CloseWorkBench() or
+        OpenWorkBench() the notification will not be sent!
+
+   INPUTS
+        msgport  - pointer to a message port to which the notification
+                   messages should be sent.
+        priority - priority for client in the notification list [-128..127]
+
+   RESULTS
+        handle   - non-NULL if registration was successful
+
+   EXAMPLES
+        struct MsgPort *p;
+        APTR handle;
+        struct ScreenNotifyMessage *snm;
+
+        if (p = CreateMsgPort()) {
+         if (handle = AddWorkbenchClient(p, 0)) {
+          ....
+          while (snm = (struct ScreenNotifyMessage *) GetMsg(p)) {
+
+           if (snm->snm_Type == SCREENNOTIFY_TYPE_WORKBENCH)
+            switch (snm->snm_Value) {
+             case FALSE: /* Workbench close notification */
+              ....
+              break;
+             case TRUE:  /* Workbench open notification */
+              ....
+              break;
+            }
+           ReplyMsg((struct Message *) snm);
+          }
+          ....
+          while (!RemWorkbenchClient(handle)) Delay(10);
+         }
+         DeleteMsgPort(p);
+        }
+
+   SEE ALSO
+        RemWorkbenchClient(), libraries/screennotify.h
+
+screennotify.library/RemCloseScreenClient screennotify.library/RemCloseScreenClient
+
+   NAME
+        RemCloseScreenClient -- Remove a client for CloseScreen() notifications
+
+   SYNOPSIS
+        success = RemCloseScreenClient(handle)
+        D0                             A0
+
+        BOOL RemCloseScreenClient(APTR);
+
+   FUNCTION
+        Remove a client from the notification list.
+
+   INPUTS
+        handle  - value returned by AddCloseScreenClient().
+
+   RESULTS
+        success - TRUE if the client could successfully be removed.
+                  FALSE if the library was busy. The task should go to
+                  sleep for a short while and then retry.
+
+   EXAMPLES
+        APTR handle;
+        ....
+        while (!RemCloseScreenClient(handle)) Delay(10);
+
+   SEE ALSO
+        AddCloseScreenClient()
+
+screennotify.library/RemPubScreenClient screennotify.library/RemPubScreenClient
+
+   NAME
+        RemPubScreenClient -- Remove a client for PubScreenStatus() notifications
+
+   SYNOPSIS
+        success = RemPubScreenClient(handle)
+        D0                           A0
+
+        BOOL RemPubScreenClient(APTR);
+
+   FUNCTION
+        Remove a client from the notification list.
+
+   INPUTS
+        handle  - value returned by AddPubScreenClient().
+
+   RESULTS
+        success - TRUE if the client could successfully be removed.
+                  FALSE if the library was busy. The task should go to
+                  sleep for a short while and then retry.
+
+   EXAMPLES
+        APTR handle;
+        ....
+        while (!RemPubScreenClient(handle)) Delay(10);
+
+   SEE ALSO
+        AddPubScreenClient()
+
+screennotify.library/RemWorkbenchClient screennotify.library/RemWorkbenchClient
+
+   NAME
+        RemWorkbenchClient -- Remove a client for Workbench notifications
+
+   SYNOPSIS
+        success = RemWorkbenchClient(handle)
+        D0                           A0
+
+        BOOL RemWorkbenchClient(APTR);
+
+   FUNCTION
+        Remove a client from the notification list.
+
+   INPUTS
+        handle  - value returned by AddWorkbenchClient().
+
+   RESULTS
+        success - TRUE if the client could successfully be removed.
+                  FALSE if the library was busy. The task should go to
+                  sleep for a short while and then retry.
+
+   EXAMPLES
+        APTR handle;
+        ....
+        while (!RemWorkbenchClient(handle)) Delay(10);
+
+   SEE ALSO
+        AddWorkbenchClient()
+

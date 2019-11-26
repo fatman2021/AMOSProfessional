@@ -1,0 +1,58 @@
+
+ chunky.library EXAMPLES
+ -----------------------
+
+Yes, I finally got off my arse and did some examples for using
+chunky.library.  Ever since I released V3 of the library, I've numerous
+e-mails and comments on IRC saying "how do you use it".  Well, here we go.
+
+     Basics (dir)
+
+Start here.  The Basics directory shows how to do the real basic stuff with
+the library, e.g.  allocating ChunkyPort's, bunging it on a window and
+other trivial things.
+
+     Colours (dir)
+
+These examples in the Colours directory show how to use all the new-for-V4
+colour palette commands.
+
+     Drawing (dir)
+
+The examples here show how to use the drawing functions - CHK_Draw(),
+CHK_DrawEllipse(), CHK_RectFill(), etc.
+
+     Text (dir)
+
+Getting to the juicy commands, this directory holds the key to using the
+text routines.
+
+     Effects (dir)
+
+Examples here show how to do some neat effects with the library.  Although
+the effects are few, they are still powerful commands.  CHK_SimpleScale(),
+CHK_Scroll(), etc.  are shown here.
+
+     _shared (dir)
+
+Various code modules and data files used by various examples.
+
+Executable versions of these demos are found in the user archive.
+
+Note that all the code in the examples directory is public domain, but
+remains without warranty.  Some examples have blatently cut corners so if
+they error, your machine may go down too.  You have been warned - use these
+examples are your own risk!
+
+These examples are for educational purposes only and do not reflect the
+quality of Rosande Limited's commercial titles.
+
+Please visit the chunky.library support site for the latest developments,
+and Aminet when it works.
+
+http://www.irrelevant.org/~oondy/chunky/
+
+Contact me if you have problems, find a bug, whatever:  oondy@bigfoot.com
+or see our main website for detailed contact info -
+http://www.q-soft.demon.co.uk.
+

@@ -1,0 +1,30 @@
+gtlayout.library V47.1 - GadTools layout toolkit
+
+Copyright © 1993-1999 by Olaf `Olsen' Barthel
+	Freely distributable.
+
+
+This is the first complete stand-alone release of my "gtlayout.library" user
+interface creation and management tool kit. I'm sad to say that the library
+has not seen much development in recent years: other projects I attended to
+took most of my time. Some of the code found in this library made its way into
+the Workbench 3.5 and 3.9 updates, but I never quite found the time to merge
+the bug fixes back. Well, another time, another place, I may eventually get my
+act together and take care of that.
+
+This is now the most current release, even though it is now almost two years
+old. There are fewer bugs in it than in the previous versions, but there are
+also still bugs lurking in it, especially the text edit gadget. Take care.
+
+
+I'm grateful for any enhancement requests, bug reports and especially bug
+fixes. My mail address is:
+
+   Olaf Barthel
+   Brabeckstr. 35
+   30559 Hannover
+   Federal Republic of Germany
+
+My e-mail address is:
+
+   olsen@sourcery.han.de

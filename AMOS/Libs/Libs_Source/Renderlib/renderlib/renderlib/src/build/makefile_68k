@@ -1,0 +1,23 @@
+
+CC	= gcc -m68060 -m68881
+CFLAGS	= -O2 -fomit-frame-pointer -mregparm -msmall-code -c
+LDFLAGS	= -s -nostdlib
+
+OBJS	= lib/rnd_gcc_all.o
+
+all: ../libs/render.library
+
+../libs/render.library: $(OBJS)
+	$(CC) $(LDFLAGS) $(OBJS) -o $@
+
+lib/rnd_gcc_all.o: rnd_all.c \
+  lib_init_68k.c lib_global.c rnd_memory.c rnd_histogram.c rnd_palette.c \
+  rnd_quant.c rnd_mapping.c rnd_conversion.c rnd_render.c rnd_diversity.c \
+  rnd_alpha.c rnd_scale.c
+	$(CC) $(CFLAGS) rnd_all.c -o $@
+
+asm:
+	$(CC) $(CFLAGS) -S rnd_all.c -o lib/rnd_gcc_all.asm
+
+clean:
+	-rm -rf lib/rnd_gcc_all.o ../libs/render.library

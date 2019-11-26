@@ -1,0 +1,1649 @@
+TABLE OF CONTENTS
+
+rexxconfigfile.library/cf_AddArgument
+rexxconfigfile.library/cf_AddGroup
+rexxconfigfile.library/cf_AddHdrFlag
+rexxconfigfile.library/cf_AddItem
+rexxconfigfile.library/cf_ChangeArgument
+rexxconfigfile.library/cf_ChangeGroup
+rexxconfigfile.library/cf_ChangeItem
+rexxconfigfile.library/cf_ChkHdrFlag
+rexxconfigfile.library/cf_ClearArgList
+rexxconfigfile.library/cf_ClearGrpList
+rexxconfigfile.library/cf_ClearItemList
+rexxconfigfile.library/cf_CloneArgument
+rexxconfigfile.library/cf_CloneGroup
+rexxconfigfile.library/cf_CloneItem
+rexxconfigfile.library/cf_Close
+rexxconfigfile.library/cf_DisposeArgument
+rexxconfigfile.library/cf_DisposeGroup
+rexxconfigfile.library/cf_DisposeItem
+rexxconfigfile.library/cf_FindArgument
+rexxconfigfile.library/cf_FindGroup
+rexxconfigfile.library/cf_FindItem
+rexxconfigfile.library/cf_GetArgName
+rexxconfigfile.library/cf_GetArgOfItem
+rexxconfigfile.library/cf_GetGrpName
+rexxconfigfile.library/cf_GetGrpOfArg
+rexxconfigfile.library/cf_GetHdrOfGrp
+rexxconfigfile.library/cf_GetItem
+rexxconfigfile.library/cf_GetItemNum
+rexxconfigfile.library/cf_GetItemOnly
+rexxconfigfile.library/cf_GetItemSType
+rexxconfigfile.library/cf_GetItemType
+rexxconfigfile.library/cf_GetOMode
+rexxconfigfile.library/cf_GetPuddleSize
+rexxconfigfile.library/cf_GetWBufSize
+rexxconfigfile.library/cf_LastArgument
+rexxconfigfile.library/cf_LastGroup
+rexxconfigfile.library/cf_LastItem
+rexxconfigfile.library/cf_LockArgList
+rexxconfigfile.library/cf_LockGrpList
+rexxconfigfile.library/cf_LockItemList
+rexxconfigfile.library/cf_NewArgItem
+rexxconfigfile.library/cf_NewArgument
+rexxconfigfile.library/cf_NewGroup
+rexxconfigfile.library/cf_NewItem
+rexxconfigfile.library/cf_NextArgument
+rexxconfigfile.library/cf_NextGroup
+rexxconfigfile.library/cf_NextItem
+rexxconfigfile.library/cf_Open
+rexxconfigfile.library/cf_Read
+rexxconfigfile.library/cf_RemHdrFlag
+rexxconfigfile.library/cf_RemoveArgument
+rexxconfigfile.library/cf_RemoveGroup
+rexxconfigfile.library/cf_RemoveItem
+rexxconfigfile.library/cf_SetWBufSize
+rexxconfigfile.library/cf_UnlockArgList
+rexxconfigfile.library/cf_UnlockGrpList
+rexxconfigfile.library/cf_UnlockItemList
+rexxconfigfile.library/cf_Write
+rexxconfigfile.library/cf_AddArgument   rexxconfigfile.library/cf_AddArgument
+
+   NAME
+	cf_AddArgument -- Adds an argument node to the argument list of a
+			  group node.
+
+   SYNOPSIS
+	cf_AddArgument(GrpNode,ArgNode)
+
+	cf_AddArgument(GRPNODE/N/A,ARGNODE/N/A)
+
+   FUNCTION
+	This function adds an argument node to the argument list of a
+	group node.
+
+   INPUTS
+	GrpNode - The group node for add to.
+	ArgNode - Pointer to the argument node.
+
+   EXAMPLE
+	...
+	myNewArgNode = cf_CloneArgument(myArgNode)
+	cf_AddArgument(myGrpNode, myNewArgNode)
+	...
+
+   SEE ALSO
+	cf_AddGroup(), cf_AddItem()
+
+rexxconfigfile.library/cf_AddGroup         rexxconfigfile.library/cf_AddGroup
+
+   NAME
+	cf_AddGroup -- Adds a group node to the grouplist of a header.
+
+   SYNOPSIS
+	cf_AddGroup(Header,GrpNode)
+
+	cf_AddGroup(HEADER/N/A,GRPNODE/N/A)
+
+   FUNCTION
+	This function adds a group node to the group list of a header.
+
+   INPUTS
+	Header - Pointer to the Header for add to.
+	GrpNode - Pointer to the group node.
+
+   EXAMPLE
+	...
+	myNewGrpNode = cf_CloneGroup(myGrpNode)
+	cf_AddGroup(myHeader, myNewGrpNode)
+	...
+
+   SEE ALSO
+	cf_AddArgument(), cf_AddItem()
+
+rexxconfigfile.library/cf_AddHdrFlag     rexxconfigfile.library/cf_AddHdrFlag
+
+   NAME
+	cf_AddHdrFlag -- Add a flag to the Header.
+
+   SYNOPSIS
+	cf_AddHdrFlag(Header,Flag)
+
+	cf_AddHdrFlag(HEADER/N/A,FLAG/A)
+
+   FUNCTION
+	This function add a flag to the Header.
+
+   INPUTS
+	Header - Pointer to the Header.
+	Flag - Flag to add (see cf_ChkHdrFlag()).
+
+   SEE ALSO
+	cf_ChkHdrFlag(), cf_RemHdrFlag()
+
+rexxconfigfile.library/cf_AddItem           rexxconfigfile.library/cf_AddItem
+
+   NAME
+	cf_AddItem -- Adds an item node to the item list of an argument
+		      node.
+
+   SYNOPSIS
+	cf_AddItem(ArgNode,ItemNode)
+
+	cf_AddItem(ARGNODE/N/A,ITEMNODE/N/A)
+
+   FUNCTION
+	This function adds an item node to the item list of an argument
+	node.
+
+   INPUTS
+	ArgNode - The argument node for add to.
+	ItemNode - Pointer to the item node.
+
+   EXAMPLE
+	...
+	myNewItemNode = cf_CloneItem(myItemNode)
+	cf_AddItem(myArgNode, myNewItemNode)
+	...
+
+   SEE ALSO
+	cf_AddArgument(), cf_AddGroup()
+
+rexxconfigfile.library/cf_ChangeArgumentxconfigfile.library/cf_ChangeArgument
+
+   NAME
+	cf_ChangeArgument -- Changes the name of an argument node.
+
+   SYNOPSIS
+	cf_ChangeArgument(ArgNode,Name)
+
+	cf_ChangeArgument(ARGNODE/N/A,NAME/A)
+
+   FUNCTION
+	This function changes the name of an argument node.
+
+   INPUTS
+	ArgNode - The argument node.
+	Name - The new name for the argument node.
+
+   SEE ALSO
+	cf_ChangeGroup(), cf_ChangeItem()
+
+rexxconfigfile.library/cf_ChangeGroup   rexxconfigfile.library/cf_ChangeGroup
+
+   NAME
+	cf_ChangeGroup -- Changes the name of a groupnode.
+
+   SYNOPSIS
+	cf_ChangeGroup(GrpNode,Name)
+
+	cf_ChangeGroup(GRPNODE/N/A,NAME/A)
+
+   FUNCTION
+	This function changes the name of a group node.
+
+   INPUTS
+	GrpNode - The group node for add to.
+	Name - The new name for the group node.
+
+   SEE ALSO
+	cf_ChangeArgument(), cf_ChangeItem()
+
+rexxconfigfile.library/cf_ChangeItem     rexxconfigfile.library/cf_ChangeItem
+
+   NAME
+	cf_ChangeItem -- Changes the contents of an item node.
+
+   SYNOPSIS
+	cf_ChangeItem(ItemNode,Contents [,Type] [,SpecialType])
+
+	cf_ChangeItem(ITEMNODE/N/A,CONTENTS/A,TYPE,STYPE)
+
+   FUNCTION
+	This function changes the contents of an item node.
+
+   INPUTS
+	ItemNode - The item node for the changes.
+	Contents - The new contents.
+	Type - The new type (see cf_NewItem()).
+	SpecialType - The new special type (see cf_NewItem()).
+
+   EXAMPLE
+	...
+	myItemNode = cf_NewItem(myArgNode, 1234567, CF_ITYP_NUMBER)
+	cf_ChangeItem(myItemNode, 1, CF_ITYP_BOOL, CF_STYP_BOOL_ON)
+	...
+
+	In the CF file:
+
+	[ExampleGroup]
+	...
+	ExampleArg=ON
+	...
+
+   SEE ALSO
+	cf_ChangeArgument(), cf_ChangeGroup(), cf_NewItem()
+
+rexxconfigfile.library/cf_ChkHdrFlag     rexxconfigfile.library/cf_ChkHdrFlag
+
+   NAME
+	cf_ChkHdrFlag -- Check wheather a flag in the Header is set.
+
+   SYNOPSIS
+	IsSet = cf_ChkHdrFlag(Header,Flag)
+
+	BOOL cf_ChkHdrFlag(HEADER/N/A,FLAG/A)
+
+   FUNCTION
+	This function check wheather a flag in the Header is set.
+
+   INPUTS
+	Header - Pointer to the Header.
+	Flag - Flag to check:
+
+	    HFLG_SHORT_FILE     -- File is in short format.
+	    HFLG_ASCII_FILE     -- File is in ascii format.
+	    HFLG_CHANGED        -- File is changed (this will be set, if
+				   you use functions like cf_Add/Change/
+				   Clone... on the open file).
+	    HFLG_WRITE_BY_CLOSE -- Writes the file by use of cf_Close().
+
+   RESULT
+	IsSet - TRUE if the flags is set or FALSE if the flags not set.
+
+   SEE ALSO
+	cf_RemHdrFlag(), cf_AddHdrFlag()
+
+rexxconfigfile.library/cf_ClearArgList rexxconfigfile.library/cf_ClearArgList
+
+   NAME
+	cf_ClearArgList -- Clears all argument and item nodes of a
+			   group node.
+
+   SYNOPSIS
+	cf_ClearArgList(GrpNode)
+
+	cf_ClearArgList(GRPNODE/N/A)
+
+   FUNCTION
+	This function clears all argument and item nodes of a group node.
+
+   INPUTS
+	GrpNode - The group node for the argument list.
+
+   SEE ALSO
+	cf_ClearGrpList(), cf_ClearItemList()
+
+rexxconfigfile.library/cf_ClearGrpList rexxconfigfile.library/cf_ClearGrpList
+
+   NAME
+	cf_ClearGrpList -- Clears all group/argument/item nodes.
+
+   SYNOPSIS
+	cf_ClearGrpList(Header)
+
+	cf_ClearGrpList(HEADER/N/A)
+
+   FUNCTION
+	This function clears all group/argument/item nodes.
+
+   INPUTS
+	Header - The Header for group list.
+
+   SEE ALSO
+	cf_ClearArgList(), cf_ClearItemList()
+
+rexxconfigfile.library/cf_ClearItemListexxconfigfile.library/cf_ClearItemList
+
+   NAME
+	cf_ClearItemList -- Clears all item nodes of an argument node.
+
+   SYNOPSIS
+	cf_ClearItemList(ArgNode)
+
+	cf_ClearItemList(ARGNODE/N/A)
+
+   FUNCTION
+	This function clears all item nodes of an argument node.
+
+   INPUTS
+	ArgNode - The argument node for the item list.
+
+   SEE ALSO
+	cf_ClearArgList(), cf_ClearGrpList()
+
+rexxconfigfile.library/cf_CloneArgumentexxconfigfile.library/cf_CloneArgument
+
+   NAME
+	cf_CloneArgument -- Copy an argument node with all item nodes.
+
+   SYNOPSIS
+	NewArgNode = cf_CloneArgument(ArgNode)
+
+	NEWARGNODE/N cf_CloneArgument(ARGNODE/N/A)
+
+   FUNCTION
+	This function duplicates an argument node with all item nodes.
+	Note the duplicated ArgNode is not added.
+
+   INPUTS
+	ArgNode - The argument node to clone.
+
+   RESULT
+	NewArgNode - The new argument node or NULL by failure.
+
+   EXAMPLE
+	...
+	myArgNode = cf_NewArgument(myGrpNode, "ExampleArgument")
+	cf_AddArgument(myGrpNode, cf_CloneArgument(myArgNode))
+	...
+
+	In the CF file:
+
+	...
+	[ExampleGroup]
+
+	...
+	ExampleArgument=
+	...
+	ExampleArgument=
+	...
+
+   SEE ALSO
+	cf_CloneGroup(), cf_CloneItem()
+
+rexxconfigfile.library/cf_CloneGroup     rexxconfigfile.library/cf_CloneGroup
+
+   NAME
+	cf_CloneGroup -- Copy a group node with all argument and item nodes.
+
+   SYNOPSIS
+	NewGrpNode = cf_CloneGroup(GrpNode)
+
+	NEWGRPNODE/N cf_CloneGroup(GRPNDE/N/A)
+
+   FUNCTION
+	This function duplicates a group node with all argument and item
+	nodes. Note the duplicated GrpNode is not added.
+
+   INPUTS
+	GrpNode - The group node to clone.
+
+   RESULT
+	NewGrpNode - The new group node or NULL by failure.
+
+   EXAMPLE
+	...
+	myGrpNode = cf_NewGroup(myHeader, "ExampleGroup")
+	cf_AddGroup(myHeader, cf_CloneGroup(myGrpNode))
+	...
+
+	In the CF file:
+
+	...
+	[ExampleGroup]
+	...
+	[ExampleGroup]
+	...
+
+   SEE ALSO
+	cf_CloneArgument(), cf_CloneItem()
+
+rexxconfigfile.library/cf_CloneItem       rexxconfigfile.library/cf_CloneItem
+
+   NAME
+	cf_CloneItem -- Copy an item node.
+
+   SYNOPSIS
+	NewItemNode = cf_CloneItem(ItemNode)
+
+	NEWITEMNODE/N cf_CloneItem(ITEMNODE/N/A)
+
+   FUNCTION
+	This function duplicates an item node. Note the duplicated ItemNode
+	is not added.
+
+   INPUTS
+	ItemNode - The item node to clone.
+
+   RESULT
+	NewItemNode - The new item node or NULL by failure.
+
+   EXAMPLE
+	...
+	myItemNode = cf_NewItem(myArgNode, "ExampleItem",ITYP_STRING)
+	cf_AddItem(myArgNode, cf_CloneItem(myItemNode))
+	...
+
+	In the CF file:
+
+	...
+	[ExampleGroup]
+
+	...
+	ExampleArgument="ExampleItem","ExampleItem"
+	...
+
+   SEE ALSO
+	cf_CloneGroup(), cf_CloneArgument()
+
+rexxconfigfile.library/cf_Close               rexxconfigfile.library/cf_Close
+
+   NAME
+	cf_Close -- Close a CF file.
+
+   SYNOPSIS
+	cf_Close(Header)
+
+	cf_Close(HEADER/N/A)
+
+   FUNCTION
+	This function close the CF file, deletes the private memory pool
+	and if the HFLG_WRITE_BY_CLOSE and HFLG_CHANGED flags set, the
+	CF file will be write too.
+
+   INPUTS
+	Header - The Header of the file to close.
+
+   SEE ALSO
+	cf_Open(), cf_Read(), cf_Write()
+
+rexxconfigfile.library/cf_DisposeArgumentonfigfile.library/cf_DisposeArgument
+
+   NAME
+	cf_DisposeArgument -- Remove and dispose an argument node.
+
+   SYNOPSIS
+	cf_DisposeArgument(ArgNode)
+
+	cf_DisposeArgument(ARGNODE/N/A)
+
+   FUNCTION
+	This function remove and dispose an argument node. The item list
+	will also be cleared.
+
+   INPUTS
+	ArgNode - The argument node to remove and dispose.
+
+   NOTES
+	If the ArgNode already removed, the function only dispose the
+	argument node.
+
+   SEE ALSO
+	cf_DisposeGroup(), cf_DisposeItem()
+
+rexxconfigfile.library/cf_DisposeGroup rexxconfigfile.library/cf_DisposeGroup
+
+   NAME
+	cf_DisposeGroup -- Remove and dispose a group node.
+
+   SYNOPSIS
+	cf_DisposeGroup(GrpNode)
+
+	cf_DisposeGroup(GRPNODE/N/A)
+
+   FUNCTION
+	This function remove and dispose a group node. All argument nodes
+	will also be cleared.
+
+   INPUTS
+	GrpNode - The group node to remove and dispose.
+
+   NOTES
+	If the GrpNode already removed, the function only dispose the
+	group node.
+
+   SEE ALSO
+	cf_DisposeArgument(), cf_DisposeItem()
+
+rexxconfigfile.library/cf_DisposeItem   rexxconfigfile.library/cf_DisposeItem
+
+   NAME
+	cf_DisposeItem -- Remove and dispose an item node.
+
+   SYNOPSIS
+	cf_DisposeItem(ItemNode)
+
+	cf_DisposeItem(ITEMNODE/N/A)
+
+   FUNCTION
+	This function remove and dispose an item node.
+
+   INPUTS
+	ItemNode - The item node to remove and dispose.
+
+   NOTES
+	If the ItemNode already removed, the function only dispose the
+	item node.
+
+   SEE ALSO
+	cf_DisposeGroup(), cf_DisposeArgument()
+
+rexxconfigfile.library/cf_FindArgument rexxconfigfile.library/cf_FindArgument
+
+   NAME
+	cf_FindArgument -- Finds a specfic argument node. (case sensitive)
+
+   SYNOPSIS
+	ArgNode = cf_FindArgument(GrpNode,Name)
+
+	ARGNODE/N cf_FindArgument(GRPNODE/N/A,NAME/A)
+
+   FUNCTION
+	This function finds a specfic argument node.
+
+   INPUTS
+	GrpNode - The group node of the argument list to search.
+	Name - Name of the argument node. 
+
+   RESULT
+	ArgNode - The argument node or NULL.
+
+   SEE ALSO
+	cf_FindGroup(), cf_FindItem()
+
+rexxconfigfile.library/cf_FindGroup       rexxconfigfile.library/cf_FindGroup
+
+   NAME
+	cf_FindGroup -- Finds a specfic group node. (case sensitive)
+
+   SYNOPSIS
+	GrpNode = cf_FindGroup(Header,Name)
+
+	GRPNODE/N cf_FindGroup(HEADER/N/A,NAME/A)
+
+   FUNCTION
+	This function finds a specfic group node.
+
+   INPUTS
+	Header - A pointer to the Header of the group list to search.
+	Name - Name of the group node.
+
+   RESULT
+	GrpNode - The group node or NULL.
+
+   SEE ALSO
+	cf_FindArgument(), cf_FindItem()
+
+rexxconfigfile.library/cf_FindItem         rexxconfigfile.library/cf_FindItem
+
+   NAME
+	cf_FindItem -- Finds a specfic item node.
+
+   SYNOPSIS
+	ItemNode = cf_FindItem(ArgNode,Contents,Type)
+
+	ITEMNODE/A cf_FindItem(ARGNODE/N/A,CONTENTS/A,TYPE/A)
+
+   FUNCTION
+	This function finds a specfic item node.
+
+   INPUTS
+	ArgNode - The argument node of the item list to search.
+	Contents - Contents of the item node.
+	Type - The type of contents (see cf_NewItem()).
+
+   RESULT
+	ItemNode - The item node or NULL.
+
+   SEE ALSO
+	cf_FindArgument(), cf_FindGroup(), cf_NewItem()
+
+rexxconfigfile.library/cf_GetArgName     rexxconfigfile.library/cf_GetArgName
+
+   NAME
+	cf_GetArgName -- Get the name of an argument node.
+
+   SYNOPSIS
+	Name = cf_GetArgName(ArgNode)
+
+	NAME cf_GetArgName(ARGNODE/N/A)
+
+   FUNCTION
+	This function get the name of an argument node.
+
+   INPUTS
+	ArgNode - The argument node.
+
+   RESULT
+	Name - The name of an argument node.
+
+   EXAMPLE
+	...
+	myArgNode = cf_NewArgument(myGrpNode,"ExampleArgument")
+
+	ArgName = cf_GetArgName(myArgNode)
+	SAY 'The name of the argument node is' ArgName
+	...
+
+   SEE ALSO
+	cf_GetGrpName()
+
+rexxconfigfile.library/cf_GetArgOfItem rexxconfigfile.library/cf_GetArgOfItem
+
+   NAME
+	cf_GetArgOfItem -- Get the parent node of an item node.
+
+   SYNOPSIS
+	ArgNode = cf_GetArgOfItem(ItemNode)
+
+	ARGNODE/N cf_GetArgOfItem(ITEMNODE/N/A)
+
+   FUNCTION
+	This function gets the parent node (ArgNode) of an item node.
+
+   INPUTS
+	ItemNode - The item node.
+
+   RESULT
+	ArgNode - Pointer to the argument node.
+
+   SEE ALSO
+	cf_GetGrpOfArg(), cf_GetHdrOfGrp()
+
+rexxconfigfile.library/cf_GetGrpName     rexxconfigfile.library/cf_GetGrpName
+
+   NAME
+	cf_GetGrpName -- Get the name of a group node.
+
+   SYNOPSIS
+	Name = cf_GetGrpName(GrpNode)
+
+	NAME cf_GetGrpName(GRPNODE/N/A)
+
+   FUNCTION
+	This function get the name of a group node.
+
+   INPUTS
+	GrpNode - The group node.
+
+   RESULT
+	Name - The name of a group node.
+
+   EXAMPLE
+	...
+	myGrpNode = cf_NewGroup(myHeader,"ExampleGroup")
+
+	GrpName = cf_GetGrpName(myGrpNode)
+	SAY 'The name of the group node is' GrpName
+	...
+
+   SEE ALSO
+	cf_GetArgName()
+
+rexxconfigfile.library/cf_GetGrpOfArg   rexxconfigfile.library/cf_GetGrpOfArg
+
+   NAME
+	cf_GetGrpOfArg -- Get the parent node of an argument node.
+
+   SYNOPSIS
+	GrpNode = cf_GetGrpOfArg(ArgNode)
+
+	GRPNODE/N cf_GetGrpOfArg(ARGNODE/N/A)
+
+   FUNCTION
+	This function gets the parent node (GrpNode) of an argument node.
+
+   INPUTS
+	ArgNode - The argument node.
+
+   RESULT
+	GrpNode - Pointer to the group node.
+
+   SEE ALSO
+	cf_GetHdrOfGrp(), cf_GetArgOfItem()
+
+rexxconfigfile.library/cf_GetHdrOfGrp   rexxconfigfile.library/cf_GetHdrOfGrp
+
+   NAME
+	cf_GetHdrOfGrp -- Get the parent node of a group node.
+
+   SYNOPSIS
+	Header = cf_GetHdrOfGrp(GrpNode)
+
+	HEADER/N cf_GetHdrOfGrp(GRPNODE/N/A)
+
+   FUNCTION
+	This function gets the parent node (Header) of a group node.
+
+   INPUTS
+	GrpNode - The group node.
+
+   RESULT
+	Header - Pointer to the header.
+
+   SEE ALSO
+	cf_GetGrpOfArg(), cf_GetArgOfItem()
+
+rexxconfigfile.library/cf_GetItem           rexxconfigfile.library/cf_GetItem
+
+   NAME
+	cf_GetItem -- Get the contents of an item node or the default.
+
+   SYNOPSIS
+	Contents = cf_GetItem(ItemNode,Type,Default)
+
+	CONTENTS cf_GetItem(ITEMNODE/N/A,TYPE/A,STYPE/A)
+
+   FUNCTION
+	This function gets the contents of an item node. If Type not equal
+	with the type of the item node the functions return the default.
+
+   INPUTS
+	ItemNode - The item node.
+	Type - Contents type (see cf_NewItem()).
+	Default - Default contents.
+
+   RESULT
+	Contents - The contents of the item node or the default.
+
+   SEE ALSO
+	cf_GetItemNum()
+
+rexxconfigfile.library/cf_GetItemNum     rexxconfigfile.library/cf_GetItemNum
+
+   NAME
+	cf_GetItemNum -- Get the contents of an item node or the default.
+
+   SYNOPSIS
+	Contents = cf_GetItemNum(ArgNode,Position,Type,Default)
+
+	CONTENTS cf_GetItemNum(ARGNODE/N/A,POSITION/A,TYPE/A,STYPE/A)
+
+   FUNCTION
+	This function gets the contents of an item node from the specific
+	position. If Type not equal with the type of the item node the
+	function returns the default.
+
+   INPUTS
+	ArgNode - The argument node.
+	Position - Position of the item node (from 1 to X).
+	Type - Contents type (see c> pmid_AnimArgs . volume)?((ULONG)(*(pmid -> pmid_AnimArgs . volume))):(64UL)),
+					ADTA_Cycles,          1UL,
+					TAG_DONE );
+
+			    if( pmid -> pmid_AnimArgs . verbose )
+			    {
+			      debug_printf( cb, "# sample %lx length %lu period %lu\n",
+					    (pmid -> pmid_FirstFrameNode -> fn_Sample),
+					    (pmid -> pmid_FirstFrameNode -> fn_SampleLength),
+					    (pmid -> pmid_FirstFrameNode -> fn_y(myItemNode)
+	Type = cf_GetItemType(myItemNode)
+
+	SAY 'The contents of the item node is' Contents
+	...
+
+   SEE ALSO
+	cf_GetItemNum(), cf_GetItem()
+
+rexxconfigfile.library/cf_GetItemSType rexxconfigfile.library/cf_GetItemSType
+
+   NAME
+	cf_GetItemSType -- Get the special type of an item node.
+
+   SYNOPSIS
+	SpecialType = cf_GetItemSType(ItemNode)
+
+	STYPE cf_GetItemSType(ITEMNODE/N/A)
+
+   FUNCTION
+	This function returns the special type of an item node.
+
+   INPUTS
+	ItemNode - The item node.
+
+   RESULT
+	SpecialType - Special type (see cf_NewItem()) or STYP_UNKOWN for
+		      an unkown specialtype.
+
+   SEE ALSO
+	cf_GetItemType(), cf_NewItem()
+
+rexxconfigfile.library/cf_GetItemType   rexxconfigfile.library/cf_GetItemType
+
+   NAME
+	cf_GetItemType -- Get the type of an item node.
+
+   SYNOPSIS
+	Type = cf_GetItemType(ItemNode)
+
+	TYPE cf_GetItemType(ITEMNODE/N/A)
+
+   FUNCTION
+	This function returns the contents type of an item node.
+
+   INPUTS
+	ItemNode - The item node.
+
+   RESULT
+	Type - Contents type (see cf_NewItem()) or ITYP_UNKOWN for
+	       an unkown specialtype.
+
+   SEE ALSO
+	cf_GetItemSType(), cf_NewItem()
+
+rexxconfigfile.library/cf_GetOMode         rexxconfigfile.library/cf_GetOMode
+
+   NAME
+	cf_GetOMode -- Get the openmode from the header.
+
+   SYNOPSIS
+	OMode = cf_GetOMode(Header)
+
+	OMODE cf_GetOMode(HEADER/N/A)
+
+   FUNCTION
+	This function gets the openmode from the Header.
+
+   INPUTS
+	Header - Pointer to the Header.
+
+   RESULT
+	OMode - openmode (see cf_Open()).
+
+   SEE ALSO
+	cf_Open()
+
+rexxconfigfile.library/cf_GetPuddleSizeexxconfigfile.library/cf_GetPuddleSize
+
+   NAME
+	cf_GetPuddleSize -- Get the puddlesize from the header.
+
+   SYNOPSIS
+	PuddleSize = cf_GetPuddleSize(Header)
+
+	PUDDLESIZE cf_GetPuddleSize(HEADER/N/A)
+
+   FUNCTION
+	This function gets the puddlesize from the Header.
+
+   INPUTS
+	Header - Pointer to the Header.
+
+   RESULT
+	PuddleSize - puddlesize.
+
+rexxconfigfile.library/cf_GetWBufSize   rexxconfigfile.library/cf_GetWBufSize
+
+   NAME
+	cf_GetWBufSize -- Get the writebuffer size from the header.
+
+   SYNOPSIS
+	WBufSize = cf_GetWBufSize(Header)
+
+	WBUFSIZE cf_GetWBufSize(HEADER/N/A)
+
+   FUNCTION
+	This functERROR_NO_FREE_STORE;
+    }
+
+    return( error );
+}
+
+
+LONG LoadPicture( struct ClassBase *cb, struct PicMovieInstData *pmid, STRPTR fiize.
+
+rexxconfigfile.library/cf_LastArgument rexxconfigfile.library/cf_LastArgument
+
+   NAME
+	cf_LastArgument -- Returns the previous argument node.
+
+   SYNOPSIS
+	LastArgNode = cf_LastArgument(ArgNode)
+
+	LASTARGNODE/N cf_LastArgument(ARGNODE/N/A)
+
+   FUNCTION
+	This function returns the previous argument node, or NULL if there
+	are no more argument nodes in the list.
+
+   INPUTS
+	ArgNode - The argument node.
+
+   RESULT
+	LastArgNode - Last argument node or NULL.
+
+   SEE ALSO
+	cf_LastGroup(), cf_LastItem(), cf_LockArgList()
+
+rexxconfigfile.library/cf_LastGroup       rexxconfigfile.library/cf_LastGroup
+
+   NAME
+	cf_LastGroup -- Returns the previous group node.
+
+   SYNOPSIS
+	LastGrpNode = cf_LastGroup(GrpNode)
+
+	LASTGRPNODE/N cf_LastGroup(GRPNODE/N/A)
+
+   FUNCTION
+	This function returns the previous group node, or NULL if there are
+	no more group nodes in the list.
+
+   INPUTS
+	GrpNode - The group node.
+
+   RESULT
+	LastGrpNode - Last group node or NULL.
+
+   SEE ALSO
+	cf_LastArgument(), cf_LastItem(), cf_LockGrpList()
+
+rexxconfigfile.library/cf_LastItem         rexxconfigfile.library/cf_LastItem
+
+   NAME
+	cf_LastItem -- Returns the previous item node.
+
+   SYNOPSIS
+	LastItemNode = cf_LastItem(ItemNode)
+
+	LASTITEMNODE/N cf_LastItem(ITEMNODE/N/A)
+
+   FUNCTION
+	This function returns the previous item node, or NULL if there are
+	no more item nodes in the list.
+
+   INPUTS
+	ItemNode - The item node.
+
+   RESULT
+	LastItemNode - Last item node or NULL.
+
+   SEE ALSO
+	cf_LastArgument(), cf_LastGroup(), cf_LockItemList()
+
+rexxconfigfile.library/cf_LockArgList   rexxconfigfile.library/cf_LockArgList
+
+   NAME
+	cf_LockArgList -- Locks the argument list of a group node for use.
+
+   SYNOPSIS
+	FirstArgNode = cf_LockArgList(GrpNode)
+
+	FIRSTARGNODE/N cf_LockArgList(GRPNODE/N/A)
+
+   FUNCTION
+	This function locks the argument list of a group node for use, or
+	NULL if the group node has no argument nodes. The pointer returned
+	by this is NOT an actual ArgNode pointer - you should use one of the
+	other ArgNode calls to get actual pointers to ArgNode structures
+	(such as cf_NextArgument()), passing the value returned by
+	cf_LockArgList() as the ArgNode value.
+
+   INPUTS
+	GrpNode - The group node for the argument list.
+
+   RESULT
+	FirstArgNode - First argument node of the group node or NULL.
+		       NOT a valid node!
+
+   EXAMPLE
+	...
+	myArgNode = cf_LockArgList(myGrpNode)
+	If myArgNode ~= 0 Then Do
+	  Do While myArgNode ~= 0
+	    myArgNode = cf_NextArgument(myArgNode)
+	    ...
+	  End
+	  cf_UnlockArgList(myGrpNode)
+	End
+	...
+
+   SEE ALSO
+	cf_LockGrpList(), cf_LockItemList(), cf_UnlockArgList(),
+	cf_NextArgument()
+
+rexxconfigfile.library/cf_LockGrpList   rexxconfigfile.library/cf_LockGrpList
+
+   NAME
+	cf_LockGrpList -- Locks the group list of the header for use.
+
+   SYNOPSIS
+	FirstGrpNode = cf_LockGrpList(Header)
+
+	FIRSTGRPNODE/N cf_LockGrpList(HEADER/N/A)
+
+   FUNCTION
+	This function locks the group list of the header for use, or NULL
+	if the header has no group nodes. The pointer returned by this is
+	NOT an actual GrpNode pointer - you should use one of the other
+	GrpNode calls to get actual pointers to GrpNode structures (such as
+	cf_NextGroup()), passing the value returned by cf_LockGrpList()
+	as the GrpNode value.
+
+   INPUTS
+	Header - Pointer to the Header.
+
+   RESULT
+	FirstGrpNode - First group node of the header or NULL.
+		       NOT a valid node!
+
+   EXAMPLE
+	...
+	myGrpNode = cf_LockGrpList(myHeader)
+	If myGrpNode ~= 0 Then Do
+	  Do While myGrpNode ~= 0
+	    myGrpNode = cf_NextGroup(myGrpNode)
+	    ...
+	  End
+	  cf_UnlockGrpList(myHeader)
+	End
+	...
+
+   SEE ALSO
+	cf_LockArgList(), cf_LockItemList(), cf_UnlockGrpList(),
+	cf_NextGroup()
+
+rexxconfigfile.library/cf_LockItemList rexxconfigfile.library/cf_LockItemList
+
+   NAME
+	cf_LockItemList -- Locks the item list of an argument node for use.
+
+   SYNOPSIS
+	FirstItemNode = cf_LockItemList(ArgNode)
+
+	FIRSTITEMNODE/N cf_LockItemList(ARGNODE/N/A)
+
+   FUNCTION
+	This function locks the item list of an argument node for use, or
+	NULL if the argument node has no item nodes. The pointer returned by
+	this is NOT an actual ItemNode pointer - you should use one of the
+	other ItemNode calls to get actual pointers to ItemNode structures
+	(such as cf_NextItem()), passing the value returned by
+	cf_LockItemList() as the ItemNode value.
+
+   INPUTS
+	ArgNode - The argument node for item list.
+
+   RESULT
+	FirstItemNode - First item node of the argument node or NULL.
+			NOT a valid node!
+
+   EXAMPLE
+	...
+	myItemNode = cf_LockItemList(myArgNode)
+	If myItemNode ~= 0 Then Do
+	  Do While myItemNode ~= 0
+	    myItemNode = cf_NextItem(myItemNode)
+	    ...
+	  End
+	  cf_UnlockItemList(myArgNode)
+	End
+	...
+
+   SEE ALSO
+	cf_LockArgList(), cf_LockGrpList(), cf_UnlockItemList(),
+	cf_NextItem()
+
+rexxconfigfile.library/cf_NewArgItem     rexxconfigfile.library/cf_NewArgItem
+
+   NAME
+	cf_NewArgItem -- Creates a new argument node and a new item node.
+
+   SYNOPSIS
+	ArgNode = cf_NewArgItem(GrpNode,Name,Contents [,Type][,SpecialType])
+
+	ARGNODE/N cf_NewArgItem(GRPNODE/N/A,NAME/A,CONTENTS/A,TYPE,STYPE)
+
+   FUNCTION
+	This function creates a new argument node and a new item node. The
+	GrpNode must be a pointer to a group node.
+
+   INPUTS
+	GrpNode - The group node for add to. (!!! not NULL !!!)
+	Name - The name of the new argument node.
+	Contents - The contents of the new item node.
+	Type - Type of the contents.
+	SpecialType - Special types for cf_Write() or NULL for default.
+
+   RESULT
+	ArgNode - The new argument node or NULL by failure.
+
+   EXAMPLE
+	...
+	
+	cf_NewArgItem(myGrpNode,"ExampleArg","FooStr",ITYP_STRING)
+	...
+
+	In the CF file:
+
+	...
+	ExampleArg="FooStr"
+	...
+
+   SEE ALSO
+	cf_NewGroup(), cf_NewItem(), cf_NewArgument()
+
+rexxconfigfile.library/cf_NewArgument   rexxconfigfile.library/cf_NewArgument
+
+   NAME
+	cf_NewArgument -- Creates a new argument node.
+
+   SYNOPSIS
+	ArgNode = cf_NewArgument(GrpNode,Name)
+
+	ARGNODE/N cf_NewArgument(GRPNODE/N/A,NAME/A)
+
+   FUNCTION
+	This function creates a new argument node. The GrpNode must be a
+	pointer to a group node. 
+
+   INPUTS
+	GrpNode - The group node for add to. (!!! not NULL !!!)
+	Name - The name of the new argument node.
+
+   RESULT
+	ArgNode - The new argument node or NULL by failure.
+
+   EXAMPLE
+	...
+	
+	myArgNode = cf_NewArgument(myGrpNode,"ExampleArg")
+	...
+
+	In the CF file:
+
+	...
+	ExampleArg=
+	...
+
+   SEE ALSO
+	cf_NewGroup(), cf_NewItem(), cf_NewArgItem()
+
+rexxconfigfile.library/cf_NewGroup         rexxconfigfile.library/cf_NewGroup
+
+   NAME
+	cf_NewGroup -- Creates a new group node.
+
+   SYNOPSIS
+	GrpNode = cf_NewGroup(Header,Name)
+
+	GRPNODE/N cf_NewGroup(HEADER/N/A,NAME/A)
+
+   FUNCTION
+	This function creates a new group node. The Header must be a
+	pointer to a CFHeader structure.
+
+   INPUTS
+	Header - Pointer to the Header for add to. (!!! not NULL !!!)
+	Name - Name of the new group node.
+
+   RESULT
+	GrpNode - The new group node or NULL by failure.
+
+   EXAMPLE
+	...
+	
+	myGrpNode = cf_NewGroup(myHeader,"ExampleGroup")
+	cf_NewArgument(myGrpNode,"ExampleArg")
+	...
+
+	In the CF file:
+
+	...
+	[ExampleGroup]
+
+	ExampleArg=
+	...
+
+   SEE ALSO
+	cf_NewArgument(), cf_NewItem(), cf_NewArgItem()
+
+rexxconfigfile.library/cf_NewItem           rexxconfigfile.library/cf_NewItem
+
+   NAME
+	cf_NewItem -- Creates a new item node.
+
+   SYNOPSIS
+	ItemNode = cf_NewItem(ArgNode,Contents [,Type] [,SpecialType])
+
+	ITEMNODE/N cf_NewItem(ARGNODE/N/A,CONTENTS/A,TYPE,STYPE)
+
+   FUNCTION
+	This function creates a new item node. The ArgNode must be a
+	pointer to a argument node.
+
+   INPUTS
+	ArgNode - The argument node for add to. (!!! not NULL !!!)
+	Contents - The contents of the new item node.
+	Type - Type of the contents.
+
+	   ITYP_STRING -- String type (Contents is a NULL-terminated string)
+	   ITYP_NUMBER -- Number type (Contents is long value e.g.
+			  44253 or -23456)
+	   ITYP_BOOL   -- Bool type   (Contents is long value TRUE or
+			  FALSE)
+	SpecialType - Special types for cf_Write() or NULL for default.
+
+	   ITYP_BOOL:
+
+	     STYP_BOOL_YES  -- "YES/NO"
+	     STYP_BOOL_TRUE -- "TRUE/FALSE"
+	     STYP_BOOL_ON   -- "ON/OFF"
+
+	   ITYP_NUMBER:
+
+	     STYP_NUM_DEC   -- Decimal (e.g 24574)
+	     STYP_NUM_HEX   -- Hexdecimal (e.g. $fDe2)
+	     STYP_NUM_BIN   -- Binary (e.g. %10111)
+
+   RESULT
+	ItemNode - The new group node or NULL by failure.
+
+   EXAMPLE
+	...
+	
+	myArgNode = cf_NewArgument(myGrpNode,"ExampleArg")
+	cf_NewItem(myArgNode,"Foo Str",ITYP_STRING)
+	cf_NewItem(myArgNode,5467,ITYP_NUMBER,STYP_NUM_DEC)
+	cf_NewItem(myArgNode,35678,ITYP_NUMBER,STYP_NUM_HEX)
+	cf_NewItem(myArgNode,23,CF_ITYP_NUMBER,STYP_NUM_BIN)
+	cf_NewItem(myArgNode,FALSE,ITYP_BOOL,STYP_NUM_ON)
+	cf_NewItem(myArgNode,TRUE,ITYP_BOOL,STYP_NUM_ON)
+	cf_NewItem(myArgNode,TRUE,ITYP_BOOL,STYP_NUM_YES)
+	...
+
+	In the CF file:
+
+	...
+	ExampleArg="Foo Str",5467,$865E,%10111,OFF,ON,YES
+	...
+
+   SEE ALSO
+	cf_NewArgument(), cf_NewGroup(), cf_Write(), cf_NewArgItem(),
+	<libraries/configfile.h>
+
+rexxconfigfile.library/cf_NextArgument rexxconfigfile.library/cf_NextArgument
+
+   NAME
+	cf_NextArgument -- Returns the next argument node.
+
+   SYNOPSIS
+	NextArgNode = cf_NextArgument(ArgNode)
+
+	NEXTARGNODE/N cf_NextArgument(ARGNODE/N/A)
+
+   FUNCTION
+	This function returns the next argument node, or NULL if there are
+	no more argument nodes in the list.
+
+   INPUTS
+	ArgNode - The argument node.
+
+   RESULT
+	NextArgNode - Next argument node or NULL.
+
+   SEE ALSO
+	cf_NextGroup(), cf_NextItem(), cf_LockArgList()
+
+rexxconfigfile.library/cf_NextGroup       rexxconfigfile.library/cf_NextGroup
+
+   NAME
+	cf_NextGroup -- Returns the next group node.
+
+   SYNOPSIS
+	NextGrpNode = cf_NextGroup(GrpNode)
+
+	NEXTGRPNODE/N cf_NextGroup(GRPNODE/N/A)
+
+   FUNCTION
+	This function returns the next group node, or NULL if there are no
+	more group nodes in the list.
+
+   INPUTS
+	GrpNode - The group node.
+
+   RESULT
+	NextGrpNode - Next group node or NULL.
+
+   SEE ALSO
+	cf_NextArgument(), cf_NextItem(), cf_LockGrpList()
+
+rexxconfigfile.library/cf_NextItem         rexxconfigfile.library/cf_NextItem
+
+   NAME
+	cf_NextItem -- Returns the next item node.
+
+   SYNOPSIS
+	NextItemNode = cf_NextItem(ItemNode)
+
+	NEXTITEMNODE/N cf_NextItem(ITEMNODE/N/A)
+
+   FUNCTION
+	This function returns the next item node, or NULL if there are no
+	more item nodes in the list.
+
+   INPUTS
+	ItemNode - The item node.
+
+   RESULT
+	NextItemNode - Next item node or NULL.
+
+   SEE ALSO
+	cf_NextArgument(), cf_NextGroup(), cf_LockItemList()
+
+rexxconfigfile.library/cf_Open                 rexxconfigfile.library/cf_Open
+
+   NAME
+	cf_Open -- Open a CF file.
+
+   SYNOPSIS
+	Header = cf_Open(Name [,Mode] [,Flags] [,PuddleSize])
+
+	HEADER/N cf_Open(NAME/A,OMODE,FLAGS,PUDDLESIZE)
+
+   FUNCTION
+	This function create a memory pool with a specify puddlesize or
+	default (2048 bytes), allocate pool memory for the header, open or
+	create a new CF file and check which format type has the file (ascii
+	or short format). And if the flag OFLG_READ_TOO set, the file will
+	be read too.
+
+   INPUTS
+	Name - Name and path of the CF file.
+	Mode - Openmodes:
+
+		OMODE_OLDFILE   - An existing file is opened. Did the file
+				  not exists the function failed. (default)
+		OMODE_NEWFILE   - A new file will be create.
+		OMODE_READWRITE - Opens a file, but creates it if it didn't
+				  exist.
+	Flags - extra flags:
+
+		OFLG_READ_TOO   - Reads the file directly after the
+				  it is open. You didn't need use
+				  cf_Read().
+
+	PuddleSize - Size of the puddle or NULL for default (2048 bytes).
+
+   RESULT
+	Header - a pointer to an initialized Header, or FALSE if the CF
+		 file could not be opened. In the case of a FALSE return,
+		 the RC var can be read to obtain more information on the
+		 failure.
+
+	RC (rexx variable) - contains an error string.
+
+		 OERR_UNKOWN     - Unkown failure.
+		 OERR_OPEN_FILE  - Couldn't open CF file.
+		 OERR_READ_FILE  - Couldn't read CF file.
+		 OERR_NO_FORMAT  - File isn't in CF format.
+		 OERR_NO_SIZE    - File hasn't a size.
+		 OERR_HEADER_MEM - No memory for Header.
+
+		 cf_Read() errors, only if the OFLG_READ_TOO flag set.
+
+		 RERR_FORMAT       - File has an error in the format
+				     structure.
+		 RERR_UNKOWN_ITYPE - An unkown item type was found.
+
+   EXAMPLE
+	Header = cf_Open("SYS:test.cfg",,OFLG_READ_TOO)
+	If Header ~= '0' Then Do
+	  ...
+	  cf_Close(Header)
+	End
+	Else Do
+	  Select
+	    When RC = OERR_OPEN_FILE    Then EStr = "Couldn't open file!"
+	    When RC = OERR_READ_FILE    Then EStr = "Couldn't read file!"
+	    When RC = OERR_NO_FORMAT    Then EStr = "File isn't in format!"
+	    When RC = OERR_NO_SIZE      Then EStr = "File hasn't a size!"
+	    When RC = OERR_HEADER_MEM   Then EStr = "No memory for Header!"
+
+	    When RC = RERR_FORMAT       Then EStr = "Error in the format!"
+	    When RC = RERR_UNKOWN_ITYPE Then EStr = "Unkown item type!"
+	    Otherwise EStr = "Unkown failure!"
+	  End
+	  Say "cf_Open:" EStr
+	End
+
+	...
+	
+   SEE ALSO
+	cf_Close(), cf_Read(), cf_Write(), exec.library/CreatePool()
+
+rexxconfigfile.library/cf_Read                 rexxconfigfile.library/cf_Read
+
+   NAME
+	cf_Read -- Read a CF file.
+
+   SYNOPSIS
+	Result = cf_Read(Header)
+
+	BOOL cf_Read(HEADER/N/A)
+
+   FUNCTION
+	This function clears all nodes and read the CF file new. The
+	HFLG_CHANGED flag in Header will be clear.
+
+   INPUTS
+	Header - The Header of the file.
+
+   RESULT
+	Result - TRUE for success or in case of FALSE return, the RC var
+		 can be read to obtain more.
+
+	RC (rexx variable) - contains an error string.
+
+		 RERR_UNKOWN       - Unkown failure.
+		 RERR_BUFFER_MEM   - No memory for buffer.
+		 RERR_READ_FILE    - Couldn't read the file.
+		 RERR_FORMAT       - File has an error in the format
+				     structure.
+		 RERR_UNKOWN_ITYPE - An unkown item type was found.
+
+   SEE ALSO
+	cf_Open(), cf_Close(), cf_Write()
+
+rexxconfigfile.library/cf_RemHdrFlag     rexxconfigfile.library/cf_RemHdrFlag
+
+   NAME
+	cf_RemHdrFlag -- Remove a flag to the Header.
+
+   SYNOPSIS
+	cf_RemHdrFlag(Header,Flag)
+
+	cf_RemHdrFlag(HEADER/N/A,FLAG/A)
+
+   FUNCTION
+	This function remove a flag to the Header.
+
+   INPUTS
+	Header - Pointer to the Header.
+	Flag - Flag to remove (see cf_ChkHdrFlag()).
+
+   SEE ALSO
+	cf_ChkHdrFlag(), cf_AddHdrFlag()
+
+rexxconfigfile.library/cf_RemoveArgumentxconfigfile.library/cf_RemoveArgument
+
+   NAME
+	cf_RemoveArgument -- Remove an argument node.
+
+   SYNOPSIS
+	cf_RemoveArgument(ArgNode)
+
+	cf_RemoveArgument(ARGNODE/N/A)
+
+   FUNCTION
+	This function remove an argument node. Note don't adds the removed
+	ArgNode to another open CF file.
+
+   INPUTS
+	ArgNode - The argument node to remove.
+
+   SEE ALSO
+	cf_RemoveGroup(), cf_RemoveItem()
+
+rexxconfigfile.library/cf_RemoveGroup   rexxconfigfile.library/cf_RemoveGroup
+
+   NAME
+	cf_RemoveGroup -- Remove a group node.
+
+   SYNOPSIS
+	cf_RemoveGroup(GrpNode)
+
+	cf_RemoveGroup(GRPNODE/N/A)
+
+   FUNCTION
+	This function remove a group node. Note don't adds the removed 
+	GrpNode to another open CF file.
+
+   INPUTS
+	GrpNode - The group node to remove.
+
+   SEE ALSO
+	cf_RemoveArgument(), cf_RemoveItem()
+
+rexxconfigfile.library/cf_RemoveItem     rexxconfigfile.library/cf_RemoveItem
+
+   NAME
+	cf_RemoveItem -- Remove an item node.
+
+   SYNOPSIS
+	cf_RemoveItem(ItemNode)
+
+	cf_RemoveItem(ITEMNODE/N/A)
+
+   FUNCTION
+	This function remove an item node. Note don't adds the removed 
+	ItemNode to another open CF file.
+
+   INPUTS
+	ItemNode - The item node to remove.
+
+   SEE ALSO
+	cf_RemoveGroup(), cf_RemoveArgument()
+
+rexxconfigfile.library/cf_SetWBufSize   rexxconfigfile.library/cf_SetWBufSize
+
+   NAME
+	cf_SetWBufSize -- Set the size of the writebuffer in the Header.
+
+   SYNOPSIS
+	cf_SetWBufSize(Header,NewSize)
+
+	cf_SetWBufSize(HEADER/N/A,NEWSIZE/A)
+
+   FUNCTION
+	This function set the size of the writebuffer in the Header.
+
+   INPUTS
+	Header - Pointer to the Header.
+	NewSize - New size of the writebuffer (2048 - X bytes).
+		  Note the size must be longword aligned.
+
+   SEE ALSO
+	cf_GetWBufSize()
+
+rexxconfigfile.library/cf_UnlockArgListexxconfigfile.library/cf_UnlockArgList
+
+   NAME
+	cf_UnlockArgList -- Unlocks the argument list of the group node.
+
+   SYNOPSIS
+	cf_UnlockArgList(GrpNode)
+
+	cf_UnlockArgList(GRPNODE/N/A)
+
+   FUNCTION
+	This function unlocks the access on the argument list.
+
+   INPUTS
+	GrpNode - The group node for the argument list.
+
+   SEE ALSO
+	cf_UnlockGrpList(), cf_UnlockItemList(), cf_LockArgList()
+
+rexxconfigfile.library/cf_UnlockGrpListexxconfigfile.library/cf_UnlockGrpList
+
+   NAME
+	cf_UnlockGrpList -- Unlocks the group list of the header.
+
+   SYNOPSIS
+	cf_UnlockGrpList(Header)
+
+	cf_UnlockGrpList(HEADER/N/A)
+
+   FUNCTION
+	This function unlocks the access on the group list.
+
+   INPUTS
+	Header - Pointer to the CFHeader structure.
+
+   SEE ALSO
+	cf_UnlockArgList(), cf_UnlockItemList(), cf_LockGrpList()
+
+rexxconfigfile.library/cf_UnlockItemListxconfigfile.library/cf_UnlockItemList
+
+   NAME
+	cf_UnlockItemList -- Unlocks the item list of the argument node.
+
+   SYNOPSIS
+	cf_UnlockItemList(ArgNode)
+
+	cf_UnlockItemList(ARGNODE/N/A)
+
+   FUNCTION
+	This function unlocks the access on the item list.
+
+   INPUTS
+	ArgNode - The argument node for item list.
+
+   SEE ALSO
+	cf_UnlockArgList(), cf_UnlockGrpList(), cf_LockItemList()
+
+rexxconfigfile.library/cf_Write               rexxconfigfile.library/cf_Write
+
+   NAME
+	cf_Write -- Write a CF file new.
+
+   SYNOPSIS
+	Result = cf_Write(Header [,WriteMode])
+
+	BOOL cf_Write(HEADER/N/A,WMODE,FLAGS)
+
+   FUNCTION
+	This function writes the CF file new. Note is the HFLG_CHANGED
+	flag in Header flags not set the file will be not writes new.
+
+   INPUTS
+	Header - The Header of the file to write.
+	WMode - Write modes:
+
+		WMODE_DEFAULT -- Writes the file in default format
+				 from Header.
+		WMODE_ASCII   -- Writes the file in ascii format.
+		WMODE_SHORT   -- Writes the file in short format.
+
+	Flags - Flags:
+
+		WFLG_WRITE_ALWAYS -- cf_Write() checks not if the
+				     HFLG_CHANGED flag set and
+				     writes always the file.
+
+   RESULT
+	Result - TRUE for success or in case of FALSE return, the RC var
+		 can be read to obtain more.
+
+	RC (rexx variable) - contains an error string.
+
+		 WERR_UNKOWN        - Unkown failure.
+		 WERR_ALLOC_WBUFFER - No memory for WriteBuffer.
+
+   SEE ALSO
+	cf_Open(), cf_Close(), cf_Read()
+
+

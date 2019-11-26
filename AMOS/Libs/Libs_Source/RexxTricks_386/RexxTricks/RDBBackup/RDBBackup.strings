@@ -1,0 +1,71 @@
+/*
+** $VER: RDBBackup.strings 1.1 (20.4.96) ©1996 by Jürgen Kohrmeyer
+**
+** Default strings for RDBBackup
+*/
+
+MSG_FRAMEBOX_PREFS = 0
+MSG_GAD_PUBSCREEN = 1
+MSG_GAD_BACKUP_DIR = 2
+MSG_GAD_SCSI_DEVICE = 3
+MSG_FRAMEBOX_UNITS = 4
+MSG_GAD_UPDATE = 5
+MSG_GAD_BACKUP = 6
+MSG_GAD_RESTORE = 7
+MSG_GAD_ABOUT = 8
+MSG_GAD_SAVE_PREFS = 9
+MSG_GAD_QUIT = 10
+MSG_GAD_USE = 11
+MSG_GAD_OKAY = 12
+MSG_GAD_CANCEL = 13
+MSG_DEVICEWINDOW_TITLE = 14
+MSG_SCREENWINDOW_TITLE = 15
+MSG_REQUEST_BACKUP_DIR = 16
+MSG_REQUEST_ALREADY_EXISTS = 17
+MSG_REQUEST_REPLACE_FILE = 18
+MSG_REQUEST_GADS_REPLACE = 19
+MSG_REQUEST_BACKUP_FAILED = 20
+MSG_REQUEST_RESTORE_FROM_FILE = 21
+MSG_REQUEST_RESTORE_ASK = 22
+MSG_REQUEST_GADS_RESTORE = 23
+MSG_REQUEST_RESTORE_FAILED = 24
+MSG_REQUEST_GAD_USE = 25
+MSG_ABOUTWINDOW_TITLE = 26
+MSG_ABOUTWINDOW_APP_USES = 27
+ERROR_CANNOT_OPEN_FILE = 28
+ERROR_CANNOT_READ_FILE = 29
+ERROR_CANNOT_CREATE_APP = 30
+ERROR_CANNOT_OPEN_WINDOW = 31
+
+strings.0 = "Prefs"
+strings.1 = "_Public screen"
+strings.2 = "_Backup directory"
+strings.3 = "SCSI _device"
+strings.4 = "SCSI units"
+strings.5 = "_Update list"
+strings.6 = "Backup RDB"
+strings.7 = "Restore RDB"
+strings.8 = "_About"
+strings.9 = "_Save prefs"
+strings.10 = "_Quit"
+strings.11 = "_Use"
+strings.12 = "_Okay"
+strings.13 = "_Cancel"
+strings.14 = "Select device"
+strings.15 = "Select public screen"
+strings.16 = "Select backup directory"
+strings.17 = "already exists!"
+strings.18 = "Replace this file?"
+strings.19 = "Replace|_Cancel"
+strings.20 = "Backup failed returncode"
+strings.21 = "Restore from file"
+strings.22 = "Do you really want to restore this RDB?"
+strings.23 = "Restore|_Cancel"
+strings.24 = "Restore failed returncode"
+strings.25 = "Use"
+strings.26 = "About RDBBackup"
+strings.27 = "This application uses:"
+strings.28 = "Cannot open file"
+strings.29 = "Error reading file"
+strings.30 = "Cannot create Application!"
+strings.31 = "Cannot open window!"

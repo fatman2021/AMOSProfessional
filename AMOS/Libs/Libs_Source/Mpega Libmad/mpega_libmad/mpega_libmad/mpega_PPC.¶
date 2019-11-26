@@ -1,0 +1,411 @@
+Storm Shell Project (0018)
+Settings (Start)
+C/C++ Environment
+"mycodec:cisc/mpega_library/mad"
+0
+"StormC:include"
+0
+Includepath (End)
+0 "" 80
+1 "objects_ppc_debug"
+1 0 "makelog.txt"
+""
+0
+0 1
+0
+0 0
+C/C++ Preprozessor
+0 "NDEBUG" ""
+0
+1 "__MIXEDBINARY__" ""
+0
+Defines (End)
+1 1 1
+0 0
+C/C++ Options
+0 1 1 2 1 0 0 0 1 0 0 5 1 4 0
+0 0 0
+0
+0 1 0
+C/C++ Optimizer
+9
+C/C++ Warnings
+1 1 1 1 1 1 0 1
+0 0
+GCC Options (1)
+1 "NDEBUG" ""
+0
+1 "__MIXEDBINARY__" ""
+0
+1 "HAVE_CONFIG_H" ""
+0
+1 "FPM_PPC" ""
+0
+1 "BUILD_WARPUP" ""
+0
+1 "OPT_ACCURACY" ""
+0
+Defines (End)
+1 0 0 1 0
+0 0 0 0 0 1 0
+0 0 0 0 2
+0 0 1 0 1 0 1
+8 1 1 9
+0 "-O -fforce-mem -fforce-addr -fthread-jumps -fcse-follow-jumps -fcse-skip-blocks -fexpensive-optimizations -fregmove -fomit-frame-pointer -mmultiple"
+2 1 0 0
+1 0 0 1 0 1 0 1 0 1
+1 1 0 1 0 1
+0 1 1 1 1 0 0
+0 0 0 0 0
+Assembler
+0 ""
+0 "CON://640/200/Storm Assembler/AUTO/WAIT/SCREEN StormScreen"
+0 0
+0 1 60 0 1 0 0 20 0
+Sets (End)
+0 1 0 0 0 2 1 0 0
+1 1 1 1 0 0 0 0 0
+1 0
+0 0 0 0 0
+Linker
+1 0 "PROGDIR:startup.o" 0 0 1 0 1 0 0
+"StormC:lib/" 0 "StormC:lib/logfile" 0 0 0
+0 "_WizardSurface"
+0 0 50 0 50 0 50 0 0
+0 0 0 0 0 0 0 0
+Run
+30 "" "" "" 0
+""
+
+1 "CON://400/180/Storm Console/AUTO/WAIT/SCREEN StormScreen" "RAM:Output" "RAM:Input"
+1 0
+0 0 0 "" ""
+Settings (End)
+Storm Shell Project (Custom Sections End)
+Section
+1 1 100
+0 1 1 0
+4
+File
+1 "mad/bit.c"
+"mad/bit.c"
+"mad/config.h"
+"mad/global.h"
+"mad/bit.h"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/bit.o" "objects_ppc_debug/bit.debug"
+""
+1 1
+File
+1 "mad/filter.c"
+"mad/filter.c"
+"mad/config.h"
+"mad/global.h"
+"mad/filter.h"
+"mad/fixed.h"
+"mad/frame.h"
+"mad/timer.h"
+"mad/stream.h"
+"mad/bit.h"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/filter.o" "objects_ppc_debug/filter.debug"
+""
+1 1
+File
+1 "mad/fixed.c"
+"mad/fixed.c"
+"mad/config.h"
+"mad/global.h"
+"mad/fixed.h"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/fixed.o" "objects_ppc_debug/fixed.debug"
+""
+1 1
+File
+1 "mad/frame.c"
+"mad/frame.c"
+"mad/config.h"
+"mad/global.h"
+"mad/bit.h"
+"mad/stream.h"
+"mad/frame.h"
+"mad/fixed.h"
+"mad/timer.h"
+"mad/layer12.h"
+"mad/layer3.h"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/frame.o" "objects_ppc_debug/frame.debug"
+""
+1 1
+File
+1 "mad/huffman.c"
+"mad/huffman.c"
+"mad/config.h"
+"mad/global.h"
+"mad/huffman.h"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/huffman.o" "objects_ppc_debug/huffman.debug"
+""
+1 1
+File
+1 "mad/layer12.c"
+"mad/layer12.c"
+"mad/config.h"
+"mad/global.h"
+"mad/fixed.h"
+"mad/bit.h"
+"mad/stream.h"
+"mad/frame.h"
+"mad/timer.h"
+"mad/layer12.h"
+"mad/sf_table.dat"
+"mad/qc_table.dat"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/layer12.o" "objects_ppc_debug/layer12.debug"
+""
+1 1
+File
+1 "mad/layer3.c"
+"mad/layer3.c"
+"mad/config.h"
+"mad/global.h"
+"mad/fixed.h"
+"mad/bit.h"
+"mad/stream.h"
+"mad/frame.h"
+"mad/timer.h"
+"mad/huffman.h"
+"mad/layer3.h"
+"mad/rq_table.dat"
+"mad/imdct_s.dat"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/layer3.o" "objects_ppc_debug/layer3.debug"
+""
+1 1
+File
+1 "mad/resample.c"
+"mad/resample.c"
+"mad/config.h"
+"mad/global.h"
+"mad/resample.h"
+"mad/fixed.h"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/resample.o" "objects_ppc_debug/resample.debug"
+""
+1 1
+File
+1 "mad/stream.c"
+"mad/stream.c"
+"mad/config.h"
+"mad/global.h"
+"mad/bit.h"
+"mad/stream.h"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/stream.o" "objects_ppc_debug/stream.debug"
+""
+1 1
+File
+1 "mad/synth.c"
+"mad/synth.c"
+"mad/config.h"
+"mad/global.h"
+"mad/fixed.h"
+"mad/frame.h"
+"mad/timer.h"
+"mad/stream.h"
+"mad/bit.h"
+"mad/synth.h"
+"mad/D.dat"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/synth.o" "objects_ppc_debug/synth.debug"
+""
+1 1
+File
+1 "mad/timer.c"
+"mad/timer.c"
+"mad/config.h"
+"mad/global.h"
+"mad/timer.h"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/timer.o" "objects_ppc_debug/timer.debug"
+""
+1 1
+File
+1 "wrap_mpega.c"
+"wrap_mpega.c"
+"wrap_mpega.h"
+"compiler.h"
+"library_base.h"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/wrap_mpega.o" "objects_ppc_debug/wrap_mpega.debug"
+""
+1 1
+File
+1 "support.c"
+"support.c"
+"compiler.h"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/support.o" "objects_ppc_debug/support.debug"
+""
+1 1
+File
+1 "mad/crc.c"
+"mad/crc.c"
+"mad/config.h"
+"mad/global.h"
+"mad/crc.h"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/crc.o" "objects_ppc_debug/crc.debug"
+""
+1 1
+File
+1 "mad/tag.c"
+"mad/tag.c"
+"mad/config.h"
+"mad/global.h"
+"mad/bit.h"
+"mad/crc.h"
+"mad/tag.h"
+"mad/fixed.h"
+"mad/stream.h"
+Storm Shell Project (Dependencies)
+"objects_ppc_debug/tag.o" "objects_ppc_debug/tag.debug"
+""
+1 1
+Section
+2 1 95
+0 1 1 0
+2
+File
+2 "wrap_mpega.h"
+"wrap_mpega.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/config.h"
+"mad/config.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/global.h"
+"mad/global.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/bit.h"
+"mad/bit.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/filter.h"
+"mad/filter.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/fixed.h"
+"mad/fixed.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/frame.h"
+"mad/frame.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/timer.h"
+"mad/timer.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/stream.h"
+"mad/stream.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/layer12.h"
+"mad/layer12.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/layer3.h"
+"mad/layer3.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/huffman.h"
+"mad/huffman.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/resample.h"
+"mad/resample.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/synth.h"
+"mad/synth.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "compiler.h"
+"compiler.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/audio.h"
+"mad/audio.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/crc.h"
+"mad/crc.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "mad/tag.h"
+"mad/tag.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "library_base.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+Storm Shell Project (End)

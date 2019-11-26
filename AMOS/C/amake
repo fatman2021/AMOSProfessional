@@ -1,0 +1,5 @@
+.key source
+pascal <source>.p t:<source>.asm
+peep t:<source>.asm <source>.s
+
+

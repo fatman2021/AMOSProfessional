@@ -1,0 +1,26 @@
+.key BASISNAME/A,TO/K/A,QUIET/S
+.bra {
+.ket }
+. $VER: MSplit 1.0 (10.10.94)
+. Joins files {BASISNAME}.1, ... {BASISNAME}.n to file {TO}
+FailAt 10
+If EXISTS "{BASISNAME}.1"
+   Copy "{BASISNAME}.1" TO T:MSplit*${$$}.tmp QUIET
+   Set MSplitCnt 1
+   Lab loop
+   If "{QUIET}" EQ ""
+      List "{BASISNAME}.$MSplitCnt" LFORMAT "   %N"
+   EndIf
+   Set MSplitCnt `Eval $MSplitCnt + 1`
+   If EXISTS "{BASISNAME}.$MSplitCnt"
+      Join T:MSplit*${$$}.tmp "{BASISNAME}.$MSplitCnt" TO {TO}
+      Copy {TO} T:MSplit*${$$}.tmp QUIET
+   Else
+      Delete T:MSplit*${$$}.tmp QUIET
+      UnSet MSplitCnt
+      Quit
+   EndIf
+   Skip loop BACK
+Else
+   Fault 205
+EndIf

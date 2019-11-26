@@ -1,0 +1,239 @@
+'rexxtricks.library' 38.6 (12.4.96)
+***********************************
+
+Die 'rexxtricks.library' ist eine ARexx-Funktionslibrary. Die Funktionen
+lassen sich keinem bestimmten Anwendungsgebiet zuordnen, es ist vielmehr
+eine Sammlung von Funktionen die ich schon immer beim Programmieren mit
+ARexx vermißt habe. Vorschläge für andere nützliche Funktionen sind immer
+willkommen, also teilt mir Eure Wünsche bitte mit.
+
+
+
+Die Funktionen der 'rexxtricks.library' 38.6 (12.4.96)
+******************************************************
+
+AmigaDOS-Funktionen
+
+* GETENV()                 Environment-Variable auslesen
+* SETENV()                 Environment-Variable einstellen
+* UNSETENV()               Environment-Variable löschen
+
+* PATHPART()               Verzeichnis eines Pfades ermitteln
+* FILEPART()               Dateiname eines Pfades ermitteln
+* MAKEPATH()               Pfad aus Verzeichnis- und Datei zusammensetzen
+
+* SUFFIXPART()             Endung eines Dateinamens ermitteln
+* MAKESUFFIX()             Dateinamen mit neuer Endung versehen
+
+* GETCOMMENT()             Dateikommentar auslesen
+* SETCOMMENT()             Dateikommentar einstellen
+
+* GETPROTECTION()          Schutzbits einer Datei auslesen
+* SETPROTECTION()          Schutzbits einer Datei einstellen
+
+* MATCHPATTERN()           String mit Namensmuster vergleichen
+* SEARCHPATTERN()          Datei nach Namensmuster durchsuchen
+
+* GETKEY()                 Auf einen Tastendruck warten
+
+* GETDIR()                 Verzeichnis in Stem-Variable einlesen
+
+* READFILE()               Textdatei in Stem-Variable einlesen
+* WRITEFILE()              Stem-Variable als Textdatei speichern
+* READLINES()              Teil einer Textdatei in Stem-Variable einlesen
+* WRITELINES()             Textdatei teilweise überschreiben, Zeilen einfügen
+
+
+SCSI-Funktionen
+
+* SCSI_DEVICETYPE()        Typ eines SCSI-Gerätes ermitteln, DISK, TAPE etc.
+* SCSI_MANUFACTURER()      Hersteller eines SCSI-Gerätes ermitteln
+* SCSI_PRODUCT()           Produktbezeichnung eines SCSI-Gerätes ermitteln
+* SCSI_REVISION()          Revision eines SCSI-Gerätes ermitteln
+* SCSI_TESTREADY()         Feststellen, ob ein SCSI-Gerät betriebsbereit ist
+
+
+Clipboard-Funktionen
+
+* READCLIPBOARD()          Text aus dem Clipboard einlesen
+* WRITECLIPBOARD()         Text im Clipboard speichern
+
+
+Listen-Funktionen
+
+* QSORT()                  Liste mit QuickSort sortieren
+* BSEARCH()                String mit Binärsuche suchen
+* LSEARCH()                String mit Linearsuche suchen
+
+* STEMCOPY()               Stem-Variable ganz oder teilweise kopieren
+* STEMINSERT()             Elemente in eine Stem-Variable einfügen
+* STEMREMOVE()             Elemente einer Stem-Variablen entfernen
+
+* VIEWLIST()               Liste im Auswahlfenster anzeigen
+
+
+Publicscreen-Funktionen
+
+* GETDEFAULTPUBSCREEN()    Default-Publicscreen ermitteln
+* SETDEFAULTPUBSCREEN()    Neuen Default-Publicscreen einstellen
+
+* GETPUBSCREENMODES()      Publicscreen-Modi ermitteln
+* SETPUBSCREENMODES()      Neue Publicscreen-Modi einstellen
+
+* PUBSCREENTOFRONT()       Publicscreen nach vorne bringen
+* PUBSCREENTOBACK()        Publicscreen nach hinten legen
+
+* PUBSCREENLIST()          Liste aller Publicscreens erstellen
+
+* BEEP()                   Bildschirm blitzen
+
+
+Icon-Funktionen
+
+* GETTOOLTYPEVALUE()       Argument eines Tooltypes ermitteln
+* SETTOOLTYPEVALUE()       Argument eines Tooltypes einstellen
+
+* GETTOOLTYPES()           Tooltypes eines Icons ermitteln
+* SETTOOLTYPES()           Tooltypes eines Icons neu einstellen
+
+* GETDEFAULTTOOL()         Standardprogramm eines Icons ermitteln
+* SETDEFAULTTOOL()         Standardprogramm eines Icons einstellen
+
+* GETSTACK()               Stackgröße eines Icons ermitteln
+* SETSTACK()               Stackgröße eines Icons einstellen
+
+* CREATEICON()             Ein neues Icon erstellen
+* WBINFO()                 Icon-Informationsfenster der Workbench öffnen
+
+
+Sonstige Funktionen
+
+* WHATIS()                 Dateityp mit Hilfe der 'whatis.library' ermitteln
+* WHATISTYPES()            Alle Dateitypen der 'whatis.library' ermitteln
+
+* FILEID_IDENTIFY()        Dateityp mit Hilfe der 'FileID.library' ermitteln
+* FILEID_GETHIGHID()       Größte ID-Nummer der 'FileID.library' ermitteln
+* FILEID_GETIDSTRING()     Zu einer ID-Nummer gehörende Beschreibung ermitteln
+* FILEID_GETTYPES()        Alle Dateitypen der 'FileID.library' ermitteln
+
+* UUDECODE()               uuencodete Datei dekodieren
+* UUENCODE()               Binärdatei uuencoden
+
+* CRC32()                  32-Bit CRC Prüfsumme einer Datei berechnen
+
+* COUNTCHARS()             Anzahl bestimmter Zeichen in einem Text zählen
+
+* RAND()                   Zufallszahl ermitteln
+
+* REXXTRICKSVERSION()      Version der 'rexxtricks.library' ermitteln
+
+
+
+ARexx-Programme
+***************
+
+Das Archiv enthält zwei in ARexx programmierte Utilities:
+
+* FindGUI
+
+  Eine Oberfläche für das Programm 'Find' von 'Ralph Seichter', bietet
+  viele Funktionen und ist trotzdem sehr einfach zu bedienen.
+
+  Programmiert wurde dieses hervorragende Utility von 'Nils Görs'!
+
+* RDBBackup
+
+  Eine Oberfläche für 'ReadRDB' von 'Gérard Cornu', damit lassen sich
+  sehr einfach Sicherheitskopien vom 'RigidDiskBlock' der angeschlossenen
+  Festplatten erstellen.
+
+
+
+Änderungen in der Version 38.5
+******************************
+
+* Neue Funktion 'READLINES'
+
+* Neue Funktion 'WRITELINES'
+
+* Neue Funktion 'STEMCOPY'
+
+* Neue Funktion 'STEMREMOVE'
+
+* Neue Funktion 'RAND'
+
+* Neue Funktion 'READCLIPBOARD'
+
+* Neue Funktion 'WRITECLIPBOARD'
+
+* Neue Funktion 'SCSI_MANUFACTURER'
+
+* Neue Funktion 'SCSI_PRODUCT'
+
+* Neue Funktion 'SCSI_REVISION'
+
+* Neue Funktion 'SCSI_DEVICETYPE'
+
+* Neue Funktion 'SCSI_TESTREADY'
+
+
+
+Änderungen in der Version 38.6
+******************************
+
+* Englische Dokumentation
+
+* Bug in der Funktion 'VIEWLIST' entfernt, bei aktiviertem Fenster
+  funktionierte kein MouseBlanker
+
+* Erweiterung der Funktion 'QSORT' durch mehrere neue Optionen
+
+* Die Funktion 'SEARCHPATTERN' speichert nun die gefundene Zeile in
+  der ARexx Variablen 'RESULT'.
+
+* Neue Funktion 'FILEID_IDENTIFY'
+
+* Neue Funktion 'FILEID_GETHIGHID'
+
+* Neue Funktion 'FILEID_GETIDSTRING'
+
+* Neue Funktion 'FILEID_GETTYPES'
+
+* Neue Funktion 'UUDECODE'
+
+* Neue Funktion 'UUENCODE'
+
+* Neue Funktion 'STEMINSERT'
+
+* Neue Funktion 'GETDIR'
+
+
+
+Adresse des Autors
+******************
+
+Postanschrift:
+
+   Jürgen Kohrmeyer
+   Oststraße 2
+   49143 Bissendorf
+
+   GERMANY
+
+Telefon:
+
+   +49-5402-5195
+
+E-Mail:
+
+   j_kohrmeyer@wilam.north.de
+
+Support-Mailbox:
+
+   WILAM Mailboxsystem Wildeshausen
+
+   Port 1 - +49-4431-92081 : USR DualStandard V.34
+   Port 2 - +49-4431-92082 : ZyXel 19.2k
+   Port 3 - +49-4431-92082 : ISDN X.75
+
+   Login mit Username MD, Download per Menüauswahl

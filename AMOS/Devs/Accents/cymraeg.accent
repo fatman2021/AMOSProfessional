@@ -1,0 +1,189 @@
+# Welsh pronounciation rules for translator.library V42
+# $VER: cymraeg.accent 1.0 (1.4.95)
+# By Francesco Devitt <ffranc@comp.vuw.ac.nz>
+#
+
+%class ie  i e
+
+# Stress the penultimate syllable.
+%stress -2
+
+%class cons b c ch d dd f ff g ng h j l ll m n p ph r rh s si t th
+%class vowel a e i o u w y
+%class short c p t m ng
+%class nlr n l r
+
+
+
+[" "] = " "
+[?] = ?
+[.] = .
+
+# dipthongs
+
+$[EI]$ = IY
+$[EU]$ = IY
+
+[EI] = AY
+[EU] = AY
+
+[EW] = EHUW
+
+[IW] = YUW
+[UW] = YUW
+[YW] = YUW
+
+[OI] = OY
+[OE] = OY
+
+[OW] = OW
+
+[YW] = AW
+
+[WY] = WIY
+
+# A
+
+$[A]$ = AH
+[A](cons*)(vowel)(cons*)$ = AA
+
+[A](cons+)(vowel) = AH
+[A](short) = AH
+[A](cons)(cons+) = AH
+[A](nlr) = AH
+
+[Â] = AA
+[A] = AA
+
+$[E]$ = EH
+[E](cons*)(vowel)(cons*)$ = EY
+[E](short) = EH
+[E](cons)(cons+) = EH
+$(cons)[E](cons)$ = EY
+[E](nlr) = EH
+
+[Ê] = EY
+[E] = EY
+
+$[O]$ = AO
+[O](cons*)(vowel)(cons*)$ = OH
+[O](short) = AO
+[O](cons)(cons+) = AO
+[O](nlr) = AO
+
+[Ô] = OH
+[O] = OH
+
+
+[GWL] = GUWL
+
+# UW is wrong.
+
+$[W]$ = UH
+[W](cons*)(vowel)(cons*)$ = UW
+[W](short) = UH
+[W](cons)(cons+) = UH
+$(cons)[W](cons)$ = UW
+[W](nlr) = UH
+
+[W] = UW
+
+
+$[Y]$ = AX
+$[Y]R$ = AX
+$[Y]N$ = AX
+$[Y]NG$ = AX
+$[Y]M$ = AX
+$F[Y]$ = AX
+$D[Y]$ = AX
+$S[Y]R$ = AX
+$N[Y]RS$ = AX
+
+$[Y](cons*)(vowel) = AX
+$(cons)[Y](cons*)(vowel) = AX
+
+[Y](cons*)(vowel)(cons*)$ = IY
+[Y](short) = IH
+[Y](cons)(cons+) = IH
+[Y](nlr) = IH
+
+[Y] = IY
+
+
+$[I]$ = IY4
+[I](cons*)(vowel)(cons*)$ = IY
+[I](short) = IH
+[I](cons)(cons+) = IH
+$PR[I]N$ = IH
+
+#[I](nlr) = IY
+[Î] = IY
+[I] = IY
+
+# U is same as I 
+
+$[U]$ = IH
+[U](cons*)(vowel)(cons*)$ = IY
+[U](short) = IH
+[U](cons)(cons+) = IH
+
+#[U](nlr) = IY
+[Û] = IY
+[U] = IY
+
+
+# Consonants
+
+[B] = B
+
+[CH] = /CK
+[C] = K
+
+[DD] = DH
+[D] = D
+
+[FF] = F
+[F] = V
+
+[G] = G
+
+[H] = /H
+
+[J] = J
+
+# Not used in welsh
+[K] = K
+
+[NG] = NX
+
+# Well I tried!
+#[LL] = /HLDXL
+[LL] = THL
+
+[L] = L
+
+[M] = M
+
+[N] = N
+
+[PH] = F
+
+[P] = P
+
+# not used in Welsh
+[QU] = KWH
+[Q] = KWH
+
+[RH] = R/H
+
+[R] = RDXR
+
+[SI] = SH
+[S] = S
+
+[TH] = TH
+[T] = TT
+
+[V] = V
+[X] = EHKS
+[Z] = Z

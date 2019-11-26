@@ -1,0 +1,26 @@
+CC	= ppc-morphos-gcc
+LD	= ppc-morphos-ld
+STRIP	= ppc-morphos-strip
+LIBPATH	= /gg/lib/gcc-lib/ppc-morphos/2.95.3/
+
+CFLAGS  = -O3 -mcpu=603e -mmultiple -fomit-frame-pointer -DNDEBUG
+LDFLAGS = -L$(LIBPATH) -fl libnix
+LDLIBS  = -lsyscall -lmemblock -lstring -lstringio -lamiga -lc -lm -lgcc
+
+OBJS =	guigfx_lib.o guigfx_initexit.o \
+		guigfx_picturemethod.o guigfx_picture.o guigfx_rasthandle.o \
+		guigfx_data.o guigfx_pensharemap.o guigfx_colorhandle.o \
+		guigfx_draw.o guigfx_drawhandle.o guigfx_loading.o guigfx_bitmap.o \
+		guigfx_convolve.o
+
+%.o: %.c 
+	$(CC) $(CFLAGS) -c $< -o $@
+
+guigfx.library.elf: $(OBJS)
+	$(LD) -o $@ $(LDFLAGS) $(LIBPATH)libstart.o $(OBJS) $(LDLIBS)
+	$(STRIP) --strip-unneeded --remove-section .comment $@
+
+all: guigfx.library.elf
+
+clean:
+	delete $(OBJS)

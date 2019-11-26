@@ -1,0 +1,33 @@
+*
+*   neuralnet_lib.fd
+*   v5.0
+*
+##base _NeuralBase
+##bias 30
+##private
+NN_Private1(input)(d0)
+##public
+NN_CreateA(inputlayers,hiddenlayers,outputlayers,tags)(d0,d1,d2,a0)
+NN_Delete(net)(a0)
+NN_Reset(net)(a0)
+NN_Recall(net)(a0)
+##private
+NN_SetInputNeuron(net,number,value)(a0,d0,d1)
+NN_SetOutputNeuron(net,number,value)(a0,d0,d1)
+NN_GetOutputNeuron(net,number)(a0,d0)
+NN_TrainObsolete(net,errorptr)(a0,a1)
+##public
+NN_SetInputLayer(net,array)(a0,a1)
+NN_SetOutputLayer(net,array)(a0,a1)
+NN_GetOutputLayer(net,array)(a0,a1)
+##private
+NN_LoadObsolete(net,filename)(a0,a1)
+NN_SaveObsolete(net,filename)(a0,a1)
+NN_Private2(net)(a0)
+NN_Private3(net,array)(a0,a1)
+##public
+NN_Clone(net)(a0)
+NN_LoadA(net,filename,tags)(a0,a1,a2)
+NN_SaveA(net,filename,tags)(a0,a1,a2)
+NN_Train(net,errorptr)(a0,a1)
+##end

@@ -1,0 +1,1314 @@
+@database Identify-D.guide
+
+@Master Identify-D.texi
+
+@Width 72
+
+
+This is the AmigaGuide® file Identify-D.guide, produced by Makeinfo-1.55 from 
+the input file Identify-D.texi.
+
+
+@Node Main "Identify-D.guide"
+@Next "Introduction"
+
+
+INHALTSVERZEICHNIS
+******************
+
+                          ___________
+                      | _| _  _ |.|_ \\/
+                      |(_|(/_| )|||  /    v13.0
+
+
+                      == DAS ORIGINAL ==
+
+________________________________________________________________________
+
+ @{" 1. Einleitung " Link "Introduction"}                  Über die identify.library
+ @{" 2. Copyright " Link "Copyright"}                   Bitte lesen!
+ @{" 3. Adresse " Link "Address"}                     Meine Adresse / Updates
+
+ @{" 4. ListExp " Link "ListExp"}                     Das ListExp-Tool
+ @{" 5. Guru " Link "Guru"}                        Das Guru-Tool
+ @{" 6. Function " Link "Function"}                    Das Function-Tool
+
+ @{" 7. System " Link "System"}                      Zu den System-Beschreibungen
+
+ANHANG
+ @{" A. Fake Boards " Link "Fakes"}                 Nicht existierende Boards
+ @{" B. Bugs " Link "Bugs"}                        Bekannte Bugs
+ @{" C. FAQ " Link "FAQ"}                         Häufig gestellte Fragen
+ @{" D. History " Link "History"}                     Was hat sich getan?
+ @{" E. Verwendung " Link "Users"}                  Diese Programme benutzen die Library
+ @{" F. Credits " Link "Credits"}                     Grüße und Danksagungen
+
+REGISTER
+ @{"    Konzept-Index " Link "Concept Index"}              
+________________________________________________________________________
+
+          (C) 1996-2001 Richard Körber - All Rights Reserved
+
+
+@EndNode
+
+@Node "Introduction" "Identify-D.guide/Introduction"
+@Next "Copyright"
+@Prev "Main"
+@Toc "Main"
+
+Einleitung
+**********
+
+   Die @{b}identify.library@{ub} hat eine längere Geschichte hinter sich.
+
+   Angefangen hat alles damit, als ich mich darüber geärgert habe,
+daß Systeminfo-Programme die Erweiterungskarten stets nur als
+Zahlenkombination angaben. Daraus entstand die @{b}expname.library@{ub}, die
+Ihnen vielleicht sogar noch bekannt ist.
+
+   Diese Library ergänzte ich später um die Fähigkeit, die
+Systemparameter herauszufinden (wenn auch manchmal ein wenig fehlerhaft
+@{b};)@{ub} ).  Mir fielen (und fallen immer noch) immer weitere Sachen ein, die
+diese Library erkennen und wandeln könnte. Aber es paßte der Name
+nicht mehr.
+
+   Nun, jetzt haben Sie die zweite Generation der @{b}expname.library@{ub} vor
+sich. Sie wurde in den treffenderen Namen @{b}identify.library@{ub} umgetauft,
+komplett neu geschrieben und erweitert. Die konzeptionellen
+Unzulänglichkeiten der @{b}expname.library@{ub} wurden beseitigt, und es wurden
+einige Neuerungen eingefügt.
+
+   Die Library hat (momentan) folgende Fähigkeiten:
+
+   @{b}*@{ub} Wandlung der Hersteller- und Produkt-ID von
+     Amiga-Erweiterungskarten in den Herstellernamen, den Produktnamen,
+     und die Produktklasse.
+
+   @{b}*@{ub} Wandlung der cryptischen Amiga-Guru-Codes in eine lesbare
+     Beschreibung.
+
+   @{b}*@{ub} Analyse der Systemkonfiguration (Systemtyp, Prozessoren, Speicher,
+     Graphik usw.).
+
+   @{b}*@{ub} Wandlung eines Bibliothek-Funktionsoffsets in einen Funktionsnamen.
+
+   Auch wenn die Library mittlerweile relativ vollständig aussieht --
+sie ist es noch lange nicht.
+
+   Ich brauche Ihre Mithilfe! Senden Sie mir Hersteller- und
+Produktnamen und IDs, Ihre Systemkonfiguration,
+Verbesserungsvorschläge und so weiter; kurz: alles, was Sie in die
+Library eingebaut haben möchten.
+
+
+@EndNode
+
+@Node "Copyright" "Identify-D.guide/Copyright"
+@Next "Address"
+@Prev "Introduction"
+@Toc "Main"
+
+Copyright
+*********
+
+   Bitte lesen Sie den folgenden Abschnitt aufmerksam durch.
+
+   Sollten Sie mit den Copyright-Bestimmungen nicht einverstanden sein,
+dann löschen Sie dieses Paket und alle dazugehörigen Dateien umgehend!
+
+@{i}COPYRIGHT@{ui}
+     @{i}ANMERKUNG:@{ui} Sie akzeptieren diese Bedingungen durch den Start der
+     Software, selbst wenn es nur zur Probe ist.
+
+     Identify ist (C) Copyright 1996-2000 Richard Körber. Alle Rechte
+     vorbehalten.
+
+     Sie haben nur das Recht, diese Software zu benutzen, aber keine
+     Rechte an der Software an sich. Disassemblieren, Resourcen und
+     alle anderen Arten des Reverse-Engineering sind verboten. Dies
+     gilt insbesondere für die Karten-Datenbank!
+
+@{i}FREEWARE@{ui}
+     Identify ist FreeWare. Sie dürfen dieses Paket nutzen, ohne eine
+     Gebühr oder ähnliches an den Autor entrichten zu müssen.
+
+@{i}VERVIELFÄLTIGUNG@{ui}
+     Sie können dieses Paket so lange kopieren, wie es vollständig und
+     unverändert bleibt.
+
+     Das Paket darf mit den üblichen Kompressionsprogrammen (z.B. lha,
+     lzx, lzh, dms) komprimiert werden. Einzelne Dateien dürfen jedoch
+     nicht komprimiert werden (z.B. mit PowerPacker, Imploder).
+
+@{i}TEILWEISE VERVIELFÄLTIGUNG@{ui}
+     Sie dürfen die Dateien @{b}identify.library@{ub}, @{b}rexxidentify.library@{ub} und
+     @{b}InstallIfy@{ub} in Ihr eigenes Programmpaket hinzufügen, ohne das
+     gesamte Identify-Paket beilegen zu müssen. In diesem Fall müssen
+     Sie jedoch in der Anleitung erwähnen, daß Sie Identify von
+     Richard Körber benutzen, und wo ein vollständiges Identify-Paket
+     erhältlich ist.
+
+@{i}VERTEILUNG@{ui}
+     Sie dürfen nicht einen marktüblichen Preis für Arbeit und
+     Material überschreiten. Für Disketten gilt eine Grenze von 5 DM;
+     für CD-ROMs, die auch weitere PD-Software enthalten, 35 DM.
+
+     Ich gestatte ausdrücklich den Vertrieb über das AmiNet, Meeting
+     Pearls und andere bekannte PD-Serien.
+
+@{i}HAFTUNG@{ui}
+     Sie verwenden das Programm auf eigenes Risiko!
+
+     In keinem Fall haftet der Autor für Schäden und Folgeschäden,
+     die auf den Gebrauch dieses Programms zurückzuführen sind,
+     sofern kein Vorsatz oder grobe Fahrlässigkeit nachgewiesen werden
+     konnte.
+
+@{i}NUTZUNGSEINSCHRÄNKUNG@{ui}
+     Sie dürfen dieses Programm nicht verwenden
+
+        @{b}*@{ub} für faschistische oder militärische Zwecke
+
+        @{b}*@{ub} wenn Sie mit dieser Erklärung nicht einverstanden sind
+
+     In diesem Fall müssen Sie das Archiv umgehend löschen.
+
+@{i}MARKENZEICHEN@{ui}
+     Alle Urheberrechte, Patente und Markenzeichen werden von ihren
+     Eigentümern gehalten.
+
+
+@EndNode
+
+@Node "Address" "Identify-D.guide/Address"
+@Next "ListExp"
+@Prev "Copyright"
+@Toc "Main"
+
+Meine Adresse
+*************
+
+   Bitte senden Sie mir alle Arten von Fehlerbeschreibungen,
+Kartenbeschreibungen, fehlende Graphikkartensysteme, Keyfiles, Flames,
+Ideen und so weiter an eine der folgenden Adressen:
+
+@{i}INTERNET@{ui}
+     Ich bin im Internet unter folgenden E-Mail-Adressen zu erreichen:
+
+          shred@shredzone.de
+          rkoerber@gmx.de
+          shred@web.de
+
+     Die aktuellste Version und weitere Programme finden Sie auch in
+     meiner Homepage. Die URL lautet:
+
+          http://www.shredzone.de
+          http://shredzone.home.pages.de
+
+@{i}SCHNECKENPOST@{ui}
+     Sie können mir auch einen gewöhnlichen Brief schreiben. Meine
+     Adresse lautet:
+
+          Richard Körber
+          Paffrather Straße 40
+          51465 Bergisch Gladbach
+          Germany
+
+     Bitte legen Sie eine 1,10 DM-Briefmarke als Rückporto bei, wenn
+     Sie eine Antwort möchten. Schicken Sie keine Disketten.
+
+
+@EndNode
+
+@Node "ListExp" "Identify-D.guide/ListExp"
+@Next "Guru"
+@Prev "Address"
+@Toc "Main"
+
+ListExp
+*******
+
+   @{b}ListExp@{ub} ist ein kleines Tool, das schon bei der @{b}expname.library@{ub}
+dabei war und in der @{b}identify.library@{ub} weiterverwendet wird.
+
+   Es beschreibt die Hardwarezusammensetzung des Systems, auf das es
+gestartet wurde. Es werden zunächst einige Hardwareparameter angezeigt
+(CPU, Speicher usw.), anschließend werden alle Erweiterungskarten
+(hoffentlich namentlich) aufgelistet.
+
+   Durch die Option @{b}FULL@{ub} werden auch alle momentan verwendeten
+Commodities aufgelistet. Diese Ausgabe eignet sich dann hervorragend
+für Bugreports und ähnliches, da das System schon sehr ausreichend
+beschrieben wird.
+
+   Eine weitere Option erlaubt es, von einem Hersteller- und Produktcode
+die zugehörige Kartenbeschreibung ermitteln zu lassen. Geben Sie dafür
+die Hersteller-ID hinter @{b}MANUFID@{ub} und die Produkt-ID hinter @{b}PRODID@{ub} an.
+
+   Die Option @{b}UPDATE@{ub} veranlaßt identify schließlich dazu, sämtliche
+Hardware-Informationen neu zu ermitteln. Rufen Sie diese Option auf,
+wenn Sie zum Beispiel nachträglich VMM-Speicher eingebunden haben.
+
+   Beispiel:
+     > ListExp MANUFID=514 PRODID=9
+     -- ListExp V9.1 -- Richard Koerber <shred@eratosthenes.starfleet.de>
+      (ListExp gehört zum Identify-Paket, siehe AmiNet util/libs)
+     
+      Hersteller: Commodore West Chester
+      Produkt:    A2060
+      Klasse:     ArcNet
+
+   Wenn Einträge in der Erweiterungsliste mit einem @{b}#@{ub} anstelle eines
+Namens beginnen, sollten Sie den Ausdruck von @{b}ListExp@{ub} und die
+Beschreibung der fehlenden Karte (Herstellername, Produktname,
+Kartentyp) so schnell wie möglich zu mir schicken... @{b}:-)@{ub}
+
+   Dies gilt auch für Karten, deren Kartenname erraten wurden. Sie
+erkennen dies an der Kartenklasse @{b}(geraten)@{ub}.
+
+   Auch ist es mir bei der Vielzahl der Amiga-Erweiterungskarten nicht
+möglich, sämtliche Hardwarekombinationen auszutesten. Wenn Ihre
+Hardware fehlerhaft erkannt wird, schreiben Sie mir bitte.
+
+   @{i}Bitte beachten Sie:@{ui} Einige Hersteller, insbesondere GVP und Phase 5,
+haben verschiedenen Karten eine gleiche ID zugeordnet.
+@{b}identify.library@{ub} ist zwar darauf vorbereitet und versucht, diese
+Karten auseinanderzuhalten, kann aber nicht in jedem Fall die richtige
+Erweiterungskarte ermitteln.
+
+   Ihr momentanes System ermitteln Sie durch:
+@{" ListExp FULL " System " ListExp FULL >CON:10/10///ListExp/AUTO/CLOSE/WAIT"}
+
+
+@EndNode
+
+@Node "Guru" "Identify-D.guide/Guru"
+@Next "Function"
+@Prev "ListExp"
+@Toc "Main"
+
+Guru
+****
+
+   @{b}ListExp@{ub} ist ein Programm, das es bereits in dem @{b}expname@{ub}-Paket gab.
+Mit der @{b}identify.library@{ub} kommt jetzt ein neues Programm dazu.
+
+   @{b}Guru@{ub} ist dazu da, den cryptischen Code eines Alerts in
+menschenlesbare Form umzusetzen.
+
+   Als Parameter kann der Alert-Code angegeben werden, und zwar alle
+acht Stellen ohne irgendwelche Symbole davor oder dahinter. Ein
+Beispiel:
+
+     > guru 81000005
+     -- Guru V1.3 -- Richard Koerber <shred@eratosthenes.starfleet.de>
+     
+      Alert-Code: 81000005
+      Typ:        Deadend
+      Subsystem:  exec.library
+      Generell:   Genereller Fehler
+      Speziell:   FreeMem: zerstörte Speicherliste entdeckt
+
+   Sie können auch LASTALERT übergeben. In dem Fall wird der Code von
+dem zuletzt aufgetretenen Alert dekodiert.
+
+   Das Ergebnis ist so zu verstehen:
+
+@{b}Alert Code@{ub}
+     Dies ist der Alert-Code, der dekodiert wurde.
+
+@{b}Type@{ub}
+     Um was für einen Alert handelt es sich? Es kann ein Deadend-Alert
+     sein, oder ein Recoverable Alert, wovon sich der Amiga (zumindest
+     ganz kurz @{b};)@{ub} ) wieder erholen kann.
+
+@{b}Subsystem@{ub}
+     Welches System hat diesen Alert ausgelöst? Im Beispiel stammt der
+     Alert von der @{b}exec.library@{ub}.
+
+@{b}General@{ub}
+     Welcher generellen Klasse gehört der Fehler an? In diesem Beispiel
+     ist es ein genereller Fehler, der noch genauer spezifiziert werden
+     muß.
+
+@{b}Specified@{ub}
+     Was war die Fehlerursache? Das Beispiel zeigt an, daß die
+     Speicherliste durch ein schlecht geschriebenes Programm zerstört
+     wurde.
+
+   Beispiel:
+@{" Guru 81000005 " System " Guru 81000005 >CON:10/10///Guru/AUTO/CLOSE/WAIT"}
+
+
+@EndNode
+
+@Node "Function" "Identify-D.guide/Function"
+@Next "System"
+@Prev "Guru"
+@Toc "Main"
+
+Function
+********
+
+   Mit dem Tool @{b}Function@{ub} kann man durch Angabe eines Librarynamens und
+eines Funktionsoffsets den Namen der Funktion ermitteln lassen.
+
+   Zuerst wird der Library-Name angegeben, zum Beispiel @{b}exec.library@{ub}.
+Es können hier auch devices oder resources angegeben werden. Alle
+Buchstaben hinter dem Punkt (den Punkt eingeschlossen) sind optional.
+Beachten Sie allerdings die Groß/Kleinschreibweise!
+
+   Dahinter wird der Funktionsoffset angegeben, der dekodiert werden
+soll.  Er muß durch 6 teilbar sein, braucht aber nicht negativ sein.
+Das Vorzeichen wird automatisch angepaßt.
+
+   Beispiel:
+     > Function exec.library -456
+     -- Function V1.1 -- Richard Koerber <shred@eratosthenes.starfleet.de>
+     
+      Library:    exec.library
+      Offset:     -456
+      Funktion:   DoIO
+
+   Diese Funktion setzt voraus, daß die .fd-Dateien vorhanden sind und
+der Assign @{b}FD:@{ub} auf das Verzeichnis verweist. Die Dateien müssen in dem
+üblichen Dateinamensformat vorliegen, zum Beispiel @{b}exec_lib.fd@{ub}.
+
+   Beispiel:
+@{" Function exec.library -456 " System " Function exec.library -456 >CON:10/10///Function/AUTO/CLOSE/WAIT"}
+
+
+@EndNode
+
+@Node "System" "Identify-D.guide/System"
+@Next "Fakes"
+@Prev "Function"
+@Toc "Main"
+
+System
+******
+
+   Die @{b}identify.library@{ub} analysiert Ihr System und stellt das Ergebnis
+den Klient-Programmen zur Verfügung. Es folgt eine Liste aller Felder,
+und was es bei ihnen zu beachten gibt:
+
+@{b}SYSTEM@{ub}
+     Beschreibt das Amiga-Modell, z.B. @{b}Amiga 4000@{ub}. Es ist leider nur in
+     den seltensten Fällen möglich, einen Amiga 500 von einem Amiga
+     2000 zu unterscheiden. In diesen Fällen wird @{b}Amiga (OCS)@{ub} oder
+     @{b}Amiga (ECS)@{ub} ausgegeben.
+
+@{b}CPU@{ub}
+     Liefert die vorhandene CPU zurück.
+
+@{b}CPUREV@{ub}
+     Gibt die Revisionsnummer der eingebauten CPU zurück, wenn
+     verfügbar.  Bisher wird nur die Revisionsnummer des 68060
+     ermittelt.
+
+@{b}CPUCLOCK@{ub}
+     Der CPU-Takt in MHz, oder 0, wenn der Takt nicht ermittelt werden
+     konnte.  Amiga-Emulatoren liefern hier falsche Werte. Sie können
+     zum Vergleich zwischen den gleichen Emulatoren verwendet werden,
+     taugen aber nicht zu einem Vergleich mit `echten' Amigas.
+
+@{b}FPU@{ub}
+     Liefert die FPU zurück, wenn vorhanden.
+
+@{b}FPUCLOCK@{ub}
+     Der FPU-Takt in MHz, oder 0, wenn keine FPU vorhanden ist. Auch
+     hier liefern Amiga-Emulatoren falsche Werte.
+
+@{b}MMU@{ub}
+     Die MMU, wenn vorhanden. Ein 68030 wird momentan stets mit MMU
+     erkannt.  Das Ergebnis ist also noch keine Bestätigung dafür,
+     daß tatsächlich eine MMU vorhanden ist.
+
+@{b}VBR@{ub}
+     Adresse der Prozessorvektoren-Tabelle.
+
+@{b}CHIPSET@{ub}
+     Verfügbarer Chipsatz, z.B. @{b}AGA@{ub}. @{b}Nearly ECS@{ub} bedeutet, daß eine
+     HiRes-Agnus oder eine HiRes-Denise eingesetzt ist, der andere Chip
+     aber fehlt. Für richtiges ECS werden stets beide Chips benötigt.
+
+@{b}GARY@{ub}
+     Die Version des Gary-Chips im Rechner, wenn einer vorhanden ist.
+
+@{b}RAMSEY@{ub}
+     Die Version des Ramsey-Chips im Rechner, wenn einer vorhanden ist.
+
+@{b}BATTCLOCK@{ub}
+     Ist eine batteriegepufferte Uhr vorhanden?
+
+@{b}CHUNKYPLANAR@{ub}
+     Existiert eine systemkonform eingebundene Chunky-Planar-Hardware?
+     Es reicht hierbei nicht aus, wenn der Blitter der Grafikkarte so
+     eine Vorrichtung hat.
+
+@{b}AGNUS@{ub}
+     Gibt an, welcher Agnus-Chip im Rechner eingebaut ist.
+
+@{b}AGNUSMODE@{ub}
+     Zeigt, in welchem Grundmodus (PAL oder NTSC) der Agnus-Chip
+     betrieben wird.
+
+@{b}DENISE@{ub}
+     Gibt an, welcher Denise-Chip im Rechner eingebaut ist.
+
+@{b}DENISEREV@{ub}
+     Zeigt, welche Revision der Denise-Chip hat. (Üblicherweise ist es
+     0 oder nicht bekannt.)
+
+@{b}POWERPC@{ub}
+     Liefert den eingebauten PowerPC-Typ zurück, wenn einer vorhanden
+     ist.
+
+@{b}PPCCLOCK@{ub}
+     Die Taktrate des PowerPC. Durch einen Bug in PowerUp kann dieser
+     Takt vom tatsächlichen Wert abweichen. Über WarpOS läßt sich
+     nicht in allen Fällen ein Takt ermitteln. In diesem Fall (oder
+     wenn kein PowerPC vorhanden ist) wird 0 zurückgeliefert.
+
+@{b}PPCOS@{ub}
+     Zeigt, welches OS für den PowerPC verwendet wird. Momentan wird
+     PowerUp (Phase 5) und WarpOS (Haage&Partner) erkannt.
+
+@{b}OSVER@{ub}
+     Die Version vom AmigaOS-ROM. Wenn Sie ein ROM nachgeladen haben,
+     wird dessen Version erkannt.
+
+@{b}OSNR@{ub}
+     Die geläufigere Versionsnummer des AmigaOS, z.B. @{b}3.0@{ub}.
+
+@{b}BOINGBAG@{ub}
+     Die Nummer des installierten BoingBag-Updates, wenn verfügbar.
+
+@{b}EXECVER@{ub}
+     Die Version von der exec-library.
+
+@{b}WBVER@{ub}
+     Die Version der verwendeten Workbench, wenn verfügbar.
+
+@{b}SETPATCHVER@{ub}
+     Die Version des SetPatch-Befehls, wenn verfügbar.
+
+@{b}GFXSYS@{ub}
+     Das benutzte Grafik-System, z.B. @{b}CyberGraphX@{ub}. Wenn Sie mehrere
+     Grafik-Systeme verwenden, wird stets nur eines davon erkannt.
+     Wichtig ist auch, daß das System gestartet wurde und nicht nur
+     installiert ist.
+
+@{b}AUDIOSYS@{ub}
+     Das benutzte Audio-System, z.B. @{b}AHI@{ub}. Hier braucht das System
+     lediglich installiert worden zu sein.
+
+@{b}TCPIP@{ub}
+     Wenn ein TCP/IP-Stack (z.B. @{b}Miami@{ub}) gestartet wurde, wird hier der
+     Name des Stacks zurückgeliefert. Eine Installation alleine reicht
+     allerdings nicht aus.
+
+@{b}CHIPRAM@{ub}
+@{b}FASTRAM@{ub}
+@{b}RAM@{ub}
+     Größe des jeweiligen RAMs, inklusive virtuellem RAM. Eine Tilde
+     (@{b}~@{ub}) deutet an, daß ein Teil des Speichers nicht vom
+     Betriebssystem genutzt werden kann. Dies ist beim Chip-RAM üblich
+     (und damit auch bei der Summe).  Das `Slow-RAM' der Modelle Amiga
+     500 und Amiga 2000 wird hier als Fast-RAM mit eingeschlossen.
+
+@{b}VMMCHIPRAM@{ub}
+@{b}VMMFASTRAM@{ub}
+@{b}VMMRAM@{ub}
+     Größe des eingebundenen virtuellen RAMs. Wenn Sie den Virtuellen
+     Speichermanager nach der Library starten, sollten Sie die Datenbank
+     z.B. mit @{b}listexp update@{ub} aktualisieren.
+
+@{b}PLNCHIPRAM@{ub}
+@{b}PLNFASTRAM@{ub}
+@{b}PLNRAM@{ub}
+     Größe des eingebundenen physikalischen RAMs. Virtueller Speicher
+     ist ausgeschlossen.  Das `Slow-RAM' der Modelle Amiga 500 und
+     Amiga 2000 ist hier als Fast-RAM mit eingeschlossen.
+
+@{b}SLOWRAM@{ub}
+     Größe des Spezial-Fast-RAMs im Amiga 500 und Amiga 2000. Dies
+     ist kein echtes Fast-RAM, da der Prozessor auch hier durch den
+     Chipsatz ausgebremst werden kann.
+
+@{b}ROMSIZE@{ub}
+     Die Größe des AmigaOS-ROMs. Wenn ein ROM nachgeladen wurde, wird
+     dessen Größe angezeigt.
+
+@{b}VBLANKFREQ@{ub}
+     Frequenz des VBlank-Interrupts. Bei Emulationen kann dies von dem
+     tatsächlichen Wert abweichen.
+
+@{b}POWERFREQ@{ub}
+     Die Netzfrequenz. Bei Emulationen und verschiedenen
+     Towerumbausätzen kann diese von der tatsächlichen Netzfrequenz
+     abweichen.
+
+@{b}ECLOCK@{ub}
+     Frequenz eines speziellen Systemtakts.
+
+@{b}LASTALERT@{ub}
+     Der zuletzt aufgetretene System-Alert.
+
+@{b}RAMACCESS@{ub}
+     Gibt die Zugriffszeit auf das Motherboard-RAM in ns zurück, wenn
+     verfügbar.  Die Zugriffszeit auf Speicherkarten oder Turbokarten
+     läßt sich nicht ermitteln.
+
+@{b}RAMWIDTH@{ub}
+     Gibt die Breite des Motherboard-RAMs in bit zurück, wenn
+     verfügbar. Die Breite von Turbokarten läßt sich nicht ermitteln.
+
+@{b}RAMCAS@{ub}
+     Gibt den CAS-Modus des Chip-RAM zurück, wenn verfügbar.
+
+@{b}RAMBANDWIDTH@{ub}
+     Gibt die Bandbreite des Chip-RAM zurück, wenn verfügbar.
+
+@{b}EMULATED@{ub}
+     Gibt zurück, ob der Amiga emuliert wird oder nicht.
+
+@{b}XLVERSION@{ub}
+     Wenn es eine AmigaXL-Emulation ist, wird hier die Versionsnummer
+     von AmigaXL zurückgeliefert.
+
+@{b}HOSTOS@{ub}
+     Das OS des Systems, das den Amiga emuliert. Momentan liefert nur
+     die AmigaXL-Emulation diesen Wert.
+
+@{b}HOSTVER@{ub}
+     Die OS-Version des Systems, das den Amiga emuliert. Momentan
+     liefert nur die AmigaXL-Emulation diesen Wert.
+
+@{b}HOSTMACHINE@{ub}
+     Die Architektur (386, PowerPC, ...) des Systems, das den Amiga
+     emuliert.  Momentan liefert nur die AmigaXL-Emulation diesen Wert.
+
+@{b}HOSTCPU@{ub}
+     Die CPU des Systems, das den Amiga emuliert.  Momentan liefert nur
+     die AmigaXL-Emulation diesen Wert.
+
+@{b}HOSTSPEED@{ub}
+     Der Takt der CPU des Systems, das den Amiga emuliert.  Momentan
+     liefert nur die AmigaXL-Emulation diesen Wert.
+
+
+@EndNode
+
+@Node "Fakes" "Identify-D.guide/Fakes"
+@Next "Bugs"
+@Prev "System"
+@Toc "Main"
+
+Fake Boards
+***********
+
+   Seit den Anfängen gibt es ein Plagiat von Identify. Der Autor
+versicherte mir, daß er keine Daten aus meiner Datenbank übernehmen
+würde. Um dies zu prüfen, habe ich einige Hardware-Erweiterungen in
+die Datenbank aufgenommen, die gar nicht existieren.
+
+   Jede Karten-Datenbank, die folgende Einträge enthält, ist ein
+Plagiat von Identify (mit Manufacturer-ID und Product-ID):
+
+   @{b}*@{ub}     @{i}BSC Oktagon 508@{ui} (MID 2092, PID 4) : das Board existiert nicht
+
+   @{b}*@{ub}     @{i}Quadlite Computers Ltd.@{ui} (MID 2096) : der Hersteller existiert
+     nicht
+
+   @{b}*@{ub}     @{i}DelaComp@{ui} (MID 2163) : der Hersteller existiert nicht
+
+   @{b}*@{ub}     @{i}VillageTronic PicassoIV Z2@{ui} (MID 2167, PID 20) : diese PID ist
+     nicht belegt
+
+   @{b}*@{ub}     @{i}UAS Interface Ltd.@{ui} (MID 5132) : der Hersteller existiert nicht
+
+   @{b}*@{ub}     @{i}MacroSystem Germany ToccataPro@{ui} (MID 18260, PID 13) : das Board
+     existiert nicht
+
+   Ich bitte um Nachsicht für diesen Schritt, aber es war einfach zu
+verlockend, zu erfahren, wer von Identify Daten übernimmt, ohne mich zu
+fragen... @{b};-)@{ub} Dort hatte ich dann übrigens auch keine Hemmungen, Daten
+ungefragt zu übernehmen.
+
+   Bei der Angabe der Datenbankgröße von Identify wurden diese
+Einträge übrigens nicht berücksichtigt. Seit V11.1 wurden die
+Einträge entfernt.
+
+
+@EndNode
+
+@Node "Bugs" "Identify-D.guide/Bugs"
+@Next "FAQ"
+@Prev "Fakes"
+@Toc "Main"
+
+Bekannte bugs
+*************
+
+   Das ist die momentane Konfiguration meines Amigas:
+
+     -- ListExp V12.0 -- Richard Koerber <rkoerber@gmx.de>
+      (ListExp gehört zum Identify-Paket, siehe AmiNet util/libs)
+     
+     ** HARDWARE **
+     
+     System:  Amiga 4000
+     CPU:     CPU=68060/50 MHz (Rev 1), FPU=68060/50 MHz, MMU=68060
+     Chips:   AGA (RAMSEY F, GARY Normal, CHUNKY N/V) VBR=0x0805C560
+     Agnus:   Alice 8374 Rev. 3-4 (Modus: PAL)
+     Denise:  Lisa 8364 (Revision: 0)
+     AmigaOS: 3.5 (V40.68, BoingBag 1, SetPatch V44.6)
+              Exec V40.10   Workbench V44.2
+     Sys-Erw: GrafikOS: CyberGraphX 4, AudioOS: AHI, TCP/IP: Miami
+     Takte:   Netz 50 Hz, VBlank 50 Hz, E 709379 Hz
+     RAM:     Motherboard 32 bit, 60 ns, Doppelt CAS, 4fache Bandbreite
+     
+     Speicher:          CHIP    FAST  GESAMT ROM = 512.0KB   SLOW = 0
+              NORMAL  ~2.0MB  42.0MB ~44.0MB
+               VIRT.       0       0       0
+              GESAMT  ~2.0MB  42.0MB ~44.0MB
+     
+     ** ERWEITERUNGEN **
+     
+     Nr ID      Adresse  Größe Hersteller           Produkt
+     ----------------------------------------------------------------------------
+      1 2140.22 40000000  64MB Phase 5              CyberVision 64 Graphik
+      2 2140.19 00EA0000 128KB Phase 5              CyberStorm '060 MK-II Flash-ROM
+      3 082C.10 00E90000  64KB BSC                  Multiface II Multi-I/O
+      4 4754.0C 00EC0000  64KB MacroSystem Germany  Toccata Audio
+      5 4754.05 00ED0000  64KB MacroSystem Germany  MaestroPro Audio
+      6 0877.CA 00EE0000  64KB VillageTronic        Ariadne II Ethernet
+
+@{i}DIESE FEHLER SIND MOMENTAN BEKANNT@{ui}
+        @{b}*@{ub} Die Hersteller @{b}Phase 5@{ub} und @{b}GVP@{ub} haben gelegentlich zwei oder
+          mehr Boards ein und dieselbe ID zugewiesen. In diesem Fall
+          kann @{b}identify.library@{ub} einen Namen zurückliefern, der nicht
+          der tatsächlichen Hardware entspricht. @{b}identify.library@{ub}
+          versucht zwar, diese Karten auseinanderzuhalten, aber das
+          klappt nicht in allen Fällen.
+
+        @{b}*@{ub} Momentan wird ein 68030 stets mit MMU erkannt.
+
+
+@EndNode
+
+@Node "FAQ" "Identify-D.guide/FAQ"
+@Next "History"
+@Prev "Bugs"
+@Toc "Main"
+
+FAQ
+***
+
+@{i}Der Emulator wird erkannt, ich bekomme aber keine Informationen über das Hostsystem@{ui}
+     Die Informationen werden nur von AmigaXL geliefert. Andere
+     Emulatoren wie UAE liefern keine Informationen über das
+     emulierende System.
+
+@{i}Die Ausgaben von ListExp sind völlig durcheinander.@{ui}
+     Stellen Sie sicher, daß der aktuellste Sprachkatalog installiert
+     ist, und das System zurückgesetzt wurde.
+
+@{i}Ich bekomme einen Enforcerhit, wenn ich das System analysiere.@{ui}
+     Der Enforcerhit ist auf einigen Systemen technisch notwendig, um
+     den letzten Alert-Code zu ermitteln. Er ist harmlos.
+
+@{i}Die Taktfrequenzanzeige ist falsch.@{ui}
+     Die Taktmessung erfordert echtes Fast-RAM für beste Ergebnisse,
+     ansonsten können zum Teil erhebliche Meßfehler auftreten.
+
+@{i}Der PowerPC-Takt ist falsch.@{ui}
+     Dies ist ein Bug der @{b}ppc.library@{ub}.
+
+@{i}Der PowerPC-Takt wird nicht erkannt.@{ui}
+     Dies ist unter WarpOS bei einigen Prozessoren nicht möglich.
+
+@{i}Der Rechner stürzt bei einer System-Anfrage (z.B. ListExp) ab.@{ui}
+     Stellen Sie sicher, daß die @{b}ppc.library@{ub} @{i}nicht@{ui} installiert ist,
+     wenn Sie nicht tatsächlich einen PowerPC eingebaut haben.
+
+@{i}Wo finde ich eine weitere FAQ?@{ui}
+     Auf meiner Homepage: @{b}http://shredzone.home.pages.de@{ub}
+
+
+@EndNode
+
+@Node "History" "Identify-D.guide/History"
+@Next "Users"
+@Prev "FAQ"
+@Toc "Main"
+
+History
+*******
+
+@{i}V 13.0@{ui}
+        @{b}*@{ub} Unterstützt AmigaXL [Markus Pöllmann]
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 12.3@{ui}
+        @{b}*@{ub} Erkennt AmigaOS 3.9 [Paul Qureshi]
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 12.2@{ui}
+        @{b}*@{ub} Erkennt jetzt auch MiamiDx [Dietmar Lakotta]
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 12.1@{ui}
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 12.0@{ui}
+        @{b}*@{ub} BoingBag wird geprüft
+
+        @{b}*@{ub} rexxidentify, Installify, ListExp und den deutschen Katalog
+          aktualisiert
+
+@{i}V 11.2@{ui}
+        @{b}*@{ub} Identify V11 wurde als Version 10 erzeugt. Gefixed.
+
+@{i}V 11.1@{ui}
+        @{b}*@{ub} OS3.5 wird jetzt erkannt
+
+        @{b}*@{ub} Zufällig habe ich herausgefunden, daß ich die
+          Branch-Optimierung vom PhxAss seit @{i}Jahren@{ui} nicht eingeschaltet
+          hatte, obwohl ich mich darauf verlassen habe. Aus der V11.0
+          konnten so 904 bytes herausoptimiert werden, ganz zu schweigen
+          vom leichten Geschwindigkeitsvorteil.
+
+        @{b}*@{ub} Die Fake-Boards wurden aus der Datenbank entfernt
+
+        @{b}*@{ub} Leicht verbesserte CPU-Takt-Erkennung
+
+@{i}V 11.0@{ui}
+        @{b}*@{ub} Die neue Funktion FormatString() erzeugt formatierte
+          Zeichenketten mit Hardware-Elementen. [Thomas Igracki]
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 10.2@{ui}
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 10.1@{ui}
+        @{b}*@{ub} CyberGraphX 4 und GENESiS werden erkannt
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 10.0@{ui}
+        @{b}*@{ub} Der letzte Alert wird nun per Blitter gelesen (wenn
+          verfügbar).  Dieser Schritt wurde notwendig, weil die "bug
+          reports" allmählich anfingen zu nerven. ;) [Idee von Jilles
+          Tjoelker]
+
+        @{b}*@{ub} Denise wird identifiziert [Himanshu Gohel]
+
+        @{b}*@{ub} ListExp aktualisiert
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 9.3@{ui}
+        @{b}*@{ub} Amiga 4000T-Erkennung verbessert [Dave Clarke]
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 9.2@{ui}
+        @{b}*@{ub} PowerUp/WarpOS-Erkennung verbessert [Sebastian Becker]
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 9.1@{ui}
+        @{b}*@{ub} Docs geringfügig überarbeitet
+
+        @{b}*@{ub} IDHW_TCPIP wird nicht gecached
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+        @{b}*@{ub} Korrigiertes @{b}FILE_ID.DIZ@{ub} [Domenic Gebauer]
+
+@{i}V 9.0@{ui}
+        @{b}*@{ub} Aufgeteilt in Developer und User-Paket
+
+        @{b}*@{ub} 68020-Version der @{b}identify.library@{ub}
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+        @{b}*@{ub} Taktmessung etwas verbessert
+
+        @{b}*@{ub} IDHW_TCPIP, IDHW_PPCOS, IDHW_AGNUS, IDHW_AGNUSMODE
+          implementiert
+
+        @{b}*@{ub} IdFunction() sucht jetzt auch in @{b}include:fd/@{ub}
+
+        @{b}*@{ub} Erkennt jetzt einen Amiga 500 mit Viper 520 CD richtig
+          [Gerald Schnabel]
+
+        @{b}*@{ub} Erkennt einen Amiga 4000 Tower [Jan Jampolski]
+
+        @{b}*@{ub} WarpOS-Support
+
+        @{b}*@{ub} InstallIfy geschrieben
+
+@{i}V 8.2@{ui}
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+        @{b}*@{ub} UAE-Erkennung verbessert
+
+        @{b}*@{ub} 68060-Kompatibelität verbessert
+
+        @{b}*@{ub} Deutlich verkürzt durch Optimierungen
+
+@{i}V 8.1@{ui}
+        @{b}*@{ub} SlowRAM-Erkennung verbessert
+
+        @{b}*@{ub} IdHardwareUpdate() eingebaut
+
+        @{b}*@{ub} Motherboard-RAM-Tests eingebaut (RAMACCESS, RAMWIDTH, RAMCAS,
+          RAMBANDWIDTH)
+
+        @{b}*@{ub} IDHW_VBR und IDHW_LASTALERT werden nicht mehr gecached
+
+        @{b}*@{ub} ListExp aktualisiert
+
+@{i}V 8.0@{ui}
+        @{b}*@{ub} Bugfix: IdFunction erzeugte Mungwall-Hit bei überlangen
+          Zeilen
+
+        @{b}*@{ub} Bugfix: VMM verfälschte die Memory-Ergebnisse
+
+        @{b}*@{ub} IdExpansion beschleunigt
+
+        @{b}*@{ub} IDTAG_ClassID liefert numerischen Klassencode einer Karte
+          [Jens Langner]
+
+        @{b}*@{ub} IDTAG_Localize liefert gegebenfalls nur die eingebaute Sprache
+
+        @{b}*@{ub} IDTAG_NULL4NA liefert NULL-Zeiger, wenn eine Information
+          nicht verfügbar ist
+
+        @{b}*@{ub} IDHW_CPUREV gibt die Revision des Hauptprozessors zurück
+
+        @{b}*@{ub} IDHW_CPUCLOCK, IDHW_FPUCLOCK gibt die Taktfrequenzen zurück
+
+        @{b}*@{ub} Kataloge reorganisiert und aufgeräumt
+
+        @{b}*@{ub} UAE wird erkannt
+
+        @{b}*@{ub} ListExp und rexxidentify.library angepaßt
+
+        @{b}*@{ub} .ct-Dateien hinzugefügt
+
+@{i}V 7.3@{ui}
+        @{b}*@{ub} Bugfix: GfxOS-Erkennung war unter bestimmten Bedingungen
+          fehlerhaft
+
+        @{b}*@{ub} Commodities in rexxidentify.library eingebaut [Domenic
+          Gebauer]
+
+        @{b}*@{ub} Kleine DraCo-Bugfixes [Udo Reuchlein]
+
+        @{b}*@{ub} Picasso96 wird jetzt (hoffentlich) korrekt erkannt [Jens
+          Langner]
+
+        @{b}*@{ub} Weitere Karten eingefügt
+
+@{i}V 7.2@{ui}
+        @{b}*@{ub} Bugfix: LowMemory-Handler arbeitet jetzt richtig
+
+        @{b}*@{ub} Geringfügige Optimierungen
+
+        @{b}*@{ub} IDTAG_Secondary eingebaut
+
+        @{b}*@{ub} SECONDARY in rexxidentify.library eingebaut
+
+        @{b}*@{ub} Maximale Zeilenlänge des IdFunction()-Parsers erhöht, wegen
+          einigen Zeilen in der cybergraphics_lib.fd.
+
+@{i}V 7.1@{ui}
+        @{b}*@{ub} Bugfix: rexxidentify.library lieferte überflüssigen
+          Null-Terminator zurück [Bossman]
+
+        @{b}*@{ub} LowMemory-Handler hängt sich auf und wurde vorläufig
+          entfernt
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 7.0@{ui}
+        @{b}*@{ub} Chunky-Planar-Hardware wird erkannt
+
+        @{b}*@{ub} PowerPC-Erkennung eingebaut, aber noch nicht vollständig
+
+        @{b}*@{ub} LowMemory-Handler eingebaut (nur für AmigaOS V39+)
+
+        @{b}*@{ub} Speichergrößen werden wie bei @{b}ShowConfig@{ub} ausgegeben
+
+@{i}V 6.1@{ui}
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+        @{b}*@{ub} Enforcer-Hit tritt jetzt nur noch bei LASTALERT-Anfrage auf
+
+        @{b}*@{ub} ARexx-Kommando EXPNAME ergänzt
+
+@{i}V 6.0@{ui}
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+        @{b}*@{ub} OS2.1 wird ordnungsgemäß erkannt
+
+        @{b}*@{ub} Weitere Hardware-Informationen (VBR, Gary, RAMSEY, Slow-RAM,
+          Frequencies, BattClock)
+
+        @{b}*@{ub} Man kann jetzt alle Erweiterungen lesen, ohne die
+          expansion.library öffnen zu müssen.
+
+        @{b}*@{ub} IdHardwareNum() eingebaut: jetzt kann man auch ein
+          numerisches Ergebnis für eigene Auswertungszwecke anfordern
+
+        @{b}*@{ub} ListExp, Function und Guru lokalisiert und aktualisiert
+
+        @{b}*@{ub} rexxidentify.library ermöglicht Zugriff auf die Library
+          über ARexx
+
+        @{b}*@{ub} Weitere Beispielprogramme hinzugefügt
+
+@{i}V 5.2@{ui}
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+        @{b}*@{ub} Ein kleines C-Beispiel geschrieben: identify-Verwendung in MUI
+
+@{i}V 5.1@{ui}
+        @{b}*@{ub} Bugfix: AHI wurde nicht richtig erkannt
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+        @{b}*@{ub} Erkennt jetzt einen Amiga 500 mit A570-Erweiterung richtig
+
+        @{b}*@{ub} AmigaE-Includedateien [Roger Hågensen]
+
+@{i}V 5.0@{ui}
+        @{b}*@{ub} Picasso96 wird jetzt vor CyberGraphX erkannt
+
+        @{b}*@{ub} Das Problem, daß OCS/ECS-Amigas unter OS3.1 als Amiga 3000
+          erkannt werden, sollte nun behoben sein.
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+        @{b}*@{ub} Audio OS und AmigaOS wird geprüft.
+
+        @{b}*@{ub} Reines- und VMM-RAM wird getrennt geprüft.
+
+        @{b}*@{ub} Unter Hersteller geteilte Manufacturer IDs werden jetzt
+          unterstützt.
+
+        @{b}*@{ub} Bugfix: Enforcer-Hit, wenn direkt nach einer unbekannten
+          Erweiterung gefragt wurde.
+
+        @{b}*@{ub} Mehrere KBytes durch Optimierung der Tabellen, Kompression
+          der Datenbank und verschiedene Aufräumarbeiten gewonnen
+
+        @{b}*@{ub} ListExp angepaßt
+
+@{i}V 4.4@{ui}
+        @{b}*@{ub} Erkennt Picasso96
+
+        @{b}*@{ub} Bugfix: wenn der Kartenname erraten wurde, erschien nur ein
+          "-?-"
+
+        @{b}*@{ub} Einige Amiga 1200 wurden als "Walker" erkannt. :-)
+
+@{i}V 4.3@{ui}
+        @{b}*@{ub} Erkennt CyberGraphX V3
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 4.2@{ui}
+        @{b}*@{ub} CyberGraphX wurde nicht immer korrekt erkannt
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 4.1@{ui}
+        @{b}*@{ub} Bugfix: anscheinend immer noch Probleme mit der
+          Amiga-Erkennung
+
+        @{b}*@{ub} Picasso wird erkannt
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+@{i}V 4.0@{ui}
+        @{b}*@{ub} IdFunction() implementiert
+
+        @{b}*@{ub} Neues Tool Function
+
+        @{b}*@{ub} Weitere Karten hinzugefügt
+
+        @{b}*@{ub} Bugfix: In einigen Fällen wurde der Herstellername zerstört
+
+        @{b}*@{ub} Pascal-Includes (von Axel Dörfler)
+
+        @{b}*@{ub} Identifiziert SetPatch-Version.
+
+@{i}V 3.1@{ui}
+        @{b}*@{ub} 2 Karten hinzugefügt
+
+        @{b}*@{ub} Bugfix: erkannte stets einen Amiga 3000 auf ECS-Maschinen mit
+          OS3.1.
+
+        @{b}*@{ub} Bugfix: erkannte CyberGraphX auch, wenn nur PictDT
+          installiert war.
+
+        @{b}*@{ub} Bessere Rundung der Speicheranzeige
+
+@{i}V 3.0@{ui}
+        @{b}*@{ub} Basiert auf der @{b}expname.library@{ub}, wurde jedoch komplett neu
+          geschrieben.
+
+        @{b}*@{ub} Wandelt jetzt auch Alert-Codes.
+
+        @{b}*@{ub} Guru geschrieben.
+
+
+@EndNode
+
+@Node "Users" "Identify-D.guide/Users"
+@Next "Credits"
+@Prev "History"
+@Toc "Main"
+
+Benutzer
+********
+
+   Folgende Programme benutzen die @{b}identify.library@{ub} bereits:
+
+@{i}batsi@{ui}
+     Autor: Chris Young
+     AmiNet: @{b}util/moni/batsi.lha@{ub}
+     E-Mail: @{b}unsatisfactory@bigfoot.com@{ub}
+
+@{i}cP!_ShowConfig@{ui}
+     Autor: Domenic Gebauer
+     AmiNet: @{b}util/wb/cP_ShowConfig.lha@{ub}
+     E-Mail: @{b}campino@gmx.net@{ub}
+
+@{i}Custom_CTCP - Extension CTCP commands for AmIRC@{ui}
+     Autor: Don Clifton (Bossman^)
+     AmiNet: @{b}comm/irc/CCTCPv??.lha@{ub}
+     E-Mail: @{b}bosman@erols.com@{ub}
+
+@{i}eTeacher@{ui}
+     Author: W.F.M.H. und Krzysiek Jonko
+     AmiNet: @{b}biz/demo/eTeacher.lha@{ub}
+     E-Mail: @{b}info@amiga.com.pl@{ub}
+
+@{i}EuraTools Register@{ui}
+     Autor: Richard Körber
+     AmiNet: @{b}util/misc/EuraTools.lha@{ub}
+     E-Mail: @{b}shred@eratosthenes.starfleet.de@{ub}
+
+@{i}IdentifyBB2@{ui}
+     Autor: Ferraris Luca
+     AmiNet: @{b}dev/basic/IdentifyBB2.lha@{ub}
+     E-Mail: @{b}ferraris.luca@educ.di.unito.it@{ub}
+
+@{i}P96Speed@{ui}
+     Autor: Jens Langner
+     AmiNet: @{b}gfx/board/P96Speed.lha@{ub}
+     E-Mail: @{b}deck@rcs.urz.tu-dresden.de@{ub}
+
+@{i}Scout@{ui}
+     Autor: Andreas Gelhausen, Richard Körber
+     AmiNet: @{b}util/moni/Scout.lha@{ub}
+     E-Mail: @{b}shred@eratosthenes.starfleet.de@{ub}
+
+@{i}ShowSystem@{ui}
+     Autor: Jarmo Laakkonen
+     AmiNet: @{b}util/moni/showsystem.lha@{ub}
+     E-Mail: @{b}jami@dlc.fi@{ub}
+
+@{i}SL!-BoxStatus@{ui}
+     Autor: Sascha Sauer
+     AmiNet: @{b}comm/bbs/SL-BS??.lha@{ub}
+     E-Mail: @{b}SPACEMAN@SPACELND.ruhr.de@{ub}
+
+@{i}SIP@{ui}
+     Autor: Andreas R. Kleinert
+     AmiNet: @{b}util/moni/SIP.lha@{ub}
+     E-Mail: @{b}Andreas_Kleinert@t-online.de@{ub}
+
+@{i}SystemPrefs@{ui}
+     Autor: Richard Körber
+     AmiNet: @{b}util/wb/SytemPrefs.lha@{ub}
+     E-Mail: @{b}shred@eratosthenes.starfleet.de@{ub}
+
+@{i}ToxicBoards@{ui}
+     Autor: Sascha Reissner
+     AmiNet: @{b}comm/cnet/TBoards???.lha@{ub}
+     E-Mail: @{b}sascha@toxic.franken.de@{ub}
+
+@{i}What Config@{ui}
+     Autor: Christian Vigård
+     AmiNet: @{b}util/misc/WCv??.lha@{ub}
+     E-Mail: @{b}vigard@hem2.passagen.se@{ub}
+
+@{i}XOpa@{ui}
+     Autor: Axel Dörfler, Alexander Bartz
+     AmiNet: @{b}util/moni/XOpa1_??.lha@{ub}
+     E-Mail: @{b}axeld@ax.westfalen.de@{ub}
+
+   Fehlt Ihr Programm? Dann schreiben Sie mir!
+
+
+@EndNode
+
+@Node "Credits" "Identify-D.guide/Credits"
+@Next "Concept Index"
+@Prev "Users"
+@Toc "Main"
+
+Credits
+*******
+
+   Ich möchte mich besonders bei folgenden Leuten bedanken (ohne
+Reihenfolge):
+
+@{i}Andreas Gelhausen@{ui}
+     für Scout, seine Board-Liste und seine Ideen und Anregungen.
+
+@{i}Martin Wietfeld@{ui}
+     für seine riesige Board-Liste.
+
+@{i}Markus Pöllmann@{ui}
+     für die Informationen zu AmigaXL
+
+@{i}Axel Dörfler@{ui}
+     für die Verwendung der Library in XOpa und für die
+     PASCAL-Includes.
+
+@{i}Frank Wille@{ui}
+     für den hervorragenden @{b}PhxAss@{ub}-Assembler, seine Tips, seine Hilfe
+     und für die PPC-Taktermittlung unter WarpOS.
+
+@{i}Thomas Kessler@{ui}
+     für seine vielen Ideen.
+
+@{i}Geert Uytterhoeven@{ui}
+     für seine Board-Liste und die Beschreibung der GVP-Codes.
+
+@{i}Dietmar Lakotta@{ui}
+     dafür, daß er mir gezeigt hat, wie man MiamiDx erkennen kann.
+
+@{i}Roger Hågensen@{ui}
+     für die Amiga-E-Includedateien und seine Ideen.
+
+@{i}Dámaso D. Estévez@{ui}
+     für die HiSoft/Maxon-BASIC-Includes
+
+@{i}Atéo Concepts (M. Lagier)@{ui}
+     dafür, daß sie als erster Hersteller auf meine Anfrage
+     bezüglich der Manufacturer- und Product-IDs geantwortet haben.
+
+@{i}Andreas Schlick, Kai Schindelka und Thomas Schürger@{ui}
+     für ihre unermüdliche Hilfe.
+
+@{i}Timo Ronkko@{ui}
+     für seinen genialen Tip!
+
+@{i}Colin Thompson@{ui}
+     für seine field tests, Prüfung meiner Übersetzungen und seine
+     nützlichen Tips.
+
+@{i}Kössi@{ui}
+     für seine vielen Karten, seiner Hilfestellung bei
+     TexInfo-Problemen und seinem Debugger-Talent.
+
+   ...und für ihre Beiträge (in alphabetischer Reihenfolge):
+
+   '2bros', Daniel Adolfsson, Ralf Adrion, 'ALV', Thomas Andersson,
+Andrija Antonijevic, Sven Arke, Jörn Asmussen, Norbert Becker,
+Sebastian Becker, Andreas Benden, Matthias Bethke, Thore Böckelmann,
+'Bossman^', Paul Braithwaite, Burkhard Breuer, Benoit Broc, Dave Clarke,
+Frank E. De Clue, Gary Coleman, Gagliardini Daniel, Konrad Daszynski,
+Marcus Cai Degler, 'Diablo', Ethan Dicks, Frank Dietrich, Norbert
+Dimpfl, Steffen Elholm, Dámaso D. Estévez, Kevin Fairhurst, Ulrich
+Falke, Alexander Fichtner, Dieter Gaikowski, Ramiro Garcia, Matthew
+Garrett, Domenic Gebauer, Andreas Gelhausen, Sonja Gerlach, Patrick
+Gern, Himanshu Gohel, Paul Gooch, Neil Griffiths, Stephane Guillard,
+Roger Hågensen, Fred Hamilton, Michael Hartmann, Georg Hazianastasiou,
+Dirk Hebisch, Matthias Heilmann, Ian P.Heitmans, Gene Heskett, Patrick
+Hess, Thomas Igracki, Torfinn Ingolfsen, Vincenzo Iodice, Jan Jampolski,
+Bengt Jensie, Holger Jeromin, Krzysztof Krishna Kajdasz, Thomas Kessler,
+Ross Kirk, Bernd Kösling, Thomas Krafzik, A. Krauss, Bernd Kriwolat,
+Mario Kuban, James Kückmann, Markus Kuhnen, M. Lagier, Dietmar Lakotta,
+Rask Lambertsen, Jens Langner, Palle Larsen, Lutz Legero, Mika Lembke,
+Petter Lindquist, Mika Lundell, Gunther Mannigel, Peter Marquardt,
+Alfredo Martins, Peter Mattsson, Mario Misic, Arjan Moens, Gernold
+Mühling, L Mac Mullan, Ken Munn, Richard Munn, Pavel Narozny, Gunther
+Nikl, David Oakes, Jürgen Ofner, Jakob Ölund, Marcin Orlowski, Chris
+Painter, Oliver Peike, Markus Pietz, Heiko Polig, Markus Pöllmann,
+Giuseppe Premoli, Michaela Prüß, Paul Qureshi, Michael Reichenbach,
+Sascha Reissner, Jan Rembser, Udo Reuchlein, Jochen Rhein, Kai Rode,
+Timo Ronkko, Gregor Rosenauer, Rolf Rotvel, Stefano Ruviero, Andre
+Schenk, Kai Schindelka, Andreas Schlick, Gerald Schnabel, Jens G.
+Schröder, Bodo Schulz, Thomas Schürger, Frank Seidel, Simon Shead,
+Thierry Sillis, Karsten Soeth, Mark Sorensen, Nicholas Stallard, Martin
+Steigerwald, Teemu Suikki, Johan Sundstrom, Imre Szollosi, Adam
+Szymczak, Patrick Thato, Colin Thompson, Henrik Tikanvaara, Jilles
+Tjoelker, Jürgen Urbanek, Geert Uytterhoeven, Jarkko Vatjus-Anttila,
+Milco Veljanoski, Christian Vigård, Federico Villata, Christian Wasner,
+Pete Wason, Ralph Wermke, Henrik Wetterstrom, Martin Wietfeld,
+Alexander Wild, Frank Wille, Beno Zidaric, Rolf Zuercher, Alessandro
+Zummo.
+
+   (und alle, die ich noch vergessen habe.)
+
+   Macht weiter so!
+
+                 //
+             \\\\ //   -- Amiga - The Computer for Creative Mind --
+              \\X/
+
+
+@EndNode
+
+@Node "Concept Index" "Identify-D.guide/Concept Index"
+@Prev "Credits"
+@Toc "Main"
+
+Konzept-Index
+*************
+
+@Index "Concept Index"
+
+
+
+ @{" Adresse " Link "Address"}                              Address
+ @{" Alert-Beschreibungen " Link "Guru"}                 Guru
+ @{" Benutzer " Link "Users"}                             Users
+ @{" Beschreibungen " Link "System"}                       System
+ @{" Bugs " Link "Bugs"}                                 Bugs
+ @{" Copyright " Link "Copyright"}                            Copyright
+ @{" Copyright " Link "Copyright"}                            Copyright
+ @{" Credits " Link "Credits"}                              Credits
+ @{" E-Mail " Link "Address"}                               Address
+ @{" Einleitung " Link "Introduction"}                           Introduction
+ @{" Fakes " Link "Fakes"}                                Fakes
+ @{" FAQ " Link "FAQ"}                                  FAQ
+ @{" Fragen " Link "FAQ"}                               FAQ
+ @{" FreeWare " Link "Copyright"}                             Copyright
+ @{" Function " Link "Function"}                             Function
+ @{" Guru " Link "Guru"}                                 Guru
+ @{" History " Link "History"}                              History
+ @{" Homepage " Link "Address"}                             Address
+ @{" ListExp " Link "ListExp"}                              ListExp
+ @{" Offset-Dekodierung " Link "Function"}                   Function
+ @{" Schneckenpost " Link "Address"}                        Address
+ @{" System-Beschreibungen " Link "System"}                System
+ @{" Unbekannte Karten " Link "ListExp"}                    ListExp
+
+@EndNode
+

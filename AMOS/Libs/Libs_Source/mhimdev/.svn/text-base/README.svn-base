@@ -1,0 +1,130 @@
+Short:        MHI driver for mpeg.device
+Uploader:     andreas_barth@gmx.net (Andreas Barth)
+Author:       Andreas Barth (based on verson 1.1 by Michael Henke) 
+Type:         mus/play
+Version:      1.3
+Architecture: m68k-amigaos >= 2.0.4
+Distribution: Aminet
+
+$VER: mhimdev.library 1.3 (Mon 03-Oct-2011)
+
+
+
+ #features
+   mhimdev.library is a driver for the MHI system. It doesn't support any
+   specific MPEG audio hardware decoder directly, instead it sends the data
+   to an mpeg.device driver. It's an "interface converter" or "wrapper" that
+   allows you to use your existing MPEG hardware and drivers in applications
+   which support the new MHI interface only. (such as AmigaAMP)
+
+   This program is free software, full source code included.
+
+
+
+ #requirements
+   -AmigaOS V37+
+   -MPEG audio hardware decoder with mpeg.device support
+    (eg. CD32 FMV, Delfina DSP, MAS Player, Melody and possibly some more)
+
+   -developed on A1200 - OS3.1/68030+882@40MHz/16MBFastRAM/Delfina1200DSP
+   -tested with delfinampeg.device 1.2 and AmigaAMP 2.9-beta1
+   -tested with AmigaAMP 2.24
+
+
+
+ #changes since previous release
+    -fixed a crash when playing songs in a row using a device which replies the play
+     command immediately (like delfinampeg.device and possibly others as well)
+
+
+
+ #reason for version 1.2
+   I used the mhi_mdev.library and noticed a problem with the MPEGCMD_PLAY.
+   The library uses DoIO to send it to the device, which I think is not
+   compatible with the Commodore standard, where the command instead will
+   be aborted later.
+   I asked Michael to change this. But he can't do this any more. As source
+   is available, I did it.
+   Now, the MPEGCMD_PLAY is issued with SendIO and later aborted. This should
+   not cause any problems with mpeg devices that already worked with the
+   mhi_mdev.library. But now also the devices that wait for the MPEGCMD_PLAY
+   to be aborted (if there are any), which is I think so according to the
+   Commodore documentation, will also work.
+
+
+
+ #how to use
+   1) install library
+        > makedir LIBS:MHI
+        > copy mhimdev.library LIBS:MHI/
+
+   2) configure library
+      two parameters must be set in the environment variable MHIMDEV
+        -name of your specific mpeg.device
+        -unit number (usually 0, but may be different for your hardware)
+      example from my system:
+        > setenv MHIMDEV delfinampeg.device 0
+        > copy ENV:MHIMDEV ENVARC:
+
+   3) configure application(s)
+      at the moment only AmigaAMP uses the new MHI interface.
+        -start AmigaAMP prefs program
+        -go to System page
+        -select engine: MHI-Driver
+        -select driver: LIBS:MHI/mhimdev.library
+
+   4) have fun. ;-)
+
+
+
+ #known problems
+   -MHI defines a few extensions that are NOT SUPPORTED by the mpeg.device
+    standard so they are simply ignored. Currently they are:
+      -tone control (bass/mid/treble)
+      -crossmixing control (stereo channel separation)
+
+   -mhimdev.library was written according to the mpeg.device specification so
+    it should work with all MPEG decoders which support this interface.
+    Due to lack of other hardware decoders I can test it only with my Delfina
+    using delfinampeg.device. I would like to know what other mpeg.devices are
+    used with this MHI driver. (please report successful usage, too)
+
+
+
+ #acknowledgements
+   -idea and source by Michael Henke
+   mhimdev.library uses ideas/code from:
+   -MHI developers package by Paul Qureshi and Thomas Wenzel
+   -Melody developers package by Thorsten Hansen
+   -CLib-SDI example.library by Dirk Stoecker, Andreas R. Kleinert and others
+
+
+
+ #author
+   version 1.2 up to current:
+   
+   Andreas Barth (andreas_barth@gmx.net)
+
+
+
+   up to version 1.1:
+
+   mailto: smack42@web.de  or  smack@smack.de
+
+   mhimdev.library - MHI driver for mpeg.device
+   Copyright (C) 2001  Michael Henke
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+

@@ -1,0 +1,98 @@
+
+              COMMERCIAL SOFTWARE LICENSE FOR chunky.library
+
+If you are developing non-commercial software, and wish to use
+chunky.library you do not need to fill in this form.
+
+However, if you are, please print out and fill in the form below and send
+it to us at the contact points which follow.  Tick the boxes where shown.
+
+-------------------------------- CUT HERE ---------------------------------
+
+         C O M M E R C I A L  L I C E N S E  A P P L I C A T I O N
+
+Dear Sirs,
+
+I/We at _____________________________________ request to be licensed to
+           (insert company name here)
+utilise chunky.library in our commerical product _________________________.
+                                                 (insert product name here)
+
+                                                             (Tick)
+
+I would like to recieve all source codes of chunky.library    [  ]   (1)
+
+I request to distribute a modified chunky.library             [  ]   (2)
+
+I will send an original copy of the finish product for free   [  ]   (3)
+
+I would like this license to cover future products as well    [  ]   (4)
+
+
+ NOTES:
+
+  (1) - If you request the source codes, you will be allowed to modify the
+        entire library and recompile it should you so desire.
+
+  (2) - If you modify the chunky.library tick this box to become excempt
+        from the original modification restrictions.
+
+  (3) - If you so desire and agree with your publishers (if appropiate)
+        that we can recieve a free copy of the final product that uses
+        chunky.library technology.  If you do not agree to send a free
+        copy, you will be required to pay a lump sum of $25USD or £15UKP.
+        Otherwise we will not allow this license.
+
+  (4) - This license only covers the product you have mentioned previously.
+        If you wish to use chunky.library technology in other products
+        without reapplying for a license, tick this box.  This incurs an
+        extra fee of $40USD or £25UKP.
+
+                                -----------
+
+ I/We agree to this license and its terms.
+
+
+
+
+        Signed __________________________  Name ______________________
+                  (your signature)                (your printed name)
+
+                                           Date ______________________
+                                                 (date signed by you)
+
+ Rosande Limited Signature ___________________________________________
+                            (our signature to certify this agreement)
+
+                                           Date ______________________
+                                                   (date we signed)
+
+07011999
+-------------------------------- CUT HERE ---------------------------------
+
+If you are required to include a fee, please make UK bank cheques, or UK
+postal orders payable to Andrew King.  Enclose US dollars or UK cash if you
+want to risk it.  Our pay into my bank account direct:
+
+Sort Code: 40-08-39
+Branch: Midland Bank, 2 Walton Road, Aylesbury, Bucks, HP21 7SS, UK
+Account Number: 61538012
+
+NOTE:  We are flexible with agreements!  Not happy about paying?  Give us a
+shout and we'll arrange different terms.
+
+Once this agreement has been signed by you and us, we shall send a signed
+copy back to you either via post or fax.
+
+Please send your forms to us by:
+
+POST: Rosande Limited, 26 Victoria Avenue, Harrogate, HG1 5PR, UK.
+FAX:  (please telephone voice before sending) ++44 1296 589974.
+
+E-mail any questions to me at oondy@bigfoot.com.
+
+Thank you for your support.
+
+Andrew King
+Rosande Limited
+Co-director and Head of Technical Development

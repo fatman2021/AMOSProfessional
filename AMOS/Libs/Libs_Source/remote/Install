@@ -1,0 +1,114 @@
+; $VER: 1.0 All rights reserved.
+
+(delopts "oknodelete" "force" "askuser")
+
+(complete 0)
+
+(set app-name "ShowURL")
+
+(message (cat "\n"
+
+    "                                            \n"
+    "RA ©1997 Dietmar Eilert                     \n"
+    "         Dietmar.Eilert@post.rwth-aachen.de \n"
+    "         All Rights Reserved                \n"
+    "                                            \n"
+    "A shared library for remote application     \n"
+    "handling.                                   \n"
+))
+
+; read configuration from environment variables
+
+(copylib
+
+    (prompt "Install shared library ?")
+
+    (source "libs/remote.library")
+
+    (dest   "libs:")
+
+    (confirm)
+
+    (help @copylib-help)
+)
+
+; install database
+
+(if (getenv "remote.cfg")
+
+    (
+        (set @cfgfile (getenv "remote.cfg"))
+
+        ; get rid of LF
+
+        (set @cfgfile (substr @cfgfile 0 (- (strlen @cfgfile) 1)))
+    )
+
+    (set @cfgfile "s:remote.ini")
+)
+
+(if (exists @cfgfile)
+
+    (set @overwrite (askbool
+
+        (prompt "Overwrite existing configuration ?")
+
+        (help @askbool-help)
+
+        (default 0)
+    ))
+
+    (set @overwrite 1)
+)
+
+(if (= @overwrite 1)
+
+    (copyfiles
+
+        (source "database/remote.ini")
+
+        (dest (pathonly @cfgfile))
+
+        (newname (fileonly @cfgfile))
+    )
+)
+
+; install the rest
+
+(set @default-dest
+
+    (askdir
+
+        (prompt "Where would you like to install the developer material ? A new directory is created in the path you specify:")
+
+        (help @askdir-help)
+
+        (default @default-dest)
+    )
+)
+
+(copyfiles
+
+    (source (expandpath ""))
+
+    (dest (tackon @default-dest "RA"))
+
+    (all)
+
+    (infos)
+)
+
+; set environment variable
+
+(run (cat "echo >envarc:remote.cfg " @cfgfile))
+
+(run (cat "echo >env:remote.cfg " @cfgfile))
+
+; delete obsolete files
+
+(delete (tackon @default-dest "RA/Install"))
+(delete (tackon @default-dest "RA/Install.info"))
+
+(exit)
+
+(welcome)

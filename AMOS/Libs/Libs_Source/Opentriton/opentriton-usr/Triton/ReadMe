@@ -1,0 +1,35 @@
+
+               **********************************************
+
+                                   Triton
+
+                   An object oriented GUI creation system.
+
+                            Release OpenTriton 2.0
+
+                         (c) 1993-1998 Stefan Zeiger
+
+               **********************************************
+
+
+   Triton  is  an  object  oriented  GUI creation system for AmigaOS.  Triton
+makes  it much easier to create good looking graphical user interfaces (GUIs)
+than GadTools, BOOPSI or other systems.  Complicated things like resizability
+of  windows  or  a fully font sensitive gadget layout are handled entirely by
+Triton.
+
+   Furthermore  Triton  GUIs  can  be  configured  by  means of a Preferences
+editor,  including  e.g.  a screen and a window manager  for most comfortable
+GUI management.
+
+   Both,  users and programmers, should have this user archive which contains
+the  main  Triton  system  required by any Triton user.  A separate developer
+archive  for  programmers  of  Triton applications is available, too.  If you
+have  already  obtained the developer archive, simply unpack it into the same
+directory  as  the  user archive and everything will fit together into a full
+Triton distribution release.
+
+   For  a  demonstration  of  some  Triton  features, simply double click the
+`Demo' icon in the main directory of this distribution drawer.  It will start
+the main Triton demo without having to install Triton first.  Be sure to have
+a look at the documentation (`Docs/Triton.guide' or `Docs/Triton.dvi'), too.

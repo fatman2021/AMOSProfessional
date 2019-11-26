@@ -1,0 +1,107 @@
+# Icelandic pronounciation rules for translator.library V42.3
+# $VER: island.accent 1.0 (22.5.95)
+#
+# By  Árni Freyr Jónsson <afj@rhi.hi.is>
+#
+
+%class vowel    a á au e é ei ey i í o ó u ú y ý æ ö
+%class cons     b c d ð f g h j k l m n p q r s t v w x z
+%class digit    0 1 2 3 4 5 6 7 8 9
+
+(digit)[X](digit) = " BAY `"
+(digit)$[X]$(digit) = BAY`
+[,](digit) = " KAOMMAA `"
+[0] = " NUH4LL "
+$["10 "] = " TQIH4UH "
+[1] = " AEIY1DN "
+[2] = " TQVAEIY1DXR "
+[3] = " PDXRIH4DXR "
+[4] = " FYAO4DXRIHDXR "
+[5] = " FIH4MM "
+[6] = " SAE4KS "
+[7] = " SYAO4 "
+[8] = " AA4QDAA "
+[9] = " NIH4UH "
+
+[AU] = AHIY
+[A] = AA
+[Á] = OW
+
+[B] = B
+
+[C] = K
+
+[D] = D
+[Ð] = DH
+
+[E] = AE
+[É] = YEH2
+
+[F] = F
+
+[G] = G
+
+[H] = /H
+
+[I] = IH
+[Í] = IY
+
+[J] = Y
+[K] = K
+
+[L] = L
+
+[M] = M
+
+[N] = N
+
+[O] = AO
+[Ó] = OW5
+
+[P] = P
+
+[QU] = KW
+[Q] = K
+
+[R] = DXR
+
+[S] = S
+
+[T] = T
+
+[U] = UH4
+[Ú] = UW4
+
+[V] = V
+
+[W] = WH
+
+[X] = KS
+
+[Y] = IH
+
+[Ý] = IY
+
+[Z] = S
+
+[Þ] = TH
+[Æ] = AY
+[Ö] = AH
+
+[ "\ " ] = " "
+
+[.]$ = .
+[.] = " "
+[%] = .
+[:] = ". "
+[;] = .
+[?] = ?
+[ "\(" ] = ,
+[ "\)" ] = ,
+[\\] = " "
+[ "\[" ] = " "
+[{] = " "
+[}] = " "
+[_] = " "
+[`] = " "
+[ "]" ] = " "

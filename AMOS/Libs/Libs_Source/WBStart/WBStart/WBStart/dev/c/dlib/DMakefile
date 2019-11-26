@@ -1,0 +1,65 @@
+#
+# Makefile for DICE link library "wbstart"
+#
+LIBNAME = wbstart
+SRCS    = wbstart.c
+#
+DEVDIR  = //
+LIBDIR  =
+TMPDIR  = T:$(LIBNAME)/
+FDFILE  = $(DEVDIR)fd/$(LIBNAME)_lib.fd
+SOBJS   = $(SRCS:"*.c":"$(TMPDIR)*s.o")
+SROBJS  = $(SRCS:"*.c":"$(TMPDIR)*sr.o")
+LOBJS   = $(SRCS:"*.c":"$(TMPDIR)*l.o")
+LROBJS  = $(SRCS:"*.c":"$(TMPDIR)*lr.o")
+SLIB    = $(LIBDIR)$(LIBNAME)s.lib
+SRLIB   = $(LIBDIR)$(LIBNAME)sr.lib
+LLIB    = $(LIBDIR)$(LIBNAME)l.lib
+LRLIB   = $(LIBDIR)$(LIBNAME)lr.lib
+FDLIB   = $(TMPDIR)$(LIBNAME)fd.lib
+FTLOPTS = $(FDFILE) \
+          -h $(DEVDIR)c/include/clib/$(LIBNAME)_protos.h \
+          -I $(DEVDIR)c/include -I DINCLUDE:amiga31 \
+          -o $(FDLIB) -auto $(LIBNAME).library -v
+CFLAGS  = -3.1 -mi -I $(DEVDIR)c/include
+
+all       : $(SLIB) $(SRLIB) $(LLIB) $(LRLIB)
+
+$(SLIB)   : $(FDFILE) $(SOBJS)
+      fdtolib $(FTLOPTS) -md
+      Join $(SOBJS) $(FDLIB) to %(left)
+      -delete $(FDLIB)
+
+$(SRLIB)  : $(FDFILE) $(SROBJS)
+      fdtolib $(FTLOPTS) -md -mRR
+      Join $(SROBJS) $(FDLIB) to %(left)
+      -delete $(FDLIB)
+
+$(LLIB)   : $(FDFILE) $(LOBJS)
+      fdtolib $(FTLOPTS) -mD
+      Join $(LOBJS) $(FDLIB) to %(left)
+      -delete $(FDLIB)
+
+$(LRLIB)  : $(FDFILE) $(LROBJS)
+      fdtolib $(FTLOPTS) -mD -mRR
+      Join $(LROBJS) $(FDLIB) to %(left)
+      -delete $(FDLIB)
+
+$(SOBJS) : $(SRCS)
+      dcc $(CFLAGS) -o %(left) -c %(right) -md
+
+$(SROBJS) : $(SRCS)
+      dcc $(CFLAGS) -o %(left) -c %(right) -md -mRR
+
+$(LOBJS) : $(SRCS)
+      dcc $(CFLAGS) -o %(left) -c %(right) -mD
+
+$(LROBJS) : $(SRCS)
+      dcc $(CFLAGS) -o %(left) -c %(right) -mD -mRR
+
+clean :
+      -Delete $(SOBJS) $(SROBJS) $(LOBJS) $(LROBJS) QUIET
+
+new :
+      DMake clean
+      DMake all

@@ -1,0 +1,45 @@
+#
+# DMakefile
+#
+# DICE makefile for screennotify.libray
+#
+# (c) 1995 Stefan Becker
+#
+BINDIR = /libs/
+TMPDIR = T:
+PRE    = $(TMPDIR)screennotify.m
+
+FLAGS  = -3.1 -ms -mi -mRR
+#FLAGS  = -3.1 -ms -mi -mRR -d1 -DDEBUG
+CFLAGS = $(FLAGS) -proto -H$(PRE)=screennotify.h
+LFLAGS = $(FLAGS)
+LIBS   = -l0 -lc -lamiga31
+#LIBS   = -l0 -lc -ldebug -lamiga31 -lamiga31s
+
+SNLIB  = $(BINDIR)screennotify.library
+CSRCS  = screennotify.c patch.c functions.c
+COBJS  = $(CSRCS:"*.c":"$(TMPDIR)*.o")
+
+TEST = /screennotifytest
+
+all      : $(TMPDIR) $(SNLIB) $(TEST)
+
+$(SNLIB) : $(COBJS)
+         dcc $(LFLAGS) -o %(left) %(right) $(LIBS)
+
+$(COBJS) : $(CSRCS)
+         dcc $(CFLAGS) -o %(left) -c %(right)
+
+$(COBJS) : $(PRE)
+
+$(PRE)   : DMakefile screennotify.h
+         -Delete %(left)
+
+clean    :
+         -Delete $(COBJS) $(PRE) ALL QUIET
+
+$(TEST)  : screennotifytest.c
+         dcc $(CFLAGS) -I/include -o %(left) %(right)
+
+$(TEST)  : DMakefile $(PRE) /include/clib/screennotify_protos.h \
+          /include/libraries/screennotify.h

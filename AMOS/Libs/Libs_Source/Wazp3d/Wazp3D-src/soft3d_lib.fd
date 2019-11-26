@@ -1,0 +1,27 @@
+##base _Soft3DBase
+##bias30
+##public
+SOFT3D_DoUpdate(sc)(a1)
+SOFT3D_End(sc)(a1) 
+SOFT3D_Flush(sc)(a1) 
+SOFT3D_ClearZBuffer(sc,fz)(a1/d1) 
+SOFT3D_FreeTexture(sc,st)(a1/a2) 
+SOFT3D_SetBackColor(sc,RGBA)(a1/a2)
+SOFT3D_SetCulling(sc,CullingMode)(a1/d1) 
+SOFT3D_SetCurrentColor(sc,RGBA)(a1/a2) 
+SOFT3D_SetEnvColor(sc,RGBA)(a1/a2)
+SOFT3D_SetPointSize(sc,PointSize)(a1/d1)
+SOFT3D_AllocZbuffer(sc,large,high)(a1/d1/d2)
+SOFT3D_Start(PrefsWazp3D)(a1)
+SOFT3D_AllocImageBuffer(sc,large,high)(a1/d1/d2)
+SOFT3D_DrawPrimitive(sc,p,Pnb,primitive)(a1/a2/d1/d2) 
+SOFT3D_ReadZSpan(sc,x,y,n,dz)(a1/d1/d2/d3/a2) 
+SOFT3D_ClearImageBuffer(sc,x,y,large,high)(a1/d1/d2/d3/d4)
+SOFT3D_CreateTexture(sc,pt,large,high,bits,TexMode)(a1/a2/d1/d2/d3/d4)
+SOFT3D_Fog(sc,FogMode,FogZmin,FogZmax,FogDensity,FogRGBA)(a1/d1/d2/d3/d4/a2)
+SOFT3D_WriteZSpan(sc,x,y,n,dz,mask)(a1/d1/d2/d3/a2/a3) 
+SOFT3D_SetClipping(sc,xmin,xmax,ymin,ymax)(a1/d1/d2/d3/d4)
+SOFT3D_SetBitmap(sc,bm,Image8,format,x,y,large,high) (a1/a2/a3/d1/d2/d3/d4/d5) 
+SOFT3D_SetDrawStates(sc,st,ZMode,BlendMode,TexEnvMode,UseGouraud,UseFog,PerspMode)(a1/a2/d1/d2/d3/d4/d5/d6)
+SOFT3D_UpdateTexture(sc,st,pt)(a1/a2/a3)
+##end

@@ -1,0 +1,12 @@
+.key URL/A,ACTION,DLDIR
+.bra {
+.ket }
+
+; $VER: getVideo 0.32 (02 Jan 2013) © 2013 Juergen Lucas
+; Startscript for getVideo.rexx to handel it more easily.
+
+if exists c:getvideo.rexx NOREQ
+	rx c:getvideo.rexx "{url}" {action} {dldir}
+else
+	rx rexx:getvideo.rexx "{url}" {action} {dldir}
+endif

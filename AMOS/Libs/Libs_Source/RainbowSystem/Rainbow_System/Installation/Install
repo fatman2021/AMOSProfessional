@@ -1,0 +1,90 @@
+;
+; Script di installazione per RainbowSystem 2.0 (12.1.98)
+;
+
+(set lib-dest   "LIBS:")
+(set rs-dest    "SYS:Tools")
+
+(
+        (if (< (/ (getversion) 65536) 39) (abort "RainbowSystem need at least OS 3.0"))
+
+        (message
+                (cat      "\n\n\nRainbowSystem, installation script.\n\n"
+                          "This script installs RainbowSystem on your Amiga.\n\n"
+                          "(C)opyright 1997-1998 by Andrea Latina\nAll rights reserved."
+                )
+        )
+
+        ;
+
+        (set rs-dest
+            (askdir
+                (prompt  "Select directory where to install RainbowSystem (a directory called `RainbowSystem` will be created here).")
+                (help    "If you specify a path, a new directory called 'RainbowSystem' will be created in it.\nThe program will be copied in this directory.")
+                (default rs-dest)
+            )
+        )
+
+        (set lib-dest
+                (askdir
+                        (prompt  "Select directory where to install the 'rainbow.library'")
+                        (help    @copylib-help)
+                        (default lib-dest)
+                )
+        )
+
+        (if (NOT (exists (tackon rs-dest "RainbowSystem")))
+            (makedir (tackon rs-dest "RainbowSystem")))
+
+        (set @default-dest (tackon rs-dest "RainbowSystem"))
+
+        (copyfiles
+            (prompt "Copying 'RainbowSystem' to " rs-dest "RainbowSystem/...")
+            (pattern "~(rainbow.library)")
+            (source "/")
+            (dest   (tackon rs-dest "RainbowSystem"))
+        )
+
+        (copyfiles
+            (prompt "Copying 'RainbowSystem.info' to " rs-dest "...")
+            (source "//Rainbow_System.info")
+            (newname "RainbowSystem.info")
+            (dest   rs-dest)
+        )
+
+        ; Copy the library.
+
+        (copyfiles
+            (prompt (cat "Copying 'rainbow.library' to " lib-dest))
+            (help   @copylib-help)
+            (source "Libs/rainbow.library")
+            (dest   lib-dest)
+        )
+
+        (if (askbool
+                (prompt "Do you want to install a prefs icon linked to RanbowSystem?")
+                (help "An icon called 'RainbowSystem' will be copied to the Prefs drawer.")
+                (default 1)
+            )
+
+            ((copyfiles
+                (prompt "Copying 'RainbowSystem.info' to Prefs...")
+                (source "Prefs_Icon/RainbowSystem.info")
+                (dest   "SYS:Prefs/"))
+            (run  ("SetITool SYS:Prefs/RainbowSystem %s" (tackon rs-dest "RainbowSystem/RainbowManager"))))
+        )
+
+        (if (askbool
+                (prompt  "Should be RainbowManager automatically runned at bootup?")
+                (help "RainbowManager can be loaded automatically on bootup.\n\n"
+                      "For this purpose an icon called 'RainbowManger' will be copied to the WBStartup drawer.")
+                (default 1)
+            )
+
+            ((copyfiles
+                (prompt "Copying 'RainbowManager.info' to WBStartup...")
+                (source "WBStartup_Icon/RainbowManager.info")
+                (dest   "SYS:WBStartup/"))
+            (run  ("SetITool SYS:WBStartup/RainbowManager %s" (tackon rs-dest "RainbowSystem/RainbowManager"))))
+        )
+)

@@ -1,0 +1,96 @@
+Short:    THE BEST chunky gfx system! AGA/CGFX (dev)
+Author:   oondy@bigfoot.com (Andrew King)
+Uploader: oondy@bigfoot.com (Andrew King)
+Type:     util/libs
+Version:  4.1
+
+DEVELOPER ARCHIVE - you only need this if you are going to develop software
+using chunky.library.
+
+*NEW* EXAMPLES ARE NOW INCLUDED!
+      Some nasty bugs fixed...
+
+CHUNKY GRAPHICS LIBRARY
+Version 4.1 (18-Mar-1999)
+Public Release 5
+
+Welcome to the wonderful world of 8-bit chunky!
+
+So, you want a standardised method of reading, writing and displaying chunky
+data in your Amiga application?  Not too hot on the idea of using RTGMaster
+or "rolling your own" methods?  Don't care for system hacks?  In that case,
+you've downloaded the right thing!
+
+This SHARED library for your compiler will handle everything to do with
+<=256 colour chunky pictures.  Features:
+
+* Shared library (can be used in any language)
+* Transparent support for AGA/CGFX
+* High-level and low-level commands available
+* Draw from one chunky buffer to another (enhanced in V4)
+* Uses RastPort's instead of BitMap's (and windows in V4)
+* Text support (draw Amiga bitmap fonts onto chunky buffers)
+* Features most of the basic graphics.library calls but works with chunky
+  buffers
+* All written in ANSI C (although AGA c2p/p2c stuff isn't)
+* It's freeware!
+
+And for version 4:
+* 17 new functions in V4!
+* Supports all RastPort drawing methods (JAM1, JAM2, INVERSVID, etc.)
+* Ability to flip chunky buffers (horizontal, verticle, both)
+* Scrolling of chunky buffers (any direction)
+* 360 degree rotation!
+* Infinate scaling (with or without smoothing)!
+* RGB palette support
+
+That list got your motor running?  Thought so...
+
+See included documentation for more information.
+
+WANTED
+
+The c2p routines used are no way their best.  If you have flexible c2p/p2c
+code that can use chunky buffers of any size and render at any position on
+any screen size, do not hesitate to contact us.  We are looking to make
+chunky.library the BEST chunky graphics system available.
+
+FUTURE
+
+V5 may see the following improvements:
+
+* PPC support (PPC c2p code please :)
+* 15/16/24-bit support (probably CGFX only)
+* Layers (maybe)
+* Display support (maybe)
+* Your ideas
+
+... but don't count on any of that happening :).
+
+WEBSITE
+
+A new chunky.library website has been setup allowing you to download the
+latest version of the library without waiting for Aminet <grin>.
+
+http://www.irrelevant.org/~oondy/chunky/
+
+LEGAL
+
+The chunky sub system is written and maintained by Andrew King of Rosande
+Limited.  It is copyrighted to Rosande Limited and all used sources are
+declared as public domain and freely available.  All sources are subject to
+change without notice.  (c) 1999 Rosande Limited, all rights reserved.
+
+Andrew King
+Co-director and Head of Technical Development for Rosande Limited
+(A registered company in the United Kingdom)
+
+Remember FUBAR?     > http://www.q-soft.demon.co.uk. <
+See our publishers at http://www.blittersoft.com.
+
+id software rule!
+as do the simpsons!  just don't have a cow, man!
+"hell, damn, fart!"
+
+An example or two here use a Bart Simpson graphic.  The Simpsons (c) & (TM)
+20th Century Fox Film Corp, all rights reserved.

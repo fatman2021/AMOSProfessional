@@ -1,0 +1,114 @@
+
+; Install script for Triton (Workbench 2.0)
+
+(set @default-dest "")
+
+(set tritonlib37 "/libs37/triton.library")
+(set tritonlib39 "/libs39/triton.library")
+(set tritonprefs "/Prefs/Triton")
+(set trPrefsUpdate "/trPrefsUpdate")
+
+;=============================================================================
+; English strings
+
+(set default_lang 4)
+
+(set #bad-kick 		"You must be using Kickstart 2.04+ to run Triton.")
+(set #ask-kick39 (cat 	"You are running OS3.0 or higher. Do you want to install a special OS3.0+ "
+			"version of triton.library?"))
+(set #help-kick39 (cat 	"The OS3.0+ version of triton.library is shorter and faster than the "
+			"general OS2.04+ version. It cannot be used with OS versions below 3.0."))
+(set #ask-prefs 	"Do you want to install the Triton Preferences editor?")
+(set #help-prefs (cat 	"The Triton Preferences editor allows you to change the look and feel "
+			"of all Triton applications' GUIs to fit your personal taste."))
+(set #ask-makedir1 	"Do you want to create the directory\n\nenv:Triton ?")
+(set #ask-makedir2 	"Do you want to create the directory\n\nenvarc:Triton ?")
+(set #help-makedir (cat	"Triton needs the directories env:Triton and envarc:Triton to save it's "
+			"configuration files. Without these directories you cannot use window "
+			"position remembering or the Triton Preferences editor. You may create "
+			"and delete these directories at any time with the Preferences editor.\n\n"
+			@makedir-help))
+(set #ask-updateprefs 	"\nDo you want to update the preferences files?")
+(set #help-updateprefs (cat "You have to update the Triton Preferences settings for your new "
+			"Triton version. This will be done automatically. You cannot use the new "
+			"settings files with older Triton versions."))
+(set #copying-triton	"Copying triton.library to Libs:...")
+(set #copying-prefs	"Copying Triton Preferences editor to sys:Prefs...")
+(set #install-msg (cat	"\n\nTriton installation script.\n"
+			"This script installs Triton on your Amiga.\n\n"
+			"Read the 'Distribution' file for\n"
+			"more information on the distribution\n"
+			"and commercial usage of Triton.\n\n"
+			"Triton © 1993-1995 Stefan Zeiger.\n"
+			"All rights reserved."))
+
+;=============================================================================
+; make sure we are running under a 2.04+ ROM
+
+(if (< (/ (getversion) 65536) 37)
+(
+    (abort #bad-kick)
+))
+
+;=============================================================================
+
+(message #install-msg)
+
+(if	(< (/ (getversion) 65536) 39)
+	(copylib
+		(prompt "\n" #copying-triton)
+		(help @copylib-help)
+		(source tritonlib37)
+		(dest "Libs:")
+		(confirm)
+	)
+	(if	(askbool (prompt "\n" #ask-kick39) (help #help-kick39))
+		(copylib
+			(prompt "\n" #copying-triton)
+			(help @copylib-help)
+			(source tritonlib39)
+			(dest "Libs:")
+			(confirm)
+		)
+		(copylib
+			(prompt "\n" #copying-triton)
+			(help @copylib-help)
+			(source tritonlib37)
+			(dest "Libs:")
+			(confirm)
+		)
+	)
+)
+
+(if	(askbool (prompt "\n" #ask-prefs) (help #help-prefs))
+	(
+		(copyfiles
+			(prompt "\n" #copying-prefs)
+			(source tritonprefs)
+			(dest "sys:Prefs/")
+			(infos)
+			(files)
+		)
+		(if	(= (exists ("env:Triton") (noreq)) 0)
+			(
+				(makedir
+					("env:Triton")
+					(confirm)
+					(prompt "\n" #ask-makedir1)
+					(help #help-makedir)
+				)
+				(makedir
+					("envarc:Triton")
+					(confirm)
+					(prompt "\n" #ask-makedir2)
+					(help #help-makedir)
+				)
+			)
+			(run trPrefsUpdate
+				(prompt #ask-updateprefs)
+				(help #help-updateprefs)
+				(confirm)
+			)
+		)
+	)
+)

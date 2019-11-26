@@ -1,0 +1,18 @@
+##base _xvsBase
+##public
+##bias 30
+xvsSelfTest()()
+xvsCreateVirusList(listtype)(d0)
+xvsFreeVirusList(list)(a1)
+xvsAllocObject(objecttype)(d0)
+xvsFreeObject(object)(a1)
+xvsObjectType(object)(a1)
+xvsCheckBootblock(bootinfo)(a0)
+xvsInstallBootblock(bootblock,boottype,dostype)(a0,d0/d1)
+xvsSumBootblock(bootblock,offset)(a0,d0)
+xvsCheckSector(sectorinfo)(a0)
+xvsRepairSector(sectorinfo)(a0)
+xvsCheckFile(fileinfo)(a0)
+xvsRepairFile(fileinfo)(a0)
+xvsSurveyMemory(memoryinfo)(a0)
+##end

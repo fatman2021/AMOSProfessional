@@ -1,0 +1,6 @@
+.key file1
+if not exists <file1>.r
+   echo "File <file1>.r does not exist.  Try again."
+   quit 20
+endif
+blink drlib:drstart0.o+<file1>.r lib drlib:draco.lib+drlib:dos.lib to <file1> smallcode

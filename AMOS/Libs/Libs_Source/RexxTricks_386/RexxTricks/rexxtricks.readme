@@ -1,0 +1,238 @@
+'rexxtricks.library' 38.6 (12.4.96)
+***********************************
+
+'rexxtricks.library' is an ARexx function library. The functions cannot
+be assigned to a special purpose, it's just a collection of functions I
+missed when programming with ARexx. Let me know if you have any ideas for
+other useful functions.
+
+
+
+Functions of 'rexxtricks.library' 38.6 (12.4.96)
+************************************************
+
+AmigaDOS-functions
+
+* GETENV()                 Get environment variable
+* SETENV()                 Set environment variable
+* UNSETENV()               Remove environment variable
+
+* PATHPART()               Extract dirname from path
+* FILEPART()               Extract filename from path
+* MAKEPATH()               Append a filename to the end of a path
+
+* SUFFIXPART()             Get suffix of a filename
+* MAKESUFFIX()             Append a suffix to the end of a filename
+
+* GETCOMMENT()             Get comment of a file
+* SETCOMMENT()             Set comment of a file
+
+* GETPROTECTION()          Get protection flags of a file
+* SETPROTECTION()          Set protection flags of a file
+
+* MATCHPATTERN()           Check a string for pattern
+* SEARCHPATTERN()          Search for pattern in a textfile
+
+* GETKEY()                 Wait for a key at console window
+
+* GETDIR()                 Read directory into a compound variable
+
+* READFILE()               Read a textfile into a compound variable
+* WRITEFILE()              Write contents of a compound variable to a textfile
+* READLINES()              Read a part of a textfile into a compound variable
+* WRITELINES()             Replace or insert lines in a textfile
+
+
+SCSI-functions
+
+* SCSI_DEVICETYPE()        Get type of a SCSI-Device, DISK, TAPE etc.
+* SCSI_MANUFACTURER()      Get manufacturer of a SCSI-Device
+* SCSI_PRODUCT()           Get product-string of a SCSI-Device
+* SCSI_REVISION()          Get revision-string of a SCSI-Device
+* SCSI_TESTREADY()         Test whether a SCSI-Device is ready or not
+
+
+Clipboard-functions
+
+* READCLIPBOARD()          Read text from clipboard
+* WRITECLIPBOARD()         Write text to clipboard
+
+
+List-functions
+
+* QSORT()                  Sort list with QuickSort
+* BSEARCH()                Search string with Binary Search
+* LSEARCH()                Search string with Linear Search
+
+* STEMCOPY()               Copy elements of a compound variable
+* STEMINSERT()             Insert elements in a compound variable
+* STEMREMOVE()             Remove elements of a compound variable
+
+* VIEWLIST()               Display list in a listview-window
+
+
+Publicscreen-functions
+
+* GETDEFAULTPUBSCREEN()    Get name of the default-pubcreen
+* SETDEFAULTPUBSCREEN()    Set new default pubscreen
+
+* GETPUBSCREENMODES()      Get current pubscreen modes
+* SETPUBSCREENMODES()      Set new pubscreen modes
+
+* PUBSCREENTOFRONT()       Move a pubscreen to the front
+* PUBSCREENTOBACK()        Move a pubscreen to the back
+
+* PUBSCREENLIST()          Get list of all pubscreens currently open
+
+* BEEP()                   Beep screens
+
+
+Icon-functions
+
+* GETTOOLTYPEVALUE()       Get the value of a tooltype
+* SETTOOLTYPEVALUE()       Set the value of a tooltype
+
+* GETTOOLTYPES()           Get all tooltypes of an icon
+* SETTOOLTYPES()           Set all tooltypes of an icon
+
+* GETDEFAULTTOOL()         Get default tool of an icon
+* SETDEFAULTTOOL()         Set default tool of an icon
+
+* GETSTACK()               Get the stacksize of an icon
+* SETSTACK()               Set the stacksize of an icon
+
+* CREATEICON()             Create a new Icon
+* WBINFO()                 Call the icon information window from workbench (OS3.0+)
+
+
+Misc functions
+
+* WHATIS()                 Get filetype, uses 'whatis.library V4.0+'
+* WHATISTYPES()            Get a list of all currently known filetypes
+
+* FILEID_IDENTIFY()        Get filetype, uses 'FileID.library'
+* FILEID_GETHIGHID()       Get maximum filetype-ID of 'FileID.library'
+* FILEID_GETIDSTRING()     Get the description of a filtype-ID
+* FILEID_GETTYPES()        Get a list of all currently known filetypes
+
+* UUDECODE()               uudecode a file
+* UUENCODE()               uuencode a file
+
+* CRC32()                  Calculate 32-Bit CRC checksum of a file
+
+* COUNTCHARS()             Count chars in a string
+
+* RAND()                   Get a random number
+
+* REXXTRICKSVERSION()      Get version of rexxtricks.library
+
+
+
+ARexx programs
+**************
+
+The archive contains two utilities programmed in Arexx:
+
+* FindGUI
+
+  A GUI for the program 'Find' from 'Ralph Seichter', with many
+  features but also easy to use.
+
+  This excellent utility was programmed by 'Nils Görs'.
+
+* RDBBackup
+
+  A GUI for the program 'ReadRDB' from 'Gérard Cornu', makes it
+  very easy to backup the 'RigidDiskBlock' of all connected
+  harddisks.
+
+
+
+Changes in version 38.5
+***********************
+
+* New function 'READLINES'
+
+* New function 'WRITELINES'
+
+* New function 'STEMCOPY'
+
+* New function 'STEMREMOVE'
+
+* New function 'RAND'
+
+* New function 'READCLIPBOARD'
+
+* New function 'WRITECLIPBOARD'
+
+* New function 'SCSI_MANUFACTURER'
+
+* New function 'SCSI_PRODUCT'
+
+* New function 'SCSI_REVISION'
+
+* New function 'SCSI_DEVICETYPE'
+
+* New function 'SCSI_TESTREADY'
+
+
+
+Changes in version 38.6
+***********************
+
+* English documentation
+
+* Fixed a bug in the function 'VIEWLIST', MouseBlankers didn't work
+  if the window was active
+
+* New options for function 'QSORT'
+
+* From now on the function 'SEARCHPATTERN' stores the found line in
+  the ARexx variable 'RESULT'
+
+* New function 'FILEID_IDENTIFY'
+
+* New function 'FILEID_GETHIGHID'
+
+* New function 'FILEID_GETIDSTRING'
+
+* New function 'FILEID_GETTYPES'
+
+* New function 'UUDECODE'
+
+* New function 'UUENCODE'
+
+* New function 'STEMINSERT'
+
+* New function 'GETDIR'
+
+
+
+Author
+******
+
+Mail:
+
+   Jürgen Kohrmeyer
+   Oststraße 2
+   49143 Bissendorf
+          
+   GERMANY
+
+Voice:
+
+   +49-5402-5195
+
+E-Mail:
+
+   j_kohrmeyer@wilam.north.de
+
+Support-Mailbox:
+
+   WILAM Mailboxsystem Wildeshausen
+          
+   Port 1 - +49-4431-92081 : USR DualStandard V.34
+   Port 2 - +49-4431-92082 : ZyXel 19.2k
+   Port 3 - +49-4431-92082 : ISDN X.75
+          
+   Login with username MD, download from menu

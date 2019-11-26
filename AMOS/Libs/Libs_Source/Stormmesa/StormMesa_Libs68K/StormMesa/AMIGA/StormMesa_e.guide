@@ -1,0 +1,1425 @@
+@database "StormMesa"
+@Author "Sam Jordan"
+@$VER: StormMesa.guide V2.0 (5.2.99)
+
+@Node Main "StormMesa"
+
+
+                                 StormMESA V3.0
+        A freeware (GNU) 3D graphics library for 68K- and PowerPC AMIGA's
+                      Almost completely OpenGL compatible
+
+                     Based on MESA V3.0 beta 8 by Brian Paul
+                     Based on AMESA V1.6 by Stefan Zivkovic
+
+           StormMESA V3.0 is presented by HAAGE & PARTNER Computer Gmbh
+         StormMESA V3.0 implementation maintained by Sam Jordan - 10.12.98
+
+
+
+                          @{"           Preface           " link Prologue}
+                          @{"         Introduction        " link Introduction}
+                          @{"         Requirements        " link Requirements}
+                          @{"         Installation        " link Installation}
+                          @{"            Usage            " link Usage}
+                          @{"        Graphics modes       " link GfxModes}
+                          @{"     3D hardware support     " link Hardware}
+                          @{"        Locking modes        " link Locking}
+                          @{"    The Viewperf benchmark   " link Viewperf}
+                          @{"       Developer infos       " link DevSup}
+                          @{"          Addresses          " link Address}
+
+@EndNode
+
+@Node Prologue "Preface"
+
+The topic 'three-dimensional graphics' has experienced a real boom throughout
+the last few years. The advancement in hardware development had made it possible
+to display high quality three dimensional graphics at high speed.
+
+This boom has been significantly influenced by the games industry. The very
+successful games-company ID-Software has helped to get the 3D wave rolling with
+a couple of games. The player was confronted with a freedom of movement never
+experienced before, never had it been possible to move so uninhibited in a
+virtual world. Nowadays the games market is being flooded with 3D games.
+
+At the beginning of 3D-graphics the programmers had to program the complete
+threedimensional visualisation by themselves. The development of such a 3D
+engine therefore took a lot of time. That was the reason why many wanted to have
+a 3D graphics-library which should be able to make certain basic operations
+automatically and give the programmer the chance to concentrate on different
+aspects of programming.
+
+A second reason for the need for a standardized graphics-library was the
+blazingly fast development a specialized 3D graphics hardware, which is able to
+execute certain basic operations of threedimensional graphics in hardware (and
+therefore extremely fast). When only few 3D graphics hardware was available,
+each manufacturer produced its own 3D graphics driver, which only worked for the
+specific hardware. The games producers were forced to seperately support each
+standard.
+
+Throughout the last years, two graphics standards have been established, which
+offer a standardized 3D graphics interface and handle the communication with
+eventually available graphics hardware: Direct3D and OpenGL. Thanks to these
+standard, developers are able to create 3D programs that can even be run on
+hardware which is not yet existant.
+
+Direct3D is a Microsoft product and is mostly used by the games industry. OpenGL
+has been derived from IrisGL (the 3D library of Silicon Graphics systems) and is
+more often used for graphics applications. Games supporting OpenGL are still a
+minority, which can quite possibly change in the future.
+
+A 3D graphics library may only be called 'OpenGL' when it has succeeded in
+numerous tests and has been certified by a specific body. This process leads to
+high costs. That's most probably one of the major reasons why until now no
+licensed OpenGL application has been published for the AMIGA.
+
+Thanks to Brian Paul, users of almost any system can nowadays use the OpenGL
+interface. Brian Paul has developed a 3D graphics library which is almost
+completely OpenGL compatible. It is not a licensed OpenGL implementation, but
+nevertheless MESA (the name of this 3D library) has almost the full
+functionality of OpenGL. Virtually any OpenGL application can be recompiled for
+MESA. The author of MESA has decided to declare his work freely distributable.
+The terms of use are defined by the GNU Public License.
+
+Since MESA has the status of freeware, it can be ported to any system. MESA was
+ported some years ago for the AMIGA, first for AmiWin (X11R6 emulation). Based
+on this port, a second port was created, which directly interfaced with
+AMIGA-OS. This port, done by Stefan Zivkovic, was also the base for this new
+version.
+
+In december 1997 we at HAAGE & PARTNER decided to make a new version of
+StormMesa, which was also designed to take advantage of the new PowerPC
+processor boards. Apart from that it was also an opportunity to polish up the
+existing StormMesa implementation with some additional features. And so
+StormMesa 2.0 was released.
+
+Meanwhile a lot moved in the 3D topics. With the release of Warp3D, the
+hardware-independent 3D driver system, the 3D capabilites of specialized 3D
+hardware became accessible by applications. As a logical consequence, StormMesa
+was enhanced with a driver for Warp3D, so that it is now possible to run OpenGL
+applications with never-seen performance. This and other improvents lead to
+StormMesa 3.x.
+
+Finally we'd like to thank Brian Paul, Stefan Zivkovic and all the people who
+have worked or still work on MESA. Without their work this new version most
+likely would not exist.
+
+We also hope that with this AMIGA-MESA implementation 3D graphics on the AMIGA
+will experience a boom similar to that on other platforms, and that this leads
+to a lot of new 3D software as well as 3D hardware.
+
+Enjoy!
+
+Sam Jordan
+
+@EndNode
+
+@Node Introduction "Introduction"
+
+StormMesa V3.x is a 3D graphics library which is almost completely OpenGL
+compatible. This library is freely distributable under the GNU Public License.
+The GPL can be found in the MESA distribution archive (file 'LICENSE').
+
+StormMesa V3.x is based on MESA 3.0 beta 8 by Brian Paul. More information on
+MESA can be found on the WWW at 'http://www.ssec.wisc.edu/~brianp/Mesa.html' or
+in the MESA distribution archive 'README' file.
+
+StormMesa V3.x is based on AMesa V1.6 by Stefan Zivkovic. In the MESA
+distribution archive the file 'README.AMIGA' can be found, which contains
+information on StormMesa V1.6.
+
+
+Features of StormMesa 3.x (those features market with * are new compared
+to StormMesa 2.0):
+
+- Almost completely OpenGL compatible
+  (*) The GL 1.2 API is supported
+
+- 68040 and 68060 processors (with FPU) as well as all PowerPC processors are
+  supported.
+
+- (*) Arbitrary 3D hardware is supported, if the driver system 'Warp3D'
+  is installed and if a driver for the particular 3D hardware is present.
+
+- (*) StormMesa 3.0 is provided as shared libraries for both processors.
+
+- Works with AGA as well as with graphics boards unter CyberGFX or Picasso96.
+  Support of 8/15/16/24/32 bit modes, it doesn't matter if the RGBA mode
+  is used or the index mode.
+  (*) The support of AGA and CyberGFX has been strongly improved compared to
+  StormMesa 2.0.
+
+- The graphics output on 8 bit screens is improved strongly by dithering.
+  (*) The dithering has been improved strongly compared to StormMesa 2.0.
+
+- Support of window mode and fullscreen mode.
+
+- (*) Support of V39 multibuffering through the 'intuition' functions.
+  This allows to use even menus in fullscreen mode.
+  Since StormMesa 3.1 triple buffering is supported.
+
+- High performance due to many ASM optimizations.
+
+- (*) An almost complete implementation of the GLUT 3.7 API is provided
+  for StormMesa 3.0 as shared libraries for both processor types. This
+  allows to compile a lot of OpenGL demos for AMIGA almost without any
+  changes.
+
+- (*) A lot of precompiled demos are provided for both processor types.
+
+- (*) An AMIGA version of the famous OpenGL benchmark 'Viewperf' is
+  provided for both processor types.
+
+StormMesa V3.x was compiled with the StormC compiler and assembled with the
+PhxAss (68K) and Storm-PowerASM (PowerPC) assemblers.
+
+@EndNode
+
+@Node Requirements "Requirements"
+
+Minimal requirements for StormMesa 3.x:
+
+- 68040 or 68060 with FPU or any PowerPC processor.
+- The PowerPC version requires that the WarpUp software from Haage&Partner
+  is installed. This software is free software, which can be downloaded
+  on the WWW at 'www.haage-partner.com'.
+- For 3D accelerator support, the driver software 'Warp3D' has to be
+  installed (free software, can be downloaded on the WWW under
+  'www.haage-partner.com' at the 3DWorld sites).
+  IMPORTANT: StormMesa 3.1 requires Warp3D V2, older Warp3D versions
+  don't work anymore.
+- In general OS 2.0 is required.
+- The fullscreen mode requires at least OS 3.0.
+- The AGA mode requires at least OS 3.0. For the fullscreen mode under
+  AGA and OS 3.0, the patch 'NewWPA8' has to be installed. This patch
+  is part of the StormMesa distribution.
+
+Recommended is a PowerPC processor, OS3.1, graphics board and a big amount of
+memory. Also very recommended is a powerful 3D accelerator.
+
+@EndNode
+
+@Node Installation "Installation"
+
+Basically the installer scripts should always be used to install
+StormMesa 3.0 or the demo collections.
+
+When installing the demo archives, you should do it according to one
+of the following proposed methods:
+
+Method 1:
+
+a) Extract the 1th demo archive into a temp. directory
+b) Install this archive using the installer script
+c) Delete the GLProgs directory located in the temp. directory in the shell
+d) Proceed according to a) with further demo archives
+
+Method 2:
+
+a) Extract the 1th demo archive into a temp. directory
+b) Extract all other archives into this directory
+c) Install the archives using the installer script. All archives are
+   then installed at once.
+d) Delete the GLProgs directory located in the temp. directory in the shell
+
+If you don't delete the directory in method 1 and you install further
+archives, all files of the older archives are recopied again. And the
+amount of data to be copied increases with the number of archives
+installed.
+
+
+The following archives are available with the release of StormMesa 3.0:
+
+- StMesa_Libs<CPU>.lha    : The StormMesa-/GLUT libraries
+- StMesa_Demos1<CPU>.lha  : OpenGL demos from the MESA archive as precompiled
+                            executables. The sources to these demos can
+                            be found in StMesa_Archive.lha in the directory
+                            - mesa:demos
+- StMesa_Demos2<CPU>.lha  : OpenGL demos from the GLUT archive as precompiled
+                            executables. These demos are the most complex
+                            and impressive ones. The sources to these demos
+                            can be found in the GLUT archive (can be downloaded
+                            from the official GLUT homepage) in the directories
+                            - glut:progs/demos
+- StMesa_Demos3<CPU>.lha  : OpenGL demos from the GLUT archive as precompiled
+                            executables. A lot of these demos use the
+                            GLE and GLSMAP libraries to demonstrate the
+                            features of these libraries. The sources to these
+                            demos can be found in the GLUT archive (can be
+                            downloaded from the official GLUT homepage) in the
+                            directories
+                            - glut:progs/bucciarelli
+                            - glut:progs/gameglut
+                            - glut:progs/gle
+                            - glut:progs/spheremap
+- StMesa_Demos4<CPU>.lha  : OpenGL demos from the MESA archive as precompiled
+                            executables. The sources to these demos can
+                            be found in StMesa_Archive.lha in the directory
+                            - mesa:samples
+- StMesa_Demos5<CPU>.lha  : OpenGL demos from the GLUT archive as precompiled
+                            executables. These demos are of simple nature.
+                            The sources to these demos can be found in the
+                            GLUT archive (can be downloaded from the official
+                            GLUT homepage) in the directories
+                            - glut:progs/contrib
+                            - glut:progs/examples
+- StMesa_Demos6<CPU>.lha  : OpenGL demos from the GLUT archive as precompiled
+                            executables. These demos demonstrate special
+                            OpenGL features. The sources to these demos can
+                            be found in the GLUT archive (can be downloaded
+                            from the official GLUT homepage) in the directory
+                            - glut:progs/advanced
+- StMesa_Demos1Dat.lha
+- StMesa_Demos2Dat.lha
+- StMesa_Demos3Dat.lha
+- StMesa_Demos4Dat.lha
+- StMesa_Demos5Dat.lha
+- StMesa_Demos6Dat.lha    : The data files to the demos have been placed
+                            into separate archives, since StormMesa 3.1.
+                            They were found only on the 68K archives in
+                            earlier StormMesa releases.
+- StMesa_VPerf<CPU>.lha   : Viewperf implementation (OpenGL benchmark software).
+                            The data files are not included and have to be
+                            downloaded from the internet.
+- StMesa_Dev.lha          : The developer archive, containing includes, linker
+                            libraries and compiler adaptions, which is
+                            absolutely necessary to develop StormMesa
+                            applications.
+- StMesa_Archive.lha      : The MESA archive, which has to be provided
+                            according to the GNU public licence. The sources
+                            of Mesa are not included here.
+- StMesa_Src.lha          : The part of the MESA archive, which is
+                            missing in StMesa_Archive.lha, mainly the
+                            MESA sources.
+
+Basically only the archives StMesa_Libs68K.lha (68K) and StMesa_LibsPPC.lha
+(PPC) are necessary to install StormMesa 3.0.
+
+To install the demos correctly it is necessary to download both an
+executable archive and a data files archive (StMesa_DemosXDat.lha).
+
+If these archies are installed by hand, then please note: in the demo
+archives there are a lot of startup scripts which are used to launch
+the demos with correct settings. These scripts only work, if an assign
+'GLprogs:' points to the directory 'GLprogs' where all demos are
+extracted to.
+
+The archives StMesa_Libs68K.lha, StMesa_LibsPPC.lha, StMesa_Dev.lha,
+StMesa_Archive.lha and StMesa_Src.lha extract themselves into a
+directory 'StormMesa'. It is advantageous to make an assign 'mesa:'
+pointing to this directory.
+
+The shared libraries are located in the archive StMesa_Libs68K.lha resp.
+StMesa_LibsPPC.lha in the directory mesa:AMIGA/slibs. These
+shared libraries have to be copied to LIBS:
+
+@EndNode
+
+@Node Usage "Benuetzung"
+
+OpenGL applications can be divided into three groups:
+
+        @{"a)" link Usage 26} Applications using the StormMesa-API directly
+        @{"b)" link Usage 38} Applications using the AUX/TK API
+        @{"c)" link Usage 78} Applications using the GLUT API
+
+
+All three types of applications can be influenced through the following
+env variables:
+
+
+MESA_DEBUG:     Enables the output of detailled error messages. This is
+                used for debugging of OpenGL programs.
+MESA/DIRECT:    Forces the application to run in 'direct render' mode,
+                even if the application attempted to run in the
+                'indirect render' mode. The use of 3D hardware is only
+                possible in 'direct render' mode.
+MESA/NOHW:      Forces the graphics to be drawn by the CPU, the 3D
+                hardware is not touched.
+MESA/SYNC:      Enforces synchronized refreshing of the graphics in window
+                mode. Since StormMesa 3.1 no synchronisation is done
+                by default in window mode.
+MESA/TRIPLE:    Enables triple buffering. This leads for fast applications
+                to better performance in fullscreen mode and to a more
+                constant animation. The disadvantage is the much bigger
+                video memory usage.
+
+There are more env variables which are used especially with 3D @{"hardware" link Hardware}
+rendering.
+
+
+a) Applications using the StormMesa API directly
+
+There are no general rules for these applications, you have to
+inform yourself how it is controlled.
+
+
+b) Applications using the AUX/TK API
+
+The AUX/TK libraries provide a portable API for window and interaction
+management. These API's are outdated and should not be used by any
+new applications (GLUT has replaced AUX/TK).
+
+If AUX/TK based applications are executed, some things can be controlled
+using environment variables:
+
+MESA/FORCE_DB: If this variable is set, then all AUX/TK based applications
+               are executed in double-buffering mode, even if they
+               attempted to run in single-buffering mode. This variable
+               should always be set (should be done automatically by
+               the installer script).
+MESA/FORCE_IR: If this variable is set, then all AUX/TK based applications
+               are executed in 'indirect render' mode. The graphics data
+               is then first drawn into a FAST RAM buffer before they
+               are copied (usually the graphics data are drawn directly
+               into the graphics memory). This mode can accelerated
+               the drawing of scenes which cover a big part of the
+               drawing area. The disadvantage is, that no 3D hardware
+               can be used in this mode. The env variable MESA/DIRECT
+               overrides the variable MESA/FORCE_IR. This variable
+               has no meaning under AGA.
+MESA/FORCE_FS: Forces the demos to run in fullscreen mode. The application
+               can be quit by clicking on the left top corner of the
+               screen (that's a close gadget, which is hidden).
+               If the fullscreen mode is used with AGA and OS 3.0, then
+               the patch 'NewWPA8' has to be installed (the patch is
+               located in the directory AMIGA/misc/NewWPA8). The
+               executable 'NewWPA8' should be executed instantly after
+               SetPatch is executed in the startup-sequence.
+
+AUX/TK based applications don't use menus. They are controlled using
+keyboard and mouse.
+
+Currently there is one single application in the StormMesa 3.0
+distribution, which uses AUX/TK: the Viewperf benchmark.
+
+
+c) Applications using the GLUT API
+
+GLUT is the replacement for AUX/TK and is much more powerful than
+AUX/TK. Almost all GL applications (most demos in the StormMesa3.0
+distribution), which don't need OS specific features, are based on
+GLUT. GLUT offers features like menus, subwindows, joystick control
+and many more.
+
+GLUT applications can be controlled using menus, keyboard, mouse,
+joystick, if the applications supports it. If menus are present,
+then it's easy to find out how to control it; if there are no
+menus, then you have to look at the source code or try to find
+documentation about the application. Pressing the 'h' key during
+the demo might help.
+
+In the chapter @{"Background information to GLUT 3.7" link Devsup_e} are further
+hints about application control, for example emulations of missing
+mouse buttons and of GLUT special keys.
+
+This GLUT implementation accepts the following CLI parameters:
+
+
+Supported standard GLUT parameters:
+
+-geometry <X-style display geometry definition>
+        Can be used to define the display size and type. It is
+        not used very often.
+-direct
+        Tries to run the demo in direct rendering mode (frame
+        directly rendered into VRAM). Currently has no effect,
+        since the current implementation does not abort, if no
+        direct rendering is available.
+-indirect
+        Forces the demo to run in indirect render mode. Default
+        is direct rendering. Note, that 3D hardware support will
+        only be possible either in fullscreen mode or with direct
+        rendering in window mode (and it will only work, if the
+        bitmaps allocated by Mesa are placed in VRAM).
+-gldebug
+        enables GL debugging output
+
+
+AMIGA specific GLUT parameters:
+
+-forcedb
+        forces the demos to run in double-buffered mode
+-forcefs
+        forces the demo to run in full screen mode. Note, that this
+        full screen mode is not the same mode like the GLUT game mode.
+        Menus are still allowed. Also note, that key-up messages are
+        NOT caught in full screen mode, while they are indeed caught
+        in GLUT game mode.
+        The fullscreen mode can be left either by clicking on the
+        left top corner or by selecting the appropriate menu entry.
+        Usually the fullscreen mode is used to allow the use of
+        3D hardware, if the workbench is running in a screenmode
+        not supported by the 3D hardware (i.e. 8 bit mode).
+-gldb
+        Enforces allocation of two back buffers. This is absolutely
+        necessary when using the functions glDrawBuffer and glReadBuffer
+        with GL_FRONT or GL_FRONT_AND_BACK. Note, that the front buffer
+        is not accessed directly, the contents of the front buffer are
+        copied into the destination window when glFlush() is called.
+        If is is desired to render directly into the front buffer without
+        delay, they you have to run the demo in fullscreen mode (but
+        direct rendering into the front buffer in fullscreen mode does
+        not work in AGA fullscreen mode).
+-destalpha
+        Prevents Mesa from allocating an alpha buffer. Can be used if
+        running the demo in 32 bit mode with alpha channel. Might speed
+        up rendering.
+-nohw
+        Forbids the use of 3D hardware. When running demos, which can't
+        run accelerated due to missing feature of 3D chips, then this
+        parameter should be enabled, otherwise the demos are braked down.
+        This parameter is also useful when exact results are required,
+        but the 3D hardware is not able to give these exact results.
+-fast
+        Allows to reduce the graphics quality. This way many additional
+        demos can use 3D hardware acceleration, even if the 3D hardware
+        does not support some requested features entirely. This switch
+        should be used, if speed is more important than graphics quality.
+-vfast
+        The same as -fast, but now an even bigger reduction of graphics
+        quality is accepted.
+
+
+This GLUT implementation also checks for some environment variables
+(can be overridden by some CLI parameters). Sometimes the env variables
+are the only possibility to influence the application.
+
+GLUT/FORCE_DB   : Corresponds to the CLI parameter -forcedb
+GLUT/FORCE_IR   : Corresponds to the CLI parameter -indirect
+GLUT/FORCE_FS   : Corresponds to the CLI parameter -forcefs
+MESA/NOHW       : Corresponds to the CLI parameter -nohw
+MESA/FAST       : Corresponds to the CLI parameter -fast
+MESA/VERYFAST   : Corresponds to the CLI parameter -vfast
+GLUT/ICON:      : Contains the name of an '.info'-File (without the suffix
+                  '.info', which is used for the Iconfiy-Feature. If this
+                  variable is not defined, then GLUT will attempt to load
+                  the Icon 'S:GLUT.info'. If no icon was found, then the
+                  Iconify-Feature doesn't work.
+
+If an application enters game mode, then some things change a bit:
+
+- No menus
+- Key-up messages are caught and can be handled by the application
+- ASCII-Keys are not passed with respect to the installed keymap,
+  so pressing the z-Key might result in passing the 'y' letter or
+  the 'z' letter to the application.
+
+Have a look at gameglut/asteroids in the StMesa_Demos368K.lha archive
+for a demonstration of GLUT game mode in conjunction with the
+joystick API and handling of key-up messages. In GLUT based applications
+up to 7 fire buttons can be supported.
+
+@EndNode
+
+@Node GfxModes "Graphics modes"
+
+This StormMesa implementation supports many different graphics modes, which are
+going to be explained below.
+
+1. single-buffered
+
+In this mode, all graphical objects are drawn into the current window with
+system functions. This mode is very slow and causes a lot of flickering if the
+demo is animated. Things get even more extreme when using a PPC application
+on dual processor boards because every system call results into a
+context switch.
+
+2. double-buffered ('indirect rendering')
+
+In this mode the image is generated in a FAST-RAM buffer and then copied into
+the current window with a system function (cybergraphics/WritePixelArray resp.
+graphics/WriteChunkyPixels).
+
+With the env variables MESA/FORCE_DB (AUX/TK) and GLUT/FORCE_DB (GLUT)
+applications can be forced to use double buffering. GLUT based applications
+usually can forced to use double buffering mode using the CLI parameter
+-forcedb
+
+3. double-buffered ('direct rendering')
+
+In this mode a new bitmap is allocated in the graphics memory (if the graphics
+board software indeed places the bitmap in graphics RAM). All dawing operations
+really take place in this bitmap in graphics memory. When the image is completely
+rendered, it is copied to the current window with a system function, which should
+happen very fast with the blitter.
+
+This mode can tremendously accellerate many demos, since the deletion of the
+window and the copying of the image is done by the graphics board's blitter
+instead of the CPU. But if the image covers a big part of the drawing area,
+then it might be faster to use 'indirect rendering'. Note, that 3D hardware
+acceleration is only possible in 'direct rendering' mode.
+
+With the env variables MESA/FORCE_IR (AUX/TK) and GLUT/FORCE_IR (GLUT)
+applications can be forced to use indirect rendering. GLUT based applications
+usually can forced to use indirect rendering mode using the CLI parameter
+-indirect
+
+4. fullscreen mode
+
+This mode enables the fullscreen display of OpenGL demos. Applications
+supporting this mode have to ensure that a window filling the whole screen is
+supplied to the StormMesa implementation. StormMesa uses OS3.0 compatible
+multibuffering (via the functions intuition/AllocScreenBuffer, intuition/
+FreeScreenBuffer and intuition/ChangeScreenBuffer) in order to guarantee
+flickerfree animations. Additionally the rendered image does not have to
+be copied, since it is rendered directly in graphics memory. The use of
+menus is also possible.
+
+The multibuffering happens completely transparent for the application, so that
+there is no need for the developer to take care of it.
+
+With the env variables MESA/FORCE_FS (AUX/TK) and GLUT/FORCE_FS (GLUT)
+applications can be forced to use fullscreen mode. GLUT based applications
+usually can forced to use fullscreen mode using the CLI parameter -forcefs.
+
+The env variable MESA/TRIPLE enables triple buffering, which leads to
+better performance and more constant animations, but requires much more
+video memory.
+
+Note: in multibuffering mode, flickering can be caused by certain commodities
+running in the background. In this case those commodities should be deactivated.
+
+Older CyberGfx versions had severe problems with multibuffering, therefore
+make sure to install a recent CyberGfx version.
+
+@EndNode
+
+@Node Hardware "3D hardware support"
+
+StormMesa 3.0 supports arbitrary 3D hardware, so that many OpenGL
+applications can be accelerated very much. To successfully 3D hardware
+acceleration a series of conditions must be satisfied:
+
+- The driver system 'Warp3D' has to be installed (Warp3D is free software
+  and can be downloaded from the '3DWorld' websites from
+  www.haage-partner.com).
+- A Warp3D driver for the installed 3D hardware must be available.
+- A graphics subsystem must be available, which is supported by Warp3D
+  (i.e. CyberGFX, Picasso96).
+- 3D hardware support must not be disabled through env variables or
+  CLI parameters.
+- The application either must run in fullscreen mode or in a window
+  in 'direct render' mode. Note, that the 'direct render' mode also
+  works, if new bitmaps aren't placed in VRAM, but then it is not
+  possible to use 3D hardware rendering. This is the case for
+  CyberGFX V3 for CyberVision3D, where the fullscreen mode is
+  basically the only possibility to use 3D hardware rendering.
+- The screenmode must be supported by the 3D hardware. For example,
+  it is not possible to use 3D hardware rendering in 8 bit mode
+  using StormMesa 3.0.
+- There must be enough VRAM to place all necessary buffers (i.e.
+  ZBuffer, textures). Note, that the size of the workbench has a
+  major influence on the free FRAM available as well as the chosen
+  screenmode for the application (the CyberVision3D is affected
+  because only 4MB VRAM is available).
+- The 3D hardware must be able to provide all features requested
+  by the application. If the hardware can't provide these features,
+  then the 3D hardware is not used. This behaviour can be influenced
+  using some CLI parameter and env variables (see below).
+
+
+The use of 3D hardware can be disable through the env variable MESA/NOHW.
+Most GLUT-based applications also know the CLI parameter -nohw, which
+achieves the same result.
+
+There exist more possibilities to control, whether the 3D hardware or
+the CPU is used for rendering:
+
+Env variable: MESA/FAST
+GLUT CLI parameter: -fast
+
+If this option is activated, the 3D hardware is also used when some
+effects aren't supported completely by the hardware. But StormMesa
+still tries to achieve an acceptable graphics quality.
+
+Env variable: MESA/VERYFAST
+GLUT CLI parameter: -vfast
+
+If this option is activated, the 3D hardware is mostly used, but
+the graphics quality might be unacceptable low.
+
+
+There exists an option to find out, how the 3D hardware was used
+when executing an StormMesa application. If the variable MESA/STATS
+is set, some information is printed out into the shell after completion
+of the application. First, the reasons are displayed, which were
+responsible for not using the 3D hardware and second, the amount of
+drawn primitives (points, lines, triangles, quads) are printed out.
+If there is no statistical output after completion of the application,
+then some of the mentioned conditions, which are necessary for 3D
+hardware support, are not satisfied.
+
+
+There exist further env variables:
+
+MESA/NOCLAMP
+
+If this option is activated, then 'texture wrapping' is also used,
+if the application wants to use 'texture clamping'. This option
+should be used when a Virge 3D processor is used, because the
+amount of demos capable of running 3D hardware accelerated grows
+a lot.
+
+MESA/NICETEX
+
+Cares, that the graphics quality concerning textures is as good as
+possible, even if the overall graphics quality was reduced using
+the variables FAST and VERYFAST.
+
+MESA/NICEFOG
+
+Cares, that the graphics quality concerning fogging is as good as
+possible, even if the overall graphics quality was reduced using
+the variables FAST and VERYFAST.
+
+MESA/NOHWLINES
+
+Forbids the use of 3D hardware rendering for line drawing.
+
+@EndNode
+
+@Node Locking "Locking modes"
+
+Since StormMesa 3.1 some different locking strategies are supported,
+which currently only take effect in conjunction with hardware
+acceleration. The performance of GL applications depend a lot
+on these locking modes.
+
+Some background to this topic: Drawing operations, which are done
+using 3d hardware, have to be executed in 'locked' state, so that
+the system itself isn't confused. In custom 3D engines this is
+usually solved by first doing the calculations first, followed
+by a 'lock'-call, the drawing of the objects and a final 'unlock'
+call. For OpenGL this procedure isn't possible, since both
+calculations and drawings are performed for every vertex defined
+between glBegin and glEnd. If every drawing operation would
+be enclosed by a lock/unlock call, it would result in a big
+overhead and performance degradation due to hundreds or even
+thousands of such begin-end-blocks. On the other hand, if the
+lock is held during the whole display function, the system is
+almost freezed permanently and not usable anymore.
+
+Therefore some different locking approaches were implemented into
+StormMesa so that every user can decide what fits best to his needs.
+The env variable MESA/LOCKMODE can be set to values between 0 and 3,
+where the value 3 is set by default by the installer.
+
+0 : The graphics isn't drawn directly, an 'indirect context' of the
+    Warp3D software is used. The drawing operations are collected
+    in a buffer and drawn later, by enclosing such drawing operations
+    by an lock/unlock call.
+    This mode is the most system friendly mode and also works for
+    applications, that call system functions during OpenGL drawing
+    which might also cause graphical output.
+    The disadvantage of this mode is the low performance.
+1 : All objects are drawn directly and every begin-end-block is
+    enclosed by a lock/unlock call. This mode is right now useless,
+    since it's performance is very low due to massive lock/unlock
+    call overhead.
+2 : All objects are drawn directly and the lock is held during the
+    whole display function. This is the fastest mode, but very
+    system unfriendly, because it freezes the system very much.
+3 : This mode works very similar to mode 2, but here the lock is
+    broken in periodic intervals to let the system 'breathe air'.
+    Practice has shown, that the performance usually isn't
+    noticeable lower than for the mode 2, but the system
+    friendliness is much better.
+
+Hint for OpenGL programmer: avoid calling system functions, that might
+cause graphical output, during OpenGL drawing operation (between
+the first call of a drawing function until glFlush/SwapBuffers).
+This leads to a system deadlock when locking modes 2 or 3 are used.
+
+@EndNode
+
+@Node Viewperf "The Viewperf benchmark"
+
+The Viewperf benchmark program serves to measure OpenGL performance.
+It is not a synthetical test, but a 'real-world-test'. The viewperf
+files are located in the archive 'StMesa_VPerf68K.lha'.
+
+To use the Viewperf benchmark you have to get the so called 'viewsets',
+a collection of data files, which are used by the viewperf program.
+These files can be downloaded from the following FTP site:
+
+ftp.specbench.org/dist/gpc/opc/viewperf
+
+Now do the following:
+
+For every of those 5 viewsets a directory exists in
+GLprogs:viewperf/viewsets. Copy all files of the viewset into the
+correct directory. Afterwards you have to convert all ASCII-based
+data files from PC format to AMIGA/Unix format (by stripping the
+carriage returns). This is ABSOLUTELY necessary, otherwise it won't
+work.
+
+Now you can run the benchmark by double-clicking the appopriate
+icon in GLprogs:viewperf/benchmarks. The program will run several sub-tests
+and will print out the final result into a CON window, as soon as all
+tests were done.
+
+These viewperf tests are very memory-intensive, so you should have at
+least 16MB RAM (maybe some tests also work with less memory). Note,
+that the Light-Test (the BIG one) requires about 80MB RAM to be present.
+
+@EndNode
+
+@Node DevSup "Developer infos"
+
+        Developer infos
+
+        @{"a)" link DevSup_a} Compile OpenGL applications using StormC
+        @{"b)" link DevSup_b} Compile OpenGL applications using other compilers
+        @{"c)" link DevSup_c} Developing OpenGL software
+        @{"d)" link DevSup_d} The AMIGA-related API of StormMesa 3.0
+        @{"e)" link DevSup_e} Background information to GLUT 3.7
+
+@EndNode
+
+@Node DevSup_a "Compile OpenGL applications using StormC"
+
+First, the following link libraries should be copied into StormC:lib
+directory (they can also be copied to another location, but having
+them in StormC:lib makes life much easier):
+
+mesa:AMIGA/llibs/storm/stormmesa.lib (68K)
+mesa:AMIGA/llibs/storm/stormmesa_gle.lib (68K)
+mesa:AMIGA/llibs/storm/stormmesa_glsmap.lib (68K)
+mesa:AMIGA/llibs/storm/stormmesa_ppc.lib (PPC)
+mesa:AMIGA/llibs/storm/stormmesa_gle_ppc.lib (PPC)
+mesa:AMIGA/llibs/storm/stormmesa_glsmap_ppc.lib (PPC)
+
+All these files are located in the archive 'StMesa_Dev.lha'.
+The linklibs stormmesa.lib and stormmesa_ppc.lib are always used
+for every GL application, while the other ones are only used when
+accessing the GLE resp. GLSMAP implementations.
+
+Then copy all include files to StormC:include. This can be done using
+the following command line (assuming an assign mesa: points to the
+StormMesa directory):
+
+copy mesa:AMIGA/include StormC:include all
+
+In the directory 'StormC:include/stormprotos' special prototype files
+for creating PPC applications with StormC are placed. Those with suffix
+'_s4.h' are thought for the upcoming StormC V4 resp. for the latest
+beta versions, then those files have to be renamed.
+
+Now create a new project file. Add the define 'AMIGA' to the list
+of defines. Then add all sources to be compiled, select the
+executable and add the standard link libraries (like storm.lib/
+storm603.lib, amiga.lib/ppcamiga.lib) to the project. Finally add
+the StormMesa-Link-Libraries to the project file (at least stormmesa.lib/
+stormmesa_ppc.lib). Compile it and run the executable.
+
+In 99 percent of all cases you won't need to access the shared
+libs directly, usually you should use these link libraries to access
+the shared libraries. If you for some reason don't want to use these
+link libs, then you have to create appropriate pragma files from the
+provided FD files. Important: you should study the sources of the
+Storm-MESA link libs to understand, what must be done in order to
+access the shared libraries (those sources are located in the
+directory mesa:AMIGA/llibs/src). Basically the linker libraries
+should be used, since they automatically open all shared libs and
+do all preparations.
+
+The StormMesa shared libraries are special multibase-libraries, which
+return separate library bases for each task from OpenLibrary. Therefore
+these library bases should not be shared by different tasks.
+
+@EndNode
+
+@Node DevSup_b "Compile OpenGL applications using other compilers"
+
+To use StormMesa 3.0 with other compilers than StormC, some adaptions
+have to be done, because the StormC link libraries can't be used with
+other compilers. With the first release of StormMesa 3.0, the following
+compiler adaptions are provided:
+
+GCC/EGCS compiler 68K
+VBCC compiler 68K
+VBCC compiler PPC/WarpUp
+GCC/EGCS compiler PPC/WarpUp
+
+In the directory mesa:AMIGA/llibs there is a subdirectory for
+every compiler, which contains all files which are necessary to
+use StormMesa 3.0 with the corresponding compiler. Precise instructions
+should be found in the README files in those directories. If
+questions appear about these compiler adaptions, you should contact
+the authors of these adaptions (contact address should be found
+in the README files).
+
+If a compiler should be used, which is not supported yet, then such
+a compiler adaption can be done with the sources in the directory
+mesa:AMIGA/llibs/src. To do this, some specific know-how about
+the compiler's behaviour in certain situations is required. As soon
+as someone as done such an adaption, it can be sent to @{"me" link Address}, so that
+it will be included into the StormMesa distribution. Afterwards all
+people can work with this compiler without any problem. It won't
+probably need a long time until all important compilers are supported.
+
+The StormMesa link libraries do the following:
+
+- define an Init-Function (Constructor), which opens all shared libraries
+  and which do the registration for every shared library.
+- define an Exit-Function (Destructor), which closes all shared libraries
+- provide stub functions for accessing the shared libraries
+
+Here are the components of the link libs:
+
+stormmesa.lib
+        glinit.c:             Init/Exit functions for GL,GLU und GLUT
+        glStubs.s:            Stub functions for agl.library
+        gluStubs.s:           Stub functions for aglu.library
+        glutStubs.s:          Stub functions for aglut.library
+        FPU.s:                Corrects the FPU rounding mode
+        glsm.h
+        glusm.h
+        glutsm.h
+
+stormmesa_gle.lib
+        gleinit.c:            Init/Exit functions for GLE
+        gleStubs.s:           Stub functions for agle.library
+        glesm.h
+
+stormmesa_glsmap.lib
+        glsmapinit.c:         Init/Exit functions for GLSMAP
+        glsmapStubs.s:        Stub functions for aglsmap.library
+        glsmapsm.h
+
+stormmesa_ppc.lib
+        glinit_ppc.c:         Init/Exit functions for GL,GLU und GLUT
+        glStubs_ppc.p:        Symbols for aglppc.library
+        glStubsold_ppc.p:     Stub functions for aglppc.library
+        gluStubs_ppc.p:       Symbols for agluppc.library
+        gluStubsold_ppc.p:    Stub functions for agluppc.library
+        glutStubs_ppc.p:      Symbols for aglutppc.library
+        glutStubsold_ppc.p:   Stub functions for aglutppc.library
+        glsm.h
+        glusm.h
+        glutsm.h
+
+stormmesa_gle_ppc.lib
+        gleinit_ppc.c:        Init/Exit functions for GLE
+        gleStubs.s:           Symbols for agleppc.library
+        gleStubsold.s:        Stub functions for agleppc.library
+        glesm.h
+
+stormmesa_glsmap_ppc.lib
+        glsmapinit_ppc.c:     Init/Exit functions for GLSMAP
+        glsmapStubs_ppc.p:    Symbols for aglsmapppc.library
+        glsmapStubsold_ppc.p: Stub functions for aglsmapppc.library
+        glsmapsm.h
+
+Now all you have to do is to change these files for your favourite
+compiler and to compile these libs. It is desired, that they work in
+a similar way like the link libs for StormC. For example, it should
+be possible to define those Init/Exit functions, because otherwise,
+the developers have to modify every single GL source to add the
+code to open the libs, which is not very funny. Developers using the
+current link libs for StormC can compile any GL application without
+changing one single source line.
+
+You should especially check those xxxStub.s functions. They might
+not work exactly the same way for other compilers. For example passing
+byte parameters might be different on different compilers.
+
+Please make sure that the Init functions in gleinit.c and glsmapinit.c
+are called AFTER the main Init function in glinit.c is called, otherwise
+bad things will happen. In StormC this is achieved using priorities for
+those Init/Exit functions.
+
+Important: in the file 'glutsm.h' there is a field 'charmode' which
+isn't used by the Storm linklibs at the moment. This field has to be
+set to 1 for all other compilers, otherwise the keyboard callbacks
+of GLUT don't work correctly, because StormC passes 'char' parameter
+differently than other compilers (this is only valid for 68K).
+Additionally the aglut.library V1.2 has to be installed.
+
+@EndNode
+
+@Node DevSup_c "Developing OpenGL software"
+
+First you have to decide whether you use one of the existing window
+layers (preferably GLUT) or whether you decide to do the window/event
+handling using direct AMIGA-OS programming. The first method has the
+advantage, that applications are much easier to write and that those
+applications are highly portable. The second method is more suitable,
+if you need special AMIGA-OS features or if you want to incorporate
+GL code into existing AMIGA applications.
+
+For using the GLUT window layer please study those many demo sources
+and have a look at the documentation of GLUT (check the official GLUT
+home page). Further informations about this GLUT implementation can
+be found @{"here" link DevSup_e}.
+
+In order to be able to write an OpenGL source code, the programmer has to know
+the OpenGL syntax. Corresponding documentations can be found on the Internet.
+
+An OpenGL source code must always include the following files:
+
+GL/gl.h GL/glu.h
+
+Additionally further include files have to be included. GLUT based
+applications include the file 'GL/glut.h', applications supporting
+GLE or GLSMAP include 'GL/tube.h' resp. 'GL/glsmap.h'.
+
+If none of the portable API's for window/event handling is used, then
+the @{"AMIGA-related API" link DevSup_d} has to be used. Then the include file 'GL/Amigamesa.h'
+has to be included.
+
+First, let's have a look at how a program accessing the AMIGA GL API
+calls those different API functions:
+
+1. Open Window and/or Screen
+2. Create a GL context using AmigaMesaCreateContext
+3. Make the GL context the current one by calling AmigaMesaMakeCurrent
+4. Call OpenGL functions and draw the graphics
+5. Destroy the GL context using AmigaMesaDestroyContext
+6. Close Window and/or Screen
+
+When using double buffering, then the two buffers have to be swapped
+after drawing the hidden frame using AmigaMesaSwapBuffers.
+
+Here some additional information:
+
+Please keep in mind that it is possible that the user enlarges or scales down
+the window. In these cases the application should be adjusted accordingly. That
+means especially that the function 'glViewPort' should be called.
+
+Bear in mind that MESA internally puts the zero point to the left lower corner
+of the drawing area. That means that window coordinates must be adjusted
+accordingly.
+
+You should basically use GZZ windows, because otherwise it might happen,
+that the border of the window is destroy when making the window smaller
+while drawing is not finished yet.
+
+@EndNode
+
+@Node DevSup_d "The AMIGA-related API of StormMesa 3.0"
+
+                @{"     AmigaMesaCreateContext      " link NewContext}
+                @{"     AmigaMesaCreateVisual       " link NewVisual}
+                @{"      AmigaMesaMakeCurrent       " link MakeCurrent}
+                @{"      AmigaMesaSetOneColor       " link SetOneColor}
+                @{"      AmigaMesaSwapBuffers       " link DoubleBuf}
+                @{"        AmigaMesaSetRast         " link SetRast}
+                @{"       AmigaMesaGetConfig        " link GetConfig}
+                @{"     AmigaMesaDestroyVisual      " link RemVisual}
+                @{"     AmigaMesaDestroyContext     " link RemContext}
+
+@EndNode
+
+@Node NewContext "AmigaMesaCreateContext"
+
+The base of each OpenGL program is the so called GL-context. Before the OpenGL
+commands can be used, such a context must be generated. Several contexts
+can be active, for example when using several windows. The corresponding
+functions are
+
+struct amigamesa_context *AmigaMesaCreateContext(struct TagItem *tagList)
+struct amigamesa_context *AmigaMesaCreateContextTags(long Tag1, ...)
+
+This function requires a TagList resp. single Tags and returns a pointer to the
+AMIGA specific GL-context (which contains the MESA GL-context). This must be
+used to @{"activate the context" link MakeCurrent} in the next step.
+
+Before a new GL-context is created, the application must open a screen or window
+or have a RastPort, to which the GL commands can draw.
+
+Following is a documentation of all important tags:
+
+AMA_Left:
+        Defines the offset from the left border of the rastport, where the
+        GL drawing area starts.
+        Usually you will set this to zero, except if you work with
+        Non-GZZ-Windows, where you have to take the window border into
+        account.
+AMA_Bottom:
+        Defines the offset from the bottom border of the rastport. Should
+        usually set to zero.
+AMA_Width:
+        Defines the width of the drawing area. Should usually be equal to
+        the window width.
+AMA_Height:
+        Defines the height of the drawing area. Should usually be equal
+        to the window height.
+AMA_Window:
+        Pointer to the window structure of the window, which should be bound
+        to this context. Can be omitted, if a rastport and a screen are given.
+AMA_RastPort:
+        Pointer to the rastport to be used for the GL context. Can be ommitted,
+        if a window was passed.
+AMA_Screen:
+        Pointer to a screen structure. Is only necessary if no window was
+        given.
+        Note, that you have either to pass a window, or a screen AND a
+        rastport to define the drawing region.
+AMA_DoubleBuf:
+        Creates a double-buffered context. Should always be set to TRUE.
+
+        If you pass a visual structure (returned from AmigaMesaCreateVisual)
+        using AMA_Visual, then this tag has no effect.
+AMA_RGBMode:
+        If set to TRUE, then a RGBA context is created, otherwise a color
+        index context. Color index mode is very limited, but might look
+        better on chunky screens. You should usually create an RGBA
+        context, therefore set this to TRUE.
+
+        If you pass a visual structure (returned from AmigaMesaCreateVisual)
+        using AMA_Visual, then this tag has no effect.
+AMA_AlphaFlag:
+        Set this to TRUE, if your applications needs an alpha buffer and
+        the color format does not provide an alpha channel. Mesa will then
+        allocate a buffer and will handle all effects using alpha values.
+
+        If you pass a visual structure (returned from AmigaMesaCreateVisual)
+        using AMA_Visual, then this tag has no effect.
+AMA_Forbid3DHW:
+        Set this to TRUE, if you want to forbid the use of 3D hardware.
+AMA_Fullscreen:
+        Set this to TRUE, if you want to create a fullscreen context. If
+        a window is passed, it should cover the whole screen. The fullscreen
+        mode uses OS3.0 compatible multibuffering to switch the buffers, this
+        is done completely transparently for the developer. The functions
+        of intuition.library are used.
+AMA_DirectRender:
+        Set this to TRUE, if you want to use direct rendering (frame is
+        rendered directly into VRAM). This is absolutely necessary when
+        3D hardware should be supported. Usually you should set this to
+        TRUE, or give the user the possibility to select the mode.
+AMA_TwoBuffers:
+        Forces Mesa to allocate two back buffers. This is absolutely
+        necessary when using the functions glDrawBuffer and glReadBuffer
+        with GL_FRONT or GL_FRONT_AND_BACK. Note, that the front buffer is
+        not accessed directly, the contents of the front buffer are copied
+        into the destination window when glFlush() is called.
+
+        Should usually be set to FALSE, since very few programs actually
+        use these features. Setting this to TRUE will enlarge the memory
+        needed (and this might be a problem, if the bitmaps are stored in VRAM).
+AMA_Visual:
+        An AmigaMesa-Visual structure (returned by AmigaMesaCreateVisual)
+        or NULL, if Mesa should allocate a visual itself.
+AMA_Fast:
+        Reduction in graphics quality are accepted, but the 3D hardware
+        might be used more often, even if some features are not supported
+        correctly.
+AMA_VeryFast:
+        Big reduction in graphics quality are accepted, but the 3D
+        hardware is used very often. This might result in displaying
+        the graphics very incorrectly.
+AMA_NoDepth:
+        No ZBuffer is allocated. Then ZBuffering must not be switched on.
+        Should always be used, if ZBuffering isn't used, so that memory
+        (resp. VRAM) is saved.
+AMA_NoStencil:
+        No StencilBuffer is allocated. Then StencilBuffering must not be
+        switched on. Should always be used, if StencilBuffering isn't used,
+        so that memory (resp. VRAM) is saved.
+AMA_NoAccum:
+        No AccumulationBuffer is allocated. Then the AccumulationBuffer must
+        not be used. Should always be used, if the Accumulation Buffer isn't
+        used, so that memory (resp. VRAM) is saved.
+
+@EndNode
+
+@Node NewVisual "AmigaMesaCreateVisual"
+
+With the function AmigaMesaCreateVisual a Visual structure can
+be allocated, which contains information about the visual
+representation.
+
+struct amigamesa_visual* AmigaMesaCreateVisual(struct TagItem *);
+struct amigamesa_visual* AmigaMesaCreateVisualTags(long Tag1,...);
+
+The return value is then passed as AMA_Visual at AmigaMesaCreateContext.
+
+Usually it is not necessary to allocate a visual, because
+AmigaMesaCreateContext automatically allocates a Visual, if AMA_Visual
+is set to zero.
+
+The tags supported are:
+
+AMA_DoubleBuf
+AMA_RGBMode
+AMA_AlphaFlag
+AMA_NoDepth
+AMA_NoStencil
+AMA_NoAccum
+
+See the documentation of @{"AmigaMesaCreateContext" link NewContext} for a description of
+these tags.
+
+@EndNode
+
+@Node MakeCurrent "AmigaMesaMakeCurrent"
+
+After a context has been generated, it must be activated. This is done with the
+function
+
+void AmigaMesaMakeCurrent(struct amigamesa_context *c,
+                          struct amigamesa_buffer *b )
+
+This function requires a pointer to an context structure as the first
+parameter and a pointer to a framebuffer, which is used by MESA itself, as the
+second. This pointer should be taken from the context structure.
+
+The function call should look like this:
+
+        AmigaMesaMakeCurrent(amesa,amesa->buffer);
+
+@EndNode
+
+@Node SetOnecolor "AmigaMesaSetOneColor"
+
+If the palette mode is used, the application has supply color values to all
+necessary color indices before using GL commands. This is done with
+'AmigaMesaSetOneColor'.
+
+void AmigaMesaSetOneColor(struct amigamesa_context *c,
+                          int index,float r,float g,float b)
+
+It requires a pointer to a MESA context structure as the first parameter. The
+second parameter is the color index to be equipped with a new color value. The
+three additional parameters represent the color value (red, green and blue
+portion between 0 and 1), which should be supplied to the selected color index.
+
+The application should not independently allocate colors via the OS, since
+StormMesa can so that by itself. Furthermore it must be said that the color
+indices of the OpenGL engine don't match the color indices of the operating
+system! The indices have to be transformed every time.
+
+@EndNode
+
+@Node DoubleBuf "AmigaMesaSwapBuffers"
+
+If a graphics mode is used which makes use of several buffers (double buffered,
+double buffered turbo and fullscreen), the buffers have to be switched after
+each rendering of the image, so that the hidden image becomes visible. This
+makes flickerfree animations possible. The corresponding function is:
+
+void AmigaMesaSwapBuffers(struct amigamesa_context *c)
+
+It requires a context structure as its first parameter.
+
+@EndNode
+
+@Node SetRast "AmigaMesaSetRast"
+
+Changes the current window resp. current rastport of the given context.
+
+void AmigaMesaSetRast(struct amigamesa_context *, struct TagItem * );
+
+The following tags are supported:
+
+AMA_RastPort:   defines the new rastport to be used
+AMA_Window:     defines the new window to be used for the given context
+
+There are three possible scenarios:
+
+a) AMA_Window is not null. Then the new window is attached to the given
+   context, and win->RPort is used as rastport, just like in
+   AmigaMesaCreateContext.
+b) AMA_Window is null, AMA_RastPort is not null. Then the given
+   rastport is attached to the given context.
+c) Both parameters are null. This way you can detach the previous
+   window/rastport from the context. No drawing is actually performed
+   anymore, until a new window/rastport is given through AmigaMesaSetRast.
+
+@EndNode
+
+@Node GetConfig "AmigaMesaGetConfig"
+
+void AmigaMesaGetConfig(struct amigamesa_visual *, GLenum , GLint* );
+
+returns some information about the given visual. The GLenum value defines
+the type of information requested, the pointer to GLint points to space
+where the result should be stored. The following enums are supported:
+
+GL_STENCIL_BITS:        Depth of the stencil buffer in bits
+GL_DEPTH_BITS:          Depth of the depth buffer in bits
+GL_RED_BITS:            Number of bits for red components in the color buffer
+GL_GREEN_BITS:          Number of bits for green components in the color buffer
+GL_BLUE_BITS:           Number of bits for blue components in the color buffer
+GL_ALPHA_BITS:          Number of bits for alpha components in the color buffer
+GL_INDEX_BITS:          Number of bits for color indexes in the accum buffer
+GL_ACCUM_RED_BITS:      Number of bits for red components in the accum buffer
+GL_ACCUM_GREEN_BITS:    Number of bits for green components in the accum buffer
+GL_ACCUM_BLUE_BITS:     Number of bits for blue components in the accum buffer
+GL_DOUBLEBUFFER:        Returns true, if the visual is double-buffered
+GL_RGBA_MODE:           Returns true, if the visual is an RGBA visual
+GL_STEREO:              Always returns FALSE
+
+@EndNode
+
+@Node RemVisual "AmigaMesaDestroyVisual"
+
+If a Visual was allocated with AmigaMesaCreateVisual, it should be freed
+at the end.
+
+void AmigaMesaDestroyVisual(struct amigamesa_visual * v);
+
+@EndNode
+
+@Node RemContext "AmigaMesaDestroyContext"
+
+If the application is terminated and no OpenGL command is executed anymore
+on this context, it should be freed.
+
+void AmigaMesaDestroyContext(struct amigamesa_context *c )
+
+@EndNode
+
+@Node DevSup_e "Background information to GLUT 3.7"
+
+In the StormMesa3.0 distribution an almost complete implementation
+of the GLUT 3.7 API is provided. This API covers a lot of features,
+which are not part of the OpenGL API, for example window handling
+or interactions with the user. GLUT based applications are highly
+portable, so that often no line in the source has to be changed to
+compile the program for AMIGA.
+
+Information about the GLUT API is located in the GLUT archive, which
+can be downloaded from the official GLUT homepage. Below some notes
+are found about the differences between the AMIGA implementation
+of GLUT 3.7 and other GLUT implementations. Functions, which are
+not mentioned should be supported completely.
+
+glutAddSubMenu:
+        In the AMIGA version only one level of submenus can be used,
+        while other GLUT implementations support several levels.
+glutAttachMenu:
+        The menus are realized as conventional AMIGA menus, which
+        means, that it isn't possible to attach the left of
+        middle mouse button to the menu. If several menus are used
+        and several mouse buttons are attached to them, then several
+        menus are shown in the menu bar for the AMIGA implementation.
+        These menus can be used with the right mouse button, as usual.
+glutButtonBoxFunc:
+        Not supported
+glutChageToSubMenu:
+        See glutAddSubMenu
+glutCreateSubWindow:
+        GLUT subwindows are realized using conventional AMIGA windows.
+        They should not be used too often, since these applications
+        react quite slow, for example when the window is dragged or
+        resized.
+        Windows, which contain subwindows can't be put into the
+        background using the depth gadget. This has to be achieved
+        using the appropriate menu item.
+glutCreateWindow:
+        Negative widths and hights are supported and lead to the same
+        behavious as on other operating systems (i.e. X windows). This
+        way relative positioning can be achieved.
+glutDialsFunc:
+glutEstablishOverlay:
+        Not supported
+glutFullScreen:
+        The application does not change into fullscreen mode, but the
+        window is enlarged to maximal size.
+glutGameModeGet:
+        Only gives reasonable results after the screen was opened.
+        Other GLUT implementation provide these values already
+        earlier.
+glutGameModeString:
+        Not supported. Instead a screenmode requester is opened,
+        when EnterGameMode is called.
+glutIconifyWindow:
+        Only supported, if an icon file is found (either S:GLUT.info
+        or defined by the variable GLUT/ICON).
+glutIgnoreKeyRepeat:
+        Not supported.
+glutInit:
+        Not all GLUT standard parameter are supported.
+glutInitDisplayString:
+        Not supported.
+glutJoyStickFunc:
+        The maximal values are passed as coordinates for absolute
+        joysticks. Mouse, joystick and joypad are supported.
+glutKeyboardFunc:
+        The keys are registered with respect to the installed keymap,
+        except in game mode.
+        Some combination of special keys and letters don't give the
+        same results with the AMIGA as with other systems.
+glutKeyboardUpFunc:
+        Only supported in game mode.
+glutLayerGet:
+        Not supported.
+glutMouseFunc:
+        The following emulations of mouse buttos are supported:
+        - middle button:            RIGHT Amiga + left mouse button
+        - right button:             RIGHT Alt + left mouse button
+        - left+middle button:       RIGHT Shirt + left mouse button
+        It should be noted, that the key has to be pressed first,
+        the mouse button afterwards. Finally the mouse button has
+        to be released first, the key afterwards.
+glutOverlayDisplayFunc:
+glutPostOverlayRedisplay:
+glutRemoveOverlay:
+        Not supported.
+glutSetCursor:
+        The following cursor types are supported:
+        - GLUT_CURSOR_WAIT
+        - GLUT_CURSOR_NONE
+        - GLUT_CURSOR_INHERIT
+glutSetKeyRepeat:
+glutSetupVideoResizing:
+glutStopVideoResizing:
+glutShowOverlay:
+glutSpaceballButtonFunc:
+glutSpaceballMotionFunc:
+glutSpaceballRotateFunc:
+        Not supported.
+glutSpecialFunc:
+        Assignment of the GLUT special keys:
+        - GLUT_KEY_UP           : '8' (numeric pad)
+        - GLUT_KEY_DOWN         : '2' (numeric pad)
+        - GLUT_KEY_RIGHT        : '6' (numeric pad)
+        - GLUT_KEY_LEFT         : '4' (numeric pad)
+        - GLUT_KEY_HOME         : '7' (numeric pad)
+        - GLUT_KEY_END          : '1' (numeric pad)
+        - GLUT_KEY_PAGE_UP      : '9' (numeric pad)
+        - GLUT_KEY_PAGE_DOWN    : '3' (numeric pad)
+        - GLUT_KEY_INSERT       : '0' (numeric pad)
+        - GLUT_KEY_F11          : '5' (numeric pad)
+        - GLUT_KEY_F12          : '.' (numeric pad)
+glutSpecialUpFunc:
+        Only supported in game mode.
+glutTabletButtonFunc:
+glutTabletMotionFunc:
+glutUseLayer:
+glutVideoPan:
+glutVideoResize:
+glutVideoResizeGet:
+        Not supported.
+glutVisibiliyFunc:
+        Partially supported.
+glutWarpPointer:
+        Not supported.
+glutWindowStatusFunc:
+        Partially supported.
+
+@EndNode
+
+@Node Address "Adresse"
+
+We are glad to receive any suggestions, ideas, critical statements, reactions
+etc.
+
+If anybody wants to contact us regarding StormMesa V2.0, this is possible in the
+following way:
+
+        normal "snail mail":            eMail:
+
+        HAAGE&PARTNER GmbH              s.jordan@haage-partner.com
+        Schlossborner Weg 7
+        62479 Glashuetten
+        Tel: 06174/966100
+        Fax: 06174/966101
+
+@EndNode
+

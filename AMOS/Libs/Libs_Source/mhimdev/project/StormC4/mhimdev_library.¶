@@ -1,0 +1,153 @@
+Storm Shell Project (0018)
+Settings (Start)
+C/C++ Environment
+"StormC:include"
+0
+"NDK:Include/include_h"
+0
+"//source/src"
+0
+Includepath (End)
+0 "" 80
+1 "output"
+1 0 "makelog.txt"
+""
+0
+0 0
+0
+0 0
+C/C++ Preprozessor
+0 "NDEBUG" ""
+0
+Defines (End)
+1 1 1
+0 0
+C/C++ Options
+0 1 1 2 1 0 0 0 1 0 0 0 0 0 0
+0 0 0
+0
+0 1 0
+C/C++ Optimizer
+9
+C/C++ Warnings
+1 1 1 1 1 1 0 1
+0 0
+GCC Options (1)
+0 "NDEBUG" ""
+0
+1 "__NOLIBBASE__" ""
+0
+Defines (End)
+1 0 0 1 0
+1 0 0 0 0 1 0
+0 2 1 0 0
+0 0 1 0 1 0 0
+0 0 0 0
+0 ""
+1 0 0 0
+1 1 1 1 1 1 1 1 1 0
+1 1 1 1 1 1
+1 1 1 1 1 1 1
+0 1 0 1 1
+Assembler
+0 ""
+0 "CON://640/200/Storm Assembler/AUTO/WAIT/SCREEN StormScreen"
+0 0
+0 1 60 0 1 0 0 20 0
+Sets (End)
+0 1 0 0 0 2 1 0 0
+1 1 1 1 0 0 0 0 0
+1 0
+0 0 0 0 0
+Linker
+0 1 "PROGDIR:startup.o" 0 0 1 0 1 0 0
+"StormC:lib/" 0 "StormC:lib/logfile" 0 0 0
+0 "_WizardSurface"
+1 0 50 0 50 0 50 1 0
+0 0 0 0 0 0 0 0
+Run
+30 "" "" "" 0
+""
+
+1 "CON://400/180/Storm Console/AUTO/WAIT/SCREEN StormScreen" "RAM:Output" "RAM:Input"
+1 0
+0 0 0 "" ""
+Settings (End)
+Storm Shell Project (Custom Sections End)
+Section
+1 1 100
+0 1 1 0
+4
+File
+1 "//source/library.c"
+"//source/library.c"
+"//source/mhimdev.h"
+"//source/RegVar.h"
+Storm Shell Project (Dependencies)
+"output/library.o" "output/library.debug"
+""
+1 1
+File
+1 "//source/mhimdev.c"
+"//source/mhimdev.c"
+"//source/mhimdev.h"
+"//source/RegVar.h"
+Storm Shell Project (Dependencies)
+"output/mhimdev.o" "output/mhimdev.debug"
+""
+1 1
+Section
+2 1 95
+0 1 1 0
+2
+File
+2 "//source/mhimdev.h"
+"//source/mhimdev.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+2 "//source/RegVar.h"
+"//source/RegVar.h"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+Section
+10 1 40
+0 0 0 0
+7
+File
+10 "output/mhimdev.library"
+"output/mhimdev.library"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+Section
+5 1 -50
+0 0 0 0
+7
+File
+5 "storm.lib"
+"storm.lib"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+5 "amiga.lib"
+"amiga.lib"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+File
+5 "debug.lib"
+"debug.lib"
+Storm Shell Project (Dependencies)
+"" ""
+""
+0 0
+Storm Shell Project (End)

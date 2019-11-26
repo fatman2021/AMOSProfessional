@@ -1,0 +1,78 @@
+; $VER: Oberon_System_V4 1.3 (31.05.96)
+
+;set assign first
+IF EXISTS Loader	; O4A in current dir
+	assign Oberon4Amiga: ""
+ELSE				; try to find O4A in $Oberon4AmigaPath
+	IF EXISTS $Oberon4AmigaPath		;is path in $Oberon4AmigaPath OK ?
+		assign Oberon4Amiga: $Oberon4AmigaPath ""
+		IF NOT EXISTS Oberon4Amiga:loader	;is $Oberon4AmigaPath not an O4A path ?
+			ECHO "Can not find O4A in directory set in Env Var Oberon4AmigaPath."
+			ECHO "Plesae change Oberon4AmigaPath or install O4A again."
+			WAIT 8
+			SKIP Ende
+		ENDIF
+	ELSE
+		ECHO "Can not find O4A in current directory."
+		ECHO "Please set the directory of O4A in Env Var Oberon4AmigaPath."
+		ECHO "For example: setenv Oberon4AmigaPath Work:OberonV4"
+		WAIT 8
+		SKIP Ende2
+	ENDIF
+ENDIF
+
+;Test OS
+Oberon4Amiga:loader/TestSystem O
+IF WARN
+	ECHO "Oberon System V4 requires at least OS 2.04 !"
+	WAIT 6
+	SKIP Ende
+ENDIF
+
+;Test CPU
+Oberon4Amiga:loader/TestSystem C
+IF WARN
+	ECHO "Oberon System V4 requires at least an MC68020 CPU ! Sorry."
+	WAIT 6
+	SKIP Ende
+ENDIF
+
+;Test free memory
+Oberon4Amiga:loader/TestSystem M
+IF WARN
+	ECHO
+	ECHO "There is not enough free memory in your system."
+	ECHO "Close some applications or buy new memory and try again."
+	WAIT 8
+	SKIP Ende
+ENDIF
+
+;Test FPU
+Oberon4Amiga:loader/TestSystem F
+IF WARN
+	ECHO "There is no Floating Point Unit installed in your system."
+	;NonFPU Version installed
+	IF EXISTS Oberon4Amiga:NonFPU
+		assign Oberon4Amiga: "Oberon4Amiga:NonFPU" ADD
+		ECHO "Oberon starts with the NonFPU Version. You will be able to"
+		ECHO "test O4A but REAL types in your programs will not work."
+		ECHO "You should buy a FPU if you want to use O4A for real work."
+    ELSE
+		ECHO "Install Oberon-NonFPU.lha to test O4A without FPU."
+		WAIT 8
+		SKIP Ende
+	ENDIF
+ENDIF
+
+;Set additional Assigns
+assign Oberon4Amiga: "Oberon4Amiga:System" "Oberon4Amiga:Fonts" "Oberon4Amiga:Tool" "Oberon4Amiga:Text" "Oberon4Amiga:Data" "Oberon4Amiga:Demos" "Oberon4Amiga:System1" "Oberon4Amiga:Configuration" ADD
+
+;start O4A
+stack 100000
+Oberon4Amiga:Loader/OLoad Oberon4Amiga:
+
+LAB Ende
+
+assign Oberon4Amiga: REMOVE
+
+LAB Ende2

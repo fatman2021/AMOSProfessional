@@ -1,0 +1,13 @@
+.key fname
+.bra {
+.ket }
+set defStack `getstack`
+stack 150000
+failat 9999
+CPU CHECK FPU >nil:
+if warn
+   org2dat.nofpu "{fname}" >AUDIO:BUFFER/352800
+else
+   org2dat.fpu "{fname}" >AUDIO:BUFFER/352800
+endif
+stack $defStack

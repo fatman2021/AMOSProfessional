@@ -1,0 +1,151 @@
+# German pronounciation rules for translator.library V42
+# $VER: deutsch.accent 0.1 (5.4.95)
+# By Stefan Zeiger <s.zeiger@laren.rhein-main.de>
+
+%class digit 0 1 2 3 4 5 6 7 8 9
+%class cons b c d f g h j k l m n p q r s t v w x z ß
+
+%stress -2
+%emphasis 2
+
+[AU] = AWWH
+[AI] = AY
+[AH] = AA
+[A] = AA
+
+$(cons*)[B](cons*)$ = " BEH "
+[B] = B
+
+$(cons*)[C](cons*)$ = " TSEH "
+[CHEN] = SHEHN
+[CH] = /H
+$[CE] = TSEH
+[C] = K
+
+$(cons*)[D](cons*)$ = " DEH "
+[D] = D
+
+[ECH] = EHSH
+[EI] = AY
+[EU] = OY
+[EE] = EH
+[E] = EH
+
+$(cons*)[F](cons*)$ = " EHF "
+[F] = F
+
+$(cons*)[G](cons*)$ = " GEH "
+[G] = G
+
+$(cons*)[H](cons*)$ = " /HAA "
+[H] = /H
+
+[ICH] = IHIXSH
+[IE] = IHIX
+[IH] = IHIX
+[I] = IHIX
+
+$(cons*)[J](cons*)$ = " YAOTT "
+[J] = Y
+
+$(cons*)[K](cons*)$ = " KAA "
+[K] = K
+
+$(cons*)[L](cons*)$ = " EHL "
+[L] = L
+
+$(cons*)[M](cons*)$ = " EHM "
+[M] = M
+
+$(cons*)[N](cons*)$ = " EHN "
+[NG] = NX
+[N] = N
+
+[OH] = AO
+[O] = AO
+
+$(cons*)[P](cons*)$ = " PEH "
+[P] = P
+
+$(cons*)[Q](cons*)$ = " KUH2UH "
+[Q] = K
+
+$(cons*)[R](cons*)$ = " EHRX "
+[R] = RX
+
+$(cons*)[S](cons*)$ = " EHS "
+[SCHEN]$ = SYEHN
+[SCH] = SH
+$[ST] = SHTT
+[SP] = SHP
+[S] = S
+
+$(cons*)[T](cons*)$ = " TTEH "
+[TION] = TSYAON
+[TT] = TT
+[T] = TT
+
+$(cons*)[U](cons*)$ = " UH2UH "
+[UH] = UH2UH
+[U] = UH
+
+$(cons*)[V](cons*)$ = " FAWWH "
+# Not always
+[V] = F
+
+$(cons*)[W](cons*)$ = " WHEH2EH "
+[W] = WH
+
+$(cons*)[X](cons*)$ = " IHIXKS "
+[X] = KS
+
+$(cons*)[Y](cons*)$ = " IYPSIH2IXLAON "
+[Y] = IY
+
+$(cons*)[Z](cons*)$ = " TSEHTT "
+[Z] = TS
+
+[Ä] = AE
+
+[Ö] = ER
+
+[Ü] = IY
+
+[ß] = SS
+
+[0] = "NUHLL "
+[1] = "AYNS "
+[2] = "TTSWHAY "
+[3] = "DRXAY "
+[4] = "FIH2EHRX "
+[5] = "FIHIXNF "
+[6] = "SEHKS "
+[7] = "SIY2BEHN "
+[8] = "AA/CT "
+[9] = "NOYN "
+
+[ " " ] = " "
+
+(digit+)[.](digit+) = " PUHNKTT "
+(digit+)[,](digit+) = " KAOMMAA "
+(digit+)[/](digit+) = " PRXAO "
+(digit+)[-](digit+) = " MIH2IXNUHS "
+
+$[-]$ = -
+
+[.]$ = .
+[!]$ = .
+[.] = " "
+[%] = PRXAO2TSEHNTT
+[:] = ". "
+[;] = .
+[?] = ?
+[ "\(" ] = ,
+[ "\)" ] = ,
+[\\] = " "
+[ "\[" ] = " "
+[{] = " "
+[}] = " "
+[_] = " "
+[`] = " "
+[ "]" ] = " "

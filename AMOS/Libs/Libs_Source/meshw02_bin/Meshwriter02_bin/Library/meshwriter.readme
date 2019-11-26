@@ -1,0 +1,489 @@
+
+
+                        MeshWriter.readme
+
+
+                          Version 0.2
+
+
+
+
+28. march 1999                                 by Stephan Bielmann
+
+
+
+Table of Contents
+-----------------
+
+ 1.     Licence
+
+ 2.     Overview
+
+ 3.     Requirements
+
+ 4.     Installation
+
+ 5.     Conventions
+
+ 6.     Function overview
+
+ 7.     Supported formats
+
+ 8.     Sample source and programs
+
+ 9.     Known problems.
+
+ 10.    Future
+
+
+
+
+   Stephan Bielmann
+   Im Dorf 2
+   1718 Rechthalten
+   Switzerland
+
+   stephan.bielmann@rega-sense.ch
+   http://www.rega-sense.ch/~sbielmann/amiga/index.html
+
+
+
+
+
+1. Licence
+---------
+
+
+The library and files in this distribution are freely distributable
+under the restrictions stated below, but are also copyright (c) to
+Stephan Bielmann.
+
+The library is FREEWARE. Feel free to distribute it on any media as
+long as the content of this archive rests unchanged and complete.
+
+By using this library in your program, FREEWARE/SHAREWARE/COMERCIAL,
+you may only include the library itself and a copy of the README file,
+instead of the whole archive. And because its FREEWARE you dont have
+to pay me something for it. Nothing against gifts :)
+
+But you have to do the 3 points listed below :
+
+1: Adding a string like "Using meshwriter.library Copyright by Stephan Bielmann"
+   to your about or information window/text.
+
+2: Adding a similar remark in the documentation of your program with the URL
+   of my meshwriter homepage and e-mail of me.
+
+3: Just drop me a mail to inform me that you wrote a program which uses
+   my library and for which purpose it is.
+   
+Payment for this archive or parts of its content is only permitted
+to pay the media on which it resists itself. 
+
+Everything in this distribution must be kept together, in original
+and unmodified form.
+
+
+THE LIBRARY IS PROVIDED TO YOU "AS IS," WITHOUT WARRANTY. THE ENTIRE
+RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD
+THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY
+SERVICING, REPAIR OR CORRECTION.
+
+
+
+
+2. Overview
+-----------
+
+
+The library its goal is like the name says : to write meshes.
+And which has to be written this way that future releases, with
+more output formats can be used directly without to recompile
+programs who use it.
+
+
+Whats a mesh ? A 3 dimensional polygon object, which consists of vertices,
+each vertex is described by his position in the space along the x,y and z-axis.
+
+Vertices can be put together by creating polygons which contain those vertices, or
+triangles, anyway : ALL IS THREATED LIKE A POLYGON.
+
+Vertices with same coordinates are stored one time only to gain memory.
+
+Further a mesh can have a name, which has nothing to do whith its file name, but 
+this one is used to identify it inside the prefered 3d tool of the user.
+
+A copyright string, for developers :-), if they mean that people have to
+know which great program made this mesh.
+
+Camera information and a single light source is not really mesh related but 
+in some cases used for a correct output, like POV.
+
+Each polygon may have a surface information, a material. Materials have an
+ambient color (rgb), a shininess and a transparency information. 
+
+Like OpenGL a current transformation matrix is used to transform each
+vertex when you add it. So you can perform translations, rotations and
+change the scale of your vertices.
+
+The way of use it is in all cases the same, and that the real fun!
+
+Make a program which uses the library, for automatic or paramterizable
+shape creation or even modelization with output or export functionality.
+
+The library can handle multiple meshes at the same time, all depends on
+the amount of memory of the used system.
+
+Once you think you added all your polygons, materials and so on let
+it display a save requester to the user, or do this at the beginning,
+to let him choice the output format.
+
+Need to save it in multiple formats, just save it again, and again :-)
+by changing the output type.
+
+Forgot something ? Just add it to the mesh and save it again.
+
+Or if you want to write a program which can explicitly make only
+output of one or a few formats simple tell this to the library.
+
+
+
+
+3. Requirements
+---------------
+
+
+The library needs the utility.library V37 to parse TagItems and was
+programmed according the rules of the libraries V3.0.
+
+
+
+
+4. Installation
+---------------
+
+
+Just put a copy of the library into your libs: directory. 
+
+The include files for developers should be copied into your
+developing environment.
+
+
+
+
+5. Conventions
+--------------
+
+
+That things happens as they should, I had to define some conventions.
+
+ -The coordinatesystem
+
+        +Z
+         |    -Y
+         |   /
+         |  /
+         | /
+  -X____ |/____+X
+        /|
+       / |
+      /  |
+     /   |
+   +Y    |
+        -Z
+
+  X from left to the right.
+  Y from behind to the front.
+  Z from the bottom to top.
+
+  It is a right-handed coordinate system.
+
+ -Polygons and triangles
+
+  As mentioned before a triangle is nothing else than a polygon
+  with 3 vertices.
+
+  Only convex polygons are supported. Others wont be saved
+  correct.
+
+  All vertices have to be drawn counterclockwise! This is
+  for two reasons. The library itselfs need a possibility
+  to recognize hidden surfaces, and by the way all output
+  formats too.
+
+ -Materials
+
+  Colors are built with red, green and blue components from
+  0 up to 255.
+
+  Values like shininess and transparency are made from 0.0 to 1.0.
+
+ Remark
+
+ The library makes all needed conversion internally, as for example
+ for Lightwave objects which axis are defined the other way, and  polygons
+ clockwise.
+
+
+
+6. Function overview
+--------------------
+
+
+For real documentation look at the autodoc. This is just to
+give you an idea of the functionset.
+
+Each function begins with MWL for MeshWriterLibrary.
+
+The name itself gives already a good idea what the function
+will to at least. Like MWL2DFileFormatExtensionGet.
+
+2D
+File
+Format
+Extension
+Get
+
+Got it ? Easier that SQL ...
+
+
+Functions can be separated in different sub groups :
+
+ 2D functions
+
+  MWL2DFileFormatExtensionGet
+  MWL2DFileFormatIDGet
+  MWL2DFileFormatNamesGet
+  MWL2DFileFormatNumberOfGet
+
+ 3D functions
+
+  MWL3DFileFormatExtensionGet
+  MWL3DFileFormatIDGet
+  MWL3DFileFormatNamesGet
+  MWL3DFileFormatNumberOfGet
+
+ Drawing mode functions
+
+  MWLDrawModeIDGet
+  MWLDrawModeNamesGet
+  MWLDrawModeNumberOfGet
+
+ Mesh manipulation functions
+
+  MWLMeshCameraLightDefaultSet
+  MWLMeshCameraLookAtGet
+  MWLMeshCameraLookAtSet
+  MWLMeshCameraPositionGet
+  MWLMeshCameraPositionSet
+  MWLMeshCopyrightGet
+  MWLMeshCopyrightSet
+  MWLMeshCTMReset
+  MWLMeshDelete
+  MWLMeshLightColorGet
+  MWLMeshLightColorSet
+  MWLMeshLightPositionGet
+  MWLMeshLightPositionSet
+  MWLMeshMaterialAdd
+  MWLMeshMaterialAmbientColorGet
+  MWLMeshMaterialAmbientColorSet
+  MWLMeshMaterialDiffuseColorGet
+  MWLMeshMaterialDiffuseColorSet
+  MWLMeshMaterialNameGet
+  MWLMeshMaterialNameSet
+  MWLMeshMaterialShininessGet
+  MWLMeshMaterialShininessSet
+  MWLMeshMaterialTransparencyGet
+  MWLMeshMaterialTransparencySet
+  MWLMeshNameGet
+  MWLMeshNameSet
+  MWLMeshNew
+  MWLMeshNumberOfMaterialsGet
+  MWLMeshNumberOfPolygonsGet
+  MWLMeshNumberOfVerticesGet
+  MWLMeshPolygonAdd
+  MWLMeshPolygonMaterialSet
+  MWLMeshPolygonVertexAdd
+  MWLMeshPolygonVertexAssign
+  MWLMeshRotationChange
+  MWLMeshRotationGet
+  MWLMeshSave2D
+  MWLMeshSave3D
+  MWLMeshScaleChange
+  MWLMeshScaleGet
+  MWLMeshTranslationChange
+  MWLMeshTranslationGet
+  MWLMeshTriangleAdd
+  MWLMeshVertexAdd
+
+2d,3d and drawing mode functions can be used at every moment.
+To setup your program, if it runs under CLI or in a preferences
+window. Or at least before you save the mesh. With these functions
+you will in fact define the type of output.
+
+Mesh manipulation can be made after creation of a new mesh
+MWLMeshNew until you drop it with MWLMeshDelete.
+
+
+Almost all functions are made as Get/Set pair, because values
+can be set by default and for interaction reasons.
+
+
+
+
+7. Supported formats
+--------------------
+
+
+ Here a list of all supported output formats and what properties
+ of the library they get, or better how they are interpreting them.
+
+ Formats which have to convert the polygons to triangles can be
+ lossy !! But only if you forgot to make polygons with at least
+ three vertices ;-)
+
+ Always the ID, the name or description of the format and its extension
+ followed by the explanation.
+
+
+ 3D formats
+ ==========
+
+  T3DFRAWA   RAW ASCII            raw
+
+   ASCII file which contains the name of the mesh on the
+   first line. Followed by triangles printed as sets of 6 floating
+   point values separated by a space.
+
+
+  T3DFRAWB   RAW binary           raw
+
+   Binary representation of the above one. Name which is 0
+   terminated and then triangles as sets of 6 points, each point is
+   a 4 byte floating point value.
+
+
+  T3DFDXF    AutoCAD DXF          dxf
+
+   ASCII output which contains a layer per materials and
+   interprets only the color information.
+
+   The polygons are made with POLYLINE entities.
+
+   Name and copyright are written.
+
+
+  T3DFVRML1  VRML 1               wrl
+
+   ASCII file, which reflects the mesh as it is, with polygons
+   and materials indexed on each polygon.
+
+   Name and copyright are written.
+
+
+  T3DFPOV3   POVRay 3.X           pov
+
+   ASCII file with standart light source and camera to be able
+   to render the file and to get a correct view of it.
+
+   Polygons saved as triangles and materials indexed to each triangle.
+
+   Name and copyright are written.
+
+
+  T3DFLWOB   Lightwave            lwob
+
+   Binary polygon represantation with full material support indexed
+   to each polygon.
+
+
+  T3DFTDDD   Imagine original     iob
+
+   Binary triangle represantation. Material indexed per triangle but
+   without the shininess.
+
+   18 characters of the name are written.
+
+  T3DFTDDDH  Imagine huge         iob
+
+   Binary, as above, but can store bigger objects. Supported on Amiga
+   since version 3.0 of Imagine.
+
+
+  T3DFREF4   Reflections 4.X      r4
+
+   Binary triangle representation with materials indexed per triangle.
+
+   Name is written.
+
+   Recently renamed to monzoom or similar.
+
+
+  T3DFGEOA   VideoScape           geo
+
+   Ascii polygon represantation with material information per polygon.
+
+   Currently only the 16 default matte cololrs are built in.
+
+
+ 2D formats
+ ==========
+
+ In work.
+
+
+8. Sample source an programs
+----------------------------
+
+ For the moment not a lot, but suffisent to show you what the
+ library is made for.
+
+ The TestMeshWriterLib calls each function, creates 3 polygons
+ and writes them down on RAM: in each format, 3d and 2d.
+
+ MeshWriter is a simple MUI program for tests supposed it was
+ written by using MUIBuilder by Eric Totel.
+
+ Based on Stephan Bodmer his Geo2Vrml I wrote geo2any to give a
+ example of how to use the new functions for convertions. Source
+ is included. Thanks to Stephan for his help.
+
+
+9. Known problems
+-----------------
+
+ Very strange things are happening when computing the circle, as
+ delivered as sample, and save it as an Imagine object. Imagine
+ tells that it finds a bad chunk size.. however, I did not find
+ it.
+
+ The camera settings for the POV format is still not the best
+ one, which is in case the internal camera which is used for
+ PostScript and VRML too.
+
+ Some applications have problems when reading GEO files with
+ exponential value represantation.
+
+ As I dont earn, like nobody else :), a correct documentation of
+ the Videoscape GEO format, some cases are not treated or
+ produce even errors.
+
+ Seems that Reflections 4 does not handle my DXF output as it
+ should, other applications do it correct.
+ However, save it as Reflections and forget this one :)
+
+10. Future
+---------
+
+ Still not implemented are :
+
+ -What about a better documentation, it will be HTML only, soon !
+ -PostScript support in the 2D ouput section has still some problems
+  wait for 0.3.
+ -Cinema4D,Aladdin4D,Real3D,Tornado3D,RayStorm,Studio3D,
+  and VideoScape binary as soon as I get the floating point
+  format descriptions.
+ -More background about the formats in the documentation.
+ -Source code savers, like GL for CyberGL, Mesa or OpenGL.
+ -Some more surface/material parameters.
+ -All needed overflow checks for the used output formats.

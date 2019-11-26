@@ -1,0 +1,96 @@
+
+[taken from the top of chunky.c]
+
+ chunky.library v4.0
+
+ Routines to create, render and delete chunky graphics data.
+ Based on (not so :) really buggy code written previously by
+  pernathw@cu-muc.de (Wanja Pernath).
+ New improved version by Andrew 'Oondy' King.
+ Version 2.00+ is (c) 1999 Rosande Limited, all rights reserved.
+ The original v1.0 chunky.c sources can be found in Aminet:dev/c.
+ Version 3.00+ is now a shared library.
+ Version 4.00+ is developed by oondy and Wanja, although now entirely
+  maintained by oondy.
+
+ chunky.library requires 020, OS3.0, and AGA/CGFX
+
+ 1.0 - inital thing done by Wanja.
+ 2.0 - loads of bugs fixed by oondy
+     - added ChooseHardwareMode()
+ 2.1 - added DrawChunkyChunky()
+     - all chunky stuff now contained in a single object file
+2.11 - added some more safer checks now for boundries
+2.12 - DrawChunkyChunky() 75% faster now.
+2.13 - added DrawChunkyChunkyArea()
+2.14 - fixed minor bug in FreeChunky() (now safe if cp == NULL)
+2.15 - fixed clipping bug in DrawChunkyChunkyArea()
+2.16 - ChooseHardwareMode() failed on gfx boards!
+ 2.2 - MAJOR UPDATE...  transparent support for Picasso96/AGA (cgfx coming 
+       soon)
+2.21 - doh.. removed p96 and used cybergraphics instead
+2.22 - fixed several bugs with cgfx support (InsertChunky() now inserts)
+     - tidyed up a few routines by removing duplicate code
+2.23 - added code to read and write chunkyport structs+data to disk
+     - changed how chunkyports are allocated and freed
+2.24 - fixed bug in CHK_ReadChunkyPort()
+     - added routine to read chunkyport data from a memory location
+     - fixed massive bug in CHK_InsertChunky() (rpa8() was being an arse)
+2.25 - added optional colour palette support (256 colours only)
+2.26 - file-based chunkyports are now compressed (uncompressed still 
+       supported)
+2.27 - added CHK_DrawChunkyTiled()
+ 3.0 - NOW A SHARED LIBRARY!
+     - removed CHK_Read/WriteChunkyPort() and compression support (no point)
+     - removed CHK_SPrintF() (anyone use this?)
+     - fully documented now
+     - user and developer archives (2nd public release)
+ 3.1 - recompiled under StormC 3 (as supplied by Blittersoft :)
+     - it was reported by a user that this library would fail under
+       OS 3.0 (not 3.1) because it uses WriteChunkyPixels().  So, it
+       now uses the commented out code (since it was proven to work).
+       Should work under 3.0 now :).
+     - added CHK_C2POff()
+ 3.2 - CHK_C2POff() crashed so it's a dummy function now
+     - added CHK_DrawChunkyWindow()
+     - added CHK_QueryUseOS()
+3.21 - minor bug fix in CHK_DrawChunkyWindow()
+     - 3rd public release
+4.0 (10-Mar-99)
+ - ENORMOUS UPDATE
+ - chunky buffers are now allocated on 16-byte alignments meaning there
+   should be some noticable speed increases when read/writing to buffers
+ - fixed CreateChunkyFromBitMap() - if the supplied bitmap was not a
+   a native AllocBitMap() BitMap, CCFB() would have bombed
+ - added CHK_CloneChunkyPort()
+ - added CHK_SetBPen() - why was this missing I have no idea ;)
+ - added optimisations to CHK_RectFill()
+ - bigfixed CHK_DrawEllipse()
+ - added CHK_ClearChunky()
+ - optimised CHK_SetRast()
+ - CHK_TextLength() fixed - now returns correct value
+ - small problem conserning baselines in the text routines fixed
+ - CHK_DrawChunkyChunkyArea() now supports DRAWMODES (JAM1, JAM2,
+   INVERSVID, COMPLEMENT, and JAM2|(INVERSVID|COMPLEMENT)
+ - added optimisations to CHK_DrawChunkyChunkyArea()
+ - added CHK_CopyChunkyChunkyArea()
+ - added CHK_FlipChunkyPort()
+ - added scrolling support (CHK_BeginScroll(), CHK_EndScroll() and
+   CHK_Scroll())
+ - added ROTATION (CHK_Rotate())
+ - added SCALING (CHK_Scale() smooths, CHK_SimpleScale() doesn't smooth)
+ - added PALETTE routines (CHK_ConvertCMAP(), CHK_Set/GetRGB4/32(),
+   CHK_LoadRGB32())
+4.1 (16-Mar-99)
+ - Fixed a bug in CHK_InsertChunky() (argh!)
+ - CHK_LoadRGB32() copied data to the wrong place; fixed.
+ - CHK_InitColours() didn't set the header; fixed.
+ (17-Mar-99)
+ - CHK_SetRGB4() was bugged (only excepted 0-15 due some broken shifting);
+   fixed.
+ (18-Mar-99)
+ - Bah, had to remove CHK_Rotate() :( - if anyone wants to fix it, e-mail
+   me.  There's a problem with recalculating the height for after the
+   rotation.  I fixed the width, but only the height gives me grief.  So,
+   it's been removed and now private.
+ - CHK_Scale() gives problems - see autodocs; CHK_SimpleScale() is fine.

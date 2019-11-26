@@ -1,0 +1,64 @@
+Short:    shared library for neural networks
+Author:   A. Behzadpour and Timm S. Mueller
+Uploader: Timm S. Mueller (Timm.Mueller@darmstadt.netsurf.de)
+Type:     dev/misc
+Version:  5.0
+Requires: os3.0 (v39), 68020
+
+
+
+overview
+--------------------------------------
+
+  neuralnet.library is an amiga shared library. it provides a
+  lean and simple programming interface for the use of neural
+  networks.
+  
+  neuralnet.library allows creation of backpropagation networks.
+  this is one of the simplest and most common network types.
+  
+  there are many possible applications: use it for optical
+  recognition, mouse-movement detection, analysis of complex
+  number series, result predictions, and 'intelligent'
+  user interaction.
+  
+  keep in mind that the library only provides the general
+  implementation of backpropagation networks. the most complex
+  and demanding part of the work is to parametrize the input
+  and output. neural networks require intellectual assistance.
+  
+  this package contains a simple manual that covers some of the
+  basic theory and how to use the library in daily applications.
+
+
+
+legal status
+--------------------------------------
+
+  neuralnet.library is © by TEK
+
+  this software is freeware. you are allowed to use the library
+  in freeware and shareware products, and to include it to your
+  software distributions. you are not allowed to use it in
+  modified form.
+
+
+
+authors
+--------------------------------------
+
+  Alireza Behzadpour
+  alireza@behzadpour.net
+  theory, layout, documentation
+
+  
+  Bifat / TEK neoscientists
+  timm.mueller@darmstadt.netsurf.de
+  implementation, documentation
+
+  
+  TEK neoscientists homepage
+  including support section for neuralnet.library
+  
+  http://come.to/neoscientists
+

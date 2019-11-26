@@ -1,0 +1,11 @@
+FileSystem	= l:RawDisk-Handler
+Device		= mfm.device
+Unit		= 0
+Priority	= 5
+Stacksize	= 5000
+GlobVec		= -1
+Mount		= 1
+Surfaces	= 2
+BlocksPerTrack	= 9
+LowCyl		= 0
+HighCyl		= 79

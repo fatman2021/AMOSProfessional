@@ -1,0 +1,19 @@
+#!/bin/sh
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer zerofill.c -s -o zerofill
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer wordadd.c -s -o wordadd
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer vb2rip.c -s -o vb2rip
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer usfv.c -s -o usfv
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer uips.c -s -o uips
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer subfile.c -s -o subfile
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer screamf.c -s -o screamf
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer rels.c -s -o rels
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer id3point.c -s -o id3point
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer hax65816.c -s -o hax65816
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer fakecrc.c -s -o fakecrc
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer ecm.c -s -o ecm
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer cdpatch.c -s -o cdpatch
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer byteswap.c -s -o byteswap
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer byteshuf.c -s -o byteshuf
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer brrrip.c -s -o brrrip
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer bincomp.c -s -o bincomp
+gcc -O9 -Wall -Wextra -Werror -fomit-frame-pointer bin2iso.c -s -o bin2iso

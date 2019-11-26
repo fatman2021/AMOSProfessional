@@ -1,0 +1,27 @@
+CC      = gcc
+LD      = gcc
+STRIP   = strip
+
+CFLAGS  = -D__USE_INLINE__ -O3
+LDFLAGS = -nostartfiles
+LDLIBS  = -lm
+
+OBJS =  guigfx_lib_os4.o guigfx_lib_os4_68k.o guigfx_initexit.o \
+                guigfx_picturemethod.o guigfx_picture.o guigfx_rasthandle.o \
+                guigfx_data.o guigfx_pensharemap.o guigfx_colorhandle.o \
+                guigfx_draw.o guigfx_drawhandle.o guigfx_loading.o guigfx_bitmap.o \
+                guigfx_convolve.o
+
+%.o: %.c 
+	$(CC) $(CFLAGS) -c $< -o $@
+
+guigfx.library: $(OBJS)
+	$(LD) -o $@ $(LDFLAGS) $(OBJS) $(LDLIBS)
+	$(STRIP) --strip-unneeded --remove-section .comment $@
+	copy guigfx.library libs:
+	avail >nil: flush
+
+all: guigfx.library
+
+clean:
+	delete $(OBJS)

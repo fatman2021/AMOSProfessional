@@ -1,0 +1,55 @@
+; $VER: RexxTricks_ClickMe.first 1.0 (15.4.96)
+;
+; Lädt die im Paket mitgelieferten Libraries in den Speicher.
+; Wenn bereits eine höhere Version installiert ist wird die
+; entsprechende Library nicht neu geladen.
+
+Avail >NIL: FLUSH
+
+Version >NIL: rexxtricks.library 38 6
+
+If WARN
+   C/LoadLib Libs/rexxtricks.library
+
+   If WARN
+      Skip error
+   Endif
+Endif
+
+Version >NIL: triton.library 5 5
+
+If WARN
+   C/LoadLib Triton/triton.library
+
+   If WARN
+      Skip error
+   Endif
+Endif
+
+Version >NIL: tritonrexx.library 37 7
+
+If WARN
+   C/LoadLib Libs/tritonrexx.library
+
+   If WARN
+      Skip error
+   Endif
+Endif
+
+Quit 0
+
+Lab error
+   If $language EQ deutsch
+      Echo "Bitte beenden Sie alle Programme, die die"
+      Echo "folgenden Libraries verwenden und starten"
+      Echo "Sie danach 'ClickMe.first' noch einmal!*N"
+   Else
+      Echo "Please quit all programs, which are using"
+      Echo "the following libraries, and then start"
+      Echo "'ClickMe.first' again!*N"
+   Endif
+
+   Echo "   - rexxtricks.library"
+   Echo "   - tritonrexx.library"
+   Echo "   - triton.library"
+   Quit 10

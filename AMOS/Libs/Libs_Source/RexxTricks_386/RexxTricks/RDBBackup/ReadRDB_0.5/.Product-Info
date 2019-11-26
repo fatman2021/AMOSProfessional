@@ -1,0 +1,31 @@
+.name
+ReadRDB
+.type
+disk/misc
+.short
+Backup and restore hard disk's Rigid Disk Blocks (RDB).
+.version
+0.5
+.date
+1996.1.27
+.author
+Gérard Cornu
+.address
+11 Avenue Edouard Aynard
+69130 Ecully (France)
+.requirements
+Requires OS2.0+
+.exectype
+Compiled C
+.construction
+SAS/C 6.56
+.distribution
+Free(Chocolate)Ware ;-)
+.docs
+ReardRDB.guide (english & french)
+.description
+Can read an RDB and save it to a file, as for backup purpose,
+and write it back later on the hard disk. Gives also the
+state of the reselection flag and all rdb_Flags.
+New FORCE switch. 
+Bug under --2.x--, unable to write back an RDB, fixed, oops!

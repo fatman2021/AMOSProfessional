@@ -1,0 +1,5297 @@
+@database "RexxMastHave"
+@author Alfonso Ranieri
+@index "Functions"
+
+@Node "Main" "RexxMustHave"
+
+    @{b}RexxMustHave@{ub}
+    Copyright © 2000-2004 Alfonso Ranieri
+
+
+    @{" Introduction " LINK "Introduction"}    @{" Terms        " LINK "Terms"       }
+    @{" Author       " LINK "Author"      }    @{" Bugs         " LINK "Bugs"        }
+    @{" WRID         " LINK "WRID"        }    @{" Functions    " LINK "Functions"   }
+
+@EndNode
+
+@Node "Introduction" "RexxMustHave Introduction"
+
+  @{b}Introduction@{ub}
+
+
+    The name of the library stands for Rexx Must Have: the
+    library is a set of functions I think ARexx should have.
+
+    The library offers functions to:
+
+    - Manipulate:
+
+      . AppIcon
+        Standard AmigaOS app icon
+
+      . Commodities
+        Standard AmigaOS cx
+
+      . Notify
+        Standard AmigaOS notify on file or clipboard changes
+
+      . Timers
+        timer.device timers
+
+      . NamedSpace
+        Sets of vars
+
+      . MacroNotify
+        Trees of macros
+
+    - Allocate signal and use them in a standard AmigaOS signals
+      events driven programming style
+
+    - Parse arguments and files with the most powerful ReadArgs
+      around and the very cute expand() function.
+
+    - Help programmers with many functions that handle date,
+      time, environment vars and so on.
+
+    All resources created are automagically freed at the exit of
+    the macro.
+
+@EndNode
+
+@Node "Author" "RexxMustHave Author"
+
+  @{b}Author@{ub}
+
+
+    I am @{i}Alfonso Ranieri@{ui}
+
+    My e-mail address is @{i}alforan@tin.it@{ui}
+
+    You can find last version of this library at my home page:
+    @{i}http://digilander.libero.it/asoft/@{ui}
+
+@EndNode
+
+@Node "WRID" "RexxMustHave Warning, Requirements, Installation and Distribution"
+
+  @{b}Warning, Requirements, Installation and Distribution@{ub}
+
+
+    @{u}Warning@{uu}
+    THIS SOFTWARE AND INFORMATION ARE PROVIDED "AS IS". ALL USE
+    IS AT YOUR OWN RISK, AND NO LIABILITY OR RESPONSIBILITY IS
+    ASSUMED. NO WARRANTIES ARE MADE.
+
+    @{u}Requirements@{uu}
+    The library needs AmigaOS, version 3 or higher.
+
+    @{u}Installation@{uu}
+    Use the installation script.
+
+    @{u}Distribution@{uu}
+    rmh.library is distributed under the terms of the GNU Public
+    Licence Version II.
+
+@EndNode
+
+@Node "Terms" "RexxMustHave Terms"
+
+  @{b}Terms@{ub}
+
+
+    The main terms used are:
+
+    o @{b}stem@{ub} or @{b}stemName@{ub}
+      Valid ARexx variable name e.g. var, var.0, var.name
+
+    o @{b}DateStamp@{ub}
+      A stem set by macro or returned by functions, with
+      set the fields:
+      . Days
+      . Minute
+      . Tick
+
+    o @{b}TimeVal@{ub}
+      A stem set by macro or returned by functions, with set the
+      fields:
+      . Secs
+      . Micro
+
+    o @{b}Types of arguments:@{ub}
+      . D    Any data    --    --
+      . N    Numeric     /N    ARexx integral number
+      . S    Symbol      /S    ARexx valid symbol
+      . V    StemName    /V    As S but with length<32
+      . O    StemName    /O    As V but maybe "" also
+
+@EndNode
+
+@Node "Bugs" "RexxMustHave Bugs"
+
+  @{b}Bugs@{ub}
+
+
+    1. This is an AmigaOS 3.5/3.9 bug:
+       if you drop an appicon into another appicon, you receive a
+       DOUBLECKICK event rather than a DROP one.
+
+@EndNode
+
+@Node "Functions" "RexxMustHave Functions"
+
+  @{b}Functions@{ub}
+
+
+   Any function may also be called as RMH_FunctionName and
+   RMHFunctionName to avoid conflicts with other libraries.
+
+
+   @{fg shine}DOS@{fg text}
+    @{"ChangeMode             " LINK "ChangeMode"             }    @{"CreateTempFile         " LINK "CreateTempFile"         }    @{"DosString              " LINK "DosString"              }
+    @{"DOSWhatIs              " LINK "DOSWhatIs"              }    @{"Expand                 " LINK "Expand"                 }    @{"IsInteractive          " LINK "IsInteractive"          }
+    @{"Lock                   " LINK "Lock"                   }    @{"Match                  " LINK "Match"                  }    @{"MatchPattern           " LINK "MatchPattern"           }
+    @{"MultiAssign            " LINK "MultiAssign"            }    @{"NameFromFile           " LINK "NameFromFile"           }    @{"ParsePattern           " LINK "ParsePattern"           }
+    @{"ProgDir                " LINK "ProgDir"                }    @{"ReadArgs               " LINK "ReadArgs"               }    @{"ReadFile               " LINK "ReadFile"               }
+    @{"RealName               " LINK "RealName"               }    @{"SameLock               " LINK "SameLock"               }    @{"SetComment             " LINK "SetComment"             }
+    @{"SetOwner               " LINK "SetOwner"               }    @{"System                 " LINK "System"                 }    @{"WaitForChar            " LINK "WaitForChar"            }
+    @{"WriteFile              " LINK "WriteFile"              }
+
+
+   @{fg shine}Notifies@{fg text}
+    @{"CheckNotify            " LINK "CheckNotify"            }    @{"FreeNotify             " LINK "FreeNotify"             }    @{"NotifySignal           " LINK "NotifySignal"           }
+    @{"StartNotify            " LINK "StartNotify"            }
+
+
+   @{fg shine}AppIcons@{fg text}
+    @{"AddAppIcon             " LINK "AddAppIcon"             }    @{"AppIconSignal          " LINK "AppIconSignal"          }    @{"FreeAppIcon            " LINK "FreeAppIcon"            }
+    @{"GetAppIconPos          " LINK "GetAppIconPos"          }    @{"HandleAppIcon          " LINK "HandleAppIcon"          }
+
+
+   @{fg shine}Commodities@{fg text}
+    @{"AddCx                  " LINK "AddCx"                  }    @{"CxSignal               " LINK "CxSignal"               }    @{"FreeCx                 " LINK "FreeCx"                 }
+    @{"HandleCx               " LINK "HandleCx"               }    @{"VerifyHotkey           " LINK "VerifyHotkey"           }
+
+
+   @{fg shine}Faults@{fg text}
+    @{"AddPart                " LINK "AddPart"                }    @{"Fault                  " LINK "Fault"                  }    @{"FilePart               " LINK "FilePart"               }
+    @{"IoErr                  " LINK "IoErr"                  }    @{"PathPart               " LINK "PathPart"               }    @{"PrintFault             " LINK "PrintFault"             }
+    @{"ProgramName            " LINK "ProgramName"            }    @{"SetIoErr               " LINK "SetIoErr"               }
+
+
+   @{fg shine}Signals@{fg text}
+    @{"AllocSignal            " LINK "AllocSignal"            }    @{"and                    " LINK "and"                    }    @{"CheckSignal            " LINK "CheckSignal"            }
+    @{"FreeSignal             " LINK "FreeSignal"             }    @{"IsRexxMsg              " LINK "IsRexxMsg"              }    @{"or                     " LINK "or"                     }
+    @{"PortSignal             " LINK "PortSignal"             }    @{"RawReplyMsg            " LINK "RawReplyMsg"            }    @{"SetSignal              " LINK "SetSignal"              }
+    @{"Signal                 " LINK "Signal"                 }    @{"Wait                   " LINK "Wait"                   }    @{"xor                    " LINK "xor"                    }
+
+
+   @{fg shine}Date and time@{fg text}
+    @{"AddTime                " LINK "AddTime"                }    @{"CheckTimer             " LINK "CheckTimer"             }    @{"CmpTime                " LINK "CmpTime"                }
+    @{"CompareDates           " LINK "CompareDates"           }    @{"CreateTimer            " LINK "CreateTimer"            }    @{"Date2GMT               " LINK "Date2GMT"               }
+    @{"ds2tv                  " LINK "ds2tv"                  }    @{"FormatDate             " LINK "FormatDate"             }    @{"FreeTimer              " LINK "FreeTimer"              }
+    @{"GetDate                " LINK "GetDate"                }    @{"GetFileDate            " LINK "GetFileDate"            }    @{"GetSysTime             " LINK "GetSysTime"             }
+    @{"GetTZ                  " LINK "GetTZ"                  }    @{"GMTOffset              " LINK "GMTOffset"              }    @{"ParseDate              " LINK "ParseDate"              }
+    @{"SetFileDate            " LINK "SetFileDate"            }    @{"SetSysTime             " LINK "SetSysTime"             }    @{"StartTimer             " LINK "StartTimer"             }
+    @{"StopTimer              " LINK "StopTimer"              }    @{"SubTime                " LINK "SubTime"                }    @{"TimerSignal            " LINK "TimerSignal"            }
+    @{"tv2ds                  " LINK "tv2ds"                  }
+
+
+   @{fg shine}Macros trees@{fg text}
+    @{"MacroNotifyCreate      " LINK "MacroNotifyCreate"      }    @{"MacroNotifyFree        " LINK "MacroNotifyFree"        }    @{"MacroNotifyGetEvent    " LINK "MacroNotifyGetEvent"    }
+    @{"MacroNotifyInsert      " LINK "MacroNotifyInsert"      }    @{"MacroNotifyJoin        " LINK "MacroNotifyJoin"        }    @{"MacroNotifySync        " LINK "MacroNotifySync"}
+
+
+   @{fg shine}Vars@{fg text}
+    @{"DeleteVar              " LINK "DeleteVar"              }    @{"FindVar                " LINK "FindVar"                }    @{"GetVar                 " LINK "GetVar"                 }
+    @{"SetVar                 " LINK "SetVar"                 }
+
+
+   @{fg shine}Vars sharing@{fg text}
+    @{"CopyStem               " LINK "CopyStem"               }    @{"NamedSpaceCreate       " LINK "NamedSpaceCreate"       }    @{"NamedSpaceExport       " LINK "NamedSpaceExport"       }
+    @{"NamedSpaceFree         " LINK "NamedSpaceFree"         }    @{"NamedSpaceGetvar       " LINK "NamedSpaceGetvar"       }    @{"NamedSpaceImport       " LINK "NamedSpaceImport"       }
+    @{"StemFields             " LINK "StemFields"             }    @{"StemToVar              " LINK "StemToVar"              }    @{"VarToStem              " LINK "VarToStem"              }
+
+
+   @{fg shine}Icons manipulation@{fg text}
+    @{"AskToolType            " LINK "AskToolType"            }    @{"GetToolType            " LINK "GetToolType"            }    @{"IsIcon                 " LINK "IsIcon"                 }
+    @{"PutToolType            " LINK "PutToolType"            }    @{"ReadToolTypes          " LINK "ReadToolTypes"          }    @{"SetIconAttrs           " LINK "SetIconAttrs"           }
+    @{"WriteToolTypes         " LINK "WriteToolTypes"         }
+
+
+   @{fg shine}Various@{fg text}
+    @{"AddLibrary             " LINK "AddLibrary"             }    @{"AddressOfVar           " LINK "AddressOfVar"           }    @{"ARexxCopyright         " LINK "ARexxCopyright"         }
+    @{"CloseWorkBench         " LINK "CloseWorkBench"         }    @{"EasyRequest            " LINK "EasyRequest"            }    @{"FrontMostScreen        " LINK "FrontMostScreen"        }
+    @{"GetRexxVar             " LINK "GetRexxVar"             }    @{"GetUniqueID            " LINK "GetUniqueID"            }    @{"Help                   " LINK "Help"                   }
+    @{"LocalizeStrings        " LINK "LocalizeStrings"        }    @{"MacroEnv               " LINK "MacroEnv"               }    @{"OpenURL                " LINK "OpenURL"                }
+    @{"OpenWorkBench          " LINK "OpenWorkBench"          }    @{"ParseConfig            " LINK "ParseConfig"            }    @{"PortWait               " LINK "PortWait"               }
+    @{"ReadTextClip           " LINK "ReadTextClip"           }    @{"Requester              " LINK "Requester"              }    @{"SetRexxVar             " LINK "SetRexxVar"             }
+    @{"SetStem                " LINK "SetStem"                }    @{"Sort                   " LINK "Sort"                   }    @{"WriteTextClip          " LINK "WriteTextClip"          }
+
+@EndNode
+
+@Node "ARexxCopyright" "RexxMustHave Functions - ARexxCopyright"
+
+  @{b}ARexxCopyright@{ub} - returns ARexx copyright info.
+
+
+  @{b}Synopsis@{ub}
+    info = ARexxCopyright()
+    -
+
+
+  @{b}Function@{ub}
+    Returns the ARexx copyright info as contained in
+    RexxSysBase->rl_Notice .
+
+
+  @{b}Inputs@{ub}
+    none
+
+
+  @{b}Result@{ub}
+    info - ARexx copyright string
+
+@EndNode
+
+@Node "AddressOfVar" "RexxMustHave Functions - AddressOfVar"
+
+  @{b}AddressOfVar@{ub} - returns the address of a var.
+
+
+  @{b}Synopsis@{ub}
+    addr = AddressOfVar(var,opts)
+    <var/S>,[opts]
+
+
+  @{b}Function@{ub}
+    Returns the address of the contents of the given ARexx var.
+
+    @{i}opts@{ui} is one or more of:
+
+    - ArgString
+      If specified, @{i}addr@{ui} is the address of the ARexx
+      ArgString structure, rather than the address of the
+      contents of the var.
+
+
+  @{b}Inputs@{ub}
+    var - the ARexx var to find the address of its contents
+
+
+  @{b}Result@{ub}
+    addr - the address (it may be Null())
+
+@EndNode
+
+@Node "AddAppIcon" "RexxMustHave Functions - AddAppIcon"
+
+  @{b}AddAppIcon@{ub} - creates an appicon.
+
+
+  @{b}Synopsis@{ub}
+    appIconID = AddAppIcon(name,icon)
+    <name>,[icon],[stem]
+
+
+  @{b}Function@{ub}
+    Adds an appicon on the workbench screen. An appicon is a
+    standard AmigaOS appicon.
+
+    @{i}name@{ui} is the name of the appicon.
+
+    @{i}icon@{ui} is the name of a info file, without the .info
+    suffix. If @{i}icon@{ui} is not given or the icon can't be
+    found, the system tools default icon is used.
+
+    @{i}stem@{ui} is an ARexx stem name; in it you may set the
+    field:
+
+    - SupportsOpen (BOOL)
+
+    - SupportsCopy (BOOL)
+
+    - SupportsRename (BOOL)
+
+    - SupportsInformation (BOOL)
+
+    - SupportsSnapshot (BOOL)
+
+    - SupportsUnSnapshot (BOOL)
+
+    - SupportsLeaveOut (BOOL)
+
+    - SupportsPutAway (BOOL)
+
+    - SupportsDelete (BOOL)
+
+    - SupportsFormatDisk (BOOL)
+
+    - SupportsEmptyTrash (BOOL)
+
+    - PropagatePosition (BOOL)
+      Set it to 1, if you want to read the appicon position
+
+    - NotifySelectState (BOOL)
+
+    - Free (BOOL)
+      If 1, you get a position free appicon
+
+    - PosX (STRING or NUM)
+      A number or the string "FREE"
+
+    - PosY (STRING or NUM)
+      A number or the string "FREE"
+
+    The above have sense only under AmigaOS 3.5.
+
+    The appicon is freed at the exit of the macro if it wasn't
+    yet.
+
+
+  @{b}Inputs@{ub}
+    name - the name of the appicon
+    icon - the icon file to use
+
+
+  @{b}Result@{ub}
+    appIconID - the appicon ID
+
+
+  @{b}See@{ub}
+    @{"AppIconSignal" LINK "AppIconSignal"} @{"FreeAppIcon" LINK "FreeAppIcon"} @{"HandleAppIcon" LINK "HandleAppIcon"}
+
+@EndNode
+
+@Node "AddCx" "RexxMustHave Functions - AddCx"
+
+  @{b}AddCx@{ub} - adds a commodity.
+
+
+  @{b}Synopsis@{ub}
+    cxID = AddCx(name,title,desc,flags,hotkey)
+    <name>,<title>,<descr>,[flag],[hotkey]
+
+
+  @{b}Function@{ub}
+    Adds a commodity. A commodity is a standard but limited
+    AmigaOS commodity.
+
+    @{i}flags@{ui} is one or more of:
+
+    - Unique
+      Only one cx with this name is allowed
+
+    - Notify
+      Notify me if someone try to open another cx with name
+
+    - ShowHide
+      Receive APPEAR DISAPPEAR
+
+    - DiskInserted
+      Receive a DISKINSERTED event when a disk is inserted
+
+    - DiskRemoved
+      Receive a DISKREMOVED event when a disk is removed
+
+    - FixEBug
+      rmh.library returns the event UNABLE when the cx is
+      enabled; for compatibility reasons this can't be fixed
+      globally if you use this flag the right string ENABLE is
+      returned
+
+    @{i}hotkey@{ui} is a valid hotkey description. If it is
+    specified, the cx will receive a HOTKEY event when this
+    sequence is used.
+
+
+  @{b}Inputs@{ub}
+    name   - the name of the commodity as in Exchange
+    text   - the text as in Exchange
+    descr2 - the description as in Exchange
+    flags  - see above
+    hotkey - a hotkey description
+
+
+  @{b}Result@{ub}
+    cxID - an integer:
+           . 0         - a UNIQUE cx with named @{i}name@{ui} already exists
+           . 1         - invalid hotkey description
+           . otherwise - cxID
+
+
+  @{b}See@{ub}
+    @{"CxSignal" LINK "CxSignal"} @{"FreeCx" LINK "FreeCx"} @{"HandleCx" LINK "HandleCx"}
+
+@EndNode
+
+@Node "AddLibrary" "RexxMustHave Functions - AddLibrary"
+
+  @{b}AddLibrary@{ub} - adds a library.
+
+
+  @{b}Synopsis@{ub}
+    res = AddLibrary(<lib1>,{lib})
+    <lib1>,{lib}
+
+
+  @{b}Function@{ub}
+    Adds to the ARexx libraries list till to 15 libraries with
+    the query offset at -30 and priority 0.
+
+    Don't use this function with libraries that doesn't have the
+    ARexx query function offset at -30 (e.g. with
+    openurl.library)!!!
+
+    Each library is first checked to be already in the ARexx
+    library list, the a try to open it is made.
+
+
+  @{b}Inputs@{ub}
+    lib1 - first library to add (required)
+    libi - ith library to add (optional)
+    ...
+
+
+  @{b}Result@{ub}
+    res - an integer:
+          . 0  - all ok
+          . >0 - n-th lib can't be added. The var "Result" is set to the
+                 name that failed.
+
+
+  @{b}Example@{ub}
+
+    ...
+    if Addlibrary(name1,name2)>0 then do /* failure */
+        say "can't add '"Result"'"
+        exit
+    end
+    ...
+
+@EndNode
+
+@Node "AddPart" "RexxMustHave Functions - AddPart"
+
+  @{b}AddPart@{ub} - adds a path to a filename.
+
+
+  @{b}Synopsis@{ub}
+    complete = AddPart(path,file)
+    <path>,<file>
+
+
+  @{b}Function@{ub}
+    Adds @{i}path@{ui} to @{i}file@{ui}.
+
+
+  @{b}Inputs@{ub}
+    path - the path
+    file - the file name
+
+
+  @{b}Result@{ub}
+    complete - complete path to file.
+
+
+  @{b}See@{ub}
+    @{"FilePart" LINK "FilePart"} @{"PathPart" LINK "PathPart"}
+
+@EndNode
+
+@Node "AddTime" "RexxMustHave Functions - AddTime"
+
+  @{b}AddTime@{ub} - adds 2 timeval.
+
+
+  @{b}Synopsis@{ub}
+    call AddTime(time1,time2)
+    <time1/V>,<time2/V>
+
+
+  @{b}Function@{ub}
+    Adds @{i}time1@{ui} to @{i}time2@{ui}, result in @{i}time1@{ui}.
+
+
+  @{b}Inputs@{ub}
+    time1 - a timeval to adds to @{i}time2@{ui} and where to store the result
+    time2 - a timeval to add to @{i}time1@{ui}
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"CmpTime" LINK "CmpTime"} @{"GetSysTime" LINK "GetSysTime"} @{"SubTime" LINK "SubTime"} @{"SetSysTime" LINK "SetSysTime"}
+
+@EndNode
+
+@Node "AllocSignal" "RexxMustHave Functions - AllocSignal"
+
+  @{b}AllocSignal@{ub} - allocates an Exec signal.
+
+
+  @{b}Synopsis@{ub}
+    sigBit = AllocSignal()
+    -
+
+
+  @{b}Function@{ub}
+    Allocates an returns an Exec signal bit.
+
+    Because ARexx scripts run as separate process, you may not
+    free allocated signal before exiting. Anyway, remember that
+    you may allocate up to 15 signals and that some of them are
+    used by many objects such as ARexx ports, timers, RxMUI gui
+    and so on. It means that is freeing signals when they are not
+    needed is a good programming way.
+
+  @{b}Inputs@{ub}
+    none
+
+
+  @{b}Result@{ub}
+    sigBit - the signal bit or -1 for failure.
+
+
+  @{b}See@{ub}
+    @{"CheckSignal" LINK "CheckSignal"} @{"FreeSignal" LINK "FreeSignal"} @{"signal" LINK "signal"} @{"wait" LINK "wait"}
+
+@EndNode
+
+@Node "and" "RexxMustHave Functions - and"
+
+  @{b}and@{ub} - ands integers
+
+
+  @{b}Synopsis@{ub}
+    res = and(val1,val2,..)
+    <val1/N>,<val2/N>,{val/N}
+
+
+  @{b}Function@{ub}
+    Ands up to 15 integer.
+
+
+  @{b}Inputs@{ub}
+    val1 - an integer
+    val2 - an integer
+    ...
+
+
+  @{b}Result@{ub}
+    res - the inclusive and of the arguments
+
+
+  @{b}See@{ub}
+    @{"or" LINK "or"} @{"wait" LINK "wait"}
+
+@EndNode
+
+@Node "AppIconSignal" "RexxMustHave Functions - AppIconSignal"
+
+  @{b}AppIconSignal@{ub} - returns an appicon signal.
+
+
+  @{b}Synopsis@{ub}
+    signal = AppIconSignal(appIconID)
+    <appIconID/N>
+
+
+  @{b}Function@{ub}
+    @{i}appIconID@{ui} is the ID of an appicon created with
+    AddAppIcon(). The functions returns the signal to wait for
+    appicon events.
+
+
+ @{b}Inputs@{ub}
+    appIconID - an appicon ID
+
+
+ @{b}Result@{ub}
+    res - the signal of the appicon
+
+
+ @{b}See@{ub}
+    @{"AddAppIcon" LINK "AddAppIcon"} @{"FreeAppIcon" LINK "FreeAppIcon"} @{"HandleAppIcon" LINK "HandleAppIcon"}
+    @{"GetAppIconPos" LINK "GetAppIconPos"}
+
+@EndNode
+
+@Node "ChangeMode" "RexxMustHave Functions - ChangeMode"
+
+  @{b}ChangeMode@{ub} - changes the mode of a file or a lock.
+
+
+  @{b}Synopsis@{ub}
+    res = ChangeMode(file,mode)
+    <file>,<mode>
+
+
+  @{b}Function@{ub}
+    Changes the mode of a file or a lock opened in this macro.
+
+    @{i}mode@{ui} is one of:
+    - EXCLUSIVE
+    - SHARED
+
+
+  @{b}Inputs@{ub}
+    file - the logical name of a file
+    mode - the new mode, see above
+
+@EndNode
+
+@Node "CheckNotify" "RexxMustHave Functions - CheckNotify"
+
+  @{b}CheckNotify@{ub} - checks a notify.
+
+
+  @{b}Synopsis@{ub}
+    res = CheckNotify(notifyID)
+    <notifyID/N>
+
+
+  @{b}Function@{ub}
+    @{i}notifyID@{ui} is a notify created with StartNotify().
+
+    The function checks if the notify notified the macro (the
+    object content changed).
+
+
+  @{b}Inputs@{ub}
+    notifyID - the ID of a notify
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean.
+
+
+  @{b}See@{ub}
+    @{"FreeNotify" LINK "FreeNotify"} @{"NotifySignal" LINK "NotifySignal"} @{"StartNotify" LINK "StartNotify"}
+
+@EndNode
+
+@Node "CheckSignal" "RexxMustHave Functions - CheckSignal"
+
+  @{b}CheckSignal@{ub} - checks signals.
+
+
+  @{b}Synopsis@{ub}
+    rec = CheckSignal(mask)
+    <mask/N>
+
+
+  @{b}Function@{ub}
+    Checks the signals specified in @{i}mask@{ui}. Note that the
+    signals are cleared.
+
+
+  @{b}Inputs@{ub}
+    mask - the signals to check.
+
+
+  @{b}Result@{ub}
+    res - the signals in mask that are set.
+
+
+  @{b}See@{ub}
+    @{"AllocSignal" LINK "AllocSignal"} @{"FreeSignal" LINK "FreeSignal"} @{"signal" LINK "signal"} @{"wait" LINK "wait"}
+
+@EndNode
+
+@Node "CheckTimer" "RexxMustHave Functions - CheckTimer"
+
+  @{b}CheckTimer@{ub} - checks a timer
+
+
+  @{b}Synopsis@{ub}
+    res = CheckTimer(timerID)
+    <timerID/N>
+
+
+  @{b}Function@{ub}
+    @{i}timerID@{ui} is the ID of a timer create by CreateTimer().
+
+    The function checks if the timer completed.
+
+    If the timer was not started, the function returns 1, as the
+    timer completed.
+
+
+  @{b}Inputs@{ub}
+    timerID - the ID of a timer
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean.
+
+
+  @{b}See@{ub}
+    @{"CreateTimer" LINK "CreateTimer"} @{"FreeTimer" LINK "FreeTimer"} @{"StartTimer" LINK "StartTimer"} @{"StopTimer" LINK "StopTimer"}
+
+@EndNode
+
+@Node "CloseWorkBench" "RexxMustHave Functions - CloseWorkBench"
+
+  @{b}CloseWorkBench@{ub} - closes WorkBench
+
+
+  @{b}Synopsis@{ub}
+    res = CloseWorkBench()
+    -
+
+
+  @{b}Function@{ub}
+    Closes WorkBench.
+
+
+  @{b}Inputs@{ub}
+    none
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+  @{b}See@{ub}
+    @{"OpenWorkBench" LINK "OpenWorkBench"}
+
+@EndNode
+
+@Node "CmpTime" "RexxMustHave Functions - CmpTime"
+
+  @{b}CmpTime@{ub} - compares 2 timeval
+
+
+  @{b}Synopsis@{ub}
+    res = CmpTime(time1,time2)
+    <time1/V>,<time2/V>
+
+
+  @{b}Function@{ub}
+    Compares @{i}time1@{ui} to @{i}time2@{ui}, 2 timeval structures.
+
+
+  @{b}Inputs@{ub}
+    time1 - a timeval
+    time2 - a timeval
+
+
+  @{b}Result@{ub}
+    res - an integer:
+          . <0 - time1<time2
+          . 0  - time1=time2
+          . >0 - time1>time2
+
+
+  @{b}See@{ub}
+    @{"AddTime" LINK "AddTime"} @{"GetSysTime" LINK "GetSysTime"} @{"SubTime" LINK "SubTime"} @{"SetSysTime" LINK "SetSysTime"}
+
+@EndNode
+
+@Node "CompareDates" "RexxMustHave Functions - CompareDates"
+
+  @{b}CompareDates@{ub} - compares 2 dates
+
+
+  @{b}Synopsis@{ub}
+    res = CompareDates(date1,date2)
+    <date1/V>,<date2/V>
+
+
+  @{b}Function@{ub}
+    Compares @{i}date1@{ui} and @{i}date2@{ui}, 2 DateStamp.
+
+
+  @{b}Inputs@{ub}
+    date1 - a DateStamp
+    date2 - a DateStamp
+
+
+  @{b}Result@{ub}
+    res - an integer:
+          . <0 - date1>date2
+          . 0  - date1==date2
+          . >0 - date1<date2
+
+
+  @{b}See@{ub}
+    @{"ds2tv" LINK "ds2tv"} @{"FormatDate" LINK "FormatDate"} @{"GetDate" LINK "GetDate"}
+    @{"GetFileDate" LINK "GetFileDate"} @{"ParseDate" LINK "ParseDate"} @{"SetFileDate" LINK "SetFileDate"} @{"tv2ds" LINK "tv2ds"}
+
+@EndNode
+
+@Node "CopyStem" "RexxMustHave Functions - CopyStem"
+
+  @{b}CopyStem@{ub} - copy a stem.
+
+
+  @{b}Synopsis@{ub}
+    res = CopyStem(from,to,patt,opts)
+    <from/V>,<to/V>,[patt],[opts]
+
+
+  @{b}Function@{ub}
+    All the contents of @{i}from@{ui} is copied to @{i}to@{ui}.
+
+    @{i}patt@{ui} is an AmigaDOS pattern if specified only what
+    matches it is copied.
+
+    @{i}opts@{ui} is one of:
+
+    - ONLYLOCAL
+      Only local vars are copied
+
+    - ONLYGLOBAL
+      Only global vars are copied
+
+    The default is to copy local and global vars.
+
+    Examples:
+
+    /**/
+    do i=0 to 7
+        a.kkk.i="hello world" i
+    end
+
+    call Copy("a","b") /* copy a.kkk.i to b.kkk.i , i=0,...,7 */
+
+    ---------
+
+    /**/
+    do i=0 to 7
+        a.kkk.i="hello world" i
+        a.hhh.i="hello world" i
+    end
+
+    call Copy("a","b","a.hhh.#?") /* copy a.hhh.i to b.kkk.i , i=0,...,7 */
+
+    ---------
+
+    /**/
+    do i=0 to 7
+        a.i="hello world" i
+    end
+    call fun
+    exit
+
+    fun:
+        call Copy("a","b") /* copy a.i to b.i , i=0,...,7 */
+        return
+
+    ---------
+
+    /**/
+    do i=0 to 7
+        a.i="hello world" i
+    end
+    call fun
+    exit
+
+    fun: procedure
+        call Copy("a","b") /* copy a.i to b.i , i=0,...,7 */
+        return
+
+    ---------
+
+    /**/
+    do i=0 to 7
+        a.i="hello world" i
+    end
+    call fun
+    exit
+
+    fun: procedure expose a.
+        call Copy("a","b") /* copy a.i to b.i , i=0,...,7 */
+        return
+
+    ---------
+
+    /**/
+    do i=0 to 7
+        a.i="hello world" i
+    end
+    call fun
+    exit
+
+    fun: procedure
+        call Copy("a","b","OnlyLocal") /* nothing is copied */
+        return
+
+    ---------
+
+    /**/
+    do i=0 to 7
+        a.i="hello world" i
+    end
+    call fun
+    exit
+
+    fun: procedure
+        do i=8 to 15
+            a.i="hello world" i
+        end
+        call Copy("a","b","onlylocal") /* copy a.i to b.i , i=8,...,15 */
+        return
+
+    ---------
+
+    Note that the function is case insensitive and that only the
+    first level of the stem (ARexx limitation) is copied, so:
+
+    call Copy("a","b")
+    call Copy("a.","b")
+    call Copy("A","B")
+    call Copy("a.hhh","b")
+
+    are exactly the same: they copy all the contents of A. to B. ,
+    but
+
+    call Copy("a","b.")
+
+    copies all the contents of A. to B..
+
+
+   @{b}Inputs@{ub}
+    from - source
+    to   - destination
+    patt - AmigaDOS pattern (max 32 chars long)
+    opts - options
+
+
+  @{b}Result@{ub}
+    res - 0, nothing copied, 1 something copied
+
+@EndNode
+
+@Node "CreateTempFile" "RexxMustHave Functions - CreateTempFile"
+
+  @{b}CreateTempFile@{ub} - creates a temporary file.
+
+
+  @{b}Synopsis@{ub}
+    name = CreateTempFile()
+    -
+
+
+  @{b}Function@{ub}
+    Opens an unique temporary file in T: and return it's complete
+    name.
+
+    Temporary means that at the exit of the macro the file is
+    deleted.
+
+    The file is not open in the macro; if you need to write to
+    it, just do a open() with the name returned by this function.
+
+
+  @{b}Inputs@{ub}
+    none
+
+
+  @{b}Result@{ub}
+    name - the DOS name of the file (not the logical one)
+
+@EndNode
+
+@Node "CreateTimer" "RexxMustHave Functions - CreateTimer"
+
+  @{b}CreateTimer@{ub} - creates a timer.
+
+
+  @{b}Synopsis@{ub}
+    timerID = CreateTimer(signal)
+    [signal/N]
+
+
+  @{b}Function@{ub}
+    Creates a timer. A timer can be used for timeouts, to wait
+    for a specific amount of time, to break a wait loop and so
+    on.
+
+
+  @{b}Inputs@{ub}
+    signal - May specify an Exec signal bit here. It must be
+             allocated with AllocSignal(). Do not free it before
+             the timer. If no signal is supplied, a brand new is
+             allocated by the function.
+
+  @{b}Result@{ub}
+    timerID - the ID of the timer or -1 on failure
+
+
+  @{b}See@{ub}
+    @{"CheckTimer" LINK "CheckTimer"} @{"FreeTimer" LINK "FreeTimer"} @{"StartTimer" LINK "StartTimer"} @{"StopTimer" LINK "StopTimer"}
+
+@EndNode
+
+@Node "CxSignal" "RexxMustHave Functions - CxSignal"
+
+  @{b}CxSignal@{ub} - returns the signal of a commodity.
+
+
+  @{b}Synopsis@{ub}
+    signal = CxSignal(cxID)
+    <cxID/N>
+
+
+  @{b}Function@{ub}
+    @{i}cxID@{ui} is the ID of a commodity created with AddCx().
+
+    The function returns the signal of the commodity to wait for
+    commodity events.
+
+
+  @{b}Inputs@{ub}
+    cxID - the ID of a commodity.
+
+
+  @{b}Result@{ub}
+    signal - the signal of the commodity
+
+
+  @{b}See@{ub}
+    @{"AddCx" LINK "AddCx"} @{"FreeCx" LINK "FreeCx"} @{"HandleCx" LINK "HandleCx"}
+
+@EndNode
+
+@Node "date2GMT" "RexxMustHave Functions - date2GMT"
+
+  @{b}date2GMT@{ub} - converts to GMF format
+
+
+  @{b}Synopsis@{ub}
+    res = date2GMT(date)
+    <date/V>
+
+
+  @{b}Function@{ub}
+    @{i}date@{ui} is a DateStamp.
+
+    The function convert it to the GMT format, according to
+    ENV:TZ. If ENV:TZ doesn't exist, the date remains untouched.
+
+    The function takes care of the presence of the daylight in
+    TZ.
+
+
+ @{b}Inputs@{ub}
+    date - an ARexx stem name set as Datestamp
+
+
+ @{b}Result@{ub}
+    res - an integer:
+          . 0 - TZ is not present in ENV:
+          . 1 - TZ is present in ENV: and the date was converted
+
+
+ @{b}See@{ub}
+    @{"GetDate" LINK "GetDate"} @{"GetTZ" LINK "GetTZ"} @{"GMTOffset" LINK "GMTOffset"}
+
+@EndNode
+
+@Node "DeleteVar" "RexxMustHave Functions - DeleteVar"
+
+  @{b}DeleteVar@{ub} - deletes a DOS var
+
+
+  @{b}Synopsis@{ub}
+    call DeleteVar(name,options)
+    <name>,[options]
+
+
+  @{b}Function@{ub}
+    Deletes the DOS var named @{i}name@{ui}.
+
+    @{i}option@{ui} is one or more of:
+    - VAR
+    - ALIAS
+    - IGNORE
+    - GLOBAL
+    - BINARY
+    - NTNULL
+    - SAVE
+
+    The default is "VAR GLOBAL"
+
+
+  @{b}Inputs@{ub}
+    name    - the name of the var
+    options - see above
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"FindVar" LINK "FindVar"} @{"GetVar" LINK "GetVar"} @{"SetVar" LINK "SetVar"}
+
+@EndNode
+
+@Node "DosString" "RexxMustHave Functions - DosString"
+
+  @{b}DosString@{ub} - returns a localized I/O error string.
+
+
+  @{b}Synopsis@{ub}
+    string = DosString(code)
+    [code/N]
+
+
+  @{b}Function@{ub}
+    Returns a localized I/O error string.
+
+    If @{i}code@{ui} is omitted, it is assumed to be the current
+    IoErr.
+
+
+  @{b}Inputs@{ub}
+    code - the I/O error coed
+
+
+  @{b}Result@{ub}
+    string - the localized string associated with @{i}code@{ui}
+
+@EndNode
+
+@Node "ds2tv" "RexxMustHave Functions - ds2tv"
+
+  @{b}ds2tv@{ub} - converts DateStamp to timeval
+
+
+  @{b}Synopsis@{ub}
+    call ds2tv(from,to)
+    <from/V>,[to/V]
+
+
+  @{b}Function@{ub}
+    Converts @{i}from@{ui}, a DateStamp, to a TimeVal, writing it
+    in @{i}from@{ui} or in @{i}to@{ui}, if supplied.
+
+
+  @{b}Inputs@{ub}
+    from - an ARexx stem name set as DateStamp
+    to   - an ARexx stem name where function will set as timeval
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"CompareDates" LINK "CompareDates"} @{"FormatDate" LINK "FormatDate"} @{"GetDate" LINK "GetDate"} @{"GetFileDate" LINK "GetFileDate"}
+    @{"ParseDate" LINK "ParseDate"} @{"SetFileDate" LINK "SetFileDate"} @{"tv2ds" LINK "tv2ds"}
+
+@EndNode
+
+@Node "EasyRequest" "RexxMustHave Functions - EasyRequest"
+
+  @{b}EasyRequest@{ub} - shows an Intuition requester
+
+
+  @{b}Synopsis@{ub}
+    res = EasyRequest(text,title,gadgetText,screenName,flags,idcmp)
+    <text>,[title],[gadgetText],[screeName],[flags],[idcmp/N]
+
+
+  @{b}Function@{ub}
+    Creates and shows and intuition easy requester.
+
+    @{i}gadgetText@{ui} defines the buttons of the requester:
+    button labels must be separated wit |, e.g. "a|b|c" defines
+    the 3 buttons "a" "b" "c"; the default is " OK "
+
+    @{i}text@{ui} and @{i}gadgetText@{ui} can contain a % but
+    only followed by an another % .
+
+
+  @{b}Inputs@{ub}
+    text       - the text of the requester
+    title      - the title (default "ARexx Macro Request")
+    gadgetText - the text for the buttons
+    screenName - the name of a public screen where to open the requester
+    flags      - controls the function, one or more of:
+                 . NOFALLBACK
+                   If present makes the function do not open the
+                   requester on the default public screen if the
+                   screenName doesn't exist, but to fail
+                 . MUI
+                   Use MUI requesters
+    idcmp      - an integer value of IDCMP flags which will close the requester
+
+  Returns:
+    res - an integer:
+          . -1   - idcmp received ( RC is set to the idcmp received)
+          . 0    - last gadget pressed
+          . n>=0 - gadget number n was pressed.
+                   Gadget are counted from left to right and
+                   first is number 1, last 0.
+
+
+  @{b}See@{ub}
+    @{"requester" LINK "requester"}
+
+@EndNode
+
+@Node "expand" "RexxMustHave Functions - expand"
+
+  @{b}expand@{ub} - returns directory entries.
+
+
+  @{b}Synopsis@{ub}
+    numb = expand(stem,pattern,flags)
+    <stem/V>,<pattern>,flags
+
+
+  @{b}Function@{ub}
+    Reads entries which match given pattern.
+
+    @{i}flags@{ui} is one of:
+
+    - FILE
+      Only files are read
+
+    - DIR
+      Only dir are read
+
+   Entries are written in fields.i,...,fields.x where x=num-1.
+
+   The fields set are:
+
+   - DIRENTRYTYPE
+     As TYPE but numeric
+
+   - TYPE
+     FILE or DIR
+
+   - DATE
+     Set as a DateStamp structure
+
+   - ENTRYTYPE
+
+   - PROTECTION
+
+   - SIZE
+
+   - NUMBLOCKS
+
+   - COMMENT
+
+   - OWNERUID
+
+   - OWNERGID
+
+
+  @{b}Inputs@{ub}
+    stem    - an ARexx stem name
+    pattern - an AmigaDOS pattern
+    flags   - see above
+
+
+  @{b}Result@{ub}
+    numb - the number of the entries that match @{i}pattern@{ui}.
+
+@EndNode
+
+@Node "fault" "RexxMustHave Functions - fault"
+
+  @{b}fault@{ub} - returns a fault string.
+
+
+  @{b}Synopsis@{ub}
+    string = fault(code,msg)
+    [code/N],[msg]
+
+
+  @{b}Function@{ub}
+    Returns the string: @{i}msg@{ui}: DosString(@{i}code@{ui})
+
+    If @{i}code@{ui} is omitted, it is assumed to be the current
+    IoErr.
+
+    If @{i}msg@{ui} is not specified it is assumed to be the
+    macro name with no extension.
+
+
+  @{b}Inputs@{ub}
+    code - an I/O error code
+    msg  - the message to prefix
+
+
+  @{b}Result@{ub}
+    string - the fault string
+
+
+  @{b}See@{ub}
+    @{"Printfault" LINK "PrintFault"} @{"IoErr" LINK "IoErr"} @{"DosString" LINK "DosString"}
+
+@EndNode
+
+@Node "FilePart" "RexxMustHave Functions - FilePart"
+
+  @{b}FilePart@{ub} - returns the file part of a path
+
+
+  @{b}Synopsis@{ub}
+    file = filepart(path)
+    <path>
+
+
+  @{b}Function@{ub}
+    Returns the file part of @{i}path@{ui}.
+
+
+  @{b}Inputs@{ub}
+    path - the complete path to a file
+
+
+  @{b}Result@{ub}
+    file - the file part of @{i}path@{ui}
+
+
+  @{b}See@{ub}
+    @{"AddPart" LINK "FilePart"} @{"PathPart" LINK "PathPart"}
+
+@EndNode
+
+@Node "FormatDate" "RexxMustHave Functions - FormatDate"
+
+  @{b}FormatDate@{ub} - converts DateSTamp to string.
+
+
+  @{b}Synopsis@{ub}
+    date = FormatDate(date,fmt,locale,opts)
+    [date/V],[fmt],[locale],[opts]
+
+
+  @{b}Function@{ub}
+    Converts @{i}date@{ui} a DateStamp to a string, according
+    with the format flags in @{i}fmt@{ui} and the @{i}locale@{ui}.
+
+    If @{i}date@{ui} is supplied, it must be a stem set as a
+    DateStamp and the date is read from it. If it is omitted, the
+    date is the current system date.
+
+    If @{i}fmt@{ui} is supplied, it must be a valid
+    locale/FormatDate format string. If it is omitted, it is the
+    "short date format" of the locale.
+
+    Valid @{i}fmt@{ui} commands are:
+    %a - abbreviated weekday name
+    %A - weekday name
+    %b - abbreviated month name
+    %B - month name
+    %c - same as "%a %b %d %H:%M:%S %Y"
+    %C - same as "%a %b %e %T %Z %Y"
+    %d - day number with leading 0s
+    %D - same as "%m/%d/%y"
+    %e - day number with leading spaces
+    %h - abbreviated month name
+    %H - hour using 24-hour style with leading 0s
+    %I - hour using 12-hour style with leading 0s
+    %j - Julian date
+    %m - month number with leading 0s
+    %M - the number of minutes with leading 0s
+    %n - insert a line feed
+    %p - AM or PM strings
+    %q - hour using 24-hour style
+    %Q - hour using 12-hour style
+    %r - same as "%I:%M:%S %p"
+    %R - same as "%H:%M"
+    %S - number of seconds with leading 0s
+    %t - insert a tab character
+    %T - same as "%H:%M:%S"
+    %U - week number, taking Sunday as first day of week
+    %w - weekday number
+    %W - week number, taking Monday as first day of week
+    %x - same as "%m/%d/%y"
+    %X - same as "%H:%M:%S"
+    %y - year using two digits with leading 0s
+    %Y - year using four digits with leading 0s
+
+    If @{i}locale@{ui} is supplied, the functions tries to open
+    it to format the date in that locale way. If it is omitted,
+    locale is the default locale of the system.
+
+
+    @{i}opts@{ui} is one of:
+
+    - GMT
+      If supplied, the function tries to convert the date in GMT
+      format:
+
+      1. ENV:TZ exists, the date is converting according to it
+
+      2. If ENV:TZ does not exist, the date is converting
+         according to the default locale
+
+
+  @{b}Inputs@{ub}
+    date   - an ARexx stem name set as DateStamp
+    fmt    - a format flags string, see above
+    locale - a locale name
+    opts   - see above
+
+
+  @{b}Result@{ub}
+    date - a date string
+
+
+  @{b}See@{ub}
+    @{"CompareDates" LINK "CompareDates"} @{"ds2tv" LINK "ds2tv"} @{"GetDate" LINK "GetDate"} @{"GetFileDate" LINK "GetFileDate"}
+    @{"ParseDate" LINK "ParseDate"} @{"SetFileDate" LINK "SetFileDate"} @{"tv2ds" LINK "tv2ds"}
+
+@EndNode
+
+@Node "FreeAppIcon" "RexxMustHave Functions - FreeAppIcon"
+
+  @{b}FreeAppIcon@{ub} - deletes an appicon.
+
+
+  @{b}Synopsis@{ub}
+    call FreeAppIcon(appIconID)
+    <appIconID/N>
+
+
+  @{b}Function@{ub}
+    Deletes an appicon created with AddAppIcon().
+
+    appIconID is the appicon ID returned by AddAppIcon().
+
+
+  @{b}Inputs@{ub}
+    appIconID - an appicon D
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"AddAppIcon" LINK "AddAppIcon"} @{"AppIconSignal" LINK "AppIconSignal"} @{"HandleAppIcon" LINK "HandleAppIcon"}
+    @{"GetAppIconPos" LINK "GetAppIconPos"}
+
+@EndNode
+
+@Node "FreeCx" "RexxMustHave Functions - FreeCx"
+
+  @{b}FreeCx@{ub} - deletes a commodity.
+
+
+  @{b}Synopsis@{ub}
+    call FreeCx(cxID)
+    <cxID/N>
+
+
+  @{b}Function@{ub}
+    Deletes a commodity created with AddCx().
+
+
+ @{b}Inputs@{ub}
+    @{i}cxID@{ui} - the commodity ID returned by AddCx().
+
+
+ @{b}Result@{ub}
+    none
+
+
+   @{b}See@{ub}
+    @{"AddCx" LINK "AddCx"} @{"CxSignal" LINK "CxSignal"} @{"HandleCx" LINK "HandleCx"}
+
+@EndNode
+
+@Node "FreeSignal" "RexxMustHave Functions - FreeSignal"
+
+  @{b}FreeSignal@{ub} - frees a signal bit.
+
+
+  @{b}Synopsis@{ub}
+    call FreeSignal(signal)
+    <signal/N>
+
+
+  @{b}Function@{ub}
+    Frees a signal bit allocated with AllocSignal().
+
+
+  @{b}Inputs@{ub}
+    signal - a signal bit
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"AllocSignal" LINK "AllocSignal"} @{"CheckSignal" LINK "CheckSignal"} @{"signal" LINK "signal"} @{"wait" LINK "wait"}
+
+@EndNode
+
+@Node "FreeNotify" "RexxMustHave Functions - FreeNotify"
+
+  @{b}FreeNotify@{ub} - frees a notify.
+
+
+  @{b}Synopsis@{ub}
+    call FreeNotify(notifyID)
+    <notifyID/N>
+
+
+  @{b}Function@{ub}
+    Frees a notify.
+
+
+  @{b}Inputs@{ub}
+    notifyID - the notify ID returned by StartNotify()
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"CheckNotify" LINK "CheckNotify"} @{"NotifySignal" LINK "NotifySignal"} @{"StartNotify" LINK "StartNotify"}
+
+@EndNode
+
+@Node "FreeTimer" "RexxMustHave Functions - FreeTimer"
+
+  @{b}FreeTimer@{ub} - frees a timer.
+
+
+  @{b}Synopsis@{ub}
+    call FreeTimer(timerID)
+    <timerID/N>
+
+
+  @{b}Function@{ub}
+    Frees a timer.
+
+
+  @{b}Inputs@{ub}
+    timerID - the timer ID returned by CreateTimer()
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"CheckTimer" LINK "CheckTimer"} @{"CreateTimer" LINK "CreateTimer"} @{"StartTimer" LINK "StartTimer"} @{"StopTimer" LINK "StopTimer"}
+
+@EndNode
+
+@Node "GetDate" "RexxMustHave Functions - GetDate"
+
+  @{b}GetDate@{ub} - returns current date.
+
+
+  @{b}Synopsis@{ub}
+    res = GetDate(date,opts)
+    <date/V>,[opts]
+
+
+  @{b}Function@{ub}
+    Reads the system date and set @{i}date@{ui} as a DateStamp struct.
+
+    @{i}opts@{ui} is one of:
+
+    - GMT
+      If supplied, the function tries to convert the date in GMT
+      format:
+
+      1. ENV:TZ exists, the date is converting according to it
+
+      2. If ENV:TZ does not exist, the date is converting
+         according to the default locale
+
+      3. If ENV:TZ does not exist, and the default locale can't
+         be opened for any reason, the date is not converted
+
+
+  @{b}Inputs@{ub}
+    date - an ARexx stem name set by the function as a DateStamp
+    opts - see above
+
+
+  @{b}Result@{ub}
+    res - an integer:
+          . 0 - GMT was specified but the date was not converted
+          . 1 - GMT was not specified or it was and the date was
+                converted
+
+
+  @{b}See@{ub}
+    @{"CompareDates" LINK "CompareDates"} @{"ds2tv" LINK "ds2tv"} @{"FormatDate" LINK "FormatDate"} @{"GetFileDate" LINK "GetFileDate"}
+    @{"ParseDate" LINK "ParseDate"} @{"SetFileDate" LINK "SetFileDate"} @{"tv2ds" LINK "tv2ds"}
+
+@EndNode
+
+@Node "GetFileDate" "RexxMustHave Functions - GetFileDate"
+
+  @{b}GetFileDate@{ub} - returns a file date
+
+
+  @{b}Synopsis@{ub}
+    res = GetFileDate(fileName,date,opts)
+    <fileName>,<date/V>,[opts]
+
+
+  @{b}Function@{ub}
+    Reads the date of @{i}fileName@{ui} and set @{i}date@{ui} as a DateStamp.
+
+    @{i}opts@{ui} is one of:
+
+    - GMT
+      If supplied, the function tries to convert the date in GMT
+      format:
+
+      1. ENV:TZ exists, the date is converting according to it
+
+      2. If ENV:TZ does not exist, the date is converting
+         according to the default locale
+
+
+  @{b}Inputs@{ub}
+    fileName - the name of a file
+    date     - an ARexx stem name set by the function as a DateStamp
+    opts     - see above
+
+
+  @{b}Result@{ub}
+    res - an ARexx integer:
+          . 0 - the file was not found
+          . 1 - success
+
+
+  @{b}See@{ub}
+    @{"CompareDates" LINK "CompareDates"} @{"ds2tv" LINK "ds2tv"} @{"FormatDate" LINK "FormatDate"} @{"GetDate" LINK "GetDate"}
+    @{"ParseDate" LINK "ParseDate"} @{"SetFileDate" LINK "SetFileDate"} @{"tv2ds" LINK "tv2ds"}
+
+@EndNode
+
+@Node "GetSysTime" "RexxMustHave Functions - GetSysTime"
+
+  @{b}GetSysTime@{ub} - returns the system time.
+
+
+  @{b}Synopsis@{ub}
+    call GetSysTime(time)
+    <time/V>
+
+
+  @{b}Function@{ub}
+    Sets @{i}time@{ui} as a TimeVal from the current system time.
+
+
+  @{b}Inputs@{ub}
+    time - an ARexx stem name set by the function as a timeval
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"AddTime" LINK "AddTime"} @{"CmpTime" LINK "CmpTime"} @{"SubTime" LINK "SubTime"} @{"SetSysTime" LINK "SetSysTime"}
+
+@EndNode
+
+@Node "GetTZ" "RexxMustHave Functions - GetTZ"
+
+  @{b}GetTZ@{ub} - reads ENV:TZ
+
+
+  @{b}Synopsis@{ub}
+    res = GetTZ(stem)
+    <stem/V>
+
+
+  @{b}Function@{ub}
+    Reads ENV:TZ, if it exists, and sets in @{i}stem@{ui} the fields:
+
+    - DayLight
+      Boolean, the daylight string is present
+
+    - TimeZone
+      Number of seconds to ADD to convert to GMT
+
+    - TZSTN
+      Timezone string
+
+    - TZDTN
+      Daylight string, if present
+
+
+  @{b}Inputs@{ub}
+    stem - an ARexx stem name
+
+
+  @{b}Result@{ub}
+    res - an integer:
+          . 0 - TZ doesn't exist (no fields is set)
+          . 1 - TZ exists
+
+
+  @{b}See@{ub}
+    @{"date2GMT" LINK "date2GMT"} @{"GetDate" LINK "GetDate"} @{"GMTOffset" LINK "GMTOffset"}
+
+@EndNode
+
+@Node "GetUniqueID" "RexxMustHave Functions - GetUniqueID"
+
+  @{b}GetUniqueID@{ub} - returns an unique integer
+
+
+  @{b}Synopsis@{ub}
+    id = GetUniqueID()
+    -
+
+
+  @{b}Function@{ub}
+    Each call to this function returns an unique integer.
+
+
+  @{b}Inputs@{ub}
+    none
+
+
+  @{b}Result@{ub}
+    id - an unique integer
+
+@EndNode
+
+@Node "GetVar" "RexxMustHave Functions - GetVar"
+
+  @{b}GetVar@{ub} - reads a system var.
+
+
+  @{b}Synopsis@{ub}
+    var = GetVar(name,options)
+    <name>,[options]
+
+
+  @{b}Function@{ub}
+    Gets the value of the var @{i}name@{ui}.
+
+    @{i}options@{ui} is one or more of:
+    - VAR
+    - ALIAS
+    - IGNORE
+    - GLOBAL
+    - BINARY
+    - NTNULL
+    - SAVE
+
+   The default is VAR.
+
+
+  @{b}Inputs@{ub}
+    name    - the name of the var to read
+    options - see above
+
+
+  @{b}Result@{ub}
+    var - the content of the var or an empty string
+
+
+  @{b}See@{ub}
+    @{"DeleteVar" LINK "DeleteVar"} @{"FindVar" LINK "FindVar"} @{"SetVar" LINK "SetVar"}
+
+@EndNode
+
+@Node "FindVar" "RexxMustHave Functions - FindVar"
+
+  @{b}FindVar@{ub} - reads a local var.
+
+
+  @{b}Synopsis@{ub}
+    var = FindVar(name,options)
+    <name>,[options]
+
+
+  @{b}Function@{ub}
+    Gets the value of the local var @{i}name@{ui}.
+
+    @{i}options@{ui} is one or more of:
+    - VAR
+    - ALIAS
+    - IGNORE
+    - BINARY
+
+   The default is "VAR".
+
+
+  @{b}Inputs@{ub}
+    name    - the name of the var to read
+    options - see above
+
+
+  @{b}Result@{ub}
+    var - the content of the var or an empty string
+
+
+  @{b}See@{ub}
+    @{"DeleteVar" LINK "DeleteVar"} @{"GetVar" LINK "GetVar"} @{"SetVar" LINK "SetVar"}
+
+@EndNode
+
+@Node "GMTOffset" "RexxMustHave Functions - GMTOffset"
+
+  @{b}GMTOffset@{ub} - returns the GMT offset as set in a locale.
+
+
+  @{b}Synopsis@{ub}
+    gmo = GMTOffset(locale)
+    [locale]
+
+
+  @{b}Function@{ub}
+   Reads the GMT offset in minutes from the locale.
+
+
+  @{b}Inputs@{ub}
+    locale - a locale name
+
+
+  @{b}Result@{ub}
+    gmo - the gmt offset
+
+
+  @{b}See@{ub}
+    @{"date2GMT" LINK "date2GMT"} @{"GetDate" LINK "GetDate"} @{"GetTZ" LINK "GetTZ"}
+
+@EndNode
+
+@Node "HandleAppIcon" "RexxMustHave Functions - HandleAppIcon"
+
+  @{b}HandleAppIcon@{ub} - handles an appicon.
+
+
+  @{b}Synopsis@{ub}
+    numMsg = HandleAppIcon(appIconID,handle)
+    <appIconID>,<handle/V>
+
+
+  @{b}Function@{ub}
+    Handles an appicon.
+
+    @{i}appIconID@{ui} is the appicon ID returned by AddAppIcon().
+
+    The following fields of @{i}handle@{ui} can be set:
+
+    - WAIT
+      Wait for messages from the appicon, default 1
+
+    - CTRLC
+      Wait for a ctrl-c as well, default 0
+
+    - SIGNALS
+      Wait for this signals too, default 0
+
+    The functions returns the number of the messages pending and
+    sets the fields:
+
+    - handle.i.CLASS that can be:
+      . DOUBLECLICK
+        The user doubleclicked the icon
+
+      . DROP
+        Icons were dropped over this appicon
+        i = 0,...,n n = numMsg-1
+
+      . DOUBLECLICK
+
+      . COPY
+
+      . RENAME
+
+      . INFORMATION
+
+      . SNAPSHOT
+
+      . UNSNAPSHOT
+
+      . LEAVEOUT
+
+      . PUTAWAY
+
+      . DELETE
+
+      . FORMATDISK
+
+      . EMPTYTRASH
+
+      . SELECTED
+
+      . UNSELECTED
+
+   If the class is DROP there are set the fields:
+
+   - .i.DROPNUM
+     The number of icons dropped
+
+   - .i.NAME.j
+     The name of the j-th icon
+
+   - .i.LOCK.j
+     A boolean set if the above has a lock (e.g. if another
+     appicon is dropped over an appicon the lock will be 0)
+
+   where j = 0,...,m m = .i.DROPNUM-1
+
+
+  @{b}Inputs@{ub}
+    appIconID - an app icon ID
+    handle    - where to write result
+
+
+  @{b}Result@{ub}
+    numMsg - the number of the messages
+
+
+  @{b}Bug@{ub}
+    With AmigaOS 3.5/3.9, an AppIcon dropped into another AppIcon is
+    returned as a DOUBLECLICK.
+
+
+   @{b}See@{ub}
+    @{"AddAppIcon" LINK "AddAppIcon"} @{"AppIconSignal" LINK "AppIconSignal"} @{"FreeAppIcon" LINK "FreeAppIcon"}
+    @{"GetAppIconPos" LINK "GetAppIconPos"}
+
+@EndNode
+
+@Node "GetAppIconPos" "RexxMustHave Functions - GetAppIconPos"
+
+  @{b}HandleAppIcon@{ub} - handles an appicon.
+
+
+  @{b}Synopsis@{ub}
+    call GetAppIconPos(appIconID,stem)
+    <appIconID>,<stem/V>
+
+
+  @{b}Function@{ub}
+    Reads the position of the appicon @{i}appIconID@{ui}, writing the result in
+    @{i}stem@{ui}.PosX and in @{i}stem@{ui}.PosY .
+
+    If the appicon is oriz or vert free, the value returned is the string
+    "FREE"; you should always check for that.
+
+    Note that you must have set the attribute @{i}PropagatePosition@{ui} to 1
+    at appicon creation.
+
+
+  @{b}Inputs@{ub}
+    appIconID - an app icon ID
+    stem      - where to write result
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"AddAppIcon" LINK "AddAppIcon"} @{"AppIconSignal" LINK "AppIconSignal"} @{"FreeAppIcon" LINK "FreeAppIcon"}
+    @{"SeticonAttrs" LINK "SetIconAttrs"}
+
+@EndNode
+
+@Node "HandleCx" "RexxMustHave Functions - HandleCx"
+
+  @{b}HandleC@{ub} - handles a cx
+
+
+  @{b}Synopsis@{ub}
+    numMsg = HandleCx(cxID,handle)
+    <cxID>,<handle/V>
+
+
+  @{b}Function@{ub}
+    Handles a cx
+    @{i}cxID@{ui} is the cx ID returned by AddCx() .
+
+   The following fields of @{i}handle@{ui} can be set:
+
+   - WAIT
+     Wait for messages from the cx - default 1
+
+   - CTRLC
+     Wait for a ctrl-c as well - default 0
+
+   - SIGNALS
+     Wait for this signals too - default 0
+
+   The functions returns the number of the messages that were
+   pending and sets the fields:
+
+   - .i.CLASS that can be:
+
+     . HOTKEY
+       The hotkey was pressed (only if you specified hotkey in
+       AddCx())
+
+     . DISABLE
+       The user selected Disable in Exchange
+
+     . UNABLE
+       The user selected Enable in Exchange (only if you
+       specified NOTIFY in AddCx() flags) Note that if you
+       created the cx with the flag FixEBug the string returned
+       is ENABLE
+
+    . KILL
+      The user pressed the Remove in Exchange
+
+    . UNIQUE
+      Someone opened a cx with the same name
+
+    . APPEAR
+      The user pressed the Show in Exchange (only if you
+      specified SHOWHIDE in AddCx() flags)
+
+    . DISAPPEAR
+      The user pressed the Hide in Exchange (only if you
+      specified SHOWHIDE in AddCx() flags)
+
+    . LISTCHG
+      Someone changed the cx list
+
+    . DISKINSERTED
+      A disk was inserted
+
+    . DISKREMOVED
+      A disk was removed
+
+    where i = 0,...,n n = numMsg-1
+
+
+  @{b}Inputs@{ub}
+    cxID   - a cx id
+    handle - an ARexx stem name
+
+
+  @{b}Result@{ub}
+    numMsg - the number of messages pending
+
+
+  @{b}See@{ub}
+    @{"AddCx" LINK "AddCx"} @{"CxSignal" LINK "CxSignal"} @{"FreeCx" LINK "FreeCx"}
+
+@EndNode
+
+@Node "help" "RexxMustHave Functions - help"
+
+  @{b}help@{ub} - returns a RexxMustHave functions help string.
+
+
+  @{b}Synopsis@{ub}
+    string = help(funName)
+    <funName/S>
+
+
+  @{b}Function@{ub}
+    Returns the arguments types mask of the function
+    @{i}funName@{ui}.
+
+
+  @{b}Inputs@{ub}
+    funName - a RexxMustHave function name
+
+
+  @{b}Result@{ub}
+    string - a help string
+
+@EndNode
+
+@Node "IoErr" "RexxMustHave Functions - IoErr"
+
+  @{b}IoErr@{ub} - returns and clears DOS I/O error.
+
+
+  @{b}Synopsis@{ub}
+    err = IoErr()
+    -
+
+
+  @{b}Function@{ub}
+    Returns and clears the current I/O error code.
+
+
+  @{b}Inputs@{ub}
+    none
+
+
+  @{b}Result@{ub}
+    err - the I/O error.
+
+@EndNode
+
+@Node "IsInteractive" "RexxMustHave Functions - IsInteractive"
+
+  @{b}IsInteractive@{ub} - checks if a file is interactive.
+
+
+  @{b}Synopsis@{ub}
+    res = IsInteractive(file)
+    <file>
+
+
+  @{b}Function@{ub}
+    Checks if @{i}file@{ui} is interactive, e.g. like a stdout
+    console.
+
+
+  @{b}Inputs@{ub}
+    file - a filename
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+@EndNode
+
+@Node "IsRexxMsg" "RexxMustHave Functions - IsRexxMsg"
+
+  @{b}IsRexxMsg@{ub} - checks if a message is an ARexx one.
+
+
+  @{b}Synopsis@{ub}
+    res = IsRexxMsg(msg)
+    <msg>
+
+
+  @{b}Function@{ub}
+    Checks if @{i}msg@{ui} is an ARexx message.
+
+   The function fails if the message pointer is not a 4
+   chars packed char string.
+
+  @{b}Inputs@{ub}
+    msg - the packed char pointer to the message to be checked
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+@EndNode
+
+@Node "lock" "RexxMustHave Functions - lock"
+
+  @{b}lock@{ub} - creates a lock.
+
+
+  @{b}Synopsis@{ub}
+    res = lock(logic,name,mode)
+    <logic>,<name>,[mode]
+
+
+  @{b}Function@{ub}
+    Creates a lock on @{i}name@{ui}, with a logic name @{i}logic@{ui}.
+
+    @{i}mode@{ui} is one of:
+        o EXCLUSIVE
+        o SHARED (default)
+
+
+    The function just works as internal ARexx open() , but rather
+    than opening a file, creates a lock.
+
+    Many people asked me to insert in rmh.library a lock()
+    function, so here it is, but I don't know how useful it will
+    be.
+
+    The lock can be unlock via the standard ARexx close()
+    function, anyway it is at macro exit.
+
+    ARexx sees the lock as a normal file, e.g. it appears in
+    show(f) . Anyway, there is no problem if you use a logic name
+    referring a lock rather than a file in the ARexx io
+    functions, because of a NIL: file is also created, e.g. if
+    you do a
+
+        call lock(ram,"ram:")
+        call writeln(ram,@{i}hello@{ui})
+
+    nothing happens.
+
+
+  @{b}Inputs@{ub}
+    logic - the logical name of the lock
+    name  - the name of the AMigaDOS file/drawer to lock
+    mode  - the mode of the lock
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+@EndNode
+
+@Node "Match" "RexxMustHave Functions - Match"
+
+  @{b}Match@{ub} - AmigaDOS pattern matching.
+
+
+  @{b}Synopsis@{ub}
+    res = MatchPattern(pattern,string,flags)
+    <pattern>,<string>,flags
+
+
+  @{b}Function@{ub}
+    Verifies if @{i}string@{ui} matches @{i}pattern@{ui}.
+
+
+    @{i}pattern@{ui} is a AmigaDOS pattern string (NOT the result
+    of ParsePattern()).
+
+    @{i}flags@{ui} is one or more of:
+
+    - CASE
+      The matching is case sensitive.
+
+
+  @{b}Inputs@{ub}
+    pattern - a pattern string
+    string  - the string to match
+    flags   - see above
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+  @{b}See@{ub}
+    @{"MatchPattern" LINK "MatchPattern"}
+
+@EndNode
+
+@Node "MatchPattern" "RexxMustHave Functions - MatchPattern"
+
+  @{b}MatchPattern@{ub} - AmigaDOS pattern matching.
+
+
+  @{b}Synopsis@{ub}
+    res = MatchPattern(pattern,string,flags)
+    <pattern>,<string>,flags
+
+
+  @{b}Function@{ub}
+    Verifies if @{i}string@{ui} matches @{i}pattern@{ui}.
+
+
+    @{i}pattern@{ui} is be the result of ParsePattern().
+
+    @{i}flags@{ui} is one or more of:
+
+    - CASE
+      The matching is case sensitive.
+
+  @{b}Inputs@{ub}
+
+    pattern - a pattern, the result of ParsePattern().
+    string  - the string to match
+    flags   - see above
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+   @{b}See@{ub}
+    @{"Match" LINK "Match"} @{"ParsePattern" LINK "ParsePattern"}
+
+@EndNode
+
+@Node "NameFromFile" "RexxMustHave Functions - NameFromFile"
+
+  @{b}NameFromFile@{ub} - returns a file name from a logical name.
+
+
+  @{b}Synopsis@{ub}
+    signal = NameFromFile(logical,var)
+    <logical>,<var/S>
+
+
+  @{b}Function@{ub}
+    @{i}logical@{ui} is a logical name of a file or a lock opened
+    in the macro. The functions writes the AmigaDOS name of
+    @{i}logical@{ui} in @{i}var@{ui}.
+
+
+  @{b}Inputs@{ub}
+    logical - a logical name of a file or a lock
+    var     - an ARexx var name
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+@EndNode
+
+@Node "NotifySignal" "RexxMustHave Functions - NotifySignal"
+
+  @{b}NotifySignal@{ub} - returns the signal of a notify
+
+
+  @{b}Synopsis@{ub}
+    signal = NotifySignal(notifyID)
+    <notifyID/N>
+
+
+  @{b}Function@{ub}
+    Returns the signal of a notify.
+
+
+  @{b}Inputs@{ub}
+    notifyID - a notify ID
+
+
+  @{b}Result@{ub}
+    signal - the notify signal
+
+
+  @{b}See@{ub}
+    @{"CheckNotify" LINK "CheckNotify"} @{"FreeNotify" LINK "FreeNotify"} @{"StartNotify" LINK "StartNotify"}
+
+@EndNode
+
+@Node "OpenURL" "RexxMustHave Functions - OpenURL"
+
+  @{b}OpenURL@{ub} - opens an url.
+
+
+  @{b}Synopsis@{ub}
+    res = OpenURL(url,flags)
+    <url>,[flags]
+
+
+  @{b}Function@{ub}
+    ARexx bridge to openurl.library/URL_OpenA.
+
+    Stop using script to send url to browsers, just use this
+    function et voila.
+
+    @{i}flags@{ui} is one or more of:
+    - SHOW
+    - BRINGTOFRONT
+    - NEWWINDOW
+    - LAUNCH
+
+    If @{i}flags@{ui} is omitted, global OpenURL preferences are
+    used.
+
+   @{i}url@{ui} is the url to open.
+
+
+  @{b}Inputs@{ub}
+    url   - the url to open
+    flags - see above
+
+
+  @{b}Result@{ub}
+    res - an integer
+          . -1 - OpenURL.library is not installed in the system;
+          . 0  - OpenURL.library couldn't contact any browser
+          . 1  - success
+
+ @{b}Note@{ub}
+    Troels put an ARexx interface in OpenURL, so use
+    openurl.library/OpenUrl() instead of this function.
+
+    "@{i}Troels, great idea to use the same function name, with a
+    different arguments syntax. Pretty good: Amiga always needs a
+    bit more of confusion!@{ui}"
+
+@EndNode
+
+@Node "OpenWorkBench" "RexxMustHave Functions - OpenWorkBench"
+
+  @{b}OpenWorkBench@{ub} - opens WorkBench
+
+
+  @{b}Synopsis@{ub}
+    res = OpenWorkBench()
+    -
+
+
+  @{b}Function@{ub}
+    Opens WorkBench.
+
+
+  @{b}Inputs@{ub}
+    none
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+  @{b}See@{ub}
+    @{"CloseWorkBench" LINK "CloseWorkBench"}
+
+@EndNode
+
+@Node "or" "RexxMustHave Functions - or"
+
+  @{b}or@{ub} - ors integers
+
+
+  @{b}Synopsis@{ub}
+    res = or(val1,val2,...)
+    <val1/N>,<val2/N>,{val/N}
+
+
+  @{b}Function@{ub}
+    Ors up to 15 integers.
+
+    The functions is usefull to or signals to wait, as in
+        recSig=Wait(or(signal1,signal2))
+
+
+  @{b}Inputs@{ub}
+    val1 - the first integer to or
+    val2 - the second integer to or
+    ...
+
+
+  @{b}Result@{ub}
+    res - the or of the arguments
+
+
+  @{b}See@{ub}
+    @{"and" LINK "and"} @{"wait" LINK "wait"}
+
+@EndNode
+
+@Node "ParseConfig" "RexxMustHave Functions - ParseConfig"
+
+  @{b}ParseConfig@{ub} - parses a configuration file.
+
+
+  @{b}Synopsis@{ub}
+    res = ParseConfig(file,stem,mode)
+    <file>,<stem/V>,[mode]
+
+
+  @{b}Function@{ub}
+    Parses a configuration files.
+
+    A configuration file is an ASCII file made of lines as
+
+    <option> {argument}.
+
+    During parsing are ignored:
+    - empty lines
+    - lines beginning with # or ;
+    - lines after the 1024th
+    - chars after a ;
+    - char after the 256th
+
+    The functions write in @{i}stem@{ui}
+
+    - .i
+      The option uppercased
+
+    - .i.value
+      {args}, empty if none
+
+    - .i.line
+
+      The line number (from 1) of the option
+      (NOTA BENE: i.line~=i usually)
+
+    @{i}mode@{ui} is one or more of:
+
+    - SIMPLECOMMENT   -
+      # doesn't start a comment
+
+    - NOUPPER
+      Option is not uppercased
+
+    - NOSTRIPSPACES
+      Every sequence of 2+ spaces or tabs in args is translated
+      in a single space
+
+
+  @{b}Inputs@{ub}
+    file - the file to parse
+    stem - an ARexx stem name
+    mode - see above
+
+
+  @{b}Result@{ub}
+    res - an integer:
+          . -1  - @{i}file@{ui} not found
+          . >=0 - number of valid lines.
+
+
+  @{b}Example@{ub}
+
+    lets suppose a.config is:
+
+    ### Configuration file for a
+    ###
+    NoGui
+    MODE sync
+    Wait yes ;wait the child to end
+    #
+
+    After the call
+        res=ParseConfig("a.config","CONF")
+
+    you will have:
+
+        res             3
+
+        conf.0          NOGUI
+        conf.0.value    @{i}@{ui}
+        conf.0.line     3
+
+        conf.1          MODE
+        conf.1.value    sync
+        conf.1.line     4
+
+        conf.2          WAIT
+        conf.2.value    yes
+        conf.2.line     5
+
+@EndNode
+
+@Node "ParseDate" "RexxMustHave Functions - ParseDate"
+
+  @{b}ParseDate@{ub} - parses a date.
+
+
+  @{b}Synopsis@{ub}
+    res = ParseDate(string,fmt,stem,locale)
+    <string>,[fmt],[stem/V],[locale]
+
+
+  @{b}Function@{ub}
+    Verify if @{i}string@{ui} is a well formatted date according
+    to @{i}fmt@{ui} and converts it to a DateStamp.
+
+    If @{i}fmt@{ui} is present, it must be a valid
+    locale/ParseDate format string: only
+
+    %a %A %b %B %d %e %h %H %I %m %M %p %S %y %Y
+
+    are accepted, all others generate ARexx error 18.
+
+    It means that after a "%" there must be one of:
+    a A b B d e h H I m M p S y Y
+
+    Sorry, but it would have crashed very easily without this
+    protection (I think locale.library/ParseDate is the buggest
+    function in AmigaOS).
+
+    If @{i}fmt@{ui} is omitted, it is the "short date format" of @{i}locale@{ui}.
+
+    If @{i}stem@{ui} is supplied, it is set as a DateStamp.
+
+    If @{i}locale@{ui} is supplied, the functions tries to open it to parse
+    the date in that locale way.
+
+    If it is omitted, @{i}locale@{ui} is the default locale of the system.
+
+
+    The function was optimized to not block if trash data are present
+    in @{i}string@{ui}: it matches the number of the words present in
+    @{i}fmt@{ui} and passes to locale.library/ParseDate only that
+    number of words. With this, it should be very stable now.
+
+
+  @{b}Inputs@{ub}
+    string - the string to parse
+    fmt    - the format of the date
+    stem   - an ARexx stem name
+    locale - a locale name
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean.
+
+
+  @{b}See@{ub}
+    @{"CompareDates" LINK "CompareDates"} @{"ds2tv" LINK "ds2tv"} @{"FormatDate" LINK "FormatDate"} @{"GetDate" LINK "GetDate"}
+    @{"GetFileDate" LINK "GetFileDate"} @{"SetFileDate" LINK "SetFileDate"} @{"tv2ds" LINK "tv2ds"}
+
+@EndNode
+
+@Node "ParsePattern" "RexxMustHave Functions - ParsePattern"
+
+  @{b}ParsePattern@{ub} - compiles an AmigaDOS pattern.
+
+
+  @{b}Synopsis@{ub}
+    patt = ParsePattern(pattern,flag)
+    <pattern>,[flag]
+
+
+  @{b}Function@{ub}
+    Creates a pattern to use with MatchPattern().
+
+    @{i}flag@{ui} is one or more of:
+        o CASE
+
+
+  @{b}Inputs@{ub}
+    pattern - the pattern to compile
+    flag    - see above
+
+  Return
+    patt - the compiled pattern
+
+
+  @{b}See@{ub}
+    @{"MatchPattern" LINK "MatchPattern"}
+
+@EndNode
+
+@Node "PathPart" "RexxMustHave Functions - PathPart"
+
+  @{b}PathPart@{ub} - returns the path of a complete path to a file.
+
+
+  @{b}Synopsis@{ub}
+    pathPart = PathPart(path)
+    <path>
+
+
+  @{b}Function@{ub}
+    Returns the path part of @{i}path@{ui}.
+
+
+  @{b}Inputs@{ub}
+    path - a complete path o a file.
+
+
+  @{b}Result@{ub}
+    pathPart - the path part of @{i}path@{ui}
+
+
+  @{b}See@{ub}
+    @{"AddPart" LINK "AddPart"} @{"FilePart" LINK "FilePart"}
+
+@EndNode
+
+@Node "PortSignal" "RexxMustHave Functions - PortSignal"
+
+  @{b}PortSignal@{ub} - returns the signal of a port.
+
+
+  @{b}Synopsis@{ub}
+    signal = PortSignal(portName)
+    <portName>
+
+
+  @{b}Function@{ub}
+    Returns the signal of a in-macro-created port.
+
+
+  @{b}Inputs@{ub}
+    portName - the name of a port created n the macro.
+
+
+  @{b}Result@{ub}
+    signal - the signal of @{i}port@{ui}
+
+@EndNode
+
+@Node "PortWait" "RexxMustHave Functions - PortWait"
+
+  @{b}PortWait@{ub} - waits for a port to appear.
+
+
+  @{b}Synopsis@{ub}
+    secs = PortWait(portName,secs)
+    <portName>,[secs/N]
+
+
+  @{b}Function@{ub}
+    Wait for @{i}portName@{ui} to appears for @{i}secs@{ui} seconds.
+
+    If @{i}secs@{ui} is 0, the function waits for ever.
+
+
+    The function is breakable via a ctrl-c.
+
+    Returns the seconds the function waited: 0 means the port didn't
+    appear.
+
+
+  @{b}Inputs@{ub}
+    portName - the name of the port to wait for
+    secs     - timeout in seconds
+
+
+  @{b}Result@{ub}
+    secs - number of seconds waited
+
+
+  @{b}Example@{ub}
+
+    if PortWait(@{i}NOTFYPORT@{ui},10)=0 then do
+        say "sorry, NOTIFYPORT not opened in last 10 seconds"
+        exit
+    end
+
+@EndNode
+
+@Node "PrintFault" "RexxMustHave Functions - PrintFault"
+
+  @{b}PrintFault@{ub} - prints a fault string.
+
+
+  @{b}Synopsis@{ub}
+    call PrintFault(code,msg)
+    [code/N],[msg],[stderr]
+
+
+  @{b}Function@{ub}
+    Prints to stderr the same string fault() would return.
+
+    If @{i}code@{ui} is omitted, it is assumed to be the current IoErr.
+
+    If @{i}msg@{ui} is omitted, it is assumed to be the macro name with no extension.
+
+    @{i}stderr@{ui} must be a logic name of a file created in the macro,
+
+    The message is printed into:
+
+    - @{i}stderr@{ui}
+      If it is supplied,
+
+    - "STDERR"
+      If such a file was opened in the macro
+
+    - "STDOUT"
+      otherwise
+
+
+  @{b}Inputs@{ub}
+    code   - an I/O error code
+    msg    - the head of message
+    stderr - where to print the message
+
+@EndNode
+
+@Node "ProgDir" "RexxMustHave Functions - ProgDir"
+
+  @{b}ProgDir@{ub} - sets PROGDIR: for the current macro
+
+
+  @{b}Synopsis@{ub}
+    hd = ProgDir()
+    -
+
+
+  @{b}Function@{ub}
+    Sets the HomeDir ("PROGDIR:") for the current macro to the
+    path to the macro itself and returns its name.
+
+    After a call to this function, you may use the name
+    "PROGDIR:" as a valid absolute path.
+
+    If the function is called more than once, nothing happens.
+
+
+  @{b}Result@{ub}
+    hd - the name of the HomeDir
+
+
+  @{b}Example@{ub}
+    call ProgDir()
+    call Open("in","PROGDIR:conf/configuration","R")
+
+@EndNode
+
+@Node "ProgramName" "RexxMustHave Functions - ProgramName"
+
+  @{b}ProgramName@{ub} - returns the name of the macro
+
+
+  @{b}Synopsis@{ub}
+    pname = ProgramName(mode)
+    [mode]
+
+
+  @{b}Function@{ub}
+    Returns the @{i}program name@{ui} of the macro.
+
+    @{i}mode@{ui} is one of:
+
+    - FULL
+      If supplied the complete path to the macro is returned If
+      not supplied, just the macro name is returned
+
+    - NOEXT
+      Works like no FULL, but only chars before the first ".", if
+      present, are returned
+
+    - PATH
+      Returns the path part of the macro
+
+
+  @{b}Inputs@{ub}
+    mode - see above
+
+
+  @{b}Result@{ub}
+    pname - the name of the macro
+
+
+  @{b}Example@{ub}
+
+    Let's suppose the function is called from the macro
+    "Work:Inet/Amirc/Rexx/ban.amirx"
+
+    ProgramName()           --> ban.amirx
+    ProgramName("NOEXT")    --> ban
+    ProgramName("FULL")     --> Work:Inet/Amirc/Rexx/ban.amirx
+    ProgramName("PATH")     --> Work:Inet/Amirc/Rexx
+
+@EndNode
+
+@Node "ReadArgs" "RexxMustHave Functions - ReadArgs"
+
+  @{b}ReadArgs@{ub} - standard AmigaDOS arguments parsing.
+
+
+  @{b}Synopsis@{ub}
+    res = ReadArgs(template,help,stem,args)
+    <template>,[help],[stem/V],[args]
+
+
+  @{b}Function@{ub}
+    Calls dos/ReadArgs().
+
+    @{i}template@{ui} is the template of the arguments
+
+    @{i}help@{ui} is the help string to prompt when a ? is given
+    (default @{i}template@{ui} itself)
+
+    @{i}stem@{ui} is the stem name where to write the arguments
+    (default @{i}PARM@{ui})
+
+    @{i}args@{ui} is the arguments line for an online arguments parsing
+
+    If "STDERR" is opened (e.g. with open(STDERR,"CONSOLE:","W"))
+    all intermediary I/O operations are made with it.
+
+    The function writes (lets supposed @{i}stem@{ui} is "PARM"),
+    counting them arguments from left to right:
+
+    - parm.i.value
+      The value of the argument
+
+    - parm.i.flag
+      An ARexx boolean that indicates if the arguments was supplied
+
+    - parm.i.mult
+      Number of MULTI if /M given for argument i
+
+    - parm.i.value.j
+      Multi value j of arguments i (j = 0 ... i.mult)
+
+
+  @{b}Inputs@{ub}
+    template - the template
+    help     - the help string
+    stem     - an ARexx stemName, default "PARM"
+    args     - inline arguments string
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+  @{b}Example@{ub}
+
+    /* */
+
+    if ~ReadArgs("FILE/M/A,BUFFER=BUFF/N,QUICK/S") then do
+        call PrintFault(IoErr(),ProgramName())
+        exit
+    end
+
+    if parm.1.flag then say "BUFFER:" parm.1.value
+    if parm.2.flag then say @{i}QUICK@{ui}
+
+    say "FILE(s):" parm.0.mult
+    do i = 0 to parm.0.mult
+
+        num = expand(@{i}F@{ui},parm.0.value.i)
+        do j = 0 to num-1
+            say f.j
+        end
+
+    end
+
+
+  @{b}See@{ub}
+    @{"fault" LINK "fault"} @{"IoErr" LINK "IoErr"} @{"PrintFault" LINK "PrintFault"}
+
+@EndNode
+
+@Node "ReadFile" "RexxMustHave Functions - ReadFile"
+
+  @{b}ReadFile@{ub} - reads a file
+
+
+  @{b}Synopsis@{ub}
+    chars = ReadFile(file,maxSize/N)
+    <file>,[maxSize/N]
+
+
+  @{b}Function@{ub}
+    Reads and returns up to maxSize chars from a file.
+
+
+  @{b}Inputs@{ub}
+    file    - an AmigaDOS file name
+    maxSize - max chars to read 0<=maxSize<=65535 default 65535
+
+  @{b}Result@{ub}
+    chars - the first (max) 65535 chars of file
+
+@EndNode
+
+@Node "WriteFile" "RexxMustHave Functions - WriteFile"
+
+  @{b}WriteFile@{ub} - writes to a file
+
+
+  @{b}Synopsis@{ub}
+    res = WriteFile(file,buf,opt)
+    <file>,<buf>,[opt]
+
+
+  @{b}Function@{ub}
+    Writes @{i}buf@{ui} to @{i}file@{ui}.
+
+    @{i}opt@{ui} may be one or more of:
+
+    - APPEND
+      Append @{ui}buf@{ui} at the end of @{i}file@{ui}
+
+    - NTCREATE
+      Do not create @{i}file@{ui} if it doesn't exist
+
+    - LINE
+      Add a newline at the end of @{i}buf@{ui}
+
+
+  @{b}Inputs@{ub}
+    file - an AmigaDOS file name
+    buf  - the chars to write
+    opt  - options
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+@EndNode
+
+@Node "ReadTextClip" "RexxMustHave Functions - ReadTextClip"
+
+  @{b}ReadTextClip@{ub} - reads text iff clipboard content.
+
+
+  @{b}Synopsis@{ub}
+    res = ReadTextClip(var,clip)
+    <var/S>,[clip/N]
+
+
+  @{b}Function@{ub}
+    Writes in @{i}var@{ui} the text content of the clipboard unit
+    @{i}clip@{ui}. Default value for clip is 0.
+
+
+  @{b}Inputs@{ub}
+    var  - an ARexx var name
+    clip - the clipboard unit to read
+
+
+  @{b}Result@{ub}
+    res - the number of chars read; the var RC is also set to:
+          . 0 - less than 65535 chars read
+          . 1 - more than 65535 chars read;
+                only first 65535 chars are returned in @{i}var@{ui}
+
+@EndNode
+
+@Node "RealName" "RexxMustHave Functions - RealName"
+
+  @{b}RealName@{ub} - returns a real path.
+
+
+  @{b}Synopsis@{ub}
+    realName = RealName(logicName,flags)
+    <logicName>,[flags]
+
+
+  @{b}Function@{ub}
+   Tries to get the real name for the specified logicName .
+
+   This is very useful to try to "resolve" a generic volume name
+   not in AmigaDOS format to a device name .
+
+   The device MUST be mounted, or it fails.
+
+   flags is one of:
+
+   - REQ
+     If the device doesn't exist, a requester will be shown
+
+
+  @{b}Inputs@{ub}
+    logicName - a logic name
+    flags     - see above
+
+
+  @{b}Result@{ub}
+    realName - real path to @{i}logicName@{ui}
+
+
+  @{b}Example@{ub}
+
+    RealName("ram:") --> RAM:
+    RealName("s:") --> HD0:s
+    RealName("StorageCD#1:") --> CD0:
+    RealName(":") --> HD2:
+    RealName("") --> "current dir"
+    RealName("Sys:Disk.info") --> HD0:Disk.info
+    RealName("NOTEXISTS_DEVICE:") --> "" (IoErr() --> 218)
+    RealName("NOTEXISTS_DEVICE:","REQ") --> "" (IoErr() --> 218 , shows a requester)
+    RealName("NOTEXISTS_FILE") --> "" (IoErr() --> 205)
+
+
+  @{b}Note@{ub}
+    Sometime
+        rname: procedure
+        parse arg a
+            o=pragma("D",PathPart(a))
+            return AddPart(pragma("D",o),FilePart(a))
+
+    is better.
+
+@EndNode
+
+@Node "requester" "RexxMustHave Functions - requester"
+
+  @{b}requester@{ub} - shows an AmigaDOS requester.
+
+
+  @{b}Synopsis@{ub}
+    res = Requester(msg1,IDCMP,msg2,msg3,screen,flags)
+    <msg1>,[IDCMP/N],[msg2],[msg3],[screen],[flags]
+
+
+  @{b}Function@{ub}
+   Opens a DOS requester, with 2 gadgets and waits for gadgets or
+   @{i}IDCMP@{ui}.
+
+
+  @{b}Inputs@{ub}
+    msg1       - first line
+    IDCMP      - idcmp to wait too
+    msg2       - second line
+    msg3       - third line
+    screenName - the name of a public screen where to open the requester
+    flags      - controls the function, one of
+                 . NOFALLBACK
+                   If present makes the function do not open the
+                   requester on the default public screen if the
+                   screenName doesn't exist, but to fail
+
+
+  @{b}Result@{ub}
+    res - a integer:
+            . 0 - "Cancel" gadget pressed
+            . 1 - "Accept" gadget pressed or one of @{i}IDCMP@{ui} came
+
+
+  @{b}Example@{ub}
+
+    disk="Disk_bla_bla:"
+    res = 1
+    call pragma(@{i}W@{ui},@{i}NULL@{ui})
+    do while ~exists(disk) & res
+        call pragma(@{i}W@{ui},1)
+        res = requester(@{i}Insert@{ui} disk "in any drive",x2d(8000))
+        call pragma(@{i}W@{ui},@{i}NULL@{ui})
+    end
+
+
+  @{b}See@{ub}
+    @{"EasyRequest" LINK "EasyRequest"}
+
+@EndNode
+
+@Node "SetComment" "RexxMustHave Functions - SetComment"
+
+  @{b}SetCommen@{ub} - sets a file comment
+
+
+  @{b}Synopsis@{ub}
+    res = SetComment(file,comment)
+    <file>,<comment>
+
+
+  @{b}Function@{ub}
+    Sets the @{i}comment@{ui} of @{i}file@{ui}.
+
+    @{i}file@{ui} is an AmigaDOS file name with path,
+    not an ARexx logical file name.
+
+  @{b}Inputs@{ub}
+    file    - a file name
+    comment - the comment to set
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+@EndNode
+
+@Node "IsIcon" "RexxMustHave Functions - IsIcon"
+
+  @{b}IsIcon@{ub} - check if a file is an icon
+
+
+  @{b}Synopsis@{ub}
+    res = IsIcon(icon)
+    <icon>
+
+
+  @{b}Function@{ub}
+    Check if @{i}name@{ui} is an icon.
+    On failure, you may use IoErr() to find out the reason.
+
+
+  @{b}Inputs@{ub}
+    icon - an icon name without the @{i}.info@{ui}
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+  @{b}See@{ub}
+    @{"GetToolType" LINK "GetToolType"} @{"PutToolType" LINK "PutToolType"}
+    @{"ReadToolTypes" LINK "ReadToolTypes"} @{"SetIconAttrs" LINK "SeticonAttrs"}
+    @{"WriteToolTypes" LINK "WriteToolTypes"}
+
+@EndNode
+
+@Node "AskToolType" "RexxMustHave Functions - AskToolType"
+
+  @{b}AskToolType@{ub} - reads an icon tooltype
+
+
+  @{b}Synopsis@{ub}
+    res = AskToolType(icon,name,flags)
+    <icon>,<name>,[flags]
+
+
+  @{b}Function@{ub}
+    Reads and returns the tooltype @{i}name@{ui} of the icon
+    @{i}icon@{ui} .
+
+    @{i}flags@{ui} may be KEY in which case, the function
+    doesn't return the value of the tooltype, but just an
+    ARexx boolean to indicate if the tooltype is present.
+
+
+  @{b}Inputs@{ub}
+    icon  - an icon name without the @{i}.info@{ui}
+    name  - the name of the tooltype to read
+    flags - flags to control the operation
+
+
+  @{b}Result@{ub}
+    res - the value of the tooltype:
+          . an empty string
+            the tooltype was not found and KEY was not specified
+            in @{i}flags@{ui}
+          . 0
+            the tooltype was not found and KEY was specified in
+            @{i}flags@{ui}
+          . 1
+            the tooltype was found and KEY was specified in
+            @{i}flags@{ui}
+          . the value of the tooltype
+            the tooltype was found and KEY was not specified in
+            @{i}flags@{ui}
+
+
+  @{b}See@{ub}
+    @{"GetToolType" LINK "GetToolType"} @{"PutToolType" LINK "PutToolType"}
+    @{"ReadToolTypes" LINK "ReadToolTypes"} @{"SetIconAttrs" LINK "SeticonAttrs"}
+    @{"WriteToolTypes" LINK "WriteToolTypes"}
+
+@EndNode
+
+@Node "GettoolType" "RexxMustHave Functions - GettoolType"
+
+  @{b}GetToolType@{ub} - reads an icon tooltype
+
+
+  @{b}Synopsis@{ub}
+    res = GetToolType(icon,name,var,default)
+    <icon>,<name>,<var/S>,[default]
+
+
+  @{b}Function@{ub}
+    Reads the tooltype @{i}name@{ui} of the icon @{i}icon@{ui},
+    writing its value in @{i}var@{ui} and using @{i}default@{ui},
+    if @{i}name@{ui} can't be found.
+
+
+  @{b}Inputs@{ub}
+    icon    - an icon name without the @{i}.info@{ui}
+    name    - the name of the tooltype to read
+    var     - where to write the tooltype value
+    default - write this one in var if tooltype was not found
+
+
+  @{b}Result@{ub}
+    res - a boolean to indicate if the icon and tooltype were found
+
+
+  @{b}See@{ub}
+    @{"AskToolType" LINK "AskToolType"} @{"PutToolType" LINK "PutToolType"}
+    @{"ReadToolTypes" LINK "ReadToolTypes"} @{"SetIconAttrs" LINK "SeticonAttrs"}
+    @{"WriteToolTypes" LINK "WriteToolTypes"}
+
+@EndNode
+
+@Node "PutToolType" "RexxMustHave Functions - PutToolType"
+
+  @{b}PutToolType@{ub} - writes an icon tooltype
+
+
+  @{b}Synopsis@{ub}
+    res = PutToolType(icon,name,value,type,tool)
+    <icon>,<name>,<value>,[type],[tool]
+
+
+  @{b}Function@{ub}
+    Sets the tooltype @{i}name@{ui} of the icon @{i}icon@{ui} to
+    @{i}value@{ui}.
+
+    If @{i}icon@{ui} can't be found and @{i}type@{ui} is supplied,
+    a new brand icon of type @{i}type@{ui} is created, and if
+    @{i}tool@{ui} is supplied, its default tool is set to @{i}tool@{ui} .
+
+    @{i}icon@{ui} is an icon name without the @{i}.info@{ui} .
+
+    @{i}type@{ui} is one of:
+    - WBDISK
+    - WBDRAWER
+    - WBTOOL
+    - WBPROJECT
+    - WBGARBAGE
+    - WBDEVICE
+    - WBKICK
+    - WBAPPICON
+
+
+  @{b}Inputs@{ub}
+    icon  - icon name without the @{i}.info@{ui}
+    name  - the tooltype to write
+    value - the value to set the tooltype to
+    type  - create an icon of this type, if icon was not found
+    tool  - set the default tool to this tool in the brand new icon
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+  @{b}See@{ub}
+    @{"AskToolType" LINK "AskToolType"} @{"GetToolType" LINK "GetToolType"}
+    @{"ReadToolTypes" LINK "ReadToolTypes"} @{"SetIconAttrs" LINK "SeticonAttrs"}
+    @{"WriteToolTypes" LINK "WriteToolTypes"}
+
+@EndNode
+
+@Node "ReadToolTypes" "RexxMustHave Functions - ReadToolTypes"
+
+  @{b}ReadToolTypes@{ub} - reads all tooltypes of an icon
+
+
+  @{b}Synopsis@{ub}
+    res = ReadToolTypes(icon,stem)
+    <icon>,<stem/V>
+
+
+  @{b}Function@{ub}
+    Reads all the tooltypes of the icon @{i}name@{ui}, setting
+    in @{i}stem@{ui} the fields:
+
+    - NUM
+      The number of the tooltypes found
+
+    - i
+      The name of the i-th tooltype (i=0,,,NUM-1)
+
+    - i.VALUE
+      The value of the i-th tooltype (i=0,,,NUM-1) Note that a
+      tooltype may not have a value, because of it is a key tool
+      type or because of just no value is set. If so, this field
+      is ""
+
+    - i.KEY
+      A boolean that indicates if the i-th tooltype (i=0,,,NUM-1)
+      is a key one. A key tooltype is a tooltype with no "="
+      after its name. If i.KEY is 1, i.VALUE is ""
+
+    - i.ACTIVE
+      A boolean that indicates if the i-th tooltype (i=0,,,NUM-1)
+      is active. A tooltype is considered not active if it is in
+      round brackets
+
+  @{b}Inputs@{ub}
+    icon - icon name without the @{i}.info@{ui}
+    stem - where to write the tooltypes
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean. Note that if 0, IoErr() may be used
+          to get the cause.
+
+  @{b}Example@{ub}
+      Reads all the tooltypes of an icon:
+
+      if ~ReadToolTypes(icon,"tt") then do
+          call PrintFault()
+          exit
+      end
+      do i=0 to tt.num-1
+        say "Name:["tt.i"]" "Value:["tt.i.Value"]" "Key:"tt.i.Key "Active:"tt.i.Active
+      end
+
+  @{b}See@{ub}
+    @{"AskToolType" LINK "AskToolType"} @{"GetToolType" LINK "GetToolType"}
+    @{"SetIconAttrs" LINK "SeticonAttrs"} @{"WriteToolTypes" LINK "WriteToolTypes"}
+
+
+@EndNode
+
+@Node "WriteToolTypes" "RexxMustHave Functions - WriteToolTypes"
+
+  @{b}WriteToolTypes@{ub} - sets all the tooltypes of an icon
+
+
+  @{b}Synopsis@{ub}
+    res = WriteToolTypes(icon,stem,type,tool)
+    <icon>,<stem/V>,[type],[tool]
+
+
+  @{b}Function@{ub}
+    Sets all the tooltypes of the icon @{i}icon@{ui}, reading from
+    @{i}stem@{ui}.
+
+    If @{i}icon@{ui} can't be found and @{i}type@{ui} is supplied,
+    a new brand icon of type @{i}type@{ui} is created, and if
+    @{i}tool@{ui} is supplied, its default tool is set to @{i}tool@{ui} .
+
+    @{i}icon@{ui} is an icon name without the @{i}.info@{ui} .
+
+    @{i}type@{ui} is a number or one of:
+    - DISK
+    - WBDISK
+    - DRAWER
+    - WBDRAWER
+    - TOOL
+    - WBTOOL
+    - PROJECT
+    - WBPROJECT
+    - GARBAGE
+    - WBGARBAGE
+    - DEVICE
+    - WBDEVICE
+    - KICK
+    - WBKICK
+    - APPICON
+    - WBAPPICON
+
+    If @{i}type@{ui} is not a number or one of the above, it is cosidered
+    to be a path to an icon name.
+
+    The fields read from @{i}stem@{ui} are:
+
+    - i
+      The name of the i-th tooltype
+
+    - i.VALUE
+      The value of the i-th tooltype. Note that if this is a key
+      tooltype, this field is not considered.
+
+    - i.KEY
+      A boolean that indicates if the i-th tooltype is a key one.
+      A key tooltype is a tooltype with no "=" after its name. If
+      i.KEY is 1, i.VALUE is not considered.
+
+    - i.ACTIVE
+      A boolean that indicates if the i-th tooltype is active. If
+      so this tooltype will be put in round parenthesys.
+
+    - i.SKIP
+      A boolean that indicates if the i-th tooltype has to be
+      skipped.
+
+    Note that the reading is made till @{i}stem@{ui}.i exists.
+
+
+  @{b}Inputs@{ub}
+    icon  - icon name without the @{i}.info@{ui}
+    stem  - an ARexx stem to read values from
+    type  - create an icon of this type, if icon was not found
+    tool  - set the default tool to this tool in the brand new icon
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean. Note that if 0, IoErr() may be used
+          to get the cause.
+
+
+  @{b}Example@{ub}
+      Add a couple of tooltypes to an icon:
+
+      if ~ReadToolTypes(icon,"tt") then do
+          call PrintFault()
+          exit
+      end
+
+      i=tt.num
+      tt.i="New1"
+      tt.i.Value="NewValue1"
+
+      i=i+1
+
+      tt.i="New2"
+      tt.i.Value="NewValue2"
+
+      if ~WriteToolTypes(icon,"tt") then do
+          call PrintFault()
+          exit
+      end
+
+      Remove all the tooltypes wich start with "VIDEO":
+
+      if ~ReadToolTypes(icon,"tt") then do
+          call PrintFault()
+          exit
+      end
+
+      do i=0 to tt.num-1
+        if left(upper(tt.i),5)=="VIDEO" then tt.i.skip=1
+      end
+
+      if ~WriteToolTypes(icon,"tt") then do
+          call PrintFault()
+          exit
+      end
+
+
+  @{b}See@{ub}
+    @{"AskToolType" LINK "AskToolType"} @{"GetToolType" LINK "GetToolType"}
+    @{"ReadToolTypes" LINK "ReadToolTypes"} @{"SetIconAttrs" LINK "SeticonAttrs"}
+
+@EndNode
+
+@Node "SetIconAttrs" "RexxMustHave Functions - SetIconAttrs"
+
+  @{b}SetIconAttrs@{ub} - sets icon attributes
+
+
+  @{b}Synopsis@{ub}
+    res = SetIconAttrs(icon,stem)
+    <icon>,<stem/V>
+
+
+  @{b}Function@{ub}
+    Sets @{i}icon@{ui} attributes reading their values from @{i}stem@{ui}.
+
+    The attributes that may be set are:
+
+    - NotifyWorkbench (BOOL)
+      Default FALSE
+
+    - PutDefaultType (STRING or NUM)
+      A number or one of
+      . Disk
+      . Drawer
+      . Tool
+      . Project
+      . Garbage
+      . Device
+      . Kick
+
+    - PutDefaultName (STRING)
+
+    - DropPlanarIconImage (BOOL)
+      Default FALSE
+
+    - DropChunkyIconImage (BOOL)
+      Default FALSE
+
+    - DropNewIconToolTypes (BOOL)
+      Default FALSE
+
+    - OptimizeImageSpace (BOOL)
+      Default FALSE
+
+    - PreserveOldIconImages (BOOL)
+      Default TRUE
+
+    - PosX (STRING or NUM)
+      A number or the string "FREE"
+
+    - PosY (STRING or NUM)
+      A number or the string "FREE"
+
+    - Source (STRING)
+      The source icon: if supplied this icon is used
+
+    - StackSize (NUM)
+
+    - Type (STRING or NUM)
+      A number or one of
+      . Disk
+      . Drawer
+      . Tool
+      . Project
+      . Garbage
+      . Device
+      . Kick
+
+    - DefaultTool (STRING)
+
+
+  @{b}Inputs@{ub}
+    icon - icon name without the @{i}.info@{ui}
+    stem - an ARexx stem to read values from
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean. Note that if 0, IoErr() may be used
+          to get the cause.
+
+  @{b}See@{ub}
+    @{"AskToolType" LINK "AskToolType"} @{"GetToolType" LINK "GetToolType"}
+    @{"ReadToolTypes" LINK "ReadToolTypes"} @{"WriteToolTypes" LINK "WriteToolTypes"}
+    @{"GetAppIconPos" LINK "GetAppIconPos"}
+
+@EndNode
+
+@Node "FrontMostScreen" "RexxMustHave Functions - FrontMostScreen"
+
+  @{b}FrontMostScreen@{ub} - returns the name of the frontmost pub screen
+
+
+  @{b}Synopsis@{ub}
+    screen = FrontMostScreen()
+    -
+
+
+  @{b}Function@{ub}
+    Returns the name of the frontmost public screen, or an empty
+    string if the frontmost screen is not public or it is public
+    but private.
+
+
+  @{b}Result@{ub}
+    screen - a public screen name or an empty string
+
+@EndNode
+
+@Node "SetFileDate" "RexxMustHave Functions - SetFileDate"
+
+  @{b}SetFileDate@{ub} - sets a file date.
+
+
+  @{b}Synopsis@{ub}
+    res = SetFileDate(fileName,date)
+    <fileName>,<date/V>
+
+
+  @{b}Function@{ub}
+    Sets the date of @{i}fileName@{ui} to the date defined in
+    @{i}date@{ui} a DateStamp.
+
+
+  @{b}Inputs@{ub}
+    fileName - a file name
+    date     - an ARexx stem name set as DateStamp
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean.
+
+
+  @{b}See@{ub}
+    @{"CompareDates" LINK "CompareDates"} @{"ds2tv" LINK "ds2tv"} @{"FormatDate" LINK "FormatDate"} @{"GetDate" LINK "GetDate"}
+    @{"GetFileDate" LINK "GetFileDate"} @{"ParseDate" LINK "ParseDate"} @{"tv2ds" LINK "tv2ds"}
+
+@EndNode
+
+@Node "SetOwner" "RexxMustHave Functions - SetOwner"
+
+  @{b}SetOwner@{ub} - sets UID and GID of a file.
+
+
+  @{b}Synopsis@{ub}
+    res = SetOwner(file,GID,UID)
+    <file>,<GID/N>,<UID/N>
+
+
+  @{b}Function@{ub}
+   Sets the group-id and the user-id of @{i}file@{ui}.
+
+   @{i}file@{ui} is a complete path to a file.
+
+   @{i}GID@{ui} and @{i}UID@{ui} are words;
+   they and can be read with expand().
+
+
+  @{b}Inputs@{ub}
+    file - a complete path to a file
+    GID  - group-id (0...65535)
+    UID  - user-id (0...65535)
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean.
+
+@EndNode
+
+@Node "SetIoErr" "RexxMustHave Functions - SetIoErr"
+
+  @{b}SetIoEr@{ub} - sets the current I/O error
+
+
+  @{b}Synopsis@{ub}
+    call SetIoErr(code)
+    <code/N>
+
+
+  @{b}Function@{ub}
+    Sets the current I/O error code.
+
+
+  @{b}Inputs@{ub}
+    code - the new I/O error code
+
+
+  @{b}Result@{ub}
+    none
+
+@EndNode
+
+@Node "GetRexxVar" "RexxMustHave Functions - GetRexxVar"
+
+  @{b}GetRexxVar@{ub} - reads a foreign ARexx var.
+
+
+  @{b}Synopsis@{ub}
+    res = GetRexxVar(pkt,var,box)
+    <pkt>,<var/S>,<box/S>
+
+
+  @{b}Function@{ub}
+    @{i}pkt@{ui} is an ARexx message received on a port.
+
+
+    The function reads @{i}var@{ui} in the environment of the macro
+    that sent @{i}pkt@{ui}, writing its value innto @{i}box@{ui}.
+
+    The function just checks if @{i}pkt@{ui} is a @{i}good@{ui} ARexx
+    msg.
+
+    Don't use this function with a message send in an async way.
+
+    Any bad @{i}pkt@{ui} generates ARexx error 17.
+
+
+  @{b}Inputs@{ub}
+    pkt - an ARexx message
+    var - the var to read
+    box - where to store the value of @{i}var@{ui}
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean: 0 if pkt==Null() or @{i}var@{ui}
+          not assigned, 1 otherwise
+
+@EndNode
+
+@Node "SetRexxVar" "RexxMustHave Functions - SetRexxVar"
+
+  @{b}SetRexxVar@{ub} - sets a foreign ARexx var.
+
+
+  @{b}Synopsis@{ub}
+    res = SetRexxVar(pkt,var,value)
+    <pkt>,<var/S>,<value>
+
+
+  @{b}Function@{ub}
+    @{i}pkt@{ui} is an ARexx message received on a port.
+
+
+    The function sets @{i}var@{ui} to @{i}value@{ui} in the
+    environment of the macro that sent @{i}pkt@{ui}.
+
+    The function just checks if @{i}pkt@{ui} is a @{i}good@{ui} ARexx
+    msg.
+
+    Don't use this function with a message send in an async way.
+
+    Any bad @{i}pkt@{ui} generates ARexx error 17.
+
+
+  @{b}Inputs@{ub}
+    pkt   - an ARexx message
+    var   - the var to set
+    value - the value to set @{i}var@{ui} to
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean (may fail iff pkt==Null())
+
+@EndNode
+
+@Node "SetSignal" "RexxMustHave Functions - SetSignal"
+
+  @{b}SetSignal@{ub} - checks and sets signals.
+
+
+  @{b}Synopsis@{ub}
+    sig = SetSignal(new,mask)
+    <new/N>,<mask/N>
+
+
+  @{b}Function@{ub}
+    Queries and modifies the state of the received signals as
+    specified in mask .
+
+    Returns the signals set.
+
+
+  @{b}Inputs@{ub}
+    new  - the new value for the signals set
+    mask - the signals
+
+
+  @{b}Result@{ub}
+    sig - the signals set
+
+
+  @{b}Example@{ub}
+
+    To query all signals:
+        sig = SetSignal(0,0)
+
+    To query and clear the ctrl-c signal:
+        sig = SetSignal(0,2**12)
+
+@EndNode
+
+@Node "SetStem" "RexxMustHave Functions - SetStem"
+
+  @{b}SetStem@{ub} - sets a compound field.
+
+
+  @{b}Synopsis@{ub}
+    call SetStem(stem,field,data)
+    <stem>,<field>,<data>
+
+
+  @{b}Function@{ub}
+    The function does:
+
+        @{i}stem@{ui}.@{i}field@{ui}=@{i}data@{ui}
+
+    The function is useful to avoid using INTERPRET too often.
+
+    Note that:
+
+    1. @{i}stem@{ui}.@{i}field@{ui} must be a valid ARexx symbol
+
+    2. @{i}stem@{ui}.@{i}field@{ui} must be <512 chars
+
+
+  @{b}Inputs@{ub}
+    stem  - an ARexx stem name
+    field - the field of @{i}stem@{ui} to set
+    data  - the value to set
+
+
+  @{b}Result@{ub}
+    none
+
+@EndNode
+
+@Node "SetSysTime" "RexxMustHave Functions - SetSysTime"
+
+  @{b}SetSysTime@{ub} - sets the system time.
+
+
+  @{b}Synopsis@{ub}
+    call SetSysTime(time)
+    <time/V>
+
+
+  @{b}Function@{ub}
+    Sets the system time as defined in @{i}time@{ui}, a TimeVal.
+
+
+  @{b}Inputs@{ub}
+    time - an ARexx stem name set as timeval
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"AddTime" LINK "AddTime"} @{"CmpTime" LINK "CmpTime"} @{"GetSysTime" LINK "GetSysTime"} @{"SubTime" LINK "SubTime"}
+
+@EndNode
+
+@Node "SetVar" "RexxMustHave Functions - SetVar"
+
+  @{b}SetVar@{ub} - sets an AmigaDOS var.
+
+
+  @{b}Synopsis@{ub}
+    res = SetVar(name,value,options)
+    <name>,<value>,[options]
+
+
+  @{b}Function@{ub}
+    Sets the var @{i}name@{ui} to @{i}value@{ui} .
+
+    @{i}options@{ui} is one or more of:
+    - VAR
+    - ALIAS
+    - IGNORE
+    - GLOBAL
+    - BINARY
+    - NTNULL
+    - SAVE
+
+   The default is "VAR GLOBAL".
+
+
+  @{b}Inputs@{ub}
+    name    - a var name
+    value   - the value to set @{i}name@{ui}
+    options - see above
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+  @{b}See@{ub}
+    @{"DeleteVar" LINK "DeleteVar"} @{"FindVar" LINK "FindVar"} @{"GetVar" LINK "GetVar"}
+
+@EndNode
+
+@Node "signal" "RexxMustHave Functions - signal"
+
+  @{b}signal@{ub} - signals a task
+
+
+  @{b}Synopsis@{ub}
+    call signal(task,signals)
+    <task/N>,<signals/N>
+
+
+  @{b}Function@{ub}
+   Signals @{i}task@{ui} with @{i}signals@{ui}.
+
+
+  @{b}Inputs@{ub}
+    task    - the task to signal
+    signals - the signals mask to signal
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}Note@{ub}
+    DON'T PLAY WITH THIS FUNCTION.
+
+
+  @{b}See@{ub}
+    @{"AllocSignal" LINK "AllocSignal"} @{"CheckSignal" LINK "CheckSignal"} @{"FreeSignal" LINK "FreeSignal"} @{"wait" LINK "wait"}
+
+@EndNode
+
+@Node "StartNotify" "RexxMustHave Functions - StartNotify"
+
+  @{b}StartNotify@{ub} - creates a notify.
+
+
+  @{b}Synopsis@{ub}
+    notifyID = StartNotify(name,unit,signal)
+    <name>,[unit/N]
+
+
+  @{b}Function@{ub}
+    Creates and starts a notify.
+
+    Notification can be for files or clip units.
+
+    When @{i}name@{ui} changes, the macro is signaled with a signal that can
+    be obtained with NotifySignal().
+
+    If @{i}name@{ui} is the string "CLIP", the notification occurs on the
+    clip unit @{i}unit@{ui} (default 0), otherwise @{i}name@{ui} must be a valid
+    AmigaDOS complete path to a file.
+
+  @{b}Inputs@{ub}
+    name   - "CLIP" or a complete path to a file
+    unit   - if @{i}name@{ui} is "CLIP", the clip unit (default 0)
+
+  @{b}Result@{ub}
+   res - an integer:
+         . <0 - failure (e.g. @{i}name@{ui} does not exists).
+                IoErr() can be used to find the reason - ONLY FOR FILE
+         . >0 - id of the notify
+
+
+  @{b}See@{ub}
+    @{"CheckNotify" LINK "CheckNotify"} @{"FreeNotify" LINK "FreeNotify"} @{"NotifySignal" LINK "NotifySignal"}
+
+@EndNode
+
+@Node "StartTimer" "RexxMustHave Functions - StartTimer"
+
+  @{b}StartTimer@{ub} - starts a timer.
+
+
+  @{b}Synopsis@{ub}
+    call StartTimer(timerID,secs,micros)
+    <timerID/N>,[secs/N],[micros/N]
+
+
+  @{b}Function@{ub}
+    Starts a timer to wait for @{i}secs@{ui} seconds and
+    @{i}micros@{ui} microseconds.
+
+    @{i}timerID@{ui} is the timer ID returned by CreateTimer().
+
+    The timer is started async, so you can go on doing what you want
+    after this call.
+
+    To wait for the timer to complete obtain its signal via
+    TimerSignal() and Wait() for it.
+
+    If the timer was already started, it is stopped and re-started
+    with the new timeout.
+
+    If the timer is not stopped or not freed, it is stopped and freed
+    at the exit of the macro.
+
+
+  @{b}Inputs@{ub}
+    timerID - the ID of a timer
+    secs    - the seconds to wait
+    micros  - the microseconds to wait
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"CheckTimer" LINK "CheckTimer"} @{"CreateTimer" LINK "CreateTimer"} @{"FreeTimer" LINK "FreeTimer"} @{"StopTimer" LINK "StopTimer"}
+
+@EndNode
+
+@Node "StopTimer" "RexxMustHave Functions - StopTimer"
+
+  @{b}StopTimer@{ub} - stops a timer
+
+
+  @{b}Synopsis@{ub}
+    call StopTimer(timerID)
+    <timerID/N>
+
+
+  @{b}Function@{ub}
+   Stops a timer.
+
+   @{i}timerID@{ui} is the timer ID returned by CreateTimer().
+
+
+  @{b}Inputs@{ub}
+    timerID - a timer ID
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"CheckTimer" LINK "CheckTimer"} @{"CreateTimer" LINK "CreateTimer"} @{"FreeTimer" LINK "FreeTimer"} @{"StarTimer" LINK "StartTimer"}
+
+@EndNode
+
+@Node "SubTime" "RexxMustHave Functions - SubTime"
+
+  @{b}SubTime@{ub} - subtracts 2 timeval
+
+
+  @{b}Synopsis@{ub}
+    call SubTime(time1,time2)
+    <time1/V>,<time2/V>
+
+
+  @{b}Function@{ub}
+   Subtracts  @{i}time1@{ui} to @{i}time2@{ui}, result in @{i}time2@{ui}, both timeval structures.
+
+
+  @{b}Inputs@{ub}
+    time1 - the timeval to subtract from @{i}time2@{ui}
+    time2 - the timeval to which subtract @{i}time1@{ui}
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"AddTime" LINK "AddTime"} @{"CmpTime" LINK "CmpTime"} @{"GetSysTime" LINK "GetSysTime"} @{"SetSysTime" LINK "SetSysTime"}
+
+@EndNode
+
+@Node "TimerSignal" "RexxMustHave Functions - TimerSignal"
+
+  @{b}TimerSignal@{ub} - returns a timer signal
+
+
+  @{b}Synopsis@{ub}
+    signal = TimerSignal(timerID)
+    <timerID/N>
+
+
+  @{b}Function@{ub}
+   Returns the signal of a timer.
+
+
+  @{b}Inputs@{ub}
+    timerID - a timer ID
+
+
+  @{b}Result@{ub}
+    signal the signal of @{i}timerID@{ui}
+
+@EndNode
+
+@Node "tv2ds" "RexxMustHave Functions - tv2ds"
+
+  @{b}tv2ds@{ub} - converts from timeval to DateStamp
+
+
+  @{b}Synopsis@{ub}
+    call tv2ds(from,to)
+    <from/V>,[to/V]
+
+
+  @{b}Function@{ub}
+   Convert from @{i}from@{ui} , a TimeVal, to DateStamp, writing
+   in @{i}from@{ui} or in @{i}to@{ui} , if present.
+
+
+  @{b}Inputs@{ub}
+    from - an ARexx stem name set as timeval
+    to   - an ARexx stem name
+
+
+  @{b}Result@{ub}
+    none
+
+
+  @{b}See@{ub}
+    @{"CompareDates" LINK "CompareDates"} @{"ds2tv" LINK "ds2tv"} @{"FormatDate" LINK "FormatDate"} @{"GetDate" LINK "GetDate"}
+    @{"GetFileDate" LINK "GetFileDate"} @{"ParseDate" LINK "ParseDate"} @{"SetFileDate" LINK "SetFileDate"}
+
+@EndNode
+
+@Node "VerifyHotkey" "RexxMustHave Functions - VerifyHotkey"
+
+  @{b}VerifyHotkey@{ub} - verifies an hotkey string.
+
+
+  @{b}Synopsis@{ub}
+    res = VerifyHotkey(hotkey)
+    <hotkey>
+
+
+  @{b}Function@{ub}
+   Verifies if @{i}hotkey@{ui} is a valid Amiga Cx hotkey description.
+
+
+  @{b}Inputs@{ub}
+    hotkey - the string to verify
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+@EndNode
+
+@Node "wait" "RexxMustHave Functions - wait"
+
+  @{b}wait@{ub} - waits for signals or timeout.
+
+
+  @{b}Synopsis@{ub}
+    received = wait(signals,secs,micros)
+    <signals/N>,[secs/N],[micros/N]
+
+
+  @{b}Function@{ub}
+   Waits for @{i}signals@{ui} or @{i}secs@{ui} seconds and
+   @{i}micros@{ui} microseconds .
+
+
+  @{b}Inputs@{ub}
+    signals - the signals to wait
+    secs    - timeout
+    micros  - timeout
+
+
+  @{b}Result@{ub}
+    received - the signals received or 0 on timeout.
+
+
+   @{b}See@{ub}
+    @{"AllocSignal" LINK "AllocSignal"} @{"and" LINK "and"} @{"CheckSignal" LINK "CheckSignal"} @{"FreeSignal" LINK "FreeSignal"} @{"or" LINK "or"} @{"signal" LINK "signal"}
+
+@EndNode
+
+@Node "RawReplyMsg" "RexxMustHave Functions - RawReplyMsg"
+
+  @{b}wait@{ub} - replies a message
+
+
+  @{b}Synopsis@{ub}
+    call RawReplyMsg(msg,opts)
+    <msg>,[opts]
+
+
+  @{b}Function@{ub}
+   Replies a message, without further manipulation.
+   It just invokes exec.library/ReplyMsg().
+
+   The function fails if the message pointer is not a 4
+   chars packed char string or it points to an already
+   replied message.
+
+   @{i}opts@{ui} is one or more of:
+
+   - NTRemove
+     If specified, the message is not removed (with
+     exec.library/Remove()) from the list it is linked to;
+     it may be used if and only if you are repling message not
+     received at an ARexx port you opened with OpenPort().
+
+
+   Use this function sparerly and if you really know what you are doing!
+
+
+  @{b}Inputs@{ub}
+    msg - the packed char pointer to the message to be replied
+
+
+  @{b}Result@{ub}
+    None
+
+
+   @{b}See@{ub}
+    @{"AllocSignal" LINK "AllocSignal"} @{"and" LINK "and"} @{"CheckSignal" LINK "CheckSignal"} @{"FreeSignal" LINK "FreeSignal"} @{"or" LINK "or"} @{"signal" LINK "signal"}
+
+@EndNode
+
+@Node "WaitForChar" "RexxMustHave Functions - WaitForChar"
+
+  @{b}WaitForChar@{ub} - waits for chars.
+
+
+  @{b}Synopsis@{ub}
+    res = WaitForChar(file,timeout)
+    <file>,<timeout/N>
+
+
+  @{b}Function@{ub}
+    Waits for a char from an interactive @{i}file@{ui} for
+    @{i}timeout@{ui} microseconds.
+
+
+  @{b}Inputs@{ub}
+    file    - the file to wait chars from
+    timeout - microseconds timeout
+
+
+  @{b}Result@{ub}
+   res - an integer: the char read or -1 (eof) on end of file
+
+@EndNode
+
+@Node "WriteTextClip" "RexxMustHave Functions - WriteTextClip"
+
+  @{b}WriteTextClip@{ub} - writes text in a clipboard
+
+
+  @{b}Synopsis@{ub}
+    call WriteTextClip(text,clip)
+    <text>,[clip/N]
+
+
+  @{b}Function@{ub}
+    Writes @{i}text@{ui} in the clipboard unit @{i}clip@{ui} .
+    Default value for @{i}clip@{ui} is 0.
+
+
+  @{b}Inputs@{ub}
+    text - the text to write
+    clip - the clip number
+
+  @{b}Result@{ub}
+    none
+
+@EndNode
+
+@Node "xor" "RexxMustHave Functions - xor"
+
+  @{b}xor@{ub} - exclusive-ors integers.
+
+
+  @{b}Synopsis@{ub}
+    res = xor(val1,val2,...)
+    <val1/N>,<val2/N>,{val/N}
+
+
+  @{b}Function@{ub}
+    XOR up to 15 integers.
+
+
+  @{b}Inputs@{ub}
+    val1 - the first integral number
+    val2 - the seconf integral number
+    ...
+
+
+  @{b}Result@{ub}
+    res - the xor of the arguments
+
+
+  @{b}See@{ub}
+    @{"and" LINK "and"} @{"or" LINK "or"}
+
+@EndNode
+
+@Node "StemFields" "RexxMustHave Functions - StemFields"
+
+  @{b}StemFields@{ub} - finds out the fields in a stem
+
+
+  @{b}Synopsis@{ub}
+    num=StemFields(from,to,opts)
+    <from/V>,<to/V>,[opts]
+
+
+  @{b}Function@{ub}
+    Finds out the fields in @{i}from@{ui}, building @{i}to@{ui}
+    as an indexed stem.
+
+    Example (using datatypes.library 44.47):
+
+    the script
+
+    /**/
+
+    parse arg fname
+
+    call ExamineDT(fname,dtstem.,STEM)
+
+    n=StemFields("dtstem","f")
+    do i=0 to n-1
+        say i":" f.i
+    end
+
+    produces the output:
+
+    0: DTSTEM.DISKKEY
+    1: DTSTEM.DIRENTRYTYPE
+    2: DTSTEM.FILENAME
+    3: DTSTEM.PROTECTION
+    4: DTSTEM.ENTRYTYPE
+    5: DTSTEM.NUMBLOCKS
+    6: DTSTEM.DATATYPE
+    7: DTSTEM.BASENAME
+    8: DTSTEM.OWNERUID
+    9: DTSTEM.OWNERGID
+    10: DTSTEM.BASETYPE
+    11: DTSTEM.GROUPID
+    12: DTSTEM.SIZE
+    13: DTSTEM.DATE
+    14: DTSTEM.COMMENT
+    15: DTSTEM.ID
+    16: DTSTEM.DISKKEY
+    17: DTSTEM.DIRENTRYTYPE
+    18: DTSTEM.FILENAME
+    19: DTSTEM.PROTECTION
+    20: DTSTEM.ENTRYTYPE
+    21: DTSTEM.NUMBLOCKS
+    22: DTSTEM.DATATYPE
+    23: DTSTEM.BASENAME
+    24: DTSTEM.OWNERUID
+    25: DTSTEM.OWNERGID
+    26: DTSTEM.BASETYPE
+    27: DTSTEM.GROUPID
+    28: DTSTEM.SIZE
+    29: DTSTEM.DATE
+    30: DTSTEM.COMMENT
+    31: DTSTEM.ID
+
+    @{i}opts@{ui} is one or more of:
+
+    - Short
+      The function usually returns the full name; using
+      this option makes it returns only what is after
+      the first dot.
+
+    - Value
+      The field @{i}to@{ui}.i.Value is also set to the
+      value.
+
+
+  @{b}Inputs@{ub}
+    from - the stem to obtain the fields of
+    to   - the stem to write the fields name into
+    opts - options
+
+
+  @{b}Result@{ub}
+    n - the number of fields found, so 0 means none
+
+@EndNode
+
+@Node "StemToVar" "RexxMustHave Functions - StemToVar"
+
+  @{b}StemToVar@{ub} - copies a stem to local vars
+
+
+  @{b}Synopsis@{ub}
+    call StemToVar(stem)
+    <stem>
+
+
+  @{b}Function@{ub}
+    Copies all the fields of the stem @{i}stem@{ui} to
+    local vars.
+
+
+  @{b}Inputs@{ub}
+    stem - an ARexx stem name
+
+
+  @{b}See@{ub}
+    @{"VarToStem" LINK "VarToStem"}
+
+@EndNode
+
+@Node "VarToStem" "RexxMustHave Functions - VarToStem"
+
+  @{b}VarToStem@{ub} - copies local vars to stem
+
+
+  @{b}Synopsis@{ub}
+    call VarToStem(patt,stem)
+    [patt],[stem/V]
+
+
+  @{b}Function@{ub}
+    Copies all the local vars that match @{i}patt@{ui} or just
+    all, if patt is not supplied, as ARexx vars, setting them as
+    fields of @{i}stem@{ui} if present.
+
+
+  @{b}Inputs@{ub}
+    patt - an AmigaDOS pattern
+    stem - an ARexx stem name
+
+
+  @{b}See@{ub}
+    @{"StemToVar" LINK "StemToVar"}
+
+@EndNode
+
+@Node "DOSWhatIs" "RexxMustHave Functions - DOSWhatIs"
+
+  @{b}DOSWhatIs@{ub} - finds out what a name is
+
+
+  @{b}Synopsis@{ub}
+    what = DOSWhatIs(name)
+    <name>
+
+
+  @{b}Function@{ub}
+    Finds out what a name is.
+
+
+  @{b}Inputs@{ub}
+    name - a name
+
+
+  @{b}Result@{ub}
+    what - a string:
+           . DEVICE
+           . DIRECTORY
+           . VOLUME
+           . LATE
+           . NONBINDING
+           . PRIVATE
+           . "" (empty string)
+
+@EndNode
+
+@Node "MultiAssign" "RexxMustHave Functions - MultiAssign"
+
+  @{b}MultiAssign@{ub} - retrieves multi assignments
+
+
+  @{b}Synopsis@{ub}
+    res=MultiAssign(name,stem)
+    <name>,<stem/V>
+
+
+  @{b}Function@{ub}
+    Given an assignment name, the functions retrieves the list of
+    all the multi assignments relative to @{i}name@{ui}.
+
+
+  @{b}Inputs@{ub}
+    name - an assignment
+    stem - where to write the results
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+  @{b}Example@{ub}
+      if MultiAssign("s:","ass") then do
+          say s "is associated with" ass.num "drawer(s)"
+          do i=0 to ass.num-1
+              say i ass.i
+          end
+      end
+
+@EndNode
+
+@Node "NamedSpaceCreate" "RexxMustHave Functions - NamedSpaceCreate"
+
+  @{b}NamedSpaceCreate@{ub} - creates a named space
+
+
+  @{b}Synopsis@{ub}
+    res=NamedSpaceCreate(name,opts)
+    <name>,[opts]
+
+
+  @{b}Function@{ub}
+    Creates a NamedSpace. A NamedSpace (called NS) is a global
+    endpoint for data sharing among ARexx macros.
+
+    A NS exists till the macro that created it is running.
+
+    The NS name is unique. NS names comparison is not case
+    sensitive.
+
+    A NS space contains data in the form of couples NAME/VALUE.
+
+    A NS space may be PRIVATE, in which case the data may be
+    changed only by the macro that created it, or PUBLIC in which
+    case the data may be modified by anyone.
+
+    If supplied, @{i}opt@{ui} may be one or more of:
+
+    . PRIVATE
+      The NS is private
+
+
+  @{b}Inputs@{ub}
+    name - the name of the NS
+    opt  - options for the NS
+
+
+  @{b}Result@{ub}
+    res - an integer, 0 for success
+
+
+  @{b}See@{ub}
+    @{"NamedSpaceExport       " LINK "NamedSpaceExport"       }    @{"NamedSpaceFree         " LINK "NamedSpaceFree"         }    @{"NamedSpaceGetvar       " LINK "NamedSpaceGetvar"       }
+    @{"NamedSpaceImport       " LINK "NamedSpaceImport"       }    @{"StemToVar              " LINK "StemToVar"              }    @{"VarToStem              " LINK "VarToStem"              }
+
+@EndNode
+
+@Node "NamedSpaceFree" "RexxMustHave Functions - NamedSpaceFree"
+
+  @{b}NamedSpaceFree@{ub} - disposes a NS
+
+
+  @{b}Synopsis@{ub}
+    res=NamedSpaceFree(name)
+    <name>
+
+
+  @{b}Function@{ub}
+    Disposes a NS. Only the NS creator may use this function.
+
+
+  @{b}Inputs@{ub}
+    name - the name of the NS
+
+
+  @{b}Result@{ub}
+    res - an integer, 0 for success
+
+
+  @{b}See@{ub}
+    @{"NamedSpaceCreate       " LINK "NamedSpaceCreate"       }    @{"NamedSpaceExport       " LINK "NamedSpaceExport"       }    @{"NamedSpaceGetvar       " LINK "NamedSpaceGetvar"       }
+    @{"NamedSpaceImport       " LINK "NamedSpaceImport"       }    @{"StemToVar              " LINK "StemToVar"              }    @{"VarToStem              " LINK "VarToStem"              }
+
+@EndNode
+
+@Node "NamedSpaceExport" "RexxMustHave Functions - NamedSpaceExport"
+
+  @{b}NamedSpaceExport@{ub} - exports var(s) to a NS
+
+
+  @{b}Synopsis@{ub}
+    res=NamedSpaceExport(name,pattern,opts)
+    <name>,[pattern],[opts]
+
+
+  @{b}Function@{ub}
+    Exports var(s) to a NS. Once you created a NS, you want to
+    use it for sure. It means setting some couple name/value in
+    the NS. To do that, you may simply "export" some macro var to
+    the NS.
+
+    @{i}pattern@{ui} is an AmigaDOS pattern; if supplied only the
+    vars matching it are exported; if not supplied all vars are
+    exported.
+
+    @{i}opts@{ui} is one or more of:
+
+    - LOCAL
+      Only the local vars are exported
+
+    - GLOBAL
+      Only the global vars are exported
+
+    - BOTH
+      Both local and global vars are exported (default)
+
+
+  @{b}Inputs@{ub}
+    name - the name of the NS
+    pattern - an AmigaDOS pattern
+    opts - options
+
+
+  @{b}Result@{ub}
+    res - an integer, 0 for success
+
+
+  @{b}See@{ub}
+    @{"NamedSpaceCreate       " LINK "NamedSpaceCreate"       }    @{"NamedSpaceFree         " LINK "NamedSpaceFree"         }    @{"NamedSpaceGetvar       " LINK "NamedSpaceGetvar"       }
+    @{"NamedSpaceImport       " LINK "NamedSpaceImport"       }    @{"StemToVar              " LINK "StemToVar"              }    @{"VarToStem              " LINK "VarToStem"              }
+
+@EndNode
+
+@Node "NamedSpaceImport" "RexxMustHave Functions - NamedSpaceImport"
+
+  @{b}NamedSpaceImport@{ub} - imports var(s) from a NS
+
+
+  @{b}Synopsis@{ub}
+    res=NamedSpaceImport(name,pattern)
+    <name>,[pattern]
+
+
+  @{b}Function@{ub}
+    Imports var(s) from a NS. Once you created a NS, you want to
+    use it for sure. It means retrieving some datas from the NS.
+    To do that, you may simply "import" some data from the NS.
+
+    @{i}pattern@{ui} is an AmigaDOS pattern; if supplied only the
+    names in the NS matching it are imported; if not supplied all
+    names are imported.
+
+
+  @{b}Inputs@{ub}
+    name    - the name of the NS
+    pattern - an AmigaDOS pattern
+
+
+  @{b}Result@{ub}
+    res - an integer, 0 for success
+
+
+  @{b}See@{ub}
+    @{"NamedSpaceCreate       " LINK "NamedSpaceCreate"       }    @{"NamedSpaceFree         " LINK "NamedSpaceFree"         }    @{"NamedSpaceGetvar       " LINK "NamedSpaceGetvar"       }
+    @{"NamedSpaceImport       " LINK "NamedSpaceImport"       }    @{"StemToVar              " LINK "StemToVar"              }    @{"VarToStem              " LINK "VarToStem"              }
+
+@EndNode
+
+@Node "NamedSpaceGetVar" "RexxMustHave Functions - NamedSpaceGetVar"
+
+  @{b}NamedSpaceGetVar@{ub} - gets a single NS var
+
+
+  @{b}Synopsis@{ub}
+    value=NamedSpaceGetVar(name,var)
+    <name>,<var>
+
+
+  @{b}Function@{ub}
+    Gets a single NS var.
+
+
+  @{b}Inputs@{ub}
+    name - the name of the NS
+    var  - the name of the var to get
+
+
+  @{b}Result@{ub}
+    value - the value of @{i}var@{ui}, or en empty string if
+            it doesn't exist
+
+
+  @{b}See@{ub}
+    @{"NamedSpaceCreate       " LINK "NamedSpaceCreate"       }    @{"NamedSpaceExport       " LINK "NamedSpaceExport"       }    @{"NamedSpaceFree         " LINK "NamedSpaceFree"         }
+    @{"NamedSpaceImport       " LINK "NamedSpaceImport"       }    @{"StemToVar              " LINK "StemToVar"              }    @{"VarToStem              " LINK "VarToStem"              }
+
+@EndNode
+
+@Node "GetRMHString" "RexxMustHave Functions - GetRMHString"
+
+  @{b}GetRMHString@{ub} - returns a string associated with a
+                          RMH code
+
+
+  @{b}Synopsis@{ub}
+    string=GetRMHString(code)
+    <code/N>
+
+
+  @{b}Function@{ub}
+    Returns a string associated with a RMH code.
+
+    Actually, the following strings are defined:
+        51 [NO_MEM]               too few memory
+        52 [ARG_MISS]             required argument missed
+        53 [BAD_NUMBER]           bad number
+        54 [BAD_VALUE]            bad value
+        55 [NO_NAMEDSPACE]        NamedSpace not found
+        56 [NO_VAR]               Var not found
+        57 [PRIVATE_NAMEDSPACE]   NamedSpace is private
+
+
+  @{b}Inputs@{ub}
+    code - the code to retrieves the string associated to
+
+
+  @{b}Result@{ub}
+    string - the string associated with 'code'
+
+
+  @{b}Note@{ub}
+    At the moment, only NamedSpace functions returns a RMH error
+    code.
+
+@EndNode
+
+@Node "MacroNotifyCreate" "RexxMustHave Functions - MacroNotifyCreate"
+
+  @{b}MacroNotifyCreate@{ub} - creates a MacroNotify object
+
+
+  @{b}Synopsis@{ub}
+    sig=MacroNotifyCreate(name)
+    <name>
+
+
+  @{b}Function@{ub}
+    Creates a MacroNotify object. A MacroNotify object is a named
+    space that exists till the creator macro runs. A MacroNotify
+    represents a tree of macros.
+
+    This is how it works:
+
+    - Macro A creates the MacroNotify object:
+      sig=MacroNotifyCreate(name)
+
+      @{i}sig@{ui} is a signal to wait on for MacroNotify @{i}events@{ui}
+
+      Macro A waits for event with
+        rec=Wait(sig)
+        if and(rec,sig)>0 then call GetMacrosEvents()
+        ...
+        GetMacrosEvents:
+            ev=MacroNotifyGetEvent(name)
+            do while ev~=""
+                parse var ev ev more
+                select
+                    when ev="STARTED" then do
+                        /* a macro started, more is the macro ID */
+                    end
+                    when ev="ENDED" then do
+                        /* a macro ended, more is the macro ID */
+                    end
+                    when ev="INFO" then do
+                        /* a macro send us info, more is an info string */
+                    end
+                    when ev="ATTEMPT" then do
+                        /* someone tried to create a MacroNotify already
+                           create by us, more is the name */
+                    end
+                end
+                ev=MacroNotifyGetEvent(name)
+            end
+
+
+    - Macro B joins the club:
+          res=MacroNotifyJoin(name)
+
+
+    - When macro B joins the club, macro A is informed with a
+      STARTED event
+
+
+    - Macro B may send @{i}info@{ui} to macro A via:
+          res=MacroNotifyInsert(name,"INFO",more)
+
+    - When macro B exits, it leaves the club and sends us a a
+      ENDED event
+
+
+    - If macro A exits and macro B is still running, macro B is
+      notified via a break_d (2**12) signal. It may be trapped
+      via a signal on break_d
+
+
+    - If macro A wants to notify macro B, macro A may do that
+      via: call MacroNotifySync(name)
+
+
+    Of course, in the example above, there may be more than a
+    macro B and even more than a macro A. It means that more
+    macros may join a single MacroNotify and that a single macro
+    may join more MacroNotifies.
+
+
+  @{b}Inputs@{ub}
+    name - the name of the MacroNotify. The name comparison is
+           not case sensitive. The name of a MacroNotify is unique.
+           You may obtain an unique name via
+               name=ProgramName("NOEXT") || time(s)
+           and tricks like that.
+
+
+  @{b}Result@{ub}
+    sig - a signal to wait on for event, 0 is failure
+
+
+  @{b}See@{ub}
+    @{"MacroNotifyFree        " LINK "MacroNotifyFree"        }    @{"MacroNotifyGetEvent    " LINK "MacroNotifyGetEvent"    }    @{"MacroNotifyInsert      " LINK "MacroNotifyInsert"      }
+    @{"MacroNotifyJoin        " LINK "MacroNotifyJoin"        }    @{"MacroNotifySync" LINK "MacroNotifySync"}
+
+@EndNode
+
+@Node "MacroNotifyFree" "RexxMustHave Functions - MacroNotifyFree"
+
+  @{b}MacroNotifyFree@{ub} - disposes a MacroNotify object
+
+
+  @{b}Synopsis@{ub}
+    res=MacroNotifyFree(name)
+    <name>
+
+
+  @{b}Function@{ub}
+    Disposes a MacroNotify object. All the macros that join the
+    club are notified with a break_d. Only the MacroNotify
+    creator may use this function.
+
+
+  @{b}Inputs@{ub}
+    name - the name of the MacroNotify. The name comparison is
+           not case sensitive.
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+  @{b}See@{ub}
+    @{"MacroNotifyCreate      " LINK "MacroNotifyCreate"      }    @{"MacroNotifyGetEvent    " LINK "MacroNotifyGetEvent"    }    @{"MacroNotifyInsert      " LINK "MacroNotifyInsert"      }
+    @{"MacroNotifyJoin        " LINK "MacroNotifyJoin"        }    @{"MacroNotifySync" LINK "MacroNotifySync"}
+
+@EndNode
+
+@Node "MacroNotifyGetEvent" "RexxMustHave Functions - MacroNotifyGetEvent"
+
+  @{b}MacroNotifyGetEvent@{ub} - gets next event from a MacroNotify
+
+
+  @{b}Synopsis@{ub}
+    ev=MacroNotifyGetEvent(name)
+    <name>
+
+
+  @{b}Function@{ub}
+    Gets next event from a MacroNotify.
+
+    When you receive a MacroNotify signal, you must call this
+    function, till it returns an empty string. Only the
+    MacroNotify creator may use this function.
+
+
+  @{b}Inputs@{ub}
+    name - the name of the MacroNotify. The name comparison is
+           not case sensitive.
+
+
+  @{b}Result@{ub}
+    ev - a MacroNotify event
+
+
+  @{b}See@{ub}
+    @{"MacroNotifyCreate      " LINK "MacroNotifyCreate"      }    @{"MacroNotifyFree        " LINK "MacroNotifyFree"        }    @{"MacroNotifyInsert      " LINK "MacroNotifyInsert"      }
+    @{"MacroNotifyJoin        " LINK "MacroNotifyJoin"        }    @{"MacroNotifySync" LINK "MacroNotifySync"}
+
+@EndNode
+
+@Node "MacroNotifyInsert" "RexxMustHave Functions - MacroNotifyInsert"
+
+  @{b}MacroNotifyInsert@{ub} - inserts an event in a MacroNotify
+
+
+  @{b}Synopsis@{ub}
+    res=MacroNotifyInsert(name,ev,more)
+    <name>,<ev>,[more]
+
+
+  @{b}Function@{ub}
+    Inserts an event in a MacroNotify.
+
+    @{i}ev@{ui} may be one of:
+        o INFO
+
+
+  @{b}Inputs@{ub}
+    name - the name of the MacroNotify. The name comparison is
+           not case sensitive.
+    ev   - the type of the event to insert
+    more - depends on the type of the event
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+  @{b}See@{ub}
+    @{"MacroNotifyCreate      " LINK "MacroNotifyCreate"      }    @{"MacroNotifyFree        " LINK "MacroNotifyFree"        }    @{"MacroNotifyGetEvent    " LINK "MacroNotifyGetEvent"    }
+    @{"MacroNotifyJoin        " LINK "MacroNotifyJoin"        }    @{"MacroNotifySync" LINK "MacroNotifySync"}
+
+@EndNode
+
+@Node "MacroNotifyJoin" "RexxMustHave Functions - MacroNotifyJoin"
+
+  @{b}MacroNotifyJoin@{ub} - joins a MacroNotify
+
+
+  @{b}Synopsis@{ub}
+    res=MacroNotifyJoin(name)
+    <name>
+
+
+  @{b}Function@{ub}
+    Joins a MacroNotify.
+
+
+  @{b}Inputs@{ub}
+    name - the name of the MacroNotify. The name comparison is
+           not case sensitive.
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+  @{b}See@{ub}
+    @{"MacroNotifyCreate      " LINK "MacroNotifyCreate"      }    @{"MacroNotifyFree        " LINK "MacroNotifyFree"        }    @{"MacroNotifyGetEvent    " LINK "MacroNotifyGetEvent"    }
+    @{"MacroNotifyInsert      " LINK "MacroNotifyInsert"      }    @{"MacroNotifySync" LINK "MacroNotifySync"}
+
+@EndNode
+
+@Node "MacroNotifySync" "RexxMustHave Functions - MacroNotifySync"
+
+  @{b}MacroNotifySync@{ub} - signals all MacroNotify macros
+
+
+  @{b}Synopsis@{ub}
+    res=MacroNotifySync(name)
+    [name]
+
+
+  @{b}Function@{ub}
+    Signals with a break_d (2**13) all the macros that join a
+    MacroNotify. Only the MacroNotify creator may use this
+    function.
+
+    This function may be use to sync and/or to break all the
+    macros that joint a MacroNotify.
+
+
+  @{b}Inputs@{ub}
+    name - the name of the MacroNotify. The name comparison is
+           not case sensitive. If it is omitted, all the
+           MacroNotifies created in this macro are interested.
+
+  @{b}Result@{ub}
+    res - an ARexx boolean
+
+
+  @{b}See@{ub}
+    @{"MacroNotifyCreate      " LINK "MacroNotifyCreate"      }    @{"MacroNotifyFree        " LINK "MacroNotifyFree"        }    @{"MacroNotifyGetEvent    " LINK "MacroNotifyGetEvent"    }
+    @{"MacroNotifyInsert      " LINK "MacroNotifyInsert"      }    @{"MacroNotifyJoin        " LINK "MacroNotifyJoin"        }
+
+@EndNode
+
+@Node "LocalizeStrings" "RexxMustHave Functions - LocalizeStrings"
+
+  @{b}LocalizeStrings@{ub} - localizes strings
+
+
+  @{b}Synopsis@{ub}
+    res=LocalizeStrings(stem,cat,upTo)
+    <stem/V>,<cat>,[upTo/N]
+
+
+  @{b}Function@{ub}
+    Localizes an array of strings.
+
+    I always hate the ARexx interface of locale.library,
+    mainly for the following reasons:
+
+    1. The open catalog is left opened, if you don't close.
+
+    2. If you have to read, let's say, 100 localized strings, you
+       must call GetCatalogString() 100 times, which means
+       loosing a lot of time.
+
+    So, I wrote this little function to make localization of
+    ARexx scripts easier.
+
+    An example will help: let's suppose your script use the
+    strings:
+
+        "host not found"
+        "connecting to..."
+        "can't  connect to"
+        "error from server:"
+        "server result:"
+
+    To simply localize them, do
+
+        strings.0="host not found"
+        strings.1="connecting to..."
+        strings.2="can't  connect to"
+        strings.3="error from server:"
+        strings.4="server result:"
+        call LocalizeStrings("strings","mycatalog")
+
+    For any strings found, the functions will try to obtain the
+    localized string from "mycatalog".
+
+    If the string is found, it is replaced in the environment of
+    the calling script.
+
+    If the catalog cannot be opened or the string is not found,
+    nothing happen.
+
+    The codes read from the catalog go from 0 to the last string
+    found, or to @{i}upTo@{ui} if supplied.
+
+
+  @{b}Inputs@{ub}
+    stem - where to read/Write strings
+    cat  - the catalog name
+    upTo - read till this code
+
+
+  @{b}Result@{ub}
+    res - an ARexx boolean to indicate if the
+          catalog was found
+
+@EndNode
+
+@Node "MacroEnv" "RexxMustHave Functions - MacroEnv"
+
+  @{b}MacroEnv@{ub} - reads and sets macro environment parameters
+
+
+  @{b}Synopsis@{ub}
+    call MacroEnv(stem,opt)
+    <stem/V>,[opt]
+
+
+  @{b}Function@{ub}
+    Reads and sets parameters regarding the macro environment.
+
+    The function should be called at the beginning of the macro.
+
+    It reads, setting the fields of @{i}stem@{ui}:
+        Name - the name of the macro
+        NoExtName - the name of the macro without extension
+        FullName - the complete name of the macro (with path)
+        Path - the path of the drawer the macro resides in
+        Parent - the full name of the macro that called this (if any)
+        WB? - called from wb? (have sense only if rxs was the tooltype)
+        Socket? - is there a bsdsocket.library?
+        Sock? - does the macro have one socket at least?
+        Sock - the socket id or -1
+
+    It sets:
+
+    - PROGDIR
+
+      macro process ProgDir is set so that the AmigaDOS facility
+      PROGDIR: may be used as an absolute path
+
+    - CurrentDir
+      macro process CurrentDir is set to PROGDIR:
+
+    - STDERR
+      a logical file named STDERR is opened. The relative
+      AmigaDOS file is CONSOLE: if it may be opened, STDIN
+      otherwise. STDERR is used by PrintFault() and ReadArgs().
+
+
+    @{i}opt@{ui} may be one or more of:
+        PROGDIR - sets ProgDir
+        CD - set CurrentDir (only valid if PROGDIR is present)
+        STDERR - open STDERR
+
+
+  @{b}Inputs@{ub}
+    stem - where to write parameters
+    opt - options
+
+
+  @{b}Result@{ub}
+    The function fails with ARexx error 3 or returns 0.
+
+@EndNode
+
+@Node "System" "RexxMustHave Functions - System"
+
+  @{b}System@{ub} - runs a command
+
+
+  @{b}Synopsis@{ub}
+    res=System(cmd,stack,var)
+    <cmd>,[stack/N],[var/S]
+
+
+  @{b}Function@{ub}
+    Runs the AmigaDOS command @{i}cmd@{ui}.
+
+    @{i}stack@{ui} is the size of the stack the command runs with;
+    default is 8192 and only values bigger than that are
+    accepted.
+
+    @{i}var@{ui} is an ARexx var name to be set to the output of the
+    command. Only up to 65535 chars are returned.
+
+    Examples:
+
+    ...
+    if System('assign',,'a')>0 then do
+        call PrintFault()
+        exit
+    end
+    ...
+
+    ...
+    call Pragma("W","N")
+    if System('dir',,'d')>0 then do
+        call PrintFault()
+        exit
+    end
+    ...
+
+
+  @{b}Inputs@{ub}
+    cmd   - an AmigaDOS command to run, with arguments
+    stack - optional stack size
+    var   - optional var name where to store the output
+
+
+  @{b}Result@{ub}
+    res - the result from the command, usually >0 means
+          failure
+
+@EndNode
+
+@Node "Sort" "RexxMustHave Functions - Sort"
+
+  @{b}System@{ub} - sorts a stem
+
+
+  @{b}Synopsis@{ub}
+    call Sort(stem,from,to,opts,compFun,index)
+    <stem/V>,[from/N],[to/N],[opts],[compFun],[index/V]
+
+
+  @{b}Function@{ub}
+    Sorts the elements of a stem.
+
+    If @{i}from@{ui} is specified, it is the lower index of the
+    element to sort, otherwise it is 0.
+
+    If @{i}to@{ui} is specified, it is the upper index of the
+    element to sort, otherwise all the elements of @{i}stem@{ui}
+    are sorted.
+
+    @{i}opts@{ui} is one or more of:
+
+    - Num
+      The element are integral numbers rather than strings
+
+    - Locale
+      Comparation is made with locale.library/StrCmp COLLATE2
+      mode. See locale.library documentation.
+
+    - Case
+      The comparation is case sensitive. It is ignored if
+      Num or Locale are supplied
+
+    - Reverse
+      The order is inverted
+
+    If @{i}compFun@{ui} is supplied, it is an "inline macro", that should
+    be designed to be very fast. Anytime 2 elements must be
+    compared, the macro is called as a function with the 2
+    elements as arguments, so it should get them as:
+        parse arg a,b
+
+    The macro must return an integral number:
+        <0 - a<b
+        0  - a=b
+        >0 - a>b
+
+    For example, to order an array of dates formatted as
+    DD/MM/YYYY, you may use the following macro:
+
+        "parse arg a,b;
+         call parsedate(a,'%d/%m/%Y','d1');
+         call parsedate(b,'%d/%m/%Y','d2');
+         return CompareDates(d2,d1)"
+
+    If @{i}index@{ui} is supplied, the sorting is not done in place:
+    elements of @{i}stem@{ui} are not moved, but an index array is created
+    in @{i}index@{ui}. That is really use full when ordering complex
+    elements.
+
+    Example:
+    call sort("a",s,d,,,"k")
+
+    do i=0 to d-s
+        j=k.i
+        say i":" "("k.i")" "Name:"a.j "Tel:"a.j.tel
+    end
+
+
+  @{b}Inputs@{ub}
+    stem    - the stem to sort
+    from    - sort from here
+    to      - sort to there
+    opts    - sorting options
+    compFun - an inline macro
+    index   - the stem where to store the indexes
+
+  @{b}Result@{ub}
+    none
+
+  @{b}Note@{ub}
+    Sorting is made with quicksort, optimized so that arrays with less
+    than 8 elements are sorted with a direct insertion method.
+    The sorting is done under a 16k stack swap. It might (?!?) not be
+    enough: if so, an error is returned. Sorting is breakable with a
+    ctrl-c or a halt. Of course, sorting by index is the quickest method.
+
+@EndNode
+
+@Node "SameLock" "RexxMustHave Functions - SameLock"
+
+  @{b}SameLock@{ub} - checks for same object
+
+
+  @{b}Synopsis@{ub}
+    res=SameLock(path1,path2)
+    <path1>,<path2>
+
+
+  @{b}Function@{ub}
+    Checks if two pathes refers to the same object.
+
+  @{b}Inputs@{ub}
+    path1 - path to check
+    path2 - path to check
+
+
+  @{b}Result@{ub}
+    One of:
+
+    - Error1
+      path1 can't be locked
+
+    - Error2
+      path2 can't be lockd
+
+    - Different
+      Te two pathes refers to two different objects
+
+    - Same
+      path1 and path2 refers to the same file
+
+    - SameDevice
+      path1 and path2 refers to the same device
+
+    - Unknown
+      The objects can be locked, but the function
+      doesn't know if they are the same. Very rare
+      result
+
+@EndNode
+

@@ -1,0 +1,277 @@
+@database RDBBackup.guide
+@index inhalt
+@width 76
+@node main "RDBBackup.guide"
+
+****************************************************************************
+
+                         RDBBackup 1.1 (20.4.96)
+                     (C) 1996 by Jürgen Kohrmeyer
+
+****************************************************************************
+
+'RDBBackup' is a GUI for the program 'ReadRDB' from Gérard Cornu, with this
+software you can backup the 'RigidDiskBlock' (RDB) of your harddisks very
+easy. The RDB of a harddisk contains all important informations for the
+system, e.g. a description of the drive and all partition data.
+
+If the RDB is destroyed or you have made wrong settings with a harddisk
+utility, the files on a harddisk cannot be accessed by AmigaDOS. In this
+case you can try to make the harddisk usable by restoring the RDB from the
+backup.
+
+Because of security it's only possible to write a RDB to the same harddisk.
+If you have changed the SCSI device or unit, you have to make a new backup!
+
+If you use a wrong backup to restore the RDB, all data on the harddisk can
+be lost! 'RDBBackup' remembers the description of of the harddisk, the SCSI
+device and the unit of each backup. Nevertheless a backup can contain wrong
+data if you have changed the harddisk installation after the last backup.
+Be very careful and restore a RDB only if you know that the backup is up to
+date!
+
+
+ @{" Copyright        " link copyright} Copyright notice
+ @{" Author           " link autor} Address of the author
+
+ @{" ReadRDB          " link readrdb} About ReadRDB
+
+ @{" Public screen    " link pubscreen} Select the public screen
+ @{" Backup directory " link backupdir} Select the backup directory
+ @{" SCSI device      " link scsidevice} Select the SCSI device
+
+ @{" Update list      " link updatelist} Update the list of all connected peripherals
+ @{" Backup RDB       " link backup} Backup a RigidDiskBlock
+ @{" Restore RDB      " link restore} Restore a RigidDiskBlock
+
+ @{" About            " link info} Show informations about the program
+ @{" Save prefs       " link saveprefs} Save prefs
+ @{" Quit             " link quit} Quit program
+
+@endnode
+
+@remark **********
+
+@node copyright "RDBBackup.guide: Copyright"
+
+Copyright
+*********
+
+'RDBBackup' is FREEWARE, but still copyright by the author, Jürgen
+Kohrmeyer. 'RDBBackup' must be distributed with the complete RexxTricks
+archive, it is not allowed to distribute 'RDBBackup' on its own without
+the permission of the author!
+
+All files of 'RDBBackup' are provided "as is" without warranty of any
+kind, either expressed or implied. The user assumes all risks and
+responsibilities related to its use. The author cannot be made liable
+for any damage resulting from the use of 'RDBBackup' and the other
+files.
+
+This program uses 'ReadRDB' to backup and restore the RigidDiskBlocks,
+please read the documentation in the 'ReadRDB_0.5' drawer. 'ReadRDB'
+is copyright (C) by Gérard Cornu!
+
+This program uses the 'triton.library' for displaying the complete GUI.
+Please read the 'ReadMe' file in the 'Triton' drawer. The 'triton.library'
+is copyright (C) by Stefan Zeiger!
+
+@endnode
+
+@remark **********
+
+@node autor "RDBBackup.guide: Author"
+
+Author
+******
+
+You can reach the author at the following addresses, please use
+e-mail if possible:
+
+Mail:
+
+   Jürgen Kohrmeyer
+   Oststraße 2
+   49143 Bissendorf
+
+   GERMANY
+
+Voice:
+
+   +49-5402-5195
+
+E-Mail:
+
+   j_kohrmeyer@@wilam.north.de
+
+@endnode
+
+@remark **********
+
+@node readrdb "RDBBackup.guide: ReadRDB"
+
+ReadRDB
+*******
+
+Short:    Backup RDBs. Bug under 2.x fixed. Oops! V0.5
+Uploader: gerard@ariane.univ-lyon2.fr (Gerard Cornu)
+Author:   gerard@ariane.univ-lyon2.fr (Gerard Cornu)
+Type:     disk/misc
+Replaces: disk/misc/ReadRDB.lha
+Version:  0.5
+
+Can read an RDB (Rigid Disk Block) and save it to a file,
+as for backup purpose, and write it back later on the 
+hard disk. Gives also the state of the reselection flag 
+and all of rdb_Flags. English and French documentation 
+in AmigaGuide© form.
+
+Now include a FORCE switch to read and write non
+standard RDBs. Use this switch at your own risk!
+
+
+V0.5: Bug fixed: Unability, under 2.x, to write back an RDB.
+      Must have been here since 0.2, Ooops! Thanks to
+      "Sheer Panic" for reporting it.
+
+
+Have fun, and keep writing useful stuff for our nice machine.
+Thanks!
+
+   Gerard Cornu
+   11, Av. E. Aynard
+   69130 Ecully
+   (France)
+
+   email: gerard@ariane.univ-lyon2.fr
+
+*** Against all nuclear testing ***
+
+@endnode
+
+@remark **********
+
+@node pubscreen "RDBBackup.guide: Public screen"
+
+Public screen
+*************
+
+All windows of 'RDBBackup' will open on this screen. If you click on the
+button beside the string gadget, you can select one of the currently open
+public screens from a list.
+
+@endnode
+
+@remark **********
+
+@node backupdir "RDBBackup.guide: Backup directory"
+
+Backup directory
+****************
+
+All backups of the RigidDiskBlocks are stored in this directory. If you
+click on the button beside the string gadget, a drawer requester opens
+and you can select a directory.
+
+@endnode
+
+@remark **********
+
+@node scsidevice "RDBBackup.guide: SCSI device"
+
+SCSI device
+***********
+
+In this field, you must specify the name of the SCSI device to be used.
+If you click on the button beside the string gadget, you can select a
+device from a list of all available devices.
+
+@endnode
+
+@remark **********
+
+@node updatelist "RDBBackup.guide: Update list"
+
+Update list
+***********
+
+Reads the descriptions of all connected SCSI peripherals and updates
+the list.
+
+@endnode
+
+@remark **********
+
+@node backup "RDBBackup.guide: Backup RDB"
+
+Backup RDB
+**********
+
+Reads the RigidDiskBlock of the selected harddisk ans stores it in
+the backup directory. The filename of the backup is created from the
+SCSI device and the unit number, the file comment contains other
+informations about the harddisk.
+
+Example:
+
+Filename             Comment
+-------------------------------------------------------------
+RDB_scsi.device_0    IBM DPES-31080 S31Q - scsi.device Unit 0
+
+This function is only available if the selected peripheral is a
+harddisk. If you select a removable cartridge drive, you must
+insert a cartridge.
+
+@endnode
+
+@remark **********
+
+@node restore "RDBBackup.guide: Restore RDB"
+
+Restore RDB
+***********
+
+Restores the RigidDiskBlock of the selected harddisk, you must confirm
+this function two times. 'ReadRDB' will be started only if both questions
+are answered positive, then 'ReadRDB' displays all available data. This
+is your last chance to cancel the restoration, if you answer the question
+with 'y', the RigidDiskBlock is written to the selected harddisk!
+
+This function is only available if a valid backup for the selected
+harddisk, SCSI device and unit exists!
+
+@endnode
+
+@remark **********
+
+@node info "RDBBackup.guide: About"
+
+About
+*****
+
+Displays informations about the program.
+
+@endnode
+
+@remark **********
+
+@node saveprefs "RDBBackup.guide: Save prefs"
+
+Save prefs
+**********
+
+Saves the public screen, backup directory and SCSI device to the file
+'RDBBackup.prefs'.
+
+@endnode
+
+@remark **********
+
+@node quit "RDBBackup.guide: Quit"
+
+Quit
+****
+
+Quits the program.
+
+@endnode

@@ -1,0 +1,127 @@
+Short:        Multiwindow filemanager & ASL replace
+Author:       Andreas G. Szabo
+Uploader:     info@torakosmos.de (Andreas G. Szabo)
+Type:         util/wb
+Version:      1.1.1
+Architecture: m68k-amigaos >= 3.1.0
+
+
+
+
+                Screenshot of what you get:
+
+           http://ox.quicktunnels.net/filereq.png
+
+
+               for E-UAE, WinUAE and AmiKit
+           Scalos friendly and runs under OS 4+
+
+
+         Please write comments and suggestions to:
+
+           info@torakosmos.de (Andreas G. Szabo).
+
+
+
+NEW FEATURES
+
+    * Copy or Move files (with icon, if exists) per drag &
+      drop from Workbench Windows into Modifyle windows.
+
+    * Better progress-bars, now showing overall progress
+      and progress and name of current file. Progress window
+      closes automatedly when ready and no error. And it
+      opens only when the file action takes more time.
+
+    * Middle mouse button displays Assigns.
+
+    * Added credits to this readme file.
+
+
+FEATURES
+
+    * Full ASL filerequester replacement patch with
+      integrated Filemanager functions (see below).
+
+    * Stand alone usage as a Multi-Window Filemanager.
+
+    * Filemanager functions: Copy, Move, Rename, Delete,
+      Makedir. Copy and Move with Drag & Drop from one
+      Modifyle Window or Filerequester into annother.
+
+    * Bookmarking of directories and Assigns.
+
+    * Opening/viewing files using Multiview by doubleclick
+      on a file when in Manager/Browser mode.
+
+    * Multitasking: you can perform multiple file actions
+      at the same time (copying, viewing, etc).
+
+    * Mousewheel and Keyboard support.
+
+    * Total skin support provided by the Open-XUI engine.
+
+    * Example sourcecodes.
+
+
+
+
+INSTALLATION / USAGE
+
+    * Move the contents of the libs folder into libs:
+      and the presets/ox folder into sys:prefs/presets.
+
+    * Put "Modifyle Manager" into your AmiDock or such.
+
+    * Move "Modifyle ASL Patch" to your WBStartup-folder
+      and click it. Now whenever a program opens the
+      ASL requester, you get the Modifyle one instead.
+
+    * Do NOT use patch together with other ASL patches,
+      but you can use the Manager without the patch.
+
+    * Move "Open XUI" (the skin changer) to sys:prefs,
+
+
+
+
+LICENCE
+
+    * Modifyle is free and may be used and included in
+      commercial projects. But Modifyle itself must stay
+      free to everyone.
+
+
+
+
+THANKS, CREDITS, GREETINGS
+
+    * Paul Sevilla for exhaustive Testing and moral aid.
+
+    * Everybody at amiga-news.de for endless patience
+      with my questions: Thore, Holger, thomas, Thilo
+      Koehler and others.
+
+    * Martin Mason Maerz for the OX Icon.
+
+
+
+
+DISCLAIMER
+
+MODIFYLE IS PROVIDED "AS-IS" WITHOUT ANY WARRANTY. I CANNOT
+BE HELD LIABLE FOR ANY DAMAGE ARISING OUT OF THE (INABILITY
+OF MAKING) USE OF IT: USE AT YOUR OWN RISK.
+
+
+
+
+SOME NOTES
+
+    * Maybe you are interested in reading my book about the
+      occult dimension of the Bible (german). I discovered
+      a computer based method to display pictures that are
+      coded into the book Genesis: http://www.torakosmos.de
+
+    * Zak McKracken for president!
+

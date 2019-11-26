@@ -1,0 +1,78 @@
+## version $VER: rexxtricks.catalog 38.6 (17.3.96)
+## codeset 0
+## language english
+;
+;
+; english.ct
+;
+; rexxtricks V38.6 (catalog translation file)
+;
+; © 1996 Jürgen Kohrmeyer
+;
+; Translation by: Jürgen Kohrmeyer
+;
+;
+MSG_VIEWLIST_TITLE
+RexxTricks Listview-Window
+;RexxTricks Listview-Fenster
+;
+MSG_VIEWLIST_POSTEXT
+_Okay
+;_Benutzen
+;
+MSG_VIEWLIST_NEGTEXT
+_Cancel
+;_Abbrechen
+;
+MSG_VIEWLIST_GAD_ALL
+_All
+;All_e
+;
+MSG_VIEWLIST_GAD_NONE
+_None
+;_Keine
+;
+MSG_VIEWLIST_GAD_SEARCH
+_Search
+;_Suchen
+;
+MSG_VIEWLIST_GAD_PATTERN
+_Pattern
+;Nach _Muster
+;
+MSG_VIEWLIST_GAD_TOGGLE
+_Toggle
+;_Umschalten
+;
+MSG_UUDECODE_CANNOT_OPEN_FILE
+Cannot open file "%s"
+;Kann die Datei "%s" nicht öffnen
+;
+MSG_UUDECODE_CANNOT_INCLUDE_FILE
+Incorrect or missing include file "%s"
+;Falsche oder fehlende Include-Datei "%s"
+;
+MSG_UUDECODE_BEGIN_NOT_FOUND
+No "begin" line  found
+;Keine "begin" Zeile gefunden
+;
+MSG_UUDECODE_BAD_CHECKSUM
+Bad checksum in "%s" line %ld
+;Falsche Checksumme in "%s" Zeile %ld
+;
+MSG_UUDECODE_READ_ERROR
+Error reading from file "%s"
+;Fehler beim Lesen aus der Datei "%s"
+;
+MSG_UUDECODE_WRITE_ERROR
+Error writing to file "%s"
+;Fehler beim Schreiben in die Datei "%s"
+;
+MSG_UUDECODE_BAD_SIZE
+Size of file "%s" doesn't match "size %ld"
+;Länge der Datei "%s" stimmt nicht mit "size %ld" überein
+;
+MSG_UUDECODE_EOF
+Unexpected end of file "%s"
+;Vorzeitiges Ende der Datei "%s"
+;

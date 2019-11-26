@@ -1,0 +1,193 @@
+          ============================================================
+           $VER: find.doc 36.2 (17.1.96) Copyright (c) Ralph Seichter
+          ============================================================
+
+
+DESCRIPTION
+
+   I wrote 'find' because I needed a tool to find files (obviously :) which
+match a given name pattern. 'find' is able to search multiple directories,
+including all subdirectories, the current directory and its subdirs, or the
+current CLI command path only. The output can be formatted in a way which
+tries to imitate 'List LFORMAT' behaviour, and you can make 'find' create
+shell scripts for you and execute them on the fly.
+
+   Please note that 'find' is pure, you can make it resident. As it is less
+than 3 KB in size, this is recommended. Check the executable by using the
+List command (you should see output like the following line) and modify the
+file protection bits if necessary:
+
+        find   2760 --p-rwed 17-Jan-96 16:45:55
+
+   Requires 'dos.library' V36 (OS 2.0) or better.
+
+
+COPYRIGHT NOTICE
+
+   This program is Copyright (c) 1996 Ralph Seichter, all rights reserved.
+You may however freely use it and give copies to your friends, as long as
+you don't add data to or remove data from the distribution archive. You may
+*NOT* include any part of the distribution archive in a commercial software
+package. If you have comments or suggestions, feel free to contact me. Use
+PGP-encrypted Email when possible, you can find my public key at the end of
+this file.
+
+        Ralph Seichter         Email: zodiac@darkness.gun.de
+        Am Christenrain 12
+        56479 Stein
+        Germany
+
+
+USAGE EXAMPLES
+
+   Locate all C source files on partition DH1:
+   -> find #?.c dh1:
+
+   Find all Icons in the current directory and all its subdirs, but
+   don't display the ".info" suffix.
+   -> find #?.info lformat %m
+
+   Print file name stems and extensions as a formatted table.
+   -> find #? RAM: lformat "%-20N|%3.3e"
+
+   Get rid of all files with the prefix "foo" on some partitions, but
+   don't go deeper than three subdirectory levels while scanning.
+   -> find foo#? sys: dh2: bozo: depth=3 lformat="delete %p%n" exec
+
+   Find 'Type' in the command path.
+   -> find Type path
+
+   Find all occurences of 'bar' in the command path.
+   -> find bar full
+
+   I hope that these few examples show some of the potential of 'find'. The
+possibility to create shell scripts and have them executed without further
+interaction is certainly very useful for many tasks.
+
+
+COMMAND TEMPLATE
+
+   PATTERN/A     Any OS name pattern, i.e. "#?.info".
+
+   DIRECTORY/M   List of directories to scan. If omitted, only the current
+                 directory and its subdirectories will be searched.
+
+   DEPTH/K/N     Number of subdirectory levels (recursion depth). DEPTH=0
+                 means no subdirs, DEPTH=1 one subdir level, and so on.
+
+   LFORMAT/K     Format string (%[flags][width.limit][length]type). You can
+                 use a subset of the templates known from 'List LFORMAT' to
+                 modify the output. As an example, a file "DH0:Foo/Bar.c"
+                 shall be used.
+
+                    %e   Name suffix            .c
+                    %f   Full path and name     DH0:Foo/Bar.c
+                    %m   Name without suffix    Bar
+                    %N   Full name              Bar.c
+                    %n   Full name (lowercase)  bar.c
+                    %p   Fully qualified path   DH0:Foo/
+                    %%   Percent sign           %
+
+                 LFORMAT defaults to %f (full path and name).
+
+   EXEC/S        Create shell script using the given LFORMAT string. You
+                 must specify LFORMAT, or EXEC will be ignored.
+
+   FULL/S        Check full command path instead of stopping with the first
+                 match (FULL implies PATH).
+
+   PATH/S        Find first matching file in the current CLI command path.
+
+   VERBOSE/S     Print the names of all directories when they are scanned.
+
+
+DISCLAIMER
+
+   THIS MATERIAL IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+EXPRESS OR IMPLIED, STATUTORY OR OTHERWISE, INCLUDING WITHOUT LIMITATION
+ANY IMPLIED WARRANTIES OF NONINFRINGEMENT, MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE USE, RESULTS, AND
+PERFORMANCE OF THIS MATERIAL IS ASSUMED BY YOU AND IF THE PRODUCT SHOULD
+PROVE TO BE DEFECTIVE, YOU ASSUME THE ENTIRE COST OF ALL NECESSARY
+SERVICING, REPAIR, OR OTHER REMEDIATION.
+
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: 2.6.2i
+
+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
+=n7Jq
+-----END PGP PUBLIC KEY BLOCK-----

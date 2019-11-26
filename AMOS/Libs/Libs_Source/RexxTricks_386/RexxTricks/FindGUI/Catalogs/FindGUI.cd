@@ -1,0 +1,237 @@
+#language english
+#version 1
+;
+; $VER: FindGUI.cd 1.0 (3.4.96)
+;
+; FindGUI V1.0 (catalog description file)
+;
+; © 1996 Nils Görs
+;
+MSG_MAIN_MENU_PROJECT (0/1/)
+Project
+;
+MSG_MAIN_MENUITEM_ABOUT (/1/)
+?_About
+;
+MSG_MAIN_MENUITEM_HELP (/1/)
+H_QuickHelp
+;
+MSG_MAIN_MENUITEM_CHANGE (/1/)
+C_Change PubScreen
+;
+MSG_MAIN_MENUITEM_ICONIFY (/1/)
+I_Iconify
+;
+MSG_MAIN_MENUITEM_QUIT (/1/)
+Q_Quit
+;
+MSG_MAIN_MENU_DATABASE (/1/)
+Actions
+;
+MSG_MAIN_MENUITEM_DATABASE (/1/)
+O_Reload WhatIsBase
+;
+MSG_MAIN_TEXT_SEARCHAREA (/1/)
+Search _Area  :
+;
+MSG_MAIN_HELP_SEARCHAREA (/1/)
+The choosen device or directory will be searched.
+;
+MSG_MAIN_TEXT_SEARCHFOR (/1/)
+Search _for   :
+;
+MSG_MAIN_TEXT_SEARCHDEPTH (/1/)
+Search _depth :
+;
+MSG_OFF (/1/)
+Off
+;
+MSG_MAIN_TEXT_OUTPUT (/1/)
+_Output
+;
+MSG_GAD_CYCLE_UNSORT1 (/1/)
+unsorted
+;
+MSG_GAD_CYCLE_UNSORT2 (/1/)
+sorted
+;
+MSG_MAIN_TEXT_EXTENDET (/1/)
+Extendet _Informations
+;
+MSG_MAIN_HELP_EXTENDET (/1/)
+Gives you information from matching files (LFORMAT isn't allowed).
+;
+MSG_MAIN_TEXT_FILETYP (/1/)
+Filet_yp 
+;
+MSG_MAIN_HELP_FILETYP (/1/)
+Prints the filetyp. LFORMAT isn't allowed, or Filetyp will be ignored.
+;
+MSG_MAIN_TEXT_PATH (/1/)
+_Path 
+;
+MSG_MAIN_HELP_PATH (/1/)
+Find first matching file in the current CLI command path.
+;
+MSG_MAIN_TEXT_FULL (/1/)
+F_ull
+;
+MSG_MAIN_HELP_FULL (/1/)
+Check full command path instead of stopping with the first match (FULL implies PATH).
+;
+MSG_MAIN_TEXT_EXEC (/1/)
+_Exec 
+;
+MSG_MAIN_HELP_EXEC (/1/)
+Create shell script. You must specify LFORMAT and EXEC COMMAND, or EXEC will be ignored.
+;
+MSG_MAIN_TEXT_LFORMAT (/1/)
+_LFormat      :
+;
+MSG_MAIN_HELP_LFORMAT (/1/)
+You can use templates to modify the output.
+;
+MSG_MAIN_TEXT_EXECCOM (/1/)
+Exec _command :
+;
+MSG_MAIN_HELP_EXECCOM (/1/)
+Please choose a command to bind.
+;
+MSG_MAIN_BUT_START (/1/)
+_Start
+;
+MSG_MAIN_HELP_START (/1/)
+Hhmm... starts what !?!? ;-)
+;
+MSG_REQ_REALLYQUIT (/1/)
+Really quit?
+;
+MSG_YESNO (/1/)
+_Yes|_No
+;
+MSG_REQ_SELECTSEARCHAREA (/1/)
+Select search area
+;
+MSG_REQ_SELECTSCOMMAND (/1/)
+Select command
+;
+MSG_MAIN_TEXT_PATHMISSING (/1/)
+Search area(s) missing.
+;
+MSG_MAIN_TEXT_FILEMISSING (/1/)
+What file(s) you're looking for?
+;
+MSG_MAIN_TEXT_SORTING (/1/)
+Sorting...
+;
+MSG_FOUNDFILES (/1/)
+Found
+;
+MSG_FOUNDFILES2 (/1/)
+file(s)
+;
+MSG_OUTPUTCONSISTS (/1/)
+Output consists of
+;
+MSG_OUTPUTCONSISTS2 (/1/)
+line(s).
+;
+MSG_MAIN_TEXT_SLEEP (/1/)
+I didn't sleep...
+;
+MSG_GAD_OKAY (/1/)
+_Okay
+;
+MSG_GAD_CANCEL (/1/)
+Cancel
+;
+MSG_TITLE_CHANGEPUBSCREEN (/1/)
+Change PubScreen
+;
+MSG_THANKS (/1/)
+Thanks
+;
+MSG_THANKSEXECUTE (/1/)
+Execute|Thanks
+;
+MSG_NOTSUPPORTED (/1/)
+isn't supported, yet
+;
+MSG_NOTPOSSIBLE (/1/)
+not possible...
+;
+MSG_NONE (/1/)
+-- none --
+;
+MSG_CREATIONDATE (/1/)
+Creation Date:
+;
+MSG_CREATIONDATE2 (/1/)
+              
+;
+MSG_SIZE (/1/)
+         Size:
+;
+MSG_BLOCKS (/1/)
+       Blocks:
+;
+MSG_ATTRIBUTES (/1/)
+   Attributes:
+;
+MSG_FILETYP (/1/)
+      Filetyp:
+;
+MSG_COMMENT (/1/)
+      Comment:
+;
+MSG_TEXT_WHATAREYOU (/1/)
+What are you planing to do?
+;
+MSG_SEARCHING (/1/)
+Searching...
+;
+MSG_MAIN_MENUITEM_SELECTSEARCHAREA (/1/)
+A_Select Search Area...
+;
+MSG_MAIN_MENUITEM_SELECTCOMMAND (/1/)
+S_Select Command...
+;
+MSG_MAIN_MENUITEM_SELECTLFORMAT (/1/)
+L_Select LFormat...
+;
+MSG_MAIN_TEXT_FINDNOTFOUND (/1/)
+couldn't found. Please check your configuration.
+;
+MSG_MAIN_EXECUTE (/1/)
+E_xecute
+;
+MSG_MAIN_EXECUTEHELP (/1/)
+Execute one of the matching files.
+;
+MSG_MAIN_MENUITEM_SAVEFILELIST (/1/)
+Save file list as
+;
+MSG_SUB_MENUITEM_FULLPATH (/1/)
+1_Full path names...
+;
+MSG_SUB_MENUITEM_FILENAME (/1/)
+2_File names only...
+;
+MSG_REQ_SELECTSAVEFILE (/1/)
+Save full path names
+;
+MSG_REQ_SELECTSAVEFILE2 (/1/)
+Save filenames only
+;
+MSG_REQ_DESTFILEEXISTS (/1/)
+Destination file already exists, do you\nstill want to save the file list?
+;
+MSG_REQ_OVERRIDE (/1/)
+Override file
+;
+MSG_REQ_APPEND (/1/)
+Append file
+;
+MSG_REQ_ABORT (/1/)
+Abort
+;

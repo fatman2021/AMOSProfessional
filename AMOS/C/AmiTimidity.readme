@@ -1,0 +1,26 @@
+Short:    Timidity68k/PPC GUS patches - Plays MIDI files without additional hardware
+Author:   Giorgio Signori, Holger Jakob, Philipp Grosswiler
+Uploader: yurex@tin.it (Giorgio Signori)
+Type:     mus/midi
+
+Here you will find a FULL Timidity archive, ready  to be
+unpacked and used in PPC and 68k  versions. Please  note
+that I'm NOT the author of the port of Timidity, the PPC
+version is ported by Holger Jakob, the 68k one  is  done
+by Philipp Grosswiler. What I did  was  downloading  the
+great patches collected by Eric A. Welsh and adapted the
+config files to be used on Amiga versions.
+
+There are also some MIDI2WAV ready-to-go scripts done by
+me, to make life easier :-)
+
+I decided to upload the whole archive because it has been
+really difficult to set  up  the  configuration  and  the
+files so I thought it could be useful for the Amigans all
+over the world.
+
+I have set up this set of GUS patches because  they sound
+really well, the quality is comparable to a good hardware
+player, and overall the sound is quite realistic.
+
+Timidity is distribuited under GNU Public License.

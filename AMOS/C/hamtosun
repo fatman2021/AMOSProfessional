@@ -1,0 +1,9 @@
+#! /bin/csh
+
+iff2sun -cp $1 $1.out
+convert $1.out $1.pic
+rasfilter8to1 -d $1.pic | screenload -g
+/bin/rm $1.outSHAR_EOF
+cho "End of archive 1 (of 1)"
+ if you want to concatenate archives, remove anything after this line
+xit

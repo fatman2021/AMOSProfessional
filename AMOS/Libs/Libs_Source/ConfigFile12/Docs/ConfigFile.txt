@@ -1,0 +1,361 @@
+#############################################################################
+
+                            ConfigFile  Library
+
+                                Release 1.2
+
+                   Copyright © 1996-1997 by Marcel Karas,
+                            All rights reserved.
+
+#############################################################################
+
+1. GENERAL INFORMATION
+
+   1.1  Introduction ...................................What is ConfigFile
+   1.2  Features ......................................ConfigFile Features
+   1.3  Requirements .....................................What do you need
+   1.4  Installation ....................................Where to put what
+   1.5  Important changes ..............................For V1 programmers
+
+2. PROGRAMMERS INFORMATION
+
+   2.1  Examples ....................................How to use ConfigFile
+   2.2  ASCII format ........................................Simple format
+   2.3  SHORT format ..........................................Fast format
+   2.4  ASCII vs. SHORT ...................................What is better?
+
+3. USERS INFORMATION
+
+   3.1  Tools ..................................Small Tools for ConfigFile
+
+4. LEGAL STUFF
+
+   4.1  FreeWare ...............................................What else!
+   4.2  Copyright ......................................About legal issues
+   4.3  Disclaimer .........................................No Warrentries
+   4.4  Distribution ...........................Distribution of ConfigFile
+
+A. APPENDIX
+
+   A.1  Future plans ...................................What I have planed
+   A.2  The Author ................................How to reach the Author
+   A.3  Updates ........................................How to get Updates
+   A.4  History .............................The History of the ConfigFile
+   A.5  Index ..............................................Contents Index
+
+#############################################################################
+
+1.1 Introduction
+****************
+
+   The  ConfigFile.library,  a  system  to  make  accessing  config  files
+   particularly  easy.  The  format  of the files is like the from Windows
+   only with some extensions. The user can easy change the contents  of  a
+   file with a text editor. The programm that needs the files can easy use
+   the ConfigFile.library to handle.
+
+1.2 Features
+************
+
+   · Small Library
+
+   · Needs not many memory
+
+   · Very fast on a 68000 processor
+
+   · Easy API for programmer
+
+   · Special ARexx version
+
+1.3 Requirements
+****************
+
+   ConfigFile only requires Amiga operating system 2.0 or higher.
+
+1.4 Installation
+****************
+
+   Copy one of the library versions and the ARexx version to LIBS:.
+   That's all.
+
+   ConfigFile.library        - 1
+   ConfigFile.library.020    - 2
+
+   1. Compiled for 68000 processor.
+   2. Compiled for 68020/030/040/060 processors.
+
+1.5 Important changes
+*********************
+
+   Important changes since V2.19 for programmer: No important changes
+
+
+2.1 Examples
+************
+
+   Examples for the ConfigFile.library:
+
+   Read  - Reads a CF file and shows the contents.
+   Write - Writes a new CF file.
+   Count - Reads a CF file and count all nodes.
+
+2.2 ASCII format
+****************
+
+   The ASCII format is like the from Windows only with some extensions.
+   Example of a CF file:
+
+   CFFT        <- This must be in every CF file.
+
+   [ExampleGroup]     <- Start of a new group
+
+   ExampleArgument=YES,1245,%1011,"ExampleString" <- Argument with items
+   ExampleArgII    <- Arguments without items
+   ExampleArgIII=  <- This cause an error
+
+   [ExampleGroupII] <- End of the "ExampleGroup" and start of the a group
+
+   The declaration of new groups begins with "[" and ends with "]". For
+   example:
+
+   CFFT
+
+   [ ExampleGroup ]
+    ^            ^ This is okay
+
+   [ Example  Group ]
+            ^^ No spaces in the name
+
+   Arguments begins with the name. For example:
+
+   CFFT
+
+   [ExampleGroup]
+
+   ExampleArgument = ...      <-+
+     ExampleArgumentII        <-|
+   ExampleArgumentIII   = ... <-+- This is okay
+
+   ExampleArgument II = ...   <-+
+   Example  Argument          <-|
+   Example    Argument = ...  <-+- This cause an error
+
+   Items have following types:
+
+   String e.g. "The is a string"
+   Number e.g. 234623 for decimal or $DFABCD567 for hexdecimal or
+               %1110111 for binary
+   Bool e.g. TRUE, FALSE, YES, NO, ON, and OFF
+
+2.3 SHORT format
+****************
+
+   The SHORT format is not changeable with a text editor. If you  want  to
+   toggle   the   format   between   SHORT   and   ASCII,   you  must  use
+    ToggleFormat . If you open a file with cf_Open (...)  you  can  check
+   which format has the file. For example:
+
+   CFHeader *Header;
+   
+   if ( Header = cf_Open ("S:system.cfg", CF_OMODE_OLDFILE |
+      CF_OFLG_READ_TOO, 0) )
+   {
+      if ( Header->Flags & CF_HFLG_SHORT_FILE )
+         printf ("The open file is in SHORT format.\n");
+      else if ( Header->Flags & CF_HFLG_ASCII_FILE )
+         printf ("The open file is in ASCII format.\n");
+      else
+         printf ("The open file has an unknown CF format.\n");
+
+      cf_Close (Header);
+   }
+   else printf ("Couldn't open the CF file.\n");
+
+2.4 ASCII vs. SHORT
+*******************
+
+               ASCII         |          SHORT
+     ------------------------+------------------------
+      - Slower to reading    | - Faster to reading
+      - Greater files        | - Smaller files
+      - Changeable with a    | - Not changeable with a
+        text editor          |   text editor
+
+3.1 Tools
+*********
+
+   Usefully Tools:
+
+    ClearUpFile ........................................Clearups a CF file
+    ToggleFormat ..........................Changes the format of a CF file
+
+ClearUpFile
+***********
+
+   NAME
+        ClearUpFile -- Clearups a CF file.
+
+   SYNOPSIS
+        ClearUpFile ConfigFile/A.
+
+   FUNCTION
+        ClearUpFile clearups a CF file, it reads and writes the file new.
+
+   INPUTS
+        ConfigFile - The CF file to clearup.
+
+ToggleFormat
+************
+
+   NAME
+        ToggleFormat -- Changes the format of the CF file.
+
+   SYNOPSIS
+        ToggleFormat ConfigFile/A.
+
+   FUNCTION
+        ToggleFormat changes the format of the CF file between the
+         ASCII format  and the  SHORT format , it reads and write
+        the file new.
+
+   INPUTS
+        ConfigFile - CF Datei.
+
+   SEE ALSO
+         ASCII format ,  SHORT format 
+
+4.1 FreeWare
+************
+
+   ConfigFile may be freely distributed for  non-commercial  purposes,  as
+   long  as all the files in the original archive are present and have not
+   been modified in any way.
+
+4.2 Copyright
+*************
+
+   ConfigFile is written and copyright © 1996-1997  by  Marcel  Karas.  No
+   parts  of  this  program may be modified or recompiled to a new program
+   named ConfigFile. Ideas, techniques and the API from this  program  can
+   be freely adopted to other programs.
+
+4.3 Disclaimer
+**************
+
+   THERE IS NO WARRANTY FOR  THIS  PROGRAM  TO  THE  EXTENT  PERMITTED  BY
+   APPLICABLE  LAW. EXCEPT WHERE OTHERWISE STATED IN WRITING THE COPYRIGHT
+   HOLDER AND/OR  OTHER  PARTIES  PROVIDE  THE  PROGRAM  "AS  IS"  WITHOUT
+   WARRANTY  OF  ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT
+   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+   PARTICULAR  PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE
+   OF THE PROGRAM IS WITH YOU. SHOULD THE  PROGRAM  PROVE  DEFECTIVE,  YOU
+   ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+   IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO  IN  WRITING
+   WILL  ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY REDISTRIBUTE THE
+   PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY
+   GENERAL,  SPECIAL,  INCIDENTAL  OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+   THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT  LIMITED  TO
+   LOSS  OF  DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY
+   YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO  OPERATE  WITH  ANY
+   OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF
+   THE POSSIBILITY OF SUCH DAMAGES.
+
+4.4 Distribution
+****************
+
+   Neither fees may be charged nor profits may  be  made  by  distributing
+   this  piece  of  software. CD Manufactures are specifically granted the
+   right to include this program on CD collections, as long  as  they  are
+   for the Public Domain.
+
+A.1 Future plans
+****************
+
+   My future plans of the ConfigFile.library:
+
+   - New docs (My English is terrible 8-( )
+   - More examples
+   - New Itemtypes (Octal, Floating Points)
+   - Functions to add own Itemtypes to the library
+   - Fast memory-management
+   - Filesharing between different tasks
+
+A.2 The Author
+**************
+
+   Send comments, suggestions and (hopefully not) bug reports to:
+
+   Email:
+   
+   MKS@Allgaeu.org or
+   MKS@AG-Trek.Allgaeu.org
+
+   FidoNet:
+
+   Marcel Karas 2:2487/2982.39
+
+   Snail-Mail:
+
+   Marcel Karas
+   Str. d. Chemiearbeiter 47
+   06766 Wolfen Nord
+   Germany 
+
+A.3 Updates
+***********
+
+   The newest version of ConfigFile should  always  be  available  in  the
+   AG-Trek  (see below), on AmiNet or Public Domain collections, which are
+   up-to-date.
+
+Support BBS
+~~~~~~~~~~~
+
+   AG-Trek Bulletin Board System, Oberstaufen, Germany
+      _______________________    ____________________      ______  ____   __
+     /                      \\  /                   \\    /     \\|  ||  / \\
+    |   ___    ___   _____  //  \  __    __________  \\  /  ___  \|  || /  //
+    |  //  |  || |  ||    \//    \// |  ||   ___   \  \\/  //  \_/|  ||/  //
+____|  ||__|  ||_|  ||_____          |  ||  |  ||  /  //  //___   |  |/  //
+\   |  |   |  |  |  |     \\         |  ||  |  || /  //|      \\  |     //
+ \__|  |___|  |__|  |___   \\        |  ||  |  ||/  // |  ____//  |     \\
+    |  ||  |  || |  ||  |  ||        |  ||  |  ||\  \\ \  \\    _ |  |\  \\
+    |  ||  |  || |  ||__/  ||        |  ||  |  || \  \\ \  \\__/ \|  ||\  \\
+    |  ||  |  || |         ||        |  ||  |  ||  \  \\ \       /|  || \  \\
+    |  ||  |__|| |________//         |  ||  |__||   \__\\ \_____//|__||  \_//
+    |  ||                            |  ||                         SAVAGE`96
+    | //                             | //
+    |// Running on Prometheus 1.XX   |//  AMIGA 1200/30-50/34 MB, 3,7GB HD
+
+
+    Node 1 : +49-(0)8386 -   7862  USR Sportster V34/VFast    28.8k
+    Node 2 : +49-(0)8386 - 961150  USR Sportster VI V34+      33.6k 
+    Node 3 : +49-(0)8386 - 961151  Elsa Microlink ISDN/TL-V34 28.8.k/64.0k
+    Node 4 : +49-(0)8386 - 961152  Elsa Microlink ISDN/pro    64.0k  
+
+A.5 Index
+*********
+
+    ASCII format .............................................ASCII format
+    ASCII vs. SHORT .......................................ASCII vs. SHORT
+    ClearUpFile ...............................................ClearUpFile
+    Copyright ...................................................Copyright
+    Disclaimer .................................................Disclaimer
+    Distribution .............................................Distribution
+    Examples .....................................................Examples
+    Features .....................................................Features
+    File Format ...............................................File Format
+    Future plans .............................................Future plans
+    FreeWare .....................................................FreeWare
+    History .......................................................History
+    Important changes ...................................Important changes
+    Installation .............................................Installation
+    Introduction .............................................Introduction
+    Requirements .............................................Requirements
+    SHORT format .............................................SHORT format
+    Support BBS ...................................................Updates
+    The Author .................................................The Author
+    ToggleFormat .............................................ToggleFormat
+    Tools ...........................................................Tools
+    Updates .......................................................Updates

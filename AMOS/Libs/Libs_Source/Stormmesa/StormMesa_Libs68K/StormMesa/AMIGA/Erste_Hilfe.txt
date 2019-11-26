@@ -1,0 +1,231 @@
+Probleme und moegliche Loesungen
+--------------------------------
+
+Grundsaetzlich sollten sich viele Probleme durch Studium der
+Dokumentation zu StormMesa 3.x loesen lassen. Hier werden einige
+spezielle Probleme aufgegriffen.
+
+- Problem:
+  Viele StormMesa-Demos stuerzen ab.
+
+- Loesung:
+  Sehr oft liegt das an zu kleinem Stack. Man sollte ihn
+  auf 300KB setzen, dann sollten keine Probleme auftreten.
+
+  Falls PPC-Applikationen abstuerzen, waehrend die 68K-Versionen
+  korrekt laufen, kann das an einer unzureichenden WarpUp-
+  Installation liegen (z.B. eine falsche Einstellung der
+  Variable 'powerpc/terminator', welche normalerweise auf 2
+  gesetzt sein sollte). Bei Verwendung von CVPPC/BPPC-Grafikkarten
+  muessen zudem folgende Variablen wie folgt gesetzt werden:
+  powerpc/force 1
+  powerpc/gfxaddr $e0000000
+
+
+- Problem:
+  Woher soll ich wissen, ob das Demo die 3D-Hardware benuetzt?
+
+- Loesung:
+  Nach Eingabe der Zeile
+
+  setenv MESA/STATS 1
+
+  werden in der Shell statistische Daten ueber den Gebrauch von
+  3D-Hardware ausgegeben.
+
+
+- Problem:
+  Ich benuetze StormMesa im AGA-Modus und erhalte kaputte Grafik.
+
+- Loesung:
+  Da die Funktion 'WriteChunkyPixels' in OS 3.0 nicht enthalten ist
+  und die alternative Funktion 'WritePixelArray8' Probleme hat, ist
+  es notwendig, einen Patch zu installieren, wenn StormMesa 3.0 im
+  AGA-Modus und mit OS 3.0 laufengelassen wird. Der Patch befindet
+  sich im Verzeichnis 'mesa:AMIGA/misc/NewWPA8'. Das Executable
+  'NewWPA8' sollte nach C: kopiert werden, und in der startup-sequence
+  sollte direkte hinter dem SetPatch-Aufruf folgende Zeile eingegeben
+  werden:
+
+  C:NewWPA8
+
+
+- Problem:
+  Ich benuetze StormMesa unter CyberGFX und erhalte im Fullscreen-Modus
+  eine kaputte Grafik und danach ist oft die Workbench-Grafik
+  ueberschrieben.
+
+- Loesung:
+  Die installierte CyberGFX-Version hat einen Fehler im Zusammenhang
+  mit OS3.0-kompatiblem Multibuffering. Deswegen muss entweder eine
+  neuere Version von CyberGFX, welche das Problem loest, beschafft
+  werden, oder es kann auch das Grafiksystem Picasso96 installiert
+  werden.
+
+
+- Problem:
+  Ich benuetze StormMesa unter CyberGFX, nach dem Oeffnen eines Screens
+  im Fullscreen-Modus erscheint die Meldung 'Kann Kontext nicht oeffnen'.
+
+- Loesung:
+  Der Fullscreen-Modus funktioniert unter CyberGFX nur dann, wenn das
+  Monitor-Tooltype 'DRAGGING' auf NO gesetzt ist.
+
+
+- Problem:
+  Ich benuetze StormMesa mit einer CVPPC/BPPC-Grafikkarte. Der Permedia2
+  wird aber nie fuer das Zeichnen benuetzt.
+
+- Loesung:
+  Auch hier muss das Monitor-Tooltype DRAGGING auf NO gesetzt werden.
+  Zusaetzlich darf das 'Bitmap-Cache'-Feature von CyberGFX NICHT
+  deaktiviert sein.
+
+
+- Problem:
+  Ich moechte ein StormMesa-Demo im Fullscreen-Modus laufenlassen, um
+  zu sehen, wie schnell es 3D-hardwarebeschleunigt laeuft. Aber es laeuft
+  ueberhaupt nicht schneller.
+
+- Loesung:
+  Es gibt viele Gruende, warum 3D-Hardware-Beschleunigung nicht funktionieren
+  kann, eine grosse Anzahl davon ist in der StormMesa-Dokumentation
+  beschrieben.
+  Oftmals liegt es z.B. daran, dass die Hardware einen Effekt nicht gut
+  genug unterstuetzt, und dann wird nicht die Hardware zum Zeichnen
+  verwendet. Durch Eingabe der folgenden Kommandozeile
+
+  setenv MESA/FAST 1
+
+  koennen viele dieser Demos beschleunigt zum Laufen gebracht werden.
+  Ein anderer Grund koennte sein, dass der Screenmodus von der 3D-Hardware
+  nicht unterstuetzt ist, der Virge z.B. kann nur in 15-Bit-Modi
+  eingesetzt werden.
+
+
+- Problem:
+  Ich moechte ein Demo hardware-beschleunigt in einem Fenster laufenlassen,
+  aber es laeuft ueberhaupt nicht beschleunigt.
+
+- Loesung:
+  Unter CyberGFX V3 fuer CyberVision3D ist es nicht moeglich, Demos in
+  einem Fenster hardwarebeschleunigt laufenzulassen, weil dort neue
+  Bitmaps ueblicherweise nicht im Grafikspeicher angelegt werden.
+  Sobald das 3D-Treibersystem die speziellen Funktionen von CyberGFX V4
+  unterstuetzt, sollte dieses Problem geloest werden koennen.
+
+
+- Problem:
+  Ich moechte ein Demo hardware-beschleunigt in einem Fenster laufenlassen.
+  Aber schon wenn das Fenster nur wenig groesser gemacht wird, laeuft
+  das Demo extrem langsamer.
+
+- Loesung:
+  Vor allem bei 3D-Grafikkarten mit nur 4MB Grafikspeicher ist einfach
+  nicht genug Platz vorhanden, um solche Demos in grossen Fenstern
+  laufenzulassen, die Workbench belegt ja auch ziemlich viel Platz
+  (vor allem, weil sie in einem HiColor-Modus laufen muss). Bei
+  neueren Grafikkarten mit mehr Grafikspeicher sollte dieses Problem
+  nicht auftreten.
+
+
+- Problem:
+  Nach Beendigung eines Demos, das mit 3D-Hardware lief, ist die Workbench-
+  Grafik kaputt.
+
+- Loesung:
+  Unter Picasso96 sollte das ueblicherweise nicht auftreten, bei CyberGFX
+  passiert das immer dann, wenn die Puffer fuer die 3D-Hardware mit
+  anderen Bereichen im Grafikspeicher kollidieren (z.B. mit der
+  Workbench-Grafik). Hier hilft nur, die Workbench etwas kleiner
+  einzustellen und soviele Fenster wie moeglich zu schliessen, um
+  VRAM einzusparen. Zudem darf man die Demos nicht in zu hoher
+  Aufloesung laufenlassen.
+  Sobald das 3D-Treibersystem die speziellen Funktionen von CyberGFX V4
+  unterstuetzt, sollte dieses Problem geloest werden koennen.
+
+
+- Problem:
+  Wenn ich waehrend der Ausfuehrung eines Demos mit 3D-Hardware, irgendwas
+  anderes auf der Workbench mache, steht auf einmal das ganze System still.
+
+- Loesung:
+  Dieses Problem sollte nur beim Virge-3D-Prozessor auftreten, wenn waehrend
+  dem Zeichnen mit der 3D-Hardware Textausgaben gemacht werden. Leider
+  scheint das Problem nicht zu loesen sein, es wird vermutet, dass das
+  Problem beim Virge selber liegt. Grundsaetzlich sollten 3D-beschleunigte
+  Demos bei Verwendung des Virge immer ohne Unterbrechung durch andere
+  Einfluesse laufengelassen werden. Insbesondere sollte aller Blanker
+  deaktiviert werden und auch Hintergrundprozesse, welche Textausgaben
+  machen (die Uhr, welche GoldEd in der Titelleiste installiert, kann
+  ebenfalls schon zu diesem Problem fuehren).
+  Bei Verwendung von anderen 3D-Beschleunigern sollte dieses Problem
+  nicht auftreten.
+
+
+- Problem:
+  Wenn ich ein Demo mit Texturen laufenlassen will, erhalte ich nur
+  ein schwarzes Bild (dasselbe passiert auch beim Vergroessern eines
+  Fensters, wenn 3D-Hardware benuetzt wird).
+
+- Loesung:
+  Wegen einer fehlenden Funktion im 3D-Treibersystem kann StormMesa zur
+  Zeit nicht herausfinden, ob die Texturen im VRAM Platz gefunden haben,
+  also wird auch versucht zu zeichnen, obwohl es gar nicht gehen kann,
+  dadurch resultiert die schwarze Grafik.
+  In neueren Version des Treibersystems 'Warp3D' sollte diese Funktion
+  eingebaut werden und dann wird StormMesa entsprechend erweitert.
+
+
+- Problem:
+  Wenn ich ein StormMesa-Demo fuer den PPC mit HW-Beschleunigung
+  laufenlasse und parallel auf der Workbench arbeite, entsteht ein
+  totales grafisches Chaos auf dem Bildschirm.
+
+- Loesung:
+  Damit die 3D-Operationen keine Auswirkungen auf das restliche
+  System haben, muessen solche Operationen im 'gelockten' Zustand
+  durchgefuehrt werden, was mittels Funktionen von CyberGfx/Picasso96
+  durchgefuehrt wird. Dieses Locking funktioniert dann nicht fuer
+  PPC-Applikationen, wenn die CyberGfx-Variable 'CyberGfx/USESEMAPHORES'
+  auf 0 (oder gar nicht) gesetzt ist. Deswegen sollte diese Variable
+  auf 1 gesetzt werden.
+
+
+- Problem:
+  Die Performance von StormMesa im Zusammenhang mit Hardware-Beschleunigung
+  scheint etwas schwach zu sein.
+
+- Loesung:
+  Das kann daran liegen, dass ein falscher Locking-Modus eingestellt ist.
+  Wenn die Variable MESA/LOCKMODE auf 0 ist, wird indirekt gezeichnet,
+  was ziemlich langsam ist. Empfohlen wird die Einstellung dieser Variable
+  auf den Wert 3.
+  Wenn die Variable MESA/TRIPLE auf 0 gesetzt ist, wird kein Triple-
+  Buffering verwendet, was die Fullscreen-Performance erniedrigt. Triple-
+  Buffering macht aber nur Sinn mit Grafikkarten mit 8MB RAM oder mehr.
+
+
+- Problem:
+  Eine bestimmte Applikation friert reproduzierbar das ganze System ein,
+  waehrend alle anderen Applikationen laufen.
+
+- Loesung:
+  Erstmal kann es natuerlich sein, dass der Fehler bei der Applikation
+  liegt. Allerdings kann es sein, dass sich Applikationen nicht mit
+  verschiedenen Locking-Modi vertragen. In dem Fall sollte der Locking-
+  Modus wieder auf 0 gesetzt werden (setenv mesa/lockmode 0).
+
+
+- Problem:
+  Hie und da flackern seltsame falsche Pixel auf, selbst wenn sich die
+  Szene nicht bewegt.
+
+- Loesung:
+  Dieses Phaenomen kann bei CVPPC/BPPC-Grafikkarten auftreten, deren
+  Grund konnte bisher nicht nachvollzogen werden. Es scheint sich um
+  ein Problem des GrafikSpeichers zu handeln (da immer dasselbe Bit
+  in einer 64-Bit-Einheit kaputtgehen kann), welches aber erst nach
+  Eintreten von bestimmten, noch ungeklaerten Ereignissen auftritt.
+  Wenn solche Effekte eintreten, hilft oft ein Reboot der Maschine.
+

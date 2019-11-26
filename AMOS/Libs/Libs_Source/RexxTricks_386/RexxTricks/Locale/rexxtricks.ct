@@ -1,0 +1,68 @@
+## version $VER: XX.catalog XX.XX (XX.XX.XX)
+## codeset X
+## language X
+;
+MSG_VIEWLIST_TITLE
+
+; RexxTricks Listview-Fenster
+;
+MSG_VIEWLIST_POSTEXT
+
+; _Benutzen
+;
+MSG_VIEWLIST_NEGTEXT
+
+; _Abbrechen
+;
+MSG_VIEWLIST_GAD_ALL
+
+; All_e
+;
+MSG_VIEWLIST_GAD_NONE
+
+; _Keine
+;
+MSG_VIEWLIST_GAD_SEARCH
+
+; _Suchen
+;
+MSG_VIEWLIST_GAD_PATTERN
+
+; Nach _Muster
+;
+MSG_VIEWLIST_GAD_TOGGLE
+
+; _Umschalten
+;
+MSG_UUDECODE_CANNOT_OPEN_FILE
+
+; Kann die Datei "%s" nicht öffnen
+;
+MSG_UUDECODE_CANNOT_INCLUDE_FILE
+
+; Falsche oder fehlende Include-Datei "%s"
+;
+MSG_UUDECODE_BEGIN_NOT_FOUND
+
+; Keine "begin" Zeile gefunden
+;
+MSG_UUDECODE_BAD_CHECKSUM
+
+; Falsche Checksumme in "%s" Zeile %ld
+;
+MSG_UUDECODE_READ_ERROR
+
+; Fehler beim Lesen aus der Datei "%s"
+;
+MSG_UUDECODE_WRITE_ERROR
+
+; Fehler beim Schreiben in die Datei "%s"
+;
+MSG_UUDECODE_BAD_SIZE
+
+; Länge der Datei "%s" stimmt nicht mit "size %ld" überein
+;
+MSG_UUDECODE_EOF
+
+; Vorzeitiges Ende der Datei "%s"
+;

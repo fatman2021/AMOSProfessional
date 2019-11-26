@@ -1,0 +1,10 @@
+##base _BoardsBase
+##bias 30
+##public
+GetBoardName(ManuName,ProdName,Configdev,ManuID,ProdID)(a0,a1,a2,d0,d1)
+AllocBoardInfo(BoardInfoFlags)(d0)
+NextBoardInfo(BoardInfo,Configdev)(a0,a1)
+FreeBoardInfo(BoardInfo)(a0)
+##private
+BoardsPrivate1()()
+##end

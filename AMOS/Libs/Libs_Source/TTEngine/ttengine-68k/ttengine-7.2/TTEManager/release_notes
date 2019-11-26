@@ -1,0 +1,21 @@
+v1.2 (08.01.2005)
+
+  - Added global settings for cache size and global gamma.
+  - Fixed deadlock when redrawing font settings window after depth arranging.
+    This deadlock happened at least on MorphOS systems (probably classic systems
+    were affected too if in smart refresh mode).
+  - Monospaced fonts are marked as such automatically in the database.
+
+v1.1a
+
+  - Added translations: Polish (by me), French (by Jerome Chesnot), Hungarian
+    (by Márton Dósa) and German (by Dieter Beck).
+
+v1.1 (05.01.2003)
+
+  - TTManager now reads and writes CACHELIMIT parameter in ttengine.database (no
+    GUI for editing yet, you should edit it by hand for now). See TTEngine 6.0
+    release_notes for detalis about limiting cache size. Default cache limit is
+    512 kB. You can change it using a texteditor, TTManager will preserve the
+    value.
+

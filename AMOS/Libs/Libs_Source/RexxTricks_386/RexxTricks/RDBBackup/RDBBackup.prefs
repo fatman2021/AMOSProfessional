@@ -1,0 +1,5 @@
+/* RDBBackup.prefs */
+
+pubscreen = "Workbench"
+backupdir = "RDB"
+device    = "scsi.device"

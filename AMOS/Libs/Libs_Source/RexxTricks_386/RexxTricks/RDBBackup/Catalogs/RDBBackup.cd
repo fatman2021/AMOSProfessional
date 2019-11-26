@@ -1,0 +1,105 @@
+#language english
+#version 1
+;
+; $VER: RDBBackup.cd 1.0 (7.1.96)
+;
+; RDBBackup V1.0 (catalog description file)
+;
+; © 1996 Jürgen Kohrmeyer
+;
+MSG_FRAMEBOX_PREFS (0/1/)
+Prefs
+;
+MSG_GAD_PUBSCREEN (/1/)
+_Public screen
+;
+MSG_GAD_BACKUP_DIR (/1/)
+_Backup directory
+;
+MSG_GAD_SCSI_DEVICE (/1/)
+SCSI _device
+;
+MSG_FRAMEBOX_UNITS (/1/)
+SCSI units
+;
+MSG_GAD_UPDATE (/1/)
+_Update list
+;
+MSG_GAD_BACKUP (/1/)
+Backup RDB
+;
+MSG_GAD_RESTORE (/1/)
+Restore RDB
+;
+MSG_GAD_ABOUT (/1/)
+_About
+;
+MSG_GAD_SAVE_PREFS (/1/)
+_Save prefs
+;
+MSG_GAD_QUIT (/1/)
+_Quit
+;
+MSG_GAD_USE (/1/)
+_Use
+;
+MSG_GAD_OKAY (/1/)
+_Okay
+;
+MSG_GAD_CANCEL (/1/)
+_Cancel
+;
+MSG_DEVICEWINDOW_TITLE (/1/)
+Select device
+;
+MSG_SCREENWINDOW_TITLE (/1/)
+Select public screen
+;
+MSG_REQUEST_BACKUP_DIR (/1/)
+Select backup directory
+;
+MSG_REQUEST_ALREADY_EXISTS (/1/)
+already exists!
+;
+MSG_REQUEST_REPLACE_FILE (/1/)
+Replace this file?
+;
+MSG_REQUEST_GADS_REPLACE (/1/)
+Replace|_Cancel
+;
+MSG_REQUEST_BACKUP_FAILED (/1/)
+Backup failed returncode
+;
+MSG_REQUEST_RESTORE_FROM_FILE (/1/)
+Restore from file
+;
+MSG_REQUEST_RESTORE_ASK (/1/)
+Do you really want to restore this RDB?
+;
+MSG_REQUEST_GADS_RESTORE (/1/)
+Restore|_Cancel
+;
+MSG_REQUEST_RESTORE_FAILED (/1/)
+Restore failed returncode
+;
+MSG_REQUEST_GAD_USE (/1/)
+Use
+;
+MSG_ABOUTWINDOW_TITLE (/1/)
+About RDBBackup
+;
+MSG_ABOUTWINDOW_APP_USES (/1/)
+This application uses:
+;
+ERROR_CANNOT_OPEN_FILE (/1/)
+Cannot open file
+;
+ERROR_CANNOT_READ_FILE (/1/)
+Error reading file
+;
+ERROR_CANNOT_CREATE_APP (/1/)
+Cannot create Application!
+;
+ERROR_CANNOT_OPEN_WINDOW (/1/)
+Cannot open window!
+;

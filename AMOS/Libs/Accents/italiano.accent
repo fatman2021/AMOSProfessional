@@ -1,0 +1,124 @@
+# Italian pronounciation rules for translator.library V42
+# $VER: italiano.accent 1.0 (1.4.95)
+# By Francesco Devitt <ffranc@comp.vuw.ac.nz>
+#
+
+%class ie  i e
+%class digit 0 1 2 3 4 5 6 7 8 9
+
+# Stress the penultimate syllable.
+
+%stress -2
+%emphasis 6
+
+[A] = AH
+[À] = AH6`
+
+[B] = B
+
+[COMPUTER] = {\english computer}
+
+[CC](ie) = CH
+[C](ie) = CH
+[CHIA] = KYAHAH
+[CH](ie) = K
+[C] = K
+
+[D] = D
+
+$[E]$ = EH4
+[E] = EH
+[È] = EH4`
+
+[F] = F
+
+[GG](ie) = JJ
+[G](ie) = J
+[GH](ie) = G
+[G] = G
+
+[H] = 
+
+[I] = IY
+[Ì] = IY4`
+
+[J] = J
+[K] = K
+
+[L] = L
+
+[M] = M
+
+[N] = N
+
+[O] = AO
+[Ò] = AO4`
+
+[P] = P
+
+[QU] = KW
+[Q] = K
+
+[R] = DXR
+
+[S] = S
+
+[T] = TT
+
+[UO] = WHAO
+[U] = UW
+[Ù] = UW4`
+
+[V] = V
+
+[W] = WH
+
+[X] = KS
+
+[Y] = Y
+
+[Z] = Z
+
+$[0]$ = { zero }
+[1]$ = { uno }
+[2]$ = { due }
+[3]$ = { tre }
+[4]$ = { quattro }
+[5]$ = { cinque }
+[6]$ = { sei }
+[7]$ = { sette }
+[8]$ = { otto }
+[9]$ = { nove }
+[10]$ = { diece }
+[11]$ = { undiece }
+[12]$ = { dodiece }
+[13]$ = { trediece }
+[14]$ = { quartodiece }
+[15]$ = { cuindiece }
+[16]$ = { sedice }
+[17]$ = { dieca sette }
+[18]$ = { dicotto }
+[19]$ = { dieca nove }
+
+[2](digit)$ = { venti }
+[21]$ = { ventuno }
+[28]$ = { ventotto }
+
+
+[ "\ " ] = " "
+
+[.]$ = .
+[.] = " "
+[%] = .
+[:] = ". "
+[;] = .
+[?] = ?
+[ "\(" ] = ,
+[ "\)" ] = ,
+[\\] = " "
+[ "\[" ] = " "
+[{] = " "
+[}] = " "
+[_] = " "
+[`] = " "
+[ "]" ] = " "

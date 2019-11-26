@@ -1,0 +1,17 @@
+#
+# DMakefile  V2.2
+#
+# Makefile for wbstart.library C examples
+#
+#  WBStarter - Use wbstart.library from shell
+#
+# (c) 1991-1996 Stefan Becker
+#
+
+FLAGS = -3.1 -mRR -mi -ms -r -proto -I /include -L /dlib
+LIBS  = -lwbstart
+
+all : WBStarter
+
+WBStarter : WBStarter.c
+      dcc $(FLAGS) -o %(left) %(right) $(LIBS)

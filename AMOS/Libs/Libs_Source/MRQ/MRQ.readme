@@ -1,0 +1,36 @@
+Short:    The MUI requester improver, now OpenSource
+Author:   Matthias.Bethke@gmx.net
+Uploader: Matthias.Bethke@gmx.net
+Type:     util/cdity
+Version:  2.1
+Requires: MUI 3.8, Guigfx.mcc, guigfx.library, render.library
+Recommended: wbstart.library, TransferAnim.mcc
+
+If you like ARQ's functionality but find it a little old-fashioned,
+have a look at this! It's a MUIfied rewrite with similar features
+(new imagery, ARexx support, keyboard control etc.) and lots of new ones.
+
+NOTE: also get Guigfx.mcc from
+http://www.linguistik.uni-erlangen.de/~msbethke/software.html
+or from Aminet if you had NewImage.mcc installed before!
+
+Changes since last release:
+
+ - Bugfix: there was a little memory leak when
+   showing confirmation-only requesters
+ - New: added SINGLE_IS_OK tooltype
+   (with corresponding update to the installer
+   script)
+ - New: added some words to the IBUTTONSBYTEXT
+   tooltype, to recognize Portuguese and some more
+   German
+ - New: some more warnings in debug mode when
+   loading imagebuttons.
+ - Internal: Structured the button creation functions
+   a little better. They should really go into their
+   own MUI class...
+ - Internal: now using a custom reentrant strtok()
+   function
+ - MRQ is now OpenSource. Maybe it should be called
+   OpenMess though...at least the source has some
+   documentation :-)

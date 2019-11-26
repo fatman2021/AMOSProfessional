@@ -1,0 +1,23 @@
+DBOX:
+	Handler = Devs:Cloud/dropbox-handler.68k
+	Stacksize = 4096
+	Priority = 5
+	GlobVec = -1
+	Activate = 0 
+# 
+
+GOOGLE:
+	Handler = Devs:Cloud/google-drive-handler.68k
+	Stacksize = 4096
+	Priority = 5
+	GlobVec = -1
+	Activate = 0 
+#
+
+GCPRINT:
+	Handler = Devs:Cloud/google-cloud-print-handler.68k
+	Stacksize = 4096
+	Priority = 5
+	GlobVec = -1
+	Activate = 0 
+#

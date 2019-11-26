@@ -1,0 +1,364 @@
+Short:        open source gui-library in/for assembler
+Author:       Andreas G. Szabo
+Uploader:     silva@psi5.com (Andreas G. Szabo)
+Type:         dev/gui
+Version:      beta 4
+Requires:     amigaos 3.0+ or 4.0+ or morphos 2.4+
+Architecture: m68k-amigaos >= 3.0.0
+
+
+
+This is OX, the Open eXternal user interfaces library with SOURCES / INCLUDES.
+
+        First of all please watch a screenshot:
+        http://www.majorchaos.de/xuibig.jpg
+
+Then all you need to do for a quick try is to unpack the archive, then
+
+        PUT libs/oxmaster.library INTO libs:
+
+and start the Info & Config app "oxlibinfo". You can play with it to see what
+OX can do and what options you can configure (also useful to see what is new).
+
+If the program does not start or displays some error message, please follow the
+steps described under INSTALLATION below.
+
+As annother example I added "oxfilter", a windowed disassembler and monitor,
+but please see the file oxfilter.readme for this if you are interested.
+
+
+             README CONTENTS
+
+             - WHAT IS OX
+             - REQUIREMENTS
+             - INSTALLATION
+             - HOW TO ASSEMBLE
+             - KNOWN BUGS
+             - HISTORY
+             - CREDITS
+             - DISCLAIMER
+
+
+WHAT IS OX
+
+	- OX (Open XUI) is an opens source object oriented font and window
+	  size sensitive GUI-Engine with huge user control over its look.
+
+	- OX is NOT written in C/++.
+	- OX is NOT better than MUI.
+
+	- OX is FREE and OPEN SOURCE (donations welcome)
+	- OX can run on ALL Amiga and compatibles.
+	- OX is 100% coded in m68000 assembler.
+	- OX is ready to be used by programs written in m680x0 assembler
+
+Q: Why 68k asm?
+A: Why not, the user cannot see a difference. Its fast an runs on all Amigas.
+
+Q: Why annother GUI?
+A: Writing a GUI is THE "Hello World" on Amiga. Every Coder once must do it.
+
+This is a betaversion. Please report bugs and opinions with debug info by
+enforcer, grim, etc. please report to silva@psi5.com.
+
+This piece of software is FREE. It may NOT be used in commercial projects w/o
+my written permission.
+
+If you feel like it, you can/may (but not needed!) donate me some on my OX
+Homepage: http://www.psi5.com/~silva/afilter/
+
+I made OX open source to attract developers.
+
+
+
+REQUIREMENTS
+
+You need Amiga OS starting from v3.0 and a classic or PPC Amiga or UAE. OX
+runs very fast and smooth on SAM and Pegasos under Morphos or Amiga OS without
+problems. I am testing OX on Efika once in a while where it is not so fast.
+
+To see all of the window of the ox preferences program you need a resolution
+of at least hires interlace.
+
+To see the skins you need a jpg datatype, but on low-color or slow systems it
+is recommended to turn off background images (see INSTALLATION section).
+
+For full fun and features you need os3.9 or better, a fast processor and a
+gfxcard or emulation of all. I develope OX in UAE under Ubuntu, where I can
+edit the source on the linux side with gedit. This editor stays open when the
+emulation crashes, no need to save everything all the time and no need to
+wait for reboot in the case of a crash on the amiga side. :-)
+
+
+
+INSTALLATION
+
+If you have a beta 2 (2010-04-12) or earlier version of OX installed it is a
+must that you run the "uninstall old version" script before proceeding. You
+cannot upgrade and you cannot keep your config this time. Save your skin(s) if
+they are in the default path (sys:prefs/presets/ox/) before running this.
+
+To install OX just doubleclick the "install" icon. If you want to try OX
+before installing it, just copy the "oxmaster.library" to LIBS: by hand and
+start "oxlibinfo". In some cases copying the library is not needed because it
+will be loaded from PROGDIR:libs/. However this does not work on all OSes. If
+the un/installer fails or you want to do the installation by hand, then delete
+all in the directory libs:ox and then copy these files to their destinations:
+
+  oxlibinfo			-> config app to sys:prefs/
+  oxlibinfo.info		-> config app icon to sys:prefs/
+  libs/oxmaster.library	-> libs:
+  libs/ox/#?			-> libs:ox/
+  presets/ox/images/#?		-> sys:prefs/presets/ox/images
+
+You can configure the image path with the "oxlibinfo" tool. In this case
+copy the images to where you want to have them. 
+
+If you have a slow amiga or no gfxcard you can turn off the backfill images
+in oxlibinfo: click "preferences" tab, open "images" folder and click on
+"usebgimages", then deactivate the checkbox in the upper right of the window
+and then click on "save".
+
+You can allways run the "uninstall" script to clean your system from OX.
+
+
+
+HOW TO ASSEMBLE
+
+0. make sure that OX is installed
+
+1. get "phxass" from aminet and put it into c:
+2. make sure that you have an assign "INCLUDE:" to the path of the OS .i files
+3. unpack the openxui archive to a directory and cd to the source dir there
+4. execute the file "asmlib.bat" or "asmlibinfo.bat"
+5. library or oxlibinfo have been assembled into the source dir
+6. make sure the classes are all istalled in libs:ox/
+7. copy oxmaster.library to libs: and start oxlibinfo
+
+
+KNOWN BUGS
+
+- clicking or resizing the colorwheel under os 3.1 (and probably 3.0) causes
+  strange behavior: colorwheel dissappears and window cannot longer be resized
+- drawn lines missing pixels at start/end under morphos
+- grabpoint of mouse in slider sometimes out of correct pos
+- displacement of gradientslider under os3.0 (actually a bug in amiga os 3.0
+  that seems to occur in gimmezerozero windows)
+- depending on the installed datatype the jpg background/images could look bad
+  when remapped to fewer colors. for me it sometimes helped here to save the
+  jpg images with a lower quality, e.g. 90% only
+
+
+
+HISTORY
+
+5/2010
+
+release beta 4
+
+- fixed false bg color in icons (checkmark and radiobutton affected)
+
+4/2010
+
+release beta 3
+
+- added 4color mode for class specific pens
+- fixed icon display crash under morphos (could be seen as a bug in morphos)
+- made icons transparent even under os3.0 and 3.1 by using as blit mask
+- changed all symbols in the sources and includes from XUI to OX, changed also
+  all filenames and directories from xui.. to ox.. (= oxmaster.library)
+- fixed a little bug with listview and slider that caused both to hang when
+  user clicked above the knob in the slider container
+- now refreshing boopsi gadgets (yet only the colorwheel) by direct calling
+  GM_RENDER, so they are drawn in the off-rastport when doublebuffer is on
+  and not on top of the rest as it was before
+- replaced check and radio image by icons, have now transparent background
+- can now configure separately the presets path and then the subdir for the
+  skins or symbols ... each file name or path may be absolute or relative
+- added custom windowsizing gadget that places itself IN the window and not in
+  a fattened bottom (or right) border
+- added support for icons as symbols in gadgets
+- added mode for frame- and field-gadgets to inherit background style of parent
+  object, i.e. window or a tab (OXM_INHERIT)
+- added class specific colors configuration
+- added class specific config (env:ox/classes/<class name>/<variable name>)
+
+release beta 2
+
+- added install and uninstall scripts
+- fixed bug that produced yellow guru when loading images from imagepath
+- added custom object creation, e.g. for to be used with custom classes
+- custom classes defined from an ox-user-program are now really private to it
+- external classes now defined by taglist (was a static header structure)
+- some internal modifications
+- more little bugfixes
+- built in folders/subfolders into listview gadget
+
+3/2010
+
+- wrote new class: popup-menu
+- rewrote string input class as "newstring", now 100% ok (version 1.0)
+- some bugfixes in some classes, new features, made new listview ok
+
+12/2009
+
+- made listview new and now with much better look, titles, up to 8 columns
+  and soft scrolling (Thanx to Thomas Richter for Soft-Scroll-Algo)
+
+11/2009
+
+- fixed problem with slider class, grab point was in relation was to the
+  container, not to the actual mosue pos
+- reimplemented filerequester (alpha demo)
+- added "buffer" object to hold variables that are local to a branch of
+  objects, the buffer is accessed through xuiO_userbase. a buffer object may
+  have only one member and that is usually a group or annother single object.
+  the buffer object passes methods, e.g. OXM_GETLAYOUT, 1:1 to his member
+- added word-wrap and style and color changes to textfield gadget
+- xuilibinfo: built in asl file requester to select backfill images or path
+- window minsize may now be smaller than window size at opening a window
+- made the skins path configurable and able to read images from progdir when
+  not installed so that user can test xui without installing the images
+- very optimized image-fill rountine so that the size of button, slider and
+  gauge image could be drastically reduced. because of this xui will now
+  load much faster on slow machines
+- fixed division by zero guru when list had as many entrys as fit in view
+  and slider is dragged
+- added mini-grim guru handler to the xui default startup-code that gives a
+  little debug info on crashes and that can let the program exit safe and
+  with freeing all resources
+
+10/2009
+
+- fixed strange doslibrary crash under 4.1 when quiting (startupcode reworked)
+- built in nicer default colors
+- cleaned up the .i file, added lots of comments to the _lib.i file,
+  made all tags lower case
+- added smooth redraw of progress-bar, no more flashing
+- added demo-application "xuifilter" (a ripper, moitor and file scanner)
+- a lot of internal changes that you cant see as a user, xui can now
+  load external classes without requiring the app to open them
+- added ability to add an remove program-internal classes from a program
+- doublebuffering now needs only the mem that is really needed for the size
+  of the window (prior to this allways a full screen bitmap was allocated)
+- minor changes, some new code here and there
+
+9/2009
+
+- added ability to configure background images 
+- fixed crash on quiting that happened under morphos
+- changed case of "xui" in attribute names to lower
+- fixed crash on icon drawing when selecting "icon" in xuilibinfo classes list
+- fixed bug that caused app to crash on quitting under os4
+- sorted files in the distributin archive, unpacks now to new directories 
+- added missing code in vertical layout class
+- added option to turn off any images execept backgrounds. this speeds up load
+  time on classic amigas very much if the gui uses images for whatever (for
+  example the big XUI-logo). backgrounds can be turned off with an extra
+  option which you will find in the congig list of the "xuilibinfo" app.
+  for speedup of course the backgrounds must be also turned off.
+- fixed image displace in the image editors image dropbox that occured when
+  window was resized
+- fixed bug that did set wrong value to the "red" input gadget when the
+  "green" is edited
+- fixed bug that caused something in the color-editor not to be refreshed on
+  change
+- workaround in OS 3.0 for nothing was updated when colorwheel knob is moved
+- fixed bug that caused crash on pressing "test" in the config-panel
+- fixed bug that caused colorwheel to be drawn twice each change
+- fixed displacement of colorwheel under os3.0/3.1
+- added quick pixel-size check for png, gif, iff and bmp images
+- added custom (not by datatypes) QUICK pixel-size check for jpg images, now
+  app launsches really fast even on classic amigas (datatypes need to
+  process the whole image before they can tell us the sizes!)
+- fixed logo looking bad on low color amiga systems, reason was the logo had
+  too many colors. now logo saved as jpg with 10% crunch and now it has lesser
+  colors and look nice even on 32 colors (if these colors are not allocated
+  allready and with colors very different from the grayscale in the logo)
+- added support for icon.library v39 icons (icon class still makes crashes on
+  all amiga except e/uae, see known bugs)
+- improved slider-to-value connection, value now rounded up/down for better
+  distribution of the values on the slider path 
+- fixed bug that caused right "usebgimages" options in "config" tab to not be
+  erased before drawn anew (occured after clicking OFF)
+- fixed bug that caused some images to be loaded twice, now startup is faster
+- fixed bitplane-depth bug that let xui crash on original amiga w/o gfxcard
+- currently removed icon-class as icon.library version required is bigger than
+  3.0 / 3.1 and xui should run on 3.0+ systems (crash reported by APC74)
+
+8/2009
+
+- removed "edit" button because now all edits are done from the config-tab
+- decided to maybe make xui open source in the near future 
+- worked on images-config
+- changed internal behavior in some places
+- added icon drag-and-drop functionality (appwindow)
+- added flipped sliders with max pos in opposite direction
+- added connect class and slider-string-gauge connection
+- added double buffering for draw, now really soft!
+- added os4.1 opaque resize compatibility
+- added image fill backgrounds
+- fixed bugs
+
+7/2009
+
+- fixed nasty bugs
+- added configuration engine
+- added color engine
+- added door to boopsi colorwheel and gradientslider class
+
+older changes
+
+- added tabs gadget
+- added button-editor
+- added pages-gadget
+- added radiobuttons and checkmarks classes
+- fixed "i want to grow" messages for title, label and string classes
+- bugfixed frame and field classes
+- added filerequester class alpha, yet not really working but looks great
+- several tests by Simone Bevilacqua showed that it works 99% on Amiga OS 4,
+  reported some bugs in the hotkey/button/inputfield-activation subsystem
+- added xuilibinfo tool to list classes with examples
+  and show version info
+- fixed multiple accesses to addr null at startup,
+  reported by stellan pistoor
+- added support for external classes (this is what this lib is made for)
+
+
+
+CREDITS
+
+Icons by Martin MASON März, http://www.masonicons.de/
+
+OS3x testing and bugreports by APC74, Stellan Pistoor. Thank you for MuForce,
+MCP and Snoopdos. MORPHOS testing by Kai Koester. Thank you for Screenshots.
+
+Other testing: Simone Bevilacqua, Simon Archer, Tokai, Richard Wagenführer,
+Jocke Birging, Rainer Kraus, Lars Ouff, root131313, henes and Whose. All from
+#os4welt, #morphos and other Amiga chats and forums.
+
+List Sort Function: Fredrik Wikstrom
+ListView Soft-Scroll Algo: Thomas Richter
+
+Value to Dezimal String Function supplied (not written)
+by: Jolo @ amiga-news.de/forum/
+
+Help with off-bitmap drawing for double buffered soft refresh and
+several other techniques: DerWanderer, bernd_afa, Holger, Thomas Rapp,
+Thore from http://www.amiga-news.de/forum/.
+
+Good Help: some other people at http://www.amiga-news.de/forum/,
+utilitybase.com/forum and several other forums.
+
+
+
+DISCLAIMER
+
+OX IS PROVIDED "AS-IS" WITHOUT ANY WARRANTY. I CANNOT BE HELD LIABLE
+FOR ANY DAMAGE ARISING OUT OF THE (INABILITY OF MAKING) USE OF IT:
+USE AT YOUR OWN RISK.
+
+OX is freeware. It can be redistributed provided that the whole package is
+kept intact and that no charge is applied. (Any part of) it cannot be used
+publically and/or to make profit without written permission.
+

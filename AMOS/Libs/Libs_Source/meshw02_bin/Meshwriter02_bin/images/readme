@@ -1,0 +1,17 @@
+All vertices were optimized. If saved in a specific
+file format you will get more, never less than the numbers
+listed below.
+
+wave : 3721 vertices
+       3600 polygons
+
+ripples : 3661 v
+          3600 p
+
+landscape : 4225 v
+            4096 p
+
+shell (ammonite) : 1536 v
+                   2850 p
+
+All pictures were rendered with Reflections 4.

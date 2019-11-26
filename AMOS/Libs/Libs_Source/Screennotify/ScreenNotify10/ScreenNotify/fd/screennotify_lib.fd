@@ -1,0 +1,17 @@
+##base _ScreenNotifyBase
+##bias 30
+*
+* fd/screennotify_lib.fd
+*
+* Function definitions for screennotify.library
+*
+* $VER: screennotify_lib.fd 1.0 (26.03.95)
+*
+##public
+AddCloseScreenClient(screen,port,pri)(a0,a1,d0)
+RemCloseScreenClient(handle)(a0)
+AddPubScreenClient(port,pri)(a0,d0)
+RemPubScreenClient(handle)(a0)
+AddWorkbenchClient(port,pri)(a0,d0)
+RemWorkbenchClient(handle)(a0)
+##end

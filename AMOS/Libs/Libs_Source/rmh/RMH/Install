@@ -1,0 +1,207 @@
+; $VER: RMH_Install 21.0 (2.12.2002)
+
+(procedure P_SetMessages
+
+    (if (= "italiano" @language)
+        (
+            (set #WhatInstallPromptMsg          "Cosa vuoi installare?")
+            (set #WhatInstallHelpMsg            "Scegli cosa vuoi installare:\n\nLibrerie - le librerie di RMH\nUtilità - alcune programmi d'utilità\nDocumentazione - la documentazione RMH in formato AmigaGuide\nEsempi - alcune macro d'esempio")
+
+            (set #WhatInstallLibrariesMsg       "Librerie")
+            (set #WhatInstallUtilitiesMsg       "Utilità")
+            (set #WhatInstallDocumentationMsg   "Documentazione")
+            (set #WhatInstallExamplesMsg        "Esempi")
+
+            (set #AskLibsDirPromptMsg           "Scegli la directory dove installare le librerie")
+            (set #AskLibsDirHelpMsg             "Nella directory che sceglierai, saranno installate le librerie di RMH. La directory deve essere nell'assegnamento logico LIBS:")
+
+            (set #AskUtilitisDirPromptMsg       "Scegli la directory dove installare le utilità")
+            (set #AskUtilitiesDirHelpMsg        "Nella directory che sceglierai, saranno installate le utilità di RMH. La directory deve essere nella path.")
+
+            (set #AskGuideDirPromptMsg          "Scegli la directory dove installare la documentazione")
+            (set #AskGuideDirHelpMsg            "Nella directory che sceglierai, sarà installata la documentazione di RMH.")
+
+            (set #AskExamplesDirPromptMsg       "Scegli la directory dove installare gli esempi")
+            (set #AskExamplesDirHelpMsg         "Nella directory che sceglierai, saranno installate alcune macro d'esempio.")
+
+            (set #CopyingLibsMsg                "Sto copiando le librerie")
+            (set #CopyingUtilitiesMsg           "Sto copiando le utilità")
+            (set #CopyingGuideMsg               "Sto copiando la ducmentazione")
+            (set #CopyingExamplesMsg            "Sto copiando gli esempi")
+        )
+        (
+            (set #WhatInstallPromptMsg          "What do you want to install?")
+            (set #WhatInstallHelpMsg            "Choose what you want to install:\nLibraries - all the libraries needed by RMH to work\nUtilities - some little utilities, such as rxs, needed to call macros from inetd\nDocumentation - RMH documentation in AmigaGuide format\nExamples - RMH ARexx macros")
+
+            (set #WhatInstallLibrariesMsg       "Libraries")
+            (set #WhatInstallUtilitiesMsg       "Utilities")
+            (set #WhatInstallDocumentationMsg   "Documentation")
+            (set #WhatInstallExamplesMsg        "Examples")
+
+            (set #AskLibsDirPromptMsg           "Select the drawer where you want to install RMH libraries")
+            (set #AskLibsDirHelpMsg             "In the drawer you supply here, there will be installed RMH.library rxlibnet.library and rmh.library. This drawer MUST BE in your LIBS: assignment")
+
+            (set #AskUtilitisDirPromptMsg       "Select the drawer where you want to install some RMH little utilities.")
+            (set #AskUtilitiesDirHelpMsg        "In the drawer you supply here, there will be installed some little utilities such as rxs, needed to launch macro from inetd and rxhelp, needed to obtain RMH functions inline help. The best drawer to place them is C: ; anyway, it should be in your PATH")
+
+            (set #AskGuideDirPromptMsg          "Select the drawer where you want to install RMH documentation")
+            (set #AskGuideDirHelpMsg            "In the drawer you supply here, there will be installed the RMH documentation in AmigaGuide format")
+
+            (set #AskExamplesDirPromptMsg       "Select the drawer where you want to install RMH examples macro")
+            (set #AskExamplesDirHelpMsg         "In the drawer you supply here, there will be installed some RMH examples ARexx macros")
+
+            (set #CopyingLibsMsg                "Copying or Updating libraries")
+            (set #CopyingUtilitiesMsg           "Copying or Updating utilities")
+            (set #CopyingGuideMsg               "Copying documentation")
+            (set #CopyingExamplesMsg            "Copying examples")
+        )
+    )
+)
+
+(procedure P_ChooseWhatIstall
+    (set #WhatInstall (askoptions (prompt #WhatInstallPromptMsg)
+                                  (help #WhatInstallHelpMsg)
+                                  (choices #WhatInstallLibrariesMsg #WhatInstallUtilitiesMsg #WhatInstallDocumentationMsg   #WhatInstallExamplesMsg)
+                      )
+    )
+)
+
+(procedure P_AskLibsDir
+    (set #libsDir
+        (askdir
+            (prompt #AskLibsDirPromptMsg)
+            (help #AskLibsDirHelpMsg)
+            (default "LIBS:")
+        )
+    )
+)
+
+(procedure P_AskUtiliesDir
+    (set #utilitiesDir
+        (askdir
+            (prompt #AskUtilitisDirPromptMsg)
+            (help #AskUtilitiesDirHelpMsg)
+            (default "C:")
+        )
+    )
+)
+
+(procedure P_AskGuideDir
+    (set #guideDir
+        (askdir
+           (prompt #AskGuideDirPromptMsg)
+           (help #AskGuideDirHelpMsg)
+           (default "Ram:")
+        )
+    )
+)
+
+(procedure P_AskExamplesDir
+    (set #examplesDir
+        (askdir
+            (prompt #AskExamplesDirPromptMsg)
+            (help #AskExamplesDirHelpMsg)
+            (default "Ram:")
+        )
+    )
+)
+
+(procedure P_CopyLibs
+    (working #CopyingLibsMsg)
+    (set #localLibsDir (tackon #source-dir "LIBS/"))
+    (foreach #localLibsDir "#?"
+        (copylib
+            (source (tackon #localLibsDir @each-name))
+            (dest #libsDir)
+        )
+    )
+)
+
+(procedure P_CopyUtilities
+    (working #CopyingUtilitiesMsg)
+    (set #localUtilitiesDir (tackon #source-dir "C/"))
+    (foreach #localUtilitiesDir "#?"
+        (copylib
+            (source (tackon #localUtilitiesDir @each-name))
+            (dest #UtilitiesDir)
+        )
+    )
+)
+
+(procedure P_CopyCatalogs
+    (set #catSourceDir (tackon #source-dir (tackon "Catalogs" @language)))
+    (set #catDestDir (tackon "Locale:" (tackon "Catalogs" @language)))
+    (if (= (and (= (exists (#catSourceDir)) 2) (= (exists (#catDestDir)) 2)) 1)
+        (foreach #catSourceDir "#?"
+            (copylib
+                (source (tackon #catSourceDir @each-name))
+                (dest #catDestDir)
+            )
+        )
+    )
+)
+
+(procedure P_CopyDocs
+    (working #CopyingGuideMsg)
+    (copyfiles
+        (source (tackon #source-dir "DOCS/english/"))
+        (dest #guideDir)
+        (optional force askuser)
+        (all)
+    )
+)
+
+(procedure P_CopyDocs
+    (working #CopyingGuideMsg)
+    (set #docSourceDir (tackon #source-dir (tackon "DOCS" @language)))
+    (if (<> (exists #docSourceDir) 2) (set #docSourceDir (tackon #source-dir "DOCS/english/")))
+    (copyfiles  (source #docSourceDir)
+                (dest #guideDir)
+                (optional force askuser)
+                (all)
+    )
+)
+
+
+(procedure P_CopyExamples
+    (working #CopyingExamplesMsg)
+    (copyfiles
+        (source (tackon #source-dir "EXAMPLES/"))
+        (dest #examplesDir)
+        (optional force askuser)
+        (all)
+    )
+)
+
+(set @default-dest "LIBS:")
+(set #source-dir (if (= 1 (exists @icon)) (pathonly (expandpath @icon)) (expandpath @icon)))
+
+(P_SetMessages)
+
+(complete 0)
+
+(P_ChooseWhatIstall)
+
+(if (= 0 #WhatInstall) (exit))
+(if (BITAND #WhatInstall 1)  (P_AskLibsDir))
+(if (BITAND #WhatInstall 2)  (P_AskUtiliesDir))
+(if (BITAND #WhatInstall 4)  (P_AskGuideDir))
+(if (BITAND #WhatInstall 8)  (P_AskExamplesDir))
+
+(if (BITAND #WhatInstall  1)
+    (
+        (P_CopyLibs)
+        (P_CopyCatalogs)
+    )
+)
+(complete 30)
+
+(if (BITAND #WhatInstall 2)  (P_CopyUtilities))
+(complete 40)
+
+(if (BITAND #WhatInstall 4)  (P_CopyDocs))
+(complete 80)
+
+(if (BITAND #WhatInstall 8)  (P_CopyExamples))
+(complete 100)
+

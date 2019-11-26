@@ -1,0 +1,46 @@
+==id $Id: ttengine_lib.sfd 7.0 2005/01/13 12:39:00 krashan Exp krashan $
+==base _TTEngineBase
+==basetype struct Library*
+==libname ttengine.library
+==bias 30
+==public
+==include <exec/types.h>
+==include <utility/tagitem.h>
+==include <libraries/ttengine.h>
+==include <graphics/text.h>
+==version 4
+APTR TT_OpenFontA(struct TagItem *taglist) (a0)
+==varargs
+APTR TT_OpenFont(Tag tag1, ...) (a0)
+BOOL TT_SetFont(struct RastPort *rp, APTR font) (a1,a0)
+VOID TT_CloseFont(APTR font) (a0)
+VOID TT_Text(struct RastPort *rp, APTR string, ULONG count) (a1,a0,d0)
+ULONG TT_SetAttrsA(struct RastPort *rp, struct TagItem *taglist) (a1,a0)
+==varargs
+ULONG TT_SetAttrs(struct RastPort *rp, Tag tag1, ...) (a1,a0)
+ULONG TT_GetAttrsA(struct RastPort *rp, struct TagItem *taglist) (a1,a0)
+==varargs
+ULONG TT_GetAttrs(struct RastPort *rp, Tag tag1, ...) (a1,a0)
+ULONG TT_TextLength(struct RastPort *rp, APTR string, ULONG count) (a1,a0,d0)
+VOID TT_TextExtent(struct RastPort *rp, APTR string, WORD count, struct TextExtent *te) (a1,a0,d0,a2)
+ULONG TT_TextFit(struct RastPort *rp, APTR string, UWORD count, struct TextExtent *te, struct TextExtent *tec, WORD dir, UWORD cwidth, UWORD cheight) (a1,a0,d0,a2,a3,d1,d2,d3)
+==version 5
+struct TT_Pixmap *TT_GetPixmapA(APTR font, APTR string, ULONG count, struct TagItem *taglist) (a1,a2,d0,a0)
+==varargs
+struct TT_Pixmap *TT_GetPixmap(APTR font, APTR string, ULONG count, Tag tag1, ...) (a1,a2,d0,a0)
+VOID TT_FreePixmap(struct TT_Pixmap *pixmap) (a0)
+VOID TT_DoneRastPort(struct RastPort *rp) (a1)
+==version 6
+APTR TT_AllocRequest() ()
+struct TagItem* TT_RequestA(APTR request, struct TagItem *taglist) (a0,a1)
+==varargs
+struct TagItem* TT_Request(APTR request, Tag tag1, ...) (a0,a1)
+VOID TT_FreeRequest(APTR request) (a0)
+==version 7
+STRPTR *TT_ObtainFamilyListA(struct TagItem *taglist) (a0)
+==varargs
+STRPTR *TT_ObtainFamilyList(Tag tag1, ...) (a0)
+VOID TT_FreeFamilyList(STRPTR *list) (a0)
+==end
+
+

@@ -1,0 +1,14 @@
+
+
+                                                             /
+            Amiga-Oberon Interface for wbstart.library v2.2 /
+         __________________________________________________/
+
+
+The library is written by Stefan Becker.
+
+This  is  the  interface  module  for  the  AmigaOberon compiler (v3.20) by
+Fridtjof Siebert.
+
+If    you    have    problems   or   questions,   send   requests   to   me
+(T.Igracki@bamp.berlinet.de).

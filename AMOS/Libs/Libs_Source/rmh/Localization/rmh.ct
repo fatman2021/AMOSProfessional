@@ -1,0 +1,40 @@
+## version $VER: XX.catalog XX.XX (XX.XX.XX)
+## codeset X
+## language X
+;
+MSG_NO_MEM
+
+; too few memory
+;
+MSG_ARG_MISS
+
+; required argument missed
+;
+MSG_BAD_NUMBER
+
+; bad number
+;
+MSG_BAD_VALUE
+
+; bad value
+;
+MSG_NAMEDSPACE_EXISTS
+
+; NamedSpace already exists
+;
+MSG_NO_NAMEDSPACE
+
+; NamedSpace not found
+;
+MSG_NO_VAR
+
+; Var not found
+;
+MSG_PRIVATE_NAMEDSPACE
+
+; NamedSpace is private
+;
+STRING_UNKNOWN_ERROR
+
+; unknown RMH error %ld
+;

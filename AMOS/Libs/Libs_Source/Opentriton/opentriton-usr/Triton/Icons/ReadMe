@@ -1,0 +1,14 @@
+   The icons  in this drawer are  16-color versions of the Triton icons.  You
+have to use the following palette to get the full effect:
+
+;  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  | 12  | 13  | 14  | 15
+; 170 |  0  | 255 | 102 | 190 | 150 | 187 | 230 | 204 | 102 |  68 | 204
+; 170 |  0  | 255 | 136 | 190 | 150 | 170 | 200 | 204 | 102 | 187 | 102
+; 170 |  0  | 255 | 187 | 190 | 150 | 153 | 112 | 204 | 102 | 102 | 102
+
+   The  pre-installed  standard  Triton icons  use  4 colors  and can thus be
+displayed  on  any  Workbench.  They do  also have  NewIcons  extensions.  If
+you have  the  NewIcons  system installed,  you will  see  12-color  NewIcons
+instead of the 4-color standard icons.
+
+   See the Triton documentation for copyrights on the icons.

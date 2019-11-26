@@ -1,0 +1,182 @@
+# Klingon pronounciation rules for translator.library V42
+# $VER: klingon.accent 0.1 (17.4.95)
+# By Daniel Böhm <ns144@fim.uni-erlangen.de>
+#
+# Based on the Klingon(TM) language by Marc Okrand
+# Used in Star Trek(TM)
+# Note: I changed the German accent by Stefan Zeiger to build this one.
+# (hope you don't mind  :)  )
+#
+# So here it is the Klingon accent file
+# for the translatorlib 42.1 and above I guess by Francesco Devitt.
+# For any questions or improvements please contact me.
+# There is also a Klingon dictionary available on the net.
+#
+# pa' nIH retlh tlhIngan mey.
+
+%class digit 0 1 2 3 4 5 6 7 8 9
+%class cons b c d g h j l m n p q r s t v w
+
+%stress -2
+%emphasis 2
+
+[AY'] = AY0
+[A'] = AH0
+[AW] = AWWH
+[AY] = AY2
+[A] = AH2
+
+[B] = B
+
+[CH] = TSH
+
+[D] = D
+
+[EY'] = EY0
+[E'] = "EH0-EH2"
+[EY] = EY2
+[E] = EH2
+
+[GH] = /C
+
+[H] = /C
+
+[I'] = IH0
+
+[I] = IH2
+
+[J] = J
+
+
+[L] = L
+
+[M] = M
+
+[NG] = NX
+[N] = N
+
+[O'] = OH0
+
+[O] = OH2
+
+[P] = P
+
+[Q] = K
+
+[R] = RDX
+
+[S] = SH
+
+[TLH] = TL/C
+
+[T] = TT
+
+[U'] = UH0
+
+[U] = UH2
+
+[V] = V
+
+[W']$ = "WH UH"
+
+[W] = WH
+
+[Y] = Y
+
+$[0]$ = "PAA/C "
+
+[1]$ = "WAA0 "
+[2]$ = "CHAA0 "
+[3]$ = "WEH2J "
+[4]$ = "LOH2SH "
+[5]$ = "VAA2/C "
+[6]$ = "JAA2V "
+[7]$ = "SHOH2CH "
+[8]$ = "CHOH2R/C "
+[9]$ = "/CUH2T "
+
+[1](digit)$ = "WAA0 MAA2/C "
+[2](digit)$ = "CHAA0 MAA2/C "
+[3](digit)$ = "WEH2J MAA2/C"
+[4](digit)$ = "LOH2SH MAA2/C"
+[5](digit)$ = "VAA2/C MAA2/C"
+[6](digit)$ = "JAA2V MAA2/C"
+[7](digit)$ = "SHOH2CH MAA2/C"
+[8](digit)$ = "CHOH2R/C MAA2/C"
+[9](digit)$ = "/CUH2T MAA2/C"
+
+[1](digit)(digit)$ = "WAA0 VAA2TL/C "
+[2](digit)(digit)$ = "CHAA0 VAA2TL/C "
+[3](digit)(digit)$ = "WEH2J VAA2TL/C "
+[4](digit)(digit)$ = "LOH2SH VAA2TL/C "
+[5](digit)(digit)$ = "VAA2/C VAA2TL/C "
+[6](digit)(digit)$ = "JAA2V VAA2TL/C "
+[7](digit)(digit)$ = "SHOH2CH VAA2TL/C "
+[8](digit)(digit)$ = "CHOH2R/C VAA2TL/C "
+[9](digit)(digit)$ = "/CUH2T VAA2TL/C "
+
+[1](digit)(digit)(digit)$ = "WAA0 SHAA2D "
+[2](digit)(digit)(digit)$ = "CHAA0 SHAA2D "
+[3](digit)(digit)(digit)$ = "WEH2J SHAA2D "
+[4](digit)(digit)(digit)$ = "LOH2SH SHAA2D "
+[5](digit)(digit)(digit)$ = "VAA2/C SHAA2D "
+[6](digit)(digit)(digit)$ = "JAA2V SHAA2D "
+[7](digit)(digit)(digit)$ = "SHOH2CH SHAA2D "
+[8](digit)(digit)(digit)$ = "CHOH2R/C SHAA2D "
+[9](digit)(digit)(digit)$ = "/CUH2T SHAA2D "
+
+[1](digit)(digit)(digit)(digit)$ = "WAA0 NEH2TL/C "
+[2](digit)(digit)(digit)(digit)$ = "CHAA0 NEH2TL/C "
+[3](digit)(digit)(digit)(digit)$ = "WEH2J NEH2TL/C "
+[4](digit)(digit)(digit)(digit)$ = "LOH2SH NEH2TL/C "
+[5](digit)(digit)(digit)(digit)$ = "VAA2/C NEH2TL/C "
+[6](digit)(digit)(digit)(digit)$ = "JAA2V NEH2TL/C "
+[7](digit)(digit)(digit)(digit)$ = "SHOH2CH NEH2TL/C "
+[8](digit)(digit)(digit)(digit)$ = "CHOH2R/C NEH2TL/C "
+[9](digit)(digit)(digit)(digit)$ = "/CUH2T NEH2TL/C "
+
+[1](digit)(digit)(digit)(digit)(digit)$ = "WAA0 BIY2P "
+[2](digit)(digit)(digit)(digit)(digit)$ = "CHAA0 BIY2P "
+[3](digit)(digit)(digit)(digit)(digit)$ = "WEH2J BIY2P "
+[4](digit)(digit)(digit)(digit)(digit)$ = "LOH2SH BIY2P "
+[5](digit)(digit)(digit)(digit)(digit)$ = "VAA2/C BIY2P "
+[6](digit)(digit)(digit)(digit)(digit)$ = "JAA2V BIY2P "
+[7](digit)(digit)(digit)(digit)(digit)$ = "SHOH2CH BIY2P "
+[8](digit)(digit)(digit)(digit)(digit)$ = "CHOH2R/C BIY2P "
+[9](digit)(digit)(digit)(digit)(digit)$ = "/CUH2T BIY2P "
+
+[1](digit)(digit)(digit)(digit)(digit)(digit)$ = "WAA0 UHY` "
+[2](digit)(digit)(digit)(digit)(digit)(digit)$ = "CHAA0 UHY` "
+[3](digit)(digit)(digit)(digit)(digit)(digit)$ = "WEH2J UHY` "
+[4](digit)(digit)(digit)(digit)(digit)(digit)$ = "LOH2SH UHY` "
+[5](digit)(digit)(digit)(digit)(digit)(digit)$ = "VAA2/C UHY` "
+[6](digit)(digit)(digit)(digit)(digit)(digit)$ = "JAA2V UHY` "
+[7](digit)(digit)(digit)(digit)(digit)(digit)$ = "SHOH2CH UHY` "
+[8](digit)(digit)(digit)(digit)(digit)(digit)$ = "CHOH2R/C UHY` "
+[9](digit)(digit)(digit)(digit)(digit)(digit)$ = "/CUH2T UHY` "
+
+
+[&]$ = "JEH"
+['] = ""
+[#] = "MIY`"
+
+[ " " ] = " "
+
+$[-]$ = -
+
+[.]$ = .
+[!]$ = .
+[.] = " "
+[%] = VAATL/CVIY`
+[:] = ". "
+[;] = .
+[?] = ?
+[ "\(" ] = ,
+[ "\)" ] = ,
+[\\] = " "
+[ "\[" ] = " "
+[{] = " "
+[}] = " "
+[_] = " "
+[`] = "Q"
+[ "]" ] = " "

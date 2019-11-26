@@ -1,0 +1,281 @@
+@database xpkBZP2.guide
+@master release/xpkBZP2/xpkBZP2.guide
+@$VER: xpkBZP2.guide 1.6 (4.3.2005)
+@author "Oliver Roberts (oliver@futaura.co.uk)"
+@(c) "Oliver Roberts 2000-2005"
+@width 75
+@remark Created with Heddley v1.20ß © Edd Dumbill 1994-5
+
+@node "Main" "xpkBZP2.library 1.7"
+
+  @{b}xpkBZP2.library 1.7@{ub} - Powerful block-sorting/huffman compression
+                        library based on Julian Seward's bzip2 algorithms
+                        (for 68K, PPC/OS4, PPC/WarpOS and PPC/MorphOS)
+                           
+        Copyright © 2000-2005 @{"Oliver Roberts" link "Author" 0}, All Rights Reserved.
+
+
+   @{" Description               " link "Intro" 0} what is this xpkBZP2.library?
+   @{" System requirements       " link "Requirements" 0} what you need to use this software
+   @{" Distribution              " link "Distribution" 0} distribution conditions
+   @{" Disclaimer                " link "Disclaimer" 0} important notices
+
+   @{" Installation              " link "Install" 0} installing this software
+   @{" Usage                     " link "Usage" 0} available options and parameters
+
+   @{" Acknowledgements          " link "Acknowledgements" 0} thankyous and credits
+   @{" About the author          " link "Author" 0} how to contact the author
+   @{" History                   " link "History" 0} program history
+@endnode
+
+@node "Intro" "Description"
+Julian Sadler's bzip2 compresses files using the Burrows-Wheeler block
+sorting text compression algorithm, and Huffman coding. Compression is
+generally considerably better than that achieved by more conventional
+LZ77/LZ78-based compressors, and approaches the performance of the PPM
+family of statistical compressors.
+
+xpkBZP2.library uses the same compression algorithm as bzip2, and allows
+you to compress files with the same high crunch factor as bzip2, but under
+the XPK interface.
+
+In summary, xpkBZP2.library offers generally a very high compression ratio,
+typically around 70-90%.  Of course, there's no such thing as a free lunch,
+and the downside is that the compression routines require lots of memory,
+although there are @{"modes" link "Usage" 0} available which use less memory, at the expense of
+compression efficiency.
+@endnode
+
+@node "Requirements" "System Requirements"
+xpkBZP2.library needs the following in order to work:
+
+ - Kickstart 3.0 or higher
+ - XPK compression package
+ - At least 8Mb free ram to use maximum compression
+
+ @{i}68k version@{ui}
+
+ - 68020 processor or better
+
+ @{i}OS4 version@{ui}
+
+ - PPC accelerator card / AmigaOne
+ - AmigaOS 4.0 pre-release or newer
+
+ @{i}WarpOS version@{ui}
+
+ - PPC accelerator card + 68040/060
+ - WarpUp Release 4 (powerpc.library V15) or higher
+
+ @{i}MorphOS version@{ui}
+
+ - Pegasos / PPC accelerator card
+ - MorphOS beta release 1 or higher
+@endnode
+
+@node "Distribution" "Distribution Conditions"
+xpkBZP2.library is public domain with the copyright remaining with the
+@{"author" link "Author" 0} and may be freely distributed legally providing:
+
+   (1) None of the distributed files are changed in any way
+   (2) It is not sold for profit and it is not included on any disks
+       that are sold solely for profit (includes magazine coverdisks)
+   (3) The distribution contents remain complete (see list below)
+
+If this software is to be sold for profit, permission must be obtained from
+me, the @{"author" link "Author" 0}.
+
+The following files must be present in their original and unchanged form in
+any copies of this software:
+
+   Libs/Compressors/xpkBZP2.library.020
+   Libs/Compressors/xpkBZP2.library.030.pch
+   Libs/Compressors/xpkBZP2.library.040.pch
+   Libs/Compressors/xpkBZP2.library.060.pch
+   Libs/Compressors/xpkBZP2.library.os4
+   Libs/Compressors/xpkBZP2.library.wos
+   Libs/Compressors/xpkBZP2.library.mos.pch
+   xpkBZP2.guide
+   xpkBZP2.guide.info
+   Install_xpkBZP2
+   Install_xpkBZP2.info
+@endnode
+
+@node "Disclaimer" "Disclaimer"
+This software is provided "as is", without warranty of any kind, either
+expressed or implied, statutory or otherwise. By using the archive and its
+contents, you accept the entire risk as to its quality and performance.
+
+Neither Oliver Roberts nor any other party involved in the creation,
+production or delivery of the archive and its contents shall be liable for
+any direct, indirect, special, consequential or incidental damages,
+including without limitation damages for loss of profits, loss of use or
+loss of anticipated costs, expenses or damages, and any data or information
+which may be lost or rendered inaccurate, even if Oliver Roberts is advised
+of the possibility of such damages.
+
+@{b}Do not@{ub} attempt to tamper with the supplied files. Doing so will cause
+problems and you may find things start going wrong!
+@endnode
+
+@node "Install" "Installation"
+To install the xpkBZP2 library, simply run the provided installer script by
+double-clicking the icon.  This will create a CPU specific version of the
+library for you, and install it to LIBS:Compressors.  It does nothing else,
+so you needn't worry about it messing about with your system :)
+@endnode
+
+@node "Usage" "Usage"
+The compression library offers 9 different modes, which correspond directly
+to the -1...-9 switches in bzip2.  It should be noted that each mode is
+heavily dependent on its blocksize. For example, it's pointless using modes
+60-100 on files that are < 500000 bytes in size.  Only with files >= 900000
+bytes in size, do all modes come into effect.
+
+@{b}68K version benchmarks (performed on a 50MHz 68060)@{ub}
+
+                  Pack  Unpack  Pack Unpack
+   Mode  Ratio   Speed   Speed   Mem    Mem Description
+
+  0..19  79.5%  107K/s  330K/s 1171K   488K 100K -1
+ 20..29  80.2%  111K/s  326K/s 1953K   878K 200K -2
+ 30..39  80.4%  109K/s  324K/s 2734K  1269K 300K -3
+ 40..49  80.7%  106K/s  323K/s 3515K  1660K 400K -4     (default)
+ 50..59  80.8%  104K/s  320K/s 4296K  2050K 500K -5
+ 60..69  80.8%  102K/s  319K/s 5078K  2441K 600K -6
+ 70..79  80.9%  103K/s  316K/s 5957K  2832K 700K -7
+ 80..89  80.9%  103K/s  313K/s 6640K  3222K 800K -8
+ 90..100 80.7%  103K/s  310K/s 7421K  3613K 900K -9
+
+@{b}AmigaOS 4 version benchmarks (performed on a 240MHz 603e)@{ub}
+
+                  Pack  Unpack  Pack Unpack
+   Mode  Ratio   Speed   Speed   Mem    Mem Description
+
+  0..19  79.5%  227K/s 1231K/s 1171K   488K 100K -1
+ 20..29  80.2%  239K/s 1130K/s 1953K   878K 200K -2
+ 30..39  80.4%  235K/s 1089K/s 2734K  1269K 300K -3
+ 40..49  80.7%  224K/s 1056K/s 3515K  1660K 400K -4     (default)
+ 50..59  80.8%  217K/s 1021K/s 4296K  2050K 500K -5
+ 60..69  80.8%  213K/s  996K/s 5078K  2441K 600K -6
+ 70..79  80.9%  213K/s  985K/s 5957K  2832K 700K -7
+ 80..89  80.9%  213K/s  978K/s 6640K  3222K 800K -8
+ 90..100 80.7%  211K/s  964K/s 7421K  3613K 900K -9
+
+@{b}WarpOS version benchmarks (performed on 240MHz 603e / 50MHz 060)@{ub}
+
+                  Pack  Unpack  Pack Unpack
+   Mode  Ratio   Speed   Speed   Mem    Mem Description
+
+  0..19  79.5%  201K/s  985K/s 1171K   488K 100K -1
+ 20..29  80.2%  212K/s  928K/s 1953K   878K 200K -2
+ 30..39  80.4%  208K/s  900K/s 2734K  1269K 300K -3
+ 40..49  80.7%  199K/s  877K/s 3515K  1660K 400K -4     (default)
+ 50..59  80.8%  195K/s  855K/s 4296K  2050K 500K -5
+ 60..69  80.8%  191K/s  850K/s 5078K  2441K 600K -6
+ 70..79  80.9%  191K/s  837K/s 5957K  2832K 700K -7
+ 80..89  80.9%  191K/s  832K/s 6640K  3222K 800K -8
+ 90..100 80.7%  190K/s  822K/s 7421K  3613K 900K -9
+
+@{b}MorphOS version benchmarks (performed on a 240MHz 603e)@{ub}
+
+                  Pack  Unpack  Pack Unpack
+   Mode  Ratio   Speed   Speed   Mem    Mem Description
+
+  0..19  79.5%  198K/s  971K/s 1171K   488K 100K -1
+ 20..29  80.2%  208K/s  909K/s 1953K   878K 200K -2
+ 30..39  80.4%  205K/s  886K/s 2734K  1269K 300K -3
+ 40..49  80.7%  195K/s  861K/s 3515K  1660K 400K -4     (default)
+ 50..59  80.8%  191K/s  840K/s 4296K  2050K 500K -5
+ 60..69  80.8%  187K/s  834K/s 5078K  2441K 600K -6
+ 70..79  80.9%  187K/s  824K/s 5957K  2832K 700K -7
+ 80..89  80.9%  187K/s  819K/s 6640K  3222K 800K -8
+ 90..100 80.7%  186K/s  810K/s 7421K  3613K 900K -9
+@endnode
+
+@node "Acknowledgements" "Acknowledgements"
+This software is based in part on the libbzip2 1.0.2 decompression link
+library, as included with bzip2 1.0.2 - copyright © 1996-2002 Julian
+Seward.
+
+Thanks to Rolf Max Rotvel for beta testing, encouragement, and for
+prompting me to make xpkBZP2.library in the first place.  Thanks also to
+Gerd Wieczorek for his feedback on the preliminary 68K version, and to
+Tom Duin for recent beta/reliability testing and for hassling me to
+release the 1.6 update :)
+
+The WarpOS version was made possible by VBCC, which was used to build and
+compile this library.  Thanks to Volker Barthelmann and the other authors
+involved.
+@endnode
+
+@node "Author" "About the author"
+If you have any problems with this software, or if you have any
+suggestions/queries, please contact me and I will do my best to sort any
+bugs out as soon as possible:
+
+e-mail: oliver@futaura.co.uk
+   www: http://www.nanunanu.org/~oliver/
+   icq: 34640231
+
+Future releases of xpkBZP2.library will be available from either Aminet
+(util/pack/xpkBZP2.lha) or its webpage:
+
+  http://www.nanunanu.org/~oliver/xpkBZP2.html
+
+If you would you like to know when xpkBZP2.library is next updated, then
+you may want to subscribe to my announcement list to receive an e-mail
+informing you of the changes as soon as a new versions of any of my
+products are released.  To subscribe, send a blank e-mail to
+
+  futaura-announce-subscribe@yahoogroups.com
+
+or go to
+
+  http://groups.yahoo.com/subscribe/futaura-announce
+@endnode
+
+@node "History" "Program History"
+@{b}1.7@{ub} (4.3.2005)
+
+ - PPC OS4 native version public release - rebuilt with GCC 3.4.3,
+   now 10% faster at packing, and upto 30% faster unpacking
+ - MorphOS and WarpOS versions recompiled with VBCC 0.8h, both
+   now 2% faster at packing/unpacking and 6% faster unpacking for MorphOS
+
+@{b}1.6a@{ub} (24.3.2004)
+
+ - PPC OS4 native version released to OS4 beta testers
+
+@{b}1.6@{ub} (5.4.2002)
+
+ - Minor (<= 2%) speed increase for unpacking in all versions, and for
+   packing in the 68k and WarpOS versions
+ - Updated with libbzip2 1.0.2
+ - PPC versions recompiled with VBCC 0.8a
+ - 68K versions recompiled with GCC 2.95.3
+
+@{b}1.5@{ub} (15.2.2001)
+
+ - Compression speed: 5% faster for WarpOS and 20-30% faster for 68k
+ - Decompression speed: 15% faster for WarpOS and 3-5% faster for 68k
+ - Added a native MorphOS version of the library
+ - Recoded much of the library startup code
+ - Modified internal structure of the WarpOS version, to totally safeguard
+   against cache conflicts (may have caused rare random crashes)
+
+@{b}1.4@{ub} (17.5.2000)
+
+ - Added a 68k version (in 020, 030, 040 and 060 flavours) to accompany
+   the original WarpOS version.
+ - Updated with libbzip2 1.0.0 (which was released yesterday), providing
+   enhancements including:
+   - Faster compression: 10%-25% faster.
+   - Much better robustness to corrupted compressed data.
+ - Recalculated the mode benchmarks using the 060 version.
+
+@{b}1.3@{ub} (16.4.2000)
+
+ - Initial public release.
+@endnode
+

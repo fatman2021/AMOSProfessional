@@ -1,0 +1,22 @@
+%! Freely Distributable; written by Radical Eye Software; version 2
+/FunkyFont 14 dict dup begin /FontType 3 def /FontMatrix[.001 0 0 .001 0 0]
+def /FontName(FunkyFont)def /PaintType 3 def /FontBBox[-30 -405 1000 855]def
+/Encoding StandardEncoding def /g{x 2 idiv dup a length ge{pop 15}{a exch get
+x 1 and 0 gt{15 and}{16 idiv}ifelse}ifelse /x x 1 add def}def /p{dup 4 idiv X
+mul exch 3 and 400 mul}def /d{currentpoint 30 0 360 arc}def /BuildChar{exch
+begin 32 sub dup 0 lt{pop 31}{dup 127 gt{pop 31}if}ifelse CharInfo exch get 7
+dict begin /a exch def /x 0 def g 47 mul 220 add dup 150 sub 2 div /X exch def
+0 -25 -405 X 2 mul 50 add 855 setcachedevice 0 -375 translate 50 setlinewidth
+1 setlinecap 1 setlinejoin 0 400 moveto{g dup 12 lt{p lineto}{dup 12 eq{g p
+moveto}{dup 15 eq{exit}{d}ifelse}ifelse pop}ifelse}loop pop stroke end end}
+def /CharInfo[<1F><2C35B3F><4C32CBAF><601916762ABA54><69A23B75><DBC3723C59A5>
+<CCA512739F><2C76><2812BF><2C09A3><6BC39C57><7C2AC57F><1C90><2C2A><1C5D><1B>
+<6C527A5F><6C57><691AB3><69A2AB3F><6C9B2A><69623B><69A213BF><6B3F><69B32A21>
+<69B32A><1C5DC6DF><1C09C6DF><7C92BF><79CA2F><7A3F><5C23BA65><FCB72149A65A>
+<BBA6A9><A3B291><A913BF><B3A1><8912A23B><72A23B><BC6A913BF><B32A9B><2C57>
+<4219BF><B32B29><8319><E36B9F><B39B><B9B31F><73BA2F><B3BA51C96F><A3BA269F>
+<75A27B><8C573B><B319BF><BC35BF><F3169B><BBC39F><BC5636BF><891B3F><20803B>
+<1C93><2C08B3><5C27AF><69><2C76><5A12A9><632A91><5912AF><69BA21><5A219F>
+<22A2BF><6912A80F><632A9F><1C56C7DF><1C08ACBD><632A29><1C57><C25A9F><62A9>
+<62A91F><69A20F><6912A8><22AF><492A><1C2A65><6219AF><6C25AF><B2169A><6AC29F>
+<6C25A0><591A2F><6C956267BF><0C57><656A673F><7C276B>]def end definefont pop

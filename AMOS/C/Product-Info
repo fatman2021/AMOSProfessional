@@ -1,0 +1,65 @@
+.address
+Siegener Str. 34
+13583 Berlin
+Germany/Europe
+.aminet-dir
+text/show
+.author
+Thomas Igracki
+.construction
+AmigaOberon v3.20d
+.beschreibung
+VPI   ist  ein  Viewer  für  sog.   'Product-Info'  Dateien,  die  von
+verschiedenen Leuten zum Beschreiben ihrer Software genutzt werden.
+Man  kann  sie  z.B.  auf den Fred-Fish-CDs, den AMOK-Disks (ab #100!)
+sowie hoffentlich in jedem kommenden Programm-Archiv finden.
+.date
+1997.04.30
+.described-by
+Thomas Igracki
+.description
+VPI  is  a viewer for so called 'Product-Info' files which are used by
+severall people to describe their piece of software.
+They  can be found on the Fred-Fish-CDs, the AMOK-Discs (above # 100!)
+and hopefully in every forthcoming program-archiv.
+.distribution
+Giftware
+.docs
+VPI.guide
+.email
+eMail : T.Igracki@Jana.berlinet.de
+        lokai@cs.tu-berlin.de
+url   : http://home.pages.de/~lokai/
+.exectype
+Compiled AmigaOberon2 for mc68000.
+.fullname
+ViewProductInfo
+.installsize
+ca. 40K
+.name
+VPI
+.release
+1.21
+.requirements
+Requires OS2.0 (V37) and MUI (MagicUserInterface) v2.2
+.run
+VPI=CLI, VPI
+.short
+Product-Info files viewer with MUI.
+.submittal
+Submitted directly by the author.
+.tested
+System:     Amiga 4000 (CPU=68040 FPU=68040 MMU=68040 Chipset=AGA)
+AmigaOS:    3.1 (V40.70, SetPatch V43.5)   Exec V40.10   Workbench V40.42
+Graphic OS: CyberGraphX 3 (v41.5 r62)
+Audio OS:   AmigaOS
+Memory:                   CHIP    FAST    TOTAL  ROM = 512KB
+            PLAIN          2MB    16MB    18MB
+            VIRTUAL          0       0       0
+            TOTAL          2MB    16MB    18MB
+.type
+Text Viewer
+.uploader
+T.Igracki@Jana.berlinet.de
+.version
+37.11

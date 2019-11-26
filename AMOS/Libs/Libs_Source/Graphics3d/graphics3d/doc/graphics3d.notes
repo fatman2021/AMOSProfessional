@@ -1,0 +1,135 @@
+******** ENGLISH  ****************************************
+
+ -----  GENERAL NOTES OVER GRAPHICS3D.LIBRARY ------
+
+(from the original documentation of Maciej R.Gorny)
+
+1)	3D coordinates system
+
+Coordinate system used is a left-handed coordinate system: X-axis goes from left
+to right, Y-axis, from down up-wards, and Z-axis from behind (us) into the
+screen.
+
+               ^ +Y
+               |        Into the screen
+               |
+               |      +Z
+               |     /
+               |    /
+               |   /
+               |  /
+               | /
+               |/
+-X ---------------------------> +X
+              /|
+             / |
+            /  |
+           /   |
+          /    |
+       -Z/     |
+               |
+ Viewer        | -Y
+
+
+2)	Objects and polygons supported
+
+The objects are group of polygons of two types:
+The first with three vertices (triangles) or with four vertices (quads) in clockwise order and with one or two side .
+The second with one(point) or two(lines) vertex, obiouvsly with this entitys
+the caratteristics of first type here are ignored.
+All other will be either rejected or will cause problems.
+
+One-sided polygons will be visible only when they are facing a viewer. 
+This is useful if we want to limit number of polygons rendered to screen by 
+using backface culling and remove polygons that cannot be seen in an object.
+Objects cannot concave in such case.
+
+Two-sided polygons will always be rendered to a screen (provided they get
+passed clipping procedures), because they have two sides that are visible to
+a viewer: front and back.
+
+
+3)	Limits
+
+In the space 3D defined with the function GD_display3D() you can insert a
+max of 200 objects (you can change recompiled with a new value for MAXOBJECT
+see graphics3d.h) and for any objects you can define a max of 6300 vertex 
+(you can change recompiled with a new value for MAXVERT see graphics3d.h).
+In the 2D visualization window the max box usable is of 3000x3000 pixel.
+I think that this value generally sufficent for all, but if you increase
+its warnig! because the memory usage is not too linear.
+
+4) New custom object format 
+
+To convert the old plg object or use object in TDDD format (Imagine ASCII format)
+use the conv program , for the use istruction run it with the -help option.
+
+******** ITALIANO ****************************************
+
+ -----  NOTE GENERALI SULLA GRAPHICS3D.LIBRARY -----
+
+(tratto dalla documentazione originale di Maciej R.Gorny)
+
+1)	Sistema di coordinate nello spazio
+
+Il sistema sistema di coordinate usate segue la regola della mano sinitra
+cioe' : l'asse X va da sinistra a destra , l'asse Y va dal basso in alto
+e l'asse Z entra nello schermo
+
+               ^ +Y
+               |        Verso lo schermo
+               |
+               |      +Z
+               |     /
+               |    /
+               |   /
+               |  /
+               | /
+               |/
+-X ---------------------------> +X
+              /|
+             / |
+            /  |
+           /   |
+          /    |
+       -Z/     |
+               |
+ osservatore   | -Y
+
+
+2) 	Oggetti e poligoni supportati.	
+
+Gli oggetti sono intesi come insiemi di poligoni di due tipi :
+Il primo con tre(triangoli) o quattro (quadrilateri)vertici in ordine orario
+e con una o due facce, non sono ammessi altri casi.
+Il secondo con uno (punto) o due (linee)vertici ovviamente con queste due
+entita' non hanno senso le caratteristiche associate ai poligoni del
+primo tipo qui del tutto ignorate. 
+
+I poligoni con una faccia saranno visibili solo se saranno rivolti verso
+l'osservatore (ovvero con la faccia esterna all'oggetto).Questo e' utile
+per limitare il numero di poligoni visualizzati sullo schermo.
+L'oggetto in tal caso non deve essere aperto.
+
+I poligoni con due facce saranno invece sempre visibili sullo schermo
+poiche' hanno due lati visibili all'osservatore : anteriore e posteriore.
+
+
+3)	Limiti
+
+Nello spazio 3d definito con la funzione GD_display3D() si possono inserire
+un massimo di 200 oggetti (si puo' variare ricompilando con un valore 
+diverso per MAXOBJECT vedi graphics3d.h) e per ogni oggetto si puo' definire 
+un massimo di 6300 vertici (si puo' variare ricompilando con un valore diverso 
+per MAXVERT vedi graphics3d.h) .
+Nello spazio 2D della finestra di visualizzazione le dimensioni massime del box
+sono di 3000x3000 pixel.
+In ogni caso penso siano valori generalmente sufficenti e se li aumentate
+attenzione all'uso della memoria perche' aumentera in modo non troppo 
+lineare.
+
+4) Nuovo formato propietario per oggetti
+
+Per convertire in vecchi oggetti plg o per usare oggetti nel formato TDDD (formato Imagine ASCII)
+usa il programma conv, per le istruzioni d'uso lanciarlo con l'opzione -help.
+

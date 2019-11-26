@@ -1,0 +1,10 @@
+##base _RemoteBase
+##bias 30
+##public
+RemoteInit()()
+RemoteAdd(config)(a0)
+RemoteRemove(appname)(a0)
+RemoteOpen(class,appname,file,flags)(a0,a1,d0,d1)
+RemoteError(error)(d0)
+RemoteValidate(folder,flags)(a0,d0)
+##end

@@ -1,0 +1,1821 @@
+@DATABASE "ConfigFile"
+
+@NODE Main "ConfigFile.doc"
+    @{" cf_AddArgument() " Link "cf_AddArgument()"}
+    @{" cf_AddGroup() " Link "cf_AddGroup()"}
+    @{" cf_AddItem() " Link "cf_AddItem()"}
+    @{" cf_ChangeArgument() " Link "cf_ChangeArgument()"}
+    @{" cf_ChangeGroup() " Link "cf_ChangeGroup()"}
+    @{" cf_ChangeItem() " Link "cf_ChangeItem()"}
+    @{" cf_ClearArgList() " Link "cf_ClearArgList()"}
+    @{" cf_ClearGrpList() " Link "cf_ClearGrpList()"}
+    @{" cf_ClearItemList() " Link "cf_ClearItemList()"}
+    @{" cf_CloneArgument() " Link "cf_CloneArgument()"}
+    @{" cf_CloneGroup() " Link "cf_CloneGroup()"}
+    @{" cf_CloneItem() " Link "cf_CloneItem()"}
+    @{" cf_Close() " Link "cf_Close()"}
+    @{" cf_DisposeArgument() " Link "cf_DisposeArgument()"}
+    @{" cf_DisposeGroup() " Link "cf_DisposeGroup()"}
+    @{" cf_DisposeItem() " Link "cf_DisposeItem()"}
+    @{" cf_FindArgument() " Link "cf_FindArgument()"}
+    @{" cf_FindGroup() " Link "cf_FindGroup()"}
+    @{" cf_FindItem() " Link "cf_FindItem()"}
+    @{" cf_GetArgName() " Link "cf_GetArgName()"}
+    @{" cf_GetArgOfItem() " Link "cf_GetArgOfItem()"}
+    @{" cf_GetGrpName() " Link "cf_GetGrpName()"}
+    @{" cf_GetGrpOfArg() " Link "cf_GetGrpOfArg()"}
+    @{" cf_GetHdrOfGrp() " Link "cf_GetHdrOfGrp()"}
+    @{" cf_GetItem() " Link "cf_GetItem()"}
+    @{" cf_GetItemNum() " Link "cf_GetItemNum()"}
+    @{" cf_GetItemOnly() " Link "cf_GetItemOnly()"}
+    @{" cf_GetItemSType() " Link "cf_GetItemSType()"}
+    @{" cf_GetItemType() " Link "cf_GetItemType()"}
+    @{" cf_LastArgument() " Link "cf_LastArgument()"}
+    @{" cf_LastGroup() " Link "cf_LastGroup()"}
+    @{" cf_LastItem() " Link "cf_LastItem()"}
+    @{" cf_LockArgList() " Link "cf_LockArgList()"}
+    @{" cf_LockGrpList() " Link "cf_LockGrpList()"}
+    @{" cf_LockItemList() " Link "cf_LockItemList()"}
+    @{" cf_NewArgItem() " Link "cf_NewArgItem()"}
+    @{" cf_NewArgument() " Link "cf_NewArgument()"}
+    @{" cf_NewGroup() " Link "cf_NewGroup()"}
+    @{" cf_NewItem() " Link "cf_NewItem()"}
+    @{" cf_NextArgument() " Link "cf_NextArgument()"}
+    @{" cf_NextGroup() " Link "cf_NextGroup()"}
+    @{" cf_NextItem() " Link "cf_NextItem()"}
+    @{" cf_Open() " Link "cf_Open()"}
+    @{" cf_OpenPS() " Link "cf_OpenPS()"}
+    @{" cf_Read() " Link "cf_Read()"}
+    @{" cf_RemoveArgument() " Link "cf_RemoveArgument()"}
+    @{" cf_RemoveGroup() " Link "cf_RemoveGroup()"}
+    @{" cf_RemoveItem() " Link "cf_RemoveItem()"}
+    @{" cf_UnlockArgList() " Link "cf_UnlockArgList()"}
+    @{" cf_UnlockGrpList() " Link "cf_UnlockGrpList()"}
+    @{" cf_UnlockItemList() " Link "cf_UnlockItemList()"}
+    @{" cf_Write() " Link "cf_Write()"}
+@ENDNODE
+
+@NODE "cf_AddArgument()" "configfile.library/cf_AddArgument"
+
+@{b}   NAME@{ub}
+	cf_AddArgument -- Adds an argument node to the argument list of a
+			  group node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_AddArgument(GrpNode,ArgNode);
+		       A0      A1
+
+	VOID cf_AddArgument(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *,@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function adds an argument node to the argument list of a
+	group node.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node for add to.
+	ArgNode - Pointer to the argument node.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212}    * myGrpNode;
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * myArgNode;
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * myNewArgNode;
+
+	...
+	myNewArgNode = @{"cf_CloneArgument" Link "configfile/cf_CloneArgument()"} (myArgNode);
+	cf_AddArgument (myGrpNode, myNewArgNode);
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_AddGroup()" Link "cf_AddGroup()"}, @{"cf_AddItem()" Link "cf_AddItem()"}
+
+@ENDNODE
+
+@NODE "cf_AddGroup()" "configfile.library/cf_AddGroup"
+
+@{b}   NAME@{ub}
+	cf_AddGroup -- Adds a group node to the group list of a header.
+
+@{b}   SYNOPSIS@{ub}
+	cf_AddGroup(Header,GrpNode);
+		    A0     A1
+
+	VOID cf_AddGroup(@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} *,@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function adds a group node to the group list of a header.
+
+@{b}   INPUTS@{ub}
+	Header - Pointer to the Header for add to.
+	GrpNode - Pointer to the group node.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} * myHeader;
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212}  * myGrpNode;
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212}  * myNewGrpNode;
+
+	...
+	myNewGrpNode = @{"cf_CloneGroup" Link "configfile/cf_CloneGroup()"} (myGrpNode);
+	cf_AddGroup (myHeader, myNewGrpNode);
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_AddArgument()" Link "cf_AddArgument()"}, @{"cf_AddItem()" Link "cf_AddItem()"}
+
+@ENDNODE
+
+@NODE "cf_AddItem()" "configfile.library/cf_AddItem"
+
+@{b}   NAME@{ub}
+	cf_AddItem -- Adds an item node to the item list of an argument
+		      node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_AddItem(Argument,ItemNode);
+		   A0       A1
+
+	VOID cf_AddItem(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *,@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function adds an item node to the item list of an argument
+	node.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node for add to.
+	ItemNode - Pointer to the item node.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * myArgNode;
+	@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212}     * myItemNode;
+	@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212}     * myNewItemNode;
+
+	...
+	myNewItemNode = @{"cf_CloneItem" Link "configfile/cf_CloneItem()"} (myItemNode);
+	cf_AddItem (myArgNode, myNewItemNode);
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_AddArgument()" Link "cf_AddArgument()"}, @{"cf_AddGroup()" Link "cf_AddGroup()"}
+
+@ENDNODE
+
+@NODE "cf_ChangeArgument()" "configfile.library/cf_ChangeArgument"
+
+@{b}   NAME@{ub}
+	cf_ChangeArgument -- Changes the name of an argument node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_ChangeArgument(ArgNode,Name);
+			  A0      A1
+
+	VOID cf_ChangeArgument(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *,STRPTR);
+
+@{b}   FUNCTION@{ub}
+	This function changes the name of an argument node.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node.
+	Name - The new name for the argument node.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_ChangeGroup()" Link "cf_ChangeGroup()"}, @{"cf_ChangeItem()" Link "cf_ChangeItem()"}
+
+@ENDNODE
+
+@NODE "cf_ChangeGroup()" "configfile.library/cf_ChangeGroup"
+
+@{b}   NAME@{ub}
+	cf_ChangeGroup -- Changes the name of a groupnode.
+
+@{b}   SYNOPSIS@{ub}
+	cf_ChangeGroup(GrpNode,Name);
+		       A0      A1
+
+	VOID cf_ChangeGroup(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *,STRPTR);
+
+@{b}   FUNCTION@{ub}
+	This function changes the name of a group node.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node for add to.
+	Name - The new name for the group node.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_ChangeArgument()" Link "cf_ChangeArgument()"}, @{"cf_ChangeItem()" Link "cf_ChangeItem()"}
+
+@ENDNODE
+
+@NODE "cf_ChangeItem()" "configfile.library/cf_ChangeItem"
+
+@{b}   NAME@{ub}
+	cf_ChangeItem -- Changes the contents of an item node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_ChangeItem(ItemNode,Contents,Type,SpecialType);
+		      A0       D0       D1   D2
+
+	VOID cf_ChangeItem(@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} *,@{"LONG" Link "INCLUDE:exec/types.h/Main" 35},ULONG,ULONG);
+
+@{b}   FUNCTION@{ub}
+	This function changes the contents of an item node.
+
+@{b}   INPUTS@{ub}
+	ItemNode - The item node for the changes.
+	Contents - The new contents.
+	Type - The new type (see @{"cf_NewItem()" Link "cf_NewItem()"}).
+	SpecialType - The new special type (see @{"cf_NewItem()" Link "cf_NewItem()"}).
+
+@{b}   EXAMPLE@{ub}
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * myArgNode;
+	@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212}     * myItemNode;
+
+	...
+	myItemNode = @{"cf_NewItem" Link "configfile/cf_NewItem()"} (myArgNode, 1234567, CF_ITYP_NUMBER, 0);
+	cf_ChangeItem (myItemNode, TRUE, CF_ITYP_BOOL, CF_STYP_BOOL_OFF);
+	...
+
+	In the CF file:
+
+	[ExampleGroup]
+	...
+	ExampleArg=ON
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_ChangeArgument()" Link "cf_ChangeArgument()"}, @{"cf_ChangeGroup()" Link "cf_ChangeGroup()"}, @{"cf_NewItem()" Link "cf_NewItem()"}
+
+@ENDNODE
+
+@NODE "cf_ClearArgList()" "configfile.library/cf_ClearArgList"
+
+@{b}   NAME@{ub}
+	cf_ClearArgList -- Clears all argument and item nodes of a
+			   group node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_ClearArgList(GrpNode);
+			A0
+
+	VOID cf_ClearArgList(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function clears all argument and item nodes of a group node.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node for the argument list.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_ClearGrpList()" Link "cf_ClearGrpList()"}, @{"cf_ClearItemList()" Link "cf_ClearItemList()"}
+
+@ENDNODE
+
+@NODE "cf_ClearGrpList()" "configfile.library/cf_ClearGrpList"
+
+@{b}   NAME@{ub}
+	cf_ClearGrpList -- Clears all group/argument/item nodes.
+
+@{b}   SYNOPSIS@{ub}
+	cf_ClearGrpList(Header);
+			A0
+
+	VOID cf_ClearGrpList(@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} *);
+
+@{b}   FUNCTION@{ub}
+	This function clears all group/argument/item nodes.
+
+@{b}   INPUTS@{ub}
+	Header - Pointer to the @{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} structure.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_ClearArgList()" Link "cf_ClearArgList()"}, @{"cf_ClearItemList()" Link "cf_ClearItemList()"}
+
+@ENDNODE
+
+@NODE "cf_ClearItemList()" "configfile.library/cf_ClearItemList"
+
+@{b}   NAME@{ub}
+	cf_ClearItemList -- Clears all item nodes of an argument node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_ClearItemList(ArgNode);
+			 A0
+
+	VOID cf_ClearItemList(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function clears all item nodes of an argument node.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node for item list.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212}    * myGrpNode;
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * myArgNode;
+
+	...
+	myArgNode = @{"cf_NewArgument" Link "configfile/cf_NewArgument()"} (myGrpNode, "ExampleArgument");
+	myItemNode = cf_NewString (myArgNode, "ExampleString");
+	myItemNode = cf_NewNum (myArgNode, 463256);
+	cf_ClearItemList (myArgNode);
+	...
+
+	In the CF file:
+
+	[ExampleGroup]
+	...
+	ExampleArgument=
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_ClearArgList()" Link "cf_ClearArgList()"}, @{"cf_ClearGrpList()" Link "cf_ClearGrpList()"}
+
+@ENDNODE
+
+@NODE "cf_CloneArgument()" "configfile.library/cf_CloneArgument"
+
+@{b}   NAME@{ub}
+	cf_CloneArgument -- Copy an argument node with all item nodes.
+
+@{b}   SYNOPSIS@{ub}
+	NewArgNode = cf_CloneArgument(ArgNode);
+	D0                            A0
+
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_CloneArgument(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function duplicates an argument node with all item nodes.
+	Note the duplicated ArgNode is not added.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node to clone.
+
+@{b}   RESULT@{ub}
+	NewArgNode - The new argument node or NULL by failure.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212}    * myGrpNode;
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * myArgNode;
+
+	...
+	myArgNode = @{"cf_NewArgument" Link "configfile/cf_NewArgument()"} (myGrpNode, "ExampleArgument");
+	@{"cf_AddArgument" Link "configfile/cf_AddArgument()"} (myGrpNode, cf_CloneArgument (myArgNode));
+	...
+
+	In the CF file:
+
+	...
+	[ExampleGroup]
+
+	...
+	ExampleArgument=
+	...
+	ExampleArgument=
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_CloneGroup()" Link "cf_CloneGroup()"}, @{"cf_CloneItem()" Link "cf_CloneItem()"}
+
+@ENDNODE
+
+@NODE "cf_CloneGroup()" "configfile.library/cf_CloneGroup"
+
+@{b}   NAME@{ub}
+	cf_CloneGroup -- Copy a group node with all argument and item nodes.
+
+@{b}   SYNOPSIS@{ub}
+	NewGrpNode = cf_CloneGroup(GrpNode);
+	D0                         A0
+
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_CloneGroup(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function duplicates a group node with all argument and item
+	nodes. Note the duplicated GrpNode is not added.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node to clone.
+
+@{b}   RESULT@{ub}
+	NewGrpNode - The new group node or NULL by failure.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} * myHeader;
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212}  * myGrpNode;
+
+	...
+	myGrpNode = @{"cf_NewGroup" Link "configfile/cf_NewGroup()"} (myHeader, "ExampleGroup");
+	@{"cf_AddGroup" Link "configfile/cf_AddGroup()"} (myHeader, cf_CloneGroup (myGrpNode));
+	...
+
+	In the CF file:
+
+	...
+	[ExampleGroup]
+	...
+	[ExampleGroup]
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_CloneArgument()" Link "cf_CloneArgument()"}, @{"cf_CloneItem()" Link "cf_CloneItem()"}
+
+@ENDNODE
+
+@NODE "cf_CloneItem()" "configfile.library/cf_CloneItem"
+
+@{b}   NAME@{ub}
+	cf_CloneItem -- Copy an item node.
+
+@{b}   SYNOPSIS@{ub}
+	NewItemNode = cf_CloneItem(ItemNode);
+	D0                         A0
+
+	@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_CloneItem(@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function duplicates an item node. Note the duplicated ItemNode
+	is not added.
+
+@{b}   INPUTS@{ub}
+	ItemNode - The item node to clone.
+
+@{b}   RESULT@{ub}
+	NewItemNode - The new item node or NULL by failure.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * myArgNode;
+	@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212}     * myItemNode;
+
+	...
+	myItemNode = @{"cf_NewItem" Link "configfile/cf_NewItem()"} (myArgNode, (LONG) "ExampleItem", 
+			CF_ITYP_STRING, NULL);
+	@{"cf_AddItem" Link "configfile/cf_AddItem()"} (myArgNode, cf_CloneItem (myItemNode));
+	...
+
+	In the CF file:
+
+	...
+	[ExampleGroup]
+
+	...
+	ExampleArgument="ExampleItem","ExampleItem"
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_CloneGroup()" Link "cf_CloneGroup()"}, @{"cf_CloneArgument()" Link "cf_CloneArgument()"}
+
+@ENDNODE
+
+@NODE "cf_Close()" "configfile.library/cf_Close"
+
+@{b}   NAME@{ub}
+	cf_Close -- Close a CF file.
+
+@{b}   SYNOPSIS@{ub}
+	cf_Close(Header);
+		 A0
+
+	VOID cf_Close(@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} *);
+
+@{b}   FUNCTION@{ub}
+	This function close the CF file, deletes the private memory pool
+	and if the CF_HFLG_WRITE_BY_CLOSE and CF_HFLG_CHANGED flags set,
+	the CF file will be write too.
+
+@{b}   INPUTS@{ub}
+	Header - The Header of the file to close.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_Open()" Link "cf_Open()"}, @{"cf_Read()" Link "cf_Read()"}, @{"cf_Write()" Link "cf_Write()"}
+
+@ENDNODE
+
+@NODE "cf_DisposeArgument()" "configfile.library/cf_DisposeArgument"
+
+@{b}   NAME@{ub}
+	cf_DisposeArgument -- Remove and dispose an argument node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_DisposeArgument(ArgNode);
+			   A0
+
+	VOID cf_DisposeArgument(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function remove and dispose an argument node. The item list
+	will also be cleared.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node to remove and dispose.
+
+@{b}   NOTES@{ub}
+	If the ArgNode already removed, the function dispose the
+	argument node only.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_DisposeGroup()" Link "cf_DisposeGroup()"}, @{"cf_DisposeItem()" Link "cf_DisposeItem()"}
+
+@ENDNODE
+
+@NODE "cf_DisposeGroup()" "configfile.library/cf_DisposeGroup"
+
+@{b}   NAME@{ub}
+	cf_DisposeGroup -- Remove and dispose a group node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_DisposeGroup(GrpNode);
+			A0
+
+	VOID cf_DisposeGroup(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function remove and dispose a group node. All argument nodes
+	will also be cleared.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node to remove and dispose.
+
+@{b}   NOTES@{ub}
+	If the GrpNode already removed, the function dispose the
+	group node only.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_DisposeArgument()" Link "cf_DisposeArgument()"}, @{"cf_DisposeItem()" Link "cf_DisposeItem()"}
+
+@ENDNODE
+
+@NODE "cf_DisposeItem()" "configfile.library/cf_DisposeItem"
+
+@{b}   NAME@{ub}
+	cf_DisposeItem -- Remove and dispose an item node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_DisposeItem(ItemNode);
+		       A0
+
+	VOID cf_DisposeItem(@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function remove and dispose an item node.
+
+@{b}   INPUTS@{ub}
+	ItemNode - The item node to remove and dispose.
+
+@{b}   NOTES@{ub}
+	If the ItemNode already removed, the function dispose the
+	item node only.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_DisposeGroup()" Link "cf_DisposeGroup()"}, @{"cf_DisposeArgument()" Link "cf_DisposeArgument()"}
+
+@ENDNODE
+
+@NODE "cf_FindArgument()" "configfile.library/cf_FindArgument"
+
+@{b}   NAME@{ub}
+	cf_FindArgument -- Finds a specfic argument node. (case sensitive)
+
+@{b}   SYNOPSIS@{ub}
+	ArgNode = cf_FindArgument(GrpNode,Name);
+	D0                        A0     A1
+
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_FindArgument(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *,STRPTR);
+
+@{b}   FUNCTION@{ub}
+	This function finds a specfic argument node.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node of the argument list to search.
+	Name - Name of the argument node. 
+
+@{b}   RESULT@{ub}
+	ArgNode - The argument node or NULL.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_FindGroup()" Link "cf_FindGroup()"}, @{"cf_FindItem()" Link "cf_FindItem()"}
+
+@ENDNODE
+
+@NODE "cf_FindGroup()" "configfile.library/cf_FindGroup"
+
+@{b}   NAME@{ub}
+	cf_FindGroup -- Finds a specfic group node. (case sensitive)
+
+@{b}   SYNOPSIS@{ub}
+	GrpNode = cf_FindGroup(Header,Name);
+	D0                     A0     A1
+
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_FindGroup(@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} *,STRPTR);
+
+@{b}   FUNCTION@{ub}
+	This function finds a specfic group node.
+
+@{b}   INPUTS@{ub}
+	Header - A pointer to the Header of the group list to search.
+	Name - Name of the group node.
+
+@{b}   RESULT@{ub}
+	GrpNode - The group node or NULL.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_FindArgument()" Link "cf_FindArgument()"}, @{"cf_FindItem()" Link "cf_FindItem()"}
+
+@ENDNODE
+
+@NODE "cf_FindItem()" "configfile.library/cf_FindItem"
+
+@{b}   NAME@{ub}
+	cf_FindItem -- Finds a specfic item node.
+
+@{b}   SYNOPSIS@{ub}
+	ItemNode = cf_FindItem(ArgNode,Contents,Type);
+	D0                     A0      D0       D1
+
+	@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_FindItem(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *,@{"LONG" Link "INCLUDE:exec/types.h/Main" 35},ULONG);
+
+@{b}   FUNCTION@{ub}
+	This function finds a specfic item node.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node of the item list to search.
+	Contents - Contents of the item node.
+	Type - The type of contents (if NULL the function fails).
+
+@{b}   RESULT@{ub}
+	ItemNode - The item node or NULL.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_FindArgument()" Link "cf_FindArgument()"}, @{"cf_FindGroup()" Link "cf_FindGroup()"}
+
+@ENDNODE
+
+@NODE "cf_GetArgName()" "configfile.library/cf_GetArgName"
+
+@{b}   NAME@{ub}
+	cf_GetArgName -- Get the name of an argument node. (V2)
+
+@{b}   SYNOPSIS@{ub}
+	NamePtr = cf_GetArgName(ArgNode);
+	D0                      A0
+
+	@{"STRPTR" Link "INCLUDE:exec/types.h/Main" 53} cf_GetArgName(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function gets a pointer to the name of an argument node.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node.
+
+@{b}   RESULT@{ub}
+	NamePtr - Pointer to the name of an argument node.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212}    * myGrpNode;
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * myArgNode;
+	@{"STRPTR" Link "INCLUDE:exec/types.h/Main" 53}       ArgName;
+
+	...
+	myArgNode = @{"cf_NewArgument" Link "configfile/cf_NewArgument()"} (myGrpNode, "ExampleArgument");
+
+	ArgName = @{"cf_GetGrpName" Link "configfile/cf_GetGrpName()"} (myArgNode);
+	@{"printf" Link "amiga_lib/printf()"} ("The name of the argument node is '%s'\n", ArgName);
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_GetGrpName()" Link "cf_GetGrpName()"}
+
+@ENDNODE
+
+@NODE "cf_GetArgOfItem()" "configfile.library/cf_GetArgOfItem"
+
+@{b}   NAME@{ub}
+	cf_GetArgOfItem -- Get the parent node of an item node. (V2)
+
+@{b}   SYNOPSIS@{ub}
+	ArgNode = cf_GetArgOfItem(ItemNode);
+	D0                        A0
+
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_GetArgOfItem(@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function gets the parent node (ArgNode) of an item node.
+
+@{b}   INPUTS@{ub}
+	ItemNode - The item node.
+
+@{b}   RESULT@{ub}
+	ArgNode - Pointer to the argument node.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_GetGrpOfArg()" Link "cf_GetGrpOfArg()"}, @{"cf_GetHdrOfGrp()" Link "cf_GetHdrOfGrp()"}
+
+@ENDNODE
+
+@NODE "cf_GetGrpName()" "configfile.library/cf_GetGrpName"
+
+@{b}   NAME@{ub}
+	cf_GetGrpName -- Get the name of a group node. (V2)
+
+@{b}   SYNOPSIS@{ub}
+	NamePtr = cf_GetGrpName(GrpNode);
+	D0                      A0
+
+	@{"STRPTR" Link "INCLUDE:exec/types.h/Main" 53} cf_GetGrpName(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function gets a pointer to the name of a group node.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node.
+
+@{b}   RESULT@{ub}
+	NamePtr - Pointer to the name of an group node.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} * myHeader;
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212}  * myGrpNode;
+	@{"STRPTR" Link "INCLUDE:exec/types.h/Main" 53}     GrpName;
+
+	...
+	myGrpNode = @{"cf_NewGroup" Link "configfile/cf_NewGroup()"} (myHeader, "ExampleGroup");
+
+	GrpName = cf_GetGrpName (myGrpNode);
+	@{"printf" Link "amiga_lib/printf()"} ("The name of the group node is '%s'\n", GrpName);
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_GetArgName()" Link "cf_GetArgName()"}
+
+@ENDNODE
+
+@NODE "cf_GetGrpOfArg()" "configfile.library/cf_GetGrpOfArg"
+
+@{b}   NAME@{ub}
+	cf_GetGrpOfArg -- Get the parent node of an argument node. (V2)
+
+@{b}   SYNOPSIS@{ub}
+	GrpNode = cf_GetGrpOfArg(ArgNode);
+	D0                       A0
+
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_GetGrpOfArg(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function gets the parent node (GrpNode) of an argument node.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node.
+
+@{b}   RESULT@{ub}
+	GrpNode - Pointer to the group node.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_GetHdrOfGrp()" Link "cf_GetHdrOfGrp()"}, @{"cf_GetArgOfItem()" Link "cf_GetArgOfItem()"}
+
+@ENDNODE
+
+@NODE "cf_GetHdrOfGrp()" "configfile.library/cf_GetHdrOfGrp"
+
+@{b}   NAME@{ub}
+	cf_GetHdrOfGrp -- Get the parent node of a group node. (V2)
+
+@{b}   SYNOPSIS@{ub}
+	Header = cf_GetHdrOfArg(GrpNode);
+	D0                      A0
+
+	@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} * cf_GetHdrOfGrp(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function gets the parent node (Header) of a group node.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node.
+
+@{b}   RESULT@{ub}
+	Header - Pointer to the header.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_GetGrpOfArg()" Link "cf_GetGrpOfArg()"}, @{"cf_GetArgOfItem()" Link "cf_GetArgOfItem()"}
+
+@ENDNODE
+
+@NODE "cf_GetItem()" "configfile.library/cf_GetItem"
+
+@{b}   NAME@{ub}
+	cf_GetItem -- Get the contents of an item node or the default.
+
+@{b}   SYNOPSIS@{ub}
+	Contents = cf_GetItem(ItemNode,Type,Default);
+	D0                    A0       D0   D1
+
+	@{"LONG" Link "INCLUDE:exec/types.h/Main" 35} cf_GetItem(@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} *,ULONG,LONG);
+
+@{b}   FUNCTION@{ub}
+	This function gets the contents of an item node. If Type not equal
+	with the type of the item node the functions return the default.
+
+@{b}   INPUTS@{ub}
+	ItemNode - The item node.
+	Type - Contents type (see @{"cf_NewItem()" Link "cf_NewItem()"}).
+	Default - Default contents.
+
+@{b}   RESULT@{ub}
+	Contents - The contents of the item node or the default.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_GetItemNum()" Link "cf_GetItemNum()"}
+
+@ENDNODE
+
+@NODE "cf_GetItemNum()" "configfile.library/cf_GetItemNum"
+
+@{b}   NAME@{ub}
+	cf_GetItemNum -- Get the contents of an item node or the default.
+
+@{b}   SYNOPSIS@{ub}
+	Contents = cf_GetItemNum(ArgNode,Position,Type,Default);
+	D0                       A0      D0       D1   D2
+
+	@{"LONG" Link "INCLUDE:exec/types.h/Main" 35} cf_GetItemNum(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *,ULONG,ULONG,LONG);
+
+@{b}   FUNCTION@{ub}
+	This function gets the contents of an item node from the specific
+	position. If Type not equal with the type of the item node the
+	function returns the default.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node.
+	Position - Position of the item node (from 1 to X).
+	Type - Contents type (see @{"cf_NewItem()" Link "cf_NewItem()"}).
+	Default - Default contents.
+
+@{b}   RESULT@{ub}
+	Contents - The contents of the item node or the default.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_GetItem()" Link "cf_GetItem()"}
+
+@ENDNODE
+
+@NODE "cf_GetItemOnly()" "configfile.library/cf_GetItemOnly"
+
+@{b}   NAME@{ub}
+	cf_GetItemOnly -- Get the contents of an item node. (V2)
+
+@{b}   SYNOPSIS@{ub}
+	Contents = cf_GetItemOnly(ItemNode);
+	D0                        A0
+
+	@{"LONG" Link "INCLUDE:exec/types.h/Main" 35} cf_GetItemOnly(@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function gets the contents of an item node.
+
+@{b}   INPUTS@{ub}
+	ItemNode - The item node.
+
+@{b}   RESULT@{ub}
+	Contents - The Contents of the item node.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212}  * myItemNode;
+	@{"LONG" Link "INCLUDE:exec/types.h/Main" 35}      Contents;
+
+	...
+	Contents = cf_GetItemOnly (myItemNode);
+
+	@{"printf" Link "amiga_lib/printf()"} ("The contents of the item node is ");
+
+	if ( @{"cf_GetItemType" Link "configfile/cf_GetItemType()"} (myItemNode) == CF_ITYP_STRING )
+	   @{"printf" Link "amiga_lib/printf()"} ("'%s'\n", Contents);
+	else
+	   @{"printf" Link "amiga_lib/printf()"} ("%ld\n", Contents);
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_GetItemNum()" Link "cf_GetItemNum()"}, @{"cf_GetItem()" Link "cf_GetItem()"}
+
+@ENDNODE
+
+@NODE "cf_GetItemSType()" "configfile.library/cf_GetItemSType"
+
+@{b}   NAME@{ub}
+	cf_GetItemSType -- Get the special type of an item node. (V2)
+
+@{b}   SYNOPSIS@{ub}
+	SpecialType = cf_GetItemSType(ItemNode);
+	D0                            A0
+
+	@{"UBYTE" Link "INCLUDE:exec/types.h/Main" 46} cf_GetItemSType(@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function returns the special type of an item node.
+
+@{b}   INPUTS@{ub}
+	ItemNode - The item node.
+
+@{b}   RESULT@{ub}
+	SpecialType - Special type (see @{"cf_NewItem()" Link "cf_NewItem()"}).
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_GetItemType()" Link "cf_GetItemType()"}, @{"cf_NewItem()" Link "cf_NewItem()"}
+
+@ENDNODE
+
+@NODE "cf_GetItemType()" "configfile.library/cf_GetItemType"
+
+@{b}   NAME@{ub}
+	cf_GetItemType -- Get the type of an item node. (V2)
+
+@{b}   SYNOPSIS@{ub}
+	Type = cf_GetItemType(ItemNode);
+	D0                    A0
+
+	@{"UBYTE" Link "INCLUDE:exec/types.h/Main" 46} cf_GetItemType(@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function returns the contents type of an item node.
+
+@{b}   INPUTS@{ub}
+	ItemNode - The item node.
+
+@{b}   RESULT@{ub}
+	Type - Contents type (see @{"cf_NewItem()" Link "cf_NewItem()"}).
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_GetItemSType()" Link "cf_GetItemSType()"}, @{"cf_NewItem()" Link "cf_NewItem()"}
+
+@ENDNODE
+
+@NODE "cf_LastArgument()" "configfile.library/cf_LastArgument"
+
+@{b}   NAME@{ub}
+	cf_LastArgument -- Returns the previous argument node.
+
+@{b}   SYNOPSIS@{ub}
+	LastArgNode = cf_LastArgument(ArgNode);
+	D0                            A0
+
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_LastArgument(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function returns the previous argument node, or NULL if there
+	are no more argument nodes in the list.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node.
+
+@{b}   RESULT@{ub}
+	LastArgNode - Last argument node or NULL.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_LastGroup()" Link "cf_LastGroup()"}, @{"cf_LastItem()" Link "cf_LastItem()"}, @{"cf_LockArgList()" Link "cf_LockArgList()"}
+
+@ENDNODE
+
+@NODE "cf_LastGroup()" "configfile.library/cf_LastGroup"
+
+@{b}   NAME@{ub}
+	cf_LastGroup -- Returns the previous group node.
+
+@{b}   SYNOPSIS@{ub}
+	LastGrpNode = cf_LastGroup(GrpNode);
+	D0                         A0
+
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_LastGroup(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function returns the previous group node, or NULL if there are
+	no more group nodes in the list.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node.
+
+@{b}   RESULT@{ub}
+	LastGrpNode - Last group node or NULL.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_LastArgument()" Link "cf_LastArgument()"}, @{"cf_LastItem()" Link "cf_LastItem()"}, @{"cf_LockGrpList()" Link "cf_LockGrpList()"}
+
+@ENDNODE
+
+@NODE "cf_LastItem()" "configfile.library/cf_LastItem"
+
+@{b}   NAME@{ub}
+	cf_LastItem -- Returns the previous item node.
+
+@{b}   SYNOPSIS@{ub}
+	LastItemNode = cf_LastItem(ItemNode);
+	D0                         A0
+
+	@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_LastItem(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function returns the previous item node, or NULL if there are
+	no more item nodes in the list.
+
+@{b}   INPUTS@{ub}
+	ItemNode - The item node.
+
+@{b}   RESULT@{ub}
+	LastItemNode - Last item node or NULL.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_LastArgument()" Link "cf_LastArgument()"}, @{"cf_LastGroup()" Link "cf_LastGroup()"}, @{"cf_LockItemList()" Link "cf_LockItemList()"}
+
+@ENDNODE
+
+@NODE "cf_LockArgList()" "configfile.library/cf_LockArgList"
+
+@{b}   NAME@{ub}
+	cf_LockArgList -- Locks the argument list of a group node for use.
+
+@{b}   SYNOPSIS@{ub}
+	FirstArgNode = cf_LockArgList(GrpNode);
+	D0                            A0
+
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_LockArgList(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function locks the argument list of a group node for use, or
+	NULL if the group node has no argument nodes. The pointer returned
+	by this is NOT an actual ArgNode pointer - you should use one of the
+	other ArgNode calls to get actual pointers to ArgNode structures
+	(such as cf_NextArgNode()), passing the value returned by
+	cf_LockArgList() as the ArgNode value.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node for the argument list.
+
+@{b}   RESULT@{ub}
+	FirstArgNode - First argument node of the group node or NULL.
+		       NOT a valid node!
+
+@{b}   EXAMPLE@{ub}
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212}    * myGrpNode;
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * myArgNode;
+
+	...
+
+	if ( myArgNode = cf_LockArgList (myGrpNode) )
+	{
+	   while ( myArgNode = @{"cf_NextArgument" Link "configfile/cf_NextArgument()"} (myArgNode) )
+	   {
+	      ...
+	   }
+
+	   cf_UnlockArgList(myGrpNode);
+	}
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_LockGrpList()" Link "cf_LockGrpList()"}, @{"cf_LockItemList()" Link "cf_LockItemList()"}, @{"cf_UnlockArgList()" Link "cf_UnlockArgList()"},
+	@{"cf_NextArgument()" Link "cf_NextArgument()"}
+
+@ENDNODE
+
+@NODE "cf_LockGrpList()" "configfile.library/cf_LockGrpList"
+
+@{b}   NAME@{ub}
+	cf_LockGrpList -- Locks the group list of the header for use.
+
+@{b}   SYNOPSIS@{ub}
+	FirstGrpNode = cf_LockGrpList(Header);
+	D0                            A0
+
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_LockGrpList(@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} *);
+
+@{b}   FUNCTION@{ub}
+	This function locks the group list of the header for use, or NULL
+	if the header has no group nodes. The pointer returned by this is
+	NOT an actual GrpNode pointer - you should use one of the other
+	GrpNode calls to get actual pointers to GrpNode structures (such as
+	cf_NextGrpNode()), passing the value returned by cf_LockGrpList()
+	as the GrpNode value.
+
+@{b}   INPUTS@{ub}
+	Header - Pointer to the @{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} structure.
+
+@{b}   RESULT@{ub}
+	FirstGrpNode - First group node of the header or NULL.
+		       NOT a valid node!
+
+@{b}   EXAMPLE@{ub}
+	@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} * myHeader;
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212}  * myGrpNode;
+
+	...
+
+	if ( myGrpNode = cf_LockGrpList (myHeader) )
+	{
+	   while ( myGrpNode = @{"cf_NextGroup" Link "configfile/cf_NextGroup()"} (myGrpNode) )
+	   {
+	      ...
+	   }
+
+	   cf_UnlockGrpList(myHeader);
+	}
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_LockArgList()" Link "cf_LockArgList()"}, @{"cf_LockItemList()" Link "cf_LockItemList()"}, @{"cf_UnlockGrpList()" Link "cf_UnlockGrpList()"},
+	@{"cf_NextGroup()" Link "cf_NextGroup()"}
+
+@ENDNODE
+
+@NODE "cf_LockItemList()" "configfile.library/cf_LockItemList"
+
+@{b}   NAME@{ub}
+	cf_LockItemList -- Locks the item list of an argument node for use.
+
+@{b}   SYNOPSIS@{ub}
+	FirstItemNode = cf_LockItemList(ArgNode);
+	D0                              A0
+
+	@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_LockItemList(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function locks the item list of an argument node for use, or
+	NULL if the argument node has no item nodes. The pointer returned by
+	this is NOT an actual ItemNode pointer - you should use one of the
+	other ItemNode calls to get actual pointers to ItemNode structures
+	(such as cf_NextItemNode()), passing the value returned by
+	cf_LockItemList() as the ItemNode value.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node for item list.
+
+@{b}   RESULT@{ub}
+	FirstItemNode - First item node of the argument node or NULL.
+			NOT a valid node!
+
+@{b}   EXAMPLE@{ub}
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * myArgNode;
+	@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212}     * myItemNode;
+
+	...
+
+	if ( myItemNode = cf_LockItemList (myArgNode) )
+	{
+	   while ( myItemNode = @{"cf_NextItem" Link "configfile/cf_NextItem()"} (myItemNode) )
+	   {
+	      ...
+	   }
+
+	   cf_UnlockItemList(myItemNode);
+	}
+	...
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_LockArgList()" Link "cf_LockArgList()"}, @{"cf_LockGrpList()" Link "cf_LockGrpList()"}, @{"cf_UnlockItemList()" Link "cf_UnlockItemList()"},
+	@{"cf_NextItem()" Link "cf_NextItem()"}
+
+@ENDNODE
+
+@NODE "cf_NewArgItem()" "configfile.library/cf_NewArgItem"
+
+@{b}   NAME@{ub}
+	cf_NewArgItem -- Creates a new argument node and a new item node.
+
+@{b}   SYNOPSIS@{ub}
+	ArgNode = cf_NewArgItem(GrpNode,Name,Contents,Type,SpecialType);
+	D0                      A0      A1   D0       D1   D2
+
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_NewArgItem(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *,@{"STRPTR" Link "INCLUDE:exec/types.h/Main" 53},@{"LONG" Link "INCLUDE:exec/types.h/Main" 35},ULONG,ULONG);
+
+@{b}   FUNCTION@{ub}
+	This function creates a new argument node and a new item node. The
+	GrpNode must be a pointer to a group node.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node for add to. (!!! not NULL !!!)
+	Name - The name of the new argument node.
+	Contents - The contents of the new item node.
+	Type - Type of the contents.
+	SpecialType - Special types for @{"cf_Write()" Link "cf_Write()"} or NULL for default.
+
+@{b}   RESULT@{ub}
+	ArgNode - The new argument node or NULL by failure.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} * myGrpNode;
+
+	...
+	
+	cf_NewArgument(myGrpNode,"ExampleArg","FooStr",CF_ITYP_STRING,NULL);
+	...
+
+	In the CF file:
+
+	...
+	ExampleArg="FooStr"
+	...
+
+@{b}   NOTES@{ub}
+	The Version 2 of the ConfigFile.library don't support anymore a
+	NULL pointer by GrpNode.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_NewGroup()" Link "cf_NewGroup()"}, @{"cf_NewItem()" Link "cf_NewItem()"}, @{"cf_NewArgument()" Link "cf_NewArgument()"}
+
+@ENDNODE
+
+@NODE "cf_NewArgument()" "configfile.library/cf_NewArgument"
+
+@{b}   NAME@{ub}
+	cf_NewArgument -- Creates a new argument node.
+
+@{b}   SYNOPSIS@{ub}
+	ArgNode = cf_NewArgument(GrpNode,Name);
+	D0                       A0      A1
+
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_NewArgument(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *,STRPTR);
+
+@{b}   FUNCTION@{ub}
+	This function creates a new argument node. The GrpNode must be a
+	pointer to a group node. 
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node for add to. (!!! not NULL !!!)
+	Name - The name of the new argument node.
+
+@{b}   RESULT@{ub}
+	ArgNode - The new argument node or NULL by failure.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212}    * myGrpNode;
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * myArgNode;
+
+	...
+	
+	myArgNode = cf_NewArgument(myGrpNode,"ExampleArg");
+	...
+
+	In the CF file:
+
+	...
+	ExampleArg=
+	...
+
+@{b}   NOTES@{ub}
+	The version 2 of the ConfigFile.library didn't support anymore a
+	NULL pointer by GrpNode.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_NewGroup()" Link "cf_NewGroup()"}, @{"cf_NewItem()" Link "cf_NewItem()"}, @{"cf_NewArgItem()" Link "cf_NewArgItem()"}
+
+@ENDNODE
+
+@NODE "cf_NewGroup()" "configfile.library/cf_NewGroup"
+
+@{b}   NAME@{ub}
+	cf_NewGroup -- Creates a new group node.
+
+@{b}   SYNOPSIS@{ub}
+	GrpNode = cf_NewGroup(Header,Name);
+	D0                    A0    A1
+
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_NewGroup(@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} *,STRPTR);
+
+@{b}   FUNCTION@{ub}
+	This function creates a new group node. The Header must be a
+	pointer to a @{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} structure.
+
+@{b}   INPUTS@{ub}
+	Header - Pointer to the @{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} structure for add to.
+		 (!!! not NULL !!!)
+	Name - Name of the new group node.
+
+@{b}   RESULT@{ub}
+	GrpNode - The new group node or NULL by failure.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} * myHeader;
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} * myGrpNode;
+
+	...
+	
+	myGrpNode = cf_NewGroup(myHeader,"ExampleGroup");
+	cf_NewArgument(myGrpNode,"ExampleArg");
+	...
+
+	In the CF file:
+
+	...
+	[ExampleGroup]
+
+	ExampleArg=
+	...
+
+@{b}   NOTES@{ub}
+	The version 2 of the ConfigFile.library didn't support anymore a
+	NULL pointer by Header.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_NewArgument()" Link "cf_NewArgument()"}, @{"cf_NewItem()" Link "cf_NewItem()"}, @{"cf_NewArgItem()" Link "cf_NewArgItem()"}
+
+@ENDNODE
+
+@NODE "cf_NewItem()" "configfile.library/cf_NewItem"
+
+@{b}   NAME@{ub}
+	cf_NewItem -- Creates a new item node.
+
+@{b}   SYNOPSIS@{ub}
+	ItemNode = cf_NewItem(ArgNode,Contents,Type,SpecialType);
+	D0                    A0      D0       D1   D2
+
+	@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_NewItem(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *,@{"LONG" Link "INCLUDE:exec/types.h/Main" 35},ULONG,ULONG);
+
+@{b}   FUNCTION@{ub}
+	This function creates a new item node. The ArgNode must be a
+	pointer to a argument node.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node for add to. (!!! not NULL !!!)
+	Contents - The contents of the new item node.
+	Type - Type of the contents.
+
+	   CF_ITYP_STRING -- String type (Contents is a pointer to a
+			     NULL-terminated string)
+	   CF_ITYP_NUMBER -- Number type (Contents is long value e.g.
+			     44253 or -23456)
+	   CF_ITYP_BOOL   -- Bool type   (Contents is long value TRUE or
+			     FALSE)
+	SpecialType - Special types for @{"cf_Write()" Link "cf_Write()"} or NULL for default.
+
+	   CF_ITYP_BOOL:
+
+	     CF_STYP_BOOL_YES  -- "YES/NO"
+	     CF_STYP_BOOL_TRUE -- "TRUE/FALSE"
+	     CF_STYP_BOOL_ON   -- "ON/OFF"
+
+	   CF_ITYP_NUMBER:
+
+	     CF_STYP_NUM_DEC   -- Decimal (e.g 24574)
+	     CF_STYP_NUM_HEX   -- Hexdecimal (e.g. $fDe2)
+	     CF_STYP_NUM_BIN   -- Binary (e.g. %10111)
+
+@{b}   RESULT@{ub}
+	ItemNode - The new group node or NULL by failure.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * myArgNode;
+
+	...
+	
+	myArgNode = cf_NewArgument(NULL,"ExampleArg");
+	cf_NewItem(myArgNode,(LONG)"Foo Str",CF_ITYP_STRING,NULL);
+	cf_NewItem(myArgNode,5467,CF_ITYP_NUMBER,CF_STYP_NUM_DEC);
+	cf_NewItem(myArgNode,35678,CF_ITYP_NUMBER,CF_STYP_NUM_HEX);
+	cf_NewItem(myArgNode,23,CF_ITYP_NUMBER,CF_STYP_NUM_BIN);
+	cf_NewItem(myArgNode,FALSE,CF_ITYP_BOOL,CF_STYP_NUM_ON);
+	cf_NewItem(myArgNode,TRUE,CF_ITYP_BOOL,CF_STYP_NUM_ON);
+	cf_NewItem(myArgNode,TRUE,CF_ITYP_BOOL,CF_STYP_NUM_YES);
+	...
+
+	In the CF file:
+
+	...
+	ExampleArg="Foo Str",5467,$865E,%10111,OFF,ON,YES
+	...
+
+@{b}   NOTES@{ub}
+	The version 2 of the ConfigFile.library didn't support anymore a
+	NULL pointer by ArgNode.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_NewArgument()" Link "cf_NewArgument()"}, @{"cf_NewGroup()" Link "cf_NewGroup()"}, @{"cf_Write()" Link "cf_Write()"}, @{"cf_NewArgItem()" Link "cf_NewArgItem()"},
+	@{"<libraries/configfile.h>" Link "INCLUDE:libraries/configfile.h/Main" 0}
+
+@ENDNODE
+
+@NODE "cf_NextArgument()" "configfile.library/cf_NextArgument"
+
+@{b}   NAME@{ub}
+	cf_NextArgument -- Returns the next argument node.
+
+@{b}   SYNOPSIS@{ub}
+	NextArgNode = cf_NextArgument(ArgNode);
+	D0                            A0
+
+	@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_NextArgument(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function returns the next argument node, or NULL if there are
+	no more argument nodes in the list.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node.
+
+@{b}   RESULT@{ub}
+	NextArgNode - Next argument node or NULL.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_NextGroup()" Link "cf_NextGroup()"}, @{"cf_NextItem()" Link "cf_NextItem()"}, @{"cf_LockArgList()" Link "cf_LockArgList()"}
+
+@ENDNODE
+
+@NODE "cf_NextGroup()" "configfile.library/cf_NextGroup"
+
+@{b}   NAME@{ub}
+	cf_NextGroup -- Returns the next group node.
+
+@{b}   SYNOPSIS@{ub}
+	NextGrpNode = cf_NextGroup(GrpNode);
+	D0                         A0
+
+	@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_NextGroup(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function returns the next group node, or NULL if there are no
+	more group nodes in the list.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node.
+
+@{b}   RESULT@{ub}
+	NextGrpNode - Next group node or NULL.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_NextArgument()" Link "cf_NextArgument()"}, @{"cf_NextItem()" Link "cf_NextItem()"}, @{"cf_LockGrpList()" Link "cf_LockGrpList()"}
+
+@ENDNODE
+
+@NODE "cf_NextItem()" "configfile.library/cf_NextItem"
+
+@{b}   NAME@{ub}
+	cf_NextItem -- Returns the next item node.
+
+@{b}   SYNOPSIS@{ub}
+	NextItemNode = cf_NextItem(ItemNode);
+	D0                         A0
+
+	@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} * cf_NextItem(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function returns the next item node, or NULL if there are no
+	more item nodes in the list.
+
+@{b}   INPUTS@{ub}
+	ItemNode - The item node.
+
+@{b}   RESULT@{ub}
+	NextItemNode - Next item node or NULL.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_NextArgument()" Link "cf_NextArgument()"}, @{"cf_NextGroup()" Link "cf_NextGroup()"}, @{"cf_LockItemList()" Link "cf_LockItemList()"}
+
+@ENDNODE
+
+@NODE "cf_Open()" "configfile.library/cf_Open"
+
+@{b}   NAME@{ub}
+	cf_Open -- Open a CF file.
+
+@{b}   SYNOPSIS@{ub}
+	Header = cf_Open(Name,Mode,ErrorCode);
+	D0               A0   D0   A1
+
+	@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} * cf_Open(STRPTR,ULONG,ULONG *);
+
+@{b}   FUNCTION@{ub}
+	This function create a memory pool with the default size of 2048
+	bytes, allocate pool memory for the header, open or create a new
+	CF file and check which format type has the file (ascii or short
+	format). And if the flag CF_OFLG_READ_TOO set, the file will be
+	read too.
+
+@{b}   INPUTS@{ub}
+	Name - Name and path of the CF file.
+	Mode - Open modes for the file:
+	
+		CF_OMODE_OLDFILE   - An existing file is opened. Did the
+				     file not exists the function failed. 
+		CF_OMODE_NEWFILE   - A new file will be create.
+		CF_OMODE_READWRITE - Opens a file, but creates it if it
+				     didn't exist.
+
+		Extra open flags: (V2)
+
+		CF_OFLG_READ_TOO   - Reads the file directly after the
+				     it is open. You didn't need use
+				     @{"cf_Read()" Link "cf_Read()"}.
+
+	ErrorCode - Contains an errorcode if the function return FALSE 
+		    or NULL.
+
+		CF_OERR_UNKOWN     - Unkown failure.
+		CF_OERR_OPEN_FILE  - Couldn't open CF file.
+		CF_OERR_READ_FILE  - Couldn't read CF file.
+		CF_OERR_NO_FORMAT  - File is no in CF format.
+		CF_OERR_NO_SIZE    - File has no size.
+		CF_OERR_HEADER_MEM - No memory for Header.
+
+		If the CF_OFLG_READ_TOO flag set:
+
+		CF_RERR_FORMAT       - File has an error in the format
+				       structure. (V2)
+		CF_RERR_UNKOWN_ITYPE - An unkown item type was found. (V2)
+
+@{b}   RESULT@{ub}
+	Header - a pointer to an initialized @{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} structure, or NULL if
+		 the CF file could not be opened. In the case of a NULL
+		 return, the ErrorCode var can be read to obtain more
+		 information on the failure.
+
+@{b}   EXAMPLE@{ub}
+	ULONG Error;
+	@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} *myHeader;
+
+	if(myHeader = cf_Open("DH0:misc/text1.cfg",CF_OMODE_NEWFILE,&Error))
+	{
+	   ...
+	   cf_Close(Header);
+	}
+	else
+	{
+	   switch(Error)
+	   {
+	      case CF_OERR_OPEN_FILE:  CleanUp ("Couldn't open CF file.");
+	      case CF_OERR_READ_FILE:  CleanUp ("Couldn't read CF file.");
+	      case CF_OERR_NO_FORMAT:  CleanUp ("File is no in CF format.");
+	      case CF_OERR_NO_SIZE:    CleanUp ("File has no size.");
+	      case CF_OERR_HEADER_MEM: CleanUp ("No memory for Header.");
+	      default:                 CleanUp ("Unkown failure.");
+	   }
+	}
+	
+	...
+	
+@{b}   NOTES@{ub}
+	If you want to open a CF file with a specify puddlesize, use the
+	@{"cf_OpenPS()" Link "cf_OpenPS()"} function.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_Close()" Link "cf_Close()"}, @{"cf_Read()" Link "cf_Read()"}, @{"cf_Write()" Link "cf_Write()"}, @{"<libraries/configfile.h>" Link "INCLUDE:libraries/configfile.h/Main" 0},
+	@{"cf_OpenPS()" Link "cf_OpenPS()"}, @{"exec.library/CreatePool()" Link "exec/CreatePool()"}
+
+@ENDNODE
+
+@NODE "cf_OpenPS()" "configfile.library/cf_OpenPS"
+
+@{b}   NAME@{ub}
+	cf_OpenPS -- Open a CF file with the specified puddlesize. (V2)
+
+@{b}   SYNOPSIS@{ub}
+	Header = cf_OpenPS(Name,Mode,ErrorCode,PuddleSize);
+	D0                 A0   D0   A1        D1
+
+	@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} * cf_Open(STRPTR,ULONG,ULONG *,ULONG);
+
+@{b}   FUNCTION@{ub}
+	This function create a memory pool with a specify puddlesize,
+	allocate pool memory for the header, open or create a new CF file
+	and check which format type has the file (ascii or short format).
+	And if the flag CF_OFLG_READ_TOO set, the file will be read too.
+
+@{b}   INPUTS@{ub}
+	Name - Name and path of the CF file.
+	Mode - Openmode for the file.
+	ErrorCode - Contains an errorcode if the function return FALSE
+		    or NULL.
+	PuddleSize - Size of the puddle or NULL for default (2048 bytes).
+
+@{b}   RESULT@{ub}
+	Header - a pointer to an initialized @{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167}, or NULL if the CF
+		 file could not be opened. In the case of a NULL return,
+		 the ErrorCode var can be read to obtain more information 
+		 on the failure.
+
+@{b}   EXAMPLE@{ub}
+	@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} *myHeader;
+
+	if(myHeader = cf_OpenPS("HD3:sys.cfg",CF_OMODE_NEWFILE,0,4096))
+	{
+	   ...
+	   cf_Close(Header);
+	}
+	
+	...
+	
+@{b}   SEE ALSO@{ub}
+	@{"cf_Close()" Link "cf_Close()"}, @{"cf_Read()" Link "cf_Read()"}, @{"cf_Write()" Link "cf_Write()"}, @{"<libraries/configfile.h>" Link "INCLUDE:libraries/configfile.h/Main" 0},
+	@{"cf_Open()" Link "cf_Open()"}, @{"exec.library/CreatePool()" Link "exec/CreatePool()"}
+
+@ENDNODE
+
+@NODE "cf_Read()" "configfile.library/cf_Read"
+
+@{b}   NAME@{ub}
+	cf_Read -- Read a CF file.
+
+@{b}   SYNOPSIS@{ub}
+	Result = cf_Read(Header,ErrorCode);
+	D0               A0     A1
+
+	@{"BOOL" Link "INCLUDE:exec/types.h/Main" 68} cf_Read(@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} *,ULONG *);
+
+@{b}   FUNCTION@{ub}
+	This function clears all nodes and read the CF file new. The
+	CF_HFLG_CHANGED flag in Header->Flags will be clear.
+
+@{b}   INPUTS@{ub}
+	Header - The Header of the file.
+
+	ErrorCode - Contains an errorcode if the function returns FALSE
+		    or NULL.
+
+		CF_RERR_UNKOWN       - Unkown failure.
+		CF_RERR_BUFFER_MEM   - No memory for buffer.
+		CF_RERR_READ_FILE    - Couldn't read the file.
+		CF_RERR_FORMAT       - File has an error in the format
+				       structure. (V2)
+		CF_RERR_UNKOWN_ITYPE - An unkown item type was found. (V2)
+
+@{b}   RESULT@{ub}
+	Result - TRUE for success or in case of FALSE return, the ErrorCode
+		 var can be read to obtain more.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_Open()" Link "cf_Open()"}, @{"cf_Close()" Link "cf_Close()"}, @{"cf_Write()" Link "cf_Write()"}, @{"<libraries/configfile.h>" Link "INCLUDE:libraries/configfile.h/Main" 0}
+
+@ENDNODE
+
+@NODE "cf_RemoveArgument()" "configfile.library/cf_RemoveArgument"
+
+@{b}   NAME@{ub}
+	cf_RemoveArgument -- Remove an argument node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_RemoveArgument(ArgNode);
+			  A0
+
+	VOID cf_RemoveArgument(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function remove an argument node. Note don't adds the removed
+	ArgNode to another open CF file.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node to remove.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_RemoveGroup()" Link "cf_RemoveGroup()"}, @{"cf_RemoveItem()" Link "cf_RemoveItem()"}
+
+@ENDNODE
+
+@NODE "cf_RemoveGroup()" "configfile.library/cf_RemoveGroup"
+
+@{b}   NAME@{ub}
+	cf_RemoveGroup -- Remove a group node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_RemoveGroup(GrpNode);
+		       A0
+
+	VOID cf_RemoveGroup(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function remove a group node. Note don't adds the removed 
+	GrpNode to another open CF file.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node to remove.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_RemoveArgument()" Link "cf_RemoveArgument()"}, @{"cf_RemoveItem()" Link "cf_RemoveItem()"}
+
+@ENDNODE
+
+@NODE "cf_RemoveItem()" "configfile.library/cf_RemoveItem"
+
+@{b}   NAME@{ub}
+	cf_RemoveItem -- Remove an item node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_RemoveItem(ItemNode);
+		      A0
+
+	VOID cf_RemoveItem(@{"CFItem" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function remove an item node. Note don't adds the removed 
+	ItemNode to another open CF file.
+
+@{b}   INPUTS@{ub}
+	ItemNode - The item node to remove.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_RemoveGroup()" Link "cf_RemoveGroup()"}, @{"cf_RemoveArgument()" Link "cf_RemoveArgument()"}
+
+@ENDNODE
+
+@NODE "cf_UnlockArgList()" "configfile.library/cf_UnlockArgList"
+
+@{b}   NAME@{ub}
+	cf_UnlockArgList -- Unlocks the argument list of the group node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_UnlockArgList(GrpNode);
+			 A0
+
+	VOID cf_UnlockArgList(@{"CFGroup" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function unlocks the access on the argument list.
+
+@{b}   INPUTS@{ub}
+	GrpNode - The group node for the argument list.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_UnlockGrpList()" Link "cf_UnlockGrpList()"}, @{"cf_UnlockItemList()" Link "cf_UnlockItemList()"}, @{"cf_LockArgList()" Link "cf_LockArgList()"}
+
+@ENDNODE
+
+@NODE "cf_UnlockGrpList()" "configfile.library/cf_UnlockGrpList"
+
+@{b}   NAME@{ub}
+	cf_UnlockGrpList -- Unlocks the group list of the header.
+
+@{b}   SYNOPSIS@{ub}
+	cf_UnlockGrpList(Header);
+			 A0
+
+	VOID cf_UnlockGrpList(@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} *);
+
+@{b}   FUNCTION@{ub}
+	This function unlocks the access on the group list.
+
+@{b}   INPUTS@{ub}
+	Header - Pointer to the @{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} structure.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_UnlockArgList()" Link "cf_UnlockArgList()"}, @{"cf_UnlockItemList()" Link "cf_UnlockItemList()"}, @{"cf_LockGrpList()" Link "cf_LockGrpList()"}
+
+@ENDNODE
+
+@NODE "cf_UnlockItemList()" "configfile.library/cf_UnlockItemList"
+
+@{b}   NAME@{ub}
+	cf_UnlockItemList -- Unlocks the item list of the argument node.
+
+@{b}   SYNOPSIS@{ub}
+	cf_UnlockItemList(ArgNode);
+			  A0
+
+	VOID cf_UnlockItemList(@{"CFArgument" Link "INCLUDE:libraries/configfile.h/Main" 212} *);
+
+@{b}   FUNCTION@{ub}
+	This function unlocks the access on the item list.
+
+@{b}   INPUTS@{ub}
+	ArgNode - The argument node for item list.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_UnlockArgList()" Link "cf_UnlockArgList()"}, @{"cf_UnlockGrpList()" Link "cf_UnlockGrpList()"}, @{"cf_LockItemList()" Link "cf_LockItemList()"}
+
+@ENDNODE
+
+@NODE "cf_Write()" "configfile.library/cf_Write"
+
+@{b}   NAME@{ub}
+	cf_Write -- Write a CF file new.
+
+@{b}   SYNOPSIS@{ub}
+	Result = cf_Write(Header,WriteMode,ErrorCode);
+	D0                A0     D0        A1
+
+	@{"BOOL" Link "INCLUDE:exec/types.h/Main" 68} cf_Write(@{"CFHeader" Link "INCLUDE:libraries/configfile.h/Main" 167} *,ULONG,ULONG *);
+
+@{b}   FUNCTION@{ub}
+	This function writes the CF file new. Note is the CF_HFLG_CHANGED
+	flag in Header->Flags not set the file will be not writes new.
+
+@{b}   INPUTS@{ub}
+	Header - The Header of the file to write.
+	WriteMode - Write modes and extra flags:
+
+		CF_WMODE_DEFAULT -- Writes the file in default format
+				    from Header->Flags.
+		CF_WMODE_ASCII   -- Writes the file in ascii format.
+		CF_WMODE_SHORT   -- Writes the file in short format.
+
+		Extra write flags: (V2)
+
+		CF_WFLG_WRITE_ALWAYS -- cf_Write() checks not if the
+					CF_HFLG_CHANGED flag set and
+					writes always the file.
+
+	ErrorCode - Contain an errorcode if the function returns FALSE
+		    or NULL.
+
+		CF_WERR_UNKOWN        - Unkown failure.
+		CF_WERR_ALLOC_WBUFFER - No memory for WriteBuffer.
+
+@{b}   RESULT@{ub}
+	Result - TRUE for success or in case of FALSE return, the ErrorCode
+		 var can be read to obtain more.
+
+@{b}   SEE ALSO@{ub}
+	@{"cf_Open()" Link "cf_Open()"}, @{"cf_Close()" Link "cf_Close()"}, @{"cf_Read()" Link "cf_Read()"}, @{"<libraries/configfile.h>" Link "INCLUDE:libraries/configfile.h/Main" 0}
+
+@ENDNODE
+

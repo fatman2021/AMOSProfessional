@@ -1,0 +1,110 @@
+# Maori pronounciation rules for translator.library V42
+# $VER: maori.accent 1.0 (1.4.95)
+# By Francesco Devitt <ffranc@comp.vuw.ac.nz>
+#
+
+%class ie  i e
+%class digit 1 2 3 4 5 6 7 8 9
+
+# Stress the penultimate syllable.
+%stress 1
+
+[AU] = AWWH
+[AO] = AW
+[AI] = AY
+[AE] = AY
+[AA] = AA
+[A] = AA
+
+[B] = B
+
+[C] = K
+
+[D] = D
+
+[EI] = EY
+[EE] = EH
+[E] = EH
+
+
+[F] = F
+
+[G] = G
+
+[H] = /H
+
+[I] = IY
+
+[J] = J
+[K] = K
+
+[L] = L
+
+[M] = M
+
+[NG] = NX
+[N] = N
+
+[OU] = OW
+[O] = AO
+
+[P] = P
+
+[Q] = K
+
+[R] = RDXR
+
+[S] = S
+
+[T] = TT
+
+[U] = UH
+[UU] = UW
+
+[V] = V
+
+$[WHAKA] = FAAKAH
+[WH] = F
+[W] = WH
+
+[X] = KS
+
+[Y] = Y
+
+[Z] = Z
+
+[10](digit~) = "TEH KAWWH"
+[1](digit~) = TAA/HIY
+[2](digit~) = RUHAA
+[3](digit~) = TAORUH
+[4](digit~) = FAA
+[5](digit~) = RIYMAA
+[6](digit~) = AONUH
+[7](digit~) = FIYTUH
+[8](digit~) = WHAARUH
+[9](digit~) = IYWHAA
+
+(digit)[0](digit~) = " TEH KAWWH"
+
+[1](digit) = "TEH KAWWHMAA "
+[2](digit) = "RUHAA TEH KAWWHMAA "
+[3](digit) = "TAORUH TEH KAWWHMAA "
+
+[ "\ " ] = " "
+
+[.]$ = .
+[!]$ = .
+[.] = " "
+[%] = .
+[:] = ". "
+[;] = .
+[?] = ?
+[ "\(" ] = ,
+[ "\)" ] = ,
+[\\] = " "
+[ "\[" ] = " "
+[{] = " "
+[}] = " "
+[_] = " "
+[`] = " "
+[ "]" ] = " "

@@ -1,0 +1,8 @@
+AmiLinkLib	A file client to split Amiga link libraries. Due to the
+		nature of these files it also detects every object file as
+		link library.
+xfd-xad		This client allows to access XFD crunched files as XAD
+		archives.
+xfdScan		This client allows to do Xfd scanning and shows the resulting
+		files as if they have been in an archive.
+

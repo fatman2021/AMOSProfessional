@@ -1,0 +1,138 @@
+/*
+** $VER: RDBBackup.windows 1.1 (20.4.96) ©1996 by Jürgen Kohrmeyer
+**
+** Window definitions for RDBBackup
+*/
+
+/*
+** mainwindow
+*/
+
+mainwindowtags = ,
+   WindowID(1),
+   WindowTitle(appname appversion),
+   PubScreenName(pubscreen),
+   'HorizGroupA',
+      'Space',
+      'VertGroupA',
+         'Space',
+         NamedFrameBox(localestring(MSG_FRAMEBOX_PREFS)),
+         'VertGroupA',
+            'Space',
+            'HorizGroupAC',
+               'Space',
+               'LineArray',
+                  'BeginLine',
+                     TextID(localestring(MSG_GAD_PUBSCREEN),2) 'TRAT_Flags TROF_RIGHTALIGN',
+                     'Space',
+                     StringGadget(pubscreen,1),
+                     GetEntryButton(2),
+                  'EndLine',
+                  'SpaceS',
+                  'BeginLine',
+                     TextID(localestring(MSG_GAD_BACKUP_DIR),4) 'TRAT_Flags TROF_RIGHTALIGN',
+                     'Space',
+                     StringGadget(backupdir,3),
+                     GetDrawerButton(4),
+                  'EndLine',
+                  'SpaceS',
+                  'BeginLine',
+                     TextID(localestring(MSG_GAD_SCSI_DEVICE),6) 'TRAT_Flags TROF_RIGHTALIGN',
+                     'Space',
+                     StringGadget(device,5),
+                     GetEntryButton(6),
+                  'EndLine',
+               'EndArray',
+               'Space',
+            'EndGroup',
+            'Space',         
+         'EndGroup',
+         'Space',         
+         NamedFrameBox(localestring(MSG_FRAMEBOX_UNITS)),
+         'HorizGroupA',
+            'Space',
+            'VertGroupA',
+               'Space',
+               FWListSS('unitlist',10,0,0) 'TRAT_MinWidth 56',
+               'HorizGroupAC',
+                  Button(localestring(MSG_GAD_UPDATE),11),
+                  Button(localestring(MSG_GAD_BACKUP),12) 'TRAT_Disabled 1',
+                  Button(localestring(MSG_GAD_RESTORE),13) 'TRAT_Disabled 1',
+               'EndGroup',
+               'Space',
+            'EndGroup',
+            'Space',
+         'EndGroup',
+         'Space',
+         'HorizGroupSAC',
+             Button(localestring(MSG_GAD_ABOUT),20),
+            'Space',
+             Button(localestring(MSG_GAD_SAVE_PREFS),21),
+            'Space',
+             Button(localestring(MSG_GAD_QUIT),22),
+         'EndGroup',
+         'Space',
+      'EndGroup',
+      'Space',
+   'EndGroup EndProject'
+
+
+/*
+** device window
+*/
+
+devicewindowtags = ,
+   WindowID(2),
+   WindowPosition('TRWP_MOUSEPOINTER'),
+   WindowTitle(localestring(MSG_DEVICEWINDOW_TITLE)),
+   WindowFlags('TRWF_NOESCCLOSE'),
+   PubScreenName(pubscreen),
+   'VertGroupA',
+      'Space',
+      'HorizGroupA',
+         'Space',
+         ListSS('devicelist',201,0,0),
+         'Space',
+      'EndGroup',
+      'Space',
+      'HorizSeparator',
+      'Space',
+      'HorizGroupA',
+         'Space',
+         ButtonR(localestring(MSG_GAD_USE),298),
+         ButtonE(localestring(MSG_GAD_CANCEL),299),
+         'Space',
+      'EndGroup',
+      'Space',
+   'EndGroup EndProject'
+
+
+
+/*
+** public screen window
+*/
+
+screenwindowtags = ,
+   WindowID(3),
+   WindowPosition('TRWP_MOUSEPOINTER'),
+   WindowTitle(localestring(MSG_SCREENWINDOW_TITLE)),
+   WindowFlags('TRWF_NOESCCLOSE'),
+   PubScreenName(pubscreen),
+   'VertGroupA',
+      'Space',
+      'HorizGroupA',
+         'Space',
+         ListSS('screenlist',301,0,0),
+         'Space',
+      'EndGroup',
+      'Space',
+      'HorizSeparator',
+      'Space',
+      'HorizGroupA',
+         'Space',
+         ButtonR(localestring(MSG_GAD_USE),398),
+         ButtonE(localestring(MSG_GAD_CANCEL),399),
+         'Space',
+      'EndGroup',
+      'Space',
+   'EndGroup EndProject'

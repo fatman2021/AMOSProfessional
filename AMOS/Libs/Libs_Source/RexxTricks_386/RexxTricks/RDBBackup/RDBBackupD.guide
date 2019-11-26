@@ -1,0 +1,284 @@
+@database RDBBackup.guide
+@index inhalt
+@width 76
+@node main "RDBBackup.guide"
+
+****************************************************************************
+
+                         RDBBackup 1.1 (20.4.96)
+                     (C) 1996 by Jürgen Kohrmeyer
+
+****************************************************************************
+
+'RDBBackup' ist eine Oberfläche für das Programm 'ReadRDB' von Gérard Cornu,
+damit können Sie sehr einfach Sicherheitskopien vom 'RigidDiskBlock' (RDB)
+ihrer Festplatten anfertigen. Der RDB einer Festplatte enthält alle für das
+System wichtigen Informationen, z.B. eine Beschreibung der Festplatte und
+die Daten aller Partitionen.
+
+Wenn der RDB zerstört ist, oder Sie mit einem Festplatten Utility falsche
+Einstellungen gemacht haben, kann AmigaDOS nicht mehr auf die auf der
+Festplatte gespeicherten Dateien zugreifen. In diesem Fall können Sie den
+RDB von der Sicherheitskopie restaurieren und damit versuchen die Festplatte
+wieder benutzbar zu machen.
+
+Aus Sicherheitsgründen ist das Restaurieren nur auf die gleiche Festplatte
+möglich, wenn sich SCSI Device oder Unit geändert haben müssen Sie eine
+neue Sicherheitskopie anfertigen!
+
+Wenn Sie eine falsche Sicherheitskopie zum Restaurieren des RDB verwenden,
+können alle Daten auf der Festplatte verloren gehen! 'RDBBackup' merkt sich
+die Bezeichnung der Festplatte, den Namen des SCSI Device und die Unit von
+jeder Sicherheitskopie. Eine Kopie kann trotzdem falsche Daten enthalten
+wenn Sie nach dem Erstellen der letzten Kopie Änderungen an der Installation
+der Festplatte vorgenommen haben! Seien Sie deshalb sehr vorsichtig und
+restaurieren Sie den RDB nur wenn Sie genau wissen, daß die Sicherheitskopie
+aktuelle Daten enthält!
+
+
+ @{" Copyright               " link copyright} Rechtliches
+ @{" Autor                   " link autor} Adresse des Autors
+
+ @{" ReadRDB                 " link readrdb} Über ReadRDB
+
+ @{" Öffentlicher Bildschirm " link pubscreen} Auswahl des Bildschirms
+ @{" Backup Verzeichnis      " link backupdir} Auswahl des Verzeichnisses für die Kopien
+ @{" SCSI Device             " link scsidevice} Auswahl des SCSI Device
+
+ @{" Liste neu einlesen      " link updatelist} Liste der angeschlossenen Geräte neu einlesen
+ @{" RDB sichern             " link backup} Sicherheitskopie anfertigen
+ @{" RDB restaurieren        " link restore} RigidDiskBlock restaurieren
+
+ @{" Programminfo            " link info} Informationen anzeigen
+ @{" Einstellungen speichern " link saveprefs} Einstellungen abspeichern
+ @{" Quit / Beenden          " link quit} Programm beenden
+
+@endnode
+
+@remark **********
+
+@node copyright "RDBBackup.guide: Copyright"
+
+Copyright
+*********
+
+'RDBBackup' ist FREEWARE, das Copyright liegt weiterhin beim Autor, Jürgen
+Kohrmeyer. 'RDBBackup' darf nur mit dem vollständigen RexxTricks-Archiv
+weitergegeben werden, für eine getrennte Weitergabe von 'RDBBackup' ist
+die Genehmigung des Autors notwendig!
+
+Der Autor gibt keine Garantie für die Zuverlässigkeit von 'RDBBackup', Sie
+benutzen das Programm auf eigene Gefahr! Der Autor kann nicht für Schäden
+haftbar gemacht werden, die durch die Verwendung von 'RDBBackup' und den
+andern Dateien entstehen.
+
+Dieses Programm verwendet 'ReadRDB' zum Kopieren und Restaurieren der
+RigidDiskBlocks, bitte lesen Sie die Dokumentation im 'ReadRDB_0.5'
+Verzeichnis. 'ReadRDB' ist Copyright (C) by Gérard Cornu!
+
+Dieses Programm verwendet die 'triton.library' zur Darstellung der
+Oberfläche, bitte lesen Sie die Datei 'ReadMe' im 'Triton' Verzeichnis.
+Die 'triton.library' ist Copyright (C) by Stefan Zeiger!
+
+@endnode
+
+@remark **********
+
+@node autor "RDBBackup.guide: Autor"
+
+Autor
+*****
+
+Der Autor ist unter folgenden Adressen erreichbar, bitte
+vorzugsweise die E-Mail Adresse benutzen:
+
+Postanschrift:
+
+   Jürgen Kohrmeyer
+   Oststraße 2
+   49143 Bissendorf
+
+   GERMANY
+
+Telefon:
+
+   +49-5402-5195
+
+E-Mail:
+
+   j_kohrmeyer@@wilam.north.de
+
+@endnode
+
+@remark **********
+
+@node readrdb "RDBBackup.guide: ReadRDB"
+
+ReadRDB
+*******
+
+Short:    Backup RDBs. Bug under 2.x fixed. Oops! V0.5
+Uploader: gerard@ariane.univ-lyon2.fr (Gerard Cornu)
+Author:   gerard@ariane.univ-lyon2.fr (Gerard Cornu)
+Type:     disk/misc
+Replaces: disk/misc/ReadRDB.lha
+Version:  0.5
+
+Can read an RDB (Rigid Disk Block) and save it to a file,
+as for backup purpose, and write it back later on the 
+hard disk. Gives also the state of the reselection flag 
+and all of rdb_Flags. English and French documentation 
+in AmigaGuide© form.
+
+Now include a FORCE switch to read and write non
+standard RDBs. Use this switch at your own risk!
+
+
+V0.5: Bug fixed: Unability, under 2.x, to write back an RDB.
+      Must have been here since 0.2, Ooops! Thanks to
+      "Sheer Panic" for reporting it.
+
+
+Have fun, and keep writing useful stuff for our nice machine.
+Thanks!
+
+   Gerard Cornu
+   11, Av. E. Aynard
+   69130 Ecully
+   (France)
+
+   email: gerard@ariane.univ-lyon2.fr
+
+*** Against all nuclear testing ***
+
+@endnode
+
+@remark **********
+
+@node pubscreen "RDBBackup.guide: Öffentlicher Bildschirm"
+
+Öffentlicher Bildschirm
+***********************
+
+Auf dem hier angegebenen öffentlichen Bildschirm werden alle Fenster
+von 'RDBBackup' geöffnet. Wenn Sie den Knopf neben dem Texteingabefeld
+anklicken können Sie einen der momentan geöffneten Bildschirme aus
+einer Liste auswählen.
+
+@endnode
+
+@remark **********
+
+@node backupdir "RDBBackup.guide: Backup Verzeichnis"
+
+Backup Verzeichnis
+******************
+
+In dem hier angegebenen Verzeichnis werden die Sicherheitskopien der
+RigidDiskBlocks gespeichert. Wenn Sie den Knopf neben dem Texteingabefeld
+anklicken öffnet sich ein Verzeichnis-Auswahlfenster.
+
+@endnode
+
+@remark **********
+
+@node scsidevice "RDBBackup.guide: SCSI device"
+
+SCSI Device
+***********
+
+Hier muß der Name des zu verwendenden SCSI Devices angegeben werden. Wenn
+Sie den Knopf neben dem Texteingabefeld anklicken können Sie ein Device aus
+einer Liste der verfügbaren Devices auswählen.
+
+@endnode
+
+@remark **********
+
+@node updatelist "RDBBackup.guide: Liste neu einlesen"
+
+Liste neu einlesen
+******************
+
+Die Daten der angeschlossenen SCSI Geräte werden neu eingelesen und
+in der Liste angezeigt.
+
+@endnode
+
+@remark **********
+
+@node backup "RDBBackup.guide: RDB sichern"
+
+RDB sichern
+***********
+
+Liest den RigidDiskBlock der in der Liste markierten Festplatte und
+speichert ihn im Backup Verzeichnis ab. Der Dateiname der Kopie wird
+aus dem verwendeten SCSI Device und der Unit zusammengesetzt, im
+Kommentar der Datei werden weitere Informationen über die Festplatte
+gespeichert.
+
+Beispiel:
+
+Dateiname            Kommentar
+-------------------------------------------------------------
+RDB_scsi.device_0    IBM DPES-31080 S31Q - scsi.device Unit 0
+
+Diese Funktion ist nur verfügbar wenn das in der Liste markierte Gerät
+eine Festplatte ist. Bei Wechselplatten muß außerdem ein Medium eingelegt
+sein.
+
+@endnode
+
+@remark **********
+
+@node restore "RDBBackup.guide: RDB restaurieren"
+
+RDB restaurieren
+****************
+
+Restauriert den RigidDiskBlock der in der Liste markierten Festplatte,
+vorher erfolgt zwei Mal eine Sicherheitsabfrage. Wenn beide Abfragen
+positiv beantwortet wurden wird 'ReadRDB' gestartet und zeigt noch
+einmal alle verfügbaren Daten an. Dies ist jetzt die letzte Möglichkeit
+das Restaurieren abzubrechen, wenn Sie die Abfrage von 'ReadRDB' mit
+'y' beantworten wird der RigidDiskBlock auf die Festplatte geschrieben!
+
+Diese Funktion ist nur verfügbar wenn zu der in der Liste markierten
+Festplatte, SCSI Device und Unit eine gültige Sicherheitskopie existiert!
+
+@endnode
+
+@remark **********
+
+@node info "RDBBackup.guide: Programminfo"
+
+Programminfo
+************
+
+Zeigt Informationen über das Programm an.
+
+@endnode
+
+@remark **********
+
+@node saveprefs "RDBBackup.guide: Einstellungen speichern"
+
+Einstellungen speichern
+***********************
+
+Speichert den öffentlichen Bildschirm, das Backup Verzeichnis und das
+SCSI Device in der Datei 'RDBBackup.prefs' ab.
+
+@endnode
+
+@remark **********
+
+@node quit "RDBBackup.guide: Quit / Beenden"
+
+Quit / Beenden
+**************
+
+Beendet das Programm.
+
+@endnode

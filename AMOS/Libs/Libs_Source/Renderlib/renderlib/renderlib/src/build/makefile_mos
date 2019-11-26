@@ -1,0 +1,14 @@
+LIB = /gg/ppc-morphos/lib
+
+all: ../libs/render.library.elf
+
+../libs/render.library.elf:
+	ppc-morphos-gcc -O2 -fomit-frame-pointer -noixemul -mcpu=603e -mmultiple -c rnd_all.c -o lib/rnd_mos_all.o
+	ppc-morphos-ld -L$(LIB) -fl libnix lib/rnd_mos_all.o -o $@ -lstring -lstringio -lmemblock -lc -lmfd
+
+asm:
+	ppc-morpos-gcc -O2 -fomit-frame-pointer -noixemul -mcpu=603e -mmultiple -c rnd_all.c -S -o lib/rnd_mos_all.asm
+
+clean:
+	-rm lib/rnd_mos_all.o
+	-rm ../libs/render.library.elf

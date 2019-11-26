@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svnroot/amiga/!svn/ver/6/ixemul/include/m68k
+END
+signal.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/amiga/!svn/ver/6/ixemul/include/m68k/signal.h
+END
+asm.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svnroot/amiga/!svn/ver/6/ixemul/include/m68k/asm.h
+END
+trap.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/amiga/!svn/ver/6/ixemul/include/m68k/trap.h
+END

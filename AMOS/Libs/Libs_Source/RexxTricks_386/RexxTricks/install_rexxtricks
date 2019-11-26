@@ -1,0 +1,778 @@
+; ******************************************************************************
+; Installer-Skript für alle im 'RexxTricks' Paket enthaltenen Dateien.
+;
+; $VER: Install_RexxTricks 1.0 (20.4.96) (C) 1996 Jürgen Kohrmeyer
+;*******************************************************************************
+
+; ***** rexxtricks.library installieren ****************************************
+
+(procedure install_rexxtricks
+   (set rexxtricksinstalled 1)
+   (set installedver (getversion ("LIBS:%s" rexxtrickslib)))
+
+   (if (< installedver rexxtricksver)
+      (
+         (if (=  @user-level 2)
+            (set libdir
+               (askdir
+                  (prompt (MSG_ASK_LIBDIR rexxtrickslib ""))
+                  (help @askdir-help)
+                  (default libdir)
+               )
+            )
+         )
+
+         (copylib
+            (prompt (MSG_COPY_LIB rexxtrickslib ""))
+            (help @copylib-help)
+            (source "libs/rexxtricks.library")
+            (dest libdir)
+            (confirm)
+         )
+
+         (set catalogdir (tackon "locale/catalogs" @language))
+
+         (if (exists catalogdir)
+            (copyfiles
+               (prompt MSG_COPY_CATALOG)
+               (help @copyfiles-help)
+               (source catalogdir)
+               (dest (tackon "LOCALE:catalogs" @language))
+               (pattern "rexxtricks.catalog")
+               (files)
+               (confirm)
+            )
+         )
+
+         (set result 5)
+
+         (until (= result 0)
+            (set result (run ("C/LoadLib Libs/%s" rexxtrickslib)))
+
+            (if (= result 5)
+               (
+                  (set proceed
+                     (askbool
+                        (prompt (MSG_FLUSH_LIB rexxtrickslib rexxtrickslib))
+                        (choices MSG_PROCEED MSG_SKIP)
+                        (help "")
+                     )
+                  )
+
+                  (if (not proceed)
+                     (set result 0)
+                  )
+               )
+            )
+         )
+
+         (set rexxtricksinstalled 2)
+      )
+   )
+)
+
+; ***** tritonrexx.library installieren ****************************************
+
+(procedure install_tritonrexx
+   (set tritonrexxinstalled 1)
+   (set installedver (getversion ("LIBS:%s" tritonrexxlib)))
+
+   (if (< installedver tritonrexxver)
+      (
+         (if (= @user-level 2)
+            (set libdir
+               (askdir
+                  (prompt (MSG_ASK_LIBDIR tritonrexxlib MSG_INFO_EXTRALIB))
+                  (help @askdir-help)
+                  (default libdir)
+               )
+            )
+         )
+
+         (copylib
+            (prompt (MSG_COPY_LIB tritonrexxlib MSG_INFO_TRX))
+            (help @copylib-help)
+            (source "libs/tritonrexx.library")
+            (dest libdir)
+            (confirm)
+         )
+
+         (set result 5)
+
+         (until (= result 0)
+            (set result (run ("C/LoadLib Libs/%s" tritonrexxlib)))
+
+            (if (= result 5)
+               (
+                  (set proceed
+                     (askbool
+                        (prompt (MSG_FLUSH_LIB tritonrexxlib tritonrexxlib))
+                        (choices MSG_PROCEED MSG_SKIP)
+                        (help "")
+                     )
+                  )
+
+                  (if (not proceed)
+                     (set result 0)
+                  )
+               )
+            )
+         )
+
+         (set tritonrexxinstalled 2)
+      )
+   )
+)
+
+; ***** triton.library installieren ********************************************
+
+(procedure install_triton
+   (set tritoninstalled 1)
+   (set installedver (getversion ("LIBS:%s" tritonlib)))
+
+   (if (< installedver tritonver)
+      (
+         (if (= @user-level 2)
+            (set libdir
+               (askdir
+                  (prompt (MSG_ASK_LIBDIR tritonlib MSG_INFO_EXTRALIB))
+                  (help @askdir-help)
+                  (default libdir)
+               )
+            )
+         )
+
+         (copylib
+            (prompt (MSG_COPY_LIB tritonlib MSG_INFO_TRITON))
+            (help @copylib-help)
+            (source "triton/triton.library")
+            (dest libdir)
+            (confirm)
+         )
+
+         (run "Avail >NIL: FLUSH")
+         (set result 5)
+
+         (until (= result 0)
+            (set result (run ("C/LoadLib Triton/%s" tritonlib)))
+
+            (if (= result 5)
+               (
+                  (set proceed
+                     (askbool
+                        (prompt (MSG_FLUSH_LIB tritonlib tritonlib))
+                        (choices MSG_PROCEED MSG_SKIP)
+                        (help "")
+                     )
+                  )
+
+                  (if (not proceed)
+                     (set result 0)
+                  )
+               )
+            )
+         )
+
+         (set tritoninstalled 2)
+      )
+   )
+)
+
+; ***** rexxtricks.guide installieren ******************************************
+
+(procedure install_guide
+   (set docdir
+      (askdir
+         (prompt (MSG_ASK_DOCDIR "rexxtricks.guide"))
+         (help @askdir-help)
+         (default docdir)
+      )
+   )
+
+   (copyfiles
+      (prompt (MSG_COPY_GUIDE docdir))
+      (help @copyfiles-help)
+      (source (tackon "docs" @language))
+      (dest docdir)
+      (pattern "rexxtricks.guide")
+      (files)
+      (infos)
+      (confirm)
+   )
+
+   (set guideinstalled 1)
+)
+
+; ***** rexxtricks.doc installieren ********************************************
+
+(procedure install_doc
+   (set docdir
+      (askdir
+         (prompt (MSG_ASK_DOCDIR docname))
+         (help @askdir-help)
+         (default docdir)
+      )
+   )
+
+   (copyfiles
+      (prompt (MSG_COPY_DOC docdir))
+      (help @copyfiles-help)
+      (source (tackon "docs" @language))
+      (dest docdir)
+      (pattern docname)
+      (files)
+      (infos)
+      (confirm)
+   )
+
+   (set docinstalled 1)
+)
+
+; ***** FindGUI installieren ***************************************************
+
+(procedure install_findgui
+   (set finddir
+      (askdir
+         (prompt MSG_ASK_FINDDIR)
+         (help @askdir-help)
+         (default finddir)
+      )
+   )
+
+   (copyfiles
+      (prompt (MSG_COPY_FINDGUI finddir))
+      (help @copyfiles-help)
+      (source "")
+      (dest finddir)
+      (pattern "FindGUI")
+      (infos)
+      (confirm)
+   )
+
+   (if (not rexxtricksinstalled)
+      (install_rexxtricks)
+   )
+
+   (if (not tritonrexxinstalled)
+      (install_tritonrexx)
+   )
+
+   (if (not tritoninstalled)
+      (install_triton)
+   )
+
+   (set findguiinstalled 1)
+)
+
+; ***** Diskette für RDBBackup erstellen ***************************************
+
+(procedure rdbbackup_create_floppy
+   (set result 10)
+
+   (until (= result 0)
+      (set format
+         (askbool
+            (prompt (MSG_INSERT_DISK drivename drivename))
+            (choices MSG_SELECT_FORMAT MSG_SELECT_NOFORMAT)
+            (help "")
+         )
+      )
+
+      (if format
+         (
+            (working (MSG_FORMATTING_DISK drivename))
+            (set result (run ("SYS:System/Format <>CON:10/10//100/Installer/AUTO DRIVE %s NAME RDBBackup" drivename)))
+         )
+         (
+            (run ("relabel %s RDBBackup" drivename))
+            (set result 0)
+         )
+      )
+   )
+
+   (working (MSG_INSTALLING_DISK drivename))
+
+   (run ("Install %s" drivename))
+
+   (working (MSG_COPYING_FILES drivename))
+
+   (copyfiles
+      (source "C:")
+      (dest (tackon drivename "c"))
+      (pattern "(Assign|ConClip|Copy|Dir|Execute|FileNote|IconX|IPrefs|LoadWB)")
+   )
+
+   (copyfiles
+      (source "C:")
+      (dest (tackon drivename "c"))
+      (pattern "(List|MakeDir|Prompt|Rename|SetClock|SetPatch|Version)")
+   )
+
+   (copyfiles
+      (source "DEVS:")
+      (dest (tackon drivename "devs"))
+      (choices "clipboard.device")
+   )
+
+   (copyfiles
+      (source "DEVS:keymaps")
+      (dest (tackon drivename "devs/keymaps"))
+      (pattern "#?")
+   )
+
+   (copyfiles
+      (source "devs")
+      (dest (tackon drivename "devs"))
+      (choices "system-configuration")
+   )
+
+   (copyfiles
+      (source "LIBS:")
+      (dest (tackon drivename "libs"))
+      (pattern "(asl|diskfont|iffparse|mathieeedoubbas|rexxsupport|rexxsyslib|version).library")
+   )
+
+   (copyfiles
+      (source "libs")
+      (dest (tackon drivename "libs"))
+      (pattern "(rexxtricks|tritonrexx).library")
+   )
+
+   (copyfiles
+      (source "triton")
+      (dest (tackon drivename "libs"))
+      (pattern "triton.library")
+   )
+
+   (if (exists "LOCALE:")
+      (
+         (copyfiles
+            (source "LIBS:")
+            (dest (tackon drivename "libs"))
+            (pattern "locale.library")
+         )
+
+         (set catalogdir  (tackon "LOCALE:catalogs" @language))
+         (set localedest (tackon drivename "locale"))
+         (set catalogdest (tackon localedest "catalogs"))
+         (set languagedest (tackon catalogdest @language))
+
+         (makedir localedest)
+         (makedir catalogdest)
+         (makedir languagedest)
+
+         (copyfiles
+            (source (tackon catalogdir "sys"))
+            (dest (tackon languagedest "sys"))
+            (pattern "#?.catalog")
+            (optional nofail)
+         )
+
+         (copyfiles
+            (source "LOCALE:countries")
+            (dest (tackon localedest "countries"))
+            (pattern "#?.country")
+         )
+
+         (copyfiles
+            (source "LOCALE:languages")
+            (dest (tackon localedest "languages"))
+            (pattern "#?.language")
+         )
+
+         (if (<> @language "english")
+            (copyfiles
+               (source (tackon "RDBBackup/catalogs" @language))
+               (dest languagedest)
+               (pattern "RDBBackup.catalog")
+            )
+         )
+      )
+   )
+
+   (copyfiles
+      (source "SYS:rexxc")
+      (dest (tackon drivename "rexxc"))
+      (pattern "rx")
+   )
+
+   (copyfiles
+      (source "SYS:system")
+      (dest (tackon drivename "system"))
+      (pattern "(RexxMast|Cli)")
+   )
+
+   (copyfiles
+      (source "SYS:system")
+      (dest drivename)
+      (choices "Shell.info")
+   )
+
+   (set prefsdir (tackon drivename "prefs"))
+   (set envarcdir (tackon prefsdir "env-archive"))
+
+   (makedir prefsdir)
+   (makedir envarcdir)
+   (makedir (tackon envarcdir "triton"))
+
+   (copyfiles
+      (source "ENVARC:sys")
+      (dest (tackon envarcdir "sys"))
+      (pattern "(icontrol|input|locale|wbconfig).prefs")
+   )
+
+   (makedir (tackon drivename "RDB"))
+
+   (copyfiles
+      (source "RDBBackup")
+      (dest drivename)
+      (pattern "RDBBackup(.#?|%)")
+   )
+
+   (copyfiles
+      (source "RDBBackup/ReadRDB_0.5")
+      (dest drivename)
+      (choices "ReadRDB")
+   )
+
+   (tooltype
+      (dest (tackon drivename "RDBBackup"))
+      (noposition)
+   )
+
+   (tooltype
+      (dest (tackon drivename "Shell"))
+      (noposition)
+   )
+
+   (working (MSG_CREATING_STARTUP drivename))
+
+   (set sdir (tackon drivename "s"))
+   (makedir sdir)
+
+   (textfile
+      (dest (tackon sdir "startup-sequence"))
+      (append "SetPatch QUIET\n")
+      (append "SetClock >NIL: LOAD\n")
+      (append "Version >NIL:\n")
+      (append "FailAt 21\n")
+      (append "MakeDir RAM:T RAM:Clipboards RAM:ENV RAM:ENV/Sys\n")
+      (append "Copy >NIL: ENVARC: RAM:ENV ALL NOREQ\n")
+      (append "Resident >NIL: C:Assign PURE\n")
+      (append "Assign >NIL: ENV: RAM:ENV\n")
+      (append "Assign >NIL: T: RAM:T\n")
+      (append "Assign >NIL: CLIPS: RAM:Clipboards\n")
+      (append "Assign >NIL: KEYMAPS: DEVS:Keymaps\n")
+      (append "Assign >NIL: REXX: S:\n")
+      (append "Assign >NIL: LOCALE: SYS:Locale\n")
+      (append ("SetEnv Language \"%s\"\n" @language))
+      (append "SetEnv Workbench $Workbench\n")
+      (append "SetEnv Kickstart $Kickstart\n")
+      (append "UnSet Workbench\n")
+      (append "UnSet Kickstart\n")
+      (append "IPrefs\n")
+      (append "ConClip\n")
+      (append "Path >NIL: C: SYS:Rexxc\n")
+      (append "SYS:System/RexxMast >NIL:\n")
+      (append "Resident Assign REMOVE\n")
+      (append "C:LoadWB\n")
+      (append "EndCLI >NIL:\n")
+   )
+
+   (textfile
+      (dest (tackon sdir "shell-startup"))
+      (append "Prompt \"%S> \"\n")
+   )
+)
+
+; ***** RDBBackup-Verzeichnis kopieren *****************************************
+
+(procedure rdbbackup_copy_drawer
+   (set rdbbackupdir
+      (askdir
+         (prompt MSG_ASK_RDBBACKUPDIR)
+         (help @askdir-help)
+         (default rdbbackupdir)
+      )
+   )
+
+   (copyfiles
+      (prompt (MSG_COPY_RDBBACKUP rdbbackupdir))
+      (help @copyfiles-help)
+      (source "")
+      (dest rdbbackupdir)
+      (pattern "RDBBackup")
+      (infos)
+      (confirm)
+   )
+
+   (if (not rexxtricksinstalled)
+      (install_rexxtricks)
+   )
+
+   (if (not tritonrexxinstalled)
+      (install_tritonrexx)
+   )
+
+   (if (not tritoninstalled)
+      (install_triton)
+   )
+)
+
+; ***** RDBBackup installieren *************************************************
+
+(procedure install_rdbbackup
+   (set floppy
+      (askchoice
+         (prompt MSG_ASK_FLOPPY)
+         (choices MSG_SELECT_DF0 MSG_SELECT_DF1 MSG_SELECT_DF2 MSG_SELECT_DF3 MSG_SELECT_DRAWER)
+         (default 0)
+         (help @askchoice-help)
+      )
+   )
+
+   (if (= floppy 4)
+      (rdbbackup_copy_drawer)
+      (
+         (set drivename ("DF%ld:" floppy))
+         (rdbbackup_create_floppy)
+         (set rdbbackupdir drivename)
+      )
+   )
+
+   (set rdbbackupinstalled 1)
+)
+
+; ***** Deutsch ****************************************************************
+
+(procedure deutsch
+   (set MSG_SELECT_INSTALL     "Bitte wählen Sie die zu installierenden Programme.")
+   (set MSG_INSTALL_REXXTRICKS "rexxtricks.library - Version 38.6")
+   (set MSG_INSTALL_GUIDE      "RexxTricks.guide   - AmigaGuide-Anleitung")
+   (set MSG_INSTALL_DOC        "RexxTricks.dok     - ASCII-Anleitung")
+   (set MSG_INSTALL_FINDGUI    "FindGUI            - GUI für Find")
+   (set MSG_INSTALL_RDBBACKUP  "RDBBackup          - GUI für ReadRDB")
+
+   (set MSG_ASK_LIBDIR         "In welches Verzeichnis soll die '%s' kopiert werden?%s")
+   (set MSG_COPY_LIB           "Kopieren der '%s'!%s")
+   (set MSG_COPY_CATALOG       "Kopieren der Datei 'rexxtricks.catalog'!")
+   (set MSG_FLUSH_LIB (cat     "\nUm die neue '%s' zu verwenden muß die alte Version "
+                               "aus dem Speicher entfernt werden! Bitte beenden Sie "
+                               "alle Programme, die die '%s' verwenden, und klicken "
+                               "Sie danach auf 'Weiter'!"))
+   (set MSG_PROCEED            "Weiter")
+   (set MSG_SKIP               "Diesen teil überspringen")
+
+   (set MSG_ASK_DOCDIR         "In welches Verzeichnis soll die Datei '%s' kopiert werden?")
+   (set MSG_COPY_GUIDE         "Kopieren der AmigaGuide Anleitung nach '%s'!")
+   (set MSG_COPY_DOC           "Kopieren der ASCII Anleitung nach '%s'!")
+
+   (set MSG_INFO_EXTRALIB      " Diese Library wird von 'FindGUI' und 'RDBBackup' benötigt!")
+
+   (set MSG_INFO_TRX (cat      "\n\nUm mehr Informationen über 'TritonRexx' zu erhalten "
+                               "lesen Sie bitte die Datei 'TritonRexx.ReadMe'!"))
+
+   (set MSG_INFO_TRITON (cat   "\n\nUm mehr Informationen über 'Triton' zu erhalten lesen "
+                               "Sie bitte die Datei 'ReadMe' im Verzeichnis 'Triton'!\n"
+                               "'Triton' ist © 1993-1994 Stefan Zeiger."))
+
+   (set MSG_ASK_FINDDIR        "Wo soll das 'FindGUI' Verzeichnis erzeugt werden?")
+   (set MSG_COPY_FINDGUI       "Kopieren der Anwendung 'FindGUI' nach '%s'!")
+
+   (set MSG_ASK_FLOPPY (cat    "'RDBBackup' sollte auf einer bootfähigen Diskette "
+                               "installiert werden! Wenn Sie jetzt ein Laufwerk "
+                               "auswählen benötigen Sie eine Leerdiskette. Die Diskette "
+                               "kann von diesem Skript formatiert werden.\n\n"
+                               "Wo wollen Sie 'RDBBackup' installieren?"))
+
+   (set MSG_SELECT_DF0         "DF0:")
+   (set MSG_SELECT_DF1         "DF1:")
+   (set MSG_SELECT_DF2         "DF2:")
+   (set MSG_SELECT_DF3         "DF3:")
+   (set MSG_SELECT_DRAWER      "Verzeichnis")
+
+   (set MSG_ASK_RDBBACKUPDIR   "Wo soll das 'RDBBackup' Verzeichnis erzeugt werden?")
+   (set MSG_COPY_RDBBACKUP     "Kopieren der Anwendung 'RDBBackup' nach '%s'!")
+
+   (set MSG_INSERT_DISK (cat   "Bitte legen Sie eine Diskette in Laufwerk '%s' ein "
+                               "und starten sie danach die Installation.\n\n"
+                               "Wollen Sie die Diskette in Laufwerk '%s' formatieren?"))
+
+   (set MSG_SELECT_FORMAT      "Formatieren")
+   (set MSG_SELECT_NOFORMAT    "Nicht formatieren")
+
+   (set MSG_FORMATTING_DISK    "Diskette in Laufwerk '%s' wird formatiert.")
+   (set MSG_INSTALLING_DISK    "Diskette in Laufwerk '%s' wird installiert.")
+   (set MSG_COPYING_FILES      "Dateien werden nach '%s' kopiert.")
+   (set MSG_CREATING_STARTUP   "'%ss/startup-sequence' wird angelegt.")
+
+   (set MSG_INSTALLED_FILES    "Installierte Dateien und Programme:\n-----------------------------------\n")
+   (set MSG_NOTHING_INSTALLED  "Es wurden keine Dateien auf ihre Datenträger kopiert!")
+
+   (set docname                "rexxtricks.dok")
+   (set rdbbackupguide         "RDBBackupD.guide")
+)
+
+; ***** English ****************************************************************
+
+(procedure english
+   (set MSG_SELECT_INSTALL     "Please select the programs to install.")
+   (set MSG_INSTALL_REXXTRICKS "rexxtricks.library - Version 38.6")
+   (set MSG_INSTALL_GUIDE      "RexxTricks.guide   - AmigaGuide-Documentation")
+   (set MSG_INSTALL_DOC        "RexxTricks.doc     - ASCII-Documentation")
+   (set MSG_INSTALL_FINDGUI    "FindGUI            - GUI for Find")
+   (set MSG_INSTALL_RDBBACKUP  "RDBBackup          - GUI for ReadRDB")
+
+   (set MSG_ASK_LIBDIR         "In which directory would you like to copy '%s'?%s")
+   (set MSG_COPY_LIB           "Copying '%s'!%s")
+   (set MSG_COPY_CATALOG       "Copying file 'rexxtricks.catalog'!")
+   (set MSG_FLUSH_LIB (cat     "\nTo use the new '%s', the old version must be flushed "
+                               "from memory! Please quit all programs, which are using "
+                               "the '%s', and then click on 'Proceed'!"))
+   (set MSG_PROCEED            "Proceed")
+   (set MSG_SKIP               "Skip this part")
+
+   (set MSG_ASK_DOCDIR         "In which directory would you like to copy the file '%s'?")
+   (set MSG_COPY_GUIDE         "Copying AmigaGuide documentation to '%s'!")
+   (set MSG_COPY_DOC           "Copying ASCII documentation to '%s'!")
+
+   (set MSG_INFO_EXTRALIB      " This library is used by 'FindGUI' and 'RDBBackup'!")
+
+   (set MSG_INFO_TRX (cat      "\n\nPlease read the file 'TritonRexx.ReadMe' "
+                               "for more information on 'TritonRexx'!"))
+
+   (set MSG_INFO_TRITON (cat   "\n\nPlease read the file 'ReadMe' in the 'Triton' "
+                               "drawer for more information on 'Triton'!\n"
+                               "'Triton' is © 1993-1994 Stefan Zeiger."))
+
+   (set MSG_ASK_FINDDIR        "Where do you want to create the 'FindGUI' drawer?")
+   (set MSG_COPY_FINDGUI       "Copying the application 'FindGUI' to '%s'!")
+
+   (set MSG_ASK_FLOPPY (cat    "'RDBBackup' should be installed on a bootable floppy "
+                               "disk! If you select a drive, you need an empty disk. "
+                               "The disk can be formatted by this script.\n\n"
+                               "Where do you want to install 'RDBBackup'?"))
+
+   (set MSG_SELECT_DF0         "DF0:")
+   (set MSG_SELECT_DF1         "DF1:")
+   (set MSG_SELECT_DF2         "DF2:")
+   (set MSG_SELECT_DF3         "DF3:")
+   (set MSG_SELECT_DRAWER      "Drawer")
+
+   (set MSG_ASK_RDBBACKUPDIR   "Wher do you want to create the 'RDBBackup' drawer?")
+   (set MSG_COPY_RDBBACKUP     "Copying the application 'RDBBackup' to '%s'!")
+
+   (set MSG_INSERT_DISK (cat   "Please insert a disk in drive '%s' and then start "
+                               "the installation.\n\n"
+                               "Do you want to format the disk in Drive '%s'?"))
+
+   (set MSG_SELECT_FORMAT      "Format")
+   (set MSG_SELECT_NOFORMAT    "Don't format")
+
+   (set MSG_FORMATTING_DISK    "Formatting disk in drive '%s'.")
+   (set MSG_INSTALLING_DISK    "Installing disk in drive '%s'.")
+   (set MSG_COPYING_FILES      "Copying files to drive '%s'.")
+   (set MSG_CREATING_STARTUP   "Creating '%ss/startup-sequence'.")
+
+   (set MSG_INSTALLED_FILES    "Installed files and applications:\n---------------------------------\n")
+   (set MSG_NOTHING_INSTALLED  "No files are copied to your disks!")
+
+   (set docname                "rexxtricks.doc")
+   (set rdbbackupguide         "RDBBackupE.guide")
+)
+
+; ***** Main *******************************************************************
+
+(if (= @language "deutsch")
+   (deutsch)
+)
+
+(if (= @language "english")
+   (english)
+)
+
+(set rexxtrickslib   "rexxtricks.library")
+(set tritonrexxlib   "tritonrexx.library")
+(set tritonlib       "triton.library")
+(set rexxtricksver   (+ (* 38 65536) 6))
+(set tritonrexxver   (+ (* 37 65536) 7))
+(set tritonver       (+ (*  5 65536) 5))
+(set libdir          "LIBS:")
+(set docdir          "HELP:")
+(set finddir         @default-dest)
+(set rdbbackupdir    @default-dest)
+
+(set rexxtricksinstalled 0)
+(set guideinstalled 0)
+(set docinstalled 0)
+(set tritonrexxinstalled 0)
+(set tritoninstalled 0)
+(set findguiinstalled 0)
+(set rdbbackupinstalled 0)
+
+(set options
+   (askoptions
+      (prompt MSG_SELECT_INSTALL)
+      (help @askoptions-help)
+      (choices MSG_INSTALL_REXXTRICKS MSG_INSTALL_GUIDE MSG_INSTALL_DOC MSG_INSTALL_FINDGUI MSG_INSTALL_RDBBACKUP)
+      (default 31)
+   )
+)
+
+(if (BITAND options 1)
+   (install_rexxtricks)
+)
+
+(if (BITAND options 2)
+   (install_guide)
+)
+
+(if (BITAND options 4)
+   (install_doc)
+)
+
+(if (BITAND options 8)
+   (install_findgui)
+)
+
+(if (BITAND options 16)
+   (install_rdbbackup)
+)
+
+(set infotext MSG_INSTALLED_FILES)
+
+(if (= rexxtricksinstalled 2)
+   (set infotext (cat infotext rexxtrickslib "\n"))
+)
+
+(if (= tritonrexxinstalled 2)
+   (set infotext (cat infotext tritonrexxlib "\n"))
+)
+
+(if (= tritoninstalled 2)
+   (set infotext (cat infotext tritonlib "\n"))
+)
+
+(if guideinstalled
+   (set infotext (cat infotext "rexxtricks.guide\n"))
+)
+
+(if docinstalled
+   (set infotext (cat infotext docname "\n"))
+)
+
+(if findguiinstalled
+   (set infotext (cat infotext "FindGUI\n"))
+)
+
+(if rdbbackupinstalled
+   (set infotext (cat infotext "RDBBackup\n"))
+)
+
+(if (= infotext MSG_INSTALLED_FILES)
+   (set infotext MSG_NOTHING_INSTALLED)
+)
+
+(set @default-dest "")
+
+(exit infotext)

@@ -1,0 +1,56 @@
+# header REXXTRICKS_CATALOG
+;
+; rexxtricks.cd  V38.6
+;
+; rexxtricks V38.6 (catalog description file)
+;
+; © 1996 Jürgen Kohrmeyer
+;
+MSG_VIEWLIST_TITLE (0/1/)
+RexxTricks Listview-Fenster
+;
+MSG_VIEWLIST_POSTEXT (/1/)
+_Benutzen
+;
+MSG_VIEWLIST_NEGTEXT (/1/)
+_Abbrechen
+;
+MSG_VIEWLIST_GAD_ALL (/1/)
+All_e
+;
+MSG_VIEWLIST_GAD_NONE (/1/)
+_Keine
+;
+MSG_VIEWLIST_GAD_SEARCH (/1/)
+_Suchen
+;
+MSG_VIEWLIST_GAD_PATTERN (/1/)
+Nach _Muster
+;
+MSG_VIEWLIST_GAD_TOGGLE (/1/)
+_Umschalten
+;
+MSG_UUDECODE_CANNOT_OPEN_FILE (/1/)
+Kann die Datei "%s" nicht öffnen
+;
+MSG_UUDECODE_CANNOT_INCLUDE_FILE (/1/)
+Falsche oder fehlende Include-Datei "%s"
+;
+MSG_UUDECODE_BEGIN_NOT_FOUND (/1/)
+Keine "begin" Zeile gefunden
+;
+MSG_UUDECODE_BAD_CHECKSUM (/1/)
+Falsche Checksumme in "%s" Zeile %ld
+;
+MSG_UUDECODE_READ_ERROR (/1/)
+Fehler beim Lesen aus der Datei "%s"
+;
+MSG_UUDECODE_WRITE_ERROR (/1/)
+Fehler beim Schreiben in die Datei "%s"
+;
+MSG_UUDECODE_BAD_SIZE (/1/)
+Länge der Datei "%s" stimmt nicht mit "size %ld" überein
+;
+MSG_UUDECODE_EOF (/1/)
+Vorzeitiges Ende der Datei "%s"
+;

@@ -1,0 +1,161 @@
+$Id: pgp.doc,v 1.8 2002/07/15 18:51:41 schenk Exp $
+
+TABLE OF CONTENTS
+
+pgp.library/PGPEncrypt
+pgp.library/PGPDecrypt
+pgp.library/PGPFault
+pgp.library/PGPSign
+pgp.library/--tags--
+pgp.library/PGPEncrypt                                 pgp.library/PGPEncrypt
+
+    NAME
+        PGPEncrypt -- Encrypt a file using pgp
+
+    SYNOPSIS
+        error = PGPEncrypt (filename, userid, tags)
+          D0                   A0       A1     D0
+
+        LONG PGPEncrypt (STRPTR, STRPTR, struct TagItem *)
+
+        error = PGPEncryptTags (filename, userid, Tag1, ...)
+
+        LONG PGPEncryptTags (STRPTR, STRPTR, ULONG, ...)
+        
+    FUNCTION
+        Encrypts a file using pgp. The first public key found for the
+        userid will be used.
+
+    INPUTS
+        filename - name of the file to encrypt
+        userid   - id of the user
+        tags     - pointer to an array of tag items (permitted tags:
+                   PGP_Binary, PGP_ConOutput, PGP_OutFile, PGP_Password,
+                   PGP_Sign, PGP_UserId, PGP_WipeOut, see
+                   pgp.library/--tags--)
+
+    RESULT
+        error    - 0 for success, result from pgp command, or -1
+
+    NOTES
+        This function is only a capsulated call for the program "pgp".
+        That means the pgp package must be installed correctly.
+pgp.library/PGPDecrypt                                 pgp.library/PGPDecrypt
+
+    NAME
+        PGPDecrypt -- Decrypt a file using pgp
+
+    SYNOPSIS
+        error = PGPDecrypt (filename, password, tags)
+          D0                   A0        A1      D0
+
+        LONG PGPDecrypt (STRPTR, STRPTR, struct TagItem *)
+
+        error = PGPDecryptTags (filename, password, Tag1, ...)
+
+        LONG PGPDecryptTags (STRPTR, STRPTR, ULONG, ...)
+        
+    FUNCTION
+        Decrypts a file using pgp.
+
+    INPUTS
+        filename - name of the file to encrypt
+        password - pass phrase
+        tags     - pointer to an array of tag items (permitted tags:
+                   PGP_ConOutput, PGP_OutFile, see pgp.library/--tags--)
+
+    RESULT
+        error    - 0 for success, result from pgp command, or -1
+
+    NOTES
+        This function is only a capsulated call for the program "pgp".
+        That means the pgp package must be installed correctly.
+pgp.library/PGPFault                                     pgp.library/PGPFault
+
+    NAME
+        PGPFault -- Returns the text associated with a PGP error code
+
+    SYNOPSIS
+        len = PGPFault (code, header, buffer, len)
+        D0               D0    A0       A1    D1
+
+        LONG PGPFault (LONG, STRPTR, STRPTR, LONG)
+
+    FUNCTION
+        This routine obtains the error message text for the given error code.
+        The header is prepended to the text of the error message, followed
+        by a colon.  Puts a null-terminated string for the error message into
+        the buffer. If there is no message for the error code, the message
+        will be "Error <number>".
+
+        The number of characters put into the buffer is returned, which will
+        be 0 if the code passed in was 0.
+
+    INPUTS
+        code   - error code
+        header - header to output before error text
+        buffer - buffer to receive error message
+        len    - length of the buffer
+
+    RESULT
+        len    - number of characters put into buffer (may be 0)
+pgp.library/PGPSign                                       pgp.library/PGPSign
+
+    NAME
+        PGPSign -- Sign a file using pgp
+
+    SYNOPSIS
+        error = PGPSign (filename, password, tags)
+          D0                A0        A1      D0
+
+        LONG PGPSign (STRPTR, STRPTR, struct TagItem *)
+
+        error = PGPSignTags (filename, password, Tag1, ...)
+
+        LONG PGPSignTags (STRPTR, STRPTR, ULONG, ...)
+        
+    FUNCTION
+        Signs a file using pgp. If no user id is given, the first key on the
+        secret key ring will be used.
+
+    INPUTS
+        filename - name of the file to encrypt
+        password - pass phrase
+        tags     - pointer to an array of tag items (permitted tags:
+                   PGP_Break, PGP_ConOutput, PGP_OutFile, PGP_UserId, see
+                   pgp.library/--tags--)
+
+    RESULT
+        error    - 0 for success, result from pgp command, or -1
+
+    NOTES
+        This function is only a capsulated call for the program "pgp".
+        That means the pgp package must be installed correctly.
+pgp.library/--tags--                                     pgp.library/--tags--
+
+    PGP_Binary (BOOL)
+        specifies that you don't want to convert the output into printable
+        ASCII "radix-64" format
+
+    PGP_Break (BOOL)
+        generate signature certificate that is detached from the text it
+        signs
+
+    PGP_ConOutput (STRPTR)
+        optional file where to redirect the standard output from pgp
+
+    PGP_OutFile (STRPTR)
+        optional file where to put processed output
+
+    PGP_Password (STRPTR)
+        optional pass phrase for signing before encrypting
+
+    PGP_Sign (BOOL)
+        sign the file before encrypting it
+
+    PGP_UserId (STRPTR)
+        optional string to search for a matching secret key
+
+    PGP_WipeOut (BOOL)
+        wipe out the plaintext file after producing the ciphertext file
+

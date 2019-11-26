@@ -1,0 +1,470 @@
+TABLE OF CONTENTS
+
+xvs.library/xvsAllocObject
+xvs.library/xvsCheckBootblock
+xvs.library/xvsCheckFile
+xvs.library/xvsCheckSector
+xvs.library/xvsCreateVirusList
+xvs.library/xvsFreeObject
+xvs.library/xvsFreeVirusList
+xvs.library/xvsInstallBootblock
+xvs.library/xvsObjectType
+xvs.library/xvsRepairFile
+xvs.library/xvsRepairSector
+xvs.library/xvsSelfTest
+xvs.library/xvsSumBootblock
+xvs.library/xvsSurveyMemory
+
+xvs.library/xvsAllocObject                         xvs.library/xvsAllocObject
+
+   NAME
+	xvsAllocObject -- Allocate memory for specified object.
+
+   SYNOPSIS
+	object = xvsAllocObject(objecttype)
+	  D0          -48           D0
+
+	APTR xvsAllocObject(ULONG);
+
+   FUNCTION
+	Allocates a memory block and required resources for the specified
+	object. Never do this in any other way for compatibility with
+	library updates.
+
+	Objecttype can be one of these:
+	XVSOBJ_BOOTINFO    - allocate a xvsBootInfo structure.
+	XVSOBJ_FILEINFO    - allocate a xvsFileInfo structure.
+	XVSOBJ_MEMORYINFO  - allocate a xvsMemoryInfo structure.
+	XVSOBJ_SECTORINFO  - allocate a xvsSectorInfo structure.
+
+   INPUTS
+	objecttype - One of the XVSOBJ_#? values.
+
+   RESULT
+	object - Pointer to the object or NULL if there occured an error.
+
+   SEE ALSO
+	xvsFreeObject()
+
+xvs.library/xvsCheckBootblock                   xvs.library/xvsCheckBootblock
+
+   NAME
+	xvsCheckBootblock -- Check bootblock contents for viruses.
+
+   SYNOPSIS
+	result = xvsCheckBootblock(bootinfo)
+	  D0            -66           A0
+
+	ULONG xvsCheckBootblock(struct xvsBootInfo *);
+
+   FUNCTION
+	Checks if a bootblock contains viruses and informs about the
+	dostype, checksum and type of the bootblock.
+
+	xvsbi_Bootblock must be initialized with a pointer to a 1024 bytes
+	bootblock.
+
+	The bootblock will be first checked for the dostype. If it's not
+	a DOS bootblock, you'll receive XVSBT_NOTDOS as a result.
+	Otherwise xvsbi_DosType will receive the type of filesystem the
+	disk is using (eg. DOS/0 -> xvsbi_DosType = 0).
+	The xvsbi_ChkSumFlag field will be TRUE if the bootblock checksum
+	is correct (ie. bootable), otherwise it's FALSE.
+
+	Now the bootblock will be checked for standard bootblocks and
+	viruses. You'll receive XVSBT_STANDARD13, XVSBT_STANDARD20 or
+	XVSBT_VIRUS in that case.
+
+	If all the tests were negative, XVSBT_UNKNOWN is returned. Note
+	that XVSBT_UNINSTALLED will never be returned by this function,
+	it is only used by xvsInstallBootblock(). You can consider an
+	unknown bootblock with xvsbi_ChkSumFlag set to FALSE as uninstalled.
+
+	In all cases, you'll receive the result in xvsbi_BootType too
+	and a describing ascii text in xvsbi_Name.
+
+   INPUTS
+	bootinfo - Pointer to initialized xvsBootInfo structure.
+
+   RESULT
+	result   - One of the XVSBT_#? values.
+
+xvs.library/xvsCheckFile                             xvs.library/xvsCheckFile
+
+   NAME
+	xvsCheckFile -- Check file contents for viruses.
+
+   SYNOPSIS
+	result = xvsCheckFile(fileinfo)
+	  D0         -96         A0
+
+	ULONG xvsCheckFile(struct xvsFileInfo *);
+
+   FUNCTION
+	Checks any file (executable/data) for virus infection and informs
+	about the type of file.
+
+	IMPORTANT: The file must be in decrunched state, linked files must
+	be unlinked first, otherwise this function cannot find all built-in
+	viruses. Use xfdmaster.library for this purpose, you'll find it in
+	the Aminet too.
+
+	xvsfi_File must be supplied with a pointer to the buffer holding
+	the file, xvsfi_FileLen must receive the length of the file.
+
+	The file will be first checked if it's executable. If not, it's
+	a data file and will be scanned for data viruses (eg. scripts,
+	bootblocks). If nothing is found, the result is XVSFT_DATAFILE,
+	otherwise you'll receive XVSFT_DATAVIRUS. Such files can only be
+	deleted.
+
+	Executable files are tested for link- and fileviruses. The result
+	for linkviruses is XVSFT_LINKVIRUS, you can repair these files with
+	a call to xvsRepairFile(). Fileviruses return XVSFT_FILEVIRUS and
+	the file can only be deleted completely.
+
+	In all cases, you'll receive the result in xvsfi_FileType too
+	and a describing ascii text in xvsfi_Name.
+
+	After calling this function, always test xvsfi_ModifiedFlag. If
+	this is TRUE, the recognition code modified your file buffer and
+	it's no longer safe to write it back to disk, execute it etc.
+	Some viruses require a lot of decrypt work for recognition and
+	it's not possible to detect them without, that's why I had to
+	add this flag.
+
+   INPUTS
+	fileinfo - Pointer to initialized xvsFileInfo structure.
+
+   RESULT
+	result   - One of the XVSFT_#? values.
+
+   SEE ALSO
+	xvsRepairFile()
+
+xvs.library/xvsCheckSector                         xvs.library/xvsCheckSector
+
+   NAME
+	xvsCheckSector -- Check disk sector contents for virus modifications.
+
+   SYNOPSIS
+	result = xvsCheckSector(sectorinfo)
+	  D0          -84           A0
+
+	ULONG xvsCheckSector(struct xvsSectorInfo *);
+
+   FUNCTION
+	Checks if a sector has been modified by viruses.
+
+	xvssi_Sector must be initialized with a pointer to a 512 bytes
+	disk sector, xvssi_Key with the sector number it has on disk.
+
+	The sector will be checked for damages or changes done by viruses.
+	If anything is found, XVSST_DESTROYED or XVSST_INFECTED will be
+	returned, otherwise you'll receive XVSST_UNKNOWN.
+
+	In all cases, you'll receive the result in xvssi_SectorType too
+	and a describing ascii text in xvssi_Name.
+
+   INPUTS
+	sectorinfo - Pointer to initialized xvsSectorInfo structure.
+
+   RESULT
+	result     - One of the XVSST_#? values.
+
+   SEE ALSO
+	xvsRepairSector()
+
+xvs.library/xvsCreateVirusList                 xvs.library/xvsCreateVirusList
+
+   NAME
+	xvsCreateVirusList -- Allocate and initialize xvsVirusList structure.
+
+   SYNOPSIS
+	viruslist = xvsCreateVirusList(listtype)
+	   D0              -36            D0
+
+	struct xvsVirusList *xvsCreateVirusList(ULONG);
+
+   FUNCTION
+	Allocates memory for a xvsVirusList structure and initializes it
+	with nodes of the required type.
+
+	Listtype can be one of these:
+	XVSLIST_BOOTVIRUSES  - create list of bootblock viruses.
+	XVSLIST_FILEVIRUSES  - create list of file viruses.
+	XVSLIST_LINKVIRUSES  - create list of link viruses.
+	XVSLIST_DATAVIRUSES  - create list of data viruses (V33.34).
+
+	The list should be used for information purposes only, eg. for a
+	listview gadget of gadtools.library.
+	xvsVirusList->LH_TYPE holds the XVSLIST_#? value,
+	xvsVirusList->xvsvl_Count holds the amount of nodes.
+	The nodes themselves hold a pointer to the virus name in the
+	LN_NAME field.
+
+   INPUTS
+	listtype - One of the XVSLIST_#? values.
+
+   RESULT
+	viruslist - Pointer to xvsVirusList or NULL if not enough memory.
+
+   SEE ALSO
+	xvsFreeVirusList()
+
+xvs.library/xvsFreeObject                           xvs.library/xvsFreeObject
+
+   NAME
+	xvsFreeObject -- Release memory of object.
+
+   SYNOPSIS
+	xvsFreeObject(object)
+	     -54        A1
+
+	void xvsFreeObject(APTR);
+
+   FUNCTION
+	Deallocates the memory and releases the resources reserved via
+	xvsAllocObject().
+
+   INPUTS
+	object - Pointer to object.
+
+   RESULT
+	None.
+
+   SEE ALSO
+	xvsAllocObject()
+
+xvs.library/xvsFreeVirusList                     xvs.library/xvsFreeVirusList
+
+   NAME
+	xvsFreeVirusList -- Release memory of xvsVirusList structure.
+
+   SYNOPSIS
+	xvsFreeVirusList(viruslist)
+	      -42            A1
+
+	void xvsFreeVirusList(struct xvsVirusList *);
+
+   FUNCTION
+	Deallocates the memory of a xvsVirusList structure that has been
+	returned as result by xvsCreateVirusList().
+
+   INPUTS
+	viruslist - Pointer to a xvsVirusList structure.
+
+   RESULT
+	None.
+
+   SEE ALSO
+	xvsCreateVirusList()
+
+xvs.library/xvsInstallBootblock               xvs.library/xvsInstallBootblock
+
+   NAME
+	xvsInstallBootblock -- Install some standard bootblocks to buffer.
+
+   SYNOPSIS
+	xvsInstallBootblock(bootblock, boottype, dostype)
+	        -72            A0         D0        D1
+
+	void xvsInstallBootblock(APTR, ULONG, ULONG);
+
+   FUNCTION
+	Installs desired bootblock data to the buffer. The checksum will
+	be corrected automatically except for XVSBT_UNINSTALLED bootblocks.
+
+	Boottype can be one of these:
+	XVSBT_UNINSTALLED - creates uninstalled (non-bootable) bootblock.
+	XVSBT_STANDARD13  - creates standard bootblock (Kickstart 1.3).
+	XVSBT_STANDARD20  - creates standard bootblock (Kickstart 2.0).
+
+	Dostype specifies the filesystem the disk is using. It's just
+	the trailing number behind 'DOS', eg. DOS/0 -> dostype = 0.
+
+   INPUTS
+	bootblock - Pointer to buffer that is 1024 bytes long.
+	boottype  - One of the XVSBT_#? values above.
+	dostype   - Any reasonable number from 0 to xx.
+
+   RESULT
+	None.
+
+xvs.library/xvsObjectType                           xvs.library/xvsObjectType
+
+   NAME
+	xvsObjectType -- Determine type of object.
+
+   SYNOPSIS
+	objecttype = xvsObjectType(object)
+	    D0            -60        A1
+
+	ULONG xvsObjectType(APTR);
+
+   FUNCTION
+	Checks if object points to a XVSOBJ_#? object and returns the type
+	of this object if possible.
+
+   INPUTS
+	object - Pointer to a possible XVSOBJ_#? object.
+
+   RESULT
+	objecttype - One of the XVSOBJ_#? values or NULL if not an object.
+
+   SEE ALSO
+	xvsAllocObject()
+
+xvs.library/xvsRepairFile                           xvs.library/xvsRepairFile
+
+   NAME
+	xvsRepairFile -- Repair linkvirus-infected file.
+
+   SYNOPSIS
+	success = xvsRepairFile(fileinfo)
+	  D0          -102         A0
+
+	BOOL xvsRepairFile(struct xvsFileInfo *);
+
+   FUNCTION
+	Tries to repair files that have been detected as XVSFT_LINKVIRUS
+	by xvsCheckFile().
+
+	This function will first test the hunk structure of the file
+	to be repaired to avoid serious problems during repair action.
+	For recognition this was not necessary and not wanted in order
+	to detect viruses in corrupted files too.
+
+	If success is TRUE, everything worked well, the virus has been
+	removed. You can save back the file to disk using xvsfi_Fixed
+	as start pointer and xvsfi_FixedLen as new file length.
+	Please note that these two fields don't describe a new buffer but
+	are only position and length information from within your own
+	buffer (from xvsfi_File). Don't release your buffer before saving
+	the fixed file.
+
+	If success is FALSE, an error occured. You get a describing error
+	code from xvsfi_ErrorCode and the corresponding ascii string from
+	xvsfi_Name.
+	In case of an error it might be of interest if the buffer had
+	already been modified before the error occured or not. To find out,
+	check xvsfi_ModifiedFlag (TRUE = modified).
+
+   INPUTS
+	fileinfo - Pointer to initialized xvsFileInfo structure.
+
+   RESULT
+	success  - TRUE if file is repaired, FALSE if an error occured.
+
+   SEE ALSO
+	xvsCheckFile()
+
+xvs.library/xvsRepairSector                       xvs.library/xvsRepairSector
+
+   NAME
+	xvsRepairSector -- Repair virus-encrypted sector.
+
+   SYNOPSIS
+	success = xvsRepairSector(sectorinfo)
+	  D0           -90            A0
+
+	BOOL xvsRepairSector(struct xvsSectorInfo *);
+
+   FUNCTION
+	Tries to repair sectors that have been detected as XVSST_INFECTED
+	by xvsCheckSector().
+
+	Call this function after xvsCheckSector() returned XVSST_INFECTED
+	and there will never occur an error. You can then write back the
+	cleaned sector to disk.
+
+   INPUTS
+	sectorinfo - Pointer to initialized xvsSectorInfo structure.
+
+   RESULT
+	success    - TRUE if repaired, FALSE if failed.
+
+   SEE ALSO
+	xvsCheckSector()
+
+xvs.library/xvsSelfTest                               xvs.library/xvsSelfTest
+
+   NAME
+	xvsSelfTest -- Test xvs.library for modifications.
+
+   SYNOPSIS
+	success = xvsSelfTest()
+	  D0         -30
+
+	BOOL xvsSelfTest(void);
+
+   FUNCTION
+	Tests the file structure of xvs.library for modifications. Call this
+	function whenever you first open xvs.library to verify its contents.
+
+   INPUTS
+	None.
+
+   RESULT
+	success - TRUE if xvs.library is ok, FALSE if anything is changed.
+
+xvs.library/xvsSumBootblock                       xvs.library/xvsSumBootblock
+
+   NAME
+	xvsSumBootblock -- Correct bootblock checksum.
+
+   SYNOPSIS
+	xvsSumBootblock(bootblock, offset)
+	      -78          A0        D0
+
+	void xvsSumBootblock(APTR, ULONG);
+
+   FUNCTION
+	Calculates the correct checksum for a bootblock and writes it to
+	the longword specified by offset.
+
+	Offset must be a multiple of 4, otherwise the bootblock will not
+	be bootable.
+
+   INPUTS
+	bootblock - Pointer to buffer holding 1024 bytes bootblock.
+	offset    - Offset from beginning of buffer to write checksum to.
+
+   RESULT
+	None.
+
+xvs.library/xvsSurveyMemory                       xvs.library/xvsSurveyMemory
+
+   NAME
+	xvsSurveyMemory -- Check memory for viruses and remove them if any.
+
+   SYNOPSIS
+	count = xvsSurveyMemory(memoryinfo)
+	 D0           -108          A0
+
+	ULONG xvsSurveyMemory(struct xvsMemoryInfo *);
+
+   FUNCTION
+	Checks memory for any known viruses and removes them immediately.
+
+	xvsMemoryInfo is just an information structure that holds the
+	results of a memory check, you don't have to initialize it with
+	any values first.
+
+	xvsmi_Count holds the same value as returned by this function.
+	xvsmi_NameArray holds pointers to the names of the detected viruses.
+	There are always xvsmi_Count pointers valid, if count is zero, no
+	pointers are valid.
+
+	The amount of names is limited to 5, but from my experience I can
+	say that this should be enough. It's very unrealistic that someone
+	has more than 5 active viruses running on his machine without a
+	complete system crash. Nevertheless, ALL viruses will be killed,
+	but only the first 5 will be listed if there should ever be more.
+
+   INPUTS
+	memoryinfo - Pointer to xvsMemoryInfo structure.
+
+   RESULT
+	count      - Amount of detected and removed viruses.
+

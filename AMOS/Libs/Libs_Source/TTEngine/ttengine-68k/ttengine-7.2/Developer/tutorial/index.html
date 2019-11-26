@@ -1,0 +1,436 @@
+<HTML>
+
+<HEAD>
+  <META http-equiv="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+  <META NAME="Generator" CONTENT="GoldED 5 (Amiga) + HSC 0.917">
+  <META NAME="Author" CONTENT="Grzegorz Kraszewski <krashan@matay.pl>">
+  <TITLE>TTEngine tutorial</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="img/back.jpg" LINK="#0000A0" VLINK="#000080">
+<H1>TTEngine explained step by step</H1>
+<FONT SIZE="4">
+<UL>
+  <LI><A HREF="#1">1. How to print a text with TTEngine.</A></LI>
+    <UL>
+      <LI><A HREF="#1.1">1.1. Open TTEngine.</A></LI>
+      <LI><A HREF="#1.2">1.2. Load a font.</A></LI>
+      <LI><A HREF="#1.3">1.3. Render to a window.</A></LI>
+      <LI><A HREF="#1.4">1.4. RastPort cleanup.</A></LI>
+      <LI><A HREF="#1.5">1.5. Close a font.</A></LI>
+      <LI><A HREF="#1.6">1.6. Close TTEngine.</A></LI>
+    </UL>
+  <LI><A HREF="#2">2. I want to do some more.</A></LI>
+    <UL>
+      <LI><A HREF="#2.1">2.1. Changing text colour.</A></LI>
+      <LI><A HREF="#2.2">2.2. Changing draw mode.</A></LI>
+      <LI><A HREF="#2.3">2.3. Low long my text is?</A></LI>
+      <LI><A HREF="#2.4">2.4. Controlling antialias.</A></LI>
+      <LI><A HREF="#2.5">2.5. Using many fonts at once.</A></LI>
+      <LI><A HREF="#2.6">2.6. Text encodings.</A></LI>
+    </UL>
+  <LI>3. Advanced features.</LI>
+    <UL>
+      <LI>3.1. How to get a pixelmap of a string.</LI>
+      <LI>3.2. Text metrics.</LI>
+      <LI>3.3. Fitting text into a rectangle.</LI>
+      <LI>3.4. Scaling, shearing, rotation.</LI>
+      <LI>3.5. Affine transform.</LI>
+    </UL>
+</UL></FONT>
+
+
+<A NAME="1"></A><H2>1. How to print a text with TTEngine.</H2>
+
+<A NAME="1.1"></A><H3>1.1. Open TTEngine.</H3>
+
+TTEngine is just an AmigaOS shared library so it should be opened the same way every shared library is.
+You should include TTEngine header file first (I assume you use C or C++ programming language). TTEngine
+has a few header files for different compilers. Supported compilers are <I>GCC</I>, <I>VBCC</I>,
+<I>SAS/C</I>, <I>Storm C</I>, <I>Maxon C++</I> and <I>Dice C</I>. To improve portability and programmer
+comfort <FONT FACE="Courier,monospaced" COLOR="#700000">&lt;proto/ttengine.h&gt;</FONT> file automatically include headers for your compiler. So you
+can just put
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">#include &lt;proto/ttengine.h&gt;</FONT></TD></TR></TABLE></P>
+
+into your program includes. Then you should define the library base. Some compilers (GCC for example) do
+it automatically for you. The library base is named <FONT FACE="Courier,monospaced" COLOR="#700000">TTEngineBase</FONT> and is of type <FONT FACE="Courier,monospaced" COLOR="#700000">struct
+Library*</FONT>. There are no user accesible fields in the base, it should be treated as a black-box. If your
+compiler does not create library bases you can define TTEngine library base as follows:
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">struct Library *TTEngineBase;</FONT></TD></TR></TABLE></P>
+
+Now you are ready to open TTEngine. As for every shared library you use <FONT FACE="Courier,monospaced" COLOR="#700000">OpenLibrary()</FONT> from
+exec.library. Do not forget to check if TTEngine was opened succesfully. Your code will be similar to
+this:
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">TTEngineBase = OpenLibrary("ttengine.library", 5);<BR>
+if (!TTEngineBase) Printf("Can't open TTEngine!\n");</FONT></TD></TR></TABLE></P>
+
+After this step you are ready to use all the TTEngine functions.
+
+<A NAME="1.2"></A><H3>1.2. Load a font.</H3>
+
+Of course you have to load TrueType font before printing any text. <FONT FACE="Courier,monospaced" COLOR="#700000">TT_OpenFont()</FONT> will do this for
+you. It is a taglist driven function. Tags and taglists are very common to AmigaOS, so you should be
+familiar with them. You specify font attributes by tags. Font name is probably the most important. There
+are two possible ways to specify font name. Firstly you can give it directly as a path to font file using
+<FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontFile</FONT> tag. It is especially useful if your application uses some specific font containing for
+example musical notes, electronics symbols etc. It is however not recommended for general use, because
+it forces your application user to keep the font in some fixed directory with fixed name. Better way is
+specify font file by family and style and allow TTEngine to find best matching font in the database.
+<FONT FACE="Courier,monospaced" COLOR="#700000">TT_FamilyTable</FONT> tag specifies a table containing some font family names. Why table instead of just one
+name? It is possible user has not a font you are requesting. You can provide a number of fallback families,
+these will be tried in turn. Assume you set following family table:
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">STRPTR my_table[] = {"Tahoma", "Arial", "sans-serif", "default", NULL};</FONT></TD></TR></TABLE></P>
+
+TTEngine try to load Tahoma font. If it can't be loaded, Arial will be tried. If Arial fails too, TTEngine
+will try to load a font marked as "default sans-serif" in the database. The last resort is a font marked
+as "default". Null pointer at the end of table is compulsory as it marks the table end, so you need not
+specify how many families are in the table. Family however does not specify the font precisely, as it contains
+fonts of different weight and style. Additional two tags can be used for this. <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontWeight</FONT> as its
+name says specifies requested weight and its value can be a number from 1 to 1000. This is a way
+<A HREF="http://www.w3.org/Style/CSS/">Cascading Style Sheets</A> use. <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontWeight_Normal</FONT> and
+<FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontWeight_Bold</FONT> are the shortcuts for common weights. Fonts have also a number of styles, typically
+regular style and italic (sometimes called oblique) one. The style can be selected with <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontStyle</FONT>
+tag and <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontStyle_Regular</FONT> and <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontStyle_Italic</FONT> values. The last important thing is to
+specify font size. As you can guess <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontSize</FONT> tag does the thing. Just give it the font height in
+pixels.<BR><BR>
+All the described tags have reasonable default values (well, except <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontFile</FONT>, but there is no
+reasonable default for this...). <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FamilyTable</FONT> defaults to <FONT FACE="Courier,monospaced" COLOR="#700000">{"default", NULL};</FONT>
+<FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontWeight</FONT> to <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontWeight_Normal</FONT>, <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontStyle</FONT> to <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontStyle_Regular</FONT> and
+<FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontSize</FONT> to 14 pixels. So you can safely call <FONT FACE="Courier,monospaced" COLOR="#700000">TT_OpenFont()</FONT> like this:
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">font = TT_OpenFont(TAG_END);</FONT></TD></TR></TABLE></P>
+
+It will open default font, regular style, normal weight, 14 pixels size. Let's see some more common example.
+We try to open Georgia font with some fallbacks, bold italic, 48 pixels.
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">table = {"Georgia", "Times", "serif", "default", NULL};<BR><BR>
+font = TT_OpenFont(<BR>
+&nbsp;&nbsp;TT_FamilyTable, (ULONG)table,<BR>
+&nbsp;&nbsp;TT_FontStyle, TT_FontStyle_Italic,<BR>
+&nbsp;&nbsp;TT_FontWeight, TT_FontWeight_Bold,<BR>
+&nbsp;&nbsp;TT_FontSize, 48,<BR>
+TAG_END);</FONT></TD></TR></TABLE></P>
+
+Here is another example where font is opened from file specified directly. Of course <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontStyle</FONT>
+and <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontWeight</FONT> make no sense here since style and weight are used to select font file, not to
+transform font glyphs.
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">font = TT_OpenFont(<BR>
+&nbsp;&nbsp;TT_FontFile, (ULONG)"PROGDIR:fonts/SpecialSymbols.ttf",<BR>
+&nbsp;&nbsp;TT_FontSize, 37,<BR>
+TAG_END);</FONT></TD></TR></TABLE></P>
+
+Font handle returned by <FONT FACE="Courier,monospaced" COLOR="#700000">TT_OpenFont</FONT> is of type <FONT FACE="Courier,monospaced" COLOR="#700000">APTR</FONT> and should be treated as a black-box value
+containing no public fields. Remember to check if the value returned by <FONT FACE="Courier,monospaced" COLOR="#700000">TT_OpenFont()</FONT> is not NULL. The
+function may fail for a few reasons. It may run out of memory, TTEngine may be unable to find matching font
+in the database, font file may be missing or corrupted.
+
+<A NAME="1.3"></A><H3>1.3. Render to a window.</H3>
+
+Now, when you have a font loaded you can try to print some text. The most common case is printing into
+AmigaOS window. I assume here you know how to open a window and how to handle it. Rendering to other targets
+such as screen or separate RastPort will be explained later. Most of TTEngine functions use RastPort as
+their first parameter. As you know window RastPort can be accessed as <FONT FACE="Courier,monospaced" COLOR="#700000">window-&gt;RPort</FONT>. Our next step
+will be setting the font for use with window RastPort. It is done by <FONT FACE="Courier,monospaced" COLOR="#700000">TT_SetFont()</FONT> call:
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">TT_SetFont(window-&gt;RPort, font);</FONT></TD></TR></TABLE></P>
+
+<FONT FACE="Courier,monospaced" COLOR="#700000">TT_SetFont()</FONT> returns boolean value of success (TRUE or FALSE). It may fail because it allocates
+a bit of memory, so for your application reliability you should check returned value.<BR><BR>
+Now you should specify target window for TTEngine using <FONT FACE="Courier,monospaced" COLOR="#700000">TT_SetAttrs()</FONT>:
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">TT_SetAttrs(window-&gt;RPort,<BR>
+&nbsp;&nbsp;TT_Window, (ULONG)window,<BR>
+TAG_END);</FONT></TD></TR></TABLE></P>
+
+Where in the window our text will be printed? TTEngine uses RastPort settings whereever possible. Text is
+always drawn at current RastPort pen position so you should just <FONT FACE="Courier,monospaced" COLOR="#700000">Move()</FONT> where you want. Then you can
+render the text with <FONT FACE="Courier,monospaced" COLOR="#700000">TT_Text()</FONT>:
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">Move(window-&gt;RPort, 20, 50);<BR>
+TT_Text(window-&gt;RPort, "Hello world!", 12);</FONT></TD></TR></TABLE></P>
+
+You have probably noticed TTEngine functions are very similar to graphics.library text functions. This is
+intentional, for example <FONT FACE="Courier,monospaced" COLOR="#700000">TT_Text()</FONT> has the same prototype as <FONT FACE="Courier,monospaced" COLOR="#700000">Text()</FONT>, and takes its parameters
+in the same processor registers. If you have any expirience with graphics.library and text, you will find
+TTEngine very easy to use.
+
+<A NAME="1.4"></A><H3>1.4. RastPort cleanup.</H3>
+
+TTEngine rendering target is always a RastPort. It can be window RastPort, screen RastPort, or a separate
+one. For every RastPort TTEngine is used with, it creates rendering environment. The environment for a
+RastPort is created when <FONT FACE="Courier,monospaced" COLOR="#700000">TT_SetAttrs()</FONT> or <FONT FACE="Courier,monospaced" COLOR="#700000">TT_SetFont()</FONT> is called the first time for this
+RastPort. All subsequent calls to any TTEngine function taking RastPort as a parameter, trigger a search
+for an environment of this RastPort (all the environments are linked in a list). Only <FONT FACE="Courier,monospaced" COLOR="#700000">TT_SetAttrs()</FONT>
+and <FONT FACE="Courier,monospaced" COLOR="#700000">TT_SetFont()</FONT> are able to create new environment if one does not exist. When you've finished all
+TTEngine rendering to a RastPort you should <B>dispose</B> the rendering environment for this RastPort.
+Why? There are two reasons to do this.<UL>
+<LI>Rendering environment takes some memory. If you don't free it, it will stay allocated. Fortunately
+this memory is allocated within TTEngine internal memory pool. Then the memory will be freed when
+ttengine.library gets expunged. Memory leak can be dangerous however if your application opens and closes
+windows many times, for example it is a kind of "start menu".</LI>
+<LI>It is quite possible Intuition will create new window RastPort at the same address as just closed one.
+If the system is generally idling (all running applications are waiting for user input) you have great
+chance it will happen this way. Then TTEngine use old environment instead of creating (and initializing to
+default state) a new one. It can lead to weird results.</LI></UL>Rendering
+environment can't be disposed automatically. Even if I try to patch the system to track RastPort
+life. There is no function to create or dispose a RastPort, it can be as well created "by hand". That is
+why TTEngine provides a function for disposing rendering environment called <FONT FACE="Courier,monospaced" COLOR="#700000">TT_DoneRastPort()</FONT>. You
+should call it after the last text rendering operation to the RastPort, but before the RastPort gets
+disposed. If you are working with window, call <FONT FACE="Courier,monospaced" COLOR="#700000">TT_DoneRastPort()</FONT> just before <FONT FACE="Courier,monospaced" COLOR="#700000">CloseWindow()</FONT>.
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">TT_DoneRastPort(window-&gt;RPort);<BR>
+CloseWindow(window);</FONT></TD></TR></TABLE></P>
+
+<A NAME="1.5"></A><H3>1.5. Closing a font.</H3>
+
+When you do not need a font anymore, you should close it (note that you can use one font in many RastPorts
+at once, there is no need to open a font separately for every RastPort). Use <FONT FACE="Courier,monospaced" COLOR="#700000">TT_CloseFont()</FONT>, it is very
+simple:
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">TT_CloseFont(font);</FONT></TD></TR></TABLE></P>
+
+<A NAME="1.6"></A><H3>1.6. Close TTEngine.</H3>
+
+TTEngine should be closed after use, as every shared library does. <FONT FACE="Courier,monospaced" COLOR="#700000">CloseLibrary()</FONT> from exec will do
+this for you. Do not forget to close all opened fonts before.
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">CloseLibrary(TTEngineBase);</FONT></TD></TR></TABLE></P>
+
+<A NAME="2"></A><H2>2. I want to do some more.</H2>
+
+<A NAME="2.1"></A><H3>2.1. Changing text colour.</H3>
+
+There are two ways to change text foreground and background colours with TTEngine. The first method is
+more general and is based on RastPort and its pens. Every RastPort has two pens. <FONT FACE="Courier,monospaced" COLOR="#700000">APen</FONT> is the foreground pen
+and is used for many operations like drawing pixels, lines, rectangles, flood fill etc. <FONT FACE="Courier,monospaced" COLOR="#700000">BPen</FONT> is the
+background pen used for example in JAM2 mode of text output. TTEngine uses RastPort pens as default rendering
+colours. Using RastPort pens is very simple if you want to output text using system pens. For example
+let's print some text (without background) using pen 1 (in typical Workbench palette it is black):
+
+<P><TABLE BORDER="0" CELLSPACING="10"><TR>
+<TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">SetDrMd(window-&gt;RPort, JAM1);<BR>
+SetAPen(window-&gt;RPort, 1);<BR>
+TT_Text(window-&gt;RPort, "[maybe] black text", 18);</FONT></TD>
+<TD VALIGN="middle">
+<IMG WIDTH="228" HEIGHT="50" SRC="img/colorex1.png" ALT="Color example 1"></TD>
+</TR></TABLE></P>
+
+In the code above I assumed font is already opened and set for the RastPort. Things get a bit complicated
+when you want specific RGB colour, not just a system pen. You have to remember TTEngine can work in environment
+with very few pens available, so your request for <FONT COLOR="red">red</FONT> colour can end up in
+<FONT COLOR="white">white</FONT> on traditional, 4 colours Workbench screen. On custom screen you can just
+set all the palette to the colours you want, and use them, setting pens with <FONT FACE="Courier,monospaced" COLOR="#700000">SetAPen()</FONT>. On public screen
+you can try to obtain best matched pen as shared, or obtain any pen as exclusive and change its colour to
+the desired one. The second approach can fail if there are no free pens on the screen.
+
+<P><TABLE BORDER="0" CELLSPACING="10"><TR>
+<TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">/* obtain pen as shared */<BR><BR>LONG red_pen;<BR><BR>
+red_pen = ObtainBestPen(window-&gt;WScreen-&gt;ViewPort.ColorMap,<BR>
+&nbsp;&nbsp;0xFFFFFFFF, 0x00000000, 0x00000000, TAG_END);<BR>
+SetAPen(window-&gt;RPort, red_pen);<BR>
+TT_Text(window-&gt;RPort, "more or less red text", 21);<BR>
+/* ... */<BR>
+TT_DoneRastPort(window-&gt;RastPort);<BR>
+ReleasePen(window-&gt;WScreen-&gt;ViewPort.ColorMap, red_pen);<BR>
+CloseWindow(window);</FONT></TD>
+<TD VALIGN="middle"><IMG WIDTH="228" HEIGHT="50" SRC="img/colorex2.png" ALT="Color example 2"></TD>
+</TR></TABLE></P>
+	
+<P><TABLE BORDER="0" CELLSPACING="10"><TR>
+<TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">/* obtain pen as exclusive */<BR><BR>LONG red_pen;<BR><BR>
+red_pen = ObtainPen(window-&gt;WScreen-&gt;ViewPort.ColorMap, -1,<BR>
+&nbsp;&nbsp;0xFFFFFFFF, 0x00000000, 0x00000000, PEN_EXCLUSIVE);<BR>
+if (red_pen != -1)<BR>
+&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;SetAPen(window-&gt;RPort, red_pen);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TT_Text(window-&gt;RPort, "exactly red text", 16);<BR>
+&nbsp;&nbsp;}<BR>
+else PutStr("No free pens.\n");<BR>
+/* ... */<BR>
+TT_DoneRastPort(window-&gt;RastPort);<BR>
+ReleasePen(window-&gt;WScreen-&gt;ViewPort.ColorMap, red_pen);<BR>
+CloseWindow(window);</FONT></TD>
+<TD VALIGN="middle"><IMG WIDTH="228" HEIGHT="50" SRC="img/colorex3.png" ALT="Color example 3"></TD>
+</TR></TABLE></P>
+
+As you can see, it is not very comfortable, however it will work on every screen from two colours to 32 bit.
+But on the other hand you can be reported that there are no free pens while working on 24-bit screen, which
+is a bit imprecise... That is why TTEngine allows for another way of specifing text colours via <FONT FACE="Courier,monospaced" COLOR="#700000">TT_SetAttrs()</FONT>
+using <FONT FACE="Courier,monospaced" COLOR="#700000">TT_Foreground</FONT> and <FONT FACE="Courier,monospaced" COLOR="#700000">TT_Background</FONT> tags. Note however this alternative way works <B>only for
+RGB RastPorts</B>, it means 15 or more bits depth. For palette based RastPorts these tags are ignored.
+Tags take 32-bit colour value defined as <FONT FACE="Courier,monospaced" COLOR="#700000">0RGB</FONT>, most significant byte has to be zero, next three bytes
+contain red, green and blue components of the colour. Here is an example:
+
+<P><TABLE BORDER="0" CELLSPACING="10"><TR>
+<TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">TT_SetAttrs(window-&gt;RastPort,<BR>
+&nbsp;&nbsp;TT_Foreground, 0x0060FF80,<BR>
+&nbsp;&nbsp;TT_Background, 0x00000000,<BR>
+TAG_END);<BR>
+SetDrMd(window-&gt;RastPort, JAM2);<BR>
+TT_Text(window-&gt;RastPort, "neon green on black back", 24);</FONT></TD>
+<TD VALIGN="middle"><IMG WIDTH="228" HEIGHT="50" SRC="img/colorex4.png" ALT="Color example 4"></TD>
+</TR></TABLE></P>
+
+You may want to return TTEngine text colour control back to RastPort and its pens. It can be done with
+special values for background and foreground tags as shown below:
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">TT_SetAttrs(window-&gt;RastPort,<BR>
+&nbsp;&nbsp;TT_Foreground, TT_Foreground_UseRastPort,<BR>
+&nbsp;&nbsp;TT_Background, TT_Background_UseRastPort,<BR>
+TAG_END);</FONT></TD></TR></TABLE></P>
+
+<A NAME="2.2"></A><H3>2.2. Changing draw mode</H3>
+
+TTEngine supports and uses all RastPort drawing modes and its combinations. These are:
+<UL><LI><B>JAM1</B> - glyphs are laid on existing background. This is the default. Glyphs colour
+is controlled by RastPort <FONT FACE="Courier,monospaced" COLOR="#700000">APen</FONT> or <FONT FACE="Courier,monospaced" COLOR="#700000">TT_Foreground</FONT> tag.</LI>
+<LI><B>JAM2</B> - glyphs are rendered with background colour rectangle. Background colour is
+defined by RastPort <FONT FACE="Courier,monospaced" COLOR="#700000">BPen</FONT> or <FONT FACE="Courier,monospaced" COLOR="#700000">TT_Background</FONT> tag.</LI>
+<LI><B>INVERSVID</B> - foreground and background are reversed. INVERSVID can be combined with JAM1 or
+JAM2.</LI>
+<LI><B>COMPLEMENT</B> - pixels are not rendered in background or foreground color, but negated. When a text
+is rendered again at the same position it disappears, double negation is equal to no operation. COMPLEMENT
+can be combined with JAM1 or JAM2 as well as with INVERSVID. On RGB RastPorts negation is replaced by
+XOR operation between the background and pixel. Double XOR with the same value is equal to no operation too.</LI>
+</UL>
+Here are examples of JAM1 and JAM2 modes also combined with INVERSVID. The window backgound is a gray
+checkerboard. Foreground colour is yellow, background colour is dark blue.
+<P><TABLE BORDER="0" WIDTH="100%"><TR>
+<TD WIDTH="194" VALIGN="top"><IMG WIDTH="194" HEIGHT="53" SRC="img/drawmodes1.png" ALT="JAM1"></TD>
+<TD VALIGN="top">This is an example of JAM1 draw mode. Yellow glyphs are smoothly laid on the
+checkerboard.</TD>
+<TD WIDTH="194" VALIGN="top"><IMG WIDTH="194" HEIGHT="53" SRC="img/drawmodes2.png" ALT="JAM2"></TD>
+<TD VALIGN="top">This is JAM2. Glyphs are rendered over a rectangle of RastPort background colour.</TD>
+</TR><TR>
+<TD WIDTH="194" VALIGN="top"><IMG WIDTH="194" HEIGHT="53" SRC="img/drawmodes3.png" ALT=""></TD>
+<TD VALIGN="top">JAM1 combined with INVERSVID. Foreground and transparent background are reversed.</TD>
+<TD WIDTH="194" VALIGN="top"><IMG WIDTH="194" HEIGHT="53" SRC="img/drawmodes4.png" ALT=""></TD>
+<TD VALIGN="top">JAM2 combined with INVERSVID. Background and foreground are reversed.</TD>
+</TR></TABLE></P>
+
+RastPort draw modes are set by <FONT FACE="Courier,monospaced" COLOR="#700000">SetDrMd()</FONT> function as usual. TTEngine has however another interesting
+draw mode not supported by graphics.library. This is <B>transparency</B>. Transparency as well as smoothing
+works for <B>RGB RastPorts only</B>. For palette based RastPorts transparency setting is ignored. As transparency
+is TTEngine specific, <FONT FACE="Courier,monospaced" COLOR="#700000">TT_SetAttrs()</FONT> should be used to control it with <FONT FACE="Courier,monospaced" COLOR="#700000">TT_Transparency</FONT> tag. It takes
+an unsigned byte value (0 - 255, higher bytes are truncated). Zero means no transparency, glyphs are fully
+opaque (0 is the default setting). Higher values mean more transparency, with transparency of 255 text is
+almost invisible (well, you probably need 24-bit screen to see something with <FONT FACE="Courier,monospaced" COLOR="#700000">TT_Transparency</FONT> set to
+255). Of course transparency can be freely combined with RastPort draw modes. If JAM2 is selected, transparency
+is applied to both foreground and background colours. Look at examples below.
+
+<P><TABLE BORDER="0" CELLSPACING="8"><TR>
+<TD ALIGN="center"><B>JAM1</B></TD><TD ALIGN="center"><B>JAM2</B></TD><TD ALIGN="center"><B>Transparency</B></TD>
+</TR><TR>
+<TD WIDTH="189" ALIGN="top"><IMG WIDTH="189" HEIGHT="52" ALT="JAM1, transparency 51 (20%)" SRC="img/transp20jam1.png"></TD>
+<TD WIDTH="189" ALIGN="top"><IMG WIDTH="189" HEIGHT="52" ALT="JAM2, transparency 51 (20%)" SRC="img/transp20jam2.png"></TD>
+<TD VALIGN="middle">20% (51, 0x33)</TD>
+</TR><TR>
+<TD WIDTH="189" ALIGN="top"><IMG WIDTH="189" HEIGHT="52" ALT="JAM1, transparency 128 (50%)" SRC="img/transp50jam1.png"></TD>
+<TD WIDTH="189" ALIGN="top"><IMG WIDTH="189" HEIGHT="52" ALT="JAM2, transparency 128 (50%)" SRC="img/transp50jam2.png"></TD>
+<TD VALIGN="middle">50% (128, 0x80)</TD>
+</TR><TR>
+<TD WIDTH="189" ALIGN="top"><IMG WIDTH="189" HEIGHT="52" ALT="JAM1, transparency 205 (80%)" SRC="img/transp80jam1.png"></TD>
+<TD WIDTH="189" ALIGN="top"><IMG WIDTH="189" HEIGHT="52" ALT="JAM2, transparency 205 (80%)" SRC="img/transp80jam2.png"></TD>
+<TD VALIGN="middle">80% (205, 0xCD)</TD>
+</TR>
+</TABLE></P>
+A little example code below shows how one can set JAM2 mode with INVERSVID and 25% transparency:
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">SetDrMd(window-&gt;RastPort, JAM2 | INVERSVID);<BR>
+TT_SetAttrs(window-&gt;RastPort, TT_Transparency, 0x40, TAG_END);</FONT></TD></TR></TABLE></P>
+
+<A NAME="2.3"></A><H3>2.3. How long my text is?</H3>
+
+You may want to know the length of a text in pixels. It can be useful if doing any text layout, aligning
+to the right, centering or justifying. <FONT FACE="Courier,monospaced" COLOR="#700000">TT_TextLength()</FONT> can be used for obtaining pixel length of
+a string. It is used the same as graphics.library <FONT FACE="Courier,monospaced" COLOR="#700000">TextLength()</FONT>. Returned value is horizontal RastPort
+pen advance in pixels. Note that for some fonts (especially italic) some pixels may render before text
+start point and some after text end point. For in-depth discussion of text metrics see <A HREF="#3.2">3.2.
+Text metrics</A>. <FONT FACE="Courier,monospaced" COLOR="#700000">TT_TextLength()</FONT> however is precise enough for typical applications. Here is an
+example of use:
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">LONG length;<BR><BR>
+length = TT_TextLength(window-&gt;RastPort, "Tell me how long is it.", 25);</FONT></TD></TR></TABLE></P>
+
+If you want to calculate text pixel length before you open your window, you can use screen RastPort for
+calculation. Do not forget to call <FONT FACE="Courier,monospaced" COLOR="#700000">TT_DoneRastPort()</FONT> after calculations. The example below shows how
+can you measure the text before you open a window on Workbench screen:
+
+<P><TABLE BORDER="0"><TR><TD BGCOLOR="#FFCF80">
+ <FONT FACE="Courier,monospaced" COLOR="#000070">struct Screen *wb;<BR>
+LONG textlen;<BR><BR>
+wb = LockPubScreen(NULL);<BR>
+TT_SetFont(&amp;wb-&gt;RastPort, font);<BR>
+textlen = TT_TextLength(&amp;wb-&gt;RastPort, "Some text", 9);<BR>
+TT_DoneRastPort(&amp;wb-&gt;RastPort);<BR>
+UnlockPubScreen(NULL, wb);</FONT></TD></TR></TABLE></P>
+
+You do not need to hold the screen lock until a window is opened on it because text length does not depend
+on RastPort properties (of course you should use the same font for length calculation and rendering...).
+
+<A NAME="2.4"></A><H3>2.4. Controlling antialias.</H3>
+
+Antialias is one of TTEngine key features. Note it works on <B>RGB RastPorts only</B>. TTEngine antialias is much better compared to bare FreeType ports because
+it is brightness based, not just an average between background and foreground. Actual background pixel colour (or
+background colour in JAM2) and foreground colour are decomposed to a brightness and a hue. Both the components
+are averaged separately, then translated back to RGB domain. Sometimes however it may be preferrable to switch
+the smoothing off. <FONT FACE="Courier,monospaced" COLOR="#700000">TT_Antialias</FONT> tag of <FONT FACE="Courier,monospaced" COLOR="#700000">TT_SetAttrs()</FONT> function can be used for this. The tag has
+three possible values described below:<UL>
+<LI><B>TT_Antialias_Off</B> - switches smoothing off regardless of font size.</LI>
+<LI><B>TT_Antialias_On</B> - switches smoothing on regardles of font size.</LI>
+<LI><B>TT_Antialias_Auto</B> - antialias depends on font size. There are two threshold sizes, let's name
+it Min and Max (Min is usually lower than Max). If the font size is between Min and Max (including them),
+smoothing is switched off. If the font size is lower than Min, or higher than Max, smoothing is switched on.
+Min and Max can be adjusted by user in the font database. If a font is opened via <FONT FACE="Courier,monospaced" COLOR="#700000">TT_FontFile</FONT> (which bypasses
+the database) Min is set to 10, Max is set to 18. This behaviour bases on the fact that small sizes are more readable
+without smoothing. Sizes below 9 (about) are unreadable anyway and smoothing them gives better "overall look". Sizes above
+about 18 looks better smoothed. User can adjust threshold values separately for every font face, she can also turn
+smoothing on or off for all sizes of given face. <B>Do not override <FONT FACE="Courier,monospaced" COLOR="#700000">TT_Antialias_Auto</FONT> without a reason</B>.
+It is also default value.</LI>
+</UL>
+<DIV ALIGN="center"><TABLE BORDER="1" CELLSPACING="0" CELLPADDING="5">
+<TR>
+<TD VALIGN="top" ALIGN="center"><IMG WIDTH="228" HEIGHT="50" ALT="Times New Roman 8" SRC="img/smooth8.png"><BR><BR>
+<I><FONT SIZE="-1">Times New Roman 8 pixels not smoothed</FONT></I></TD>
+<TD VALIGN="top" ALIGN="center"><IMG WIDTH="228" HEIGHT="50" ALT="Times New Roman 13" SRC="img/smooth13.png"><BR><BR>
+<I><FONT SIZE="-1">Times New Roman 13 pixels not smoothed</FONT></I></TD>
+<TD VALIGN="top" ALIGN="center"><IMG WIDTH="228" HEIGHT="50" ALT="Times New Roman 18" SRC="img/smooth18.png"><BR><BR>
+<I><FONT SIZE="-1">Times New Roman 18 pixels not smoothed</FONT></I></TD>
+</TR>
+<TR>
+<TD VALIGN="top" ALIGN="center"><IMG WIDTH="228" HEIGHT="50" ALT="Times New Roman 8 smoothed" SRC="img/smooth8a.png"><BR><BR>
+<I><FONT SIZE="-1">Times New Roman 8 pixels smoothed</FONT></I></TD>
+<TD VALIGN="top" ALIGN="center"><IMG WIDTH="228" HEIGHT="50" ALT="Times New Roman 13 smoothed" SRC="img/smooth13a.png"><BR><BR>
+<I><FONT SIZE="-1">Times New Roman 13 pixels smoothed</FONT></I></TD>
+<TD VALIGN="top" ALIGN="center"><IMG WIDTH="228" HEIGHT="50" ALT="Times New Roman 18 smoothed" SRC="img/smooth18a.png"><BR><BR>
+<I><FONT SIZE="-1">Times New Roman 18 pixels smoothed</FONT></I></TD>
+</TR>
+</TABLE><BR><I>Comparision of different sizes of Times New Roman antialiased or not.</I></DIV>
+ 
+</BODY>
+</HTML>

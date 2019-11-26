@@ -1,0 +1,67 @@
+*
+* chunky.library - FD stuff
+*
+* (c) 1998 Rosande Limited, all rights reserved.
+*
+##base _ChunkyBase
+##bias 30
+##public
+CHK_InitChunky(width,height)(D0,D1)
+CHK_InitColours(cp)(A0)
+CHK_FreeChunky(cp)(A0)
+CHK_DrawChunkyArea(cp,rp,x,y,width,height)(A0,A1,D0,D1,D2,D3)
+CHK_DrawChunky(cp,rp,x,y)(A0,A1,D0,D1)
+CHK_InsertChunky(cp,rp,x,y)(A0,A1,D0,D1)
+CHK_CreateChunkyFromBitMap(bm,x,y,width,height)(A0,D0,D1,D2,D3)
+CHK_CreateChunkyFromRastPort(rp,x,y,width,height)(A0,D0,D1,D2,D3)
+CHK_SetDrMd(cp,flags)(A0,D0)
+CHK_SetAPen(cp,pen)(A0,D0)
+CHK_SetOPen(cp,pen)(A0,D0)
+CHK_SetABOPen(cp,apen,bpen,open)(A0,D0,D1,D2)
+CHK_Move(cp,x,y)(A0,D0,D1)
+CHK_WritePixel(cp,colour,x,y)(A0,D0,D1,D2)
+CHK_ReadPixel(cp,x,y)(A0,D0,D1)
+CHK_Draw(cp,x,y)(A0,D0,D1)
+CHK_DrawLine(cp,x1,y1,x2,y2)(A0,D0,D1,D2,D3)
+CHK_DrawRect(cp,x1,y1,x2,y2)(A0,D0,D1,D2,D3)
+CHK_RectFill(cp,x1,y1,x2,y2)(A0,D0,D1,D2,D3)
+CHK_DrawEllipse(cp,x,y,radiusx,radiusy)(A0,D0,D1,D2,D3)
+CHK_SetRast(cp,colour)(A0,D0)
+CHK_SetSoftStyle(cp,newstyle)(A0,D0)
+CHK_SetFont(cp,textfont)(A0,A1)
+CHK_TextLength(cp,text,length)(A0,A1,D0)
+CHK_Text(cp,text)(A0,A1)
+CHK_TextCentre(cp,text,y)(A0,A1,D0)
+CHK_ChooseHardwareMode(modeid)(D0)
+CHK_DrawChunkyChunkyArea(destcp,sourcecp,destx,desty,sourcex,sourcey,width,height)(A0,A1,D0,D1,D2,D3,D4,D5)
+CHK_DrawChunkyChunky(destcp,sourcecp,x,y)(A0,A1,D0,D1)
+CHK_DrawTransparentRectangle(cp,x,y,w,h)(A0,D0,D1,D2,D3)
+CHK_GetChunkyPort(source,copybuffer)(A0,D0)
+CHK_PutChunkyColours(cp,vp)(A0,A1)
+CHK_DrawChunkyTiled(cp,rp,x,y,w,h)(A0,A1,D0,D1,D2,D3)
+CHK_C2POff()()
+CHK_DrawChunkyWindowArea(cp,win,x,y,w,h)(A0,A1,D0,D1,D2,D3)
+CHK_DrawChunkyWindow(cp,win,x,y)(A0,A1,D0,D1)
+CHK_QueryUseOS()()
+* -------  Functions in V4 or higher ----------
+CHK_CloneChunkyPort(cp)(A0)
+CHK_SetBPen(cp,pen)(A0,D0)
+CHK_ClearChunky(cp)(A0)
+CHK_CopyChunkyChunkyArea(cp,x,y,w,h)(A0,D0,D1,D2,D3)
+CHK_FlipChunkyPort(cp,flags)(A0,D0)
+CHK_EndScroll(cp)(A0)
+CHK_BeginScroll(cp,x1,y1,x2,y2)(A0,D0,D1,D2,D3)
+CHK_Scroll(cp,x1,y1,x2,y2,dx,dy)(A0,D0,D1,D2,D3,D4,D5)
+##private
+* Removed in V4.1, needs fixing.  Please e-mail oondy@bigfoot.com if you want to have a go.
+CHK_Rotate(cp,angle)(A0,D0)
+##public
+CHK_Scale(cp,width,height)(A0,D0,D1)
+CHK_SimpleScale(cp,width,height)(A0,D0,D1)
+CHK_ConvertCMAP(cp,buffer,bufsize)(A0,A1,D0)
+CHK_SetRGB32(cp,p,r,g,b)(A0,D0,D1,D2,D3)
+CHK_SetRGB4(cp,p,r,g,b)(A0,D0,D1,D2,D3)
+CHK_GetRGB32(cp,p)(A0,D0)
+CHK_GetRGB4(cp,p,result)(A0,D0,A1)
+CHK_LoadRGB32(cp,colours)(A0,A1)
+##end

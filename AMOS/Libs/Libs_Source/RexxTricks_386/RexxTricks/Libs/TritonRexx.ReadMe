@@ -1,0 +1,51 @@
+##########################################################################
+
+                    'tritonrexx.library' 37.7 (23.12.95)
+
+    Copyright (C) 1995 Jürgen Kohrmeyer, <J_Kohrmeyer@wilam.north.de>
+
+##########################################################################
+
+Die 'tritonrexx.library' ist eine ARexx-Funktionslibrary. Sie enthält
+Funktionen zur Programmierung von Benutzeroberflächen mit ARexx, zur
+Erstellung der Oberflächen wird die 'triton.library' verwendet.
+
+   * Alle Features der 'triton.library V1.3' werden voll unterstützt
+
+   * Einfache Programmierung von Fenstern, Menüs, Gadgets und Requestern
+
+   * Datei-, und Fontrequester mit der 'asl.library'
+
+   * Einbindung von beliebigen Grafiken (Kickstart 3.0 erforderlich)
+
+   * Laden von Grafikdaten mit der 'datatypes.library'
+
+   * TritonRexx ist FREEWARE
+
+Das vollständige Archiv 'TritonRexx376.lha' befindet sich im Aminet im
+Verzeichnis 'util/rexx', und auf der Aminet CD 9.
+
+Die hier mitgelieferte Version 37.7 ist nur ein Bugfix und enthält keine
+neuen Features.
+
+
+Autor:
+******
+
+   Jürgen Kohrmeyer
+   Oststraße 2
+   49143 Bissendorf
+
+   j_kohrmeyer@wilam.north.de
+
+
+Support-Mailbox:
+****************
+
+   WILAM Mailboxsystem Wildeshausen
+     
+   Port 1 - +49-4431-92081 : USR DualStandard V.34
+   Port 2 - +49-4431-92082 : ZyXel 19.2k
+   Port 3 - +49-4431-92082 : ISDN X.75
+     
+   Login mit Username MD, Download per Menüauswahl

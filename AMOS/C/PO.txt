@@ -1,0 +1,5 @@
+
+"oggdec", "speexdec" & "ffmpeg" are currently not working without FPU.
+If you are able to locate or provide me with versions of these which will
+work without FPU it would be most appreciated.
+

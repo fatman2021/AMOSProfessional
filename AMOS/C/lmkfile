@@ -1,0 +1,26 @@
+DistFiles = RawDisk-Handler RawDisk.c HandlerStartup.a RawDisk lmkfile \
+            RawDisk-Handler.doc
+
+DistFile = RawDiskHandler1_1.lha
+
+All: RawDisk-Handler
+
+.c.o:
+	lc -v -ms -csfqm $*
+
+RawDisk-Handler: RawDisk.o HandlerStartup.o
+	blink FROM HandlerStartup.o RawDisk.o TO RawDisk-Handler LIB LIB:lc.lib SC SD NOICONS
+
+HandlerStartup.o: HandlerStartup.a
+	asm -iINCLUDE: HandlerStartup.a
+
+RawDisk.o: RawDisk.c
+
+dist: $(DistFile)
+
+$(DistFile): $(DistFiles)
+	@-Delete $(DistFile)
+	lha -aAFr a $(DistFile) $(DistFiles)
+
+clean:
+	-Delete RawDisk-Handler RawDisk.o HandlerStartup.o $(DistFile)

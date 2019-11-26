@@ -1,0 +1,138 @@
+## version 
+## language 
+## codeset 0
+;
+; $VER: RDBBackup.cd 1.0 (7.1.96)
+;
+; RDBBackup V1.0 (catalog description file)
+;
+; © 1996 Jürgen Kohrmeyer
+;
+MSG_FRAMEBOX_PREFS
+
+;Prefs
+;
+MSG_GAD_PUBSCREEN
+
+;_Public screen
+;
+MSG_GAD_BACKUP_DIR
+
+;_Backup directory
+;
+MSG_GAD_SCSI_DEVICE
+
+;SCSI _device
+;
+MSG_FRAMEBOX_UNITS
+
+;SCSI units
+;
+MSG_GAD_UPDATE
+
+;_Update list
+;
+MSG_GAD_BACKUP
+
+;Backup RDB
+;
+MSG_GAD_RESTORE
+
+;Restore RDB
+;
+MSG_GAD_ABOUT
+
+;_About
+;
+MSG_GAD_SAVE_PREFS
+
+;_Save prefs
+;
+MSG_GAD_QUIT
+
+;_Quit
+;
+MSG_GAD_USE
+
+;_Use
+;
+MSG_GAD_OKAY
+
+;_Okay
+;
+MSG_GAD_CANCEL
+
+;_Cancel
+;
+MSG_DEVICEWINDOW_TITLE
+
+;Select device
+;
+MSG_SCREENWINDOW_TITLE
+
+;Select public screen
+;
+MSG_REQUEST_BACKUP_DIR
+
+;Select backup directory
+;
+MSG_REQUEST_ALREADY_EXISTS
+
+;already exists!
+;
+MSG_REQUEST_REPLACE_FILE
+
+;Replace this file?
+;
+MSG_REQUEST_GADS_REPLACE
+
+;Replace|_Cancel
+;
+MSG_REQUEST_BACKUP_FAILED
+
+;Backup failed returncode
+;
+MSG_REQUEST_RESTORE_FROM_FILE
+
+;Restore from file
+;
+MSG_REQUEST_RESTORE_ASK
+
+;Do you really want to restore this RDB?
+;
+MSG_REQUEST_GADS_RESTORE
+
+;Restore|_Cancel
+;
+MSG_REQUEST_RESTORE_FAILED
+
+;Restore failed returncode
+;
+MSG_REQUEST_GAD_USE
+
+;Use
+;
+MSG_ABOUTWINDOW_TITLE
+
+;About RDBBackup
+;
+MSG_ABOUTWINDOW_APP_USES
+
+;This application uses:
+;
+ERROR_CANNOT_OPEN_FILE
+
+;Cannot open file
+;
+ERROR_CANNOT_READ_FILE
+
+;Error reading file
+;
+ERROR_CANNOT_CREATE_APP
+
+;Cannot create Application!
+;
+ERROR_CANNOT_OPEN_WINDOW
+
+;Cannot open window!
+;

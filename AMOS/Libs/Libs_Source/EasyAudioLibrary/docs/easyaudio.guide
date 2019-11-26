@@ -1,0 +1,559 @@
+@DATABASE "easyaudio.guide"
+@REMARK $VER: easyaudio.guide 39.1 (12.12.99)
+@NODE MAIN "An Easy Audio Library for Amiga Programmers"
+
+****************************************************************************
+*                                                                          *
+*                          --- EasyAudio v39.1 ---                         *
+*                                                                          *
+*                    --- An Easy Amiga Audio Library ---                   *
+*                                                                          *
+*                 --- Constructed by Matthew J Fletcher ---                *
+*                                                                          *
+*                        --- 12th December 1999 ---                        *
+*                                                                          *
+****************************************************************************
+
+							Table of contents:
+							¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+  
+
+ @{b}Easy Audio Library Documentation@{ub}.
+ 
+ @{" About....... " Link "About"}
+ Why we need WB 4 and the Power PC, but also a little something on this
+ here library, and some un-interesting stuff about it.
+
+ @{" Compilation. " Link "Comp"}
+ Some notes on how to compile this library source on GCC/EGCS and maybe
+ other compilers also.
+
+ @{" Functions... " Link "func_note"}
+
+	@{"EA_Request() " Link "ea_request"}
+	Super-easy easy-request usage.
+
+	@{"EA_Speech()  " Link "ea_speech"}
+	Ough so easy speech for your programs.
+
+	@{"EA_Beep()    " Link "ea_beep"}
+	The pascal beep you allways wanted.
+
+	@{"EA_Sound()   " Link "ea_sound"}
+	A collection of functions for advanced sound control.
+
+	@{"EA_Sound() - Example" Link "ea_sound_example"}
+	An example of EA_Sound set useage.
+
+ @{" History..... " Link "history"}
+ Romans / Normans / Celts and pre-release betas.
+
+
+@ENDNODE
+
+
+
+
+@Node "About" "Introduction / About / Credits"
+@Toc "Main"
+
+ ------------------------------------------------------------------
+ $VER: Easyaudio.Library Docs 39.01 (12.12.1999)
+
+ An Amiga Shared Library, that contains some usefull (or not) funcs
+ for use in utils and games in a super easy fashion, all are high
+ level constructs and you get the gcc source to..!!
+
+ (C) Copyright 1999-2000 Matthew J Fletcher - All Rights Reserved.
+ amimjf@connectfree.co.uk - www.amimjf.connectfree.co.uk
+ ------------------------------------------------------------------
+
+
+WHATS IN THIS PACKAGE
+---------------------
+The easyaudio archive should contain everything you need to make sound
+spring like magic from your amiga. More spesificly there are two libs,
+easyaudio.library, which provies all the functions described later, and
+easuaudio-debug.library. This library is compiled with more debuging
+infos -ggdb, so that it includes full symbol tables etc, that the other
+library wont cos its striped (ouh matron!).
+
+In order to use this properly you need to be a dab hand at gdb, but as
+i cant even work it out myself, i have included a load of debugging
+output in the form of error requestors if something important breaks.
+If you are having problems with the library i would use this first,
+before spaming me.
+
+----------------------------------------------------------------------
+@{b}@{u}IMPORTANT@{uu}@{ub} if you want to debug properly, dont just use the normal
+library as it will just return error values for your program to catch.
+
+Use the debug library, or re-compile, with full debug symbols, so you
+can step through it with barfly (which i use), or dice's dd, which is
+just as good. Depending on the debuger you might only get 68k asm,
+but its quite easy (ish), no honist !
+
+If you have dice / barfly / COP you can use the disassemblers in both
+to step through the library task also, so see what code its doing and
+see what is going on. (if you know 68k asm). But reallisticly the
+requirestors should provided you with enough output.
+---------------------------------------------------------------------
+
+
+Also provided is the full GCC source, and i mean GCC, cos i doubt it will
+compile for any other compiler straght off. You will need to re-define
+some of the keywords, to get it to work. There is a file compiler.h to
+put all this stuff in.
+
+You also get a full set of headers, includes (proto/pragma(s)) etc so,
+you can use this lib from just about any amiga compiler.
+
+
+ABOUT & CREDITS
+---------------
+This source was adopted very heavily from the clib37x package, that was
+addapted to work on gcc first by Stefan Fuchs and Gunter Nikl and then
+more so by me. The Original SAS/C version was by Andreas R. Kleinert.
+
+Some of the functions were inspired by Anders Bjerin's epic C manual,
+which although out of date is still a good reference.
+
+As allways with my code, it is FREEWARE, covered implisity by the GNU
+Public Licence. Note (C) Copyright 1999-2000 Matthew J Fletcher -
+All Rights Reserved.
+
+This is an amiga OS3.x shared library that is written in 100% C/++, there
+is no assembler startup code, but the preprocessor stuff is pretty wacky
+if you have not seen it before. But it will rebuild for the PPC easily
+and not take days to port like most asm librarys.
+
+
+CONTACTS
+--------
+Matthew J Fletcher - Matthew.Fletcher@student.shu.ac.uk
+
+www.amimjf.connectfree.co.uk - amimjf@connectfree.co.uk
+
+ICQ amimjf 44193496
+
+@EndNode
+
+
+
+
+@Node "comp" "Compilation of the library sources"
+@Toc "Main"
+
+COMPILING
+---------
+
+I work on the assumption that you have a decent set of gnu stuff around,
+make, as, ld, gcc, cc1, ccplus, the FULL libnix distriubtion and in
+theory all the other usfull bits like gdb etc,.. the chances are you
+will not get very far without it.
+
+This is what i use to build the library..
+
+make -f makefile
+
+and it works,.. but it wont if you edit the makefile with a text editor
+that removes the tabs (option in GoldED), gnu make NEEDs tabs !
+
+or if you are more hardcore you can build it via gcc like this...
+of course you will need to correct the paths,..!!
+
+gcc flash:mylib/StartUp.c flash:mylib/Init.c flash:mylib/Func_Simple.c
+flash:/mulib/Func_Sound.c -o ram:easyaudio.library -v -m68020 -s
+-noixemul -lm -fbaserel -fstrength-reduce -fomit-frame-pointer
+-msmall-code
+
+and it works just fine, of course on a non gcc compiler i doubt it will
+be perfect at once, so you might have to fiddle around with the pragmas
+to get it to compile.
+
+I use FD2Pragma to build example.h, but i have to edit it to remove all
+the externs, or it will not build, and will fail at linking. It just
+saves beginner programers messing with the library base.
+
+FD2Pragma fd:easyaudio_lib.fd CLIB include:clib/easyaudio_protos.h SPECIAL 42
+
+is what i use, to generate these files in the first place, and ..
+
+SPECIAL 6 to generate the lib (or) ami calls, and SPECIAL 20 for asm lvo's.
+
+If all this fancy dynamic linking is to much for you, there is also a
+static link library provided (libeasyaudio.a), i would use this only if
+you have real problems or are to lazy to use librarys properly.
+
+To use this just add -leasyaudio to the command path that you compile your
+progs under, and hay presto, static linked code you should have. What you
+will have to do is to re-link your code each time i change the lib, or
+all hell will brake loose.
+
+FD2Pragma fd:easyaudio_lib.fd CLIB include:clib/easyaudio_protos.h SPECIAL 12
+
+will do the business if you need to update the link lib, if yu fiddle
+with the library source.
+
+
+NON-GCC COMPILERS
+-----------------
+If you use storm,maxon,dice,sas,vbcc,north,aztec or whatever the chances
+are this wont build, there is a header (compiler.h) that is there to enable
+other compilers to build this also, i was going to get it to work with
+dice3.15 (which i have), but it requires a bit of messing around and i
+spend to much time working in C++.
+
+Please refer to dev/c/clib37x on aminet for more information on shared
+librarys and some VERY good code. This shows how to use the pragma(s)
+on other compilers and to redefine keywords also.
+
+
+@EndNode
+
+
+
+@Node "func_note" "Short Notice About Library Functions"
+@Toc "Main"
+
+LIBRARY FUNCTIONS
+-----------------
+Since i cant think of a reason why other people should not be able to
+use my librarys here are some quick function desciptions. All these are
+quite high level constructors, in that you just pass them one or two
+arguments and they will do loads of system friendly device opeations
+etc, complete with error checking.
+
+Just one note, cos i have been nice and included the source, doesnt mean
+if you see a function in there you can call it, the basic rule for all
+programming is, if it anynt documented dont call it, all hell could break
+loose, your memory might get thrashed, gurus pop, rdbs get overwriten
+and your machine will melt and then reform into a 386 running DOS/5 !!.
+
+Or you might just get a visit from COP / MuForce / Enforcer / Cyberguard.
+
+
+@EndNode                  
+
+
+
+
+@Node "history" "EasyAudio History"
+@Toc "Main"
+
+v39.0 - 8th December 1999
+First release, to the extent that it wouldnt compile, and only had
+one function. I got pissed off using the amigaos low-level constructs
+to build functions, and as i had loads of speach and sample code lying
+around i decided to dump it into a shared lib in case anyone else
+should want to use any of these functions.
+
+It also decreases the temptation to (hardcode), and not be fully system
+complient in your programming, cos it takes to long.
+
+
+v39.1 - 23rd December 1999
+Wow it compiles, and not only that but i can use the functions from
+other programs (wow). There are some quite usefull functions in the
+library now, and it could be used for more than testing.
+
+- Added makefile for gnu make, to cut down on the time i spend re-
+  building the sources for each re-compile. Should be pretty easy to
+  convert to dmake etc.
+
+- Added a static link lib, in case you should want to use that (?)
+
+- got more pissed of with libnix.
+
+
+@EndNode
+
+
+
+@Node "ea_request" "EA_Request()"
+@Toc "Main"
+
+EA_Request
+----------
+A bit out of place this, in an audio library, but i find it very usefull
+so i bunged it in. Its what i use for the error requestors that display
+debugging info, but you might want to use it.
+
+This function will pop an easy requestor, of the requirements you want,
+shouldent it have been this easy anyway ?, well yes. It will return the
+value fo the button you pressed (0/1/2 etc), if you want to build on it,
+build i would suggest using a proper EasyRequest / EasyRequestArgs, set
+if you want to do that, this is "quick and dirty".
+
+The parameters are: Msg Title, Msg Body Text, Buttons.
+It returns: 0/1/2 etc depending on button pressed.
+
+A quick example would be this..
+
+EA_Request("Test Message", "It works! (wow)", "OK");
+
+but you could also do..
+
+EA_Request("Better Test Message",
+
+			"Now you see the power,\n
+			 i am the one, i am the,\n
+			 becomer of death.\n\n
+			 Version 0.1.13"
+
+			"Ok|No Not Me !");
+
+@EndNode
+
+
+
+
+@Node "ea_speech" "EA_Speech()"
+@Toc "Main"
+
+EA_Speech
+---------
+This function synth fans will use the narrator.device and translator.library
+of OS1.x or OS2.x, to make your amiga speak, now is'nt that cool, well not
+when it sounds like an american robot, so you better get the translatorv43
+package fromaminet and install an english (or killingon) accent.
+
+My flatmates mac can do this, and now your amiga can to, yes i present the
+wonder of audio requests !!.
+
+The parameters are: The_Text_To_Be_Said.
+It returns: 0 = it worked or 1 = it broke.
+
+an example would be..
+
+strcpy char *text = "I am a fish";
+if (EA_Speech(text)==1)
+	printf("it broke!\n");
+else
+	printf("it worked\n");
+
+Now isent that easy (well no), if you want to see all the rubbish that is
+going on in the background, then recompile the library with debug turned
+on, or browse the source to see all the checks i do for your saftey.
+
+
+@EndNode
+
+
+
+@Node "ea_beep" "EA_Beep()"
+@Toc "Main"
+				 
+EA_Beep
+-------
+May i present my own beep function, back in the days of pascal, i wrote
+whole (but short) peices of music via the beep command. Those were the
+days,.. nested procedures, endif's, EOF's and PROGRAM commands, (umm).
+
+Remember no frequencys over 660, or durations over 30 seconds, cos that
+would be just insane ! (or tell me otherwise ?)
+
+The parameters are: Sound Frequency, Sound Duration.
+It returns: 0 = it worked or 1 = it broke.
+
+a quick example would be,..
+
+if (EA_Beep(10,2) ==1)
+	printf("damn it broke");
+else
+	printf("wow it worked");
+
+which would get you a 2 second very low frequency humm,..
+
+or
+
+if (EA_Beep(10,1) ==1)
+	printf("you dildo !\n");
+
+else /* its ok now */
+EA_Beep(100,1);
+EA_Beep(400,1);
+EA_Beep(100,1);
+EA_Beep(10,1);
+
+which would get you a silly little tune, lasting 5 seconds and going
+from a low hum, up and then back down, isnt this wonderfull.
+
+
+@EndNode
+
+
+
+
+@Node "ea_sound" "EA_Sound() - All Functions"
+@Toc "Main"
+
+
+EA_PrepareSound / EA_PlaySound / EA_StopSound / EA_RemoveSound
+--------------------------------------------------------------
+
+
+ 1. There are four functions that you need to use. The first one is
+ called EA_PrepareSound(), and must be called before you can play the
+ soundeffect. You simply give it a file name as the only parameter, and
+ it will allocate space and load the sound file. It will also prepare
+ some other things that is needed before you may play the sound. If
+ EA_PrepareSound() has successfully done its task, it will return a
+ pointer to a SoundInfo structure (struct SoundInfo *), else it will
+ return NULL which means something went wrong.
+
+   Synopsis: pointer = EA_PrepareSound( filename );
+
+   pointer:  (struct SoundInfo *) EA_PrepareSound() will return a pointer
+			 to a SoundInfo structure if the sound was successfully
+			 prepared, else it will return NULL which means something went
+			 wrong.
+
+   filename: (STRPTR) Pointer to a string containing the name of the
+			 sound file.
+
+
+
+ 2. After you have prepared the sound, you may play it. You do it by
+ calling the function EA_PlaySound(). If the sound was played
+ successfully, TRUE is returned, else FALSE is returned which means
+ something went wrong.
+
+	Synopsis: ok = EA_PlaySound( ptr, vol, cha, pri, drate, times, ddata,
+								time, wait );
+
+	ok:    (BOOL) If the sound was played successfully TRUE is
+		   returned, else FALSE.
+
+	ptr:   (struct SoundInfo *) Pointer to a SoundInfo structure. This
+		   pointer was returned by EA_PrepareSound().
+
+	vol:   (UWORD) Volume, 0 to 64.
+
+	cha:   (UBYTE) Which channel should be used. (LEFT0, RIGHT0,
+		   RIGHT1 or LEFT1)
+
+	pri    (BYTE) What sound priority should be used. For normal sound
+		   effects, set the priority to "SOUND_PRI_EFFECT". See file
+		   "EasySound.h" for a complete list of recommended priorities.
+
+	drate: (WORD) Delta rate. When the sound is prepared, the record
+		   rate is automatically stored in the SoundInfo structure,
+		   so if you do not want to change the rate, write NORMALRATE.
+
+	times: (UWORD) How many times the sound should be played. If you
+		   want to play the sound forever, write NONSTOP. (To stop a
+		   sound call the function EA_StopSound().)
+
+	ddata: (ULONG) Where in the sound data we should start to play. (If
+		   you want to start at the beginning of the sound data set ddata
+		   to 0.)
+
+	time:  (ULONG) For how long time the sound should be played. If you
+		   want to play all of the sound data set time to 0.
+
+	wait:  (BOOL) If you want that the program waits for the sound to
+		   to be completed set the flag "WAIT". If you do not want to
+		   wait for the sound to be completed, set the flag "DO_NOT_WAIT".
+
+
+
+ 3. If you want to stop an audio channel you simply call the function
+ EA_StopSound(). (It is not dangerous to stop a sound that has already
+ terminated, or has not started.)
+
+   Synopsis: EA_StopSound( channel );
+
+   channel:  (UBYTE) Which channel should be stopped. (LEFT0, RIGHT0,
+			 RIGHT1 or LEFT1)
+
+
+
+ 4. Before your program terminates you must call the function
+ EA_RemoveSound() which will deallocate all memory that was allocated by
+ the EA_PrepareSound() function. IMPORTANT! All sound channels that is
+ currentely playing the sound must have been stopped before this function
+ may be called!
+
+   Synopsis: EA_RemoveSound( pointer );
+
+   pointer:  (struct SoundInfo *) The pointer that was returned by
+			 EA_PrepareSound().
+
+
+
+@EndNode
+
+
+
+@Node "ea_sound_example" "EA_Sound() - Example"
+@Toc "Main"
+
+
+#include <exec/types.h>
+#include <easyaudio/easyaudio.h>
+
+struct SoundInfo *fire;
+struct SoundInfo *explosion;
+
+
+void main();
+void free_memory( STRPTR message );
+
+void main()
+{
+
+  printf("Prepare the sounds\n");
+
+  fire = EA_PrepareSound( "Fire.snd" );
+  if( !fire )
+	free_memory( "Could not prepare the sound effect!" );
+
+
+  explosion = EA_PrepareSound( "Explosion.snd" );
+  if( !explosion )
+	free_memory( "Could not prepare the sound effect!" );
+
+
+  printf("Play the sounds\n");
+
+  EA_PlaySound( fire, MAXVOLUME, LEFT1, SOUND_PRI_EFFECT,
+			   NORMALRATE, 2, 0, 0, DO_NOT_WAIT  );
+
+  EA_PlaySound( explosion, MAXVOLUME, RIGHT1,SOUND_PRI_EFFECT,
+			   NORMALRATE, 2, 0, 0, DO_NOT_WAIT  );
+
+
+
+  printf("Stop (all) the audio channels\n");
+
+  EA_StopSound( LEFT0 );
+  EA_StopSound( LEFT1 );
+  EA_StopSound( RIGHT0 );
+  EA_StopSound( RIGHT1 );
+
+
+  printf("Remove the sound effects\n");
+  free_memory( "THE END" );
+}
+
+
+void free_memory( STRPTR message )
+{
+  printf("%s\n\n", message );
+
+  EA_RemoveSound( explosion );
+  EA_RemoveSound( fire );
+
+  exit();
+}
+
+
+@EndNode
+
+
+
+
+ 
+   
+

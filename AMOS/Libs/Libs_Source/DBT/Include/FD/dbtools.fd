@@ -1,0 +1,20 @@
+##base _DBToolsBase
+##bias 30
+CreateBase(tags)(A1)
+DeleteBase(db)(A1)
+GetGenericN(db,node,data)(A1,D1/D2)
+GetGeneric(db,data)(A1,D1)
+DoBaseMove(db,pos)(A1,D1)
+AllocString(str)(A1)
+LoadBase(file)(A1)
+SaveBase(file,db)(A1/A2)
+FindBase(db,id)(A1,D1)
+DeleteNode(dn)(A1)
+ClearNode(dn)(A1)
+SetGeneric(db,data,val)(A1,D1/D2)
+SetGenericN(db,node,data,val)(A1,D1/D2/D3)
+AddNode(db)(A1)
+LoadBaseID(name,id)(A1,D1)
+AllocRaw(rawdata)(A1)
+FindNode(node,data)(A1/A2)
+##end

@@ -1,0 +1,231 @@
+Short:    mpega.library clone using libmad (040/PPC).
+Uploader: cisc@c2i.net (Sigbjørn Skjæret)
+Author:   cisc@c2i.net (Sigbjørn Skjæret), Jarmo Laakkonen <jami.laakkonen@kolumbus.fi>, Stephan Rupprecht <mail@stephan-rupprecht.de>, Robert Leslie <rob@mars.org>
+Type:     util/libs
+
+This is a mpega.library clone using the very excellent libmad for
+decoding, it looks and behaves just like the original, but with several
+benefits offered by libmad...
+
+Why should I use this instead of the original mpega.library I hear you
+say? Well, here's a list of reasons:
+
+
+- Supports 8kHz streams (the original decodes these wrong).
+
+- Supports FreeFormat (upto a whopping 640kbps) streams.
+
+- Supports ReplayGain (stored in LAMEtags).
+
+- Very high quality decoding (better than the FPU version of the original).
+
+- Very low CPU usage (integer original is still faster on 68k though).
+
+- mpega.library is no longer updated (and I haven't been able to get in
+  touch with Stephane Tavenard for ~2 years (and counting))...
+
+
+If this doesn't convince you, well, tough, don't use it then! ;)
+
+
+Changes in this (7th) release:
+
+- Added some more compiler options to squeeze out more speed.
+- Fixed cases where buffersize would be wrong for apps that try to reset it to
+  another value through the hook (this is not recommended however, as I try to
+  force a recommended minimum (and absolute minimum is 2880 bytes (not counting
+  freeformat which can be upto 5760 bytes per frame (perhaps even more))))...
+- Now preserves A4, might fix some apps.
+- Reenabled -fschedule-insns2 for PPC since new asm doesn't trigger bug, gained
+  whopping 15% speed (with new asm)... ;)
+- More compatibility tweaks, hopefully SongPlayer is less fuzzy about files now.
+- Updated to libmad 0.15.1 with new IMDCT for Layer3,
+  should increase speed *and* accuracy! ;)
+- Added support for LAMEtag, using ReplayGain info when decoding.
+
+
+This archive contains 4 different binaries:
+
+mpega.library.040 - 68k version, just rename it to mpega.library.
+mpega.library.pup - "fat" PowerUP binary, rename it to mpega.library.
+mpega.library.os4 - OS4 binary, rename it to mpega.library.
+mpega.library.elf - MorphOS binary, rename it unless you dualboot on CS/BPPC!
+
+
+You might notice that the following binary is no longer included
+(but the sources still support it, if you manage to build it, please tell me):
+
+mpega.library.wos - WarpOS binary, rename it to mpega.library.
+
+..this is because I have been unable to contact the maintainer for quite a
+while, and it seems that no-one else is able to produce a working binary,
+accounting for the huge delay of this release, sorry... :P
+(4 different people have tried, and all have failed .. StormC strikes again!)
+
+If you are still unfortunate enough to be stuck with WarpOS, I suggest you just
+use the PowerUP version with the latest ppclibemu, which should work fine.
+
+
+Thanks goes to the following ppl:
+
+My wife & kids
+- for understanding (yeh, rite) my absence during intense coding sessions.
+
+My biological father
+- for dying young and leaving an awful mess for everyone to clean up.
+
+Stephane Tavenard
+- for making mpega.library, a truely great effort!
+
+Robert Leslie
+- for making the excellent libmad, thus making this possible!
+
+Jarmo Laakkonen
+- for doing and maintaining the WarpOS version.
+  (though, he seems to have left this planet's surface. :P )
+
+Stephan Rupprecht
+- for doing and maintaining the OS4 version.
+
+Adam Waldenberg
+- for wasting more time than most trying to build the WarpOS version in Jarmo's absense.
+  (no easy feat when you have to battle the antics of StormC)
+
+Frank Wille
+- for taking the time to test my library and analyze & fix the problem with ppclibemu/wos!
+
+Jacek Cybularczyk & Sebastian Jedruszkiewicz
+- for being a couple of the coolest coders around, and lending me the
+  PowerUP dispatcher code and tools enabling me to make the "fat" binary...
+
+Ralph Schmidt, Frank Mariak, Emmanuel Lesueur, David Gerber, Nicolas Sallin, Mark Olsen & Nicholai Benalal
+- for putting up with all the crap that goes on in public forums...
+  (which seems to be less now that Ben Hermans got a "real" job)
+
+Robert Reiswig
+- for revealing more secrets than The Masked Magician... ;)
+  (currently being held in inhuman conditions at Guantanamo Bay)
+
+Teemu Suikki
+- for questionable use of a motorcycle, and taking pictures... ;)
+  (last spotted on a world-nude-bike-tour, end-date unknown)
+
+Harry Sintonen
+- for being MIA for months, and now in permanent hiding...
+  (but now back again, committing stuff while knurd)
+
+Jacek Piszczek Jr.
+- for stunning polish nature-shots.
+
+Treveur Bretaudiere
+- for making kick-ass skins!
+
+Nicolas Szalski
+- for lovely icons!
+
+André Siegel
+- for arranging random pixels in amazingly beautiful ways.
+
+Nicolas Det
+- for superhuman overlay optimizations.
+
+Felix Schwarz
+- for leaving me out in his thank-you list. ;)
+
+Chris Hodges
+- for not putting up with all the crap Elbox and their rats put him through.
+
+Timm S. Müller
+- for having more guts and less sanity than most. ;)
+
+Benjamin Vernoux
+- for degrading everyone's engrish.
+
+Matt Sealey
+- for having a cheerful outlook on life. ;)
+
+Fr3dY
+- for being a lean, mean porting machine.
+
+Gaudie
+- for always being there.
+
+Everyone in #AmigaCafe
+- for being patient and ignoring all my rants... ;)
+  (sorry that I haven't been around lately)
+
+Saraba
+- for ditching us in favour of a square apple. :P
+
+Chen, Daremo-Long
+- for giving everyone weird urges whenever near furry objects.
+
+Espresso
+- for never being there.
+
+Ange
+- for being there sometimes.
+
+Matthias Böcker
+- for being very, very yellow.
+
+Christian Rosentreter
+- for finally letting me out of that dark, damp dungeon...
+
+Rüdiger Hanke
+- for giving us an excuse for being nostalgic.
+
+Kolbjørn Barmen
+- for testing the x86 version of MorphOS.
+
+Ole-Egil Hvitmyren
+- for bringing tears to my eyes in unconventional ways.
+
+Kjetil Hvalstrand
+- for caring about the otters when no-one else will.
+
+Michele Magliocca
+- for informing us that Ambient sucks, we'd never have noticed otherwise.
+
+Lajos Nagy
+- for giving us the best non-random random technology money can't buy. ;)
+
+Jose Francisco Carrasco Benitez
+- for making everyone put him on permanent ignore.
+
+Theo de Raadt
+- for being polite and forthcoming.
+
+Raquel Velasco and Bill Buck
+- for never knowing when to stop.
+
+Bill McEwen
+- for not being there when he should have been.
+
+Barry Moss
+- for being a lean, mean buzzword machine.
+
+Mike Bouma
+- for being an all-round professional guy who never lets politics get in the way of truth.
+
+Ray A. Akey
+- for knowing the truth.
+
+Jens Schönfeld
+- for knocking down that wall.
+
+Steffen Häuser
+- for facing his monsters.
+
+Hans-Jörg Frieden
+- for not understanding his own license.
+
+Sammy Nordström
+- for making it crystal clear that ROM is not meant to be read.
+
+
+For more information on the MAD project, check out the MAD homepage at:
+http://www.underbit.com/products/mad/
+
+
+- CISC

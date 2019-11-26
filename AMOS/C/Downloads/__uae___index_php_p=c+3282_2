@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+      <title>convert2mp3.net - Online Video converter - Convert Youtube, Dailymotion, Vevo, Clipfish and MyVideo videos online to MP3, MP4 and more formats - download your music for free</title>
+      <meta name="Description" content="Convert videos from YouTube, Dailymotion, Vevo, Clipfish and Myvideo online to MP3 and MP4 and more formats. Easy, fast and free." />
+      <meta name="Keywords" content="youtube2mp3, musik downloaden, youtube2mp3 converter, video2mp3, clipfish umwandeln, myvideo umwandeln, youtube umwandeln, download, music4free, kostenlos musik downloaden, convert2mp3, mp3converter mp3 umwandeln, video2mp3, convert2mp3.de, mp4 umwandler, mp4 umwandlung, videos von videoportalen umwandeln, mp4 umwandeln, online video converter, free video converter, free music, free converter, online mp3 converter, online mp4 converter, mp3 konverter, yabeat alternative, filsh alternative, mp4 konverter, youtube zu mp3 konverter, youtube in vmw umwandeln, youtube videos downloaden, youtube videos runterladen, youtube musik,Dailymotion download, Dailymotion downloader, Dailymotion converter, Dailymotion2mp3, Dailymotiontomp3, youtube downloader, youtube converter, youtube konverter, youtube mp3 converter, youtube mp3 konverter" />
+      <meta name="Distribution" content="Global" />
+      <meta name="Robots" content="index,follow" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+      <meta http-equiv="content-language" content="en" />
+      <meta property="og:image" content="http://convert2mp3.net/assets/img/ogimage.jpg" />
+      <meta property="article:publisher" content="https://www.facebook.com/convert2mp3" />
+      <meta name='application-name' content="convert2mp3.net - Online Video Converter" />
+      <meta name="msapplication-TileImage" content="assets/img/w8tile.png"/>
+      <meta name="msapplication-TileColor" content="#e08336"/>
+      <meta name="msapplication-starturl" content="http://convert2mp3.net/"/>
+      <meta name="msapplication-tooltip" content="Start convert2mp3.net Online Video Converter"/>
+      <link href="main.min.css?v=4262454" type="text/css" rel="stylesheet" />
+      <link href="bootstrap.min.css" type="text/css" rel="stylesheet" />
+      <link rel="stylesheet" type="text/css" media="screen" href="bootstrap-select.min.css" />
+      <link rel="shortcut icon" href="assets/ico/favicon.png" />
+      <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png" />
+      <link rel="alternate" hreflang="en" href="http://convert2mp3.net/en/index.php?p=complete" />
+      <link rel="alternate" hreflang="de" href="http://convert2mp3.net/index.php?p=complete" />
+      <script src="assets/js/jquery-1.9.1.min.js"></script>
+      <script src="assets/js/language-en.min.js"></script>
+      <script src="assets/js/main.min.js"></script>
+      <script src="assets/js/bootstrap.min.js"></script>
+      <script src="assets/js/bootstrap-select.min.js"></script>
+      <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+      <![endif]-->
+   </head>
+   <body>
+      <!-- NAVBAR
+         ================================================== -->
+      <div class="navbar-wrapper">
+         <div class="navbar navbar-inverse">
+            <div class="container">
+               <div class="navbar-inner">
+                  <a class="brand" href="index.php"><img src="assets/img/logo.png" alt=""></a>
+                  <div class="nav-collapse collapse">
+                     <ul class="nav">
+                        <li><a href="index.php?p=home"><img src="assets/img/home.png" alt="home">home</a></li>
+                        <li><a href="index.php?p=addon"><img src="assets/img/addon.png" alt="addon">addon</a></li>
+                        <li><a href="index.php?p=charts"><img src="assets/img/charts.png" alt="charts">charts</a></li>
+                        <li><a href="index.php?p=help"><img src="assets/img/hilfe.png" alt="infos">infos</a></li>
+                        <li><a href="index.php?p=tools"><img src="assets/img/tools.png" alt="tools">tools</a></li>
+                        <li><a href="index.php?p=linkus"><img src="assets/img/linkus.png" alt="link-uss">link-us</a></li>
+                     </ul>
+                     <ul class="nav nav-right">
+                        <li><a href="setlang.php?lang=de"><img src="assets/img/de.png" alt="deutsch" title="deutsch">DE</a></li>
+                        <li class="active"><a href="setlang.php?lang=en"><img src="assets/img/en.png" alt="english" title="english">EN</a></li>
+                     </ul>
+                  </div>
+                  <!--/.nav-collapse -->
+               </div>
+               <!-- /.navbar-inner -->
+            </div>
+            <!-- /.container -->
+         </div>
+         <!-- /.navbar -->
+      </div>
+      <!-- /.navbar-wrapper -->
+      <!-- Carousel
+         ================================================== -->
+      <div id="myCarousel" class="carousel slide">
+         <div class="carousel-inner">
+            <div class="item active">
+               <img src="assets/img/carousel.png" alt="">
+               <div class="container">
+               </div>
+            </div>
+         </div>
+         <!--
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+            -->
+      </div>
+      <!-- /.carousel -->
+      <!-- CONTENT
+         ================================================== -->
+      <div class="container">
+         <div class="row content">
+            <div class="span9"><h1>conversion finished</h1>
+
+<div class="alert alert-success">The video "<b>Mjam Werbekampagne 2015//Schnitzel Schnitzel Mjam [...]</b>" has been converted successfully to an avi file</div><div class="row"><div class="span2"><img width="140" class="imgshadow" src="getcover.php?videoID=youtube_XKIBihWjTSc" /></div><div class="span7">Your avi file will be saved for 4 hours on our server. <br />To download the file, just click on "Download".<br />filesize: 2.17MB<br /><br /><a class="btn btn-success btn-large" href="http://cdl14.convert2mp3.net/download.php?id=youtube_XKIBihWjTSc&key=phywnkMiMs34&d=y"><i class="icon-download"></i> Download</a>&nbsp;<a href="#shareit" role="button" class="btn btn-large" data-toggle="modal"><i class="icon-share-alt"></i> share</a>&nbsp;<a class="btn btn-large" href="index.php"><i class="icon-refresh"></i><span style="font-size:14px;"> convert next video</span></a><br /><br /><div align="right"><a href="http://cdl14.convert2mp3.net/cloud-save.php?id=youtube_XKIBihWjTSc&key=phywnkMiMs34" data-filename="Mjam Werbekampagne 2015//Schnitzel Schnitzel Mjam Mjam Mjam.avi" class="dropbox-saver"></a></div></div></div><!-- Modal -->
+<div id="shareit" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="shareModalLabel">share</h3>
+  </div>
+  <div class="modal-body">
+    <p>With the following link the video "<b>Mjam Werbekampagne 2015//Schnitzel Schnitzel Mjam [...]</b>" can be directly converted again using convert2mp3.net: </p><input type="text" class="input_share" onclick="this.select()" value="http://convert2mp3.net/en/?url=http://www.youtube.com/watch?v=XKIBihWjTSc"><iframe src="//www.facebook.com/plugins/like.php?href=http://convert2mp3.net/?url=http://www.youtube.com/watch?v=XKIBihWjTSc&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=recommend&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:21px;" allowTransparency="true"></iframe><g:plusone annotation="none" size="" href="http://convert2mp3.net/index.php?url=http://www.youtube.com/watch?v=XKIBihWjTSc"></g:plusone>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">close</button>
+  </div>
+</div><br /><br /><b>Do you like convert2mp3.net?</b><br />Like us on Facebook:<br /><br /><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ffacebook.com%2Fconvert2mp3&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=true&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;" allowTransparency="true"></iframe>
+<br /><br />or recommend us:<br /><br />
+<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fconvert2mp3.net%2Fen%2F&amp;width=150&amp;layout=button_count&amp;action=recommend&amp;show_faces=false&amp;share=false&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:140px; height:21px;" allowTransparency="true"></iframe>
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://convert2mp3.net/en/" data-text="convert2mp3.net - download your music for free - Online Video Converter" data-via="convert2mp3" data-count="none" data-dnt="true">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>&nbsp;&nbsp;&nbsp;<span class="g-plusone" data-annotation="none" data-size="medium" data-recommendations="false" data-href="http://convert2mp3.net/en/"></span>
+</div>
+            <div class="span3 ad">
+            	<a href="http://facebook.com/convert2mp3" target="_blank"><img src="assets/img/facebook.png"></a>
+            	<a href="http://twitter.com/convert2mp3" target="_blank"><img src="assets/img/twitter.png"></a>
+            	<br />
+            	<br />
+               <iframe src="http://convert2mp3.net/ads/ad_160x600.php" marginwidth="0" marginheight="0" frameborder="0" height="600" scrolling="no" width="160"></iframe>            </div>
+         </div>
+         <!-- FOOTER -->
+         <footer>
+            <ul class="nav nav-pills pull-right">
+    <li class="dropdown all-camera-dropdown">
+           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            partners:               <b class="caret"></b>
+           </a>
+    <ul class="dropdown-menu">
+    <li><a href="http://firstloadgratis.de/" target="_blank">Gratis Highspeed Downloads</a></li><li><a href="http://imageking.eu/" target="_blank">Bilder hochladen</a></li><li><a href="http://www.plonki.com" target="_blank">Cheats</a></li><li><a href="http://www.interaktivfabrik.de/" target="_blank">Fullservice Agentur Hamburg</a></li>     </ul>
+</li></ul>
+            <p>&copy; 2015 convert2mp3.net <span id="footer-links"><a href="index.php?p=contact">contact</a></span></p>
+            <p>Sprache/Language: <a href="setlang.php?lang=de">deutsch</a> - <a href="setlang.php?lang=en">english</a></p>
+         </footer>
+      </div>
+      <script type="text/javascript">
+              $('.selectpicker').selectpicker();
+              $('.mp4quality-selector').selectpicker();
+          
+      </script>      <script type="text/javascript">
+  		(function() {
+   	 	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    	po.src = 'https://apis.google.com/js/plusone.js';
+    	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  		})();
+	  </script>
+	  <script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-6013813-15");
+pageTracker._trackPageview();
+} catch(err) {}</script> 
+<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="a77kyck4bq4qm42"></script>
+   </body>
+</html>

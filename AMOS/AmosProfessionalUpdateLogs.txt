@@ -1,0 +1,117 @@
+
+********************************************************************
+2019.11.25 : Global Project Updates...
+
+- Update +w.s/EcDouble double buffer creation to handle 64 bits bitmap alignemnts.
+- Update +w.s/EcDel screen close method to handle both buffers (single and double one) with new buffer creation mode.
+- Update +Lib.s/IffPal to handle up to 256 colors in IFF Animations
+
+
+********************************************************************
+2019.11.22 : Global project update
+
+- Changed the place where the configuration are copied at compilation time (moved them to AMOS/S)
+- Changed a place where AMOS.library was copied at compilation time (to AMOS/Libs)
+- Moved the concerned files to place where they should be.
+- Updated SPack SCR to BANK to handle saving of the 256 colors in the picture packing process.
+- Added +w.s/updateAGAColorsInCopper to update the AGA Color palette when screen is opened or unpack done in it.
+- Updated Unpack BANK to SCREEN to handle restoring up to 256 colors when unpacking.
+
+
+********************************************************************
+2019.11.22 : Compiler upgrade - Update 1
+
+- Increased all the APCmp buffers to makes compilation works with large .AMOS files
+- Updated compiler.lib & APCmp with changes for the AGA support.
+
+
+********************************************************************
+2019.11.20 : AGA Support
+
+
+- Updated +W.s/WVbl WaitVbl to use Graphics.library/WaitTOF() instead of manual calculation.
+- Fixed the Hires 640px fine scrolling by updating +W.s/WVbl.
+
+********************************************************************
+2019.11.19 : AGA Support
+
+- Updated +W.s/EcCree to Add 64bits alignment for Bitmap creation.
+- Updated +W.s/EcCopHo to Add DDFStrt & BplxMOD changes when using Fetch Mode in HiRes resolutions.
+
+********************************************************************
+2019.11.18 : AGA Support
+
+- Updated +W.s/EcCree screen sizes limitation from 1024x1024 pixels to 2048x2048 pixels
+- Updated +Lib.s/L_InScreenOpen to remove Hires limitation to 4 bitplanes.
+- Updated +Equ.s/FMode equate to point to register #$1FC to handle AGA Fetch Mode
+- Updated +W.s/EcCree by rewritting the Bitmap Allocation to use BMF_DISPLAYABLE to handle Hires.
+- Updated +W.s/EcCree to handle FMode depending on screen resolution requested.
+
+********************************************************************
+2019.11.10-17 : Branch : AGA
+
+- Updated to Includes3.1
+- Updated Colour I,R4G4B4 to work with up to 256 colors
+- Updated copper list to define colors 32-255 before screens (just after sprites)
+- Updated Screen creation to uses up to 8 bitplanes ( 256 colors )
+- Updated Created a global aga Palette color for 32-255 colors registers
+- Updated commands Colour ID,RGB & =Colour(ID) to be compatible with up to 256 colors
+
+
+
+********************************************************************
+2019.11.06 : Branch : Dual-Playfield
+
+- Added method +W.s/getScr2Color to copy colors 0-15 from screen 1 into colors 16-31 of color 0 in Dual Playfield mode.
+- Updated +W.s/Duale to call +W.s/getScr2Color when Dual Playfield is created.
+- Updated +Lib.s/InScreenDisplay to call WaitVbl once screen values were updated to fix a bug with "Dual Playfield" command
+
+
+********************************************************************
+2019.11.05 : Branch : Dual-Playfield
+
+- Updated +W.s/EcCopHo method to handle bplCon3 value from Screen structure data instead of a direct value.
+- Updated +W.s/Duale method to insert color shifting value inside the BplCon3 screen structure data.
+- Updated +W.s/EcCree method to setup the default color shifting value a screen will force to use different color palette.
+- Updated +Lib.s/L_InScreenOpen to uses #EcMaxPlans+1 instead of direct #7 value.
+- Added comments to +W.s/EcOffs (Screen Offset)
+- Added comments to +W.s/EcView (Screen display)
+- Added comments to +Equ.s concerning Screen strcture offsets/display data
+- Created +W.s/CLPopulate reference to point to a particular position in the Copper refresh (where the copper list will be populated)
+- Added comments to +W.s/CLPopulate to explain how copper list are populated with screens, rainbows, etc.
+- Updated +Equ.s with BplCon3gl rs.w for default BplCon3 values concerning Sprites & special registers values.
+- Updated +W.s/EcCopBa method to reset BplCon3 (be sure that Dual Playfield are correctly closed and palette to 0.)
+- Added many comments to +W.s/EcForceCop method (unfinished)
+- Updates +W.s/EcCree to handle 8 bitplanes with BPU3 field in standard screens (non DPF)
+- Updated DualPlayfields AMOS sample to contains WAIT VBL calls after "Screen Display" calls (as they require this to work)
+
+
+********************************************************************
+2019.11.04-22:30 : Branch : Dual-Playfield
+
+- Updated +W.s/EcCopHo method by inserting BplCon3 register to allow 2nd Dual Playfield Screen to use colors 16-31 [Temporar change]
+- execute aData to update Editor_Config
+- execute aw to update Amos.library
+- Updated the new DualPlayfield scrolling test demo.
+
+
+********************************************************************
+2019.11.03-23:42 : New Branch Dual-Playfield
+
+- Updated +W.s/Duale method to handle 2x16 colors lowres dual playfields
+- Updated +W.s to handle 6 new error messages for Duale method
+- Updated +W.s/Duale method to output errors using the 6 new error messages.
+- Updated +Editor_Config.s file to contains the 6 new error messages ( Edt204-209 )
+- execute aData to update Editor_Config
+- execute aw to update Amos.library
+
+
+********************************************************************
+2019.11.03-15.23 : Original updates
+
+- Restart from AMOSProfessional original source code from marc365 repository.
+- Updated +lib.s from my AMOSCommenter JAVA tool.
+- Added +lib_mList.s containing all the AMOS commands definition from +lib.s
+- Updated extensions +Compact.s, +IO_Ports.s, +Music.s, and +Request.s from my AMOSCommenter JAVA Tool.
+- Added +Compact_mList.s, +IO_Ports_mList.s, +Music_mList.s and +Request_mList.s containing the plugin AMOS commands definitions
+- Updated my own extensions/Personal-1.1a library to be compilable like others files.

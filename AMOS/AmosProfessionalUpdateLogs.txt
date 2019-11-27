@@ -1,5 +1,11 @@
 
 ********************************************************************
+2019.11.26 : Global Project Updates...
+
+- Fixed a bug if +Lib.s/IffPal that forces LoadIFf to uses only 32 colors max.
+
+
+********************************************************************
 2019.11.25 : Global Project Updates...
 
 - Update +w.s/EcDouble double buffer creation to handle 64 bits bitmap alignemnts.

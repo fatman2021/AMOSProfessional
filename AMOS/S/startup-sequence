@@ -35,6 +35,8 @@ Assign >NIL: Easy_Tutorial: Sys:Easy_AMOS/Easy_Tutorial
 Assign >NIL: Giga: Sys:Gigabyte
 Assign >NIL: MPlayer: Sys:MPlayer
 
+AMOSPro
+
 Assign "KEYMAPS:" "DEVS:Keymaps"
 Assign "LOCALE:"  "SYS:Locale"
 Assign "LIBS:"    "SYS:Classes" ADD

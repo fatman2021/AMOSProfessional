@@ -1,0 +1,67 @@
+@DATABASE Assign.guide
+
+@$VER: Assign.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/Assign.c
+
+@NODE MAIN "Assign"
+
+@{B}Name@{UB}
+
+    Assign [(name):] [{(target)}] [LIST] [EXISTS] [DISMOUNT] [DEFER]
+           [PATH] [ADD] [REMOVE] [VOLS] [DIRS] [DEVICES]
+
+
+@{B}Synopsis@{UB}
+
+    NAME, TARGET/M, LIST/S, EXISTS/S, DISMOUNT/S, DEFER/S, PATH/S, ADD/S,
+    REMOVE/S, VOLS/S, DIRS/S, DEVICES/S
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    ASSIGN creates a reference to a file or directory. The reference
+    is a logical device name which makes it very convenient to specify
+    assigned objects using the reference instead of their paths.
+
+    If the NAME and TARGET arguments are given, ASSIGN assigns the
+    given logical name to the specified target. If the NAME given is
+    already assigned to a file or directory the new target replaces the
+    previous target. A colon must be included after the NAME argument.
+
+    If only the NAME argument is given, any assigns to that NAME are
+    removed. If no arguments whatsoever are given, all logical
+    assigns are listed.
+
+
+@{B}Inputs@{UB}
+
+    NAME      --  the name that should be assigned to a file or directory
+    TARGET    --  one or more files or directories to assign the NAME to
+    LIST      --  list all assigns made
+    EXISTS    --  display the target of the specified assign. If NAME is
+                  not assigned, set the condition flag to WARN
+    DISMOUNT  --  remove the volume or device NAME from the dos list
+    DEFER     --  make an ASSIGN to a path or directory that not need to
+                  exist at the time of assignment. The first time the
+                  NAME is referenced the NAME is bound to the object
+    PATH      --  path is assigned with a non-binding assign. This means
+                  that the assign is re-evaluated each time a reference
+                  to NAME is done. Like for DEFER, the path doesn't have
+                  to exist when the ASSIGN command is executed
+    ADD       --  don't replace an assign but add another object for a
+                  NAME (multi-assigns)
+    REMOVE    --  remove an ASSIGN
+    VOLS      --  show assigned volumes if in LIST mode
+    DIRS      --  show assigned directories if in LIST mode
+    DEVICES   --  show assigned devices if in LIST mode
+
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

@@ -1,0 +1,40 @@
+@DATABASE AutoPoint.guide
+
+@$VER: AutoPoint.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/tools/commodities/AutoPoint.c
+
+@NODE MAIN "AutoPoint"
+
+@{B}Name@{UB}
+
+    AutoPoint
+
+
+@{B}Synopsis@{UB}
+
+    CX_PRIORITY/N/K, LAG/S
+
+
+@{B}Location@{UB}
+
+    SYS:Tools/Commodities
+
+
+@{B}Function@{UB}
+
+    Automatically activates the window under the mouse pointer.
+
+
+@{B}Inputs@{UB}
+
+    CX_PRIORITY  --  The priority of the commodity
+
+    LAG  --  Wait for the next timer event to activate the window
+
+    MIDMOUSEPREVENTSACTIVATION  --  Don't activate the window under the
+                                    mouse if middle mouse button is pressed
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

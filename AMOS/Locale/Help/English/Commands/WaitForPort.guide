@@ -1,0 +1,36 @@
+@DATABASE WaitForPort.guide
+
+@$VER: WaitForPort.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/WaitForPort.c
+
+@NODE MAIN "WaitForPort"
+
+@{B}Name@{UB}
+
+    WaitForPort
+
+
+@{B}Synopsis@{UB}
+
+    P=PORT/A
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Waits up to 10 seconds for a user specified port
+    to become available.
+
+
+@{B}Inputs@{UB}
+
+    PORT -- Name of the port to be waited.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

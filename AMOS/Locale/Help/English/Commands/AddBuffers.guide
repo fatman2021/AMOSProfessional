@@ -1,0 +1,43 @@
+@DATABASE AddBuffers.guide
+
+@$VER: AddBuffers.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/AddBuffers.c
+
+@NODE MAIN "AddBuffers"
+
+@{B}Name@{UB}
+
+    AddBuffers (drive) [(N)]
+
+
+@{B}Synopsis@{UB}
+
+    DRIVE/A, BUFFERS/N
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Add buffers to the list of available buffers for a specific
+    drive. Adding buffers speeds disk access but has the drawback
+    of using up system memory (typically 512 bytes per buffer).
+    Specifying a negative number subtracts buffers from the drive.
+        If only the DRIVE argument is specified, the number of 
+    buffers for that drive are displayed without changing the buffer
+    allocation.
+
+
+@{B}Inputs@{UB}
+
+    DRIVE    --  the drive to alter the buffer allocation of
+    BUFFERS  --  the number of buffers to add (or subtract in case of
+                 a negative number) to a drive.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

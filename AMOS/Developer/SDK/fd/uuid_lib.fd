@@ -1,0 +1,17 @@
+##base _UUIDBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/uuid/uuid.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+UUID_Compare(u1,u2)(a0,a1)
+UUID_GetNameSpace(NameSpace,uuid)(d0,a0)
+UUID_Parse(in,uuid)(a0,a1)
+UUID_Unparse(uuid,out)(a0,a1)
+UUID_Pack(uuid,out)(a0,a1)
+UUID_Unpack(in,uuid)(a0,a1)
+UUID_Clear(uuid)(a0)
+UUID_Copy(src,dst)(a0,a1)
+UUID_Generate(type,uuid)(d0,a0)
+##end

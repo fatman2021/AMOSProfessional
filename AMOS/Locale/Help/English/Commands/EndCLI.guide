@@ -1,0 +1,25 @@
+@DATABASE EndCLI.guide
+
+@$VER: EndCLI.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/shellcommands/EndCLI.c
+
+@NODE MAIN "EndCLI"
+
+@{B}Name@{UB}
+
+    EndCLI
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Exits a Shell/CLI.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

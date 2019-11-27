@@ -1,0 +1,56 @@
+@DATABASE ChangeTaskPri.guide
+
+@$VER: ChangeTaskPri.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/ChangeTaskPri.c
+
+@NODE MAIN "ChangeTaskPri"
+
+@{B}Name@{UB}
+    ChangeTaskPri
+
+
+@{B}Format@{UB}
+    ChangeTaskPri <priority> [ PROCESS <process number> ]
+
+
+@{B}Synopsis@{UB}
+    PRI=PRIORITY/A/N,PROCESS/K/N
+
+
+@{B}Location@{UB}
+    C:
+
+
+@{B}Function@{UB}
+    The ChangeTaskPri command is used to change the current run 
+    priority of a Task. As AROS is a multitasking operating
+    system, you can determine which tasks receive more CPU time
+    by changing their priorities.
+
+    The value of |priority| can be from -128 to 127, however values
+    greater than 4 are not recommended as they can interfere with
+    vital system processes. Higher values will give tasks a higher
+    CPU priority.
+
+    You can use the Status command to examine the list of Tasks that
+    are running and their process numbers.
+
+
+@{B}Example@{UB}
+    
+    1.SYS:> ChangeTaskPri 1 Process 1
+
+        Set the priority of the current process to 1.
+
+    1.SYS:> ChangeTaskPri 1
+
+        Also sets the priority of the current process to 1.
+
+
+@{B}See also@{UB}
+    Status
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

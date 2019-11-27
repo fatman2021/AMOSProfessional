@@ -1,0 +1,25 @@
+##base _MathTransBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/mathtrans/mathtrans.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+SPAtan(fnum1)(d0)
+SPSin(fnum1)(d0)
+SPCos(fnum1)(d0)
+SPTan(fnum1)(d0)
+SPSincos(pfnum2,fnum1)(d1,d0)
+SPSinh(fnum1)(d0)
+SPCosh(fnum1)(d0)
+SPTanh(fnum1)(d0)
+SPExp(fnum1)(d0)
+SPLog(fnum1)(d0)
+SPPow(fnum1,fnum2)(d1,d0)
+SPSqrt(fnum1)(d0)
+SPTieee(fnum)(d0)
+SPFieee(ieeenum)(d0)
+SPAsin(fnum1)(d0)
+SPAcos(fnum1)(d0)
+SPLog10(fnum1)(d0)
+##end

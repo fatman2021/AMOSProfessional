@@ -1,0 +1,59 @@
+@DATABASE Prompt.guide
+
+@$VER: Prompt.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/shellcommands/Prompt.c
+
+@NODE MAIN "Prompt"
+
+@{B}Name@{UB}
+
+    Prompt
+
+
+@{B}Synopsis@{UB}
+
+    PROMPT
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Specify the prompt for the current shell.
+
+
+@{B}Inputs@{UB}
+
+    PROMPT  --  The prompt to set as a string. The following commands
+                may be used in a printf kind of style.
+
+                N  --  cli number
+                S  --  name of the current directory
+                R  --  return code of the last operation
+
+                If no prompt is specified "%N.%S> " is used as default.
+
+
+@{B}Result@{UB}
+
+    Standard DOS return codes.
+
+
+@{B}Example@{UB}
+
+    Prompt "Oepir Risti.%N> " gives:
+
+    Oepir Risti.10>      (if the CLI number was 10)
+
+
+@{B}See also@{UB}
+
+    dos.library/SetPrompt()
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

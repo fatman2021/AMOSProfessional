@@ -1,0 +1,47 @@
+@DATABASE BindDrivers.guide
+
+@$VER: BindDrivers.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/BindDrivers.c
+
+@NODE MAIN "BindDrivers"
+
+@{B}Name@{UB}
+
+    BindDrivers
+
+
+@{B}Synopsis@{UB}
+
+    DEVICES/S,DRIVERS/S,DIR/K/A
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    For all device drivers with a .info file in SYS:Expansion, load
+    the device driver via Exec/InitResident() if its PRODUCT=
+    tooltype matches a device that is in the system, and not yet
+    configured.
+
+
+@{B}Inputs@{UB}
+
+    DEVICES           -- List all devices, and their bindings
+
+    DRIVERS           -- List all drivers, and their supported products
+
+    DIR <directory>   -- Directory to search, instead of SYS:Expansion/
+
+
+@{B}Example@{UB}
+
+    C:BindDrivers
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

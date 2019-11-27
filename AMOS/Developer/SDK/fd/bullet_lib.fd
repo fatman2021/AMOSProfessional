@@ -1,0 +1,13 @@
+##base _BulletBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/bullet/bullet.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+OpenEngine()()
+CloseEngine(glyphEngine)(a0)
+SetInfoA(glyphEngine,tagList)(a0,a1)
+ObtainInfoA(glyphEngine,tagList)(a0,a1)
+ReleaseInfoA(glyphEngine,tagList)(a0,a1)
+##end

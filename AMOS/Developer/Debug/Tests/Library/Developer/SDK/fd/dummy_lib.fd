@@ -1,0 +1,11 @@
+##base _DummyBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/developer/debug/test/library/dummy.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+add(a,b)(d0,d1)
+asl(a,b)(d0,d1)
+printx(args,)(sysv)
+##end

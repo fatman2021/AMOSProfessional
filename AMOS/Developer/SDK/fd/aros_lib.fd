@@ -1,0 +1,9 @@
+##base _ArosBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/rom/aros/aros.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+ArosInquireA(taglist)(a0)
+##end

@@ -1,0 +1,36 @@
+@DATABASE DepthMenu.guide
+
+@$VER: DepthMenu.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/tools/commodities/DepthMenu.c
+
+@NODE MAIN "DepthMenu"
+
+@{B}Name@{UB}
+
+    DepthMenu
+
+
+@{B}Synopsis@{UB}
+
+    CX_PRIORITY/N/K
+
+
+@{B}Location@{UB}
+
+    SYS:Tools/Commodities
+
+
+@{B}Function@{UB}
+
+    Shows popup menu with list of screens and windows after user clicks on
+    depth gadget of screen or window.
+
+
+@{B}Inputs@{UB}
+
+    CX_PRIORITY  --  The priority of the commodity
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

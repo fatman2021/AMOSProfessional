@@ -1,0 +1,12 @@
+prefix=/Developer
+exec_prefix=${prefix}
+libdir=/home/vsts/work/1/b/builds/amiga-m68k/bin/amiga-m68k/AROS/Developer/lib
+includedir=${prefix}/include
+
+Name: libpng
+Description: Loads and saves PNG files
+Version: 1.6.3
+Requires: zlib
+Libs: -L${libdir} -lpng
+Libs.private: 
+Cflags:

@@ -1,0 +1,37 @@
+@DATABASE Exchange.guide
+
+@$VER: Exchange.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/tools/commodities/Exchange.c
+
+@NODE MAIN "Exchange"
+
+@{B}Name@{UB}
+
+    Exchange
+
+
+@{B}Synopsis@{UB}
+
+    CX_PRIORITY/N/K,CX_POPKEY/K,CX_POPUP/S
+
+
+@{B}Location@{UB}
+
+    SYS:Tools/Commodities
+
+
+@{B}Function@{UB}
+
+    Manages the commodities in the system
+
+
+@{B}Inputs@{UB}
+
+    CX_PRIORITY  --  Priority of the Exchange broker
+    CX_POPKEY    --  Hotkey combination for Exchange
+    CX_POPUP     --  Appear at startup
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

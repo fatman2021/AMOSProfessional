@@ -1,0 +1,44 @@
+##base _CamdBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/camd/camd.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+LockCAMD(locktype)(d0)
+UnlockCAMD(lock)(a0)
+CreateMidiA(tags)(a0)
+DeleteMidi(midinode)(a0)
+SetMidiAttrsA(midinode,tags)(a0,a1)
+GetMidiAttrsA(midinode,tags)(a0,a1)
+NextMidi(midinode)(a0)
+FindMidi(name)(a1)
+FlushMidi(midinode)(a0)
+AddMidiLinkA(midinode,type,tags)(a0,d0,a1)
+RemoveMidiLink(midilink)(a0)
+SetMidiLinkAttrsA(midilink,tags)(a0,a1)
+GetMidiLinkAttrsA(midilink,tags)(a0,a1)
+NextClusterLink(cluster,midilink,type)(a0,a1,d0)
+NextMidiLink(midinode,midilink,type)(a0,a1,d0)
+MidiLinkConnected(midilink)(a0)
+NextCluster(last)(a0)
+FindCluster(name)(a0)
+PutMidi(link,msg)(a0,d0)
+GetMidi(midinode,msg)(a0,a1)
+WaitMidi(midinode,msg)(a0,a1)
+PutSysEx(midilink,buffer)(a0,a1)
+GetSysEx(midinode,Buf,len)(a0,a1,d0)
+QuerySysEx(midinode)(a0)
+SkipSysEx(midinode)(a0)
+GetMidiErr(midinode)(a0)
+MidiMsgType(msg)(a0)
+MidiMsgLen(msg)(d0)
+ParseMidi(midilink,buffer,length)(a0,a1,d0)
+OpenMidiDevice(name)(a0)
+CloseMidiDevice(mididevicedata)(a0)
+RethinkCAMD()()
+StartClusterNotify(cn)(a0)
+EndClusterNotify(cn)(a0)
+GoodPutMidi(midilink,msg,maxbuff)(a0,d0,d1)
+Midi2Driver(driverdata,msg,maxbuff)(a0,d0,d1)
+##end

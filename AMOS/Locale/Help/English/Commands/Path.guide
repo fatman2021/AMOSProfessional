@@ -1,0 +1,46 @@
+@DATABASE Path.guide
+
+@$VER: Path.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/shellcommands/Path.c
+
+@NODE MAIN "Path"
+
+@{B}Name@{UB}
+
+    Path [{<dir>}] [ADD] [SHOW] [RESET] [REMOVE] [QUIET] [HEAD]
+
+
+@{B}Synopsis@{UB}
+
+    PATH/M,ADD/S,SHOW/S,RESET/S,REMOVE/S,QUIET/S,HEAD/S
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+    
+    Changes the search path for commands. Without arguments it shows the path.
+    
+
+@{B}Inputs@{UB}
+
+    PATH    -- path  
+    ADD     -- adds path
+    SHOW    -- shows path
+    RESET   -- removes existing path and replaces it by new path
+    REMOVE  -- removes the given path
+    QUIET   -- suppresses dialog when a path is not found
+    HEAD    -- inserts path at beginning of path list
+    
+
+@{B}Example@{UB}
+
+    path dh0:work add
+    
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

@@ -1,0 +1,17 @@
+##base _PNGBase
+##bias 36
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/classes/datatypes/png/png.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+PNG_CheckSig(name)(a0)
+PNG_LoadImageFH(fh,chunkstoread,chunkstore,makeARGB)(a0,a1,a2,d0)
+PNG_LoadImage(name,chunkstoread,chunkstore,makeARGB)(a0,a1,a2,d0)
+PNG_LoadImageMEM(mem,memsize,chunkstoread,chunkstore,makeARGB)(a0,d0,a1,a2,d1)
+PNG_GetImageInfo(pnghandle,widthptr,heightptr,depthptr,typeptr)(a0,a1,a2,a3,a4)
+PNG_GetImageData(pnghandle,gfxdataptr,paldataptr)(a0,a1,a2)
+PNG_FreeImage(pnghandle)(a0)
+PNG_FreeChunk(chunk)(a0)
+PNG_GetChunkInfo(chunk,dataptr,sizeptr)(a0,a1,a2)
+##end

@@ -1,0 +1,50 @@
+##base _StdCIOBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/compiler/stdc/stdcio.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+##bias 150
+__stdcio_assert(,file,line)(sysv,rbase)
+remove(filename)(sysv,rbase)
+rename(old,new)(sysv,rbase)
+tmpfile(void)(sysv,rbase)
+tmpnam(s)(sysv,rbase)
+fclose(stream)(sysv,rbase)
+fflush(stream)(sysv,rbase)
+fopen(filename,mode)(sysv,rbase)
+freopen(filename,mode,stream)(sysv,rbase)
+setbuf(stream,buf)(sysv,rbase)
+setvbuf(stream,buf,mode,size)(sysv,rbase)
+fprintf(stream,format,)(sysv,rbase)
+fscanf(stream,format,)(sysv,rbase)
+printf(format,)(sysv,rbase)
+scanf(format,)(sysv,rbase)
+vfprintf(stream,format,arg)(sysv,rbase)
+vfscanf(stream,format,arg)(sysv,rbase)
+vprintf(format,arg)(sysv,rbase)
+vscanf(format,arg)(sysv,rbase)
+fgetc(stream)(sysv,rbase)
+fgets(s,n,stream)(sysv,rbase)
+fputc(c,stream)(sysv,rbase)
+fputs(s,stream)(sysv,rbase)
+getchar(void)(sysv,rbase)
+gets(s)(sysv,rbase)
+putchar(c)(sysv,rbase)
+puts(s)(sysv,rbase)
+ungetc(c,stream)(sysv,rbase)
+fread(ptr,size,nmemb,stream)(sysv,rbase)
+fwrite(ptr,size,nmemb,stream)(sysv,rbase)
+fgetpos(stream,pos)(sysv,rbase)
+fseek(stream,offset,whence)(sysv,rbase)
+fsetpos(stream,pos)(sysv,rbase)
+ftell(stream)(sysv,rbase)
+rewind(stream)(sysv,rbase)
+clearerr(stream)(sysv,rbase)
+feof(stream)(sysv,rbase)
+ferror(stream)(sysv,rbase)
+private()()
+getenv(name)(sysv,rbase)
+system(string)(sysv,rbase)
+##end

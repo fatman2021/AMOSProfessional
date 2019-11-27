@@ -1,0 +1,39 @@
+@DATABASE Echo.guide
+
+@$VER: Echo.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/shellcommands/Echo.c
+
+@NODE MAIN "Echo"
+
+@{B}Name@{UB}
+
+    Echo [<string>] [NOLINE] [FIRST <n>] [LEN <n>] [TO <filename>]
+
+
+@{B}Synopsis@{UB}
+
+    STRING/M,NOLINE/S,FIRST/K/N,LEN/K/N,TO/K
+
+
+@{B}Location@{UB}
+
+   C:
+
+
+@{B}Function@{UB}
+
+    Displays string.
+
+
+@{B}Inputs@{UB}
+
+    STRING -- the strings to display
+    NOLINE -- no newline at end of string
+    FIRST  -- first displayed character
+    LEN    -- number of characters to display
+    TO     -- file or device to output to
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

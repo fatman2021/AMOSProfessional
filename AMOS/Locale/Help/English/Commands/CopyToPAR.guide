@@ -1,0 +1,44 @@
+@DATABASE CopyToPAR.guide
+
+@$VER: CopyToPAR.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/CopyToPAR.c
+
+@NODE MAIN "CopyToPAR"
+
+@{B}Name@{UB}
+
+    CopyToPAR
+
+
+@{B}Synopsis@{UB}
+
+    FILE/A,USB/S,QUIET/S
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Copies (or sends) a file to parallel.device or usbparallel.device.
+    
+
+@{B}Inputs@{UB}
+
+    FILE   --  Either a file, a directory or a pattern to match.
+
+    USB    --  Use usbparallel.device.
+
+    QUIET  --  Suppresses any output to the shell.
+
+
+@{B}Result@{UB}
+
+    Standard DOS return codes.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

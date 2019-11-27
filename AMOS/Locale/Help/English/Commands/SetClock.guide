@@ -1,0 +1,58 @@
+@DATABASE SetClock.guide
+
+@$VER: SetClock.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/SetClock.c
+
+@NODE MAIN "SetClock"
+
+@{B}Name@{UB}
+    SetClock
+
+
+@{B}Format@{UB}
+    SetClock {LOAD|SAVE|RESET}
+
+
+@{B}Synopsis@{UB}
+    LOAD/S,SAVE/S,RESET/S
+
+
+@{B}Location@{UB}
+    C:
+
+
+@{B}Function@{UB}
+    SetClock can be used to:
+        o Load the time from the battery backed-up clock,
+        o Save the time to the battery backed-up clock,
+        o Reset the battery backed up clock.
+
+
+@{B}Example@{UB}
+
+    SetClock LOAD
+
+        will set the system time from the battery backed-up clock.
+        In most systems this will be done automatically during
+        system startup.
+
+    SetClock SAVE
+
+        will set the time of the battery backed-up clock from the
+        current system clock time.
+
+    SetClock RESET
+
+        will reset the battery backed-up to a value of the
+        1st January 1978 00:00:00. This is mostly used if the
+        battery backed-up clock has an error and will not
+        respond to normal load and save commands.
+
+
+@{B}See also@{UB}
+    Date, Sys:Prefs/Time
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

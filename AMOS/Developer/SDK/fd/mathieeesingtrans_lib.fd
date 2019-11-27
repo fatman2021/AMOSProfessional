@@ -1,0 +1,25 @@
+##base _MathIeeeSingTransBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/mathieeesingtrans/mathieeesingtrans.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+IEEESPAtan(y)(d0)
+IEEESPSin(y)(d0)
+IEEESPCos(y)(d0)
+IEEESPTan(y)(d0)
+IEEESPSincos(z,y)(a0,d0)
+IEEESPSinh(y)(d0)
+IEEESPCosh(y)(d0)
+IEEESPTanh(y)(d0)
+IEEESPExp(y)(d0)
+IEEESPLog(y)(d0)
+IEEESPPow(x,y)(d1,d0)
+IEEESPSqrt(y)(d0)
+IEEESPTieee(y)(d0)
+IEEESPFieee(y)(d0)
+IEEESPAsin(y)(d0)
+IEEESPAcos(y)(d0)
+IEEESPLog10(y)(d0)
+##end

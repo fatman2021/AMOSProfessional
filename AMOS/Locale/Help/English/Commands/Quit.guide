@@ -1,0 +1,41 @@
+@DATABASE Quit.guide
+
+@$VER: Quit.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/shellcommands/Quit.c
+
+@NODE MAIN "Quit"
+
+@{B}Name@{UB}
+
+    Quit
+
+
+@{B}Synopsis@{UB}
+
+    RC/N
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Exits a script with the given return code. It's recommended that you
+    use the standard return codes 5, 10 and 20.
+
+
+@{B}Inputs@{UB}
+
+    RC   --  the return code. Defaults to 0.
+
+
+@{B}Notes@{UB}
+    If this command is called in a script that is executed from another
+    script, the entire series of nested scripts will stop.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

@@ -1,0 +1,101 @@
+[AmigaAMP Config File]
+
+[MPEGA Options]
+MPEGA_Layer2_ForceMono = 0
+MPEGA_Layer2_MonoFreqDiv = 0
+MPEGA_Layer2_MonoQuality = 0
+MPEGA_Layer2_MonoMaxFreq = 11025
+MPEGA_Layer2_StereoFreqDiv = 0
+MPEGA_Layer2_StereoQuality = 0
+MPEGA_Layer2_StereoMaxFreq = 11025
+MPEGA_Layer3_ForceMono = 0
+MPEGA_Layer3_MonoFreqDiv = 0
+MPEGA_Layer3_MonoQuality = 0
+MPEGA_Layer3_MonoMaxFreq = 11025
+MPEGA_Layer3_StereoFreqDiv = 0
+MPEGA_Layer3_StereoQuality = 0
+MPEGA_Layer3_StereoMaxFreq = 11025
+
+[Window Positions]
+MainWinX = 100
+MainWinY = 100
+EQWinX = 100
+EQWinY = 216
+PLWinX = 375
+PLWinY = 100
+PLWinW = 275
+PLWinH = 232
+InfoWinX = 120
+InfoWinY = 120
+InfoWinW = 100
+InfoWinH = 100
+ShowEQ = TRUE
+ShowPL = TRUE
+ShowTE = FALSE
+Backdrop = FALSE
+FixedPos = FALSE
+StayTop = FALSE
+
+[Program Options]
+MultipleInstances = FALSE
+SkinDisplay = TRUE
+SkinName = base
+LimitVolume = FALSE
+AHIUnit = 0 ; [AHI Unit 0..3 (Music Unit not supported!)]
+KeepAHIOpen = TRUE
+SwapAHIChannels = FALSE
+Repeat = FALSE
+RepeatTrack = FALSE
+Shuffle = FALSE
+ShowRemain = FALSE
+ListSaveFormat = 0 ; [0=Compatible, 1=Including time, 2=Including full name and time]
+ListScanMethod = 0 ; [0=No scan, 1=Scan time on demand, 2=Scan time in background, 3=Scan time and tag]
+MHI-Driver = mhiprisma.library
+Engine = 1 ; [1=MPEGA, 3=External, 5=MHI]
+
+[File Loading Options]
+LoadTagInfo = TRUE
+FileAutoPlay = FALSE
+ListAutoPlay = FALSE
+DblClickPlay = TRUE ; [DoubleClick in playlist means PLAY, not just OPEN]
+
+[Buffer Sizes]
+LoadBuf = 3 ; [0=16K, 1=32K, 2=64K, 3=128K, 4=256K, 5=FILE]
+PlayBuf = 3 ; [0=1/20s, 1=1/10s, 2=1/5s, 3=1/2s, 4=1s, 5=2s, 6=5s]
+AsyncIO = FALSE
+
+[Task Priorities]
+MainPriority = 5
+PlayPriority = 5
+VisPriority = 10
+
+[Visualisation]
+VisMode = 4 ; [0=Off, 1=Anims only, 2=Level, 3=Spectrum, 4=SpecPeak]
+VisSpeed = 1 ; [1=Normal, 2=Fast]
+VisResolution = 0 ; [0=Low, 1=Medium, 2=High]
+VisColorMode = 1 ; [0=Fire, 1=Normal]
+VisKeep = TRUE ; [Keep vis running while Plugin is running?]
+VisFreeze = TRUE ; [Freeze visualisation during pause?]
+
+[DSP Settings]
+Volume = 21 ; [0=Muted ... 21=0dB ... 25=6dB]
+Panning = 13 ; [0=Left ... 13=Center ... 26=Right]
+EqOn = FALSE
+EqPre = 0
+Eq060 = 0
+Eq170 = 0
+Eq310 = 0
+Eq600 = 0
+Eq1k0 = 0
+Eq3k0 = 0
+Eq6k0 = 0
+Eq12k = 0
+Eq14k = 0
+Eq16k = 0
+
+[Paths]
+SkinPath = PROGDIR:Skins
+PluginPath = PROGDIR:Plugins
+FilePath = PROGDIR:
+RecPath = PROGDIR:Recordings
+FilePattern = <Default>

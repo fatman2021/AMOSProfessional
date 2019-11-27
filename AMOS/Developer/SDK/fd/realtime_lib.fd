@@ -1,0 +1,18 @@
+##base _RealTimeBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/realtime/realtime.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+LockRealTime(lockType)(d0)
+UnlockRealTime(lockHandle)(a0)
+CreatePlayerA(tagList)(a0)
+DeletePlayer(player)(a0)
+SetPlayerAttrsA(player,tagList)(a0,a1)
+SetConductorState(player,state,time)(a0,d0,d1)
+ExternalSync(player,minTime,maxTime)(a0,d0,d1)
+NextConductor(previousConductor)(a0)
+FindConductor(name)(a0)
+GetPlayerAttrsA(player,tagList)(a0,a1)
+##end

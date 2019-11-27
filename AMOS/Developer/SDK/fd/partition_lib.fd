@@ -1,0 +1,30 @@
+##base _PartitionBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/rom/partition/partition.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+OpenRootPartition(Device,Unit)(a1,d1)
+CloseRootPartition(ph)(a1)
+OpenPartitionTable(root)(a1)
+ClosePartitionTable(root)(a1)
+WritePartitionTable(root)(a1)
+CreatePartitionTable(root,type)(a1,d1)
+AddPartition(root,taglist)(a1,a2)
+DeletePartition(ph)(a1)
+GetPartitionTableAttrs(root,taglist)(a1,a2)
+SetPartitionTableAttrs(root,taglist)(a1,a2)
+GetPartitionAttrs(ph,taglist)(a1,a2)
+SetPartitionAttrs(ph,taglist)(a1,a2)
+QueryPartitionTableAttrs(table)(a1)
+QueryPartitionAttrs(table)(a1)
+DestroyPartitionTable(root)(a1)
+FindFileSystemA(ph,taglist)(a1,a2)
+LoadFileSystem(handle)(a1)
+GetFileSystemAttrsA(handle,taglist)(a1,a2)
+AddBootFileSystem(handle)(a1)
+LoadBootFileSystems()()
+ReadPartitionDataQ(Partition,Buffer,DataSize,StartBlock)(a0,a1,d0,d1/d2)
+WritePartitionDataQ(Partition,Buffer,DataSize,StartBlock)(a0,a1,d0,d1/d2)
+##end

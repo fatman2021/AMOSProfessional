@@ -1,0 +1,65 @@
+@DATABASE Alias.guide
+
+@$VER: Alias.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/shellcommands/Alias.c
+
+@NODE MAIN "Alias"
+
+@{B}Name@{UB}
+
+    Alias
+
+
+@{B}Synopsis@{UB}
+
+    NAME,STRING/F
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Alias allows you to create an alternate name for other DOS commands.
+    If Alias is used with no parameters, it will display the current
+    list of Aliases defined within the current shell.
+
+    Using a pair of square brackets within an alias allows you to
+    provide the 'new' dos command with parameters.
+
+    If no parameters are specified, the current list of aliases are
+    displayed.
+
+
+@{B}Inputs@{UB}
+
+    NAME    - The name of the alias to set.
+
+    STRING  - The value of the alias NAME.
+
+
+@{B}Result@{UB}
+
+    Standard DOS error codes.
+
+
+@{B}Example@{UB}
+
+    Alias DF "Type [] number"
+
+        By typing "DF S:Shell-Startup" in the shell, you are actually
+        executing the command "Type S:Shell-Startup number". This will
+        display the contents of the S:Shell-Startup file in the shell
+        with line numbers on the left hand side.
+
+
+@{B}See also@{UB}
+
+    Unalias
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

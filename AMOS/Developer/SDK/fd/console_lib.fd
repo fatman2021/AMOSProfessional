@@ -1,0 +1,14 @@
+##base _ConsoleDevice
+##bias 42
+*
+* Automatically generated from '/home/vsts/work/1/s/rom/devs/console/console.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+CDInputHandler(events,_cdihdata)(a0,a1)
+RawKeyConvert(events,buffer,length,keyMap)(a0,a1,d1,a2)
+GetConSnip()()
+SetConSnip(param)(a0)
+AddConSnipHook(hook)(a0)
+RemConSnipHook(hook)(a0)
+##end

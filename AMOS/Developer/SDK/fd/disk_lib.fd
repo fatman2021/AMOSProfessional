@@ -1,0 +1,14 @@
+##base _DiskBase
+##bias 6
+*
+* Automatically generated from '/home/vsts/work/1/s/rom/disk/disk.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+AllocUnit(unitNum)(d0)
+FreeUnit(unitNum)(d0)
+GetUnit(dru)(a1)
+GiveUnit()()
+GetUnitID(unitNum)(d0)
+ReadUnitID(unitNum)(d0)
+##end

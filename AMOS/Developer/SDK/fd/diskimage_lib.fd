@@ -1,0 +1,16 @@
+##base _DiskImageBase
+##bias 42
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/devs/diskimage/device/diskimage.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+MountImage(unit_num,filename)(a0,d0)
+UnitInfo(unit_num,filename,writeprotect)(d0,a0,a1)
+WriteProtect(unit_num,writeprotect)(d0,d1)
+UnitControlA(unit_num,tags)(d0,a0)
+ReloadPlugins()()
+DoHookPlugins(hook)(a0)
+AddDiskChangeHook(hook,add_or_remove)(a0,d0)
+AddReloadPluginsHook(hook,add_or_remove)(a0,d0)
+##end

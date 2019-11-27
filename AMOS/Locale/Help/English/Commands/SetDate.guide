@@ -1,0 +1,75 @@
+@DATABASE SetDate.guide
+
+@$VER: SetDate.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/SetDate.c
+
+@NODE MAIN "SetDate"
+
+@{B}Name@{UB}
+
+    SetDate
+
+
+@{B}Format@{UB}
+
+    SetDate (file | pattern) [(weekday)] [(date)] [(time)] [ALL]
+
+
+@{B}Synopsis@{UB}
+
+    FILE/A,WEEKDAY,DATE,TIME,ALL/S
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Changes the date and time of the creation or last change of a file or
+    directory. With option ALL, it also changes the date and time of all
+    files and subdirectories within directories matching the specified
+    pattern. If either the date or time is unspecified, the current date
+    or time is used.
+
+
+@{B}Inputs@{UB}
+
+    FILE     --  File (or pattern) to change the date of.
+
+WEEKDAY  --  Specification of the day of the date. This is locale
+             sensitive, and you may use standard keywords such as
+         'Tomorrow' and 'Yesterday' (in the language used, of
+         course).
+
+DATE     --  A date in the format DD-MMM-YY.
+             MMM is either the number or the first 3 letters of the
+             month in English.
+
+TIME     --  Time string in the format HH:MM:SS or HH:MM.
+
+ALL      --  Recurse through subdirectories.
+
+
+@{B}Result@{UB}
+
+    Standard DOS return codes
+
+
+@{B}Example@{UB}
+
+    SetDate #? ALL
+
+Sets the date for all files and directories in the current directory
+and its subdirectories to the current date.
+
+
+@{B}See also@{UB}
+
+    Date
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

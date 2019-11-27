@@ -1,0 +1,55 @@
+@DATABASE MakeLink.guide
+
+@$VER: MakeLink.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/MakeLink.c
+
+@NODE MAIN "MakeLink"
+
+@{B}Name@{UB}
+
+    MakeLink
+
+
+@{B}Synopsis@{UB}
+
+    FROM/A, TO/A, HARD/S, FORCE/S
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Create a link to a file.
+
+
+@{B}Inputs@{UB}
+
+    FROM   --  The name of the link
+    TO     --  The name of the file or directory to link to
+    HARD   --  If specified, the link will be a hard link; default is
+               to create a soft link
+    FORCE  --  Allow a hard-link to point to a directory
+
+
+@{B}Result@{UB}
+
+    Standard DOS error codes.
+
+
+@{B}Example@{UB}
+
+    Makelink ls C:List
+     Creates an 'ls' file with a soft link to the 'List' command in C:.
+
+
+@{B}Notes@{UB}
+
+    Not all file systems support links.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

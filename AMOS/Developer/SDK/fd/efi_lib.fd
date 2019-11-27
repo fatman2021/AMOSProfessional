@@ -1,0 +1,9 @@
+##base _EFIBase
+##bias 6
+*
+* Automatically generated from '/home/vsts/work/1/s/rom/efi/efi.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+EFI_FindConfigTable(Guid)(a0)
+##end

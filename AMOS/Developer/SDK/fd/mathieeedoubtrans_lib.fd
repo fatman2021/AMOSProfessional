@@ -1,0 +1,25 @@
+##base _MathIeeeDoubTransBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/mathieeedoubtrans/mathieeedoubtrans.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+IEEEDPAtan(y)(d0/d1)
+IEEEDPSin(y)(d0/d1)
+IEEEDPCos(y)(d0/d1)
+IEEEDPTan(y)(d0/d1)
+IEEEDPSincos(z,y)(a0,d0/d1)
+IEEEDPSinh(y)(d0/d1)
+IEEEDPCosh(y)(d0/d1)
+IEEEDPTanh(y)(d0/d1)
+IEEEDPExp(y)(d0/d1)
+IEEEDPLog(y)(d0/d1)
+IEEEDPPow(x,y)(d0/d1,d2/d3)
+IEEEDPSqrt(y)(d0/d1)
+IEEEDPTieee(y)(d0/d1)
+IEEEDPFieee(y)(d0)
+IEEEDPAsin(y)(d0/d1)
+IEEEDPAcos(y)(d0/d1)
+IEEEDPLog10(y)(d0/d1)
+##end

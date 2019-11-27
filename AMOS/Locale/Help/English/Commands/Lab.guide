@@ -1,0 +1,45 @@
+@DATABASE Lab.guide
+
+@$VER: Lab.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/c/shellcommands/Lab.c
+
+@NODE MAIN "Lab"
+
+@{B}Name@{UB}
+
+    Lab
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Declares a label in a script file. This label may be referred to in a
+    Skip command.
+
+
+@{B}Example@{UB}
+
+   If NOT EXISTS S:User-Startup
+       Skip NoUserSeq
+   EndIf
+
+   FailAt 20
+   Execute S:User-Startup
+   Quit
+
+   Lab NoUserSeq
+   Echo "No User-Startup found"
+
+
+@{B}See also@{UB}
+
+   Skip
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

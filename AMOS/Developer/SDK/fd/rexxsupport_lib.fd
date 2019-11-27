@@ -1,0 +1,10 @@
+##base _RexxSupportBase
+##bias 30
+*
+* Automatically generated from '/home/vsts/work/1/s/workbench/libs/rexxsupport/rexxsupport.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+ArexxDispatch(msg,_retargstringptr)(a0,a1)
+ClosePortRsrc(rsrc)(a0)
+##end

@@ -1,0 +1,41 @@
+@DATABASE ClickToFront.guide
+
+@$VER: ClickToFront.guide 1.0 (21.11.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/vsts/work/1/s/workbench/tools/commodities/ClickToFront.c
+
+@NODE MAIN "ClickToFront"
+
+@{B}Name@{UB}
+
+    ClickToFront
+
+
+@{B}Synopsis@{UB}
+
+    CX_PRIORITY/N/K, QUALIFIER/K, NUMCLICKS/N/K
+
+
+@{B}Location@{UB}
+
+    SYS:Tools/Commodities
+
+
+@{B}Function@{UB}
+
+    Automatically raises and activates a window when clicking in it.
+
+
+@{B}Inputs@{UB}
+
+    CX_PRIORITY  --  The priority of the commodity
+    
+    QUALIFIER    --  Qualifier to match the clicks (LEFT_ALT, RIGHT_ALT,
+                     CTRL or NONE).
+    
+    NUMCLICKS    --  Number of clicks to bring window to front. Value
+                     must be greater than 0.
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

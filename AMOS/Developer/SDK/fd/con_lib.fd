@@ -1,0 +1,8 @@
+##base _conBase
+##bias 6
+*
+* Automatically generated from '/home/vsts/work/1/s/rom/filesys/console_handler/con_handler.conf'.
+* Edits will be lost. This file is supposed to be a support file for identify.library.
+*
+##public
+##end

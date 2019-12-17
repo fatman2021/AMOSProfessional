@@ -1,0 +1,36 @@
+@DATABASE KEcho.guide
+
+@$VER: KEcho.guide 1.0 (20.5.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/aros/aros_abiv0/Build/20190520/AROS/workbench/tools/debug/kecho/KEcho.c
+
+@NODE MAIN "KEcho"
+
+@{B}Name@{UB}
+
+    KEcho [<string>] [NOLINE]
+
+
+@{B}Synopsis@{UB}
+
+    STRINGS/M,NOLINE/S
+
+
+@{B}Location@{UB}
+
+   SYS:tests
+
+
+@{B}Function@{UB}
+
+    Appends one or more strings to the debug output.
+
+
+@{B}Inputs@{UB}
+
+    STRINGS -- the strings to display
+    NOLINE -- no newline after the last string
+
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

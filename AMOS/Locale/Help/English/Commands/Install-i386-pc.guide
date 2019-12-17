@@ -1,0 +1,49 @@
+@DATABASE Install-i386-pc.guide
+
+@$VER: Install-i386-pc.guide 1.0 (20.5.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/aros/aros_abiv0/Build/20190520/AROS/workbench/c/install-i386-pc.c
+
+@NODE MAIN "Install-i386-pc"
+
+@{B}Name@{UB}
+
+    Install-i386-pc
+
+
+@{B}Synopsis@{UB}
+
+    DEVICE/A, UNIT/N/K/A, PARTITIONNUMBER=PN/K/N, GRUB/K/A, FORCELBA/S
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Installs the GRUB bootloader to the bootblock of the specified disk.
+
+
+@{B}Inputs@{UB}
+
+    DEVICE --  Device name (e.g. ata.device)
+    UNIT  --  Unit number
+    PN  --  Partition number (advice: the first AROS FFS partition)
+    GRUB -- Path to GRUB directory.
+    FORCELBA --  Force use of LBA mode.
+
+
+@{B}Example@{UB}
+
+    install-i386-pc DEVICE ata.device UNIT 0 PN 1 grub dh0:boot/grub
+
+
+@{B}See also@{UB}
+
+    Partition, Sys:System/Format
+    
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

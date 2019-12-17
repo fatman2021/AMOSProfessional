@@ -1,0 +1,27 @@
+# Copyright © 2003, The AROS Development Team. All rights reserved.
+# $Id: mmakefile.src 52302 2016-03-28 03:42:13Z NicJA $
+
+include $(SRCDIR)/config/aros.cfg
+
+#MM- workbench-locale-help : workbench-locale-help-english
+
+
+workbench-locale-help-english_SRC := $(shell echo $(SRCDIR) | sed 's/^\(.\):\//\/\1\//')
+
+GLOB_MKDIRS += $(AROS_HELP)/English
+
+.PHONY : workbench-locale-help-english
+
+#MM
+workbench-locale-help-english : | $(AROS_HELP)/English 
+	$(foreach file, LICENSE, $(shell $(CP) $(addprefix $(if $(filter /%,$(workbench-locale-help-english_SRC)),$(workbench-locale-help-english_SRC),$(SRCDIR)/$(CURDIR)/$(workbench-locale-help-english_SRC))/, $(file)) $(addprefix $(AROS_HELP)/English/, $(file))))
+
+
+# Delete generated makefiles
+#MM
+clean ::
+	@$(RM) $(TOP)/$(CURDIR)/mmakefile $(TOP)/$(CURDIR)/mmakefile.bak
+
+include $(SRCDIR)/config/make.tail
+
+BDID := $(BDTARGETID)

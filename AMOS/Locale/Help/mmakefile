@@ -1,0 +1,57 @@
+# Copyright © 2003-2013, The AROS Development Team. All rights reserved.
+# $Id: mmakefile.src 52302 2016-03-28 03:42:13Z NicJA $
+
+include $(SRCDIR)/config/aros.cfg
+
+#MM- workbench-locale : workbench-locale-help workbench-locale-help-cpy1 workbench-locale-help-cpy2 \
+#MM	workbench-locale-help-gendoc
+
+
+workbench-locale-help-cpy1_SRC := $(shell echo $(SRCDIR) | sed 's/^\(.\):\//\/\1\//')
+
+GLOB_MKDIRS += $(AROS_HELP)
+
+.PHONY : workbench-locale-help-cpy1
+
+#MM
+workbench-locale-help-cpy1 : | $(AROS_HELP) 
+	$(foreach file, LICENSE, $(shell $(CP) $(addprefix $(if $(filter /%,$(workbench-locale-help-cpy1_SRC)),$(workbench-locale-help-cpy1_SRC),$(SRCDIR)/$(CURDIR)/$(workbench-locale-help-cpy1_SRC))/, $(file)) $(addprefix $(AROS_HELP)/, $(file))))
+
+
+
+workbench-locale-help-cpy2_SRC := $(shell echo $(SRCDIR)/workbench/locale/help | sed 's/^\(.\):\//\/\1\//')
+
+GLOB_MKDIRS += $(AROS_HELP)
+
+.PHONY : workbench-locale-help-cpy2
+
+#MM
+workbench-locale-help-cpy2 : | $(AROS_HELP) 
+	$(foreach file, $(call WILDCARD, *.txt) $(call WILDCARD, *.htm), $(shell $(CP) $(addprefix $(if $(filter /%,$(workbench-locale-help-cpy2_SRC)),$(workbench-locale-help-cpy2_SRC),$(SRCDIR)/$(CURDIR)/$(workbench-locale-help-cpy2_SRC))/, $(file)) $(addprefix $(AROS_HELP)/, $(file))))
+
+
+
+
+.PHONY : workbench-locale-help
+
+#MM
+workbench-locale-help :
+	@cd $(SRCDIR)/$(CURDIR) && $(CPYDIRREC) -s $(SRCDIR)/workbench/locale/help -d $(AROS_HELP) -e $(call WILDCARD, *.py)
+
+
+#MM
+workbench-locale-help-gendoc :
+	@$(PYTHON) $(SRCDIR)/$(CURDIR)/gendoc.py $(SRCDIR)/workbench/c $(AROS_HELP)/English/Commands
+	@$(PYTHON) $(SRCDIR)/$(CURDIR)/gendoc.py $(SRCDIR)/workbench/tools $(AROS_HELP)/English/System
+	@$(PYTHON) $(SRCDIR)/$(CURDIR)/gendoc.py $(SRCDIR)/workbench/utilities $(AROS_HELP)/English/System
+	#FIXME: the index page should be generated at the end of the build process
+	@$(PYTHON) $(SRCDIR)/$(CURDIR)/genindex.py $(AROS_HELP)/English
+
+# Delete generated makefiles
+#MM
+clean ::
+	@$(RM) $(TOP)/$(CURDIR)/mmakefile $(TOP)/$(CURDIR)/mmakefile.bak
+
+include $(SRCDIR)/config/make.tail
+
+BDID := $(BDTARGETID)

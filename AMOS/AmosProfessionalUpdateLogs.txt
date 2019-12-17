@@ -1,8 +1,31 @@
+********************************************************************
+2019.12.02 : Global Project Updates...
+
+- Updated pictures for AGA samples to use my old XQuadEditor Game Maker screen captures instead of TESO ones.
+
+
+********************************************************************
+2019.11.30 : Global Project Updates...
+
+- Added +w.s/detectChipset to detect AGA.
+- Added new library : AMOSPro_AgaSupport.lib
+- added AgaSupport.s/isAgaDetected command name : "= Is Aga Detected()"
+- Update +Interpreter_Config.s : set AMOSPro_AgaSupport.lib as default extension slot #7
+- Update +w.s/EcCree : To handle both ECS & AGA on screen creation (including new error messages)
+- Added +w.s/EcCree restriction to standart screens to be multiple of 16 pixels. Fetched ones -> multiple of 64 pixels
+- Update +w.s/Duale : To handle both ECS & AGA on dual playfield setup
+- Update +Editor_Config.s : New error messages added
+
+********************************************************************
+2019.11.28 : Global Project Updates...
+
+- Updated SetPalette, GetPalette to also store AGA colors inside Screen Structure (before it saved only in global aga palette)
+- Updated +Lib./Sco0 Screen Copy to handle up to 8 bitplanes (was locked to max 6 bitplanes)
 
 ********************************************************************
 2019.11.26 : Global Project Updates...
 
-- Fixed a bug if +Lib.s/IffPal that forces LoadIFf to uses only 32 colors max.
+- Fixed +Lib.s/iffPal to correctly handle the refresh of up to 256 colors.
 
 
 ********************************************************************

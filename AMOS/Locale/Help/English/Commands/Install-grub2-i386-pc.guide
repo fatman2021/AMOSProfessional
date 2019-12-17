@@ -1,0 +1,52 @@
+@DATABASE Install-grub2-i386-pc.guide
+
+@$VER: Install-grub2-i386-pc.guide 1.0 (20.5.2019)
+@(C) Copyright (C) 2019, The AROS Development Team. All rights reserved.
+@MASTER /home/aros/aros_abiv0/Build/20190520/AROS/workbench/c/Install-grub2-i386-pc.c
+
+@NODE MAIN "Install-grub2-i386-pc"
+
+@{B}Name@{UB}
+
+    Install-grub2-i386-pc
+
+
+@{B}Synopsis@{UB}
+
+    DEVICE/A, UNIT/N/K/A, PARTITIONNUMBER=PN/K/N, GRUB/K/A, FORCELBA/S
+
+
+@{B}Location@{UB}
+
+    C:
+
+
+@{B}Function@{UB}
+
+    Installs the GRUB 2 bootloader to the boot block of the specified
+    disk or partition.
+
+
+@{B}Inputs@{UB}
+
+    DEVICE --  Device name (e.g. ata.device)
+    UNIT  --  Unit number
+    PN  --  Specifies a partition number. If specified, GRUB is installed
+        to this partition's boot block. Otherwise, GRUB is installed to
+        the disk's boot block.
+    GRUB -- Path to GRUB directory.
+    FORCELBA --  Force use of LBA mode.
+
+
+@{B}Example@{UB}
+
+    Install-grub2-i386-pc DEVICE ata.device UNIT 0 GRUB DH0:boot/grub
+
+
+@{B}See also@{UB}
+
+    Partition, SYS:System/Format
+    
+
+@TOC "HELP:English/Index.guide/MAIN"
+@ENDNODE

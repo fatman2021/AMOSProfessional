@@ -1,0 +1,27 @@
+# $Id: mmakefile.src 52302 2016-03-28 03:42:13Z NicJA $
+#
+# Makefile to copy Prefs/Presets.
+
+include $(SRCDIR)/config/aros.cfg
+
+TARGETDIR := $(AROS_PREFS)/Presets
+
+#MM- kernel-usb : \
+#MM      kernel-usb-presets
+
+
+.PHONY : kernel-usb-presets
+
+#MM
+kernel-usb-presets :
+	@cd $(SRCDIR)/$(CURDIR) && $(CPYDIRREC) -s . -d $(TARGETDIR) -e 
+
+
+# Delete generated makefiles
+#MM
+clean ::
+	@$(RM) $(TOP)/$(CURDIR)/mmakefile $(TOP)/$(CURDIR)/mmakefile.bak
+
+include $(SRCDIR)/config/make.tail
+
+BDID := $(BDTARGETID)

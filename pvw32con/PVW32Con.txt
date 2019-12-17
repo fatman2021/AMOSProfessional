@@ -1,0 +1,277 @@
+                   
+                 PictView Converter 1.14 Console Version
+                          Release date 2/Jan/2003
+
+                   Copyright (c) 1994-2003 by Jan Patera
+                           http://www.pictview.com
+                             support@pictview.com
+
+   
+Table of Contents:
+  Introduction
+  Features
+  Supported input formats
+  Supported output formats
+  Installation and deinstallation
+  Requirements
+  License
+  Using PictView with your programs
+  History
+  Updates
+  Feedback
+  Contacts
+
+Introduction:
+  PictView Converter Console Version is a command-line driven Win32 program
+  for conversion of raster images.
+
+Features:
+ o PictView can read around 150 variants of around 50 file formats
+ o Images can be converted to 20 file formats
+ o Image properties (size, type, comments) can be retrieved
+ o Multi-page images support
+ o Conversion of many files at once (batch conversion)
+ o Image resizing, rotation, mirroring
+ o Palette reduction, conversion to grayscales
+ o Transparent color support
+ o Output files can be uncompressed or compressed using different schemes
+ o CMYK support in TIFF and PSD
+ o A single 225 KB program file, no configuration
+ o Usage help is typed when run without parameters
+ o All functions are extremely fast
+ o It is freeware (see the license below)
+
+Supported input formats:
+ o 82I - Text Instruments Calculator TI82 images
+ o 83I - Text Instruments Calculator TI83 images
+ o 85I - Text Instruments Calculator TI85 images
+ o 86I - Text Instruments Calculator TI86 images
+ o 89I - Text Instruments Calculator TI89 images
+ o 92I - Text Instruments Calculator TI92 images
+ o AWD - At Work Document: Microsoft Fax
+ o BMI - Zoner Bitmap
+ o BMP - MS Windows Bitmap, including compressed and HiColor
+ o BMP - OS/2 Bitmap
+ o BW  - Black-and-White images in SGI Image file format
+ o CAL - CALS Raster Type I
+ o CDR - CorelDraw! 2.0 - 11.0, preview and imported bitmaps only
+ o CDT - CorelDraw! 2.0 - 11.0 Template, preview and imported bitmaps only
+ o CEL - Autodesk Animator Pro animation
+ o CEL - Autodesk Animator still picture
+ o CIT - Intergraph Group 4 Raster
+ o CLP - MS Windows Clipboard file
+ o CMX - Corel Metafile Exchange 5.0 - 11.0, preview and imported bitmaps only
+ o COT - Intergraph Raster images, 8-bit or TrueColor
+ o CPT - Corel PhotoPaint 6.0
+ o CUR - MS Windows cursors
+ o CUT - Dr. Halo/Dr.Genius Clipboard Format
+ o DCX - Intel's multipage fax-format
+ o DIB - MS Windows Device Independent Bitmap, including compressed
+ o FLC - Autodesk Animator Pro Animation
+ o FLI - Autodesk Animator Animation
+ o GEM - GEM IMG
+ o GIF - Compuserve Interchange File Format, including animated GIFs
+ o HAM - Amiga Interchange File Format in hardware modes (HAM)
+ o HMR - GeoTIFF, produced by software by HMR Inc.
+ o HRZ - Slow scan television
+ o ICN - Images from RIPTerm program
+ o ICO - MS Windows Icons, including HiColor and TrueColor
+ o ICO - OS/2 Icons
+ o IFF - Amiga Interchange File Format
+ o IMG - GEM IMG
+ o IMG - IMG Software Set
+ o IMG - Vivid Raytracer
+ o JFF - JPEG File Format, including Progressive Mode
+ o JIF - JPEG File Interchange Format, including Progressive Mode
+ o JMX - Images from a Tetris game
+ o JPEG - JPEG, including Progressive Mode
+ o JPG - JPEG, including Progressive Mode
+ o LBM - Amiga Interchange File Format, Interleaved Bitmap
+ o MAC - MacPaint
+ o MIL - CALS Raster Type I
+ o MSP - Microsoft Paint
+ o OFX - OLIFAX fax package
+ o PAN - SmoothMove Pan Viewer, preview only
+ o PAT - CorelDraw! 6.0 - 9.0 patterns, preview only
+ o PBM - Portable Bitmap
+ o PC2 - Degas Elite Medium Resolution
+ o PCD - Kodak PhotoCD - Base/16, Base/4 and Base only
+ o PCT - MacIntosh PICT
+ o PCX - PC PaintBrush
+ o PGM - Portable GrayMap
+ o PIC - PC Paint/Pictor, including HiColor
+ o PIC - Dr. Halo/Dr. Genius
+ o PNG - Portable Network Graphics
+ o PNM - Portable Any Bitmap
+ o PNTG - MacPaint Painting
+ o PPM - Portable PixelMap
+ o PSD - Adobe Photoshop 2,5 - 6.0, including CMYK
+ o PYX - Old Epson scanner format
+ o QFX - Quick Link II Fax file format
+ o RAS - Raster SunMicrosystems
+ o RGB - TrueColor (RGB) Images in SGI File Format
+ o RLE - Compressed MS Windows BMP
+ o RLE - Compressed Images in SGI File Format
+ o RLE - Compressed Intergraph Raster images, bilevel only
+ o RLE - Utah RunLength Encoded
+ o SAM - Images in Text Documents from AmiPro
+ o SCx - ColorRIX
+ o SEP - CMYK Separated Images in TIFF 6.0 File Format
+ o SGI - SGI Image File Format
+ o SKA - Video/DVD renting machines
+ o ST  - NeoPaint for DOS thumbnails
+ o STW - NeoPaint for Windows thumbnails
+ o SUN - Raster SunMicrosystems
+ o TGA - TrueVision Targa
+ o TIFF - Tagged Interchange File Format
+ o UDI
+ o WBMP - Wireless Bitmap for cell/mobile telephones
+ o WEB - Corel Xara, preview or first embedded bitmap only
+ o WPG - WordPerfect Graphics
+ o XAR - Corel Xara, preview or first embedded bitmap only
+ o ZBR - Zoner Zebra for Windows 1.0 - 1.5, preview only
+ o ZMF - Zoner Metafile, preview only
+  
+Supported output formats:
+ o BMP - MS Windows Bitmap, including compressed
+ o BMP - OS/2 Bitmap
+ o CEL - Autodesk Animator still picture
+ o CUT - Dr. Halo/Dr.Genius Clipboard Format
+ o GIF - Compuserve Interchange File Format
+ o ICO - MS Windows Icons
+ o IFF - Amiga Interchange File Format, including compressed
+ o JPG - JPEG
+ o PBM - Portable Bitmap
+ o PCX - PC PaintBrush
+ o PGM - Portable GrayMap
+ o PIC - PC Paint/Pictor, including HiColor
+ o PNM - Portable Any Bitmap
+ o PPM - Portable PixelMap
+ o RAS - Raster SunMicrosystems
+ o RAW - Color palette followed by raw uncompressed data, without header
+ o RLE - Compressed Intergraph Raster images, bilevel only
+ o RLE - Utah RunLength Encoded
+ o SCx - ColorRIX
+ o SGI - SGI Image File Format, including compressed
+ o SKA - Video/DVD renting machines
+ o TGA - TrueVision Targa, including compressed
+ o TIFF - Tagged Interchange File Format, uncompressed, PackBits, LZW, Huffman
+  
+Installation and deinstallation:
+  PictView is distributed as a zipped (compressed) file. To decompress
+  the program you may use winzip, unzip, or any file manager with zip
+  format support (e.g. Servant Salamander).
+  Once the file is decompressed, you may use PVW32Con.exe, no special
+  installation is required.
+  To deinstall PictView Console Version, simply delete PVW32Con.exe.
+  The program does not use any other special dll, registry or ini
+  settings.
+
+Requirements:
+  This version of PictView requires Windows 95, Windows 98, Windows ME,
+  Windows NT 4.0, Windows 2000, Windows XP or later. 
+  No special libraries or other files are required or used.
+
+License:
+  This program is freeware for non-commercial use in the following sense:
+ o You are encouraged to freely distribute the program with its documentation.
+   You are allowed to charge a small fee for shipping & handling. This
+   includes commercial distribution of shareware and similar collections.
+ o You can use it at home or educational institutions
+ o You can use it at work for (possibly repeated or regular) one-time
+   image conversions
+ o You can include pvw32con.exe into your own software package as long
+   as it is not an image processing software and you distribute it as
+   freeware, public domain or under the GPL or similar license.
+ o You CANNOT include pvw32con.exe as an indispensable part of your own
+   software that you sell for profit (including shareware). If you wish
+   to do so, please contact us for a special license agreement.
+ o You CANNOT create your own image processing or similar packages based
+   on the program and distribute it in any form (including freeware).
+ o THIS SOFTWARE IS DISTRIBUTED "AS IS". NO WARRANTY OF ANY KIND IS 
+   EXPRESSED OR IMPLIED. YOU USE AT YOUR OWN RISK. THE AUTHOR WILL NOT BE
+   LIABLE FOR DATA LOSS, DAMAGES, LOSS OF PROFITS OR ANY OTHER KIND OF LOSS
+   WHILE USING OR MISUSING THIS SOFTWARE.
+
+
+Using PictView with your programs:
+  We would like to inform you that we provide PictView as a DLL with
+  a simple API interface for use by third party programs. See our
+  website for further information.
+  See also the license above. 
+
+History:
+ January 2, 2002 - Version 1.14.0.1
+  o fixed converting multipage AWD to multipage TIF using switches --ta --pa
+
+ December 1, 2002 - Version 1.14
+  o Added retrieving of image properties without conversion - run
+    just pvw32con.exe *.*
+  o Added reading of thumbnails and embeded bitmaps in CorelDraw! 10.0 and
+    11.0 CDR & CDT files
+  o Added switches --24 and --32 for conversion to 24 and 32bit TrueColor
+    formats
+  o Added export of multipage TIFFs - a new switch --ta appends a page to TIFF
+  o Added switch --tp for improving compression ration of LZW TIFFs
+  o Added horizontal mirror (left to right) - switch --h
+  o Added rotation by 90, 180 and 270 degrees (switches --r90, --r180, --r270)
+  o Added reading of new type of multipage AWD files
+  o Added reading and writing of Wireless Bitmaps WBMP
+  o Added reading and writing of single-strip JPEG-compressed TIFFs (type 7)
+  o Fixed reading of CMYK bitmaps in CDR files
+  o Fixed page ordering of some AWD files
+  o Fixed reading of PNG files mixing compressed and non-compressed blocks
+  o Fixed reading of inverted 8bit grayscale TIFFs
+
+ April 5, 2002 - Version 1.13
+  o Added export of ICOs with 16x16 pixels
+  o Fixed export of transparence mask for ICOs from transparent GIFs
+
+ March 16, 2002 - Version 1.12
+  o Added reading of SKA and Texas Instruments calculator TI82, TI83, TI85,
+    TI86, TI89, and TI92 formats
+  o Improved compression ratio of bilevel PCXs
+  o JPEGs are now created with 8bit quantization tables, if possible
+  o DPI is now saved in Windows BMP files
+  o CMYK images are no more refused
+  o Fixed reading of inverted AWD images
+  o Fixed reading of too much fragmented AWD images
+  o Fixed color shift of 32bit interleaved PNG images
+  o Fixed conversion of inverted bilevel images into PCX and TIF
+  o Fixed writing of TIFF images with more than 16383 tiles
+
+ January 7, 2002 - Version 1.11
+  o Added support of WEB and XAR formats
+  o Fixed a bug in the high-quality JPEG decompression routine (--jh switch)
+  o Improved stability on proprietary Windows BMP and Icon files
+
+ September 10, 2001 - Version 1.10
+  o Added reading of interlaced 2-bit PNGs
+  o 4-bit images can be now resized as well
+  o Added reading of deflated (Zlib/ZIP) TIFFs created by Adobe Photoshop 6
+  o Added reading of new variation of QuickLink II fax format QFX
+  o JPEG quality settings
+  o Conversion to user-specified color palettes
+  o Conversion to Uniform 216-color palette suitable for web
+  o DPI information handled in more file formats (e.g. TIFF)
+  o Minor fixes in reading few formats, especially damaged files
+  o Many minor fixes in combining different transformations
+
+ March 12, 2001 - Initial release 1.0
+
+ 1997-2001 - many beta versions numbered 0.98.x and 0.99.x
+
+
+Updates:
+  Visit PictView homepage: www.pictview.com
+
+Feedback:
+  Feel free to submit bugs, feature requests, and other feedback using
+  the email addresses given below. If you report a bug, please attach
+  the image causing the problem as well. Thank you.
+
+
+Contacts:
+  Home page:  www.pictview.com
+  Support:    support@pictview.com
+  Sales info: sales@pictview.com

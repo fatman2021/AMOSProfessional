@@ -19,7 +19,7 @@ Amos Professional X - Binay Releases only (No AmosPro Source code included) This
 
 
 # About 'Amos Professional X' Releases 'User Licence' :
-AMOS Professional X use if free for everyone for any kind of project (freeware, shareware, commercial, etc.) developed using "AMOS Professional X" as "AMOS Professional X" is not the project itself.
+AMOS Professional X project is a "donationware" project. Anyone can use it for free for any kind of type of project (freeware, shareware, commercial, etc.) developed using "AMOS Professional X" as "AMOS Professional X" is not the project itself nor Amos Professional project itself. That mean you can create games, softwares using Amos Professional X in compiled form (executable .exe) but not resell Amos Professional X itself.
 
 However, some restrictions applies : 'Amos professional X' user licence does not allow to :
 - Create products, medias, objects that may express or makes the apologia of : racism, intolerance, sexual deviance, violence or any expression that may be punishable by law.
@@ -29,5 +29,9 @@ You are encouraged (even if it's not an requirement), to mention (somewhere like
 # Reporting issues
 Don't forget that Amos Professional X is a project currently under development. Due to this fact, it is not yet finished and some problems may happen when using it.
 If you encounter a bug, an issue, you can send me an email directly to cordierfr(at)wanadoo(dot)fr and I'll try to fix if. Don't forget to provide in the message, a small .AMOS sample with all required files to reproduce the issue you've found.
+
+# DonationWare project :
+If you want to support the project, you can make a donation to my paypal account using my paypal me link : https://www.paypal.me/AmiDARK75
+You can add a message saying if you want your name to appear in the website and credits/thanks of Amos Professional X official upcoming readme file, or if you prefer remaining private.
 
 Regards, Frederic Aka AmiDARK

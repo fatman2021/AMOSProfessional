@@ -1,4 +1,10 @@
 ********************************************************************
+2019.12.26 : Global Project Updates...
+
+- +w.s/BobCalc : fixed calculation (from .w to .l) for image pasting screen from top-left shift.
+
+
+********************************************************************
 2019.12.02 : Global Project Updates...
 
 - Updated pictures for AGA samples to use my old XQuadEditor Game Maker screen captures instead of TESO ones.

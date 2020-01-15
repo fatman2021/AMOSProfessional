@@ -1,0 +1,14 @@
+Included with AMOS:
+amos.library
+medplayer.library
+powerpacker.library
+
+Included with LDos extension:
+powerpacker.library
+req.library
+rexxhost.library
+xprxmodem.library
+xprymodem.library
+XprZmodem.Library
+XprZmodem.Library.030
+

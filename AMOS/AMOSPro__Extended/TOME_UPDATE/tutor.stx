@@ -1,0 +1,1306 @@
+                          TOME V3.2 MAIN MENU
+                         ~~~~~~~~~~~~~~~~~~~~~
+      									RRRhitm HIT_ME_FIRST!
+
+                       IIIAtom ABOUT_TOME_3.2
+
+                    IIIhowt HOW_TO_USE_THIS_MANUAL
+
+                    IIIedit HOW_TO_USE_THE_EDITOR
+
+                   IIIcoms HOW_TO_USE_THE_COMMANDS
+
+           IIIffor FILE_FORMATS_AND_OTHER_TECHNICAL_DETAILS
+
+                  IIIemer WHAT_TO_DO_IN_AN_EMERGENCY
+
+										IIIauth NOTES_FROM_THE_AUTHOR
+
+										IIIdisk PROGRAMS_ON_THIS_DISK
+XXX
+LLLAtom
+                              About TOME
+                             ~~~~~~~~~~~~
+
+Welcome to the AMOS TOtal Map Editor- BBBtome TOME. Before I tell you 
+a little more about the product and how to use it let me first remind 
+you of the amount of work that has gone into producing this package. 
+TOME began life as a small utility on the ATARI ST which allowed the 
+user to produce game backgrounds that are much larger than the physical
+screen, over a period of about two years the product was gradually
+improved and finally when AMOS was finished an BBBamig Amiga version
+was created. So you can see that the authors have spent over two years
+creating the ultimate BBBMaps MAP designer for use not just with AMOS
+but with any language on any computer, for this reason please respect
+the copyright of TOME and do not give copies of it to anybody else.
+Remember - if you RRRpira pirate this product, you could be taking 
+away a BBBprog programmers only source of income.
+NNN
+This version is the AMOS V1.3/Compiler compatible version, which has been
+supplied free to all previously registered AMOS TOME users, and is
+included in all new AMOS TOME packages. If you are using AMOS 1.23, then
+upgrade to AMOS V1.32 now !
+Several new commands have been added to V3.2, and the manual has been
+updated to detail the new commands, and to give more information on the
+old ones !
+You will find that this manual also details the editor commands a little
+better, and the TOME editor has been upgraded somewhat (bugs fixed etc)
+and a new function has been added. Zoom Out mode, so that you can zoom out
+of the map and look at it displayed on the whole screen, with each tile
+being as small as 1 pixel.
+The only other major difference between this version and V3.0 of TOME, is
+that you have to manually install the extension. It was found that due to
+differences between Amiga systems, the old installer program wasn't a
+great idea, and that it would be easier to do the installation manually.
+For instructions on the installation click BBBinst HERE
+NNN
+One more change from the old TOME disk, is that JetStrike Junior is
+compiled on this disk, and can be either run from the workbench, or
+autobooted. This version has been directly compiled from the original with
+no tuning, and may be a little tricky to handle.
+The only other change between this and V3.1 is that the TILE MAKER program
+is now built into the actual map editor. 
+RRR
+LLLinst
+					               Installing AMOS TOME
+												~~~~~~~~~~~~~~~~~~~~~~
+Before you can use the TOME commands, or any of the programs on this disk,
+you need to install the TOME V3.1 extension onto your copy of AMOS 1.3 (or
+higher). Once the extension is installed into AMOS, you can use the AMOS
+TOME commands within your programs or in direct mode, they are part of the
+AMOS Language.
+NNN
+Part 1... Putting the TOME.Lib extension into the AMOS_SYSTEM directory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This is the easy bit. Load the TOME_INSTALL.AMOS program into your AMOS
+V1.3 and run it. Then you just need to select what version of AMOS you
+wish to install the extension onto. The program will then look for a disk
+called AMOS: (if you have ASSIGN'ed this on your hard drive it
+will also work) and save a program called TOME.Lib into your AMOS_SYSTEM
+directory. Once this is done, you can quit the TOME_INSTALL program.
+NNN
+Part 2... Telling AMOS that TOME is available
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The next step is to load in the AMOS configuration program. In V1.3 of AMOS it
+is called CONFIG1_3.amos. It should be on your AMOS Language disk. Find it
+and load it in.
+Next you will have to load the default configuration (on the 2nd menu) and
+wait for this to be loaded and converted.
+Then Select the 3rd menu, and select the LOADED EXTENSIONS item. This will
+give you a listing of all the extensions that have been installed into
+AMOS. You will probably have the following installed.
+1:AMOS_SYSTEM/Music.Lib
+2:AMOS_SYSTEM/Compact.Lib
+3:AMOS_SYSTEM/Requestor.Lib
+4:
+5:AMOS_SYSTEM/Compiler.Lib
+6:AMOS_SYSTEM/Serial.Lib
+7:
+8:AMOS_SYSTEM/CTEXT.Lib
+9:AMOS_SYSTEM/Range.Lib
+NNN
+Click on the blank Line 7 and enter the following 
+:AMOS_SYSTEM/TOME.Lib
+making sure that you enter the file name exactly.
+Then quit this menu and from the main menu, Save the configuration as the
+default. Wait until this is finished, quit the program, and count to at
+least 10 when the drive light goes out, making sure that the drive is
+completely done. Then reboot your AMOS.
+It should now load up with the TOME extension installed (it will show it
+on the list of loaded extensions when AMOS starts up). Now you have
+installed AMOS TOME, it has become part of your AMOS system, and its
+commands are now included into AMOS.
+RRR
+LLLamig
+                          What Is An Amiga?
+                         ~~~~~~~~~~~~~~~~~~~
+
+The Commodore Amiga is the flagship of Commodore Business Machines.
+It's rather unforgiving and cold computer which incorporates
+incredible hardware and has the best language on a home computer
+available for it (AMOS!).
+RRR
+LLLhowt
+                        How To Use This Manual
+                       ~~~~~~~~~~~~~~~~~~~~~~~~
+
+This manual is designed to allow you to get the most out of TOME with
+the minimum of effort. To get to this part you would have already
+discovered that some of the BBBhigh highlighted words can be clicked
+on, this lets you jump between pieces of information which may be
+linked through a common theme. At any time while reading this manual
+you will be able to get a BBBhard hardcopy of the screen contents, I
+am sure that those of you who own printers will find this feature
+useful.
+RRR
+LLLprog
+                        What Is A Programmer?
+                       ~~~~~~~~~~~~~~~~~~~~~~~
+
+A programmer is a person who devotes his/her life to inventing ever
+more complex things to do with a computer. This breed tends to be
+separated into two sub-species, first is the leisure programmer who
+gets paid very little for a lot of work. The next is the business
+programmer who gets paid quite a lot for doing very little.
+(This is the view of a leisure programmer).
+RRR
+LLLhard
+                            About Hardcopy
+                           ~~~~~~~~~~~~~~~~
+
+"Hardcopy" is a piece of computer jargon which means "printout". In
+this program any text which is displayed on the screen can be printed
+on your printer by clicking on the PRINT button. We have fixed the bug
+that was in early versions of AMOS TOME that caused the printout to become
+a little skewed !
+RRR
+LLLhigh
+                     What Are Highlighted Words?
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Highlighted words are a way of drawing the users attention to
+something of importance.
+In this manual, there are 4 types of highlight.
+BBBblue BLUE RRRredh RED GGGgren GREEN and IIIinvr INVERSE
+which all do the same thing (they jump around the text), but have
+different meanings.
+RRR
+LLLMaps
+                            What Are MAPs?
+                           ~~~~~~~~~~~~~~~~
+
+The reason for using TOME is that it allows you to create giant
+screens in memory using a series of simple building blocks, these
+areas of memory are called MAPs- for obvious reasons. You can design a
+giant MAP the height of many screens and it will not take up nearly as
+much memory as drawing a picture that big. TOME works a little like a
+Jigsaw or Collage in that you first create building blocks called
+BBBTile TILEs , you then use the editor to paste these building blocks
+onto your MAP area thus creating a giant picture. This method can be
+seen in many commercial games which have large scrolling areas, Ghouls
+& Ghosts by U.S. GOLD and Rainbow Islands by OCEAN are two very good
+examples.
+RRR
+LLLTile
+                           What Are TILEs?
+                          ~~~~~~~~~~~~~~~~~
+
+Tiles are simply square blocks of a picture cut out using the utility
+supplied with TOME. This utility cuts up a picture into 16*16 or 32*32
+BBBPixl pixel blocks and stores them as BBBico1 Icons in an AMOS Icon
+bank.
+AMOS TOME can display other sizes of tile, but you have to do a few
+tricks. For instance, the Zoom out function in the editor was done by
+making all the icons masked (with the MAKE ICON MASK command), doing a
+tile size s,s (where s is the small tile size) and then doing a MAP DO x,y
+command. The tiles will then be drawn overlapped, and only the top left
+corner of each tile will be displayed, giving you a zoomed out version of
+the map.
+Tiles are created by drawing them on an IFF screen, starting from the Top
+Left (Tile number 0) and working right, then going to the next line,
+working right and so on. You then load up the BBBdis2 Tile_Maker program, which
+converts the picture into AMOS Icons.
+RRR
+LLLico1
+                         What Are AMOS Icons?
+                        ~~~~~~~~~~~~~~~~~~~~~~
+
+AMOS Icons are areas of a screen which can be cut out and saved inside
+a safe area of memory ready for later use. They can be thought of as
+less-flexible versions of AMOS BOBs.
+RRR
+LLLico2
+                           What Are Icons?
+                          ~~~~~~~~~~~~~~~~~
+
+In general computing terms an  Icon is a small representative picture
+which is used to express the meaning of a particular function on your
+computer screen. For instance a picture of a printer may represent the
+printing function.
+RRR
+LLLPixl
+                           What Are Pixels?
+                          ~~~~~~~~~~~~~~~~~~
+
+A pixel is a single dot on your TV/Monitor screen. If you have an art
+package such as Deluxe Paint or AMOS Paint ( available from the
+BBBApdl AMOS_PD_LIBRARY ) you will be able to look a pixels more
+closely.
+RRR
+LLLApdl
+                    The AMOS Public Domain Library
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This library runs an excellent service by restricting its sales to
+AMOS related stuff only!! This means you get a very exclusive service
+at a reasonable price.
+Sandra also sells Deja Vu Licenseware disks, which are fully commercial
+programs sold through Licensed P.D Libraries. Royalties are collected on
+these disks, which are then payed to the authors. The game MAGIC FOREST II
+(Son of Wilf) is one of the AMOS TOME written games on Licenseware. This
+is the compiled version of the game on the BBBgood AMOS_TOME_GOODIES disk,
+which is only available to registered AMOS TOME users
+
+For more information on the AMOS P.D Library and Deja Vu Licensed Software
+contact Sandra Sharkey on-
+
+0942 495 261
+
+or write to her at
+
+AMOS PDL
+25 PARK ROAD
+WIGAN
+WN6 7AA
+RRR
+LLLgood
+										The AMOS TOME GOODIES DISK
+										~~~~~~~~~~~~~~~~~~~~~~~~~~
+This disk is only available to registered AMOS TOME Users, and includes
+three new games written with AMOS TOME. These are:
+Magic Forest II. A horizontal scrolling platform game.
+Green Flag. An Isometric 3D scrolling game.
+"The Dungeon". A Dungeon Master style 3D dungeon game.
+All three are supplied in AMOS 1.3 form, so that you can use the routines
+in your own games.
+This disk can be ordered direct from Shadow Software, 1 Lower Moor,
+Whiddon Valley, Barnstaple, N.Devon. EX32 8NW and it costs 5 pounds in the
+U.K. For overseas orders, please add a further 2 pounds to cover airmail
+postage. Please note that this disk is only available to registered TOME
+users, so make sure you have sent in your card !
+RRR
+
+LLLedit
+                           The TOME Editor
+                          ~~~~~~~~~~~~~~~~~
+The TOME editor allows you to create, edit and save all of your game
+IIIMaps MAPs . It is a very memory hungry and powerful editing system
+which even includes rudimentary drawing facilities similar to those
+found in products such as Deluxe Paint, therefore to get the most out
+of the system you must have at least One megabyte of memory.
+
+Being BBBico2 Icon driven (that's those little picture things!) should
+make the editor very easy to use, but for those people who are new to
+the subject of creating MAPs this section has been included to make
+the transition into MAP based drawing as easy as possible.
+
+When you first load the editor (called "TOME.AMOS" on your
+disk) you will notice that the screen is divided into four main parts.
+
+The first two are Icon bars which run along the top and bottom of the
+screen and control all of TOMEs functions. Each bar is divided up into
+a number of small pictures (Icons) and as you click on an Icon on the
+top bar you will notice a new selection of options appear on the
+bottom bar.
+
+The next part of the screen can be clearly seen at the far left of
+your TV/Monitor, this is the TILE selector and contains copies of all
+you TILEs. The scroll arrows at the top and bottom of this area allow
+you to move through a selection of your TILEs, you can also click on
+the right hand button while positioned over the map to select a TILE.
+At the bottom of this part of the screen is an Icon with the word
+PRESET on it if you click on this you will see the current range of
+TILEs replaced with another set, this new set is a user TILE range and
+allows the easy picking of often used TILEs, to find out more about
+this please refer to the section of this guide describing Icon 4 -
+Drawing Menu 1.
+NNN
+
+Finally is the MAP, this is the large area just off centre and to the
+right of the screen. It is here that you will be drawing your
+creations. To move around the MAP you can use the joystick, cursor
+keys or the little arrows in the far right corner of the top Icon bar.
+This scrolling is a rudimentary form of the scrolling which can be
+clearly seen in the demonstration programs on the disk,
+VELCRO_GRUB.AMOS, MAZE_MAN.AMOS, VERT_SCROLL.AMOS and HORIZ_SCROLL.AMOS.
+To draw on this map first click on a TILE (found to the left) and then
+click on the MAP part of the screen, good huh?
+NNN
+
+                              The Icons
+                             ~~~~~~~~~~~
+As I said earlier the Icons in the top bar activate small menus in the
+bottom bar, we will now go through these Icons and each of their
+functions. Remember that each main Icon and each sub-Icon can be
+activated by using a single keypress as well as by clicking on them.
+													Moving About the Map
+												 ~~~~~~~~~~~~~~~~~~~~~~
+ The mouse can be used to move around the displayed area of the map, and
+clicking with the left button will draw. Clicking on the four scroll
+arrows in the top right corner will scroll the map 1 tile at a time. A
+Joystick plugged into the other port can be used to scroll around the map
+(Holding the fire button down makes it scroll at 10 tiles rate).
+ If you press the cursor keys on the keyboard, they will move the cursor
+around within the map display area, and pressing either SHIFT key will
+draw (This works for all modes of drawing !). 
+NNN
+										The Keypad Tile selector (New for V3.1)
+									 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ To make tile selection a little more rapid, the numeric keypad keys can
+be used to select tiles from the tile list (in either User palette or
+Preset Palette mode). Pressing the keypad 0 key will scroll the tiles
+back, and the keypad . (full stop) will scroll the tiles forward.
+ The rest of the keypad keys are set out to represent the first 16 tiles
+shown on the list as a 4x4 grid (perfect for 16x16 tiles) Thus pressing
+the keypad ( key will select the top left tile, and pressing the Enter key
+will select the 16th tile (4 down, 4 across).
+NNN
+
+Icon 1 - Options
+~~~~~~~~~~~~~~~~
+Sub-option 1 NICENESS 
+Niceness allows you configure the editor to suit your own tastes.
+The options given allow you to change the screen from PAL to NTSC,
+switch on the cursor co-ordinates, adjust the TILE/Icon bar palettes,
+save the settings exactly how you want them and finally return
+everything back to their default positions.
+The PAL/NTSC switch will automatically detect an NTSC screen when the
+program is first run, but you also use this Niceness option to switch to
+NSTC mode manually (handy for testing your Maps in the smaller NTSC size).
+The Cursor co-ordinates display (to the right of the lower menu) normally
+show the co-ordinates (in tiles) of the top left tile in the screen being
+displayed. By switching the cursor co-ordinates on, it will display the
+tile co-ordinates of the tile under the mouse cursor. This is handy when
+you need to find the co-ordinates of a particular tile on the map.
+The palette controls are the same as in the AMOS Sprite editor (and
+SpriteX), and allow you to set either the colours of the control icons (to
+your own preference) or of the tiles themselves. Simply click on the
+colours you want to change, and use the sliders to set the RGB values.
+NNN
+Sub-option 2 Grid Options
+This controls a series of grids which can be overlayed on your
+MAP and TILE screens. You can also create a Flip Screen Grid, this
+allows you to divide up your MAP into areas marked off by a series of
+TILEs. 
+You define the size of the grid by adjusting the numbers display (remember
+these are the width and height of the grid in TILEs not pixels).
+
+Sub-option 3  Map Size
+This option allows you to change the current map size. 
+If you leave the "Initialise Map" control switched on (the default
+position) the whole map will be erased and replaced with the currently
+selected TILE or BBBtfil Tile_fill pattern.
+NNN
+Sub-option 4 Credits
+This doesn't do much, but it lets us tells you who did what !
+
+Sub-option 5 Tile Value
+ This allows you to assign up to four separate values to a single TILE, a
+feature handy for games where you need to detect special conditions.
+Each tile is refered to normally by its number, but you can also assign
+these tile values to the tile as secondary numbers. The tile values can
+mean anything you want. For instance, you could say that tile values in
+list 0 of 128 and above (they range from 0-255) are for solid tiles, and
+that anything hitting one of these tiles in your game will bounce off. You
+can then assign this tile value to any tiles that you want to be solid in
+your game. By clicking on the TILES/VALUES button (it toggles between
+TILES and VALUES), you can also assign the tile numbers of other tiles to
+a tile. This is useful when you want a tile to mutate when hit, as you can
+then use the =TILE VAL(x,y,l) function to find out what tile to replace it
+with. If, for instance, the mutate tile numbers were in tile value list 1
+(Counting 0,1,2,3) then you could do the following to mutate the tile at
+co-ordinates X,Y:
+T=Tile Val(X,Y,1)
+Map Plot T,X,Y
+NNN
+The various options on the Tile Valuer allow you to clear all the tile
+values, change between lists (shown as 1,2,3 & 4, which correspond to tile
+list numbers 0,1,2 & 3, Must fix that sometime !) and between pages of
+tiles.
+NNN
+Icon 2 - Disk Menu 1
+~~~~~~~~~~~~~~~~~~~~
+The disk menu is where all input/output is controlled. For detailed
+information about file formats please click IIIffor here .
+
+Sub-option 1 Load Map
+This is used to load TOME MAPs. The maps are stored in a very simple
+format, and should always have the file extender .MAP
+When the map is loaded the =MAP CHECK command is used to go over the map
+and make sure that all the tiles used in the map are available. If any are
+not available, they will be replaced with Tile 0. For this reason it is
+best to load in your tiles before you load the map.
+This will also load in the tile values for the map (if there are any).
+
+Sub-option 2 Save Map
+This saves TOME MAPs. You should remember to add the .MAP extender to the
+filename. This will also save the Tile values with the same name as the
+map filename, but with .VAL added as an extra extender. Thus a map called
+MYMAP.MAP would have a tile value file called MYMAP.MAP.VAL
+NNN
+Sub-option 3 Load Tiles
+This allows you to load TILEs (AMOS Icon banks). If the number of tiles in
+the new bank is less than that in the previous one, TOME will MAPCHECK the
+map to make sure that all the tiles are available.
+
+Sub-option 4 Save Tiles
+This saves a set of TILEs as an Icon Bank. Remember to add the .abk
+extender to the filename.
+NNN
+Sub-option 5 IFF to Map converter 
+This is a very powerful advanced function, which allows you to take an IFF
+picture, and convert it into a map. Each pixel of the picture being turned
+into a tile. This gives the effect of zooming the picture up by the size
+of the tiles.
+For instance, you could be working on a game such as Ultima, where you
+need to design an outside wilderness on a huge scale. Using the IFF to map
+converter, you simply draw the map as an IFF screen using your favourite
+art package. You would use one colour for grass, another for trees and
+another for water (you can use up to 32 colours). You would then save this
+IFF picture to disk and load up AMOS TOME. 
+NNN
+When you select the IFF to map function, and select your picture from the
+file requestor, you then have to decide which colours in the picture are
+to represent which tiles, this is done by clicking on the tiles you want
+in the mini tile selector, and then clicking on the colour boxes. The I/P
+button at the bottom right changes the palette between that of the Tiles
+and that of the picture, so that you know what colours you are working
+with.
+Once you have set up the tiles to be used, click on the O.K button and
+drag the box over the area of the picture you want to convert. This box
+corresponds to the size of the map (in pixels). 
+The conversion process looks at each pixels colour, and looks up the tile
+(or tiles) that you assigned to that colour. It will then plot one of
+these tiles on the map at that co-ordinate. The end result is that your
+area of IFF picture is converted into a map on a 1 pixel= 1 tile basis.
+NNN
+
+Icon 3 - Disk Menu 2
+~~~~~~~~~~~~~~~~~~~~
+Sub-option 1 Load Briks
+This allows you to load a selection of BRIKs. A BRIK is a cut-out area
+made up of TILES. 
+When the BRIKs are saved or loaded only the values of the TILEs are
+actually saved so they take up very little room (as such they are really
+useful as replacements for BOBs). Brik files use the .ABK extender, and
+are normally loaded into bank 7 (as a data bank)
+
+Sub-option 2 Save Briks
+ allows you to save the current set of BRIKs. Remember to add the .abk
+extender to the file name.
+
+Sub-option 3 Load/Save Tile Palette
+allows you to load and save a pre-arranged set of TILEs for the
+user TILE palette (found by clicking on the word "PRESET").
+
+Sub-option 4 Tile Maker
+This is the built in Tile Maker program (it used to be supplied as a
+seperate program on the older TOME disks), used to create the tiles for
+your map. Click BBBdis2 Here for details.
+
+NNN
+
+Icon 4 - Edit Menu 1
+~~~~~~~~~~~~~~~~~~~~
+This menu contains most of the standard MAP drawing functions, and
+will be the one you most use.
+
+Sub-option 1 DRAW Mode
+This selects standard draw mode. If you find that you have accidentally 
+clicked on another Icon and the way the program draws is changed you can 
+restore things back to normal by clicking here.
+
+Sub-option 2 BOX Mode
+allows you to draw rectangles/squares with the currently selected TILE or 
+ BBBtfil TILE_FILL pattern.  
+When you click this option the cursor will change to a
+corner shape with the letters "T.L" inside it to tell you that the
+editor is ready for you to select the top-left position of your
+square, when you click on part of the MAP the cursor will be replaced
+with a corner shape with the letters "B.R" inside, you are then
+required to click on the part of the MAP you wish to make the bottom-
+right portion of your square.
+
+NNN
+Sub-option 3 CIRCLE Mode
+performs in the same way as drawing squares/rectangles except that it is
+used in drawing filled circles using the current TILE or BBBtfil TILE_FILL
+pattern.
+
+Sub-option 4 GRAB USER TILE mode
+ allows you to pick TILEs from the map and place them into the USER TILE
+section. When used in conjunction with a user TILE range
+you can pick up TILEs from the MAP and place them into section of
+screen where the TILEs are displayed to build up a selection of often
+used Icons in the order you wish to place them.
+NNN
+
+Icon 6 - Edit Menu 2
+~~~~~~~~~~~~~~~~~~~~
+This Icon contains some of the most advanced features of TOME, so be
+warned - USE THEM WITH CARE!
+
+Sub-option 1 MAZE MODE
+By using this and selcting TILEs for corners and junctions etc. TOME will
+follow your mouse movements and will create instant mazes as you draw!!!
+The default set of tiles (from the P.D TOME game DEADLINE) have been
+arranged here for you to show you what tiles you need to assign.
+
+Sub-option 2 SHIFT MAP
+ Shifts the map in any direction, this is a permenant change and will
+involve losing at least one line from your MAP every time it is used.
+This one evolved when Adam was drawing a large map, only to find that he
+had accidentally drawn it one tile too low !
+NNN
+Sub-option 3 CLEAR MAP
+Clears the MAP to the current TILE or BBBtfil TILE_FILL pattern.
+
+Sub-option 4 AUTO MAP
+ You have heard how MAZE MODE will follow your mouse movements to produce
+a maze of your design, this goes one step further and does all of the work
+for you! This mode can take a while especially when used on large MAPs.
+As with MAZE MODE, default parameters are available, but you can get good
+results by changing the parameters to your own liking.
+NNN
+Sub-option 5 is split into two sections, the top is random draw mode
+and uses a random selection from the user TILE palette to draw on the
+screen. The bottom is scatter mode, this will scatter TILEs over the 
+section of map displayed on the screen.
+Random Draw mode is one of TOME's more versatile functions, and it uses
+the User Tile Palette. To use Random draw, you have to place two or more
+tiles in the user tile palette, and select random draw. Set the range to
+the number of tiles in the user tile palette that you want to use, and O.K
+the function. Until random draw is switched off, any drawing function will
+plot tiles randomly from this range in the user tile palette.
+NNN
+
+Icon 6 - Brik Menu
+~~~~~~~~~~~~~~~~~~
+The BRIKs in TOME are basically blocks of TILEs, cut out from the MAP.
+These BRIKs can be used in two main ways. The first is to speed up
+drawing sections of your MAP, the second is to use them within your
+game as a form of AMOS Block or giant IIIbobs BOB .
+
+Sub-option 1 Cut Brik Mode
+ allows you to cut out sections of your MAP to use them as BRIKs. You will
+get the T.L and B.R cursors like in the BOX and CIRCLE modes. Just click
+around the area you want to grab, and it will be copied into the current
+brik (Selected with the BRIK SELECT icon). And TOME will go into PASTE
+BRIK mode
+
+Sub-option 2 CUT BRIK from picture
+ lets you cut out a series of TILES from the TILE selector screen to use
+as a BRIK. This works the same way as cut brik, but uses the tile selector
+screen (so you can cut out a large block as it was drawn in your original
+picture)
+NNN
+Sub-option 3 PASTE BRIK mode
+ will paste the current BRIK onto the screen when you click the mouse.
+
+Sub-option 5 BRIK SELECT
+ is the main control point for BRIKs, from here you can add, delete or
+select a new BRIK.
+
+Sub-option 6 BRIK FILL MODE
+ will toggle BRIK fill mode on and off, this allows you to perform flood
+fills on MAPs using the current BRIK as a BBBtfil TILE_FILL .
+NNN
+
+Icon 7 - Fine Draw Menu 1
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Fine draw gives you the ability to edit or create TILEs, you can use
+any part of your MAP as a workspace and them grab an area you have
+altered as a new tile.
+This will not alter your map in any way. It should be used as a temporary
+working area to draw graphics to be grabbed with the GRAB TILE function.
+When you scroll away from the area you have drawn, it will disapear.
+
+Sub-option 1 FINE DRAW Mode
+allows you to draw using a pen anywhere on the current screen.
+
+Sub-option 2 is divided into two parts, the top will draw a hollow box
+and the bottom part will draw a filled box.
+
+Sub-option 3 is the circle option and works in the same way as option
+2.
+
+Sub-option 4 lets you draw straight lines.
+NNN
+Sub option 5 Fine Edit Tile
+is magnify mode, this brings up a magnified version of the currently
+selected TILE and lets you edit it using the same techniques used to draw
+on the screen.
+When you click on the Save icon, you get the option of saving the tile
+over the one you had selected (replacing it), or adding it to the end of
+the tile bank (This is a good way of adding new tiles).
+NNN
+
+Icon 8 - Fine Draw Menu 2
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Sub-option 1 allows you to manipulate the currently selected TILE by
+flipping it in many different directions.
+
+Sub-option 2 lets you cut out a new TILE from the screen, this will
+always replace the currently selected TILE. You can actually choose
+between cutting the new TILE from exact pixel coordinates or from the
+nearest TILE position.
+
+Sub-menu 3 is divided into 2 parts, the top allows a new drawing
+colour to be selected and the bottom part selects a pattern fill.
+
+Sub-option 4 is once again split into 2 parts, the top selects the
+fine cut routine which allows you to cut out a block at any position
+from the MAP and the lower part of the Icon allows you to paste the
+cut block back at any part of the MAP.
+
+Sub-option 5 is the colour controller. The top half of the Icon lets
+you change the RGB values of a colour and the bottom half lets you
+select up to 10 user definable colour palettes.
+NNN
+
+Icon 9 - Locator Menu
+~~~~~~~~~~~~~~~~~~~~~
+When you have large MAPs it is important to be able to move around
+them easily. For this purpose locator mode allows you to store up to
+10 positions on the MAP for quick reference later.
+
+Sub-option 1 pops up a box containing 10 X,Y coordinates, if you click
+on any one of these you current position will be stored in that box.
+
+Sub-option 2 pops up a box similar to option 1, this time if you click
+on an option you will be positioned on the MAP according to the X,Y
+coordinates in the box.
+
+Sub-option 3 lets you jump to a definable position on the MAP.
+
+Sub-option 4 finds the nearest occurrence of the currently selected
+TILE.
+
+Sub-option 5 is a search and replace function. First you must click on
+the TILE you wish to replace the redundant TILE with, you then click
+the TILE on the MAP which you wish to replace and it is then instantly
+over written with the new TILE.
+
+NNN
+Map Overview Mode
+If you press the RETURN key, or click in the centre of the scroller
+controller (in the right of the top menu bar) you will enter MAP OVERVIEW
+mode, where the view will zoom out of the map, showing it at a size of
+1,2,4,8,16 or 32 pixels per tile. You can then click on any point of this
+display to move around the map, or change the zoom out size.
+One handy feature is that you can also save this screen as an IFF picture,
+which you can then either include in your game as a map for the players,
+or use as screenshots, or in the title screen or whatever you want.
+To exit this mode click on the O.K button, and you will be returned to
+normal size, with the map now at the last position you moved the zoomed
+out map to.
+RRR
+LLLtfil
+												BRIK FILL MODE
+												~~~~~~~~~~~~~~
+ TOME's Brik Fill mode is one of its more powerful functions. It enables
+you to design a brik, and then use it as a fill pattern in ALL the drawing
+functions. For instance, you could design a brik as a large floor pattern,
+and after switching BRIK FILL mode on, clear the map. The map would then
+be cleared to this floor pattern.
+When brik Fill mode is on, you will see a BF in the Bottom right of the
+Scroller Controller.
+RRR
+LLLbobs
+BOB killed Laura Palmer.
+RRR
+LLLcoms
+                          The TOME Commands
+                         ~~~~~~~~~~~~~~~~~~~
+
+The actual TOME extension only works from within AMOS The Creator,
+although it is quite possible to use the maps created with TOME on any
+machine. The commands which you can use from within AMOS are:
+
+MAP DO x,y
+
+Redraws the MAP starting from map co-ordinates "x,y" to the current
+screen. The MAP drawing is restricted to the window defined by the
+last MAP VIEW command. It is suggested that you draw your maps to a single
+buffered screen and SCREEN COPY them to a double buffered screen, as
+drawing icons to a double buffered screen is very slow.
+
+MAP TOP x,y
+MAP BOTTOM x,y
+MAP LEFT x,y
+MAP RIGHT x,y
+These four commands are exactly the same as the MAP DO command, except
+that they only redraw one edge of the display area. This is very handy for
+fast scrolling. See the demo programs on the disk for examples (in the
+NICEMAP: subroutine)
+
+
+MAP VIEW x1,y1 to x2,y2
+This command creates a window to which TOME will limit all of the MAP
+drawing functions. Obviously the window cannot be any bigger than the
+currently defined screen.
+
+TILE SIZE x,y
+This sets the size of the tiles to be used. Normally X & Y will be either
+16 or 32, but smaller sizes can be used (It normally isn't practical to
+use them however).
+NNN
+MAP PLOT t,x,y
+
+Places tile "t" at co-ordinates x,y in the map. The same as using the
+DRAW function within the TOME Editor.
+
+tx=MAP X
+
+Returns the width of the current map in TILEs. The width is passed
+back into variable "tx".
+
+ty=MAP Y
+
+Returns the height of the current map in TILEs. The height is passed
+back into variable "ty"
+NNN
+
+xt=XTILE(x)
+
+Changes pixel coordinate "x" into a TILE coordinate. The coordinate is
+passed back into variable "xt".
+
+yt=YTILE(y)
+
+Changes pixel coordinate "y" onto a TILE coordinate. The coordinate is
+passed back into variable "yt".
+
+tn=MAP TILE(x,y)
+Returns the tile number at found at MAP coordinates "x,y" into
+variable "tn".
+NNN
+
+=TILE VAL(x,y,l)
+Returns the value from list "l" of the tile at
+MAP coordinates "x,y".
+The tile values are edited in the TOME editor program and saved with a
+.MAP.VAL extension. This value file must be Bloaded into bank 8 (Reserved
+to 1024 bytes). For example
+Reserve as work 8,1024
+Bload "Mymap.Map.Val",start(8)
+
+v=MAP SCANX(t,x1,y1 to x2,y2,mode)
+
+If "mode" equals zero then this command will search through the
+current MAP from position "x1,y1" to "x2,y2" for TILE number "t". If
+"mode" is greater than zero then TOME will find the nearest TILE with
+value "t" in list "mode". To use list mode you must have a bank with
+TILE values in memory. The value is passed back into variable "v".
+NNN
+
+v=MAP SCANY(t,x1,y1 to x2,y2,mode)
+
+If "mode" equals zero then this command will search through the
+current MAP from position "x1,y1" to "x2,y2" for TILE number "t". If
+"mode" is greater than zero then TOME will find the nearest TILE with
+value "t" in list "mode". To use list mode you must have a bank of
+TILE values in memory. The value is passed back into variable "v".
+
+NNN
+MAP BANK b
+
+Changes the bank used for map storage to bank b. Normally, the default is
+bank 6, which you should reserve to the length of the map, and then Bload
+the map in. e.g
+Rem this finds the length of the map
+Open in 1,"Mymap.map"
+L=Lof(1)
+Close 1 
+Rem This loads the map
+Reserve as work 6,L
+Bload "Mymap.map",start(6)
+
+TILE BANK b
+
+Changes the TILE value list bank from the default of 8 to "b". This is
+very handy if you want to keep multiple TILE value banks in memory at
+one time.
+NNN
+
+MAP BRIK n,x,y
+
+Puts brik "n" in the map at MAP co-ordinates "x,y". This does not
+draw the BRIK to the screen, just to the MAP. This means that the
+BRIK will only be seen when the next MAP DO command is executed.
+
+
+PASTE BRIK n,x,y
+
+Pastes BRIK "n" to the screen at pixel co-ordinates "x,y".
+
+
+BRIK BANK b
+
+Changes the BRIK bank from the default of 7, to "b". Used for holding
+multiple BRIK banks in memory.
+NNN
+
+n=BRIKS
+
+Returns the number of BRIKs in the current bank into variable "n".
+
+
+xb=BRIK X(n)
+
+Returns the x size of BRIK "n" (in TILEs) into variable "xb".
+
+
+yb=BRIK Y(n)
+
+Returns the y size of BRIK "n" (in TILES) into variable "yb".
+NNN
+=TME BASE
+This returns the memory address of the TOME Data table. This is of use to
+developers, and will be fully detailed on the BBBgood TOME_Goodies Disk.
+
+=TME VERS$
+Returns a string giving the version number of your installed TOME
+extension.
+
+=TME CREDIT$
+Returns the credits for TOME in a string which you can use in your
+program.
+
+NNN
+											Extra Commands for TOME 3.1
+											~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Some extra commands have been added in for TOME V3.1, these are:
+
+=MAP CHECK
+This function will run through the map data, checking all the tiles used
+in the map against those available in the tile bank. If a tile is used in
+the map that isn't available in the tile bank, then the function will
+change its tile number to zero. MAP CHECK returns the number of tiles that
+it has had to change.
+
+TINY MAP x,y,s
+This command works like the MAP DO command, except that the extra s
+parameter stands for SIZE. So that you can do a map with a different tile
+size. Also, this method of drawing a map doesn't use the tile numbers from
+the map. It actually uses the tile value of the tiles (from list 0) and
+divides it by 16 to get the tile number. 
+Tiny map tiles are stored in Bank 10. And are loaded into bank 2 as icons,
+then bank swapped to bank 10.
+This command is intended for rapidly displaying shrunken zoomed out
+versions of maps, where little detail is needed.
+NNN
+TINY BANK b
+This command changes the bank number that the Tiny Map command will get
+its tiles from (The default is 10)
+
+=MAP HX(n)
+
+This function returns n divided by the tile width. This is very handy when
+used with the NICEMAP: subroutine (as in SCROLL8.AMOS) for fine scrolling.
+
+=MAP HY(n)
+
+As Map HX, but returns n divided by the tile height.
+
+NNN
+=MAP FX(n)
+
+Returns n mod Tile width, again useful if used with a fine scrolling
+routine.
+
+=MAP FY(n)
+
+As map FX, but it is n mod tile height.
+
+You may wonder why these functions have been added, but MAP FX & MAP FY
+are about 3 times faster than using mod, and so they speed up your fine
+scrolling calculations.
+RRR
+LLLffor
+                             FILE FORMATS
+                            ~~~~~~~~~~~~~~
+
+Obviously if you want to use the TOME editor to produce MAPs for use
+on other computers or if you just want to hack around with TOME the
+formats of a few of the files would be handy. So here goes.....
+NNN
+
+TOME MAPS
+~~~~~~~~~
+TOME's map format is quite simple. TOME maps are stored in a memory bank
+in either fast or chip memory and comprise of the map data itself, with a 2
+word header:
+Word1:	Width of map in tiles (0-32767)
+Word2:  Height of map in tiles (0-32767) 
+	These are the values that =MAP X and =MAP Y return.
+Next comes the data for the map itself. This is stored as 1 byte per tile
+and is stored row by row (Y rows of X tiles). For example.
+
+Map displayed
+	1	2	3	4
+	5	6	7	8
+	9	A	B	C
+	D	E	F	G
+
+Bank Stored
+	1 2 3 4 5 6 7 8 9 A B C D E F G
+NNN
+BRIK BANKS
+~~~~~~~~~~
+	Slightly less simple these ones !
+  First there is a one word, containing the number of Briks in the bank
+(returns in =BRIKS). This number of longwords follow. These are the
+offsets from the START of the bank to the data for each Brik.
+Then follows the data for each brik. e.g
+
+Number of briks.W
+offset to brik 1.L
+offset to brik 2.L
+etc..
+..
+..
+Brik 1 data
+Brik 2 data
+
+The brik data itself is stored in exactly the same format as a map, i.e 2
+words for X and Y size, then 1 byte per tile.
+NNN
+TILE VALUE BANKS
+~~~~~~~~~~~~~~~~
+Tile value banks are very simple. They are stored in sets of 256 bytes,
+each byte representing the value for one tile. E.g
+
+256 bytes, Val list 0
+256 bytes, Val list 1
+256 bytes, Val list 2
+256 bytes, Val list 3
+etc.
+The =Tile Val() command can handle up to 8 lists by the way, although the
+editor can only handle 4. It is easy enough to directly poke tile values
+into your Tile Val data area (normally bank 8)
+RRR
+LLLemer
+                      What To Do In An Emergency
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the event of any emergency when using TOME follow this guide and
+you should have all of your problems solved in no BBBtime time .
+
+1] Read this manual again.
+
+2] Check the AMOS manual (it might just be an AMOS problem!).
+
+3] Look at the example programs on the disk, VELCRO_GRUB.AMOS contains
+quite a lot of TOME commands, examine the way the game works and look
+at the way Aaron Fothergill has worked around not only general
+problems but also quirky things which you may not have seen in AMOS up
+till now.
+
+4] RRRscrm Scream.
+
+5] Phone the AMOS helpline (if you are a member of the AMOS club).
+
+Finally remember the golden rule of computer users- RRRdont DON'T_PANIC!!!
+RRR
+LLLscrm
+	Screaming is very good for you, but not for the nerves of your
+neighbours.
+RRR
+LLLtime
+                            What Is Time?
+                           ~~~~~~~~~~~~~~~
+
+Time is an invention of lazy computer programmers who always say -
+"I'm sorry, I will need a little bit more time to finish this off. I'm
+just tweaking a few bits." when what they really mean is "I haven't
+actually done any work yet but give me a couple of days and I'll send
+you something along.".
+RRR
+LLLredh
+	Red highlights warnings, so read what they say !
+RRR
+LLLblue
+	Blue highlights information. Pressing a blue button will get you
+information on that particular subject.
+RRR
+LLLgren
+	Green buttons signify demonstrations.
+RRR
+LLLinvr
+	Inverse buttons show menu options.
+RRR
+LLLauth
+													Notes from the Author
+													~~~~~~~~~~~~~~~~~~~~~
+
+	Thank you for buying AMOS TOME, and I hope you find it usefull.
+Remember, AMOS TOME will be upgraded as we come up with new ideas, and
+also when the AMOS Compiler is released (April/May 1991), so fill out and
+send in your registration card straight away. This will enable you to get
+the upgrade disks when they become available.
+	We will also be running articles on using AMOS TOME in the AMOS
+Newsletter, so keep your eyes open.
+	Right, I'd like to thank several people who made this project possible,
+and ignore a few who didn't.
+
+Adam Fothergill : Who did all the graphics, and came up with the idea of
+Maze Mode, which had me working until 3am again to work out how to do it!
+He then sarcastically said "Why don't you make it automatically draw maps
+Aaron ?", He's a total scumbag !
+
+Peter Hickman : Who wrote the manuals and nit picked all the way through
+the development of TOME. 
+
+Francois Lionett: Who supplied all the technical data on AMOS that I
+needed to write the TOME extension.
+
+Sandra Sharkey : Who bug tested, suggested ideas for, and generally
+plugged TOME.
+
+Richard Vanner and the Mandarin formation crashing team. Who are now
+desperately waiting for me to finish Jetstrike, so they can have another
+go.
+
+And a mention for all those who bug tested:
+
+Stephen Hill, Gary Symons (who had the idea of putting the Tile maker in
+the editor), Len Tucker, Bob Baker, Jason Tucker and Mike Newett.
+
+Also thank you to Creative Printers of Barnstaple for doing a great job of
+printing the packaging and manuals.
+
+RRR
+LLLpira
+	Software pirates are low IQ spotty little twerps, who cannot program.
+They pirate software because they are too stupid to write it, and too
+stupid to earn any money to buy software. 
+Software Piracy is a RRRcrim crime.
+If you know any software pirates, do something RRRacid accidental to their
+Amiga and software !
+RRR
+LLLcrim
+ You know, punishable by large fines, and jail sentences, not to mention a
+criminal record. Even copying for your friends is illegal. Don't do it, it
+is killing the software industry ! There soon won't be anything left to
+pirate, unless you can afford a CDTV and a CD pressing plant.
+RRR
+LLLacid
+	Shadow Software and its employees can take no responsibility for what
+you do to the pirate's system, but if you do it accidentally (or even
+better, make them do it accidentally), there is nothing they can do about
+it ! By the way, hot coffee or Coca Cola do the most damage !
+	You could be really RRRnast nasty, but we don't recomend this.
+RRR
+LLLnast
+  Nasty includes (A) Wiring the pirate's Amiga casing into the mains, 
+(B) Making his hard drive format itself when it gets half full, or 
+(C) Gouging their eyes out. We don't want you doing any of these, as (A)
+and (C) are highly illegal, and make you just as bad as them, and (B)
+tends to induce violence.
+RRR
+LLLdont
+	Well you can if you want to, but it's easier to phone us at Shadow
+Software, on 0271-23544.
+RRR
+LLLhitm
+	Have you made a backup of your AMOS TOME disk ? If not, do so now !
+We support the idea that (especially with the Amiga) using a backup of
+your commercial software is reasonable. As long as you do not copy AMOS
+TOME for anyone else this is fine.
+If you are using AMOS TOME in a recognised school (not a computer club),
+then you may make backups of the disk to use on each Amiga, as long as
+no copies of TOME leave the classroom, or the teacher in charge of the
+disks.
+NNN
+	When writing your own software using TOME, we would like you to credit
+TOME in the program. You can use any of the routines out of the following
+files on the disk:
+VELCRO_GRUB.AMOS
+HORIZ_SCROLL.AMOS
+VERT_SCROLL.AMOS
+SCROLL8.AMOS
+
+but you must not use any of the routines out of any of the other programs
+on the disk as these are copyright Shadow Software 1990/91. The graphics
+in all the programs on the disk are copyright Shadow Software 1990/91 and
+shouldn't be used outside this disk.
+NNN
+	We hope you enjoy using AMOS TOME, and we hope to see some of your
+programs soon !
+RRR
+LLLtome
+ TOME stands for the TOtal Map Editor, because it edits maps, and it is
+BBBtota TOTAL.
+RRR
+LLLtota
+	As far as we can see, AMOS TOME is the most powerful Map editor
+available on any computer.
+RRR
+LLLdisk
+	On this disk are the following programs:
+
+	BBBdis1 TOME.AMOS 				The actual TOME editor (The new V3.1).
+  BBBdis3 TILE_PASTER.AMOS  Turns tiles back into IFF pictures.
+	BBBdis5 TOME_TUTOR.AMOS 	You are using this one right now !
+NNN	
+	Games/Demos
+	BBBgam1 JETSTRIKE_JR        The Jetstrike Junior game (NOT P.D !)
+	BBBgam2 VELCRO_GRUB.AMOS    A paralax horizontal scrolling game
+	BBBgam3 SCROLL8.AMOS  			Maze Man, a simple 8 way scrolling game
+	BBBgam4 VERT_SCROLL.AMOS  	Vertigo, a simple vertical scrolling game
+	BBBgam5 HORIZ_SCROLL.AMOS  	Attack Horizon, a simpler version of Velcro
+															Grub.
+	Also on the disk are several maps and tile banks, as well as the
+pictures used in the games. You can use these maps and graphics to get
+going with using TOME, but please do not use them in any P.D or commercial
+software, as Adam will get very annoyed !
+NNN
+LLLdis1
+	The TOME editor is described in this manual in full. Click BBBedit Here
+to view the instructions.
+RRR
+LLLdis2
+	The Tile Maker program allows you to take IFF picture screens created
+with Deluxe Paint, AMOS Paint or a similar art package (2-32 colours), and
+turn it into tiles for TOME to use. It used to be provided as a seperate
+program on the TOME disk, but is now built in to the TOME editor.
+	When you use this routine, it will ask you to select an IFF picture to
+turn into tiles. Once this is loaded, you can then select what size tiles
+you want to turn it into (16x16, 32x16, 16x32 or 32x32 pixel) and if you
+want to use the BBBttdy TILE_TIDY mode. Once you have selected, click on
+the GO button.
+	Once the tiles have been created, you can use them in the editor to make
+your map.
+ 	You can load in more IFF pictures and add them to the tile bank simply
+by clicking on LOAD IFF, then pressing GO again.
+RRR
+LLLttdy
+	Tile Tidy mode (when switched on) automatically discards any duplicates
+of tiles, thus saving memory. It does take a while, but it is worth it !
+RRR
+LLLdis3
+	The Tile Paster program takes your bank of tiles, and pastes them back
+onto the screen, saving it as an IFF picture. This is so you can edit your
+tiles in your favourite art package.
+RRR
+LLLdis5
+	You are using the TOME TUTOR. As users give us some feedback on AMOS
+TOME, we will be writing another TOME TUTOR with more information, and
+demo programs.
+RRR
+LLLgam1
+												Jetstrike Junior
+												~~~~~~~~~~~~~~~~
+	This game demonstrates how AMOS TOME can be used to write a full
+scrolling game. Jetstrike Junior is not P.D, and you should not use any of
+the graphics or code in your own software. As with the rest of the TOME
+software, Jetstrike Junior is the copyright of Shadow Software 1991, and
+must not be copied in any form.
+	Jetstrike Junior is a trainer version of its big brother Jetstrike,
+which will be finished sometime around Christmas 1991. 
+The version of Jetstrike Junior on this disk has been compiled directly
+from the original version on the TOME V3.0 disk. Nothing has been tuned
+yet, so you may find the aircraft a little hot to handle !
+NNN
+	The Plot
+	~~~~~~~~
+	Xavier "Mental" Mendez has managed to take over all of the South
+American drugs cartels by assasinating all the other cartel leaders.
+He now has complete control over a massive drugs network, which is
+flooding the world with Heroin, Crack and Cocaine. He has also managed to
+buy himself a huge army and airforce, and is presently training them on a
+series of islands in the Pacific. It is expected that he will mount a
+campaign to take over most of South America, by either bribery or force,
+and in fact he now controls 40% of the smaller governments in the region,
+and around 90% of the opposition parties. It is also likely that he is
+funding various radical opposition movements around the world.
+Unfortunately this stops any of the major powers from launching a full
+scale offensive against him, as it could destabilize all the major
+governments. So each of the major powers has sent some of its top
+aircraft, pilots and groundcrew, along with a small ground support force,
+to attempt to stop Mendez.
+NNN
+	As one of your country's top pilots, you have been selected for training
+for this mission (the mission itself is played in Jetstrike), and must
+complete 10 training missions to join the airforce which will be trying to
+stop Mendez' 'Snow Cloud'.
+	As pilots are expensive to train, all your aircraft are fitted with
+automatic ejector seats, which will get you out of the aircraft in a
+crash (or if it blows up). To manually eject, either press SPACE, or the
+left mouse button. Unfortunately, you only get 3 aircraft, so don't crash
+too often !
+NNN
+CONTROLS	
+	The aircraft is controlled with the joystick.
+ 
+											UP= Rotate anti clockwise
+	LEFT=Throttle down					RIGHT=Throttle up
+										DOWN= Rotate clockwise
+
+you can also control the throttle with the 0-9 keys.
+NNN
+WEAPONS
+	Weapons are fired by pressing the joystick fire button. If you have the
+stick central, guns will be fired (These are short range and only
+effective against aircraft).
+	With the stick to the left, whatever weapon you selected as weapon 1
+will be fired (Air to air missiles require you to lock on to an aircraft
+and be within range first). Weapons such as the Mini Rockets can only be
+fired at the ground.
+	With the stick to the right, Weapon 2 is fired.
+NNN
+	When you select your aircraft, and when the bombing up tractor re-arms
+you, you can select which 2 weapon types you want to use. Simply use
+Joystick Up/Down to change, and Fire to select. 
+	You have a choice of 2 air to air missiles (Sidewinder and AMRAAM), as
+well as various bombs (2000 pounders cannot be carried by the Hawk) and
+rockets. There is also a drop tank so that you can extend your fuel range.
+NNN
+OTHER KEYS
+	Once you get airborne, the U key works the undercarriage, and you can
+turn on display smoke can be switched on with R(ed) W(hite) and B(lue). To
+switch off this smoke, hit D.
+
+	Go get em !
+
+Jetstrike has 100 missions, and 30 different aircraft (as well as around
+30 different weapon types) as well as being set over 1000 screens of map
+area ! It will be released as a budget game once finished.
+NNN
+ A Tip !
+	When you have the undercarriage down, the fire button operates the fly
+by wire autolanding controls. If you hold the button down, the aircraft
+will automatically control its speed and descent
+RRR
+
+LLLgam2
+											VELCRO GRUB
+											~~~~~~~~~~~
+	This is a simple horizontal paralax scrolling game for 1 to 2 players. 
+Player 1 controls the Truck, which fires shells from a cannon. It can be
+moved left and right with the joystick. Up makes the truck jump, and Fire
+fires a shell. The shell's trajectory is determined by the direction of
+the joystick.
+	Player 2 controls the aircraft with joystick 0. The fire button fires.
+If the aircraft is moving left, the gun will fire downwards.
+The players have 6 lives between them (3 in 1 player mode) and can shoot
+each other if not careful.
+	There is no plot, just simple mindless shooting. Have fun !
+  This version now works on NTSC machines also !
+RRR
+
+LLLgam3
+													MAZE MAN	
+													~~~~~~~~
+	This game is a simple demonstration of 8 way scrolling with AMOS TOME.
+You have to find the park keeper, who has become lost in the park maze, so
+that you can sack him. As AMOS TOME generated the maze (100x100 tiles or
+45 screens in size) with its AUTO MAP function, it is quite a difficult
+one.
+RRR
+
+LLLgam4
+													VERTIGO
+													~~~~~~~
+	This is a simple vertical shoot em up. Alien ships are attacking in 5
+different waves of 6 ships. Move around with the joystick, and shoot at
+them, avoiding colliding with either the ships or their explosions.
+RRR	
+
+LLLgam5	
+													ATTACK HORIZON
+													~~~~~~~~~~~~~~
+	This is a simpler, 2 player only version of Velcro Grub. The major
+differences are that player 1 cannot jump, and the landscape is not
+paralaxed.
+RRR
+XXX

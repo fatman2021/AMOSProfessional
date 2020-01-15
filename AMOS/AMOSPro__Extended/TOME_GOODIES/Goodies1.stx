@@ -1,0 +1,433 @@
+                       AMOS TOME GOODIES DISK
+                     ~~~~~~~~~~~~~~~~~~~~~~~~
+ Welcome to the instructions for the AMOS TOME Goodies Disk number 1 !
+
+                      RRRread READ_ME_FIRST
+
+                       BBBgame THE_GAMES
+
+                 BBBnote NOTES_FROM_THE_AUTHOR
+
+                   BBBshuf AMOS_CLUB_EXTENSION
+ 
+                     BBBgds2 GOODIES_DISK_2
+
+XXX
+LLLread
+                              IMPORTANT !
+                             ~~~~~~~~~~~~~
+ Two of the games on this disk (The Dungeon and Green Flag) use the new SHUFFLE 
+command in the AMOS_CLUB extension (as listed in issue 5/6 of the AMOS Club 
+newsletter). This extension has been included on this disk, and you need to 
+install it onto your AMOS disk before using these two games.
+                 BBBshuf INSTALLING_THE_EXTENSION
+ All of the 3 games on this disk are supplied as source code, so that you can 
+use the routines from them in your own games. The games themselves, as well as 
+the graphics remain copyright Shadow Software 1991, but you may use the 
+routines and graphics, as long as you mention us in the credits.Just add:
+ Using Coding by:Aaron Fothergill
+ and Graphics by: Adam Fothergill 
+To your credits.
+ The programs are not public domain remember. As a registered AMOS TOME user, 
+you may use them in your own games, but nobody else is allowed to ! If you want 
+to release your games including the graphics from this disk, then check with us
+ first.
+We've worked a long time on this disk, and hope that it will enable you to
+write the mega game you've been working on, or that you just enjoy playing
+the games. And now a few mentions: Apart from myself (Aaron Fothergill) who did 
+all the programming,
+Adam Fothergill: He did all the graphics and music, as well as a few silly
+noises.
+Peter Hickman: Chief nitpicker and bugtester.
+Sandra Sharkey: 2nd in command of bugtesting.
+Len Tucker: Who managed to get his AMOS TOME game released on Licenseware
+before I did !
+The AMOS 3D programming team: Hope you learn to program soon boys !
+and everybody who is programming with AMOS TOME.
+                    Aaron Fothergill
+RRR
+LLLgame
+                      The Games !
+                     ~~~~~~~~~~~~~
+ There are 3 different games on this disk. They involve 3 different styles
+of game design, all of which use a map based system to work. All are
+supplied as sourcecode so that you can examine how they work, and the
+notes from the Author explain how the routines work.  
+ The games are:
+                  BBBdung The_Dungeon: A 3D Dungeon game.
+        BBBgflg Green_Flag: A 3D Isometric scrolling arcade game
+        BBBmfor Magic_Forest_II: A horizontal scrolling platform game
+ Even if you don't plan to use the routines in your own programs, you have
+just gained 3 new games for your collection.
+RRR
+LLLgds2
+                      AMOS TOME GOODIES DISK 2
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Work has already started on the 2nd AMOS TOME Goodies disk. This will
+contain 3 more games with more different styles of gameplay and design, so
+that you can learn how to use TOME in more ways, or just have another 3
+games to play. So far we haven't decided exactly which games and styles we
+will be using, but it will probably include a full scrolling shoot em up,
+possibly a racing game, and I'm toying with the idea of a role playing
+adventure game like the popular Ultima series. As you can see, the number
+of games you can write using a map system is almost endless.
+ There'll be further news of Goodies disk 2 in the AMOS Newsletter.
+RRR
+LLLdung
+                       The Dungeon
+                      ~~~~~~~~~~~~~
+The obligatory silly plot
+~~~~~~~~~~~~~~~~~~~~~~~~~  You are Ricewinder the Wizzard (Sorry Mr
+Pratchett, but I promise to read all your books again !), and your luggage
+has gone missing. Fortunately, you only have normal luggage that doesn't
+walk around on hundreds of little legs terrorising people (There you go Mr
+Pratchett, that must have sold a few books for you !), but it does have a
+tendency to go missing !
+ Unfortunately, it has chosen to go missing in an underground dungeon,
+which is guarded by killer robots (It was the Troll's day off) 
+and you need to find it before it causes anytrouble. You have a limited 
+knowledge of magic, and can cast 2 different spells.You also have a magic map, 
+which always shows you where you are.
+NNN
+                        Controls
+                       ~~~~~~~~~~
+ Ricewinder is controlled by clicking the mouse on the 6 control icons in
+the right hand side of the screen. He can walk forward, back, and step or
+turn left or right. Clicking with the Left mouse button in the view of
+the dungeon will fire Wibley's Magic Sparkler that will damage (and
+eventually destroy) a robot and can open gates (it also makes a nice
+display at parties). And pressing the right button in this window
+will fire a blast of Grimbelflim's Grenade of Blowing up walls. Which
+suprisingly blows up walls ! Each of these spells will use up some of your
+stored magic power, which is shown by the blue display at the bottom of
+the screen.   
+ Above the Magic display is your health display. Every time you get zapped
+by a killer robot (Which is every time you go near one, they're not called
+killer robots for nothing !) or bash your head into a wall, this display
+will go down. If it goes out altogether, Ricewinder will die. (As he is a
+wizard, Death himself will come to claim him, but this is an honour he
+would rather not receive just yet.)
+NNN
+ Ricewinder's magic map is controlled by the three buttons to the right of
+it. The top one puts the map into its normal short range mode, which
+doesn't drain any magic from Ricewinder. The second button displays he
+whole dungeon, but drains magic slowly from Ricewinder's somewhat meager
+supply. The third button will display a view of the dungeon, and spots to
+show where all the killer robots are. This sucks magic like a toothless
+granny sucks soup, so don't use it for too long !
+ A thoughtful dungeon designer has left apples and magic scrolls with the
+magical OM glyph around the dungeon (to make up for populating the place
+with killer robots), which can be picked up to replenish Ricewinder's
+health and magic. As with the luggage, just walk over them to pick them
+up.
+NNN
+ As an alternative, you can move around using the joystick. This lets you
+move forward and back, turn left and right, and fire Wibley's magic
+sparkler. Pressing the space bar will fire Grimbleflim's grenade of
+blowing up walls.
+  Just in case the subtle hints for you to go out and buy Terry Pratchett's
+books hasn't soaked in yet.
+ GO OUT AND BUY ALL OF TERRY PRATCHETT'S BOOKS. They're very very very
+funny (much more funny than the AMOS Manual) and some of us do read the
+bit about the author by the way ! If a banana daiquiri isn't illegal, I'll buy 
+you one ! (This offer only applies to Discworld series writing authors by the 
+name of Terry Pratchett)
+           The Dungeon Credits
+ Game design and Programming: Aaron Fothergill
+ Graphics and sound:          Adam Fothergill
+RRR
+LLLmfor
+                        Magic Forest II
+                       ~~~~~~~~~~~~~~~~~
+ Wilf, The hero of Magic Forest, (you did read the plot didn't you !) has
+retired, and it is up to his son Wilbert to collect the magic apples from
+the trees in the forest. Wilbert was going to meet his girlfriend
+Wilhemina, but unfortunately, there has been an attack of Red Meanies, who
+are patrolling the forest platforms, trying to stop Wilbert from
+collecting the apples. Wilhemina is hiding to avoid them, so Wilbert must
+kill all the meanies and collect all the goodies for her so that she will
+appear. If he collects all his quota of apples for each level, then
+Wilbert will have a chance to try a bonus level to attempt to gain an
+extra life. There are also a large number of coins around the forest.
+Collecting all these gains a points bonus.
+NNN
+                       Controls
+                      ~~~~~~~~~~
+ Wilf is controlled by the Joystick. Left and right moves left and right.
+Up makes him jump, and the fire button fires a pumper upper pellet, which
+causes any apples that it hits to pump up and explode. Apples can also be
+slowly pumped up by kicking them. Any apple kicked gets collected by the
+automatic Apples kicked by Wilbert collector below the forest floor, ( The
+forest has been modernised a bit since Wilf retired). If a Red Meanie is
+hit by a piece of exploding apple, he will be killed, releasing a bonus.
+All the meanies must be killed, and all the goodies must be collected to
+complete a level.
+ Several Goodies are spread across each level, these must be collected for
+Wilhemina.
+ Watch out for spikes, Meanies, Meanie Spiders and bats which will all
+kill Wilbert, and for patches of ice, which he will slide on. He can
+bounce on springwood stumps.
+ Once Wilbert has killed all the Meanies on the level, and collected all
+the goodies, he just has to get to Wilhemina to complete the level.
+NNN
+                  The Bonus Level
+                 ~~~~~~~~~~~~~~~~~
+ If Wilbert manages to collect his quota of apples (shown by the display
+at the bottom of the screen), then he will get a chance at a bonus level,
+where he has to burst 10 apples, before they fall to the floor. If he
+manages to burst all 10, then he will get an extra life. 
+                  Magic Forest II Credits
+ Game Design, Sound and Programming: Aaron Fothergill
+ Graphics and Music                : Adam Fothergill
+RRR
+LLLgflg
+                      Green Flag
+                     ~~~~~~~~~~~~ 
+ A mad scientist has developed a way of obtaining fossil fuels from deep below 
+the earth's core by triggering huge atomic explosions below the earth's crust.
+Funded by a large corporation, he has set up a base somewhere in Greenland.
+Slightly more sane scientists (the ones who didn't have anything to do with the 
+ so called "research" into crop circles) have found that trggering bombs at 
+such a level would cause the earth to explode in around 40 years !
+ The corporation bosses (who aren't likely to be around in 40 years) have 
+decided to continue with their project, believing that the profits would 
+outweigh the risks involved.
+ A small band of (moderately) sane enviromentalists, have managed to aquire an 
+experimental gravity engined fighter, and an antique helicopter and are trying 
+to destroy the mine and storage buildings, as well as the ships which are about 
+to sail off to collect the required bombs. It is known that the bosses of the 
+corporation are visiting the base, and a fast strike is required to make sure 
+that the base is destroyed and the bosses captured.
+ Your mission (as the pilot of the grav fighter) is to guide the helicopter 
+(which drops bombs) over the targets so that it can bomb them. You must also 
+defend yourself against the green energy drones which will home in on your 
+gravity drive and deplete your power level. As your power drops, your grav 
+drive will drop you lower and lower, until you cannot get high enough to fly 
+over buildings.
+ You must also keep a look out for the bosses corporate jet, which they will 
+try to escape in if the base is damaged enough.
+ The Grav jet is controlled with the joystick. Left & Right steers, pulling 
+back on the stick accelerates and climbs, and pushing the stick forward 
+decelerates and decends. Pressing the fire button will fire a power pulse at 
+the energy blobs.
+ As with The Dungeon, this is not an entire mega game, merely a simple 
+demonstration game, showing you how to use the Isometric 3D method of graphics 
+using AMOS TOME.
+RRR
+LLLshuf
+                     THE AMOS CLUB SHUFFLE EXTENSION 
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ The AMOS Club Shuffle extension is a small set of 3 extra commands for AMOS V1.
+ 3 upwards. The source code and details of the commands are covered in issue 
+5/6 of the AMOS Newsletter, and there is no need to go over them again here. 
+In the 2 games which use this command (The Dungeon and Green Flag), only the 
+Shuffle command and =RAND() function are used (to generate a random sequence 
+for the screen wipes).
+ Neither of these two programs will run direct from the disk, unless you 
+install the Shuffle extension (or remove the commands from the program).
+NNN
+ To enable the use of the commands, the Shuffle Extension must be installed 
+onto your AMOS Disk, as extension number 9 (This extension number is reserved 
+for experimental extensions, such as this one).
+1) Run the INSTALL_SHUFFLE.AMOS program, click on the INSTALL button, and the 
+program will copy the extension into your AMOS System directory.
+2) Load up Config1_3.amos (or whatever version is the latest) and load up the 
+default configuration. Select the LOADED EXTENSIONS option from the 3rd menu.
+3) Click on extension 9, and change it to:
+:AMOS_System/RANGE.Lib
+Once you have done this, save the configuration, wait until the drive is done, 
+and then reboot AMOS. The SHUFFLE extension should be listed with all the 
+others.
+RRR
+LLLnote
+                    Notes from the Author
+                   ~~~~~~~~~~~~~~~~~~~~~~~
+ This is my chance to tell you about what's happening with AMOS and AMOS TOME, 
+as well as explaining some of the ideas and routines used on this disk. My name 
+by the way is Aaron Fothergill (If you hadn't spotted that from all the 
+shameless plugs !) and apart from the 3 games on this disk, I have written:
+The AMOS Sprite Editor, and Sprite X (The enhanced version),
+The CTEXT extension (now available on licenseware),
+The TOME system,
+Magic Forest (The original in the AMOS package), 
+Dogfight II, 
+Galleons, 
+Jetstrike Junior, 
+Deadline and various other little games in AMOS. I'm currently working on the 
+full version of Jetstrike, so if you hear jet noises and explosions going on in 
+the backround when talking to me on the helpline, you'll know that I'm hard at 
+work on it. Another program I'm working on is   AMOS Word, a basic word 
+processor, written in AMOS. It is designed to let you work on your programming, 
+and the instructions without leaving AMOS. It has a RAM save feature, so that 
+you can RAM save, switch to your program and edit it, switch back to AMOS Word 
+and carry on working on your document. It can also work with Messy Dos (or 
+Cross Dos) to load and save MS-DOS format ascii files.
+AMOS Word is only going to be available to AMOS Club members, direct from the 
+club (This manual was written using an early version of AMOS Word).
+NNN
+ TOME is going to be upgraded again, sometime in the new year, with extra 
+features in the editor and possibly more commands. The update won't be free,  
+but it won't cost more than a pound (for the U.K).
+ As previously mentioned, I'm writing a Goodies Disk 2. No idea of when it will 
+be released, but I'm itching to write a straightforward scrolling shoot-em-up 
+with loads of levels. If there's any game type that you think could be done 
+using TOME, and would like to see it on a goodies disk, give us a call, we need 
+all the inspiration we can get !
+NNN
+ General Programming notes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ As you have probably noticed, the games on this 
+disk are much better once compiled. In fact Magic Forest II was designed to be 
+compiled. Now that the compiler is out and working (just), more games are 
+likely to be designed to be compiled.  You will also probably noticed the lack 
+of procedures in the programs. The general rule I use for procedures, is that 
+If it needs to use Shared or Global variables, or needs to pass a parameter 
+back to the main program, then it should be a subroutine ! The only dramatic 
+procedure I have used on this disk, is the DISPWALLS procedure in The Dungeon. 
+This is because it makes it easy for you to grab the procedure out of the 
+program and use it as if it were a command.
+NNN
+                   NOTES ON THE GAMES
+                  ~~~~~~~~~~~~~~~~~~~~
+                   BBBndun THE_DUNGEON
+
+                 BBBnmag MAGIC_FOREST_2
+
+                   BBBngfl GREEN_FLAG
+
+RRR
+LLLndun
+                Programming notes for THE DUNGEON
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ The display system for a 3D dungeon routine is relatively simple (once you 
+think about it). First you have to work out what is in front of you, and then 
+work out how to draw it. In the case of The Dungeon, the map is a TOME map, so 
+all you need to do is find out what tiles are in front of you with the        
+=TILE VAL function, and then use some method to draw them.
+ In The DISPWALL procedure (which does all the above), it uses the rotation of 
+the player's view (the R variable) which can be NORTH, SOUTH, EAST or WEST, and 
+calls one of four basically identical subroutines, which works out what tiles 
+are in front of the player.
+ This is worked out to 4 levels of depth, Very near the player (either side), 
+near, far and very far. You could probably adapt the system to greater depth, 
+but 4 levels was all I found was necessary.
+NNN
+ The tiles are looked at up to 2 either side of the player (at very near, they 
+are just the tiles left & right of the player). So you end up with a grid of 
+tiles mentally (in the computer) arranged in the following pattern
+Very Far      1 2 3 4 5
+Far           1 2 3 4 5
+Near          1 2 3 4 5
+Very Near       1 P 3 
+The P represents the Player, looking upwards.
+ The walls are then drawn, going from the back to the front. This way, any 
+hidden detail is removed by being plotted over automatically, and you can place 
+(by pasting) bobs at any of the levels. If there is something in front of it, 
+you won't see it, so things can easily be hidden around corners.
+NNN
+Drawing the walls
+~~~~~~~~~~~~~~~~~
+The walls are drawn using TOME's Brik commands. For each type of wall, 11 briks 
+are stored, representing the following pieces of wall.
+Very far: Left wall (1&2), Right Wall(4&5), Centre Wall (3)
+Far:      Left wall (1&2), Right Wall(4&5), Centre Wall (3)
+Near: as above
+Very Near: Left wall (1) and Right wall (3)
+The centre Very near wall isn't required, as this would only be used if the 
+player was standing inside the wall !
+These briks are required for each different type of wall (Doors, walls with 
+detail etc), but can be made up from previously used tiles with only one or two 
+changes if you only want little details changing.
+NNN
+ If you look at the DUNGEONWALL.IFF picture in the DUNGEON directory, you will 
+see how your wall graphics have to be arranged. The vertical lines represent 
+where the sections of wall would be for the 4 ranges. The 3 centre (facing) 
+walls can be made up of simple tiles. Generally the rule is that each step into 
+the range halves the size of the graphics. So a tile used for the very far wall 
+would be 2x2 tiles at far and 4x4 tiles in size at near. In The Dungeon, we 
+started off with a 2x2 grouping for near, a single tile for far and a single 
+tile with 2x2 8x8 pixel tiles on it for Very far. These tiles are then aranged 
+into the correct wall for the distance.
+ Have a look at how the briks for The Dungeon are aranged in the TOME editor. 
+Note how variations, such as doors etc, have used some of the normal wall tiles,
+so that memory is saved.
+The only other thing you need for each wall piece is a single tile, to 
+represent it on the map. You can then tile value this tile. In The Dungeon, the 
+display routine will count anything with a value of 128+ as a wall. The brik 
+number is based on (Tile Val-128)*11.
+Tile values are also used to make sure that the player doesn't go through walls.
+NNN
+ The various bobs are displayed by being PASTE'd in during the display routine. 
+This requires a small offset table for each bob, telling the routine the height 
+of the bob, along with where to place it for each position in the grid.
+Because the MAKE ICON MASK option was used, objects and monsters will show 
+through things like gratings etc.
+ One thing I didn't get a chance to add was the floor and ceiling. These could 
+be stored on a seperate screen, and copied to the calculating screen before the 
+walls are Pasted on. The trick would be to toggle animate these floors and 
+walls as the player moves.
+RRR
+LLLngfl
+                   Programming notes for GREEN FLAG
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Green Flag was written as a demonstration of scrolling a 3D isometric screen. 
+You can use the same methods for a non-scrolling isometric game (such as 
+Airball, Cadaver etc) or for single directional scrollers such as Zaxxon. The 
+only problem I have found with the arcade style isometric games, is that it is 
+awkward for the player to see what he has collided with, as the collision is 
+not only based upon position, but also height. In Green Flag, I have made it 
+easier by assuming that anything you are shooting at is at the same height.
+ To show the height of an object, I have used a shadow of the object. For the 
+player's aircraft for instance, there is a shadow for each rotation of the 
+aircraft. This bob is then placed at the aircraft's Y position, but the X is 
+shifted to the right relative to the altitude. Also, the aircraft's Y co-
+ordinate is moved upwards with altitude. The effect being that if the aircraft 
+is on the ground, the shadow will be directly under the aircraft. As the 
+aircraft gains height, the aircraft moves up the screen, while the shadow 
+moves to the right, giving a moderately realistic shadow effect.
+NNN
+ The basis of Isometric for this type of game is incorect as far as actual 
+isometric drawing is concerned (as are most isometric games), In fact 
+everything is shown at an angle of 22.5 degrees. The idea being that for every 
+tile you move upwards, you go two tiles across. Have a look at the tiles and 
+the map, and you'll see what I mean.
+ Of course, this means that your movement has to be in isometric as well. So 
+if you were going diagonally from bottom left to top right (corner to corner), 
+you would be moving 16 pixels in the X, and 8 pixels in the Y at top speed. 
+This is why the aircraft moves slower up the map than to the right. You could 
+make it so that this limit is removed when the aircraft is at top speed (SP 
+contains the speed), but this may make the movement look odd when going 
+diagonally.
+NNN
+ Generally, the main aim in an arcade isometric game is keep it simple. For 
+puzzle orientated games, the player has more time to get used to the 
+enviroment, so you can make the game more complex (like Populous, or Power 
+Monger).
+RRR
+LLLnmag
+                Programming Notes for Magic Forest 2
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Magic Forest II has been written as a follow up for the original Magic Forest 
+game given away with AMOS, and as such had to work to be near the original  
+plot. So all the testing of the ideas was done with the original graphics, 
+before Adam completely redrew everything. Don't be afraid to work with test 
+versions of graphics to develop a game, before changing them to your own when 
+the basics of the game are running.
+ Generally the game runs to the normal platform game system. The only clever 
+trick being that a background was put under the scrolling tiles. This is 
+actually done at the stage where a line of tiles is put on the screen when the 
+map is scrolled. A pointer is kept to tell where on the background screen will 
+be copied next.
+ Another trick is that all the enemy, bonus and coin bobs that appear in the 
+game are marked on the map by dummy tiles. Before each level is played, the 
+=Map scan X() and =Map scan Y() functions are used to search for these tiles, 
+passing the co-ordinates to the arrays for the bobs, while erasing the tile by 
+replacing it by a clear background tile. This allows you to decide where the 
+objects are going to go in the Map editor, without having to put huge data 
+tables in the game.
+NNN
+ This game was written specifically to be compiled, and so all the 
+movement rates and animation timings are set for this. That means that the game 
+will look slow uncompiled, but as you should know, the golden rule of 
+programming is that "The end result is what counts, not the sourcecode".
+RRR
+

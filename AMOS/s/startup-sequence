@@ -1,0 +1,24 @@
+SetKeyboard pc105_xx
+Makedir RAM:ENV
+Assign ENV: RAM:ENV
+
+Assign >NIL: AMOSPro_Examples: Sys:AMOSPro_Examples
+Assign >NIL: AMOSPro_Tutorial: Sys:AMOSPro_Tutorial
+Assign >NIL: AMOSPro_Accessories: Sys:AMOSPro_Accessories
+Assign >NIL: AMOSPro_Productivity1: Sys:AMOSPro_Productivity1
+Assign >NIL: AMOSPro_Productivity2: Sys:AMOSPro_Productivity2
+Assign >NIL: AMOSPro_Extras: Sys:AMOSPro_Extras
+Assign >NIL: AMOSPro_Compiler: Sys:AMOSPro_Compiler
+Assign >NIL: AMOS: Sys:
+
+Assign >NIL: TOME4: Sys:AMOSPro__Extended/TOME4
+Assign >NIL: TOME_GOODIES: Sys:AMOSPro__Extended/TOME_GOODIES
+Assign >NIL: TOME_UPDATE: Sys:AMOSPro__Extended/TOME_UPDATE
+Assign >NIL: CRAFT_Extras: Sys:AMOSPro__Extended/CRAFT_Extras
+
+
+Run >Nil: AMOSPro
+echo
+echo
+echo "          Press Alt + F4 to quit back to Windows "
+

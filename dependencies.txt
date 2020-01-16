@@ -1,0 +1,6 @@
+	linux-gate.so.1 (0xf7ed3000)
+	libwine.so.1 => /usr/bin/../lib32/libwine.so.1 (0xf7d1a000)
+	libpthread.so.0 => /usr/bin/../lib32/libpthread.so.0 (0xf7cf7000)
+	libc.so.6 => /usr/bin/../lib32/libc.so.6 (0xf7b10000)
+	libdl.so.2 => /usr/lib32/libdl.so.2 (0xf7ab8000)
+	/lib/ld-linux.so.2 => /usr/lib/ld-linux.so.2 (0xf7ed5000)

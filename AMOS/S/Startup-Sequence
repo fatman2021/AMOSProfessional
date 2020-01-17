@@ -19,6 +19,7 @@ Assign "CLIPS:"   "RAM:Clipboards"
 Assign "KEYMAPS:" "DEVS:Keymaps"
 Assign "LOCALE:"  "SYS:Locale"
 Assign "LIBS:"    "SYS:Classes" ADD
+Assign "ASM:"     "SYS:ASM-One" ADD
 Assign "FONTS:"   "SYS:Fonts"
 Assign "HELP:"    "LOCALE:Help" DEFER
 Assign "THEMES:"  "SYS:Prefs/Presets/Themes" >NIL:
@@ -63,7 +64,7 @@ Copy >NIL: "ENVARC:" "ENV:" ALL NOPRO NOREQ PAT "~(def_#?.info)"
 If EXISTS "ENV:SYS/theme.var"
     Assign "THEME:" "${SYS/theme.var}"
 else
-    Assign "THEME:" "THEMES:Ice"
+    Assign "THEME:" "THEMES:AROSDefault"
 endif
 
 Touch >NIL: "FONTS:__TEST__"

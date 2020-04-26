@@ -18,10 +18,36 @@
 ; ..220000000022020000002.200002.........22.......______________________________
 ; ..0000002........2000000220022.................|
 ; .200000............2002........................| AMOS Compiler Extension
-; .200002........................................| For AMOSPro 2.0 and over 
+; .200002........................................| For AMOSPro 2.0 and over
 ; 220002.........................................|______________________________
 ; ______________________________________________________________________________
-;	
+;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+; ______________________________________________________________________________
 
 ;---------------------------------------------------------------------
 ;		Include the files automatically calculated by
@@ -137,7 +163,7 @@ C_Lib
 	move.l	a0,ExtAdr+ExtNb*16(a5)
 	lea	CmpEnd(pc),a0
 	move.l	a0,ExtAdr+ExtNb*16+8(a5)
-* Terminé!
+* Terminï¿½!
 .NoCom	moveq	#ExtNb,d0		Numero extension
 	move.w	#VerNumber,d1		Current AMOSPro Version
 	rts
@@ -204,7 +230,7 @@ pp_Name		dc.b	"powerpacker.library",0
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	COMPILE "Command line",magic
-;	Special COMPILER.AMOS	
+;	Special COMPILER.AMOS
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Par	Compile2
 ; - - - - - - - - - - - - -
@@ -268,7 +294,7 @@ pp_Name		dc.b	"powerpacker.library",0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	=COMP ERR$
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	CompErr	
+	Lib_Par	CompErr
 ; - - - - - - - - - - - - -
 	Dload	a2
 	moveq	#0,d3
@@ -314,7 +340,7 @@ pp_Name		dc.b	"powerpacker.library",0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Par	CompLoad1
 ; - - - - - - - - - - - - -
-	move.l	d3,a2			
+	move.l	d3,a2
 	Rjsr	L_NomDisc		Compute le nom >>> name1
 	Rbra	L_CLoad
 
@@ -396,7 +422,7 @@ pp_Name		dc.b	"powerpacker.library",0
 	Lib_Def	FinComp
 ; - - - - - - - - - - - - -
 	Dload	a2
-	move.l	d1,CSize-CD(a2)		
+	move.l	d1,CSize-CD(a2)
 	move.l	d2,CNumb-CD(a2)
 	clr.w	LErreur-CD(a2)
 	tst.l	d0
@@ -487,9 +513,9 @@ Cmp3	rts
 	btst	#Bnk_BitIcon,d2
 	bne.s	.BbIc
 ; Une banque normale
-	move.l	4(a2),d0		Longueur banque 
-	add.l	#8+8,d0			+ Flags + Header.lst 
-	move.l	#Public,d1		
+	move.l	4(a2),d0		Longueur banque
+	add.l	#8+8,d0			+ Flags + Header.lst
+	move.l	#Public,d1
 	btst	#Bnk_BitChip,d2
 	beq.s	.Skip
 	move.l	#Public|Chip,d1
@@ -513,11 +539,11 @@ Cmp3	rts
 	move.l	Cur_Banks(a5),a0
 	move.l	TempBuffer(a5),a1
 	clr.l	TempBuffer(a5)
-	move.l	-(a1),d0		
+	move.l	-(a1),d0
 	subq.l	#4,d0
 	move.l	d0,4(a1)		Met la longueur en 2
 	move.l	(a0),(a1)		Branche dans la liste
-	move.l	a1,(a0)	
+	move.l	a1,(a0)
 	addq.l	#8,a1
 	clr.w	(a1)+
 	move.w	d5,(a1)+		Numero de la banque
@@ -525,7 +551,7 @@ Cmp3	rts
 	move.w	(a2)+,(a1)+		Flags
 	clr.w	(a1)+
 	bra	.Out
-; Une banque de sprites / icons	
+; Une banque de sprites / icons
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .BbIc	move.l	4(a2),d0		Longueur tempbuffer
 	addq.l	#8,d0			+ Securite pp
@@ -549,7 +575,7 @@ Cmp3	rts
 	moveq	#1,d0			Append!
 	move.w	d6,d1
 	move.w	(a0),d5			Nombre actuel
-	add.w	d5,d1	
+	add.w	d5,d1
 	bra.s	.Res
 .Over	moveq	#0,d0
 	move.w	d6,d1
@@ -566,7 +592,7 @@ Cmp3	rts
 	moveq	#1,d0			Append!
 	move.w	d6,d1
 	move.w	(a0),d5			Nombre actuel
-	add.w	d5,d1	
+	add.w	d5,d1
 	bra.s	.IRes
 .IOver	moveq	#0,d0
 	move.w	d6,d1
@@ -681,7 +707,7 @@ Cmp3	rts
 	move.l	Buffer(a5),a2
 	move.l	#"PPbk",(a2)+		Reconnaissance
 	move.w	-8-6(a0),(a2)+		Le numero
-	move.w	-8-4(a0),(a2)+		Flags 
+	move.w	-8-4(a0),(a2)+		Flags
 	move.l	d0,(a2)+		Longueur banque / buffer de crunch
 ; Recopie la banque dans un buffer
 	Rjsr	L_ResTempBuffer
@@ -734,7 +760,7 @@ Cmp3	rts
 	Rjsr	L_ResTempBuffer
 	addq.l	#4,sp
 	rts
-.Errdisc	
+.Errdisc
 	Rbsr	L_FreeCrunchInfo
 	Rjmp	L_DiskError
 .Errnotres
@@ -782,7 +808,7 @@ B_Copie2Buffer
 	move.l	-8*3+4(a0),d0
 	subq.l	#8,d0
 	subq.l	#8,a0
-	Rjsr	L_TransMem	
+	Rjsr	L_TransMem
 	bra.s	.Out
 ; Une banque de bobs / icones
 .BB	move.w	(a0)+,d3		Nombre de bobs
@@ -865,7 +891,7 @@ B_Copie2Buffer
 .Erraborted
 	moveq	#9,d0
 	Rjmp	L_Error
-.Errnopack	
+.Errnopack
 	moveq	#3,d0
 	Rbra	L_Custom
 
@@ -978,7 +1004,7 @@ B_Copie2Buffer
 	Ret_Int
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;	SQUASHER 					
+;	SQUASHER
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Def	Sq
 
@@ -986,13 +1012,13 @@ B_Copie2Buffer
 *
 * Squasher II.
 *
-* Enhanced for varied speed (at a cost of very little inefficiency), 
+* Enhanced for varied speed (at a cost of very little inefficiency),
 * error checking and pre scan of memory for fast and efficient squashing!
 * Routine checks if enough memory is present for pre scan.You can
 * turn off pre scan if you want to test it in non scan but you have
 * enough memory for scan by setting d5 to -1.
 * This is totally compatible with the original ST Squasher.
-* 
+*
 *
 * Main Entry d0=0 for squash or d0<>0 for unsquash
 * (Check routines below for entry parameters)!
@@ -1008,15 +1034,15 @@ Squasher:
 *
 ********************************************************************
 *Entry
-*	D7 Search length $80 to $1024 (works in non scan only)	
+*	D7 Search length $80 to $1024 (works in non scan only)
 *	D5 -1 for enforced non scan
 *	D3 Address
 *	D1 Length
-*	D0 0 Squash 
+*	D0 0 Squash
 *
 *Exit
 *	D3 Length positive
-*	   or 
+*	   or
 *	   Error negative:-
 *		             -1 Squashed>=Normal
 
@@ -1054,7 +1080,7 @@ pre_scan_mem:
 	move.l	#$10000*4,d0
 	bsr	allocate_mem
 	lea	use_scan(pc),a6
-	move.l	d0,(a6)	
+	move.l	d0,(a6)
 	beq.b	exit_pre_scan_mem
 	move.l	d0,a4
 
@@ -1062,7 +1088,7 @@ pre_scan_mem:
 	lsl.l	#1,d0
 	move.l	d0,4(a6)
 	bsr	allocate_mem
-	move.l	d0,(a6)	
+	move.l	d0,(a6)
 	beq.b	exit_mem_clean_up
 
 
@@ -1087,8 +1113,8 @@ scan_loop:
 no_word_ahead:
 	move.l	a1,(a4,d1.l)
 	cmp.l	a0,a1
-	bgt.b	scan_loop	
-	
+	bgt.b	scan_loop
+
 exit_mem_clean_up:
 	move.l	a4,d1
 	move.l	#$10000*4,d0
@@ -1129,9 +1155,9 @@ not_alloc:
 	rts
 
 use_scan:
-	dc.l	0	
+	dc.l	0
 use_scan_size:
-	dc.l	0	
+	dc.l	0
 offset_for_msg:
 	dc.l	0
 msg_length_code_index:
@@ -1233,7 +1259,7 @@ ok_squash:
 _Test2	bclr	#BitControl,$800000
 	bne	squash_abort
 _Colour	move.w	a0,$DFF180
-	bra.s	EndIt	
+	bra.s	EndIt
 
 main_sq_rtn:
 _Test1	tst.b	$800000
@@ -1427,18 +1453,18 @@ squash_abort:
 
 **********************************
 *Entry
-*	
+*
 *	D3 Address
 *	D1 Length
 *	D0 1 Unsquash
 *
 *Exit
 *	D3 Unsquashed Length positive
-*	   or 
+*	   or
 *	   Error negative:-
 *			     -1 Check on data bad!
 *			     -2 Unsquasher was going to overwrite
-*				memory that was out of bounds!		
+*				memory that was out of bounds!
 UnSquash:
 	MOVE.L	D3,D0
 	ADD.L	D0,D1
@@ -1508,7 +1534,7 @@ L2244E0	CMPA.L	A2,A1
 	rts
 check_ok:
 	move.l	d7,d3
-	RTS	
+	RTS
 bad_squash_mem:
 	moveq.l	#-2,d3
 	rts
@@ -1546,7 +1572,7 @@ L224506	ROXL.L	#1,D2
 ErrMess	dc.b	"Cannot run 1.3 compiled procedures under AMOSPro",0
 	dc.b	"Cannot open powerpacker.library (v35)",0
 	dc.b	"Not a powerpacked memory bank",0
-	dc.b	"Cannot pack this bank",0	
+	dc.b	"Cannot pack this bank",0
 	even
 
 ;	"No errors" routine
@@ -1578,5 +1604,3 @@ C_Title
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 C_End	dc.w	0
-
-

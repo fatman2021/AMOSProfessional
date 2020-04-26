@@ -7,11 +7,37 @@
 ;  **  ** **   **  ***   ***   *****  **  **  ***  **  ****
 ;---------------------------------------------------------------------
 ; AMOS Requester handler 2.0
-; By François Lionet
+; By Franï¿½ois Lionet
 ; AMOS - AMOS Pro - AMOS Compiler (c) Europress Software 1990-1992
 ; To be used with AMOS Pro 2.0 and over
-;--------------------------------------------------------------------- 
-; This file is public domain
+;---------------------------------------------------------------------
+;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;
 ;---------------------------------------------------------------------
 ; Please refer to the +Music.s file for more informations
 ;---------------------------------------------------------------------
@@ -74,7 +100,7 @@ C_Lib
 ; - - - - - - - - - - - - -
 	cmp.l	#"APex",d1			Version 1.10 or over?
 	bne.s	BadVer
-	movem.l	a3-a6,-(sp)			
+	movem.l	a3-a6,-(sp)
 	lea	Warm(pc),a0
 	move.l	a0,ExtAdr+ExtNb*16+4(a5)
 	movem.l	(sp)+,a3-a6
@@ -89,7 +115,7 @@ BadVer	moveq	#-1,d0			* Bad version number
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SCREEN RESET: back to AMOS requester (Called by AMOSPro)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Warm	
+Warm
 ; - - - - - - - - - - - - -
 	Rbra	L_InRequestOn
 
@@ -104,7 +130,7 @@ Warm
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	REQUEST WB
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InRequestWb		
+	Lib_Par	InRequestWb
 ; - - - - - - - - - - - - -
 	moveq	#1,d0
 	SyCall	Request_OnOff
@@ -113,7 +139,7 @@ Warm
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	REQUEST ON
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InRequestOn		
+	Lib_Par	InRequestOn
 ; - - - - - - - - - - - - -
 	moveq	#-1,d0
 	SyCall	Request_OnOff
@@ -122,7 +148,7 @@ Warm
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	REQUEST OFF
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InRequestOff		
+	Lib_Par	InRequestOff
 ; - - - - - - - - - - - - -
 	moveq	#0,d0
 	SyCall	Request_OnOff

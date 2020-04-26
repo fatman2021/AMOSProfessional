@@ -11,8 +11,34 @@
 ; By Francois Lionet
 ; AMOS, AMOSPro AMOS Compiler (c) Europress Software 1990-1993
 ; To be used with AMOSPro 2.0 and over
-;--------------------------------------------------------------------- 
-; This file is public domain
+;---------------------------------------------------------------------
+;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;
 ;---------------------------------------------------------------------
 ;
 ; NOTE: every chapter is preceded by "+++", so just look for this sign
@@ -37,19 +63,19 @@
 ;
 ; To know how to rewrite your code, just read the text at the end of this
 ; file. Just know that this music extension has been turned from the old
-; format (V1.x) to the new one, in one afternoon. You just need a good 
-; editor to perform the job. All the rest of the text only explain how to 
+; format (V1.x) to the new one, in one afternoon. You just need a good
+; editor to perform the job. All the rest of the text only explain how to
 ; write a V2.x extension.
 ;
 ; --------------------------------------------------------------------------
-;	
+;
 ; +++ What's an extension?
 ;
-; An extension to AMOS is a machine language program that adds new 
+; An extension to AMOS is a machine language program that adds new
 ; instructions to the already huge AMOS instruction set. This system is
-; designed to be as powerfull as AMOS itself: the extension includes its 
+; designed to be as powerfull as AMOS itself: the extension includes its
 ; own token list, its own routines. It can even access some main AMOS
-; routines via special macros. It has a total access to the internal AMOS 
+; routines via special macros. It has a total access to the internal AMOS
 ; data zone, and to the graphic library functions.
 ;
 ; To produce your own extension, I suggest you copy and rename this
@@ -58,21 +84,21 @@
 ; and set some ILLEGAL instructions where you want to debug. To flip back to
 ; MONAM2 display, just press AMIGA-A.
 ;
-; I have designed the extension system so that one only file works with 
-; both AMOS interpretor and compiler. 
+; I have designed the extension system so that one only file works with
+; both AMOS interpretor and compiler.
 ; 	- The extension is more a compiler library than a one chunk program:
 ;	it is done so that the compiler can pick one routine here and there
 ;	to cope with the program it is compiling.
 ;	- AMOSPro extension loader works a little like the compiler, exept
 ;	that all instructions are loaded and relocated.
-;	- The AMOSPro (V2.x) instruction set is in fact a big extension, 
+;	- The AMOSPro (V2.x) instruction set is in fact a big extension,
 ;	called "AMOSPro.Lib", in the APSystem folder
 ;
 ; This code was assembled with GENAM3 on a A3000 25 Mhz machine, but a
 ; A500 can do it very well!
-; The assembled program must be ONE CHUNK only, you must not link the 
-; the symbol table with it. Also be sure that you program is totally 
-; relocatable (see later) : if not it will add a relocation chunk to 
+; The assembled program must be ONE CHUNK only, you must not link the
+; the symbol table with it. Also be sure that you program is totally
+; relocatable (see later) : if not it will add a relocation chunk to
 ; the output code, and your extension will simply crash AMOS on loading
 ; (and the compiler too!).
 ;
@@ -80,11 +106,11 @@
 ; Before assembling your code, you must run one AMOSro Compiled program that
 ; explores your source code, and creates the label table for the assembler.
 ; This program is called "Library_Digest". Here is my script file to assemble
-; the music extension : 
+; the music extension :
 ;
 ; Library_Digest +Music.s
 ; Genam FROM +Music.s TO APro:APSystem/AMOSPro_Music.Lib
-; 
+;
 ; Library_Digest loads +music.s and creates two ascii files:
 ;	+Music_Size.s contains the number of functions in the extension
 ;	+Music_Labels.s contains the list of labels and their value.
@@ -94,7 +120,7 @@
 ; +++
 ; Here comes the number of the extension in the list of extensions in
 ; AMOSPro_Interpretor_Config program (minus one).
-; This number is used later to reference the extension in internal AMOS 
+; This number is used later to reference the extension in internal AMOS
 ; tables...
 ;
 ExtNb		equ	1-1
@@ -113,7 +139,7 @@ ExtNb		equ	1-1
 ; +++ This one is only for the current version number.
 		Include	"+Version.s"
 
-; A usefull macro to find the address of data in the extension's own 
+; A usefull macro to find the address of data in the extension's own
 ; datazone (see later)...
 Dlea		MACRO
 		move.l	ExtAdr+ExtNb*16(a5),\2
@@ -125,7 +151,7 @@ Dload		MACRO
 		move.l	ExtAdr+ExtNb*16(a5),\1
 		ENDM
 
-; --------------------------------------------------------------------------- 
+; ---------------------------------------------------------------------------
 ; Now some equates used by the music extension itself. Ignore this in your
 ; code!
 
@@ -274,14 +300,14 @@ Start	dc.l	C_Tk-C_Off
 ; +++ From title to the end of the program
 	dc.l	C_End-C_Title
 ; +++
-; An important flag. Imagine a program does not call your extension, the 
-; compiler will NOT copy any routine from it in the object program. For 
+; An important flag. Imagine a program does not call your extension, the
+; compiler will NOT copy any routine from it in the object program. For
 ; certain extensions, like MUSIC, COMPACT, it is perfect.
-; But for the REQUEST extension, even if it is not called, the first routine 
+; But for the REQUEST extension, even if it is not called, the first routine
 ; MUST be called, otherwise AMOS requester will not work!
 ; So, a value of 0 indicates to copy if needed only,
 ; A value of -1 forces the copy of the first library routine...
-	dc.w	0	
+	dc.w	0
 
 ; +++ This magic code tells AMOSPro that this extensions uses the new format
 	dc.b	"AP20"
@@ -305,9 +331,9 @@ C_Off
 ;---------------------------------------------------------------------
 ; 	+++ TOKEN TABLE
 ;
-;	
+;
 ; This table is the crucial point of the extension! It tells
-; everything the tokenisation process needs to know. You have to 
+; everything the tokenisation process needs to know. You have to
 ; be carefull when writing it!
 ;
 ; The format is simple:
@@ -319,7 +345,7 @@ C_Off
 ;               I suggest you keep the same method of referencing the
 ;		routines than mine: L_name, this label being defined
 ;		in the main program.
-;		A -1 means take no routine is called (example a 
+;		A -1 means take no routine is called (example a
 ;		instruction only will have a -1 in the function space...)
 ;
 ;	(2) Instruction name
@@ -328,7 +354,7 @@ C_Off
 ;		the name. See later
 ;		-Using a $80 ALONE as a name definition, will force AMOS
 ;		to point to the previous "!" mark...
-;	
+;
 ;	(3) Param list
 ;		This list tells AMOS everything about the instruction.
 ;
@@ -419,9 +445,9 @@ C_Tk:	dc.w 	1,0
 	dc.w	L_InSamPlay2,L_Nul
 	dc.b	$80,"I0,0",-2
 	dc.w 	L_InSamPlay3,L_Nul
-	dc.b	$80,"I0,0,0",-1 
+	dc.b	$80,"I0,0,0",-1
 	dc.w 	L_InSamRaw,L_Nul
-	dc.b 	"sam ra","w"+$80,"I0,0,0,0",-1	
+	dc.b 	"sam ra","w"+$80,"I0,0,0,0",-1
 	dc.w	L_InBell0,L_Nul
 	dc.b 	"!bel","l"+$80,"I",-2
 	dc.w 	L_InBell1,L_Nul
@@ -483,7 +509,7 @@ C_Tk:	dc.w 	1,0
 	dc.b	$80,"I0,0",-1
 	dc.w	L_InTrackLoad,L_Nul
 	dc.b	"track loa","d"+$80,"I2,0",-1
-	
+
 	dc.w	L_Nul,L_FnMouthWidth
 	dc.b	"mouth widt","h"+$80,"0",-1
 	dc.w	L_Nul,L_FnMouthHeight
@@ -522,10 +548,10 @@ C_Tk:	dc.w 	1,0
 
 
 ;
-; Now come the big part, the library. 
+; Now come the big part, the library.
 ;
 ; The beginning of each routine is defined with macros. NB: in the following text
-; a space in inserted in the macro name, so that it is not detected by 
+; a space in inserted in the macro name, so that it is not detected by
 ; "Library_Digest".
 ;
 ;	Lib_ Def	Function_Name_No_Parameter
@@ -545,13 +571,13 @@ C_Tk:	dc.w 	1,0
 ;	functions)
 ;	- Lib_ Par must be used for instructions or functions: it reserved a space
 ;	before the routine if used by the interpreter, to call the parameter
-;	calculation routines. Well this is internal, you don't have to care 
-;	about it, just use "Lib_ Par" for routines referenced in the token 
+;	calculation routines. Well this is internal, you don't have to care
+;	about it, just use "Lib_ Par" for routines referenced in the token
 ;	table...
 ;
 ; BSR and JSR
 ;	- You cannot directly call other library routines from one routine
-;	by doing a BSR, but I have defined special macros (in +CEQU.S file) 
+;	by doing a BSR, but I have defined special macros (in +CEQU.S file)
 ;	to allow you to easily do so. Here is the list of available macros:
 ;
 ;	Rbsr	L_Routine	does a simple BSR to the routine
@@ -574,11 +600,11 @@ C_Tk:	dc.w 	1,0
 ; The compiler (and AMOSPro extension loading part) will manage to find
 ; the good addresses in your program from the offset table.
 ;
-; You can also call some main AMOSPro.Lib routines, to do so, use the 
+; You can also call some main AMOSPro.Lib routines, to do so, use the
 ; following macros:
-;	Rjsr	L_Routine	
-;	Rjmp	L_Routine	
-; 
+;	Rjsr	L_Routine
+;	Rjmp	L_Routine
+;
 ; Here is the list of the most usefull routines from the AMOSPro.Lib
 ;
 ;	Rjsr	L_Error
@@ -592,7 +618,7 @@ C_Tk:	dc.w 	1,0
 ; 	Rjsr	L_Test_PaSaut
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	Perform one AMOSPro updating procedure, update screens, sprites,
-;	bobs etc. You should use it for wait loops. Does not jump to 
+;	bobs etc. You should use it for wait loops. Does not jump to
 ;	automatic calls.
 ;
 ;	Rjsr	L_Test_Normal
@@ -612,7 +638,7 @@ C_Tk:	dc.w 	1,0
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 ;	Ask for string space.
 ;	D3.l is the length to ask for. Return A0/A1 point to free space.
-;	Poke your string there, add the length of it to A0, EVEN the 
+;	Poke your string there, add the length of it to A0, EVEN the
 ;	address to the highest multiple of two, and move it into
 ;	HICHAINE(a5) location...
 ;
@@ -640,7 +666,7 @@ C_Tk:	dc.w 	1,0
 ;	Rjsr	L_Bnk.OrAdr
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	Find whether a number is a address or a	memory bank number
-;	IN: 	D0.l= number 
+;	IN: 	D0.l= number
 ;	OUT: 	D0/A0= number or start(number)
 ;
 ;	Rjsr	L_Bnk.GetAdr
@@ -674,7 +700,7 @@ C_Tk:	dc.w 	1,0
 ;		A0	Name of the bank (8 bytes)
 ;	OUT:	Z 	Set inf not successfull
 ;		A0	Address of bank
-;	FLAGS:	
+;	FLAGS:
 ;		Bnk_BitData		Data bank
 ;		Bnk_BitChip		Chip bank
 ;		Example:	Bset	#Bnk_BitData|Bnk_BitChip,d1
@@ -684,13 +710,13 @@ C_Tk:	dc.w 	1,0
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 ;	Erase one memory bank.
 ;	IN:	D0.l	Number
-;	OUT:	
+;	OUT:
 ;
 ;	Rjsr	L_Bnk.EffA0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	Erase a bank from its address.
 ;	IN:	A0	Start(bank)
-;	OUT:	
+;	OUT:
 ;
 ;	Rjsr	L_Bnk.EffTemp
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -744,11 +770,11 @@ C_Tk:	dc.w 	1,0
 ; the branch. Some remarks:
 ;	- The size of a Rbsr is 4 bytes, like the normal branch, it does
 ; not change the program (you can make some jumps over it)
-;	- Although I have coded the signal, and put a lot a security, 
+;	- Although I have coded the signal, and put a lot a security,
 ; a mischance may lead to the compiler thinking there is a Rbsr where
 ; there is nothing than normal data. The result may be disastrous! So if
 ; you have BIG parts of datas in which you do not make any special calls,
-; you can put before it the macro: RDATA. It tells the compiler that 
+; you can put before it the macro: RDATA. It tells the compiler that
 ; the following code, up to the end of the library routine (up to the next
 ; L(N) label) is normal data: the compiler will not check for Rbranches...
 ; Up to now, I have not been forced to do so, but if something goes wrong,
@@ -758,7 +784,7 @@ C_Tk:	dc.w 	1,0
 ; +++ Remember!
 ;	- Your code must be (pc), TOTALLY relocatable, check carefully your
 ;  	code!
-;	- Never perform a BSR or a JSR from one function to another: it 
+;	- Never perform a BSR or a JSR from one function to another: it
 ;	_will_ crash once compiled. Use the special macros instead.
 ;	- Each individual routine of the library can be up to 32K
 
@@ -781,7 +807,7 @@ C_Lib
 ; I have put here all the music datazone, and all the interrupt routines.
 ; I suggest you put all you C-Code here too if you have some...
 
-; ALL the following code, from L0 to L1 will be copied into the compiled 
+; ALL the following code, from L0 to L1 will be copied into the compiled
 ; program (if any music is used in the program) at once. All RBSR, RBRA etc
 ; will be detected and relocated. AMOSPro extension loader does the same.
 ; The length of this routine (and of any routine) must not exceed 32K
@@ -829,12 +855,12 @@ C_Lib
 	beq.s	ItsPAL
 	move.w	#120,TempoBase-MB(a3)
 	move.l	#3579545,MusClock-MB(a3)
-ItsPAL	
+ItsPAL
 ; Install sample interrupts
 	lea	Sami_handler(pc),a0
 	move.l	a0,Sami_handad-MB(a3)
 
-; As you can see, you MUST preserve A3-A6, and return in D0 the 
+; As you can see, you MUST preserve A3-A6, and return in D0 the
 ; Number of the extension if everything went allright. If an error has
 ; occured (no more memory, no file found etc...), return -1 in D0 and
 ; AMOS will refuse to start.
@@ -852,9 +878,9 @@ BadVer	moveq	#-1,d0			* Bad version number
 ;
 ; The next instruction loads the internal datazone address. I could have
 ; of course done a load MB(pc),a3 as the datazone is in the same
-; library chunk. 
+; library chunk.
 
-MusDef	Dload	a3	
+MusDef	Dload	a3
 * Stop/Init narrator
 	Rbsr	L_InTalkStop
 	Rbsr	L_NarInit
@@ -893,7 +919,7 @@ MuDf2	add.w	Circuits+6,d1
 	moveq	#%1111,d1
 	Rbsr	L_Vol
 	Rbsr	L_MVol
-	move.w	#5,SamBank-MB(a3)	* Sample bank=5	
+	move.w	#5,SamBank-MB(a3)	* Sample bank=5
 	moveq	#-1,d0			* Sam loop off
 	moveq	#-1,d1
 	Rbsr	L_SL0
@@ -930,7 +956,7 @@ MusEnd:	Dload	a3
 	beq.s	NarEnd
 	move.l	d0,a1
 	jsr	CloseLib(a6)
-NarEnd	
+NarEnd
 * No more TRACKER music
 	Rbsr	L_InTrackStop
 * No more MED music
@@ -958,7 +984,7 @@ NarEnd
 ; Here, if a music is being played and if the music bank is erased, I MUST
 ; stop the music, otherwise it might crash the computer. That's why I
 ; do a checksum on the first bytes of the bank to see if they have changed...
-BkCheck	
+BkCheck
 	Rbsr	L_TrackCheck		* Check Tracker
 	Rbsr	L_MedCheck		* Check Med
 * Check normal music.
@@ -1006,7 +1032,7 @@ BkNew	move.l	a0,MusBank-MB(a3)
 *
 *	INTERRUPT ROUTINES
 *
-***********************************************************	
+***********************************************************
 
 ******* Sami interrupt handlers
 Sami_handler
@@ -1063,7 +1089,7 @@ Sami_handler
 	bra	.samloop
 
 ******* VBL Entry
-MusInt	lea	MB(pc),a3	
+MusInt	lea	MB(pc),a3
 	move.w	EnvOn-MB(a3),d0
 	beq	Music
 	lea	EnvBase-MB(a3),a0
@@ -1135,7 +1161,7 @@ Music:	move.l	MuBase-MB(a3),d0
 	moveq	#0,d6
 	move.l	MuChip0-MB(a3),a6
 	bsr	MuStep
-Mus0	
+Mus0
 	lea	MuVoix1(a5),a4
 	tst.b	VoiCpt+1(a4)
 	beq.s	Mus1
@@ -1155,7 +1181,7 @@ Mus1
 	moveq	#2,d6
 	move.l	MuChip2-MB(a3),a6
 	bsr	MuStep
-Mus2	
+Mus2
 	lea	MuVoix3(a5),a4
 	tst.b	VoiCpt+1(a4)
 	beq.s	Mus3
@@ -1165,7 +1191,7 @@ Mus2
 	moveq	#3,d6
 	move.l	MuChip3-MB(a3),a6
 	bsr	MuStep
-Mus3	
+Mus3
 	and.w	MuDMAsk-MB(a3),d7
 	move.w	d7,$DFF096
 	tst.w	d5
@@ -1547,7 +1573,7 @@ MuVSl2	move.w	d0,VoiDVol(a4)
 	rts
 
 *******	Routine called every VBL
-MuEvery	
+MuEvery
 
 * Second step of sample?
 	move.w	MuStop(a5),d0
@@ -1585,7 +1611,7 @@ MuEv2	btst	#3,d0				* Voix 3
 	add.l	4(a0),d2
 	move.l	d2,(a6)
 	move.w	10(a0),$04(a6)
-MuEv3	
+MuEv3
 
 * Start a voice
 MuEvX	move.w	MuStart(a5),d1
@@ -1635,7 +1661,7 @@ MuRs2	btst	#3,d0				* Voix 3
 MuRs3	clr.w	MuReStart-MB(a3)
 	or.w	d0,MuDMAsk-MB(a3)
 	or.w	d3,MuStop(a5)
-MuRsX	
+MuRsX
 	rts
 
 
@@ -1643,7 +1669,7 @@ MuRsX
 *
 *	TRACKER INTERRUPT ROUTINES
 *
-***********************************************************	
+***********************************************************
 Tracker	move.b	mt_on(pc),d0
 	beq.s	.Skip
 	movem.l	a3-a6,-(sp)
@@ -1667,7 +1693,7 @@ Tracker	move.b	mt_on(pc),d0
 	movem.l	(sp)+,a3-a6
 	tst.b	Track_Stop-MB(a3)
 	beq.s	.Skip
-; TrackStop... 
+; TrackStop...
 	clr.b	mt_on-MB(a3)
 	clr.w	mt_dmacon-MB(a3)
 	clr.b	Track_Stop-MB(a3)
@@ -1740,18 +1766,18 @@ mt_next:clr.w	mt_pattpos-mt_voice4(a4)
 	bne.s	mt_exit
 	move.b	Track_Loop-mt_voice4(a4),d0
 	bne.s	.NoStop
-	move.b	#1,Track_Stop-mt_voice4(a4)	
+	move.b	#1,Track_Stop-mt_voice4(a4)
 .NoStop	move.b	-1(a2),mt_songpos-mt_voice4(a4)
 mt_exit:tst.b	mt_break-mt_voice4(a4)
 	bne.s	mt_next
 ; Provoque l'actualisation du DMA
 	move.w	mt_dmacon(pc),d0
 	beq.s	.Skip
-	moveq	#4,d3		
-.wai2	move.b	$dff006,d2	
-.wai3	cmp.b	$dff006,d2	
+	moveq	#4,d3
+.wai2	move.b	$dff006,d2
+.wai3	cmp.b	$dff006,d2
 	beq.s	.wai3
-	dbf	d3,.wai2	
+	dbf	d3,.wai2
 	move.w	d0,$dff096
 .Skip	rts
 mt_nonew:
@@ -1806,7 +1832,7 @@ mt_noloop:
 mt_hejaSverige:
 	move.w	(a3),$e(a4)
 	move.w	$12(a4),8(a5)
-	
+
 	move.l	a0,d0
 	move.l	d7,a0
 	move.b	$13(a4),(a0)
@@ -2117,11 +2143,11 @@ MuBuffer	ds.b	MuLong*3	* Music tables
 		Rdata
 
 *************** Tables for effects
-Sinus	
+Sinus
  dc.b $00,$18,$31,$4a,$61,$78,$8d,$a1,$b4,$c5,$d4,$e0,$eb,$f4,$fa,$fd
  dc.b $ff,$fd,$fa,$f4,$eb,$e0,$d4,$c5,$b4,$a1,$8d,$78,$61,$4a,$31,$18
 
-Periods	
+Periods
  dc.w $0358,$0328,$02fa,$02d0,$02a6,$0280,$025c,$023a,$021a,$01fc,$01e0
  dc.w $01c5,$01ac,$0194,$017d,$0168,$0153,$0140,$012e,$011d,$010d,$00fe
  dc.w $00f0,$00e2,$00d6,$00ca,$00be,$00b4,$00aa,$00a0,$0097,$008f,$0087
@@ -2182,7 +2208,7 @@ Sami_int	ds.b	22				* Channel 0
 		dc.l	0			radr
 		dc.l	0			rlong
 		dc.w	0			dvol
-		dc.l	0			old			
+		dc.l	0			old
 
 		ds.b	22				* Channel 1
 		dc.w	%0000000100000000	bit
@@ -2195,7 +2221,7 @@ Sami_int	ds.b	22				* Channel 0
 		dc.l	0			radr
 		dc.l	0			rlong
 		dc.w	0			dvol
-		dc.l	0			old			
+		dc.l	0			old
 
 		ds.b	22				* Channel 2
 		dc.w	%0000001000000000	bit
@@ -2208,7 +2234,7 @@ Sami_int	ds.b	22				* Channel 0
 		dc.l	0			radr
 		dc.l	0			rlong
 		dc.w	0			dvol
-		dc.l	0			old			
+		dc.l	0			old
 
 		ds.b	22				* Channel 3
 		dc.w	%0000010000000000	bit
@@ -2221,7 +2247,7 @@ Sami_int	ds.b	22				* Channel 0
 		dc.l	0			radr
 		dc.l	0			rlong
 		dc.w	0			dvol
-		dc.l	0			old			
+		dc.l	0			old
 
 Sami_oldena	dc.w	0
 Sami_empty	dc.l	0
@@ -2250,7 +2276,7 @@ Med_Base	dc.l	0
 Med_Adr		dc.l	0
 Med_On		dc.b	0
 Med_Midi	dc.b	0
-Med_Name	dc.b	"medplayer.library",0	
+Med_Name	dc.b	"medplayer.library",0
 		even
 _MEDGetPlayer		equ	-30
 _MEDFreePlayer		equ	-36
@@ -2302,7 +2328,7 @@ mt_data:	dc.l	0
 
 
 ; Now follow all the music routines. Some are just routines called by others,
-; some are instructions. 
+; some are instructions.
 ; See how a adress the internal music datazone, by using a base register
 ; (usually A3) and adding the offset of the data in the datazone...
 ;
@@ -2317,7 +2343,7 @@ mt_data:	dc.l	0
 ;
 ; As you have a entry point for each set of parameters, you know
 ; how many are pushed...
-;	- INTEGER:	move.l	d3,d0		
+;	- INTEGER:	move.l	d3,d0
 ;	or		move.l	(a3)+,d0
 ;	- STRING:	move.l	d3,a0
 ;	or		move.l	(a3)+,a0
@@ -2335,7 +2361,7 @@ mt_data:	dc.l	0
 ; IMPORTANT POINT: you MUST unpile the EXACT number of parameters,
 ; to restore A3 to its original level. If you do not, you will not
 ; have a immediate error, and AMOS will certainely crash on next
-; UNTIL / WEND / ENDIF / NEXT etc... 
+; UNTIL / WEND / ENDIF / NEXT etc...
 ;
 ; +++ So, your instruction must:
 ;	- Unpile the EXACT number of parameters from A3 (if needed), and exit
@@ -2474,7 +2500,7 @@ MOf3	rts
 * Ok!
 	movem.l	(sp)+,d2-d7/a2-a6
 	rts
-;----->	Stops speech 
+;----->	Stops speech
 OpNarCheck
 	Rbsr	L_InTalkStop
 	movem.l	(sp)+,d2-d7/a2-a6
@@ -2592,7 +2618,7 @@ ISayA	move.b	#1,66(a1)		Generer des mouths!
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SET TALK sex,mode,pitch,rate
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSetTalk		
+	Lib_Par	InSetTalk
 ; - - - - - - - - - - - - -
 	Rbsr	L_OpNar
 	move.l	#EntNul,d0
@@ -2629,7 +2655,7 @@ IRd4	rts
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Narrator READ lips
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par FnMouthWidth		
+	Lib_Par FnMouthWidth
 ; - - - - - - - - - - - - -
 	Dlea	ReadIo,a0
 	move.b	88(a0),d3
@@ -2652,7 +2678,7 @@ IRd4	rts
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	BELL
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InBell0		
+	Lib_Par	InBell0
 ; - - - - - - - - - - - - -
 	moveq	#0,d3
 	moveq	#70,d2
@@ -2661,7 +2687,7 @@ IRd4	rts
 	Dlea	EnvBell,a0
 	Rbra	L_GoBel
 ; - - - - - - - - - - - - -
-	Lib_Par	InBell1	
+	Lib_Par	InBell1
 ; - - - - - - - - - - - - -
 	move.l	d3,d2
 	moveq	#0,d3
@@ -2673,7 +2699,7 @@ IRd4	rts
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	BOOM
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InBoom		
+	Lib_Par	InBoom
 ; - - - - - - - - - - - - -
 	moveq	#0,d3
 	moveq	#36,d2
@@ -2684,7 +2710,7 @@ IRd4	rts
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	SHOOT
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par InShoot		
+	Lib_Par InShoot
 ; - - - - - - - - - - - - -
 	moveq	#0,d3
 	moveq	#60,d2
@@ -2693,7 +2719,7 @@ IRd4	rts
 	Rbra	L_Shout
 
 ; - - - - - - - - - - - - -
-	Lib_Def	Shout	
+	Lib_Def	Shout
 ; - - - - - - - - - - - - -
 	moveq	#%0000,d0		Gives a stereo effect!
 	Rbsr	L_StopDma
@@ -2710,7 +2736,7 @@ Shot	movem.l	d0-d7/a0,-(sp)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	VOLUME n
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InVolume1	
+	Lib_Par	InVolume1
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	moveq	#%1111,d1
@@ -2718,14 +2744,14 @@ Shot	movem.l	d0-d7/a0,-(sp)
 	Rbsr	L_MVol
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Par	InVolume2		
+	Lib_Par	InVolume2
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	(a3)+,d1
 	Rbra	L_Vol
 
 ; - - - - - - - - - - - - -
-	Lib_Def	Vol		
+	Lib_Def	Vol
 ; - - - - - - - - - - - - -
 	cmp.l	#64,d0		Set voices volume level
 	Rbcc	L_IFonc
@@ -2748,7 +2774,7 @@ Vol2	lea	EnvLong(a0),a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Stops Narrator if it was playing in multitask mode!
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InTalkStop	
+	Lib_Par	InTalkStop
 ; - - - - - - - - - - - - -
 	movem.l	a3/a6,-(sp)
 	Dload	a3
@@ -2773,7 +2799,7 @@ Vol2	lea	EnvLong(a0),a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	PLAY [voice]note,length
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InPlay2	
+	Lib_Par	InPlay2
 ; - - - - - - - - - - - - -
 	tst.l	d3
 	Rbmi	L_IFonc
@@ -2783,7 +2809,7 @@ Vol2	lea	EnvLong(a0),a0
 	sub.l	a0,a0
 	Rbra	L_GoBel
 ; - - - - - - - - - - - - -
-	Lib_Par InPlay3	
+	Lib_Par InPlay3
 ; - - - - - - - - - - - - -
 	tst.l	d3
 	Rbmi	L_IFonc
@@ -2793,7 +2819,7 @@ Vol2	lea	EnvLong(a0),a0
 	sub.l	a0,a0
 	Rbra	L_GoBel
 ; - - - - - - - - - - - - -
-	Lib_Def	GoBel		
+	Lib_Def	GoBel
 ; - - - - - - - - - - - - -
 	cmp.l	#96,d2			* <96?
 	Rbhi	L_IFonc
@@ -2803,7 +2829,7 @@ Vol2	lea	EnvLong(a0),a0
 	Rbsr	L_VOnOf
 	Rbra	L_GoShot
 ; - - - - - - - - - - - - -
-	Lib_Def	GoShot	
+	Lib_Def	GoShot
 ; - - - - - - - - - - - - -
 	Rjsr	L_SaveRegs		+++ Saves d6/d7 registers
 	movem.l	a3,-(sp)
@@ -2836,7 +2862,7 @@ IPlX	Rbsr	L_DmaWait
 IPlX1	rts
 
 ; - - - - - - - - - - - - -
-	Lib_Def	VPlay		
+	Lib_Def	VPlay
 ; - - - - - - - - - - - - -
 	movem.l	d0-d6/a0-a2,-(sp)	Play voice D1: wave or sample
 
@@ -2846,7 +2872,7 @@ IPlX1	rts
 	lsl.w	#7,d3
 	move.w	d3,IntEna(a2)		* Stop interrupts
 	bclr	d1,Noise-MB(a3)		* No more random
-	
+
 	tst.w	d2
 	beq	VSil
 	addq.w	#3,d2
@@ -2893,12 +2919,12 @@ VPl0	beq	VPl4
 	bcc.s	VPl1
 	moveq	#124,d2
 VPl1:	move.w	d2,6(a2)		* AudPer
-* Start enveloppe 
+* Start enveloppe
 	move.l	(sp)+,d5
 	tst.l	d6			* Fixed enveloppe? (bell / shoot)
 	bne.s	VPl1a
 	move.l	d5,d6
-VPl1a	lea	EnvBase-MB(a3),a0	
+VPl1a	lea	EnvBase-MB(a3),a0
 	move.w	d1,d0
 	mulu	#EnvLong,d0
 	add.w	d0,a0
@@ -2916,7 +2942,7 @@ VSil	moveq	#0,d0
 	move.w	d0,DmaCon(a2)
 	movem.l	(sp)+,a0-a2/d0-d6
 	bclr	d1,d7
-	rts	
+	rts
 ******* Play SAMPLE
 VPl2	move.l	a2,-(sp)
 	move.w	d2,-(sp)
@@ -2948,17 +2974,17 @@ VPl4	bset	d1,Noise-MB(a3)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	PLAY OFF (voice)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InPlayOff0	
+	Lib_Par	InPlayOff0
 ; - - - - - - - - - - - - -
 	moveq	#%1111,d0
 	Rbra	L_PlOf
 ; - - - - - - - - - - - - -
-	Lib_Par InPlayOff1	
+	Lib_Par InPlayOff1
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	Rbra	L_PlOf
 ; - - - - - - - - - - - - -
-	Lib_Def	PlOf		
+	Lib_Def	PlOf
 ; - - - - - - - - - - - - -
 	move.l	a3,-(sp)
 	Dload	a3
@@ -2983,15 +3009,15 @@ VPl4	bset	d1,Noise-MB(a3)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Wait for the DMA
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	DmaWait	
+	Lib_Def	DmaWait
 ; - - - - - - - - - - - - -
 	movem.l	d2-d3,-(sp)
 
-.wait	moveq	#4,d3		
-.wai2	move.b	$dff006,d2	
-.wai3	cmp.b	$dff006,d2	
+.wait	moveq	#4,d3
+.wai2	move.b	$dff006,d2
+.wai3	cmp.b	$dff006,d2
 	beq.s	.wai3
-	dbf	d3,.wai2	
+	dbf	d3,.wai2
 	moveq	#8,d2
 .wai4	dbf	d2,.wai4
 
@@ -3005,7 +3031,7 @@ VPl4	bset	d1,Noise-MB(a3)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SAM BANK n
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSamBank	
+	Lib_Par	InSamBank
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	Rbls	L_IFonc
@@ -3017,13 +3043,13 @@ VPl4	bset	d1,Noise-MB(a3)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SAMLOOP ON
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSamLoopOn1	
+	Lib_Par	InSamLoopOn1
 ; - - - - - - - - - - - - -
 	moveq	#0,d0
 	move.l	d3,d1
 	Rbra	L_SL0
 ; - - - - - - - - - - - - -
-	Lib_Par InSamLoopOn0	
+	Lib_Par InSamLoopOn0
 ; - - - - - - - - - - - - -
 	moveq	#0,d0
 	moveq	#%1111,d1
@@ -3032,19 +3058,19 @@ VPl4	bset	d1,Noise-MB(a3)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SAMLOOP OFF
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par InSamLoopOff1	
+	Lib_Par InSamLoopOff1
 ; - - - - - - - - - - - - -
 	moveq	#-1,d0
 	move.l	d3,d1
 	Rbra	L_SL0
 ; - - - - - - - - - - - - -
-	Lib_Par InSamLoopOff0	
+	Lib_Par InSamLoopOff0
 ; - - - - - - - - - - - - -
 	moveq	#-1,d0
 	moveq	#%1111,d1
 	Rbra	L_SL0
 ; - - - - - - - - - - - - -
-	Lib_Def	SL0		
+	Lib_Def	SL0
 ; - - - - - - - - - - - - -
 	moveq	#0,d2
 	Dlea	Sami_int,a0
@@ -3064,7 +3090,7 @@ Sl2	lea	Sami_intl(a0),a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	NOISE TO voice
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InNoiseTo	
+	Lib_Par	InNoiseTo
 ; - - - - - - - - - - - - -
 	move.l	d3,d1
 	moveq	#0,d0
@@ -3073,7 +3099,7 @@ Sl2	lea	Sami_intl(a0),a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SAMPLE n TO voice
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSampleTo	
+	Lib_Par	InSampleTo
 ; - - - - - - - - - - - - -
 	move.l	(a3),d0
 	move.l	d3,-(a3)
@@ -3083,7 +3109,7 @@ Sl2	lea	Sami_intl(a0),a0
 	neg.w	d0
 	Rbra	L_ISmt
 ; - - - - - - - - - - - - -
-	Lib_Def	ISmt		
+	Lib_Def	ISmt
 ; - - - - - - - - - - - - -
 	Dlea	Waves,a0
 	moveq	#0,d2
@@ -3099,21 +3125,21 @@ ISmt2	addq.l	#2,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SAM PLAY [voice],number,[frequency]
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSamPlay1		
+	Lib_Par	InSamPlay1
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	Rbsr	L_GetSam
 	moveq	#%1111,d1
 	Rbra	L_GoSam
 ; - - - - - - - - - - - - -
-	Lib_Par	InSamPlay2		
+	Lib_Par	InSamPlay2
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	Rbsr	L_GetSam
 	move.l	(a3)+,d1
 	Rbra	L_GoSam
 ; - - - - - - - - - - - - -
-	Lib_Par InSamPlay3		
+	Lib_Par InSamPlay3
 ; - - - - - - - - - - - - -
 	move.l	d3,-(a3)
 	move.l	4(a3),d0
@@ -3122,13 +3148,13 @@ ISmt2	addq.l	#2,a0
 	cmp.l	#500,d3
 	Rble	L_IFonc
 	addq.l	#4,a3
-	move.l	(a3)+,d1	
+	move.l	(a3)+,d1
 	Rbra	L_GoSam
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SAM RAW voice,ad,length,freq
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSamRaw		
+	Lib_Par	InSamRaw
 ; - - - - - - - - - - - - -
 	cmp.l	#500,d3
 	Rble	L_IFonc
@@ -3149,7 +3175,7 @@ ISmt2	addq.l	#2,a0
 	move.w	d1,d0
 	eor.w	#$000F,d0
 	Rbsr	L_StopDma
-	Rbsr	L_VOnOf	
+	Rbsr	L_VOnOf
 
 	lea	Circuits,a2
 	move.w	EnvOn-MB(a3),d7
@@ -3164,7 +3190,7 @@ ISp2b	btst	d1,d4
 	Rbsr	L_SPlay
 ISp2c	dbra	d1,ISp2b
 * Start!
-ISpX	
+ISpX
 	Rbsr	L_DmaWait
 	bset	#15,d0
 	move.w	d0,DmaCon(a2)
@@ -3174,11 +3200,11 @@ ISpX
 	Rjsr	L_LoadRegs
 	move.l	(sp)+,a3
 	rts
-	
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	Find a sample -> A0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	GetSam	
+	Lib_Def	GetSam
 ; - - - - - - - - - - - - -
 	move.l	d0,-(sp)
 	Dload	a0
@@ -3213,7 +3239,7 @@ ISpX
 	Lib_Par	InSload
 ; - - - - - - - - - - - - -
 	tst.l	d3			Length
-	Rbmi	L_IFonc	
+	Rbmi	L_IFonc
 	move.l	(a3)+,d0		Adress (or bank)
 	Rjsr	L_Bnk.OrAdr
 	move.l	d0,d2
@@ -3253,7 +3279,7 @@ ISpX
 	Rbra	L_SPl0
 
 ; - - - - - - - - - - - - -
-	Lib_Def	SPl0		
+	Lib_Def	SPl0
 ; - - - - - - - - - - - - -
 	movem.l	a4,-(sp)
 
@@ -3286,7 +3312,7 @@ ISpX
 	bne.s	.skipa
 	subq.l	#1,Sami_rpos(a4)
 .skipa	clr.l	Sami_radr(a4)			* Pas de double buffer
-	
+
 	move.l	d6,d5
 	move.l	MusClock-MB(a3),d6
 	bsr	Div32
@@ -3296,7 +3322,7 @@ ISpX
 .skip0	move.w	d0,6(a2)			* AudPer
 
 	bclr	d1,d7
-	move.w	EnvDVol(a0),Sami_dvol(a4)	* Volume, sauf si 
+	move.w	EnvDVol(a0),Sami_dvol(a4)	* Volume, sauf si
 	tst.l	d5				  une enveloppe est
 	beq.s	.skip1				  definie
 	clr.l	Sami_rpos(a4)
@@ -3374,7 +3400,7 @@ dv1:    roxl.l 	#1,d0
 	rts
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;	DEL WAVE 
+;	DEL WAVE
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Par	InDelWave
 ; - - - - - - - - - - - - -
@@ -3397,7 +3423,7 @@ dv1:    roxl.l 	#1,d0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SET ENVEL n,n TO n,v
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSetEnvel	
+	Lib_Par	InSetEnvel
 ; - - - - - - - - - - - - -
 	move.l	d3,d4
 	cmp.l	#64,d4
@@ -3428,7 +3454,7 @@ ISe1	move.l	a3,-(sp)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	RESET WAVES
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	RazWave	
+	Lib_Def	RazWave
 ; - - - - - - - - - - - - -
 	movem.l	a2/d0-d2,-(sp)
 	moveq	#%1111,d0
@@ -3445,7 +3471,7 @@ RzW2	Rbsr	L_NoWave
 	movem.l	(sp)+,a2/d0-d2
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Def	NoWave	
+	Lib_Def	NoWave
 ; - - - - - - - - - - - - -
 	Dlea	Waves,a0		Back to default waves
 	move.w	#1,(a0)+
@@ -3498,7 +3524,7 @@ NeW2	move.l	(a1)+,(a0)+
 	moveq	#63,d0
 	bsr	NewRout
 * 1/8
-	move.l	a2,a1	
+	move.l	a2,a1
 	move.l	a0,a2
 	moveq	#31,d0
 	bsr	NewRout
@@ -3554,9 +3580,9 @@ WAd3	moveq	#-1,d0
 	rts
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;	Delete a wave (a2)-d2 					
+;	Delete a wave (a2)-d2
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	WaveDel	
+	Lib_Def	WaveDel
 ; - - - - - - - - - - - - -
 	movem.l	a0-a2/d0-d2,-(sp)
 	move.w	WaveNb(a2),d1
@@ -3571,7 +3597,7 @@ WAd3	moveq	#-1,d0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	STOP SAMPLES INTERRUPTS
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	Sami_stop	
+	Lib_Def	Sami_stop
 ; - - - - - - - - - - - - -
 	move.w	#%0000011110000000,d0
 	move.w	d0,Circuits+IntEna
@@ -3582,7 +3608,7 @@ WAd3	moveq	#-1,d0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	STOP ENVELOPPE D0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	EnvOff	
+	Lib_Def	EnvOff
 ; - - - - - - - - - - - - -
 	movem.l	d0-d3/a0,-(sp)
 	move.w	EnvOn-MB(a3),d1
@@ -3605,11 +3631,11 @@ EOf2	lea	$10(a0),a0
 	move.w	d3,MuReStart-MB(a3)
 	movem.l	(sp)+,d0-d3/a0
 	rts
-	
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Next enveloppe
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	MuIntE	
+	Lib_Def	MuIntE
 ; - - - - - - - - - - - - -
 	move.l	EnvAd(a0),a1
 MuIe0	move.w	(a1)+,d3
@@ -3659,7 +3685,7 @@ MuIntS	bset	d1,d5
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	MUSIC OFF-> Stops all musics
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InMusicOff	
+	Lib_Par	InMusicOff
 ; - - - - - - - - - - - - -
 	movem.l	a0-a3/d0-d1,-(sp)
 	Dload	a3
@@ -3672,7 +3698,7 @@ MuIntS	bset	d1,d5
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	MUSIC STOP-> Stops current music
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InMusicStop	
+	Lib_Par	InMusicStop
 ; - - - - - - - - - - - - -
 	movem.l	a0-a3/d0-d1,-(sp)
 	Dload	a3
@@ -3698,7 +3724,7 @@ IStp	movem.l	(sp)+,a0-a3/d0-d1
 	Rbcs	L_MVol
 	Rbcc	L_IFonc
 ; - - - - - - - - - - - - -
-	Lib_Def	MVol		
+	Lib_Def	MVol
 ; - - - - - - - - - - - - -
 	and.w	#63,d0
 	Dload	a0
@@ -3725,7 +3751,7 @@ MVol3	rts
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	VOICE ON/OFF Voices
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InVoice	
+	Lib_Par	InVoice
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	and.w	#$000F,d0
@@ -3738,7 +3764,7 @@ MVol3	rts
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Start / Stop voices D0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	VOnOf	
+	Lib_Def	VOnOf
 ; - - - - - - - - - - - - -
 	movem.l	d0-d5/a0-a3,-(sp)
 	move.w	d0,d4
@@ -3786,7 +3812,7 @@ VooX	movem.l	(sp)+,d0-d5/a0-a3
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	MUSIC n
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InMusic	
+	Lib_Par	InMusic
 ; - - - - - - - - - - - - -
 	tst.l	d3
 	Rbls	L_IFonc
@@ -3849,7 +3875,7 @@ NoEffect2
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Tempo T
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InTempo	
+	Lib_Par	InTempo
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	cmp.l	#100,d0
@@ -3864,7 +3890,7 @@ ITemp	rts
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;		=VU METRE(v)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par FnVuMeter		
+	Lib_Par FnVuMeter
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	cmp.l	#4,d0
@@ -3878,7 +3904,7 @@ ITemp	rts
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	=MU BASE
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	FnMusicBase	
+	Lib_Par	FnMusicBase
 ; - - - - - - - - - - - - -
 	Dload	a0
 	move.l	a0,d3
@@ -3888,12 +3914,12 @@ ITemp	rts
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	LED INSTRUCTION
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InLedOn		
+	Lib_Par	InLedOn
 ; - - - - - - - - - - - - -
 	bclr	#1,$BFE001
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Par	InLedOf		
+	Lib_Par	InLedOf
 ; - - - - - - - - - - - - -
 	bset	#1,$BFE001
 	rts
@@ -3901,7 +3927,7 @@ ITemp	rts
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	INSTALL THE SAMPLE HANDLER
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	Sami_install	
+	Lib_Def	Sami_install
 ; - - - - - - - - - - - - -
 	tst.w	Sami_flag-MB(a3)
 	bne.s	.skip
@@ -3928,7 +3954,7 @@ Sami_start
 	move.l	Sami_handad-MB(a3),is_code(a1)
 	move.b	#2,ln_type(a1)
 	move.b	#0,ln_pri(a1)
-	move.l	$4.w,a6	
+	move.l	$4.w,a6
 	movem.l	d0/a1,-(sp)
 	jsr	-162(a6)		SetIntVector
 	move.l	d0,d1
@@ -3939,7 +3965,7 @@ Sami_start
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	REMOVE THE SAMPLE HANDLER
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	Sami_remove	
+	Lib_Def	Sami_remove
 ; - - - - - - - - - - - - -
 	tst.w	Sami_flag-MB(a3)
 	beq.s	.skip
@@ -3952,7 +3978,7 @@ Sami_start
 	move.l	d2,d0
 	jsr	-162(a6)		SetIntVector
 	lea	Sami_intl(a2),a2
-	addq.w	#1,d2	
+	addq.w	#1,d2
 	cmp.w	#11,d2
 	bne.s	.loop
 	lea	Circuits,a0
@@ -3970,12 +3996,12 @@ Sami_start
 ; 	This routines performs jump to the normal AMOS error messages:
 ; 	Load in D0 the number of the error, and do a Rjmp to L_Error.
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	IOOMem	
+	Lib_Def	IOOMem
 ; - - - - - - - - - - - - -
 	moveq	#24,d0
 	Rjmp	L_Error
 ; - - - - - - - - - - - - -
-	Lib_Def	IFonc		
+	Lib_Def	IFonc
 ; - - - - - - - - - - - - -
 	moveq	#23,d0
 	Rjmp	L_Error
@@ -3985,39 +4011,39 @@ Sami_start
 ; 	Customized error messages
 ;	This list of routines just load in D0 the number of the error message in
 ; 	the extension error-list, and call the error handling routine.
-; 	178 is the base of the music errors in the main error list...				
+; 	178 is the base of the music errors in the main error list...
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	WNDef		
+	Lib_Def	WNDef
 ; - - - - - - - - - - - - -
-	move.w	#0+178,d0	
+	move.w	#0+178,d0
 	Rjmp	L_Error
 ; - - - - - - - - - - - - -
-	Lib_Def	SNDef		
+	Lib_Def	SNDef
 ; - - - - - - - - - - - - -
 	move.w	#1+178,d0
 	Rjmp	L_Error
 ; - - - - - - - - - - - - -
-	Lib_Def	BNSam		
+	Lib_Def	BNSam
 ; - - - - - - - - - - - - -
 	move.w	#2+178,d0
 	Rjmp	L_Error
 ; - - - - - - - - - - - - -
-	Lib_Def	STSho		
+	Lib_Def	STSho
 ; - - - - - - - - - - - - -
 	move.w	#3+178,d0
 	Rjmp	L_Error
 ; - - - - - - - - - - - - -
-	Lib_Def	W0Res		
+	Lib_Def	W0Res
 ; - - - - - - - - - - - - -
 	move.w	#4+178,d0
 	Rjmp	L_Error
 ; - - - - - - - - - - - - -
-	Lib_Def	MnRes		
+	Lib_Def	MnRes
 ; - - - - - - - - - - - - -
 	move.w	#5+178,d0
 	Rjmp	L_Error
 ; - - - - - - - - - - - - -
-	Lib_Def	MNDef		
+	Lib_Def	MNDef
 ; - - - - - - - - - - - - -
 	move.w	#6+178,d0
 	Rjmp	L_Error
@@ -4026,7 +4052,7 @@ Sami_start
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	=SAM SWAPPED(V)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	FnSamSwapped	
+	Lib_Par	FnSamSwapped
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	moveq	#0,d3
@@ -4051,7 +4077,7 @@ Sami_start
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SAM SWAP
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSamSwap	
+	Lib_Par	InSamSwap
 ; - - - - - - - - - - - - -
 	move.l	d3,d4
 	Rbmi	L_IFonc
@@ -4074,24 +4100,24 @@ Sami_start
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SAM STOP
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSamStop0	
+	Lib_Par	InSamStop0
 ; - - - - - - - - - - - - -
 	moveq	#%1111,d3
 	Rbra	L_InSamStop1
 ; - - - - - - - - - - - - -
-	Lib_Par InSamStop1	
+	Lib_Par InSamStop1
 ; - - - - - - - - - - - - -
 	move.l	d3,d1
 	and.l	#$F,d1
 	move.w	d1,Circuits+DmaCon
-	lsl.w	#7,d1	
+	lsl.w	#7,d1
 	move.w	d1,Circuits+IntEna
 	rts
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	TRACK LOAD "nom",banque
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InTrackLoad	
+	Lib_Par	InTrackLoad
 ; - - - - - - - - - - - - -
 	cmp.l	#$10000,d3
 	Rbge	L_IFonc
@@ -4107,7 +4133,7 @@ Sami_start
 ; ~~~~~~~~~~~~~~~~
 	move.l	(a3)+,a0
 	move.w	(a0)+,d0
-	subq.w	#1,d0	
+	subq.w	#1,d0
 	cmp.w	#128,d0
 	Rbcc	L_IFonc
 	move.l	Name1(a5),a1
@@ -4182,7 +4208,7 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	TRACK CHECK, arrete la musique si pas banque...
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	TrackCheck	
+	Lib_Def	TrackCheck
 ; - - - - - - - - - - - - -
 	movem.l	a0-a1,-(sp)
 	Dload	a1
@@ -4200,7 +4226,7 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	TRACK STOP
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InTrackStop	
+	Lib_Par	InTrackStop
 ; - - - - - - - - - - - - -
 	move.l	a0,-(sp)
 	Dload	a0
@@ -4237,18 +4263,18 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	TRACK PLAY [Bank],[Pattern]
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InTrackPlay0	
+	Lib_Par	InTrackPlay0
 ; - - - - - - - - - - - - -
 	move.l	#EntNul,d3
 	Rbra	L_InTrackPlay1
 ; - - - - - - - - - - - - -
-	Lib_Par	InTrackPlay1	
+	Lib_Par	InTrackPlay1
 ; - - - - - - - - - - - - -
 	move.l	d3,-(a3)
 	move.l	#EntNul,d3
 	Rbra	L_InTrackPlay2
 ; - - - - - - - - - - - - -
-	Lib_Par	InTrackPlay2	
+	Lib_Par	InTrackPlay2
 ; - - - - - - - - - - - - -
 	cmp.l	#EntNul,(a3)		D3=pattern, not supported in this version
 	bne.s	.skip
@@ -4256,18 +4282,18 @@ BkTrack	dc.b	"Tracker "
 	moveq	#0,d0
 	move.w	Track_Bank-MB(a0),d0
 	move.l	d0,(a3)
-.skip	
+.skip
 	move.l	(a3)+,d0
 	Rjsr	L_Bnk.OrAdr
 	move.l	d0,a2
-	cmp.l	#"Trac",-8(a2)	
+	cmp.l	#"Trac",-8(a2)
 	bne	.nobank
 	cmp.l	#"ker ",-4(a2)
 	bne	.nobank
-	
+
 	Rbsr	L_InSamStop0
 	Rbsr	L_InTrackStop
-	
+
 ; Init music...
 ; ~~~~~~~~~~~~~
 	move.l	a3,-(sp)
@@ -4324,7 +4350,7 @@ BkTrack	dc.b	"Tracker "
 ; Start the music
 ; ~~~~~~~~~~~~~~~
 	move.b	#1,mt_on-MB(a3)
-	move.l	(sp)+,a3	
+	move.l	(sp)+,a3
 	rts
 ; Not a tracker module
 .nobank	move.w	#8+178,d0
@@ -4333,7 +4359,7 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Disk error
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	IDError	
+	Lib_Def	IDError
 ; - - - - - - - - - - - - -
 	move.w	#DEBase+15,d0
 	Rjmp	L_Error
@@ -4341,7 +4367,7 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Ask narrator's lips...
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InMouthRead		
+	Lib_Par	InMouthRead
 ; - - - - - - - - - - - - -
 	Dload	a2
 	tst.l	TranBase-MB(a2)
@@ -4368,7 +4394,7 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	TALK MISC volume,freq
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InTalkMisc		
+	Lib_Par	InTalkMisc
 ; - - - - - - - - - - - - -
 	Rbsr	L_OpNar
 	move.l	#EntNul,d0
@@ -4397,7 +4423,7 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SSAVE 	File, adress to end
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSsave		
+	Lib_Par	InSsave
 ; - - - - - - - - - - - - -
 	move.l	(a3)+,d2		Start Adress (d3=start ad)
 	sub.l	d2,d3
@@ -4427,7 +4453,7 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	MED LOAD "name",bank
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InMedLoad	
+	Lib_Par	InMedLoad
 ; - - - - - - - - - - - - -
 	Rbsr	L_MedOpen
 	cmp.l	#$10000,d3
@@ -4441,7 +4467,7 @@ BkTrack	dc.b	"Tracker "
 ; ~~~~~~~~~~~~~~~~
 	move.l	(a3)+,a0
 	move.w	(a0)+,d0
-	subq.w	#1,d0	
+	subq.w	#1,d0
 	cmp.w	#128,d0
 	Rbcc	L_IFonc
 	move.l	Name1(a5),a1
@@ -4538,7 +4564,7 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	MED CHECK, Stop the music if no more bank
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	MedCheck	
+	Lib_Def	MedCheck
 ; - - - - - - - - - - - - -
 	movem.l	d0/a0-a1,-(sp)
 	Dload	a1
@@ -4559,7 +4585,7 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	MED STOP
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InMedStop	
+	Lib_Par	InMedStop
 ; - - - - - - - - - - - - -
 	movem.l	a0-a2/a6/d0-d2,-(sp)
 	Dload	a0
@@ -4574,20 +4600,20 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	MED PLAY [Bank],[Song]
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InMedPlay0	
+	Lib_Par	InMedPlay0
 ; - - - - - - - - - - - - -
 	move.l	#EntNul,d3
 	Rbra	L_InMedPlay1
 ; - - - - - - - - - - - - -
-	Lib_Par	InMedPlay1	
+	Lib_Par	InMedPlay1
 ; - - - - - - - - - - - - -
 	move.l	d3,-(a3)
 	move.l	#EntNul,d3
 	Rbra	L_InMedPlay2
 ; - - - - - - - - - - - - -
-	Lib_Par	InMedPlay2	
+	Lib_Par	InMedPlay2
 ; - - - - - - - - - - - - -
-	Dload	a2			
+	Dload	a2
 	Rbsr	L_MedOpen		Open library if needed
 	Rbsr	L_InMedStop		Stop an eventual music
 	clr.l	Med_Adr-MB(a2)
@@ -4602,11 +4628,11 @@ BkTrack	dc.b	"Tracker "
 .skip	move.l	(a3)+,d0
 	Rjsr	L_Bnk.OrAdr
 	move.l	d0,a2
-	cmp.l	#"Med ",-8(a2)	
+	cmp.l	#"Med ",-8(a2)
 	bne	.nobank
 	cmp.l	#"    ",-4(a2)
 	bne	.nobank
-	
+
 ; Stops all the sounds..
 ; ~~~~~~~~~~~~~~~~~~~~~~
 	Rbsr	L_InSamStop0
@@ -4640,14 +4666,14 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Open the MED library
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	MedOpen	
+	Lib_Def	MedOpen
 ; - - - - - - - - - - - - -
 	movem.l	a0-a2/d0-d2,-(sp)
 	Dload	a2
 	tst.l	Med_Base-MB(a2)
 	bne.s	.Open
 	lea	Med_Name-MB(a2),a1
-	moveq	#2,d0			
+	moveq	#2,d0
 	move.l	a6,-(sp)
 	move.l	$4.w,a6
 	jsr	_LVOOpenLibrary(a6)
@@ -4668,12 +4694,12 @@ BkTrack	dc.b	"Tracker "
 	Rjmp	L_Error
 .Err2	Rbsr	L_MedClose		Cannot initialise med.lib
 	move.w	#188,d0
-	Rjmp	L_Error	
+	Rjmp	L_Error
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	MED MIDI ON / OFF
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InMedMidiOn	
+	Lib_Par	InMedMidiOn
 ; - - - - - - - - - - - - -
 	Dlea	Med_Midi,a0
 	move.b	#1,(a0)
@@ -4682,7 +4708,7 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	MED CLOSE
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	MedClose	
+	Lib_Def	MedClose
 ; - - - - - - - - - - - - -
 	movem.l	a0-a2/a6/d0-d2,-(sp)
 	Rbsr	L_InMedStop
@@ -4703,7 +4729,7 @@ BkTrack	dc.b	"Tracker "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	MED CONT
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InMedCont	
+	Lib_Par	InMedCont
 ; - - - - - - - - - - - - -
 	movem.l	a0-a2/a6/d0-d2,-(sp)
 	Dload	a0
@@ -4717,19 +4743,19 @@ BkTrack	dc.b	"Tracker "
 	jsr	_MEDContModule(a6)
 .Skip	movem.l	(sp)+,a0-a2/a6/d0-d2
 	rts
-	
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	+++ ERROR MESSAGES...
-; 
+;
 ; 	NOTE: this extension uses the main internal AMOS error messages,
 ; 	But, follow the explanation on how to create NEW error messages,
-; 	specific to the extension. Everything is remark, of course...				
+; 	specific to the extension. Everything is remark, of course...
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; ____________________________________________________________________
 ;
 ; How to create you own messages...
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-; You know that the compiler have a ERROR option (with errors) and a 
+; You know that the compiler have a ERROR option (with errors) and a
 ; a NOERROR (without errors). To achieve that, the compiler copies one of
 ; the two next routines, depending on the flag. If errors are to be
 ; copied along with the program, then the next next routine is used. If not,
@@ -4772,7 +4798,7 @@ BkTrack	dc.b	"Tracker "
 ; If you compile with -E0, the compiler will replace the previous
 ; routine by this one. This one just sets D3 to -1, and does not
 ; load messages in A0. Anyway, values in D1 and D2 must be valid.
-;	
+;
 ; THIS ROUTINE MUST BE THE LAST ONE IN THE LIBRARY!
 ;
 ;L113	moveq	#0,d1
@@ -4780,9 +4806,9 @@ BkTrack	dc.b	"Tracker "
 ;	moveq	#-1,d3
 ;	Rjmp	L_ErrorExt
 ; ___________________________________________________________________
-	
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; 	+++ If no error routines, you must anyway have 2 empty routines!				
+; 	+++ If no error routines, you must anyway have 2 empty routines!
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Empty
 ; - - - - - - - - - - - - -
@@ -4819,7 +4845,7 @@ C_End	dc.w	0
 ; +++ 	CONVERTING YOUR EXTENSION TO AMOSPRO V2.0 FORMAT
 ;
 ;	An old style extension will perfectly work under AMOSPro V2.0.
-;	
+;
 ;	You may anyway, want to convert you extension to the new format to
 ; to benefit from the new facilities. To do so:
 ;
@@ -4835,7 +4861,7 @@ C_End	dc.w	0
 ;		* Grab the last parameter from D3 and not any more from the
 ;		  pile (simplest way is to push D3 in A3 just before your code)
 ;		* Replace the label definition of the routine with the new
-;		  Lib_ Def or Lib_ Par macros. 
-;		* Enventually, for function, use "Ret_" macros to return the 
+;		  Lib_ Def or Lib_ Par macros.
+;		* Enventually, for function, use "Ret_" macros to return the
 ;		  parameters.
 ;

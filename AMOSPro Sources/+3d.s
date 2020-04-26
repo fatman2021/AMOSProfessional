@@ -1,7 +1,36 @@
+;---------------------------------------------------------------------
+;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;
+;---------------------------------------------------------------------
 
 *      Incdir   "i:"
 
-; AMOS Professional stuff 
+; AMOS Professional stuff
 
 Version MACRO
       	dc.b   "Issue 1.02(AP200)"
@@ -40,7 +69,7 @@ ANIM_REL       equ   1
 ERR_CANT_LOAD_CODE equ 28  * Must be consistant with error messages below
 
 ******************************************************************************
-*                     Imports from C 3d functions 
+*                     Imports from C 3d functions
 *   Each equate corresponds to a C function whose address is given in the
 *   corresponding position in the look-up table at the start of 'c3d.s'.
 *   Any changes to these equates must be mirrored in the look-up table.
@@ -101,7 +130,7 @@ NUM_LIB_ROUTINES    equ     (QUIT_3D+1)
 ******************************************************************************
 *   CallC and CallCP are macros intended to simplify entry to C from
 *   library routines. The macros calculate the start of the compiler
-*   library 'data' area label (NOT the 68000 data section) and then jumps 
+*   library 'data' area label (NOT the 68000 data section) and then jumps
 *   to one of the set up routines:
 *       Macro       Set up routine                  Notes
 *       -----       --------------                  -----
@@ -519,7 +548,7 @@ ExTk:       dc.w     1,0               * Fake instruction
 * The 3d reset routine reset_3d is now called after the 3d code segment
 * has been loaded.
 
-Library:    
+Library:
 	cmp.l	#"APex",d1
 	bne	BadVer
 
@@ -553,7 +582,7 @@ Library:
             move.l   #Clear,d1
             Execall  AllocMem
             tst.l    d0
-            bne.s    StackMemOk      
+            bne.s    StackMemOk
             moveq    #-1,d0              * Error condition
 	    sub.l    a0,a0
             bra.s    StackErr
@@ -726,12 +755,12 @@ NoExtraPar2:movem.l  a3-a6,-(sp)           * Stash registers on AMOS stack
 * N.B. LoadSeg returns a BCPL pointer (!)
 
 LoadCPrg:   movem.l  d0-d2/a3-a6,-(sp)       * d0-d2 for 3d, a3-a6 for AMOS
-	
+
 	bsr	GetAMOSPath1		Essai avec la command line
 	beq.s	.Skip
 	bsr.s	TryToLoadC
 	bne.s	CLoadedOK
-.Skip	bsr	GetAMOSPath2		Essai dans APSystem 
+.Skip	bsr	GetAMOSPath2		Essai dans APSystem
 	beq.s	.Skip2
 	bsr.s	TryToLoadC
 	bne.s	CLoadedOK
@@ -793,7 +822,7 @@ GetAMOSPath1
 	move.l  a0,d0                   * Is the path too long ?
 	sub.l   a1,d0
 	cmp.l   #MX_CPRG_PATH,d0
-	bcc.s   BadAMOSPath 
+	bcc.s   BadAMOSPath
 	bra.s	PathCopy
 
 ; Path found in normal system path
@@ -822,7 +851,7 @@ CopyName
         bne.s    .Loop
         moveq    #-1,d0                  * Ok, return(TRUE);
         rts
-BadAMOSPath 
+BadAMOSPath
 	moveq    #0,d0                   * Fail, return(FALSE);
         rts
 
@@ -1029,7 +1058,7 @@ IAngle_A:   move.w  #CIntStrNoR-Data,d0
 L_IAngle_B  equ      20
 IAngle_B:   move.w   #CIntStrNoR-Data,d0
             move.w   #4*TD_ANGLE_ABC,d1
-            moveq    #1,d2   
+            moveq    #1,d2
             CallCP
 
 L_IAngle_C  equ      21
@@ -1053,7 +1082,7 @@ FAttitudeA: move.w   #CIntRInt-Data,d0
             move.w   #4*TD_ATTITUDE_ABC,d1
             moveq    #0,d2
             CallCP
-                    
+
 L_FAttitudeB equ     25
 FAttitudeB: move.w   #CIntRInt-Data,d0
             move.w   #4*TD_ATTITUDE_ABC,d1
@@ -1197,7 +1226,7 @@ FZoneX:     move.w   #C2IntRInt-Data,d0
 L_FZoneY    equ      48
 FZoneY:     move.w  #C2IntRInt-Data,d0
             move.w  #4*TD_ZONE_XYZR,d1
-            moveq   #1,d2       
+            moveq   #1,d2
             CallCP
 
 L_FZoneZ    equ      49
@@ -1474,7 +1503,7 @@ L_Custom:   equ   (L_ErrScrNotOpen+1)
 ErrCustomMsg:lea     ErrorMsgs(pc),a0  * a0=error messages
             moveq   #0,d3              * d3=Print messages
             RJmp   L_ErrorExt          * AMOS error handler
-                                    
+
 * Error messages...
 
 ErrorMsgs:  dc.b     "Invalid object number",0
@@ -1527,6 +1556,3 @@ ExWel:      dc.b     "Voodoo 3D extension "
 ******* Make sure to length of file is even!
 End:        dc.w     0
             even
-
-
-

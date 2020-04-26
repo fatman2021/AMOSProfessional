@@ -1,3 +1,32 @@
+;---------------------------------------------------------------------
+;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;
+;---------------------------------------------------------------------
 
 *
 		INCDIR	":AMOS.S/Common/"
@@ -42,7 +71,7 @@ Ext_TkTst       equ     $4e
 *
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -57,7 +86,7 @@ AMOSIn1	move.l	a5,a4
 	bra.s	AMOS_Suite
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -82,7 +111,7 @@ AMOS_Suite
 	bra	Go_On
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -140,7 +169,7 @@ Go_On	move.l	sp,C_Pile(a5)
 	bsr	CommandLine
 	move.l	d0,-(sp)
 * Ca y est! On peut trouver les noms
-	bsr	InitListe	
+	bsr	InitListe
 * Des erreurs?
 	move.l	(sp)+,d0
 	bne	ErrCommand
@@ -164,7 +193,7 @@ Go_On	move.l	sp,C_Pile(a5)
 	bsr	GoPos
 
 * Debut de compilation
-Compile	
+Compile
 * Initialisations
 	bsr	IniSource
 	bsr	IniNOb
@@ -192,7 +221,7 @@ Compile
 	bsr	FActualise
 
 * Nettoyage
-CFin	
+CFin
 	moveq	#29,d0
 	bsr	MesPrint
 	move.l	MaxMem(a5),d0
@@ -234,7 +263,7 @@ Rdz	clr.b	(a0)+
 
 CommandLine:
 
-; Saute le début
+; Saute le dï¿½but
 .Cli0	move.b	(a0)+,d0
 	beq	.CliX
 	cmp.b	#" ",d0
@@ -407,7 +436,7 @@ NObX	rts
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -443,7 +472,7 @@ DoVbl	movem.l	a1-a6/d1-d7,-(sp)
 	SyCall	ActBob
 	SyCall	AffBob
 .skip	movem.l	(sp)+,a1-a6/d1-d7
-	rts		
+	rts
 
 ******* Set compiler position...
 GoPos	bsr	CompPos
@@ -453,7 +482,7 @@ CompPos	tst.w	Flag_AMOS(a5)
 	rts
 .Yes	movem.l	d0-d7/a1-a6,-(sp)
 	move.l	AMOS_Dz(a5),a5
-	moveq	#-1,d1	
+	moveq	#-1,d1
 	moveq	#0,d2
 	moveq	#0,d3
 	SyCall	AMALReg
@@ -470,7 +499,7 @@ FActualise
 .Loop	bsr	Actualise
 	movem.l	d1-d7/a1-a2/a5,-(sp)
 	move.l	AMOS_Dz(a5),a5
-	moveq	#-1,d1	
+	moveq	#-1,d1
 	moveq	#0,d2
 	moveq	#1,d3
 	SyCall	AMALReg
@@ -478,7 +507,7 @@ FActualise
 	move.w	(a0),d0
 	cmp.w	Pour_Pos(a5),d0
 	bcs.s	.loop
-	rts	
+	rts
 
 ******* Set pourcentage
 *	D0= largeur alouee
@@ -497,7 +526,7 @@ AffPour	tst.w	Flag_AMOS(a5)
 	subq.w	#1,Pour_Cpt(a5)
 	bne.s	.Skip
 	move.w	Pour_Base(a5),Pour_Cpt(a5)
-	bsr	DoVBL			
+	bsr	DoVBL
 .Skip	rts
 
 ******* Print un chiffre!
@@ -511,7 +540,7 @@ Digit	movem.l	d1-d7/a0-a2,-(sp)
 	rts
 
 ******* Syntax error!
-Synt	
+Synt
 	moveq	#7,d0
 NoQuiet
 	move.w	Flag_Quiet(a5),-(sp)
@@ -521,7 +550,7 @@ NoQuiet
 	bsr	FindL
 	bsr	Digit
 	bsr	Return
-.skip	
+.skip
 	move.w	(sp)+,Flag_Quiet(a5)
 	moveq	#12,d0
 	bra	SyntOut
@@ -560,11 +589,11 @@ ErrListe
 	moveq	#4,d0
 	bra.s	ErrPrint
 ******* Erreur: cannot uncode procedure
-NoCode	
+NoCode
 	moveq	#8,d0
 	bra.s	ErrPrint
 ******* Erreur: extension not loaded.
-ErrExt	
+ErrExt
 	moveq	#3,d0
 	bra.s	ErrPrint
 ******* Syntax error dans la ligne de commande
@@ -580,7 +609,7 @@ ErrConfig
 	moveq	#11,d0
 	bra.s	ErrPrint
 ******* Erreur disque
-DError	
+DError
 	moveq	#5,d0
 	bra.s	ErrPrint
 ******* Erreur icons
@@ -588,7 +617,7 @@ NoIcons
 	moveq	#4,d0
 	bra.s	ErrPrint
 ******* Out of mem
-Oofmem	
+Oofmem
 	moveq	#6,d0
 
 ******* Sortie avec erreur!
@@ -601,7 +630,7 @@ ErrPrint
 .skip
 	move.w	(sp)+,Flag_Quiet(a5)
 	move.w	(sp)+,d0
-SyntOut	
+SyntOut
 	add.w	#Mes_BaseNoms,d0
 	bsr	GetNom
 	lea	Nom_Source(a5),a1
@@ -632,7 +661,7 @@ CFini	movem.l	d0/d1/d2,-(sp)
 CFini2	lea	Nom_Source(a5),a0
 	move.l	C_Pile(a5),sp
 	rts
-	
+
 	IFNE	CDebug
 ******* Imprime l'etat des buffers
 Print_Buffers:
@@ -674,7 +703,7 @@ Print_Buffers:
 	rts
 	ENDC
 
-******* Trouve le numéro de la ligne pointee par A6->D0
+******* Trouve le numï¿½ro de la ligne pointee par A6->D0
 FindL	move.l	a6,d2
 	move.l	#20,a6
 	moveq	#0,d1
@@ -715,7 +744,7 @@ PrintXXX
 AMOSPrint
 	move.l	B_DiskIn(a5),a1
 .Loop1	move.b	(a0)+,(a1)+
-	beq.s	.Loop2	
+	beq.s	.Loop2
 	cmp.b	#10,-1(a1)
 	bne.s	.Loop1
 	move.b	#13,-1(a1)
@@ -742,7 +771,7 @@ StrPrint
 	move.l	(sp)+,d2
 	move.l	d2,a0
 Clip0	tst.b	(a0)+
-	bne.s	Clip0	
+	bne.s	Clip0
 	move.l	a0,d3
 	sub.l	d2,d3
 	subq.l	#1,d3
@@ -806,10 +835,10 @@ hxx5:     dbra d4,hxx0
 multdix:  dc.l 1000000000,100000000,10000000,1000000
           dc.l 100000,10000,1000,100,10,1,0
 
-	
+
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -818,7 +847,7 @@ multdix:  dc.l 1000000000,100000000,10000000,1000000
 ; PASSE 1-> Fabrication du code
 ;---------------------------------------------------------------------
 
-Passe1	
+Passe1
 * Reservation des buffers
 	moveq	#8,d0
 	bsr	GetChiffre
@@ -868,7 +897,7 @@ Passe1
 	moveq	#0,d1
 	move.w	NL_Source(a5),d1
 	bsr	SetPour
-	
+
 ******* Va fabriquer le header
 	bsr	Header
 
@@ -928,7 +957,7 @@ ChrEnd	move.w	#L_End,d0
 	move.l	B_FlagVarL(a5),A_FlagVarL(a5)
 	move.l	A_Datas(a5),A_ADatas(a5)
 	move.w	M_ForNext(a5),MM_ForNext(a5)
-* Quelque chose à compiler???
+* Quelque chose ï¿½ compiler???
 	tst.w	NbInstr(a5)
 	beq	ErrNothing
 
@@ -1021,7 +1050,7 @@ ProChr0	move.l	B_Lea(a5),a0
 	bcs.s	ProChr1
 	bsr	PokeAd
 	bra.s	ProChr0
-; 
+;
 ProChr1	bsr	GetWord
 	beq.s	ProChr
 	addq.w	#1,NbInstr(a5)
@@ -1054,7 +1083,7 @@ CEpr2	moveq	#L_FProc,d0
 	move.l	A_FlagVarL(a5),a0
 	bsr	PrgOut
 	bra	PChr1
-PChrX	
+PChrX
 
 ;-----> Variables globales
 	move.l	AdAdAdress(a5),AdAdress(a5)
@@ -1093,12 +1122,12 @@ CLib1	addq.l	#1,d6
 CLib2	move.l	d0,a1
 	tst.w	(a1)
 	bne.s	CLib3
-; Pas appelée: met un RTS!
+; Pas appelï¿½e: met un RTS!
 	move.l	a4,4(a1)
 	move.w	CRts(pc),d0
 	bsr	OutWord
 	bra.s	CLib1
-; Appellée
+; Appellï¿½e
 CLib3	lea	4-10(a1),a1
 	moveq	#-10,d5
 CLib4	add.l	#10,d5
@@ -1109,7 +1138,7 @@ CLib4	add.l	#10,d5
 	subq.l	#1,d0
 	bne.s	CLib4
 	movem.l	a1/a2,-(sp)
-	bsr	GetRout	
+	bsr	GetRout
 	movem.l	(sp)+,a1/a2
 	bset	#31,d6
 	bra.s	CLib4
@@ -1128,7 +1157,7 @@ GetRout	movem.l	d5/d6,-(sp)
 	btst	#0,Flag_Math(a5)
 	bne.s	.PaFl
 	move.w	#L_FoFloat*10,d5
-.PaFl	
+.PaFl
 ; Copie des RUN et ERROR (.AMOS)
 	cmp.w	#3,Flag_Type(a5)
 	bne.s	PaPrin
@@ -1321,7 +1350,7 @@ GRouJ	cmp.b	#C_CodeJ,2(a2)
 	move.l	0(a0,d1.w),d2
 	beq	DError
 	move.l	d2,a0
-	tst.l	4(a0,d0.w)	
+	tst.l	4(a0,d0.w)
 	bne	GRou1
 	move.l	#1,4(a0,d0.w)
 	bra	GRouR
@@ -1356,7 +1385,7 @@ GRouD2	cmp.l	T_Clib(a5),d4
 	bcc	GRou4
 	bsr	LdClib
 	bra.s	GRouD1
-CLibFin	
+CLibFin
 ;	lea	Protect(pc),a0
 ;	bsr	OutCode
 	bsr	Return
@@ -1427,7 +1456,7 @@ CRel1	move.b	(a1)+,d0
 ******* HUNK 2: W.Lib
 CSystem	moveq	#25,d0
 	bsr	MesPrint
-	moveq	#NH_W.Lib,d1		
+	moveq	#NH_W.Lib,d1
 	moveq	#Hunk_Public,d2		* PUBLIC mem
 	moveq	#$20,d3			* Pas d'entete
 	moveq	#4,d4
@@ -1510,7 +1539,7 @@ CSystem	moveq	#25,d0
 	bsr	OutFRead
 	moveq	#F_Courant,d1
 	bsr	FClose
-	move.l	(sp)+,a4	
+	move.l	(sp)+,a4
 	moveq	#NH_Mouse,d1
 	bsr	FinHunk
 	moveq	#102,d0
@@ -1566,7 +1595,7 @@ BkLoop	bsr	AffPour
 * Banque normale
 	bsr	GetWord			* Numero banque
 	move.w	d0,-(sp)
-	bsr	GetWord	
+	bsr	GetWord
 	moveq	#Hunk_Public,d2
 	move.w	d0,-(sp)
 	bne.s	Bkl1
@@ -1715,7 +1744,7 @@ PrgIn	move.l	a4,AdAdress(a5)
 	clr.w	M_ForNext(a5)
 	rts
 * ROUTINE -> Sortie programme/procedures
-* A0-> Buffer a copier	
+* A0-> Buffer a copier
 PrgOut	move.l	a4,-(sp)
 	move.l	a0,-(sp)
 	tst.w	Flag_Labels(a5)
@@ -1822,7 +1851,7 @@ Header	cmp.w	#3,Flag_Type(a5)
 	bsr	FOpenOld
 	beq	DError
 	moveq	#F_Courant,d1
-	move.l	B_Work(a5),d2	
+	move.l	B_Work(a5),d2
 	moveq	#$20+2+4,d3
 	bsr	FRead
 	beq	DError
@@ -1837,7 +1866,7 @@ Header	cmp.w	#3,Flag_Type(a5)
 	tst.w	Flag_WB(a5)		Workbench???
 	bne.s	.Skip1
 	bset	#0,d0
-.Skip1	bsr	OutWord		
+.Skip1	bsr	OutWord
 ; Envoie le reste
 	moveq	#0,d3
 	move.w	$20(a1),d3
@@ -1908,7 +1937,7 @@ CreeInits
 	cmp.w	#3,Flag_Type(a5)
 	beq	InitAMOS
 
-******* Programme normal	
+******* Programme normal
 	move.l	a4,A_InitMath(a5)
 	move.w	CMvqd0(pc),d0		* Flags
 	bsr	OutWord
@@ -1944,7 +1973,7 @@ InitAMOS
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -1966,7 +1995,7 @@ CLhu1	move.l	4(a1),d0
 	bsr	OutLong
 	addq.l	#8,a1
 	dbra	d4,CLhu1
-	
+
 ******* Longueur du hunk programme
 	moveq	#NH_Header,d1
 	bsr	MarkHunk
@@ -2001,19 +2030,19 @@ P2AMOS	move.l	AA_Long(a5),a4		* Longueur du source
 	bsr	OutLong
 	move.l	AA_Proc(a5),a4
 	move.l	AA_EProc(a5),d0
-	sub.l	a4,d0		
+	sub.l	a4,d0
 	subq.l	#4,d0
 	bsr	OutLong
 	move.l	A_InitMath(a5),a4	* Flags maths
 	moveq	#0,d0
 	move.b	Flag_Math(a5),d0
-	bsr	OutWord	
+	bsr	OutWord
 	move.l	AA_Reloc(a5),d0		* Pointeur sur relocation
 	sub.l	a4,d0
 	bsr	OutLong
 
 ******* Reloge le programme
-P2Reloc 
+P2Reloc
 	moveq	#10,d0
 	moveq	#0,d1
 	move.w	L_Reloc(a5),d1
@@ -2046,7 +2075,7 @@ P2b:    and.w	#$FF,d0
 	bsr	OutLong
 	subq.l	#4,a4
 	bra.s	P2a
-; Trouve l'adresse d'une routine librairie 
+; Trouve l'adresse d'une routine librairie
 P2L	move.w	d0,d1
 	swap	d0
 	lea	BufLibs(a5),a0
@@ -2090,7 +2119,7 @@ P2Finie	bsr	FActualise
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -2245,7 +2274,7 @@ InitNoms
 .Init5	move.w	d3,d0
 	rts
 ** Routine: trouve le nom #D3 dans la liste
-ListeNom	
+ListeNom
 	move.l	d5,a0
 	bsr.s	.Liste
 	bne.s	.ListeE
@@ -2277,7 +2306,7 @@ GetA1	sub.w	-2(a4),d0
 	sub.l	-4(a4),a1
 	add.w	0(a4,d0.w),a1
 	rts
-** Routine: copie ou nom dans la liste	
+** Routine: copie ou nom dans la liste
 EnvOuListe
 	exg	a0,a1
 	tst.b	(a1)
@@ -2335,8 +2364,8 @@ GetNom	tst.l	B_Noms(a5)
 	lea	0(a0,d1.w),a0
 	move.l	(sp)+,d1
 	tst.b	(a0)
-	rts	
-* Si noms pas chargés: messages d'urgence!
+	rts
+* Si noms pas chargï¿½s: messages d'urgence!
 .Nom2	lea	Mes_OOfMem(pc),a0
 	cmp.w	#Mes_BaseNoms+6,d0
 	beq.s	.Nom3
@@ -2482,11 +2511,11 @@ CreJmp: mulu	#10,d0
 CreFonc:mulu	#10,d0
         move.l 	d0,a0
         move.w 	#CiJsr,d0           ;Dans le source: JSR
-CreF:   bsr 	OutWord  
-        bsr 	RelJsr              ;Pointe la table de relocation ici 
+CreF:   bsr 	OutWord
+        bsr 	RelJsr              ;Pointe la table de relocation ici
 	move.l	a0,d0
 	bset	#BitLib,d0
-        bsr 	OutLong             ;#ROUTINE.L 
+        bsr 	OutLong             ;#ROUTINE.L
 ; Met le flag dans buffer
         move.l	BufLibs(a5),a0
 	move.w	#1,(a0)
@@ -2498,14 +2527,14 @@ CreFoncExt
 	mulu	#10,d0
         move.l 	d0,a0
         move.w 	#CiJsr,d0           ;Dans le source: JSR
-	bsr 	OutWord  
-        bsr 	RelJsr              ;Pointe la table de relocation ici 
+	bsr 	OutWord
+        bsr 	RelJsr              ;Pointe la table de relocation ici
 	lsl.w	#2,d1
 	move.w	d1,d0
 	swap	d0
 	move.w	a0,d0
 	bset	#BitLib,d0
-        bsr 	OutLong             ;#ROUTINE.L 
+        bsr 	OutLong             ;#ROUTINE.L
 ; Met le flag dans buffer
 	lea	BufLibs(a5),a0
 	move.l	0(a0,d1.w),d1
@@ -2539,7 +2568,7 @@ OutRel1 move.b 	#1,(a3)+
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -2579,7 +2608,7 @@ EBuf2	cmp.l	d2,a2
 ******* Fabrication des hunks
 
 ;-----> Debut HUNK D1, type D2
-DebHunk	
+DebHunk
 	cmp.w	#3,Flag_Type(a5)
 	beq.s	PasHunk
 	movem.l	d0-d2/a0-a1,-(sp)
@@ -2603,7 +2632,7 @@ PasHunk	move.w	a4,d0
 	and.w	#$0001,d0
 	add.w	d0,a4
 	rts
-; Fait le HUNK	
+; Fait le HUNK
 FHu0	movem.l	d0-d2/a0-a1,-(sp)
 	lsl.w	#3,d1
 	lea	T_Hunks(a5),a1
@@ -2681,13 +2710,13 @@ CpyS	rts
 ;-----> Copie d'un fichier
 ;	A0=	Nom du fichier
 ;	D1/D2=	definition hunk
-;	D3=	Nombre d'octets à sauter au debut!
+;	D3=	Nombre d'octets ï¿½ sauter au debut!
 ;	D4=	A sauter a la fin
 CopyHunk
 	move.l	d1,-(sp)	* Cree le hunk
 	move.l	d3,-(sp)
 	move.l	d4,-(sp)
-	bsr	DebHunk	
+	bsr	DebHunk
 	moveq	#F_Courant,d1
 	bsr	FOpenOld	* Ouvre le fichier
 	beq	DError
@@ -2737,7 +2766,7 @@ InidX	move.l	#L_DiscIn,d0
 	rts
 
 ******* FIN DISQUE
-FinDisc	
+FinDisc
 * Ferme tous les fichiers
 	bsr	CloseAll
 * Ferme les librairies, si pas AMOS
@@ -2779,7 +2808,7 @@ InitIcons
 	move.l	#$80000000,d0
 	move.l	d0,$3a(a0)
 	move.l	d0,$3e(a0)
-; Ok!	
+; Ok!
 .Iicx	rts
 
 ******* Fin des icones
@@ -2791,7 +2820,7 @@ FinIcons
 	beq.s	.Fic1
 	move.l	d0,a0
 	jsr	-90(a6)
-.Fic1	
+.Fic1
 	tst.w	IconAMOS(a5)
 	bne.s	.FicX
 	move.l	a6,a1
@@ -2840,7 +2869,7 @@ IniSource
 	moveq	#F_Source,d1
 	bsr	FRead
 	moveq	#F_Source,d1
-	bsr	FClose	
+	bsr	FClose
 	bra	HVerif
 ******* Petit buffer
 IniS2	move.l	L_BSo(a5),d0
@@ -2887,7 +2916,7 @@ OpSo   	cmpm.b 	(a0)+,(a1)+
 	lsl.w	#4,d0
 	move.w	d0,NL_Source(a5)
 	rts
-	
+
 ;-----> Prend un MOT du programme (A6)
 GetWord:tst.w 	Flag_Source(a5)
         bne.s 	Gsw
@@ -2981,7 +3010,7 @@ SoDi2:  bra 	FRead
 IniObjet
 	tst.w	Flag_Objet(a5)
 	bne.s	IObdisc
-* En mémoire, reserve le 1er buffer
+* En mï¿½moire, reserve le 1er buffer
 	moveq	#3,d0
 	bsr	GetChiffre
 	move.l	d0,L_Bob(a5)
@@ -3016,9 +3045,9 @@ EraObjet
 	tst.l	d3
 	bne.s	.loop
 .skip	rts
-	
+
 ******* Sauve/Ferme le programme objet
-SObject	
+SObject
 	moveq	#28,d0
 	bsr	MesPrint
 	lea	Nom_Objet(a5),a0
@@ -3077,7 +3106,7 @@ GetBob	movem.l	a1/d0/d1,-(sp)
 .loop	move.l	a0,a1
 	move.l	(a0),d1
 	add.l	4(a0),d1
-	cmp.l	d1,a4	
+	cmp.l	d1,a4
 	bcs.s	.loop2
 	move.l	8(a0),d0
 	move.l	d0,a0
@@ -3096,13 +3125,13 @@ GetBob	movem.l	a1/d0/d1,-(sp)
 	bcc.s	.loop1
 * Ok!
 .loop2	move.l	a1,Bb_Objet(a5)
-	movem.l	(sp)+,a1/d0/d1	
+	movem.l	(sp)+,a1/d0/d1
 	rts
 
 ;-----> Poke un BYTE dans l'objet
 OutByte:tst.w	Flag_Objet(a5)
 	bne.s	OutbD
-* En mémoire
+* En mï¿½moire
 	movem.l	a0/a4,-(sp)
 .Reskip	move.l	Bb_Objet(a5),a0
 	sub.l	(a0),a4
@@ -3130,7 +3159,7 @@ PamB:   rts
 ;-----> Poke un MOT dans l'objet
 OutWord:tst.w	Flag_Objet(a5)
 	bne.s	OutwD
-* En mémoire
+* En mï¿½moire
 OutW	movem.l	a0/a4,-(sp)
 .Reskip	move.l	Bb_Objet(a5),a0
 	sub.l	(a0),a4
@@ -3158,7 +3187,7 @@ PamW:   rts
 ;-----> Poke un MOT LONG dans l'objet
 OutLong:tst.w	Flag_Objet(a5)
 	bne.s	OutlD
-* En mémoire
+* En mï¿½moire
 	movem.l	a0/a4,-(sp)
 .Reskip	move.l	Bb_Objet(a5),a0
 	sub.l	(a0),a4
@@ -3180,7 +3209,7 @@ OutLong:tst.w	Flag_Objet(a5)
 	swap	d0
 	bsr	OutW
 	swap	d0
-	bra	OutW	
+	bra	OutW
 * Sur disque
 OutlD   move.l 	a0,-(sp)
         bsr 	ObDisk
@@ -3193,7 +3222,7 @@ OutlD   move.l 	a0,-(sp)
 PamL:   rts
 
 ;-----> Debuggage
-;Protect	
+;Protect
 ;	move.l	#0,-(sp)
 ;	move.l	#0,-(sp)
 ;	move.l	#0,-(sp)
@@ -3318,7 +3347,7 @@ ObDi2:  bsr 	FWrite
 
 
 ******* DOS CALL: appelle une routine DOS D7
-DosCall	
+DosCall
 	movem.l a5/a6,-(sp)
 	move.l 	C_DosBase(a5),a6
 	move.l	a6,a5
@@ -3341,7 +3370,7 @@ FOpenOld
 	bra.s	FOpen
 FOpenNew
 	move.l	#1006,d2
-FOpen	
+FOpen
 	bsr	FHandle
 	bne	DError
 	move.l	a0,-(sp)
@@ -3366,8 +3395,8 @@ ClAl	move.l	d6,d1
 	bsr	FClose
 	dbra	d6,ClAl
 	rts
-******* READ fichier D1, D3 octets dans D2	
-FRead:	
+******* READ fichier D1, D3 octets dans D2
+FRead:
 	movem.l	d1/a6,-(sp)
 	bsr	FHandle
 	move.l	C_DosBase(a5),a6
@@ -3382,7 +3411,7 @@ ErdB	moveq	#-1,d7
 	rts
 ErdE 	moveq	#0,d7
 	rts
-******* WRITE fichier D1, D3 octets de D2	
+******* WRITE fichier D1, D3 octets de D2
 FWrite:	movem.l	d1/a6,-(sp)
 	bsr	FHandle
 	move.l	C_DosBase(a5),a6
@@ -3396,7 +3425,7 @@ FWrite:	movem.l	d1/a6,-(sp)
 	bra.s	ErdB
 
 ******* SEEK fichier D1, D3 mode D2 deplacement
-FSeek:	
+FSeek:
 	movem.l	d1/a6,-(sp)
 	bsr	FHandle
 	move.l	C_DosBase(a5),a6
@@ -3406,13 +3435,13 @@ FSeek:
 	bmi.s	ErdE
 	bra.s	ErdB
 ******* LOF fichier D1
-FLof	
+FLof
 	bsr	FHandle
 FLof2	move.l	d1,-(sp)
 	moveq	#0,d2			* Seek --> fin
 	moveq	#1,d3
 	move.w	#DosSeek,d7
-	bsr	DosCall	
+	bsr	DosCall
 	move.l	(sp)+,d1
 	move.l	d0,d2			* Seek --> debut!
 	moveq	#-1,d3
@@ -3454,7 +3483,7 @@ StockOut
 	move.l	a0,A_Stock(a5)
 	move.l	(sp)+,a0
 	rts
-RestOut	
+RestOut
 	move.l	a0,-(sp)
 	move.l	A_Stock(a5),a0
 	move.l	-(a0),OldRel(a5)
@@ -3463,13 +3492,13 @@ RestOut
 	move.l	a0,A_Stock(a5)
 	move.l	(sp)+,a0
 	rts
-SautOut	
+SautOut
 	sub.l	#12,A_Stock(a5)
 	rts
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -3575,13 +3604,13 @@ IStandard
 ;-----> Fonction standard
 FStandard
 	move.w	2(a0,d0.w),d1
-FStand	
+FStand
 	moveq	#0,d2
 	moveq	#-1,d3
 	lea	4(a0,d0.w),a2
 	bra	FStan
 
-* Routine instruction 
+* Routine instruction
 IStan	movem.w	d1/d2/d3/d4,-(sp)
 IStan0	tst.b	(a2)+
 	bpl.s	IStan0
@@ -3698,7 +3727,7 @@ CParX	rts
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -3956,7 +3985,7 @@ CDim	bsr	OutLea
 	cmp.w	#TkVir-Tk,d0
 	beq.s	CDim
 	subq.l	#2,a6
-	rts	
+	rts
 
 ******* DEF FN
 CDefFn	bsr	OutLea
@@ -3970,7 +3999,7 @@ CDefFn	bsr	OutLea
 	bsr	GetWord
 	cmp.w	#TkPar1-Tk,d0
 	bne.s	Cdfn2
-* Prend les variables (à l'envers)
+* Prend les variables (ï¿½ l'envers)
 	clr.w	N_Dfn(a5)
 Cdfn0	addq.l	#2,a6
 	move.l	a6,-(sp)
@@ -4124,7 +4153,7 @@ Ope0:	addq.w	#1,NbInstr(a5)
 	bsr	GetWord
 	lea	Tk(pc),a0
  	tst.w	0(a0,d0.w)
-	bne.s	Ope0a	
+	bne.s	Ope0a
 	bsr	FStandard
 	bra.s	Ope0b
 Ope0a	move.w	2(a0,d0.w),d1
@@ -4157,7 +4186,7 @@ FNull	lea	CNull(pc),a0
 CNull	move.l	#EntNul,-(a3)
 	dc.w	$4321
 
-;-----> CONSTANTE Entiere/Hex/Bin 
+;-----> CONSTANTE Entiere/Hex/Bin
 FEnt	move.w	CCst(pc),d0
 	bsr	OutWord
 	bsr	GetLong
@@ -4210,13 +4239,13 @@ DoConst	lea	Const(pc),a0
 ******* Fonctions compilo
 FnExpentier
 	addq.l	#2,a6
-Expentier	
+Expentier
 	bsr	Evalue
 DoEntier
 	tst.b	d2
 	bne	FlToInt
 	rts
-Compat	
+Compat
 	cmp.b	d2,d5
 	beq.s	CptX
 	bsr	QueFloat
@@ -4250,14 +4279,14 @@ QueF1	tst.b	d5
 	bsr	CreFonc
 	moveq	#1,d5
 QueF2	rts
-EqType	
+EqType
 	cmp.b	d1,d2
 	bne.s	Eqt1
 	rts
 Eqt1	tst.b	d1
 	bne.s	IntToFl
 	beq.s	FlToInt
-FnFloat	
+FnFloat
 	bset	#0,Flag_Math(a5)
 	bsr	FnEval
 	tst.b	d2
@@ -4266,7 +4295,7 @@ FnFloat
 	bsr	CreFonc
 	moveq	#1,d2
 FnFl1	rts
-IntToFl	
+IntToFl
 	movem.l	d0-d1/a0-a2,-(sp)
 	bset	#0,Flag_Math(a5)
 	moveq	#L_IntToFl,d0
@@ -4274,7 +4303,7 @@ IntToFl
 	moveq	#1,d2
 	movem.l	(sp)+,d0-d1/a0-a2
 	rts
-FlToInt	
+FlToInt
 	movem.l	d0-d1/a0-a2,-(sp)
 	bset	#0,Flag_Math(a5)
 	moveq	#L_FlToInt,d0
@@ -4372,7 +4401,7 @@ COpe	move.w	d0,-(sp)
 	moveq	#0,d2
 	moveq	#2,d1
 	rts
-; Float	
+; Float
 COp1	move.w	(sp)+,d0
 	addq.w	#1,d0
 	bsr	CreFonc
@@ -4512,7 +4541,7 @@ CMath	bset	#0,Flag_Math(a5)
 	moveq	#1,d2
 	bra	CreFonc
 
-******* INC 
+******* INC
 CInc	pea	CdInc(pc)
 	bra.s	CIncDec
 CDec	pea	CdDec(pc)
@@ -4599,7 +4628,7 @@ CFol1	bsr	Evalue
 	cmp.w	#TkVir-Tk,d0
 	beq.s	CFol1
 CFol2	subq.l	#2,a6
-CFol3	rts	
+CFol3	rts
 
 ******* VARPTR
 CVarptr	addq.l	#4,a6
@@ -4667,7 +4696,7 @@ CdDNul	clr.l	-(a3)
 	moveq	#-1,d2
 	rts
 	dc.w	$4321
-	
+
 ******* Cree la routine NO DATA
 CreNoData
 	tst.l	A_EDatas(a5)
@@ -4717,7 +4746,7 @@ Cread1	bsr	CreFonc
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -4783,7 +4812,7 @@ CVal	bsr	FnEval
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -4973,14 +5002,14 @@ CFor4	move.w 	(sp),d1
 	tst.w	4(sp)
 	bne.s	CForPar
 	moveq	#-1,d7
-CForPaR	
+CForPaR
 ; Poke les tables du compilateur
         move.l 	A_Bcles(a5),a1
 	move.w	d7,(a1)+		; 0  Flag rapide
 	move.w	4(sp),(a1)+		; 2  Type
-	move.l	(sp),(a1)+		; 4  Step	
+	move.l	(sp),(a1)+		; 4  Step
 	move.l	a4,(a1)+		; 8  -6 Adresse dans le programme
-	move.w	M_ForNext(a5),(a1)+	; 12 Position de la boucle 
+	move.w	M_ForNext(a5),(a1)+	; 12 Position de la boucle
 	move.w	#16,(a1)+		; 14 -2 Taille FOR/NEXT
         move.l 	a1,A_Bcles(a5)
 ; Un FOR/NEXT de plus!
@@ -4998,10 +5027,10 @@ forcd2:	move.l	AForNext(a5),a2
 	dc.w	$4321
 
 ;-----------------------------------> NEXT
-CNext:  
+CNext:
 	bsr	OutLea
 	bsr	CTests
-; Saute la variable	
+; Saute la variable
 	bsr	GetWord
 	subq.l	#2,a6
 	cmp.w	#TkVar-Tk,d0
@@ -5057,7 +5086,7 @@ RForNxt	move.l	(a0)+,d0
 	bsr	OutWord
 .Skip1	addq.l	#4,a0
 	rts
-; Code RAPIDE 
+; Code RAPIDE
 CdNx	move.l	AForNext(a5),a2
 	lea	0(a2),a2
 	move.l	(a2)+,d0
@@ -5074,11 +5103,11 @@ CRepeat	move.l	A_Bcles(a5),a1
 	bsr	GetWord
 	beq	Synt
 	lea	-2(a6,d0.w),a0
-	move.w	#6,(a1)+		
+	move.w	#6,(a1)+
 	move.l	a1,A_Bcles(a5)
 	addq.w	#1,N_Bcles(a5)
 	rts
-CUntil	
+CUntil
 	bsr	OutLea
 	bsr	CTests
 	bsr	Evalue
@@ -5097,7 +5126,7 @@ CdUntil	tst.l	(a3)+
 	dc.w	$4321
 
 ;------------------------------> LOOP
-CLoop	
+CLoop
 	bsr	OutLea
 	bsr	CTests
 	moveq	#0,d5
@@ -5107,7 +5136,7 @@ CLoop
 	bra	UnPile
 
 ;------------------------------> WHILE / WEND
-CWhile	
+CWhile
 	bsr	GetWord
 	beq	Synt
 ; Retour du WEND
@@ -5127,7 +5156,7 @@ CWhile
 	bsr	RestOut
 	rts
 
-CWend	
+CWend
 	bsr	OutLea
 	bsr	CTests
 	move.l	A_Bcles(a5),a1
@@ -5178,7 +5207,7 @@ CEIf0	move.w	Ctsta3p(pc),d0
 	move.w	Cbne(pc),d7
 	bsr	DoTest
 	rts
-CExit	
+CExit
 	bsr	GetWord
 	move.w	d0,d1
 	beq	Synt
@@ -5196,13 +5225,13 @@ Cexi1	moveq	#0,d6
 	rts
 
 ;------------------------------> IF / THEN / ELSE
-CIf	
+CIf
 	bsr	OutLea
 	bsr	GetWord
 	beq	Synt
 	pea	0(a6,d0.w)
 	bsr	Expentier
-CIf0	
+CIf0
 	move.w	Ctsta3p(pc),d0
 	bsr	OutWord
 	move.l	(sp)+,d5
@@ -5229,7 +5258,7 @@ CINop	rts
 ;-------------------------------------> GOTO / LABELS
 
 ;-----> LABEL:
-CLabel	
+CLabel
 	move.w	N_Proc(a5),d7
 	bsr	RLabel
 	tst.l	2(a2)
@@ -5237,10 +5266,10 @@ CLabel
 	move.l	a4,2(a2)
 	rts
 
-;-----> GOTO 
-CLGoto	
+;-----> GOTO
+CLGoto
 	subq.l	#2,a6
-CGoto	
+CGoto
 	bsr	OutLea
 	bsr	CTests
 	move.w	N_Proc(a5),d7
@@ -5248,14 +5277,14 @@ CGoto
 CGoto1	move.w	Cjmpa0(pc),d0
 	bra	OutWord
 ;-----> THEN ligne
-CGoto2	
+CGoto2
 	bsr	OutLea
 	bsr	CTests
 	bsr	CGlab1
 	bra.s	CGoto1
 
 ;-----> EVERY n GOSUB / PROC
-CEvery	
+CEvery
 	bsr	Expentier
 	bsr	GetWord
 	cmp.w	#TkPrc-Tk,d0
@@ -5272,7 +5301,7 @@ CEv1	moveq	#-1,d7
 	bra	CreFonc
 
 ;-----> GOSUB
-CGosub	
+CGosub
 	bsr	OutLea
 	bsr	CTests
 	move.w	N_Proc(a5),d7
@@ -5297,7 +5326,7 @@ CPop
 	bra	CreFonc
 
 ;-----> ON exp GOTO / GOSUB
-COn	
+COn
 	bsr	OutLea
 	bsr	CTests
 	bsr	GetWord
@@ -5444,7 +5473,7 @@ GetLabel
 	beq	Cglab1
 	cmp.w	#TkPro-Tk,d0
 	beq	Cglab1
-; Expression 
+; Expression
 	subq.w	#2,a6
 	addq.w	#1,Flag_Labels(a5)		; Copier la table!
 	move.w	#-1,Flag_Const(a5)
@@ -5486,7 +5515,7 @@ Clab0b	subq.w	#1,Flag_Labels(a5)
 	addq.l	#1,d6
 Clab0c	sub.l	a2,d6
 	move.w	d6,d5
-	lsr.w	#1,d5	
+	lsr.w	#1,d5
 	bsr	CLabBis
 	bra.s	Cglab0
 ; Label simple
@@ -5501,7 +5530,7 @@ Cglab0	move.w	CLeaa0(pc),d0
 * ROUTINE -> Trouve / Cree / Saute le label (a6)
 * Entree D7=	Numero procedure
 * Retour A2=	Label
-RLabel	
+RLabel
 	addq.l	#2,a6
 	moveq	#0,d0
 	bsr	GetWord
@@ -5588,7 +5617,7 @@ Chxx5:  dbra 	d4,Chxx0
 Cmdx:   dc.l 	1000000000,100000000,10000000,1000000
         dc.l 	100000,10000,1000,100,10,1,0
 
-* ROUTINE -> BRA/JMP 
+* ROUTINE -> BRA/JMP
 * D5= adresse en AVANT
 * D6= adresse en ARRIERE
 DoBra	move.w	CJmp(pc),d7
@@ -5673,7 +5702,7 @@ DTst2	move.l	a4,d4
 	addq.l	#4,a4
 
 * Marque la table des branch forward
-MarkAd	
+MarkAd
 	movem.l	a0/a1,-(sp)
 	move.l	B_Lea(a5),a0
 MAd1	cmp.l	(a0),d5
@@ -5732,7 +5761,7 @@ UnPile	move.l	A_Bcles(a5),a1
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -5825,7 +5854,7 @@ Cp12:   bsr 	CreFonc
 ; Imprime!
 Cp13	moveq	#L_PrintX,d0
 	tst.w	(sp)
-	beq.s	Cp14	
+	beq.s	Cp14
 	moveq	#L_LPrintX,d0
 	tst.w	(sp)
 	bpl.s	Cp14
@@ -5844,7 +5873,7 @@ Cp15
 	rts
 
 ;----------------------------------> INPUT #
-CInputH	
+CInputH
 	move.w	#-1,-(sp)
 	move.w	#L_InputH,-(sp)
 	bra.s	CIn0
@@ -5979,7 +6008,7 @@ Cfld1	addq.w	#1,(sp)
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -6006,7 +6035,7 @@ CPal1	addq.w	#1,(sp)
 	bsr	OutWord
 	move.w	(sp)+,d0
 	bsr	CreFonc
-	rts 
+	rts
 
 ******* FADE
 CFade	bsr	OutLea
@@ -6068,7 +6097,7 @@ CPol1	addq.w	#1,(sp)
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -6077,7 +6106,7 @@ CPol1	addq.w	#1,(sp)
 ; MEMOIRE
 ;---------------------------------------------------------------------
 
-******* BSET 
+******* BSET
 CBset	move.w	#L_Bset,-(sp)
 	bra.s	BsRout
 CBclr	move.w	#L_Bclr,-(sp)
@@ -6155,7 +6184,7 @@ CCal1	move.l	(sp)+,d0
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -6175,7 +6204,7 @@ CChannel
 	beq.s	CChaX
 	move.w	#L_ChaBob,d1
 	cmp.w	#TkBob-Tk,d0
-	beq.s	CChaX		
+	beq.s	CChaX
 	move.w	#L_ChaScD,d1
 	cmp.w	#TkScD-Tk,d0
 	beq.s	CChaX
@@ -6194,7 +6223,7 @@ CChaX	move.w	d1,-(sp)
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -6254,31 +6283,31 @@ CSMenu	bsr	OutLea
 	bra	CreFonc
 
 ;-----> Instruction flags
-CXMenu	
+CXMenu
 	move.w	#L_XMen,d0
 	bra.s	GoFlag
-CYMenu	
+CYMenu
 	move.w	#L_YMen,d0
 	bra.s	GoFlag
-CmnBar	
+CmnBar
 	move.w	#L_MnBa,d0
 	bra.s	GoFlag
-Cmnline	
+Cmnline
 	move.w	#L_MnLi,d0
 	bra.s	GoFlag
 Cmntline
 	move.w	#L_Mntl,d0
 	bra.s	GoFlag
-Cmnmove	
+Cmnmove
 	move.w	#L_Mnmv,d0
 	bra.s	GoFlag
-Cmnsta	
+Cmnsta
 	move.w	#L_Mnst,d0
 	bra.s	GoFlag
-Cmnimove	
+Cmnimove
 	move.w	#L_mnimv,d0
 	bra.s	GoFlag
-Cmnista	
+Cmnista
 	move.w	#L_mnist,d0
 	bra.s	GoFlag
 Cmnact
@@ -6287,7 +6316,7 @@ Cmnact
 Cmninact
 	move.w	#L_Mnina,d0
 	bra.s	GoFlag
-Cmnsep	
+Cmnsep
 	move.w	#L_Mnsep,d0
 	bra.s	GoFlag
 CMnlink
@@ -6296,21 +6325,21 @@ CMnlink
 CMnCall
 	move.w	#L_MnCl,d0
 	bra.s	GoFlag
-CMnOnce	
+CMnOnce
 	move.w	#L_Mnncl,d0
 ;
 GoFlag	move.w	d0,-(sp)
 	bsr	OutLea
 	bsr	MPar
 	move.w	(sp)+,d0
-	bra	CreFonc	
-	
+	bra	CreFonc
+
 ;-----> MENU KEY
 CMnKey	bsr	OutLea
 	move.l	a6,-(sp)
 	bsr	Stockout
 	bsr	MPar
-	bsr	GetWord	
+	bsr	GetWord
 	cmp.w	#TkTo-Tk,d0
 	beq.s	CMnk1
 * MENU KEY (,,) seul
@@ -6386,7 +6415,7 @@ MPar	bsr	GetWord
 ; Un objet de menu
 MPar1	clr.w	-(sp)
 MPar2	addq.w	#1,(sp)
-	bsr	Expentier	
+	bsr	Expentier
 	bsr	GetWord
 	cmp.w	#TkVir-Tk,d0
 	beq.s	MPar2
@@ -6468,7 +6497,7 @@ Cnop		nop
 		Include	"_TokTab.s"
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -6493,7 +6522,7 @@ Nom_Ico		dc.b	"Icons   "
 Mes_Return	dc.b	13,10,0
 
 		IFNE	CDebug
-Mes_Buffers:	
+Mes_Buffers:
 		dc.b	"Buffer work: ",0
 		dc.b	"Buffer relocation: ",0
 		dc.b	"Buffer object: ",0
@@ -6647,4 +6676,3 @@ LDZ		equ	__Rs
 		even
 DZ		ds.b	LDZ
 		even
-

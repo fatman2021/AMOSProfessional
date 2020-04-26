@@ -1,5 +1,33 @@
 **********************************************************************
 *
+*  Published under the MIT Licence
+*
+*  Copyright (c) 1992 Europress Software
+*  Copyright (c) 2020 Francois Lionet
+*
+*  Permission is hereby granted, free of charge, to any person
+*  obtaining a copy of this software and associated documentation
+*  files (the "Software"), to deal in the Software without
+*  restriction, including without limitation the rights to use,
+*  copy, modify, merge, publish, distribute, sublicense, and/or
+*  sell copies of the Software, and to permit persons to whom the
+*  Software is furnished to do so, subject to the following
+*  conditions:
+*
+*  The above copyright notice and this permission notice shall be
+*  included in all copies or substantial portions of the Software.
+*
+*  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+*  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+*  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+*  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+*  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+*  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+*  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+*  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*
+**********************************************************************
+*
 *	HEADER BACKSTART Programme compile
 *
 *	Ne pas changer le fichier sans verifier que c'est multiple
@@ -62,7 +90,7 @@ CliBack	bset	#FHead_Backed,ComD2+3-DebPrg(a4)
 	move.l	a2,d3
 	addq.l	#4,a2
 	move.l	a2,Header_DebPrg-DebPrg(a4)
-; Fait démarrer le processus
+; Fait dï¿½marrer le processus
 	lsr.l	#2,d3		Segments...
 	moveq	#0,d2
 	lea	FoNom(pc),a0
@@ -75,7 +103,7 @@ CliBack	bset	#FHead_Backed,ComD2+3-DebPrg(a4)
 	jsr	CloseLib(a6)
 ; Fini!
 BackX	moveq	#0,d0
-	rts	
+	rts
 ;---------------------------------------------------------------------
 	dc.l	0
 	ds.l	2
@@ -104,4 +132,3 @@ FoNom	dc.b	"Backstart",0
 	even
 ;---------------------------------------------------------------------
 FinBack	dc.w	0
-

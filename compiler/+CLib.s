@@ -22,6 +22,33 @@
 ; 220002.........................................|______________________________
 ; ______________________________________________________________________________
 ;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+; ______________________________________________________________________________
+
 		Include	"+CLib_Size.S"
 		Include "+AMOS_Includes.s"
 		Include "+Version.s"
@@ -85,7 +112,7 @@ C_Lib
 	move.l	a0,d0
 	move.l	(sp)+,a0
 	rts
-	Lib_Cmp	RamFree	
+	Lib_Cmp	RamFree
 	move.l	a0,-(sp)
 	SyCall	MemFree
 	move.l	(sp)+,a0
@@ -143,7 +170,7 @@ ResTempBuffer
 	movem.l	a0-a1/a6/d0-d1,-(sp)
 ; Inhibition
 	SyCall	Test_Cyclique
-; Attente multitache 
+; Attente multitache
 	move.l	T_GfxBase(a5),a6
 	jsr	-270(a6)
 	movem.l	(sp)+,a0-a1/a6/d0-d1
@@ -227,7 +254,7 @@ ResTempBuffer
 	Rbeq	L_DiskError
 	Rbsr	L_AskDir2			Demande le directory
 	move.l	Buffer(a5),a0			Copie le directory
-	lea	384(a0),a0			
+	lea	384(a0),a0
 	lea	Sys_Pathname(a5),a1
 .CC	move.b	(a0)+,(a1)+
 	bne.s	.CC
@@ -248,7 +275,7 @@ ResTempBuffer
 .L0	move.w	#10000,d1
 .L1	move.w	d0,$DFF180
 	dbra	d1,.L1
-	dbra	d0,.L0	
+	dbra	d0,.L0
 	btst	#6,$BFE001
 	beq.s	.Ill
 	movem.l	(sp)+,d0-d2/a0-a2
@@ -287,7 +314,7 @@ ResTempBuffer
 	Lib_Cmp	Lst.New
 	move.l	#Clear|Public,d1
 	Rbra	L_Lst.Cree
-; Cree un élément en tete de liste A0 / longueur D0 / Memoire D1
+; Cree un ï¿½lï¿½ment en tete de liste A0 / longueur D0 / Memoire D1
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	Lib_Cmp	Lst.Cree
 	movem.l	a0/d0,-(sp)
@@ -300,7 +327,7 @@ ResTempBuffer
 	move.l	a1,(a0)
 	move.l	d1,4(a1)
 	move.l	a1,d0
-.Out	rts		
+.Out	rts
 
 ; Efface une liste entiere A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -310,8 +337,8 @@ ResTempBuffer
 	Rbsr	L_Lst.Del
 .In	move.l	(a0),d0
 	bne.s	.Loop
-	rts		
-; Efface un élément de liste A1 / Debut liste A0
+	rts
+; Efface un ï¿½lï¿½ment de liste A1 / Debut liste A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	Lib_Cmp	Lst.Del
 	movem.l	a0/d0-d2,-(sp)
@@ -335,14 +362,14 @@ ResTempBuffer
 .NFound	movem.l	(sp)+,a0/d0-d2
 	rts
 
-; INSERE un élément A1 en tete de liste A0
+; INSERE un ï¿½lï¿½ment A1 en tete de liste A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Lib_Cmp	Lst.Insert	
+	Lib_Cmp	Lst.Insert
 	move.l	(a0),(a1)
 	move.l	a1,(a0)
-	rts		
+	rts
 
-; Enleve un élément de liste A1 / Debut liste A0
+; Enleve un ï¿½lï¿½ment de liste A1 / Debut liste A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	Lib_Cmp	Lst.Remove
 	movem.l	a0/a1/d0-d2,-(sp)
@@ -412,7 +439,7 @@ ADir3	DosCall	_LVOUnLock
 ADir4	moveq	#0,d0
 	rts
 
-	
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	TOKENISATEUR POUR LE COMPILATEUR
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -422,7 +449,7 @@ ADir4	moveq	#0,d0
 	bra	Tok_Init
 	bra	Tok_Del
 
-; Initialisation des tables de tokenisation 
+; Initialisation des tables de tokenisation
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Tok_Init
 	tst.l	Ed_BufT(a5)
@@ -660,7 +687,7 @@ TkVD:	bsr	Minus
 * Numero de ligne en route
 TkFV:	moveq	#0,d1
 	move.l	TkAd(a5),a0
-	btst	#4,d5	
+	btst	#4,d5
 	beq.s	TkV2
 	cmp.b	#"0",d0
 	bcs.s	TkV0
@@ -693,8 +720,8 @@ TkV4:	bset	#3,d5		* Si pas debut de ligne
 	cmp.b	#":",d0		* Si :
 	bne.s	TkV5
 TkV1:	move.w	#_TkLab,(a0)
-	bra.s	TkV7		
-	
+	bra.s	TkV7
+
 TkV5:	subq.l	#1,a3
 	moveq	#2,d1
 	cmp.b	#"$",d0
@@ -743,7 +770,7 @@ TkK:
 * Prend le premiere caractere...
 	moveq	#0,d0
 	move.b	-1(a3),d0
-	bsr	MinD0	
+	bsr	MinD0
 	move.l	d0,d2
 	lea	Dtk_Operateurs(pc),a1	Operateur, LENTS en 1er...
 	bra	TkLIn
@@ -861,7 +888,7 @@ TkKt:	subq.l	#1,a0
 	cmp.b	d0,d1
 	bne.s	TkRe4
 	addq.l	#1,a0
-TkKt1:	
+TkKt1:
 	tst.l	d6
 	bpl.s	TklTl
 	move.l	a1,d0
@@ -903,7 +930,7 @@ TkKt0:	lea	10(sp),sp
 	cmp.w	#_TkWhl,d4
 	beq.s	TkKt3
 	cmp.w	#_TkDo,d4
-	beq.s	TkKt3	
+	beq.s	TkKt3
 	cmp.w	#_TkExit,d4
 	beq.s	TkKt4
 	cmp.w	#_TkExIf,d4
@@ -935,7 +962,7 @@ TkKt5	clr.w	(a4)+		6 octets
 TkKt4	clr.w	(a4)+		4 octets
 TkKt3	clr.w	(a4)+		2 octets
 	bra	TokLoop
-* Token double precision: flags à 1
+* Token double precision: flags ï¿½ 1
 TkKDPre	or.b	#%10000011,MathFlags(a5)
 	bra	TokLoop
 * Token d'extension! .w EXT/.b #Ext/.b Nb Par/.w TOKEN
@@ -999,7 +1026,7 @@ TkKf3:	move.w	#_TkLGo,d1
 
 ; ----- Fin de la tokenisation
 TokFin:	btst	#1,d5		Fin de variable
-	bne	TkFV	
+	bne	TkFV
 	btst	#0,d5		Fin de chaine alphanumerique
 	bne	TkChf
 
@@ -1070,47 +1097,47 @@ Minus:	cmp.b 	#"A",d0
 	cmp.b	#"Z",d0
 	bhi.s	.Skip
 	add.b	#"a"-"A",d0
-.Skip	rts	
+.Skip	rts
 
 
 ;						Table des operateurs
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Dtk_Operateurs
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	" xor"," "+$80,"O00",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	" or"," "+$80,"O00",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	" and"," "+$80,"O00",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	"<",">"+$80,"O20",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	">","<"+$80,"O20",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	"<","="+$80,"O20",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	"=","<"+$80,"O20",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	">","="+$80,"O20",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	"=",">"+$80,"O20",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	"="+$80,"O20",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	"<"+$80,"O20",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	">"+$80,"O20",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	"+"+$80,"O22",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	"-"+$80,"O22",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	" mod"," "+$80,"O00",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	"*"+$80,"O00",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	"/"+$80,"O00",-1
-	dc.w	1,1				
+	dc.w	1,1
 	dc.b 	"^"+$80,"O00",-1
 	even
 Dtk_OpFin
@@ -1158,11 +1185,11 @@ Fin	bsr	ClearVar
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	TEST DU PROGRAMME
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-PTest:	
+PTest:
 	move.l	sp,BasSp(a5)		Sauve la pile
 	movem.l	a2-a4/a6/d2-d7,-(sp)	Sauvegarde registres
 
-; Recherche les includes / Met l'adresse du programme à runner...
+; Recherche les includes / Met l'adresse du programme ï¿½ runner...
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	move.l	Prg_Source(a5),Prg_Run(a5)	Par defaut
 	bsr	Get_Includes
@@ -1193,14 +1220,14 @@ PTest:
 ; PHASE 1: exploration du programme principal
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .ReVer	clr.w	VarLong(a5)
-	move.l	DVNmBas(a5),a0 
+	move.l	DVNmBas(a5),a0
 	move.l	a0,VNmHaut(a5)
 	clr.w	-(a0)
 	move.l	a0,VNmBas(a5)
-	bsr	SsTest	
+	bsr	SsTest
 	bne.s	.ReVer
 
-	move.l	Ver_TablA(a5),d0		
+	move.l	Ver_TablA(a5),d0
 	move.l	d0,Ver_MainTablA(a5)		Stocke la table
 	beq.s	.Skop
 	addq.l	#4,d0				Si table il y a
@@ -1226,16 +1253,16 @@ PTest:
 	move.l	Vta_Prog(a0),Prg_Test(a5)	Va explorer la procedure!
 	addq.w	#1,Phase(a5)			Une phase de plus
 	clr.w	VarLong(a5)
-	move.l	DVNmBas(a5),a0 
+	move.l	DVNmBas(a5),a0
 	move.l	a0,VNmHaut(a5)
 	clr.w	-(a0)
 	move.l	a0,VNmBas(a5)
 	bsr	Locale				Toutes les variables >>> locales
-	bsr	SsTest	
+	bsr	SsTest
 	move.l	Prg_Test(a5),a0			Longueur variable procedure
 	move.w	VarLong(a5),6(a0)
 	move.l	(sp)+,d0
-	bne.s	.PLoop	
+	bne.s	.PLoop
 .Fini
 
 ; Libere les tables
@@ -1254,7 +1281,7 @@ Free_VerTables
 	bsr	Free_Reloc
 	bsr	Free_TablA		La courante
 	move.l	Ver_MainTablA(a5),Ver_TablA(a5)
-	clr.l	Ver_MainTablA(a5)	
+	clr.l	Ver_MainTablA(a5)
 	bsr	Free_TablA		La principale
 	rts
 
@@ -1276,9 +1303,9 @@ SsTest:	clr.l	ErrRet(a5)
 	clr.w	Ver_NBoucles(a5)
 	clr.w	Ver_PBoucles(a5)
 
-	bsr	Reserve_Reloc	
+	bsr	Reserve_Reloc
 	bsr	Reserve_TablA
-	
+
 	move.l	Prg_Test(a5),a6
 	move.l	a6,a3
 
@@ -1300,7 +1327,7 @@ VerDd:	move.l	a6,VerPos(a5)
 	beq.s	VerD
 	bmi	VerSynt
 	move.l	AdTokens(a5),a0
-	move.b	0(a0,d0.w),d1	
+	move.b	0(a0,d0.w),d1
 	bpl.s	VLoop1
 	addq.l	#1,VerNInst(a5)
 	ext.w	d1
@@ -1325,7 +1352,7 @@ VerLoop move.l	a6,VerPos(a5)		Position du test
 VLoop1	addq.l	#1,VerNInst(a5)		Un instruction de plus!
 	ext.w	d1
 	asl.w	#2,d1
-	jmp	.Jmp(pc,d1.w)		Branche à la fonction
+	jmp	.Jmp(pc,d1.w)		Branche ï¿½ la fonction
 
 ; Table des sauts pour les instructions particulieres
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1345,7 +1372,7 @@ VLoop1	addq.l	#1,VerNInst(a5)		Un instruction de plus!
 	bra	VerLab			07-Un label
 	bra	VerPro			08-Un appel de procedure
 	bra	VerDim			09-DIM
-	bra	VerPr			0A-Print 
+	bra	VerPr			0A-Print
 	bra	VerDPr			0B-Print #
 	bra	VerInp			0C-Input / Line Input
 	bra	VerDInp			0D-Input #
@@ -1407,28 +1434,28 @@ VLoop1	addq.l	#1,VerNInst(a5)		Un instruction de plus!
 	bra	V1_OnError		40-OnError
 	bra	V1_OnBreak		41-OnBreak
 	bra	V1_OnMenu		42-OnMenu
-	bra	V1_On			43-On		
-	bra	V1_Resume		44-Resume	
-	bra	V1_ResLabel		45-ResLabel	
-	bra	V1_PopProc		46-PopProc	
-	bra	V1_Every		47-Every	
+	bra	V1_On			43-On
+	bra	V1_Resume		44-Resume
+	bra	V1_ResLabel		45-ResLabel
+	bra	V1_PopProc		46-PopProc
+	bra	V1_Every		47-Every
 	bra	VerPr			48-LPrint
 	bra	VerInp			49-Line Input
 	bra	VerDInp			4A-Line Input #
 	bra	VerMid			4B-Mid3
 	bra	VerMid			4C-Mid2
 	bra	VerMid			4D-Left
-	bra	VerMid			4E-Right                
+	bra	VerMid			4E-Right
 	bra	VerAdd			4F-Add
 	bra	Ver_NormalPro		50-Dialogues
-	bra	Ver_Normal		51-Dir		
+	bra	Ver_Normal		51-Dir
 	bra	VerSynt			52-Then
 	bra	Ver_Normal		53-Return
 	bra	Ver_Normal		54-Pop
 	bra	Ver_NormalPro		55-Procedure langage machine
 	bra	Ver_Normal		56-Bset/Bchg/Ror///
 	bra	VerLoop			57-APCmp Call
-	
+
 	IFNE	Debug=2
 V1_Debug
 	bra	VerDP
@@ -1477,7 +1504,7 @@ Ver_Extension
 	move.b	#-1,(a0)		Nouvelle extension: pas de params!
 	bra	VerDP
 .Old	move.b	d0,(a0)			Ancienne extension: des params...
-	bra	VerDP	
+	bra	VerDP
 
 ; 	Variable reservee
 ; ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1559,7 +1586,7 @@ VerX:	addq.w	#1,Passe(a5)
 	bra.s	.RReloc
 .V2Jmp	bra	V2_EndRel
 	bra	V2_StoVar
-	bra	V2_Long	
+	bra	V2_Long
 	bra	V2_NTable
 	bra	V2_CallProc1
 	bra	V2_CallProc2
@@ -1598,7 +1625,7 @@ V2_Long	moveq	#0,d6
 
 ; Fin de la relocation
 ; ~~~~~~~~~~~~~~~~~~~~
-V2_EndRel	
+V2_EndRel
 	addq.l	#4,sp
 
 ; Boucle d'appel des traitement de boucle
@@ -1752,7 +1779,7 @@ VerUnd:	moveq	#41,d0
 	bra.s	VerErr
 * Label defined twice
 VerLb2:	moveq	#42,d0
-; Traitement message d'erreur 
+; Traitement message d'erreur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VerErr	move.l	BasSp(a5),sp
 	move.l	d0,-(sp)
@@ -1789,7 +1816,7 @@ VerVar	bset	#0,VarBufFlg(a5)
 	bra	VerDP
 
 
-;	Définition d'un label
+;	Dï¿½finition d'un label
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VerLab:	tst.w	Direct(a5)
 	bne	VerIlD
@@ -1830,7 +1857,7 @@ VerSStack
 .Ok	addq.w	#1,d1
 	move.w	d1,Stack_Size(a5)
 	bra	VerDP
-	
+
 ;	SET BUFFER n
 ; ~~~~~~~~~~~~~~~~~~
 VerSBu	tst.w	Direct(a5)
@@ -1904,12 +1931,12 @@ VerDFn	bset	#0,VarBufFlg(a5)
 	cmp.w	#_TkVar,(a6)+
 	bne	VerSynt
 	and.b	#%00001111,3(a6)	Change le flag
-	bset	#3,3(a6)		
+	bset	#3,3(a6)
 	bsr	VarA0			Adresse
 	move.w	d2,-(sp)
 	bsr	V1_StoVar		Stocke la variable
 	bsr	VDfnR			Recupere les parametres
-	cmp.w	#_TkEg,(a6)+		
+	cmp.w	#_TkEg,(a6)+
 	bne	VerSynt
 	bsr	Ver_Expression		Evalue l'expression
 	move.w	(sp)+,d0		Verifie le type
@@ -1928,8 +1955,8 @@ VDfnR	cmp.w	#_TkPar1,(a6)
 	beq.s	.Loop
 	cmp.w	#_TkPar2,-2(a6)
 	bne	VerSynt
-.Exit	rts	
-	
+.Exit	rts
+
 ;	Verification PRINT/LPRINT
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VerDPr	bsr	Ver_ExpE
@@ -2086,7 +2113,7 @@ VerSmn	bset	#0,VarBufFlg(a5)
 	bsr	Ver_ExpE
 	bra	VerDP
 
-;	On menu 
+;	On menu
 ; ~~~~~~~~~~~~~
 V1_OnMenu
 	move.w	(a6)+,d0
@@ -2199,7 +2226,7 @@ VerPo	bset	#0,VarBufFlg(a5)
 	cmp.w	#_TkTo,(a6)
 	beq.s	VerPo1
 VerPo0	bsr	Ver_ExpE
-	cmp.w	#_TkVir,(a6)+	
+	cmp.w	#_TkVir,(a6)+
 	bne	VerSynt
 	bsr	Ver_ExpE
 VerPo1	cmp.w	#_TkTo,(a6)+
@@ -2286,7 +2313,7 @@ VerCall	bset	#0,VarBufFlg(a5)
 	addq.l	#2,a6
 	bsr	Ver_Expression
 	bra.s	.Loop
-	
+
 ;	STRUCTURE en instruction
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VerStruI
@@ -2326,10 +2353,10 @@ VStru	move.l	a6,-(sp)
 	move.b	4(a1),d2
 	cmp.w	#_TkPar2,(a6)+
 	bne	VerSynt
-	rts	
+	rts
 EquType	moveq	#54,d0
 	bra	VerErr
-	
+
 ; Verification d'un Equate / Structure
 ;	A0=	Header equate
 ;	A1=	Debut des donnees
@@ -2339,7 +2366,7 @@ Equ_Verif
 	bsr	SetNot1.3		AMOSPro!
 	btst	#7,5(a1)		Flag, equate correct?
 	bne	.Ok
-; Poke l'equate dans le buffer, à la suite du header
+; Poke l'equate dans le buffer, ï¿½ la suite du header
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	movem.l	a0-a2,-(sp)
 	move.l	a1,-(sp)
@@ -2567,7 +2594,7 @@ V1_Procedure
 
 	move.l	a6,-(sp)
 	move.l	a0,-(sp)
-	
+
 	lea	10(a6),a6
 	cmp.w	#_TkVar,(a6)+		Stocke dans les labels
 	bne	VerSynt
@@ -2640,10 +2667,10 @@ V1_Procedure
 
 ;	Procedure PHASE >0, Passe 1, stocke les variables!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-V1_ProcedureIn	
+V1_ProcedureIn
 	btst	#4,8(a6)		Procedure Machine?
 	bne.s	.PMach
-	lea	12(a6),a6	
+	lea	12(a6),a6
 	move.b	2(a6),d0
 	ext.w	d0
 	lea	4(a6,d0.w),a6
@@ -2721,10 +2748,10 @@ V1_For	addq.w	#1,Ver_NBoucles(a5)	Une boucle de plus
 ;	FOR / Passe 2 : cherche le NEXT
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 V2_For	move.l	a0,a1
-	move.w	#1<<VF_Boucles,d0	Flag à trouver
+	move.w	#1<<VF_Boucles,d0	Flag ï¿½ trouver
 	move.w	Vta_NBoucles(a0),d1	Position de pile
 	subq.w	#1,d1
-	move.w	#_TkNxt,d2		Token à trouver
+	move.w	#_TkNxt,d2		Token ï¿½ trouver
 	bsr	Find_TablA
 	beq	VerFoN			For without Next
 	tst.b	Vta_UFlag(a0)		Une variable dans le NEXT?
@@ -2739,7 +2766,7 @@ V2_For	move.l	a0,a1
 	rts
 ;	NEXT / Passe 1
 ; ~~~~~~~~~~~~~~~~~~~~
-V1_Next	
+V1_Next
 	subq.w	#1,Ver_NBoucles(a5)		Une boucle de moins
 	sub.w	#TForNxt,Ver_PBoucles(a5)
 	lea	VerNFo(pc),a0			Next without For
@@ -2761,7 +2788,7 @@ V1_Next
 
 ;	REPEAT / Passe1
 ; ~~~~~~~~~~~~~~~~~~~~~
-V1_Repeat	
+V1_Repeat
 	addq.w	#1,Ver_NBoucles(a5)	Une boucle de plus
 	add.w	#TRptUnt,Ver_PBoucles(a5)
 	lea	V2_Repeat(pc),a0
@@ -2773,10 +2800,10 @@ V1_Repeat
 ; ~~~~~~~~~~~~~~~~~~~~~
 V2_Repeat
 	move.l	a0,a1
-	move.w	#1<<VF_Boucles,d0	Flag à trouver
+	move.w	#1<<VF_Boucles,d0	Flag ï¿½ trouver
 	move.w	Vta_NBoucles(a0),d1	Position de pile
 	subq.w	#1,d1
-	move.w	#_TkUnt,d2		Token à trouver
+	move.w	#_TkUnt,d2		Token ï¿½ trouver
 	bsr	Find_TablA
 	beq	VerRUn			Repeat without Until
 	clr.l	Vta_Jump(a0)		Until pris en compte
@@ -2791,7 +2818,7 @@ V1_Until
 	sub.w	#TRptUnt,Ver_PBoucles(a5)
 	lea	VerUnR(pc),a0
 	moveq	#4,d1
-	bsr	Init_TablABoucle	
+	bsr	Init_TablABoucle
 ; Verification / Poke l'adresse de fin
 	move.l	a0,-(sp)
 	bsr	Ver_Expression
@@ -2815,10 +2842,10 @@ V1_While
 ; ~~~~~~~~~~~~~~~~~~~~
 V2_While
 	move.l	a0,a1
-	move.w	#1<<VF_Boucles,d0	Flag à trouver
+	move.w	#1<<VF_Boucles,d0	Flag ï¿½ trouver
 	move.w	Vta_NBoucles(a0),d1	Position de pile
 	subq.w	#1,d1
-	move.w	#_TkWnd,d2		Token à trouver
+	move.w	#_TkWnd,d2		Token ï¿½ trouver
 	bsr	Find_TablA
 	beq	VerWWn			Repeat without Until
 	clr.l	Vta_Jump(a0)		Wend pris en compte
@@ -2828,7 +2855,7 @@ V2_While
 	rts
 ;	WEND / Passe1
 ; ~~~~~~~~~~~~~~~~~~~
-V1_Wend	
+V1_Wend
 	subq.w	#1,Ver_NBoucles(a5)	Une boucle de moins
 	sub.w	#TWhlWnd,Ver_PBoucles(a5)
 	lea	VerWnW(pc),a0
@@ -2852,10 +2879,10 @@ V1_Do	addq.w	#1,Ver_NBoucles(a5)		Une boucle de moins
 ;	DO / Passe2
 ; ~~~~~~~~~~~~~~~~~
 V2_Do	move.l	a0,a1
-	move.b	#1<<VF_Boucles,d0	Flag à trouver
+	move.b	#1<<VF_Boucles,d0	Flag ï¿½ trouver
 	move.w	Vta_NBoucles(a0),d1	Position de pile
 	subq.w	#1,d1
-	move.w	#_TkLoo,d2		Token à trouver
+	move.w	#_TkLoo,d2		Token ï¿½ trouver
 	bsr	Find_TablA
 	beq	VerDoL			Repeat without Until
 ; Doke la distance au NEXT dans le FOR
@@ -2878,7 +2905,7 @@ V1_Loop
 
 ;	EXIT / Passe1
 ; ~~~~~~~~~~~~~~~~~~~
-V1_Exit	
+V1_Exit
 	lea	V2_Exit(pc),a0
 	moveq	#4,d1
 	moveq	#1<<VF_Exit,d2
@@ -2889,21 +2916,21 @@ V1_Exit
 	bne	VerDP
 	move.l	2(a6),Vta_Variable(a0)
 	addq.l	#6,a6
-	bra	VerDP	
+	bra	VerDP
 ;	EXIT / Passe2
 ; ~~~~~~~~~~~~~~~~~~~
 V2_ExitI
 V2_Exit	move.l	a0,a1
 	move.l	a6,a2
 	move.l	Vta_Variable(a1),d3
-	move.b	#1<<VF_Boucles,d0	Flag à trouver
+	move.b	#1<<VF_Boucles,d0	Flag ï¿½ trouver
 	move.w	Vta_NBoucles(a0),d1	Position de pile
 	sub.w	d3,d1
 	bmi	VerNoL			Not enough loops
 	moveq	#-1,d2			Pas de token
 	bsr	Find_TablA
 	beq	VerNoL			Not enough loops
-; Loke dans le source	
+; Loke dans le source
 	move.l	Vta_Variable(a0),d0
 	sub.l	a2,d0
 	subq.l	#4,d0
@@ -3009,7 +3036,7 @@ V2_IfThenLabel
 	bsr	Goto_Loops
 .Fin	addq.l	#4,sp
 	rts
-	
+
 
 ; 	If structure / Passe 2
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3027,9 +3054,9 @@ V2_If	move.l	a0,a1
 	beq.s	.j2
 	bsr	Find_End
 	sub.l	a2,a2			End If >>> Rien!
-	moveq	#0,d2			
+	moveq	#0,d2
 	bra.s	.j0
-.j2	lea	V2_ElsI(pc),a2		
+.j2	lea	V2_ElsI(pc),a2
 	moveq	#1,d2
 	move.l	a6,d0
 	bra.s	.j0
@@ -3150,12 +3177,12 @@ V1_Gosub
 	bra	VerDP
 
 ; 	Goto / Passe 1
-; ~~~~~~~~~~~~~~~~~~~~ 
+; ~~~~~~~~~~~~~~~~~~~~
 V1_Goto	moveq	#0,d1
 	move.b	#1<<VF_Goto,d2
 	lea	V2_Goto(pc),a0
 	bsr	Init_TablA
-	bsr	V1_GoLabel	
+	bsr	V1_GoLabel
 	bra	VerDP
 ;	Goto / Passe 2
 ; ~~~~~~~~~~~~~~~~~~~~
@@ -3242,7 +3269,7 @@ V1_ResLabel
 	bsr	V1_GoLabel
 	bra	VerDP
 
-;	AMOSPro: TRAP, veut une instruction juste après!
+;	AMOSPro: TRAP, veut une instruction juste aprï¿½s!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VerTrap	bsr	SetNot1.3		Non compatible!
 	bsr	Finie
@@ -3417,7 +3444,7 @@ Find_TablATest
 	subq.l	#2,VerPos(a5)
 	bra	VerNoT
 
-;	Doke une distance 
+;	Doke une distance
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 Doke_Distance
 	sub.l	a6,d0
@@ -3565,7 +3592,7 @@ Tst_Chiffre
 	bne	VerType
 	bra	Eva_Ret
 
-;						Vérification d'un operande
+;						Vï¿½rification d'un operande
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ver_Operande
 	clr.w	-(sp)			Pas de signe devant
@@ -3575,7 +3602,7 @@ Ope_Loop
 	bmi.s	.Moins
 	move.l	AdTokens(a5),a0
 	move.b	1(a0,d0.w),d1
-	ext.w	d1			Branche à la routine
+	ext.w	d1			Branche ï¿½ la routine
 	lsl.w	#2,d1
 	jmp	.Jmp(pc,d1.w)
 .Moins	cmp.w	#_TkM,d0		Signe moins devant?
@@ -3590,14 +3617,14 @@ Ope_Loop
 .Jmp	bra	Ope_Normal		00- Normal
 	bra	VerSynt			01= Syntax error!
 	bra	Ope_Fin1		02= Evaluation finie
-	bra	Ope_Fin2		03= Evaluation finie par une virgule		
+	bra	Ope_Fin2		03= Evaluation finie par une virgule
 	bra	Ope_Parenth		04= Ouverture de parenthese
 	bra	Ope_Normal		05= Val!
 	bra	Ope_Extension		06= Extension
 	bra	Ope_Variable		07= Variable
 	bra	Ope_Varptr		08= Varptr
 	bra	Ope_Fn			09= FN
-	bra	Ope_Not			0A= Not	
+	bra	Ope_Not			0A= Not
 	bra	Ope_XYMn		0B= X Menu
 	bra	Ope_Equ			0C= Equ
 	bra	Ope_Match		0D= Match
@@ -3703,8 +3730,8 @@ Ope_Extension
 	bsr	Ver_OlDInst
 	move.w	d0,d2
 	cmp.b	#"I",d2
-	beq	VerSynt	
-	cmp.b	#"V",d2			Variable réservee
+	beq	VerSynt
+	cmp.b	#"V",d2			Variable rï¿½servee
 	bne.s	.Skip
 	move.b	(a0)+,d2
 .Skip	bsr	VerF			Va verifier
@@ -3840,7 +3867,7 @@ Ope_Match
 	move.l	(sp)+,a0
 	btst	#6,5+2(a0)		La variable est-elle un tableau?
 	bne	Ope_CheckType
-	bra	VerSynt	
+	bra	VerSynt
 
 ;	=MIN / MAX
 ; ~~~~~~~~~~~~~~~~
@@ -4041,7 +4068,7 @@ VerF_DejaTeste
 .Ok	move.w	(sp)+,Parenth(a5)
 	move.w	(sp)+,d2
 .Fin	rts
-		
+
 ;					Verification d'une fonction standart
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VerF:	move.w	d2,-(sp)
@@ -4221,7 +4248,7 @@ V1_IVariable
 	bsr	Ver_Expression
 	move.w	(sp)+,d0
 	cmp.b	d0,d2
-	bne	VerType 
+	bne	VerType
 	rts
 
 ;	VARIABLE EN FONCTION
@@ -4306,7 +4333,7 @@ V2_CallProc1
 ;	Appel de procedure passe2, pas de parametre
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 V2_CallProc4
-	move.l	a3,d0	
+	move.l	a3,d0
 	bne	VerIlP
 	rts
 ;	Appel de procedure passe2, deuxieme etape
@@ -4508,7 +4535,7 @@ V1_StoVar
 	movem.l	d2/d3/a3/a4,-(sp)
 	lea	4(a6),a0		* Pointe le nom
 	move.l	a0,d0
-	move.b	2(a6),d1	
+	move.b	2(a6),d1
 	ext.w	d1			* Longueur variable
 	move.b	3(a6),d2		* Flag
 	move.l	a6,a3
@@ -4553,7 +4580,7 @@ StV1:	move.l	VNmBas(a5),a4
 	move.l	a4,a1
 Rn1Va:	move.l	d0,a0
 	move.l	a1,a2
-	move.b	(a1)+,d3	
+	move.b	(a1)+,d3
 	beq.s	Rn1Vx
 	ext.w	d3
 	cmp.b	d1,d3			* Longueur egale?
@@ -4578,7 +4605,7 @@ Rn1Vn:	lea	6(a2,d3.w),a1
 ; ~~~~~~~~~~~~~~~~
 Rn1Vx:	lea	-6(a4),a2
 	sub.w	d1,a2
-	cmp.l	VNmMini(a5),a2 
+	cmp.l	VNmMini(a5),a2
 	bcs	VerNmO
 	move.l	a2,VNmBas(a5)
 	move.l	a2,a1
@@ -4619,7 +4646,7 @@ Rn1VFin	movem.l	(sp)+,d2/d3/a3/a4
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 V2_StoVar
 	lea	4(a6),a0		* Pointe le nom
-	move.b	2(a6),d1	
+	move.b	2(a6),d1
 	ext.w	d1			* Longueur variable
 	move.w	(a6),d3
 	bpl.s	.Skip
@@ -4655,7 +4682,7 @@ VarA0:	lea	2(a6),a0
 	moveq	#"2",d2
 .Skip	add.w	d1,a0
 	rts
-	
+
 ;	Verifie les params d'un tableau
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VerTablo
@@ -4714,7 +4741,7 @@ Free_Reloc
 
 ;	Poke le pointeur actuel dans la table de relocation
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-New_Reloc	
+New_Reloc
 	tst.b	Ver_NoReloc(a5)		Relocation autorisee???
 	bne.s	.Out
 	cmp.l	Ver_FReloc(a5),a4	Sorti de la table?
@@ -4830,7 +4857,7 @@ VSh1a:	move.l	a6,VerPos(a5)
 	bne	VerSynt
 	lea	4(a6),a0		* Pointe le nom
 	move.l	a0,d0
-	move.b	2(a6),d1	
+	move.b	2(a6),d1
 	ext.w	d1			* Longueur variable
 	and.b	#%00001111,3(a6)
 	move.b	3(a6),d2		* Flag
@@ -4866,7 +4893,7 @@ Sh1b:	cmp.w	(a0)+,(a1)+
 	tst.w	Phase(a5)
 	bne.s	Sh1c
 	addq.b	#1,5(a2)		* Devient globale!
-	bra.s	Sh1c	
+	bra.s	Sh1c
 Sh1n:	lea	6(a2,d3.w),a1
 	bra.s	Sh1a
 * Une autre variable?
@@ -4995,19 +5022,19 @@ RVn2	rts
 Get_Includes
 ; Efface d'eventuels anciens
 	bsr	Includes_Clear
-; Demande un buffer 
+; Demande un buffer
 	lea	Prg_Includes(a5),a0
 	move.l	#20*16,d0
 	move.l	#Public|Clear,d1
 	bsr	VA5_Reserve
 	beq	.XX
 	move.l	a0,a3
-; Explore le début
+; Explore le dï¿½but
 	move.l	Prg_Source(a5),a0
 	move.l	a0,(a3)
 	moveq	#0,d6
 	moveq	#0,d7
-	moveq	#0,d0	
+	moveq	#0,d0
 	bsr	Tk_FindL
 	beq	.Inclus
 .Incl1	cmp.w	#_TkIncl,2(a0)
@@ -5121,7 +5148,7 @@ Get_Includes
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 .MErr	moveq	#36,d0
 	bra.s	.Err
-.DErr	moveq	#45,d0	
+.DErr	moveq	#45,d0
 	bra.s	.Err
 .AErr	moveq	#46,d0
 	bra.s	.Err
@@ -5145,7 +5172,7 @@ Get_Includes
 	move.l	(sp)+,d0
 	bra	VerErr
 
-; 	Effacement des buffers includes / Retour à la normale
+; 	Effacement des buffers includes / Retour ï¿½ la normale
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Includes_Clear
 	movem.l	a0-a1/d0-d1,-(sp)
@@ -5182,15 +5209,15 @@ Includes_Adr
 	bcc.s	.Loop
 ; Dans un include
 	move.l	(a1),a0
-	bra.s	.Out	
+	bra.s	.Out
 ; Dans le source
 .Source	sub.l	d1,a0
 	add.l	Prg_Source(a5),a0
 ; Sortie
 .Out	movem.l	(sp)+,a1/d0-d1
-	rts	
+	rts
 
-; 	Reserve un espace mémoire sur (a5)
+; 	Reserve un espace mï¿½moire sur (a5)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	A0=	Adresse dans (a5)
 ;	D0=	Longueur
@@ -5209,7 +5236,7 @@ VA5_Reserve
 	move.l	a0,(a2)
 .Out	movem.l	(sp)+,d0-d2/a1-a2/a6
 	rts
-; 	Efface un espace mémoire sur (a5)
+; 	Efface un espace mï¿½moire sur (a5)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	A0=	Adresse dans (a5)
 VA5_Free
@@ -5362,7 +5389,7 @@ PaCo	movem.l	(sp)+,d0-d7/a0-a6
 	rts
 
 ;
-; NOUVELLE ROUTINES DISQUE 
+; NOUVELLE ROUTINES DISQUE
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;
 ; OPEN: ouvre le fichier systeme (diskname1) access mode D2
@@ -5398,7 +5425,7 @@ VD_Read	movem.l	d1/a0/a1/a6,-(sp)
 	cmp.l	d0,d3
 	rts
 
-; WRITE fichier systeme D3 octets de D2	
+; WRITE fichier systeme D3 octets de D2
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VD_Write
 	movem.l	d1/a0/a1/a6,-(sp)
@@ -5422,18 +5449,18 @@ VD_Seek	move.l	Handle(a5),d1
 
 ; ___________________________________________________________________________
 ;
-;							DETOKENISATION 
+;							DETOKENISATION
 ; ___________________________________________________________________________
 ;
-;	A0:	Ligne à detokeniser
+;	A0:	Ligne ï¿½ detokeniser
 ; 	A1:	Buffer
-;	D0:	Adresse à détecter
+;	D0:	Adresse ï¿½ dï¿½tecter
 ; ___________________________________________________________________________
 ;
 Mon_Detok
 	moveq	#-1,d1
 	bra.s	Dtk
-Detok:	
+Detok:
 	moveq	#0,d1
 Dtk
 	movem.l	d2-d7/a2-a6,-(sp)
@@ -5633,7 +5660,7 @@ DtkV0:	moveq	#0,d2
 	moveq	#0,d4
 	cmp.w	#_TkLab,d0
 	bne.s	DtkV1
-	moveq	#1,d4		D4: 0=> Variable 
+	moveq	#1,d4		D4: 0=> Variable
 	cmp.b	#"0",(a0)	    1=> Label
 	bcs.s	DtkV1		   -1=> Numero ligne
 	cmp.b	#"9",(a0)
@@ -5781,7 +5808,7 @@ DtkRem:	addq.w	#2,a6		Saute la longueur
 DtkR:	tst.b	(a6)
 	beq	DtkLoop
 	move.b	(a6)+,(a4)+
-	bra.s	DtkR 
+	bra.s	DtkR
 
 ;	Fin de la DETOKENISATION
 DtkFin:	sub.l	a2,a4		* Ramene PX
@@ -5797,7 +5824,7 @@ TInst:	tst.w	d0
 	beq	TFin
 	cmp.w	#_TkLGo,d0
 	bls	TVar
-	cmp.w	#_TkCh1,d0	
+	cmp.w	#_TkCh1,d0
 	beq	TCh
 	cmp.w	#_TkCh2,d0
 	beq	TCh
@@ -5820,7 +5847,7 @@ TInst:	tst.w	d0
 	cmp.w	#_TkDo,d0
 	beq.s	T2
 	cmp.w	#_TkExit,d0
-	beq.s	T4 
+	beq.s	T4
 	cmp.w	#_TkExIf,d0
 	beq.s	T4
 	cmp.w	#_TkIf,d0
@@ -5866,39 +5893,39 @@ TVar:	moveq	#0,d1
 Tst_Operateurs
 	bra	Tst_Chiffre
 	dc.b 	" xor"," "+$80,"O00",-1
-	bra	Tst_Chiffre		
+	bra	Tst_Chiffre
 	dc.b 	" or"," "+$80,"O00",-1
-	bra	Tst_Chiffre		
+	bra	Tst_Chiffre
 	dc.b 	" and"," "+$80,"O00",-1
-	bra	Tst_Comp			
+	bra	Tst_Comp
 	dc.b 	"<",">"+$80,"O20",-1
-	bra	Tst_Comp				
+	bra	Tst_Comp
 	dc.b 	">","<"+$80,"O20",-1
-	bra	Tst_Comp			
+	bra	Tst_Comp
 	dc.b 	"<","="+$80,"O20",-1
-	bra	Tst_Comp			
+	bra	Tst_Comp
 	dc.b 	"=","<"+$80,"O20",-1
-	bra	Tst_Comp			
+	bra	Tst_Comp
 	dc.b 	">","="+$80,"O20",-1
-	bra	Tst_Comp			
+	bra	Tst_Comp
 	dc.b 	"=",">"+$80,"O20",-1
-	bra	Tst_Comp			
+	bra	Tst_Comp
 	dc.b 	"="+$80,"O20",-1
-	bra	Tst_Comp			
+	bra	Tst_Comp
 	dc.b 	"<"+$80,"O20",-1
-	bra	Tst_Comp			
+	bra	Tst_Comp
 	dc.b 	">"+$80,"O20",-1
 	bra	Tst_Mixte
 	dc.b 	"+"+$80,"O22",-1
 	bra	Tst_Mixte
 	dc.b 	"-"+$80,"O22",-1
-	bra	Tst_Chiffre		
+	bra	Tst_Chiffre
 	dc.b 	" mod"," "+$80,"O00",-1
 	bra	Tst_Chiffre
 	dc.b 	"*"+$80,"O00",-1
-	bra	Tst_Chiffre		
+	bra	Tst_Chiffre
 	dc.b 	"/"+$80,"O00",-1
-	bra	Tst_Puis		
+	bra	Tst_Puis
 	dc.b 	"^"+$80,"O00",-1
 	even
 Tst_Jumps
@@ -5918,18 +5945,18 @@ Equ_Nul	dc.b	10,0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	CValRout
 ; - - - - - - - - - - - - -
-        movem.l a1-a2/d5-d7,-(sp) 
+        movem.l a1-a2/d5-d7,-(sp)
 	move.l	a0,d7
 	moveq	#0,d4
 	move.l	a0,a2
 	tst.w	d0
 	beq.s	Cal1c
 ; y-a-t'il un signe devant?
-Cal1:   move.b 	(a0)+,d0   
+Cal1:   move.b 	(a0)+,d0
         beq 	Cal10
         cmp.b 	#32,d0
         beq.s 	Cal1
-        move.l 	a0,a2      
+        move.l 	a0,a2
         subq.l 	#1,a2
         cmp.b 	#"-",d0
         bne.s 	Cal1a
@@ -5984,7 +6011,7 @@ Cal3b:  move.b 	(a1)+,d0     	;apres un E, accepte -/+ et chiffres
         beq.s 	Cal3c
         cmp.b 	#"-",d0
         bne.s 	Cal3e
-Cal3c:  bset 	#1,d3          	;+ ou -: c'est un float! 
+Cal3c:  bset 	#1,d3          	;+ ou -: c'est un float!
 Cal3d:  move.b 	(a1)+,d0     	;puis cherche la fin de l'exposant
         cmp.b 	#32,d0
         beq.s 	Cal3d
@@ -6162,7 +6189,7 @@ Cinlong	moveq	#0,d0
 
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; 	INITIALISATION PROGRAMME COMPILE PART 1		
+; 	INITIALISATION PROGRAMME COMPILE PART 1
 ;	D0= Longueur du stack
 ;	D1= Longueur buffer
 ;	D2= Flags initialisation
@@ -6202,7 +6229,7 @@ Cinlong	moveq	#0,d0
 CmpQuit
 ; - - - - - - - - - - - - -
 	movem.l	a0/d0,-(sp)		Sauve les erreurs
-	move.w	#-2,DefFlag(a5)		
+	move.w	#-2,DefFlag(a5)
 	Rbsr	L_DefRun1
 	Rjsr	L_Bnk.EffAll
 	Rbsr	L_CmpClearVar
@@ -6280,7 +6307,7 @@ AMOSQuit
 	move.l	(sp)+,EveLabel(a5)
 	move.l	(sp)+,Prg_JError(a5)
 	movem.l	(sp)+,a3-a6/d6/d7
-;	Si erreur dans le programme: appelle les routines DEFAULT / END 
+;	Si erreur dans le programme: appelle les routines DEFAULT / END
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	movem.l	a0/d0,-(sp)
 	lea	Sys_ErrorRoutines(a5),a1
@@ -6361,7 +6388,7 @@ AMOSQuit
 	sub.l	d2,d3
 	Rbra	L_CmpPrintSER
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; 	Imprime la chaine D2/D3 sur le CLI 
+; 	Imprime la chaine D2/D3 sur le CLI
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	CmpPrintCLI
 ; - - - - - - - - - - - - -
@@ -6424,7 +6451,7 @@ AMOSQuit
 	ext.w	d0			Refuse de charger...
 	bpl.s	.Nomi
 	move.l	a0,d0
-	cmp.l	#"Err!",d1		Un Message?	
+	cmp.l	#"Err!",d1		Un Message?
 	beq.s	.Mess
 .Err	moveq	#-2,d0			Message header 1: cannot load ext
 	bra.s	.Out
@@ -6434,7 +6461,7 @@ AMOSQuit
 	bne.s	.Err
 .Dejala	moveq	#0,d0
 	rts
-	
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	ARRET DES LIBRAIRIES Extensions
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -6534,7 +6561,7 @@ AMOSQuit
 	move.l	T_IntBase(a5),5*4(a0)		* D5-> Int Base
 	move.l	BasSp(a5),4*4(a0)		* D4-> BasSp
 	lea	Ed_Config(a5),a1		* D3-> Configuration Base Editor
-	move.l	a1,3*4(a0)	
+	move.l	a1,3*4(a0)
 ; Ferme toutes les routines appellees
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	lea	Sys_ClearRoutines(a5),a1
@@ -6542,11 +6569,11 @@ AMOSQuit
 ; Initialisations diverses
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 	Rjsr	L_Bnk.EffTemp
-	Rjsr	L_Bnk.Change	
-	Rjsr	L_MenuReset	
+	Rjsr	L_Bnk.Change
+	Rjsr	L_MenuReset
 	Rjsr	L_Dia_WarmInit
 	clr.l	EveLabel(a5)
-	
+
 ;	Rjsr	L_FillFFree			* Fait!
 ;	Rjsr	L_CloAll			* Fait!
 ;	Rjsr	L_PRT_Close			* Fait!
@@ -6899,7 +6926,7 @@ cpch8:  tst 	d0
 ; Enleve tous les ecrans
 ; ~~~~~~~~~~~~~~~~~~~~~~
 	move.w	PI_DefEBa(a5),ColBack(a5)
-	moveq	#0,d1	
+	moveq	#0,d1
 	moveq	#7,d2
 	EcCall	DelAll
 	clr.w	ScOn(a5)
@@ -6926,7 +6953,7 @@ DRun1:	clr.b	(a0)+
 	cmp.w	#64,d0
 	bne.s	DRun1
 ; Priority off
-; ~~~~~~~~~~~~ 
+; ~~~~~~~~~~~~
 	moveq	#0,d1
 	moveq	#0,d2
 	SyCall	SPrio
@@ -6981,7 +7008,7 @@ EdTr:	move.w	(a0)+,(a1)+
 .Skip1	move.w	PI_DefEWy(a5),d3
 	bne.s	.Skip2
 	move.l	d4,d3
-.Skip2	EcCalD	AView,0	
+.Skip2	EcCalD	AView,0
 ; Fait flasher la couleur 3 (si plus de 2 couleurs)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	cmp.w	#1,PI_DefECo(a5)
@@ -7059,7 +7086,7 @@ DRunX	rts
 	cmp.w	#64,d0
 	bne.s	.DRun1
 ; Priority off
-; ~~~~~~~~~~~~ 
+; ~~~~~~~~~~~~
 	moveq	#0,d1
 	moveq	#0,d2
 	SyCall	SPrio
@@ -7161,7 +7188,7 @@ DRunX	rts
 	jsr	(a0)
 	beq.s	.NoDia
 	add.w	#IDia_Errors,d0
-	Rbra	L_Error	
+	Rbra	L_Error
 .NoDia
 ; Les menus???
 ; ~~~~~~~~~~~~
@@ -7197,10 +7224,10 @@ Tst00	tst.l	Mon_Base(a5)			Retour au moniteur?
 	bne.s	IStop
 	btst	#BitControl,d4			Break autorise?
 	beq.s	Tst01
-IStop	move.w	d3,T_Actualise(a5)		
+IStop	move.w	d3,T_Actualise(a5)
 	moveq	#9,d0
 	Rbra	L_Error
-Tst01	move.w	d3,T_Actualise(a5)	
+Tst01	move.w	d3,T_Actualise(a5)
 	move.l	GoTest_OnBreak(a5),d0
 	beq.s	Tst1a
 	move.l	d0,a0
@@ -7321,7 +7348,7 @@ GoMG2	jmp	(a0)			Simple JMP
 .Skip	rts
 .Jmp	Rbsr	L_GetInstruction	Instruction courante
 	moveq	#1,d6			Pas d'erreur
-	move.l	Cmp_LowPile(a5),sp	
+	move.l	Cmp_LowPile(a5),sp
 	move.l	a1,-(sp)
 	move.l	OnBreak(a5),a0
 	jmp	(a0)
@@ -7407,7 +7434,7 @@ EveJ2	move.l	a1,-(sp)
 	Rbra	L_Error
 ; - - - - - - - - - - - - -
 	Lib_Cmp	OofStack
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	moveq 	#13,d0
 	Rbra	L_Error
 ; - - - - - - - - - - - - -
@@ -7442,7 +7469,7 @@ EveJ2	move.l	a1,-(sp)
 	Rbra	L_Error
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; 	TRAITEMENT DES ERREURS RunErr:	
+; 	TRAITEMENT DES ERREURS RunErr:
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	Error
 ; - - - - - - - - - - - - -
@@ -7498,7 +7525,7 @@ EveJ2	move.l	a1,-(sp)
 	or.w	d2,d0
 	move.w	d0,ErrorOn(a5)		Numero de l'erreur
 	move.l	BasA3(a5),a3		Restore les piles
-	move.l	Cmp_LowPile(a5),sp		
+	move.l	Cmp_LowPile(a5),sp
 	tst.w	ErrorChr(a5)
 	bmi.s	.rErr0
 	move.l	a1,ErrorChr(a5)
@@ -7597,7 +7624,7 @@ rErr1	move.l	Prg_JError(a5),a2	Branchement de fin
 ; - - - - - - - - - - - - -
 	Lib_Cmp	InRun1CLI
 ; - - - - - - - - - - - - -
-	Rbsr	L_RunName	
+	Rbsr	L_RunName
 ; Short mem ou non?
 ; ~~~~~~~~~~~~~~~~
 	move.l	Buffer(a5),a0
@@ -7605,7 +7632,7 @@ rErr1	move.l	Prg_JError(a5),a2	Branchement de fin
 	cmp.l	#"CmdL",(a0)+
 	bne	.Normal
 	move.l	2(a0),d0
-	cmp.l	#"-Mem",d0		
+	cmp.l	#"-Mem",d0
 	beq.s	.Short
 	cmp.l	#"-Def",d0
 	bne	.Normal
@@ -7626,9 +7653,9 @@ rErr1	move.l	Prg_JError(a5),a2	Branchement de fin
 .Skop	move.w	#-2,DefFlag(a5)
 	Rbsr	L_DefRun1
 	cmp.l	#"-Def",(sp)+
-	beq.s	.Normal	
+	beq.s	.Normal
 	Rjsr	L_Bnk.EffAll
-	Rbsr	L_CmpClearVar		
+	Rbsr	L_CmpClearVar
 	Rbsr	L_CmpLibrariesStop	Arret des extensions
 	clr.l	Prg_JError(a5)
 	clr.l	Sys_ErrorRoutines(a5)
@@ -7648,7 +7675,7 @@ rErr1	move.l	Prg_JError(a5),a2	Branchement de fin
 .Normal
 ; Plus de variable
 	Rjsr	L_Bnk.EffAll
-	Rbsr	L_CmpClearVar		
+	Rbsr	L_CmpClearVar
 	lea	Sys_DefaultRoutines(a5),a1
 	SyCall	CallRoutines
 	Rbsr	L_CmpLibrariesStop	Arret des extensions
@@ -7798,7 +7825,7 @@ L_DSave	equ	DataLong-DosBase+8*4
 	bclr	#1,ActuMask+1(a5)
 	lea	Fichiers(a5),a0		Plus de fichiers
 	moveq	#NFiche-1,d0
-.New1	clr.l	(a0)	
+.New1	clr.l	(a0)
 	lea	TFiche(a0),a0
 	dbra	d0,.New1
 	lea	Dev_List(a5),a0		Plus de devices (12 byte/device)
@@ -7821,7 +7848,7 @@ L_DSave	equ	DataLong-DosBase+8*4
 	move.l	d0,a0
 	addq.l	#4,a0
 	move.l	2(a0),d2		Les flags
-	move.l	2+6(a0),d3	
+	move.l	2+6(a0),d3
 	bset	#FHead_PRun,d2		C'est un PRUN!
 	bset	#FHead_Run,d2		C'est egalement un RUN!
 	bset	#FPrg_DefRunAcc+16,d2	DEFRUNACC pour le programme
@@ -7944,7 +7971,7 @@ L_DSave	equ	DataLong-DosBase+8*4
 	Rbeq	L_FonCall
 	move.l	BasSp(a5),-(sp)		Sauve le bas de la pile
 	movem.l	a3-a6/d6/d7,-(sp)	Pousse tout
-	move.l	sp,BasSp(a5)		
+	move.l	sp,BasSp(a5)
 	subq.l	#4,BasSp(a5)		Change le bas de la pile
 	JJsr	L_Ed_ZapIn		Appel de l'editeur, avec ADTOKENS
 	movem.l	(sp)+,a3-a6/d6/d7	Recupere tout
@@ -7972,7 +7999,7 @@ L_DSave	equ	DataLong-DosBase+8*4
 	rts
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; 	MET LES BANQUES DU PROGRAMME COURANT, SI DEFINI 
+; 	MET LES BANQUES DU PROGRAMME COURANT, SI DEFINI
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	Bnk.CurProgram
 ; - - - - - - - - - - - - -		Si programme AMOS
@@ -7982,7 +8009,7 @@ L_DSave	equ	DataLong-DosBase+8*4
 	move.l	(sp)+,a4
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Cmp	Bnk.CurProgramCLI	
+	Lib_Cmp	Bnk.CurProgramCLI
 ; - - - - - - - - - - - - -		Si programme CLI
 	rts
 
@@ -7999,7 +8026,7 @@ L_DSave	equ	DataLong-DosBase+8*4
 ; - - - - - - - - - - - - -
 	Lib_Cmp	FnPrgUnderCLI
 ; - - - - - - - - - - - - -		Si programme CLI
-	tst.l	Prg_Runned(a5)		
+	tst.l	Prg_Runned(a5)
 	sne	d3
 	ext.w	d3
 	ext.l	d3
@@ -8047,7 +8074,7 @@ L_DSave	equ	DataLong-DosBase+8*4
 	rts
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;	FIN DES ROUTINES AMOS / CLI 					
+;	FIN DES ROUTINES AMOS / CLI
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -8232,7 +8259,7 @@ Suffix	dc.b	"SOMA.",0
 	rts
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; 	ON ERROR	
+; 	ON ERROR
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	InOnError
 ; - - - - - - - - - - - - -
@@ -8345,7 +8372,7 @@ L985a	Rbsr	L_PopP
 	rts
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; 	=TRAPERR		
+; 	=TRAPERR
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	FnErrTrap
 ; - - - - - - - - - - - - -
@@ -8493,8 +8520,8 @@ NxtS	rts
 	move.l	AData(a5),-(sp)		9
 	move.l	Cmp_LowPile(a5),-(sp)	10
 	move.l	Cmp_LowPileP(a5),-(sp)	11
-	move.l	sp,Cmp_LowPileP(a5)		
-	move.l	sp,Cmp_LowPile(a5)		
+	move.l	sp,Cmp_LowPileP(a5)
+	move.l	sp,Cmp_LowPile(a5)
 	clr.l	OnErrLine(a5)
 	move.w	d0,ErrorOn(a5)
 	jmp	(a2)
@@ -8690,11 +8717,11 @@ NxtS	rts
 	cmp.b	#2,d0
 	bne.s	.Ent
 	move.w	d0,(a0)+
-	move.l	d1,(a0)+		Chaine	
+	move.l	d1,(a0)+		Chaine
 	bra.s	.Next
-.Dbl	move.w	#$0801,(a0)+		Flag Double	
+.Dbl	move.w	#$0801,(a0)+		Flag Double
 	clr.l	(a0)+			Double
-	clr.l	(a0)+	
+	clr.l	(a0)+
 	bra.s	.Next
 .Ent	move.w	d0,(a0)+		Entier
 	clr.l	(a0)+
@@ -8771,7 +8798,7 @@ L58b	move.b	d0,(a0)+
 	Rbra	L_GetLabel
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;	GET LABEL 
+;	GET LABEL
 ;	D5=	Numero de procedure
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	GetLabel
@@ -8808,7 +8835,7 @@ L59n	lea	6(a1,d1.w),a1
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;		DIM
 ;		A0=	Adresse variable
-;		D0=	Nombre params 					
+;		D0=	Nombre params
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	InDim
 ; - - - - - - - - - - - - -
@@ -8899,7 +8926,7 @@ GetT1	move.w	(a0)+,d0
 	rts
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;					=ARRAY$(a$(0))			
+;					=ARRAY$(a$(0))
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp FnArray
 ; - - - - - - - - - - - - -
@@ -8941,7 +8968,7 @@ L955d	cmp.b	#1,d2
 L955e	addq.l	#2,sp
 	jmp	(a2)		Branche a la routine
 EFnNDef	moveq	#15,d0
-	Rbra	L_GoError 
+	Rbra	L_GoError
 
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -9086,7 +9113,7 @@ XSort	Rjsr	L_LoadRegs
 di3:    moveq	#0,d5
         move.l 	d6,d1
         lsr.l	#1,d6
-di4:    movem.l a1/d1-d7,-(sp)	
+di4:    movem.l a1/d1-d7,-(sp)
         add.l 	d6,d5
 	move.l	d5,d1
 	move.l	a1,a0
@@ -9150,7 +9177,7 @@ L957a	addq.l	#4,a3
 	bne.s	L957a
 	move.l	a0,a1
 	rts
-* Trouve l'adresse D0/D1 >>> A0/A1 
+* Trouve l'adresse D0/D1 >>> A0/A1
 ; - - - - - - - - - - - - -
 	Lib_Cmp	AdSort
 ; - - - - - - - - - - - - -
@@ -9162,7 +9189,7 @@ L957a	addq.l	#4,a3
 	rts
 * Comparaison pour SORT/FIND
 ; - - - - - - - - - - - - -
-	Lib_Cmp	CpBis 	
+	Lib_Cmp	CpBis
 ; - - - - - - - - - - - - -
 	cmp.b	#1,d2
 	beq.s	.Flt
@@ -9189,7 +9216,7 @@ L957a	addq.l	#4,a3
 	Rbmi	L_OOfData
 	cmp.l	#EntNul,d3
 	beq.s	L975a
-	subq.b	#1,d2	
+	subq.b	#1,d2
 	bmi.s	L975b
 	Rbne	L_TypeMis
 	Rjsrt	L_FlToInt1
@@ -9208,7 +9235,7 @@ L975b	move.l	(sp)+,a0
 	Rbmi	L_OOfData
 	cmp.l	#EntNul,d3
 	beq.s	L976a
-	subq.b	#1,d2	
+	subq.b	#1,d2
 	beq.s	L976b
 	Rbpl	L_TypeMis
 	Rjsrt	L_IntToFl1
@@ -9357,12 +9384,12 @@ FldFonc	Rjsr	L_Cloa1
 ; - - - - - - - - - - - - -
 	tst.w	ScOn(a5)
 	Rbeq	L_ScNOp
-	clr.w	-(sp)	
+	clr.w	-(sp)
 	clr.l	PrintFile(a5)
 	Rbra	L_Input
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;	INPUT!	
+;	INPUT!
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	Input
 ; - - - - - - - - - - - - -
@@ -9394,25 +9421,25 @@ L111a   moveq	#"?",d1
 	moveq	#" ",d1
 	WiCall	ChrOut
 ; Rempli le buffer!
-ReInp:	
+ReInp:
 * Clavier
 	lea	Es_LEd(a5),a0
 	move.l	Buffer(a5),a1
 	clr.b	(a1)
 	move.l	a1,a2
 	move.w	#(1<<LEd_FCursor)|(1<<LEd_FTests)|(1<<LEd_FMulti),d0
-	moveq	#0,d1			Curseur à zero
+	moveq	#0,d1			Curseur ï¿½ zero
 	move.w	#256,d2			256 caracteres maxi
 	moveq	#-1,d3			Largeur maxi
 	Rjsr	L_LEd_Init
-	Rbne	L_FonCall		Trop à droite...
+	Rbne	L_FonCall		Trop ï¿½ droite...
 	Rjsr	L_LEd_Loop
 	move.l	d0,d3
 	tst.w	d2
 	bpl.s	InnPut
 	Rbra	L_InStop
 * Fichier!
-ReDInp:	
+ReDInp:
 	move.l	PrintFile(a5),a2
 	move.l	Buffer(a5),a1
 	clr.b	(a1)
@@ -9504,7 +9531,7 @@ Inn11:	movem.l	(sp)+,a3/d5
 	Rbsr	L_EndByte
 	rts
 * Redo from start
-InnRedo	
+InnRedo
 	Rbsr	L_EndByte
 	tst.l	PrintFile(a5)
 	Rbne	L_TypeMis
@@ -9550,7 +9577,7 @@ InnRet:	dc.b 	13,10,0,0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	PrintE
 ; - - - - - - - - - - - - -
-	move.l 	d3,d0			
+	move.l 	d3,d0
 	moveq	#-1,d3         		;proportionnel
         moveq 	#1,d4         		;avec signe
         move.l 	Buffer(a5),a0
@@ -9578,7 +9605,7 @@ InnRet:	dc.b 	13,10,0,0
 L35r:   move.l	Buffer(a5),a0
 	beq.s	L35c
 	move.w	#255,d0
-L35a:   move.b 	(a2)+,(a0)+      
+L35a:   move.b 	(a2)+,(a0)+
         subq.w 	#1,d2
         beq.s 	L35c
         dbra 	d0,L35a
@@ -9820,7 +9847,7 @@ usip:   dc.b 	"E+000  "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	UsingS
 ; - - - - - - - - - - - - -
-	move.l 	d3,a0			Chaine à formater
+	move.l 	d3,a0			Chaine ï¿½ formater
         move.l 	Buffer(a5),a1
 	lea	128(a1),a1
         move.w 	(a0)+,d0
@@ -9847,8 +9874,8 @@ l42a2:  move.b 	(a0)+,(a1)+
 l42a3:  clr.b 	(a1)
 
         move.l 	Buffer(a5),a0
-        lea 	128(a0),a1   
-        lea 	128(a1),a2   
+        lea 	128(a0),a1
+        lea 	128(a1),a2
 ; ecris la chaine dans le buffer
 us52:   move.b 	(a2)+,d0
         beq.s 	fnusc
@@ -9920,7 +9947,7 @@ Plt2:	addq.l	#2,a0
 	move.l	Buffer(a5),a0
 	move.l	a0,a1
 	moveq	#31,d0
-.Loop	clr.w	(a0)+	
+.Loop	clr.w	(a0)+
 	dbra	d0,.Loop
 	Rbra	L_InFade
 ; - - - - - - - - - - - - -
@@ -10308,7 +10335,7 @@ L341c	move.l	-(a0),d0
 	move.l	d3,(a0)
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Cmp FnStruc	
+	Lib_Cmp FnStruc
 ; - - - - - - - - - - - - -
 	move.l	d3,a0
 	move.l	d3,d1
@@ -10396,11 +10423,11 @@ L341c	move.l	-(a0),d0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; 	Demande de l'espace pour les chaines 
+; 	Demande de l'espace pour les chaines
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	Demande
 ; - - - - - - - - - - - - -
-dem0	move.l 	HiChaine(a5),a0 
+dem0	move.l 	HiChaine(a5),a0
         move.l 	a0,a1
 	add.l	d3,a1
 	addq.l	#4,a1
@@ -10460,19 +10487,19 @@ FinMenE	moveq	#11,d0			Out of buffer space
 ; - - - - - - - - - - - - -
 	movem.l d1-d7/a2-a6,-(sp)
 
-;	IFNE	Debug>1	
+;	IFNE	Debug>1
 ;	movem.l	d0-d7/a0-a6,-(sp)
 ;	moveq	#70,d3
 ;	JJsrIns	L_InBell1,1
 ;	movem.l	(sp)+,d0-d7/a0-a6
-;	ENDC	
-;	IFNE	Debug>2	
+;	ENDC
+;	IFNE	Debug>2
 ;	Rjsr	L_PreBug
 ;	ENDC
-	
+
 	move.l	a6,VarLoc(a5)
 
-;	Essaie de proceder à un FAST-MENAGE!
+;	Essaie de proceder ï¿½ un FAST-MENAGE!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	move.l	HiChaine(a5),d7
 	move.l	LoChaine(a5),d6
@@ -10498,9 +10525,9 @@ FfMen1	moveq	#0,d4
 .Var	btst	#1,d0				Une chaine?
 	bne.s	.Alpha
 	lsr.w	#8,d0				Recupere la taille
-	add.w	d0,a6		
+	add.w	d0,a6
 	move.w	(a6)+,d0			Suivante
-	beq.s	.Loop			
+	beq.s	.Loop
 	bpl.s	.Var
 .Proc	move.l	(a6),d0				Chunk suivant
 	beq	FfMenX				Le dernier?
@@ -10592,7 +10619,7 @@ SLOW_MENAGE
 L47a	move.l	a0,BMenage(a5)
 	move.l	a0,d5
 * Menage
-L47b   	move.l 	d5,d6	
+L47b   	move.l 	d5,d6
 	add.l 	#TMenage,d6                  	;Fin TI
 	move.l 	LoChaine(a5),d7               	;Ad mini de recopie
 	move.l	HiChaine(a5),a4			;Ad maxi des chaines!
@@ -10613,9 +10640,9 @@ Men1
 .Var	btst	#1,d0				Une chaine?
 	bne.s	.Alpha
 	lsr.w	#8,d0				Recupere la taille
-	add.w	d0,a6		
+	add.w	d0,a6
 	move.w	(a6)+,d0			Suivante
-	beq.s	.Loop			
+	beq.s	.Loop
 	bpl.s	.Var
 .Proc	move.l	(a6),d0				Chunk suivant
 	beq	Men20				Le dernier?
@@ -10661,7 +10688,7 @@ Men7:   move.l 	d3,a1                    	;Decale les adresses au dessus
         bcs.s 	Men7a
         lea 	-8(a1),a1
         move.l 	-8(a1),d2                	;Remonte la limite haute
-        bra.s 	Men8 
+        bra.s 	Men8
 Men7a:  addq.l 	#8,d3
         move.l 	#$7fffffff,8(a1)
 Men8:   move.l 	-(a1),8(a1)
@@ -10669,7 +10696,7 @@ Men8:   move.l 	-(a1),8(a1)
         cmp.l 	a0,a1
         bcc.s 	Men8
 Men9:   move.l 	a3,-(a0)                 	;Poke dans la table
-        move.l 	d0,-(a0) 
+        move.l 	d0,-(a0)
 Men10:  addq.l	#4,a3
 	tst.l 	d4
         bne.s 	Men3
@@ -10680,7 +10707,7 @@ Men20:  move.l 	d5,a3                    	;Adresse TI
         move.l 	d7,a1                    	;Adresse de recopie
         moveq 	#0,d7
 Men21:  cmp.l 	d3,a3                     	;Fini-ni?
-        bcc.s 	Men26 
+        bcc.s 	Men26
         move.l 	(a3),a0                  	;Adresse de la chaine
         lea 	8(a3),a3
         cmp.l 	a0,d7                    	;Chaine deja bougee?
@@ -10705,7 +10732,7 @@ Men22:  move.l 	-4(a3),a2                	;Change la variable
         move.w 	(a0)+,d0                 	;Recopie la chaine
         beq.s 	Men24
         move.w 	d0,(a1)+
-        subq.w 	#1,d0 
+        subq.w 	#1,d0
         lsr.w 	#1,d0
 Men23:  move.w 	(a0)+,(a1)+
         dbra 	d0,Men23
@@ -10734,9 +10761,9 @@ Men31:
 .Var	btst	#1,d0				Une chaine?
 	bne.s	.Alpha
 	lsr.w	#8,d0				Recupere la taille
-	add.w	d0,a6		
+	add.w	d0,a6
 	move.w	(a6)+,d0			Suivante
-	beq.s	.Loop			
+	beq.s	.Loop
 	bpl.s	.Var
 .Proc	move.l	(a6),d0				Chunk suivant
 	beq	Men40				Le dernier?
@@ -10776,7 +10803,7 @@ Men40:  move.l 	a1,d7    	                ;Monte la limite <
         bra 	Men0
 ;-----> Menage fini!
 FinMen	move.l 	a1,HiChaine(a5)
-; Libere la mémoire
+; Libere la mï¿½moire
 	move.l	BMenage(a5),d0
 	bmi.s	Finm1
 	move.l	d0,a1
@@ -11008,7 +11035,7 @@ mdst10: rts
 	bne.s	.Skip2
 	Rbsr	L_Sys_GetPath		Va chercher le pathname
 	lea	Sys_Pathname(a5),a0	Additionne!
-	bra.s	.Fin	
+	bra.s	.Fin
 ; Un message systeme? (-1)
 .Skip2	cmp.l	#1001,d0
 	bcc.s	.Skip3
@@ -11312,7 +11339,7 @@ MnDim1	Rjsr	L_MnFind
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	ValRout
 ; - - - - - - - - - - - - -
-        movem.l a1-a2/d5-d7,-(sp) 
+        movem.l a1-a2/d5-d7,-(sp)
 	move.w	d2,-(sp)
 	move.l	a0,d7
 	moveq	#0,d4
@@ -11322,11 +11349,11 @@ MnDim1	Rjsr	L_MnFind
 
 ; 	y-a-t'il un signe devant?
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-val1:   move.b 	(a0)+,d0   
+val1:   move.b 	(a0)+,d0
         beq 	val10
         cmp.b 	#32,d0
         beq.s 	val1
-        move.l 	a0,a2      
+        move.l 	a0,a2
         subq.l 	#1,a2
         cmp.b 	#"-",d0
         bne.s 	val1a
@@ -11358,7 +11385,7 @@ val1c
 val2:   subq.l	#1,a0
 	move.l 	a0,a1        	Si float: trouve la fin du chiffre
         clr.w 	d3		Les flags
-	lea	BuFloat(a5),a2	
+	lea	BuFloat(a5),a2
 	moveq	#60,d2		Taille maxi du buffer
 val3:	move.b 	(a1)+,d0
         cmp.b 	#32,d0
@@ -11388,7 +11415,7 @@ val3b:  move.b 	(a1)+,d0     	Apres un E, accepte -/+ et chiffres
         beq.s 	val3c
         cmp.b 	#"-",d0
         bne.s 	val3e
-val3c:  bset 	#1,d3          	+ ou -: c'est un float! 
+val3c:  bset 	#1,d3          	+ ou -: c'est un float!
 	move.b	d0,(a2)+
 val3d:  subq.w	#1,d2		Au bout du buffer?
 	beq.s	val4
@@ -11410,9 +11437,9 @@ val4:  	clr.b	(a2)
 	tst.w	(sp)			Un entier quoi qu'il arrive
 	beq.s	CEntier
 	bpl.s	.Float
-	btst	#0,MathFlags(a5)	Si indifferent, 
+	btst	#0,MathFlags(a5)	Si indifferent,
 	beq.s	CEntier			Entier, si pas de math
-	
+
 ; 	Conversion ASCII ---> FLOAT
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .Float	move.l	a1,-(sp)
@@ -11448,7 +11475,7 @@ CFin	move.l	d0,d3			Retourne en D3
 ;	Verification du type
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~
 ECheck	moveq	#0,d0			Pas d'erreur
-	moveq	#0,d2			Entier 
+	moveq	#0,d2			Entier
 	tst.w	(sp)			Que veut-on?
 	beq.s	.Ent			Un entier
 	bpl.s	.Flt			Un float!
@@ -11588,7 +11615,7 @@ bh1:    bsr 	minichr
 	move.l	#$c90fd942,ValPi(a5)		Simple precision
 	move.l	#$b4000048,Val180(a5)
 ; Init float.library
-	moveq	#0,d0				
+	moveq	#0,d0
 	lea	FloatName(pc),a1
 	jsr	_LVOOpenLibrary(a6)
 	move.l	d0,FloatBase(a5)
@@ -11619,7 +11646,7 @@ MathName
 	move.b	d0,MathFlags(a5)		Stocke les flags
 	move.l	$4.w,a6
 ; Init float.library
-	moveq	#0,d0				
+	moveq	#0,d0
 	lea	.FloatName(pc),a1
 	jsr	_LVOOpenLibrary(a6)
 	move.l	d0,FloatBase(a5)
@@ -11661,7 +11688,7 @@ MathName
 	dc.b 	"mathieeedoubbas.library",0
 .DMathName
 	dc.b 	"mathieeedoubtrans.library",0
-	even	
+	even
 
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -11669,7 +11696,7 @@ MathName
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Conversion entier >>> float dans le dernier operateur
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Cmp	IntToFl1		
+	Lib_Cmp	IntToFl1
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	a6,d3
@@ -11705,7 +11732,7 @@ MathName
 	move.l	d0,(a3)
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Cmp	DIntToFl2		
+	Lib_Cmp	DIntToFl2
 ; - - - - - - - - - - - - -
 	movem.l	(a3),d0-d1
 	move.l	a6,d2
@@ -11720,7 +11747,7 @@ MathName
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Conversion float >>> entier dans le dernier operateur
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Cmp	FlToInt1		
+	Lib_Cmp	FlToInt1
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	a6,d3
@@ -11745,7 +11772,7 @@ MathName
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Conversion float >>> entier dans la pile
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Cmp	FlToInt2		
+	Lib_Cmp	FlToInt2
 ; - - - - - - - - - - - - -
 	move.l	(a3),d0
 	move.l	a6,d4
@@ -11755,7 +11782,7 @@ MathName
 	move.l	d0,(a3)
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Cmp	DFlToInt2		
+	Lib_Cmp	DFlToInt2
 ; - - - - - - - - - - - - -
 	movem.l	(a3),d0-d1
 	move.l	a6,d2
@@ -11770,7 +11797,7 @@ MathName
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Fait une fonction mathematique
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Cmp	Math_Fonction		
+	Lib_Cmp	Math_Fonction
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	a6,d3
@@ -11780,7 +11807,7 @@ MathName
 	move.l	d0,d3
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Cmp	DMath_Fonction		
+	Lib_Cmp	DMath_Fonction
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	d4,d1
@@ -11795,9 +11822,9 @@ MathName
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 					COMPARAISONS FLOAT
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;       Fait une comparaison float 
+;       Fait une comparaison float
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Cmp	Float_Compare	
+	Lib_Cmp	Float_Compare
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	(a3)+,d1
@@ -11807,7 +11834,7 @@ MathName
 	move.l	d3,a6
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Cmp	DFloat_Compare	
+	Lib_Cmp	DFloat_Compare
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	d4,d1
@@ -11823,7 +11850,7 @@ MathName
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Fait une operation float
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Cmp	Float_Operation		
+	Lib_Cmp	Float_Operation
 ; - - - - - - - - - - - - -
 	move.l	(a3)+,d0
 	move.l	d3,d1
@@ -11834,7 +11861,7 @@ MathName
 	move.l	d0,d3
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Cmp	DFloat_Operation		
+	Lib_Cmp	DFloat_Operation
 ; - - - - - - - - - - - - -
 	movem.l	(a3)+,d0-d1
 	exg	d3,d2
@@ -11876,7 +11903,7 @@ MathName
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Fait une operation Math
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Cmp	Math_Operation		
+	Lib_Cmp	Math_Operation
 ; - - - - - - - - - - - - -
 	move.l	(a3)+,d0
 	move.l	d3,d1
@@ -11887,7 +11914,7 @@ MathName
 	move.l	d0,d3
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Cmp	DMath_Operation		
+	Lib_Cmp	DMath_Operation
 ; - - - - - - - - - - - - -
 	movem.l	(a3)+,d0-d1
 	exg	d3,d2
@@ -11905,7 +11932,7 @@ MathName
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Fait une fonction float
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Cmp	Float_Fonction		
+	Lib_Cmp	Float_Fonction
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	a6,d3
@@ -11931,13 +11958,13 @@ MathName
 ; 					Verifie que le float est positif
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Cmp	FlPos			Simple precision
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	btst	#7,d3
 	Rbne	L_FonCall
 	rts
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	Lib_Cmp	FlPosD			Double precision
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	btst	#31,d3
 	Rbne	L_FonCall
 	rts
@@ -11961,7 +11988,7 @@ MathName
 .AAnX	move.l	d3,a6
 	move.l	d0,d3
 	rts
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	Lib_Cmp	AAngleD			DFloat
 ; - - - - - - - - - - - - -
 	move.l	d3,d0			Appel de la fonction
@@ -12002,7 +12029,7 @@ MathName
 	move.l	d3,a6
 	move.l	d0,d3
 	rts
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	Lib_Cmp	FAngleD			DFloat
 ; - - - - - - - - - - - - -
 	tst.w	Angle(a5)
@@ -12031,7 +12058,7 @@ MathName
 ; - - - - - - - - - - - - -
 	move.l	ParamF(a5),d3
 	rts
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	Lib_Cmp FnParamD		DFloat
 ; - - - - - - - - - - - - -
 	move.l	ParamF(a5),d3
@@ -12069,10 +12096,10 @@ MathName
 	bclr	#31,d4
 	Rjmp	L_FloatToAsc
 ; - - - - - - - - - - - - -
-	Lib_Cmp	Float2AsciiD		
+	Lib_Cmp	Float2AsciiD
 ; - - - - - - - - - - - - -
 	moveq	#2,d0			Double precision
-	moveq	#15,d1	
+	moveq	#15,d1
 	tst.w	FixFlg(a5)
 	bmi.s	.Ok
 	move.w	FixFlg(a5),d1		Nombre de chiffres
@@ -12162,6 +12189,3 @@ MathName
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 C_End		dc.w	0
 		even
-
-
-

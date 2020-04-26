@@ -1,12 +1,12 @@
-	IFND  INTUITION_INTUITIONBASE_I
-INTUITION_INTUITIONBASE_I SET  1
+	IFND	INTUITION_INTUITIONBASE_I
+INTUITION_INTUITIONBASE_I	SET	1
 **
-** $VER: intuitionbase.i 38.0 (12.6.91)
-** Includes Release 40.15
+**	$Filename: intuition/intuitionbase.i $
+**	$Release: 1.3 $
 **
-** The public part of  IntuitionBase structure and supporting structures
+**	the IntuitionBase structure and supporting structures 
 **
-**  (C) Copyright 1985-1999 Amiga, Inc.
+**	(C) Copyright 1985,1986,1987,1988 Commodore-Amiga, Inc.
 **	    All Rights Reserved
 **
 
@@ -19,7 +19,7 @@ INTUITION_INTUITIONBASE_I SET  1
 	ENDC
 
 	IFND	GRAPHICS_VIEW_I
-	INCLUDE	"graphics/view.i"
+	INCLUDE "graphics/view.i"
 	ENDC
 
 * Be sure to protect yourself against someone modifying these data as
@@ -46,16 +46,9 @@ INTUITION_INTUITIONBASE_I SET  1
 * then maintained in a front to back order using Screen.NextScreen
 
 	APTR	ib_FirstScreen
-	ULONG	ib_Flags	; private meaning
-	WORD	ib_MouseY	; these are supposed to be backwards,
-	WORD	ib_MouseX	;  but weren't, recently
 
-	ULONG	ib_Seconds
-	ULONG	ib_Micros
-
-* there is not 'sizeof' here because...
+* there is not size here because...
 *
 *
-	ENDC
 
-
+	ENDC	; INTUITION_INTUITIONBASE_I

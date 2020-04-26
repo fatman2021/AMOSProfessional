@@ -7,7 +7,7 @@
 ********************************************************************
 2019.12.02 : Global Project Updates...
 
-- Updated pictures for AGA samples to use my old XQuadEditor Game Maker screen captures instead of TESO ones.
+- Updated pictures for AGA samples to use my old XQuadEditor Game Maker screen captures instead of TESO ones (to not have problem concerning copyrights for Bethesda)
 
 
 ********************************************************************

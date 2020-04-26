@@ -1,6 +1,34 @@
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;             	Données de Configuration Interpréteur
+;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;
+; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+;             	Donnï¿½es de Configuration Interprï¿½teur
 ;
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -14,12 +42,12 @@ EdD	Macro
 	dc.b	0
 	dc.b	.\@E-.\@D
 .\@D	\2
-.\@E	
+.\@E
 	EndM
 
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;		Zone de données DC
+;		Zone de donnï¿½es DC
 		dc.l 	"PId1"		Code de securite!
 		dc.l	Dat2-Dat1
 Dat1
@@ -31,14 +59,14 @@ PI_AdMouse	dc.l 0			* 4 - Adresse souris
 		dc.w 50			* 10- Position par defaut ecran!!
 		dc.l 12*1024		* 12- Taille liste copper
 		dc.l 128		* 16- Nombre lignes sprites
-; Taille des buffers 
+; Taille des buffers
 ; ~~~~~~~~~~~~~~~~~~
 PI_VNmMax	dc.l 1024*4		* 20- Buffer des noms de variable
 PI_TVDirect	dc.w 42*6		* 24- Variables mode direct
 PI_DefSize	dc.l 1024*32		* 26- Taille buffer par defaut
 ; Directory
 ; ~~~~~~~~~
-PI_DirSize	dc.w 30			* 30- 
+PI_DirSize	dc.w 30			* 30-
 PI_DirMax	dc.w 128		* 32-
 ; Faire carriage return lors de PRINT?
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -87,22 +115,22 @@ PI_DefEPa	dc.w $000,$A40,$FFF,$000,$F00,$0F0,$00F,$666
 		dc.w $555,$333,$733,$373,$773,$337,$737,$377
 		dc.w 0,0,0,0,0,0,0,0
 		dc.w 0,0,0,0,0,0,0,0
-PI_DefEWx	dc.w 0			144- Position par defaut	
-PI_DefEWy	dc.w 0			146- 
+PI_DefEWx	dc.w 0			144- Position par defaut
+PI_DefEWy	dc.w 0			146-
 PI_DefAmigA	dc.l $00404161		148- Touche AMIGA-A par defaut
 
 ; Zone de securite!
 ; ~~~~~~~~~~~~~~~~~
 		ds.l	6
-Dat2	
+Dat2
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;		Zone de données TEXTE
+;		Zone de donnï¿½es TEXTE
 
 		dc.l 	"PIt1"		Code de securite!
 		dc.l	Txt2-Txt1
 
-; Liste des fichiers système
+; Liste des fichiers systï¿½me
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Txt1		EdT	1,<APSystem/>
 		EdT	2,<>
@@ -112,7 +140,7 @@ Txt1		EdT	1,<APSystem/>
 		EdT	6,<AMOSPro_Editor>
 		EdT	7,<AMOSPro_Editor_Config>
 		EdT	8,<AMOSPro_Default_Resource.Abk>
-		EdT	9,<AMOSPro_Productivity1:Equates/AMOSPro_System_Equates>	
+		EdT	9,<AMOSPro_Productivity1:Equates/AMOSPro_System_Equates>
 		EdT	10,<AMOSPro_Monitor>
 		EdT	11,<AMOSPro_Monitor_Resource.Abk>
 		EdT	12,<AMOSPro_Accessories:AMOSPro_Help/AMOSPro_Help>
@@ -159,7 +187,7 @@ Txt1		EdT	1,<APSystem/>
 ; Filtre negatif directory
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 		EdT	47,<>
-		
+
 		dc.b	0,$FF
 		even
 Txt2

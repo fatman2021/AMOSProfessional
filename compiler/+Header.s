@@ -1,3 +1,32 @@
+;---------------------------------------------------------------------
+;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;
+;---------------------------------------------------------------------
 
 		Include	"+AMOS_Includes.s"
 		OPT	P+
@@ -11,7 +40,7 @@ LDataWork	equ	32+BbLong+12*2+(AAreaSize*5+6)+24+16+12+70*3+4+20+108+108+256+TBuf
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -27,7 +56,7 @@ DebPrg	move.l	#0,d2			Les flags
 CliStart
 	lea	DebPrg(pc),a4
 	move.l	a4,Header_DebPrg-DebPrg(a4)
-	
+
 ; Entree en cas de backstart
 BackIn	move.l	sp,Header_Pile-DebPrg(a4)
 	movem.l	a0/d0,-(sp)
@@ -84,7 +113,7 @@ BackIn	move.l	sp,Header_Pile-DebPrg(a4)
 	beq.s	.Cli2
 	move.l	d5,a6
 	jsr	_LVOCurrentDir(a6)
-.Cli2	
+.Cli2
 
 ; Reserve une zone de donnees pour le header
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,7 +144,7 @@ ReRun_Normal
 	lea	H_Load+1*8(a4),a6
 	bsr	DecHunk
 	bmi	Abort_Mem
-	move.l	a1,a3			Librairies >> A3	
+	move.l	a1,a3			Librairies >> A3
 	add.l	a3,d3
 	move.l	d3,H_Libraries(a4)	Adresse absolue (a4)
 
@@ -202,10 +231,10 @@ ReRun_Normal
 	move.l	a0,Name2(a5)		Buffers nom disque
 	lea	-256(a0),a0
 	move.l	a0,Name1(a5)
-	lea	-TBuffer(a0),a0	
-	move.l	a0,Buffer(a5)	
+	lea	-TBuffer(a0),a0
+	move.l	a0,Buffer(a5)
 	move.l	a0,BasA3(a5)		Buffer parametres
-	move.l	#256,d0		
+	move.l	#256,d0
 	lea	PathAct(a5),a0		Buffer du pathact
 	move.l	#Public|Clear,d1
 	bsr	A0_Reserve
@@ -272,7 +301,7 @@ ReRun_Normal
 ; Fabrique et branche la banque
 .Bk	lea	Sys_Banks(a5),a0
 	move.l	a0,Cur_Banks(a5)
-	IFNE	Debug	
+	IFNE	Debug
 	moveq	#0,d0			Si debug, empeche la copie
 	ENDC
 	bsr	Get_Bank
@@ -341,7 +370,7 @@ ReRun_Normal
 	subq.l	#1,a1
 	bra.s	.FinMes
 
-; Short-mem: repoke les données sauvees dans la pile
+; Short-mem: repoke les donnï¿½es sauvees dans la pile
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .Short	clr.b	H_Short(a4)
 ; Le pathact
@@ -360,7 +389,7 @@ ReRun_Normal
 	beq.s	.FinMes
 	subq.w	#1,d0
 .Cp2	move.b	(a0)+,(a1)+
-	dbra	d0,.Cp2	
+	dbra	d0,.Cp2
 	lea	Short_Save(sp),sp	Restore la pile
 ; Termine le message
 .FinMes	sub.l	a2,a1
@@ -390,7 +419,7 @@ ReRun_Normal
 	move.l	PI_AdMouse(a5),a1	A1= Mouse.Abk
 	lea	PI_ParaTrap(a5),a0	A0= Parametres start
 	move.l	PI_DefAmigA(a5),d1	A1= Amiga-A
-	moveq	#0,d0			D0= Pas d'ecran 
+	moveq	#0,d0			D0= Pas d'ecran
 	move.l	H_WAddress(a4),a6
 	jsr	(a6)
 	tst.l	d0
@@ -459,7 +488,7 @@ Run_Short
 .Cop3	move.b	(a0)+,(a1)+
 	dbra	d0,.Cop3
 .Cop4
-; Effacement de toute la mémoire
+; Effacement de toute la mï¿½moire
 	bsr	Abort_All		Tout AMOS!
 	move.l	H_Message(a4),d4	Le header
 	move.l	H_DosBase(a4),d5
@@ -483,7 +512,7 @@ Run_Short
 ; 	RUN NORMAL
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-Run_Normal	
+Run_Normal
 	move.l	Header_DZ(pc),a4
 ; Enleve le programme precedent
 	lea	H_Load+16(a4),a6
@@ -500,7 +529,7 @@ Run_Normal
 	bset	#FHead_Run,d2		Change le flag
 	bset	#FPrg_DefRunAcc+16,d2	DEFRUNACC pour le programme
 	bra	ReRun_Normal
-	
+
 ; Charge tout le programme suivant, le branche sur le precedent
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Load_Run
@@ -510,11 +539,11 @@ Load_Run
 	tst.l	d0
 	beq.s	.Err
 ; Enleve le premier hunk (header), en recuperant les flags
-	lsl.l	#2,d0			
+	lsl.l	#2,d0
 	move.l	d0,a2
 	move.l	a2,a1
 	move.l	-(a1),d0
-	move.l	Header_DebPrg(pc),a0	
+	move.l	Header_DebPrg(pc),a0
 	move.l	(a2)+,-4(a0)		Branche apres celui-ci
 	move.l	2(a2),d2		Flags programme + Flags hader
 	move.l	2+6(a2),d3		Prend les flags
@@ -528,10 +557,10 @@ Load_Run
 
 ;	Messages d'erreur!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
-Abort_Panic				
+Abort_Panic
 	moveq	#20,d0			Rien n'est ouvert!
 	bra	Abort_Finish
-Abort_Mem				
+Abort_Mem
 	moveq	#-2,d0			Out of mem
 	bra.s	Abort
 Abort_Lib
@@ -616,14 +645,14 @@ Abort_PRun
 	lea	H_Load(a4),a2
 	bsr	Free_Memories
 	moveq	#0,d4			Pas de message
-	move.l	H_DosBase(a4),d5	
+	move.l	H_DosBase(a4),d5
 	move.l	H_IntBase(a4),d6
 	lea	Header_DZ(pc),a0	La zone de donnee header
 	bsr	A0_Free
 	move.l	8(sp),d0		Reprend le message d'erreur
 	bra.s	Abort_Finish		On sort!
 
-; Ferme toute la datazone AMOS 
+; Ferme toute la datazone AMOS
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Abort_All
 ; Arrete amos.library si demarree
@@ -659,14 +688,14 @@ Abort_All
 	move.l	H_WSegment(a4),d1
 	beq.s	.noLib
 	jsr	_LVOUnLoadSeg(a6)
-.noLib	
+.noLib
 ; Enleve la graphics.library
 	move.l	$4.w,a6
 	move.l	T_GfxBase(a5),d0
 	beq.s	.NoGFX
 	move.l	d0,a1
 	jsr	_LVOCloseLibrary(a6)
-.NoGFX	
+.NoGFX
 	rts
 
 ; Libere les buffers recharges par RUN
@@ -772,7 +801,7 @@ H_Copy	movem.l	d0-d1/a0-a1/a6,-(sp)
 	movem.l	(sp)+,d0-d1/a0-a1/a6
 	rts
 
-; 	Reserve un espace mémoire sur (a0)
+; 	Reserve un espace mï¿½moire sur (a0)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	A0=	Adresse dans (a5)
 ;	D0=	Longueur
@@ -790,7 +819,7 @@ A0_Reserve
 .Out	movem.l	(sp)+,a1/d0/d2
 	rts
 
-; 	Efface un espace mémoire sur (a5)
+; 	Efface un espace mï¿½moire sur (a5)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	A0=	Adresse dans (a5)
 A0_Free
@@ -836,7 +865,7 @@ H_Reloc	moveq	#-1,d0
 	bra.s	.Loop
 
 ;-----> Gestion des banques, A1= adresse banque
-;	D0 (si debug)= 
+;	D0 (si debug)=
 Get_Bank
 	movem.l	a2/d2-d4,-(sp)
 ; Une banque de sprites / icons?
@@ -854,7 +883,7 @@ Get_Bank
 ; Mode normal: simple changement dans la liste
 	move.l	Cur_Banks(a5),a0
 	subq.l	#8,a1			Pointe le header
-	move.l	(a1),4(a1)		Longueur 
+	move.l	(a1),4(a1)		Longueur
 	subq.l	#8,4(a1)		Moins header Listes
 	move.l	(a0),(a1)
 	move.l	a1,(a0)
@@ -879,7 +908,7 @@ Get_Bank
 	exg.l	a0,a1			Va copier la banque origine
 	bsr	H_Copy
 	move.l	Cur_Banks(a5),a0
-	move.l	(a1),4(a1)		Longueur 
+	move.l	(a1),4(a1)		Longueur
 	subq.l	#8,4(a1)
 	move.l	(a0),(a1)
 	move.l	a1,(a0)
@@ -984,7 +1013,7 @@ DecHunk	movem.l	a0/a2-a5/d2-d7,-(sp)
 	moveq	#1,d0
 	bra.s	DecEnd
 ; Hunk compacte..
-DecHC	move.l	a2,a1			
+DecHC	move.l	a2,a1
 	movem.l	a0-a1/a6/d1-d2,-(sp)	TypeOfMem
 	move.l	$4.w,a6
 	jsr	-$216(a6)
@@ -992,7 +1021,7 @@ DecHC	move.l	a2,a1
 	and.l	#$0003,d0		Enleve le flag FAST!
 	or.w	#$0001,d0		Public mem
 	move.l	d0,d1
-	move.l	8(a2),d2	
+	move.l	8(a2),d2
 	move.l	d2,d0
 	addq.l	#8,d0			+ Header de banque!
 	bsr	H_Ram
@@ -1022,7 +1051,7 @@ DecHC	move.l	a2,a1
 	move.l	d0,(a0)
 	clr.l	4(a0)			Faux header de chunk
 	moveq	#1,d0			Pas d'erreur!
-DecEnd	movem.l	(sp)+,a0/a2-a5/d2-d7	
+DecEnd	movem.l	(sp)+,a0/a2-a5/d2-d7
 	tst.l	d0			1= Ok existe / 0= termine / -1= out of mem!
 	rts
 
@@ -1060,18 +1089,18 @@ Free_Memories
 
 **********************************
 *Entry
-*	
+*
 *	D3 Address
 *	D1 Length
 *	D0 1 Unsquash
 *
 *Exit
 *	D3 Unsquashed Length positive
-*	   or 
+*	   or
 *	   Error negative:-
 *			     -1 Check on data bad!
 *			     -2 Unsquasher was going to overwrite
-*				memory that was out of bounds!		
+*				memory that was out of bounds!
 UnSquash:
 	MOVE.L	D3,D0
 	ADD.L	D0,D1
@@ -1083,7 +1112,7 @@ UnSquash:
 	MOVE.L	-(A0),D5
 	MOVE.L	-(A0),D0
 	EOR.L	D0,D5
-L22446E	
+L22446E
 ;Flish	nop				Place pour le FLASH
 ;	nop
 ;	nop
@@ -1230,4 +1259,3 @@ Head_Icon	dc.b	"Icons   ",0
 
 FInit
 LInit		equ 	FInit-DebPrg
-

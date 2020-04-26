@@ -1,6 +1,33 @@
-
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;             	Données de Configuration Interpréteur
+;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;
+; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+;             	Donnï¿½es de Configuration Interprï¿½teur
 ;
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -14,7 +41,7 @@ EdD	Macro
 	dc.b	0
 	dc.b	.\@E-.\@D
 .\@D	\2
-.\@E	
+.\@E
 	EndM
 
 		dc.l 	"CCt1"		Code de securite!
@@ -40,7 +67,7 @@ Txt1
 
 		EdT	16,<- - - - - - - - - - - - - - - >
 		EdT	17,<AMOSPro Compiler by F. Lionet >
-		EdT	18,<© 1993 Europress Software Ltd.>
+		EdT	18,<ï¿½ 1993 Europress Software Ltd.>
 		EdT	19,<- - - - - - - - - - - - - - - >
 		EdT	20,<Tokenising program...>
 		EdT	21,<Testing program...>
@@ -89,8 +116,8 @@ Txt1
 		EdT	61,<Cannot load editor configuration>
 		EdT	62,<Cannot load interpreter configuration>
 		EdT	63,<Cannot load compiler configuration>
-		EdT	64,<Division by zero>	
-		EdT	65,<Overflow at line>	
+		EdT	64,<Division by zero>
+		EdT	65,<Overflow at line>
 		EdT	66,<Bad compiler configuration file>
 		EdT	67,<Cannot load AMOS.Library>
 		EdT	68,<Disk is not validated>
@@ -103,16 +130,16 @@ Txt1
 		EdT	72,<>
 		EdT	72,<1121100000000000000000000000000000000000000>
 
-;                           0  0     1   1     2        3   3     4    
-;                           1234567890123456789012345678901234567890123    
-;                          / |||         |         |         | 
-;                         / / | \Compiled \         \Compiler \      
-;                        S  D T  \program  \         \Setup    \   
-;                        o  e y   \setup 1  \   2     \      1  \      2 
-;                        u  s p    
-;                        r  t e  
-;                        c  i    
-;                        e  n  
+;                           0  0     1   1     2        3   3     4
+;                           1234567890123456789012345678901234567890123
+;                          / |||         |         |         |
+;                         / / | \Compiled \         \Compiler \
+;                        S  D T  \program  \         \Setup    \
+;                        o  e y   \setup 1  \   2     \      1  \      2
+;                        u  s p
+;                        r  t e
+;                        c  i
+;                        e  n
 ;
 ; Compiled program setup:
 ; ~~~~~~~~~~~~~~~~~~~~~~~

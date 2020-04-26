@@ -7,11 +7,37 @@
 ;  **  ** **   **  ***   ***   *****  **  **  ***  **  ****
 ;---------------------------------------------------------------------
 ; AMOSPro Picture compactor extension source code,
-; By François Lionet
+; By Franï¿½ois Lionet
 ; AMOS, AMOSPro and AMOS Compiler (c) Europress Software 1990-1992
 ; To be used with AMOS1.3 and over
-;--------------------------------------------------------------------- 
-; This file is public domain
+;---------------------------------------------------------------------
+;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;
 ;---------------------------------------------------------------------
 ; Please refer to the _Music.s file for more informations
 ;---------------------------------------------------------------------
@@ -101,7 +127,7 @@ BadVer	moveq	#-1,d0			* Bad version number
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	PACK Screen,Bank#
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InPack2		
+	Lib_Par	InPack2
 ; - - - - - - - - - - - - -
 	move.l	d3,-(a3)
 	clr.l	-(a3)
@@ -113,7 +139,7 @@ BadVer	moveq	#-1,d0			* Bad version number
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	PACK Screen,Bank#
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InPack6		
+	Lib_Par	InPack6
 ; - - - - - - - - - - - - -
 	Rbsr	L_PacPar
 	Rbsr	L_GetSize
@@ -124,7 +150,7 @@ BadVer	moveq	#-1,d0			* Bad version number
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SPACK Screen,Bank#
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSPack2	
+	Lib_Par	InSPack2
 ; - - - - - - - - - - - - -
 	move.l	d3,-(a3)
 	clr.l	-(a3)
@@ -136,7 +162,7 @@ BadVer	moveq	#-1,d0			* Bad version number
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	SPACK Screen,Bank#,X1,Y1 TO X2,Y2
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSPack6	
+	Lib_Par	InSPack6
 ; - - - - - - - - - - - - -
 	Rbsr	L_PacPar
 	Rbsr	L_GetSize
@@ -155,27 +181,13 @@ BadVer	moveq	#-1,d0			* Bad version number
 	move.w	EcAWTY(a0),PsAWTy(a1)
 	move.w	EcAVX(a0),PsAVx(a1)
 	move.w	EcAVY(a0),PsAVy(a1)
-
-	movem.l	a0/a1/a2,-(sp)
-	; **************************Copy the ECS 0-31 palette into bank
+	movem.l	a0/a1,-(sp)
 	moveq	#31,d0
 	lea	EcPal(a0),a0
 	lea	PsPal(a1),a1
-SPac1:
-	move.w	(a0)+,(a1)+
+SPac1	move.w	(a0)+,(a1)+
 	dbra	d0,SPac1
-	; *************************** 2019.11.22 copy the AGA 32-255 palette into bank if required.
-	lea 	T_globAgaPal(a5),a2
-;	moveq	#0,d0
-;	Move.w 	EcNbCol(a0),d0 ; We get the current amonut of colors of the screen
-;	sub.w 	#32,d0 			; We substract the 32 colors that were already copied.
-;	beq 	noCopy1 		; If no more colors, jump to .noCopy.
-;	bmi 	noCopy1 		; if <0 (screen have less than 32 colors) -> jump to .noCopy too
-SPac2:
-	move.w	(a2)+,(a1)+
-	dbra	d0,SPac2
-noCopy1:
-	movem.l	(sp)+,a0/a1/a2
+	movem.l	(sp)+,a0/a1
 	lea	PsLong(a1),a1
 * Finish packing!
 	Rbsr	L_Pack
@@ -184,7 +196,7 @@ noCopy1:
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	UNPACK Bank# 		-> To current screen
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InUnpack1	
+	Lib_Par	InUnpack1
 ; - - - - - - - - - - - - -
 	move.l	ScOnAd(a5),d0
 	Rbeq	L_JFoncall
@@ -197,7 +209,7 @@ noCopy1:
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	UNPACK Bank#,X,Y	-> To current screen
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InUnpack3	
+	Lib_Par	InUnpack3
 ; - - - - - - - - - - - - -
 	move.l	ScOnAd(a5),d0
 	Rbeq	L_JFoncall
@@ -208,19 +220,18 @@ noCopy1:
 	Rbra	L_UPack
 
 ; - - - - - - - - - - - - -
-	Lib_Def	UPack		
+	Lib_Def	UPack
 ; - - - - - - - - - - - - -
 	movem.l	d1/a1,-(sp)
 	Rjsr	L_Bnk.OrAdr
 	movem.l	(sp)+,d1/a1
-* Autoback 
+* Autoback
 	tst.w	EcAuto(a1)		* Is screen autobacked?
 	bne.s	.Dbl
 	Rjsr	L_UnPack_Bitmap		* NOPE! Do simple unpack
 	Rbeq	L_NoPac
 	rts
-.Dbl:
-	movem.l	d0-d7/a0-a2,-(sp)	* YEP! First step
+.Dbl	movem.l	d0-d7/a0-a2,-(sp)	* YEP! First step
 	EcCall	AutoBack1
 	movem.l	(sp),d0-d7/a0-a2
 	btst	#BitDble,EcFlags(a1)	* DOUBLE BUFFER?
@@ -232,12 +243,10 @@ noCopy1:
 	move.w	d0,-(sp)
 	EcCall	AutoBack3		* Third step
 	bra.s	ABPac2
-ABPac1:
-	Rjsr	L_UnPack_Bitmap		* SINGLE BUFFER autobacked
+ABPac1	Rjsr	L_UnPack_Bitmap		* SINGLE BUFFER autobacked
 	move.w	d0,-(sp)
 	EcCall	AutoBack4
-ABPac2:
-	tst.w	(sp)+
+ABPac2	tst.w	(sp)+
 	movem.l	(sp)+,d0-d7/a0-a2
 	Rbeq	L_NoPac
 	rts
@@ -245,7 +254,7 @@ ABPac2:
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	UNPACK Bank# TO screen	-> Creates/Erases screen!
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InUnpack2	
+	Lib_Par	InUnpack2
 ; - - - - - - - - - - - - -
 	move.l	(a3)+,d0		Get bank address
 	Rjsr	L_Bnk.OrAdr
@@ -253,7 +262,7 @@ ABPac2:
 	Rjsr	L_UnPack_Screen		Performs unpacking
 	tst.w	d0
 	beq.s	.Err
-	move.l	a0,ScOnAd(a5)		Branch new screen into AMOS 
+	move.l	a0,ScOnAd(a5)		Branch new screen into AMOS
 	move.w	EcNumber(a0),ScOn(a5)
 	addq.w	#1,ScOn(a5)
 	rts
@@ -264,7 +273,7 @@ ABPac2:
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Reserves memory bank, A1= number
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	ResBank	
+	Lib_Def	ResBank
 ; - - - - - - - - - - - - -
 	movem.l	a0/d1/d2,-(sp)
 	move.l	d0,d2
@@ -273,7 +282,7 @@ ABPac2:
 	lea	BkPac(pc),a0
 	Rjsr	L_Bnk.Reserve
 	Rbeq	L_JOOfMem
-	move.l	a0,a1 
+	move.l	a0,a1
 	movem.l	(sp)+,a0/d1/d2
 	rts
 ; Definition packed picture bank
@@ -284,7 +293,7 @@ BkPac:	dc.b "Pac.Pic."
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Unpile parameters
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	PacPar	
+	Lib_Def	PacPar
 ; - - - - - - - - - - - - -
 	move.l	d3,d5
 	move.l	(a3)+,d4
@@ -315,7 +324,7 @@ PacP2	sub.w	d2,d4
 
 
 ***************************************************************************
-* 
+*
 *       BITMAP COMPACTOR
 *                       A0: Origin screen datas
 *                       A1: Destination zone
@@ -331,7 +340,7 @@ PacP2	sub.w	d2,d4
 ******* Makes differents tries
 *	And finds the best square size in D1
 ; - - - - - - - - - - - - -
-	Lib_Def	GetSize	
+	Lib_Def	GetSize
 ; - - - - - - - - - - - - -
 	movem.l	a1-a3/d6-d7,-(sp)
 	lea	TSize(pc),a3
@@ -366,10 +375,10 @@ PacSize	movem.l	d1-d7/a0-a4/a6,-(sp)
 	move.l	a5,-(sp)
 * Fake data zone
         move.w 	d2,Pkdx(a1)
-        move.w 	d3,Pkdy(a1)  
-        move.w 	d4,Pktx(a1)  
-        move.w 	d5,Pkty(a1)   
-        move.w 	d1,Pktcar(a1)  
+        move.w 	d3,Pkdy(a1)
+        move.w 	d4,Pktx(a1)
+        move.w 	d5,Pkty(a1)
+        move.w 	d1,Pktcar(a1)
 * Reserve intermediate table space
 	move.w	d1,d0
 	mulu	d4,d0
@@ -410,7 +419,7 @@ Iligne: move.l 	a3,a2
 Icarre: move.l 	a2,a0
         move.w 	Pktcar(a1),d2
 	subq.w	#1,d2
-Ioct0: 	cmp.b 	(a0),d0         	* Compactage d''un carre
+Ioct0: 	cmp.b 	(a0),d0         	* Compactage d'un carre
         beq.s 	Ioct1
 	move.b	(a0),d0
         addq.l 	#1,a5
@@ -421,10 +430,10 @@ Ioct1:  dbra 	d1,Ioct2
 	clr.b	(a6)
 Ioct2:  add.w 	d7,a0
         dbra 	d2,Ioct0
-        addq.l	#1,a2	
-        dbra 	d4,Icarre	
-	add.l	d5,a3	
-        dbra 	d6,Iligne	
+        addq.l	#1,a2
+        dbra 	d4,Icarre
+	add.l	d5,a3
+        dbra 	d6,Iligne
 	subq.w	#1,(sp)
 	bne.s	Iplan
 	addq.l	#2,sp
@@ -466,7 +475,7 @@ TSize	dc.w 	1,2,3,4,5,6,7,8,12,16,24,32,48,64,0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	REAL PACKING!!!
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	Pack		
+	Lib_Def	Pack
 ; - - - - - - - - - - - - -
 * Header of the packed bitmap
 	movem.l	d1-d7/a0-a4/a6,-(sp)
@@ -475,10 +484,10 @@ TSize	dc.w 	1,2,3,4,5,6,7,8,12,16,24,32,48,64,0
 * Packed bitmap header
         move.l 	#BMCode,Pkcode(a1)
         move.w 	d2,Pkdx(a1)
-        move.w 	d3,Pkdy(a1)  
-        move.w 	d4,Pktx(a1)  
-        move.w 	d5,Pkty(a1)   
-        move.w 	d1,Pktcar(a1)  
+        move.w 	d3,Pkdy(a1)
+        move.w 	d4,Pktx(a1)
+        move.w 	d5,Pkty(a1)
+        move.w 	d1,Pktcar(a1)
 	move.w	EcNPlan(a0),Pknplan(a1)
 
 * Reserve intermediate table space
@@ -514,7 +523,7 @@ TSize	dc.w 	1,2,3,4,5,6,7,8,12,16,24,32,48,64,0
         moveq 	#7,d1  		        * Bit pointer
 	moveq	#0,d0
         clr.b 	(a5)              	* First byte to zero
-        clr.b 	(a6)              
+        clr.b 	(a6)
 plan:   move.l 	(a4)+,a3
 	add.l	d3,a3
         move.w 	Pkty(a1),d6
@@ -525,7 +534,7 @@ ligne:  move.l 	a3,a2
 carre:  move.l 	a2,a0
         move.w 	Pktcar(a1),d2
 	subq.w	#1,d2
-oct0: 	cmp.b 	(a0),d0         	* Compactage d''un carre
+oct0: 	cmp.b 	(a0),d0         	* Compactage d'un carre
         beq.s 	oct1
 	move.b	(a0),d0
         addq.l 	#1,a5
@@ -538,9 +547,9 @@ oct1:   dbra 	d1,oct2
 oct2:   add.w 	d7,a0
         dbra 	d2,oct0
         addq.l	#1,a2			* Carre suivant en X
-        dbra 	d4,carre	
+        dbra 	d4,carre
 	add.l	d5,a3			* Ligne suivante
-        dbra 	d6,ligne	 
+        dbra 	d6,ligne
 	subq.w	#1,(sp)			* Plan couleur suivant
 	bne.s	plan
 	addq.l	#2,sp
@@ -593,12 +602,12 @@ comp2b: dbra	d2,comp2
 	moveq	#23,d0
 	Rjmp	L_Error
 ; - - - - - - - - - - - - -
-	Lib_Def	JScnop	
+	Lib_Def	JScnop
 ; - - - - - - - - - - - - -
 	moveq	#47,d0
 	Rjmp	L_Error
 ; - - - - - - - - - - - - -
-	Lib_Def	JOOfMem	
+	Lib_Def	JOOfMem
 ; - - - - - - - - - - - - -
 	moveq	#24,d0
 	Rjmp	L_Error
@@ -629,7 +638,7 @@ comp2b: dbra	d2,comp2
 	Rjmp	L_ErrorExt
 ErrMes	dc.b 	"Not a packed bitmap",0
 	dc.b 	"Not a packed screen",0
-	even	
+	even
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	ERRORS: Second routine
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -661,5 +670,3 @@ C_Title		dc.b 	"AMOSPro Picture Compactor V "
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 C_End		dc.w	0
 		even
-
-

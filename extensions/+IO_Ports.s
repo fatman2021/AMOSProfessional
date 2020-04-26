@@ -8,11 +8,37 @@
 ;  **  ** **   **  ***   ***   *****  **  **  ***  **  ****
 ;---------------------------------------------------------------------
 ; Serial / Parallel / Printer extension source code
-; By François Lionet
+; By Franï¿½ois Lionet
 ; AMOS, AMOSPro, AMOS Compiler (c) Europress Software 1990-1992
 ; To be used with AMOSPro V2.0 and over
-;--------------------------------------------------------------------- 
-; This file is public domain
+;---------------------------------------------------------------------
+;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;
 ;---------------------------------------------------------------------
 ;
 ; Please refer to the _Music.s file for more informations...
@@ -59,7 +85,7 @@ Start		dc.l	C_Tk-C_Off
 		dc.l	C_Lib-C_Tk
 		dc.l	C_Title-C_Lib
 		dc.l	C_End-C_Title
-		dc.w	0	
+		dc.w	0
 		dc.b	"AP20"
 
 ;---------------------------------------------------------------------
@@ -121,7 +147,7 @@ C_Tk
 		dc.b	"serial bas","e"+$80,"00",-1
 		dc.w	L_InSerialAbort,L_Nul
 		dc.b	"serial abor","t"+$80,"I0",-1
-	
+
 ; Printer commands
 ; ~~~~~~~~~~~~~~~~
 		dc.w   	L_InPrinterOpen,L_Nul
@@ -133,11 +159,11 @@ C_Tk
 		dc.w	L_InPrinterOut,L_Nul
 		dc.b	"printer ou","t"+$80,"I0,0",-1
 		dc.w	L_InPrinterDump0,L_Nul
-		dc.b	"!printer dum","p"+$80,"I",-2	
+		dc.b	"!printer dum","p"+$80,"I",-2
 		dc.w	L_InPrinterDump4,L_Nul
-		dc.b	$80,"I0,0t0,0",-2 
+		dc.b	$80,"I0,0t0,0",-2
 		dc.w	L_InPrinterDump7,L_Nul
-		dc.b	$80,"I0,0t0,0,0,0,0",-1	
+		dc.b	$80,"I0,0t0,0,0,0,0",-1
 		dc.w	L_InPrinterAbort,L_Nul
 		dc.b	"printer abor","t"+$80,"I",-1
 		dc.w	L_Nul,L_FnPrinterCheck
@@ -209,7 +235,7 @@ BadVer	moveq	#-1,d0			* Bad version number
 
 ;	SCREEN RESET (called by AMOSPro)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SerDef	
+SerDef
 ;	QUIT (called by AMOSPro)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SerEnd	Rbsr	L_InSerialClose0
@@ -226,7 +252,7 @@ PrinterIO	ds.l	3		Printer IO Port
 ParallelIO	ds.l	3		Parallel IO Port
 BufIn		dc.l	0
 Prt_Query	dc.l	0		Espace pour informations
-Prt_Request	dc.l	0		Ancien requester 
+Prt_Request	dc.l	0		Ancien requester
 
 ; Screen Dump
 ; ~~~~~~~~~~~
@@ -264,7 +290,7 @@ ParName		dc.b	"parallel.device",0
 ; - - - - - - - - - - - - -
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;	SERIAL OPEN logicnumber,physicnumber[,shared,xdisabled,7wires]	
+;	SERIAL OPEN logicnumber,physicnumber[,shared,xdisabled,7wires]
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Par	InSerialOpen2
 ; - - - - - - - - - - - - -
@@ -274,7 +300,7 @@ ParName		dc.b	"parallel.device",0
 	move.l	d3,-(a3)
 	Rbra	L_InSerialOpen5
 ; - - - - - - - - - - - - -
-	Lib_Par	InSerialOpen5	
+	Lib_Par	InSerialOpen5
 ; - - - - - - - - - - - - -
 	move.l	d3,-(a3)
 	move.l	16(a3),d0
@@ -322,13 +348,13 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Serclose [N]
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSerialClose1	
+	Lib_Par	InSerialClose1
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	Rbsr	L_GetSerial
 	Rjmp	L_Dev.CloseA2
 ; - - - - - - - - - - - - -
-	Lib_Par	InSerialClose0	
+	Lib_Par	InSerialClose0
 ; - - - - - - - - - - - - -
 	Dlea	SerialIO,a2
 	moveq	#NSerial-1,d2
@@ -340,7 +366,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Serial Send ser,A$
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSerialSend	
+	Lib_Par	InSerialSend
 ; - - - - - - - - - - - - -
 	move.l	d3,d2
 	move.l	(a3)+,d0
@@ -357,7 +383,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Serial Out ser,address,length
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSerialOut	
+	Lib_Par	InSerialOut
 ; - - - - - - - - - - - - -
 	move.l	d3,d2
 	Rbmi	L_IOFonc
@@ -373,7 +399,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	=Serial Get(ser)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	FnSerialGet	
+	Lib_Par	FnSerialGet
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	Rbsr	L_GetSerA1
@@ -393,9 +419,9 @@ SerOpC	Dlea	SerName,a0
 .SerINo	Ret_Int
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;	=Serial Input$(Ser) 
+;	=Serial Input$(Ser)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	FnSerialInput	
+	Lib_Par	FnSerialInput
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	Rbsr	L_GetSerA1
@@ -429,7 +455,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Serial Speed ser,baud
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSerialSpeed		
+	Lib_Par	InSerialSpeed
 ; - - - - - - - - - - - - -
 	move.l	d3,d1
 	move.l	(a3)+,d0
@@ -440,7 +466,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Serial Bit ser,number,stop
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSerialBits	
+	Lib_Par	InSerialBits
 ; - - - - - - - - - - - - -
 	move.l	d3,d2
 	move.l	(a3)+,d1
@@ -454,7 +480,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Serial Parity ser,on/off/odd/even/mspon
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSerialParity	
+	Lib_Par	InSerialParity
 ; - - - - - - - - - - - - -
 	move.l	d3,d1
 	move.l	(a3)+,d0
@@ -487,7 +513,7 @@ SerOpC	Dlea	SerName,a0
 	bset	#SEXTB_MSPON,IO_EXTFLAGS+3(a1)
 	bset	#SEXTB_MARK,IO_EXTFLAGS+3(a1)
 ; Envoie
-.parX	Rbra	L_Stpar	
+.parX	Rbra	L_Stpar
 
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -535,7 +561,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Serial Slow Ser
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InSerialSlow	
+	Lib_Par	InSerialSlow
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	Rbsr	L_GetSerA1
@@ -545,7 +571,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	=Serial Check(N)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	FnSerialCheck	
+	Lib_Par	FnSerialCheck
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	Rbsr	L_GetSerial
@@ -558,7 +584,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	=Serial Error(n)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	FnSerialError		
+	Lib_Par	FnSerialError
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	Rbsr	L_GetSerA1
@@ -583,7 +609,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	=SERIAL BASE
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	FnSerialBase	
+	Lib_Par	FnSerialBase
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	Rbsr	L_GetSerA1
@@ -602,7 +628,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	Routines
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	GetSerA1	
+	Lib_Def	GetSerA1
 ; - - - - - - - - - - - - -		-----> IO #D0 to A1/a2
 	Rbsr	L_GetSerial
 	Rjmp	L_Dev.GetIO
@@ -627,7 +653,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	=PRINTER BASE
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	FnPrinterBase	
+	Lib_Par	FnPrinterBase
 ; - - - - - - - - - - - - -
 	Dlea	PrinterIO,a2
 	Rjsr	L_Dev.GetIO
@@ -649,7 +675,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	PRINTER OPEN
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InPrinterOpen	
+	Lib_Par	InPrinterOpen
 ; - - - - - - - - - - - - -
 	Rjsr	L_PRT_Close	Ferme LPRINT
 	Dlea	PrtName,a0
@@ -678,9 +704,9 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	PRINTER CLOSE
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InPrinterClose	
+	Lib_Par	InPrinterClose
 ; - - - - - - - - - - - - -
-	Dload	a2		
+	Dload	a2
 ; Restore printer.device requester
 	tst.l	Prt_Request-DT(a2)
 	beq.s	.Skip
@@ -712,7 +738,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	PRINTER SEND A$
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InPrinterSend	
+	Lib_Par	InPrinterSend
 ; - - - - - - - - - - - - -
 	Dlea	PrinterIO,a2
 	Rjsr	L_Dev.GetIO
@@ -728,7 +754,7 @@ SerOpC	Dlea	SerName,a0
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	PRINTER OUT ad,lenght
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InPrinterOut	
+	Lib_Par	InPrinterOut
 ; - - - - - - - - - - - - -
 	Dlea	PrinterIO,a2
 	Rjsr	L_Dev.GetIO
@@ -788,13 +814,13 @@ SerOpC	Dlea	SerName,a0
 	move.l	d3,-(a3)
 	Dload	a2
 	Rbsr	L_Dump2a
-	
+
 ; Calculate proportional DestX, DestY
 	clr.l	d0
 	clr.l	d1
 	move.w	pwidth-DT(a2),d0
 	tst.w	d0
-	Rbeq	L_IOFonc	
+	Rbeq	L_IOFonc
 	move.w	width-DT(a2),d1
 	divu.w	d0,d1
 	tst.w	d1
@@ -841,7 +867,7 @@ SerOpC	Dlea	SerName,a0
 	Rbra	L_Dump
 
 ; - - - - - - - - - - - - -
-	Lib_Def	Dump3a	
+	Lib_Def	Dump3a
 ; - - - - - - - - - - - - -
 	lea	special-DT(a2),a0
 	lea	2(a3),a3
@@ -852,7 +878,7 @@ SerOpC	Dlea	SerName,a0
 	move.l	(a3)+,(a0)		; destY
 	Rbra	L_Dump2a
 ; - - - - - - - - - - - - -
-	Lib_Def	Dump2a	
+	Lib_Def	Dump2a
 ; - - - - - - - - - - - - -
 	lea	pheight-DT(a2),a0
 	lea	2(a3),a3
@@ -881,7 +907,7 @@ SerOpC	Dlea	SerName,a0
 
 ; - - - - - - - - - - - - -
 	Lib_Def	Dump
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 ; Check the structure
 	Dlea	PrinterIO,a2
 	Rjsr	L_Dev.GetIO
@@ -915,7 +941,7 @@ SerOpC	Dlea	SerName,a0
 	bne.s	.loop
 
 ; Dump the rast port!!!
-	move.l	PrinterIO-DT(a2),a1	; IO structure	
+	move.l	PrinterIO-DT(a2),a1	; IO structure
 	move.l	T_RastPort(a5),32(a1)	; rastPort
 	move.l	colourmap-DT(a2),36(a1)	; colourmap
 	move.w	viewModes-DT(a2),40+2(a1)	; viewmodes
@@ -928,7 +954,7 @@ SerOpC	Dlea	SerName,a0
 	move.w	special-DT(a2),60(a1)	; special
 	moveq	#11,d0			; command
 	Dlea	PrinterIO,a2
-	Rjsr	L_Dev.DoIO		
+	Rjsr	L_Dev.DoIO
 	move.w	d0,-(sp)
 	Dload	a2
 ; Free colour map
@@ -948,10 +974,10 @@ cl5
 ;	Return informations about the current screen
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ; - - - - - - - - - - - - -
-	Lib_Def	GetScr	
+	Lib_Def	GetScr
 ; - - - - - - - - - - - - -
-	move.l	ScOnAd(a5),d0	
-	beq.s	.Err				; get the address of the screen 
+	move.l	ScOnAd(a5),d0
+	beq.s	.Err				; get the address of the screen
 	move.l	d0,a0
 	move.l 	a0,ScreenBase-DT(a2)
 ; Now we need to extract all the information about the screen
@@ -969,7 +995,7 @@ cl5
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	=PARALLEL BASE
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	FnParallelBase	
+	Lib_Par	FnParallelBase
 ; - - - - - - - - - - - - -
 	Dlea	ParallelIO,a2
 	Rjsr	L_Dev.GetIO
@@ -991,7 +1017,7 @@ cl5
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	PARALLEL OPEN
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InParallelOpen	
+	Lib_Par	InParallelOpen
 ; - - - - - - - - - - - - -
 	Rjsr	L_PRT_Close
 	Dlea	ParName,a0
@@ -1015,7 +1041,7 @@ cl5
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	PARALLEL SEND A$
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Par	InParallelSend	
+	Lib_Par	InParallelSend
 ; - - - - - - - - - - - - -
 	Dlea	ParallelIO,a2
 	Rjsr	L_Dev.GetIO

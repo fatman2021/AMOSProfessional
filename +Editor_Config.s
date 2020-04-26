@@ -5,6 +5,34 @@
 ;
 ;						DEFINITION DES MESSAGES AMOS
 ; _____________________________________________________________________________
+;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;
+; ______________________________________________________________________________
 
 EdT	Macro
 	dc.b	0
@@ -16,7 +44,7 @@ EdD	Macro
 	dc.b	0
 	dc.b	.\@E-.\@D
 .\@D	\2
-.\@E	
+.\@E
 	EndM
 
 Debut
@@ -25,7 +53,7 @@ Debut
 ; Config par default
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		dc.l	.Ed_FConfig-.Ed_DConfig
-.Ed_DConfig	
+.Ed_DConfig
 ; Screen definition
 .Ed_Sx		dc.w	640		0
 .Ed_Sy		dc.w	256		2 >>> Change par install
@@ -64,7 +92,7 @@ Debut
 
 ; Programmes autoload
 ; ~~~~~~~~~~~~~~~~~~~
-.Ed_AutoLoad	
+.Ed_AutoLoad
 		dc.b 	0,0,0		92	1 Curseur HAUT
 		dc.b 	0,0,0			2 Curseur BAS
 		dc.b 	0,0,0			3 Curseur GAUCHE
@@ -96,33 +124,33 @@ Debut
 		dc.b 	0,0,0			29 Insert ligne
 		dc.b 	0,0,0			30 Delete-FIN ligne
 		dc.b 	0,0,0			31 Previous label
-		dc.b 	0,0,0			32 Next label 
+		dc.b 	0,0,0			32 Next label
 		dc.b 	0,0,0			33 Load
 		dc.b 	0,0,0			34 Save As
-		dc.b 	0,0,0			35 Save			
+		dc.b 	0,0,0			35 Save
 		dc.b 	0,0,0			36 Delete Mot
-		dc.b 	0,0,0			37 Backspace Mot 
+		dc.b 	0,0,0			37 Backspace Mot
 		dc.b 	0,0,0			38 Hide Current Window
 		dc.b 	0,0,0			39 Set Marks
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
 		dc.b 	0,0,0			49 Goto Marks
-		dc.b 	0,0,0			
-		dc.b 	0,0,0		
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
-		dc.b 	0,0,0			
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
+		dc.b 	0,0,0
 		dc.b 	0,0,0			59 Switch Bloc
 		dc.b 	0,0,0			60 Forget Bloc
 		dc.b 	0,0,0			61 Open + Load
@@ -135,7 +163,7 @@ Debut
 		dc.b 	0,0,0			68 Search Previous
 		dc.b 	0,0,0			69 Set All block
 		dc.b 	0,0,0			70 Recall alert
-		dc.b 	0,0,0			71 
+		dc.b 	0,0,0			71
 		dc.b 	0,0,0			72 Store bloc
 		dc.b 	0,0,0			73 Set Key Shortcut
 		dc.b 	0,0,0			74 Set Program Menu
@@ -163,7 +191,7 @@ Debut
 		dc.b 	0,0,0			96 Link cursor
 		dc.b 	0,0,0			97 Save Block as Ascii
 		dc.b 	0,0,0			98 Save Block
-		dc.b 	0,0,0			99 Replace 
+		dc.b 	0,0,0			99 Replace
 		dc.b 	0,0,0			100 Replace Next
 		dc.b 	0,0,0			101 Replace Previous
 		dc.b 	0,0,0			102 New All Hidden Programs
@@ -247,8 +275,8 @@ Debut
 		dc.b 	0,0,0			180 Next programs
 		dc.b 	0,0,0			181 Previous programs
 		dc.b 	0,0,0			182 All text as block
-		dc.b 	0,0,0			183 
-		dc.b 	0,0,0			184 
+		dc.b 	0,0,0			183
+		dc.b 	0,0,0			184
 
 ; Touches de fonction
 ; ~~~~~~~~~~~~~~~~~~~
@@ -283,33 +311,33 @@ Debut
 		dc.b 	$80+$59,0,0		29 Insert ligne
 		dc.b 	$80+$46,Ctr,0		30 Delete-FIN ligne
 		dc.b 	$80+$4C,Alt,0		31 Previous label
-		dc.b 	$80+$4D,Alt,0		32 Next label 
+		dc.b 	$80+$4D,Alt,0		32 Next label
 		dc.b 	"L",Ami,0		33 Load
 		dc.b 	"S",Ami+Shf,0		34 Save As
-		dc.b 	"S",Ami,0		35 Save			
+		dc.b 	"S",Ami,0		35 Save
 		dc.b 	$80+$46,Shf,0		36 Delete Mot
-		dc.b 	$80+$41,Shf,0		37 Backspace Mot 
+		dc.b 	$80+$41,Shf,0		37 Backspace Mot
 		dc.b 	"H",Ami,0		38 Hide Current Window
 		dc.b 	1,0,0			39 Set Marks
-		dc.b 	1,0,0	
-		dc.b 	1,0,0	
 		dc.b 	1,0,0
-		dc.b 	$80+$2d,Ctr+Shf,0	
-		dc.b 	$80+$2e,Ctr+Shf,0	
-		dc.b 	$80+$2f,Ctr+Shf,0	
-		dc.b 	$80+$3d,Ctr+Shf,0	
-		dc.b 	$80+$3e,Ctr+Shf,0	
-		dc.b 	$80+$3f,Ctr+Shf,0	
+		dc.b 	1,0,0
+		dc.b 	1,0,0
+		dc.b 	$80+$2d,Ctr+Shf,0
+		dc.b 	$80+$2e,Ctr+Shf,0
+		dc.b 	$80+$2f,Ctr+Shf,0
+		dc.b 	$80+$3d,Ctr+Shf,0
+		dc.b 	$80+$3e,Ctr+Shf,0
+		dc.b 	$80+$3f,Ctr+Shf,0
 		dc.b 	$80+$0f,Ctr,0		49 Goto Marks
-		dc.b 	$80+$1d,Ctr,0	
-		dc.b 	$80+$1e,Ctr,0	
-		dc.b 	$80+$1f,Ctr,0	
-		dc.b 	$80+$2d,Ctr,0	
-		dc.b 	$80+$2e,Ctr,0	
-		dc.b 	$80+$2f,Ctr,0	
-		dc.b 	$80+$3d,Ctr,0	
-		dc.b 	$80+$3e,Ctr,0	
-		dc.b 	$80+$3f,Ctr,0	
+		dc.b 	$80+$1d,Ctr,0
+		dc.b 	$80+$1e,Ctr,0
+		dc.b 	$80+$1f,Ctr,0
+		dc.b 	$80+$2d,Ctr,0
+		dc.b 	$80+$2e,Ctr,0
+		dc.b 	$80+$2f,Ctr,0
+		dc.b 	$80+$3d,Ctr,0
+		dc.b 	$80+$3e,Ctr,0
+		dc.b 	$80+$3f,Ctr,0
 		dc.b 	"B",Ctr,0		59 Switch Bloc
 		dc.b 	"F",Ctr,0		60 Forget Bloc
 		dc.b 	"L",Ami+Shf,0		61 Open + Load
@@ -322,7 +350,7 @@ Debut
 		dc.b 	"B",Ami,0		68 Search Previous
 		dc.b 	1,0,0			69 Set All block
 		dc.b 	"K",Ctr,0		70 Recall alert
-		dc.b 	1,0,0			71 
+		dc.b 	1,0,0			71
 		dc.b 	"S",Ctr,0		72 Store bloc
 		dc.b 	1,0,0			73 Set Key Shortcut
 		dc.b 	1,0,0			74 Set Program Menu
@@ -350,7 +378,7 @@ Debut
 		dc.b 	"C",Ami,0		96 Link cursor
 		dc.b 	"A",Ctr+Shf,0		97 Save Block as Ascii
 		dc.b 	"S",Ctr+Shf,0		98 Save Block
-		dc.b 	"F",Ami+Shf,0		99 Replace 
+		dc.b 	"F",Ami+Shf,0		99 Replace
 		dc.b 	"N",Ami+Shf,0		100 Replace Next
 		dc.b 	"B",Ami+Shf,0		101 Replace Previous
 		dc.b 	1,0,0			102 New All Hidden Programs
@@ -430,23 +458,23 @@ Debut
 		dc.b 	1,0,0			176Test-Time
 		dc.b 	1,0,0			177Run-Time
 		dc.b 	1,0,0			178Colour Palette
-		dc.b 	1,0,0			179Previous programs 
+		dc.b 	1,0,0			179Previous programs
 		dc.b 	1,0,0			180Next programs
-		dc.b 	"A",Ctr,0		181All text as block 
+		dc.b 	"A",Ctr,0		181All text as block
 		dc.b 	1,0,0			182
 		dc.b 	$80+$54,0,0		183Go Help
 		dc.b 	1,0,0			184
 		dc.b 	$FF,0
 
-.Ed_Code	dc.l	"1.10"		
+.Ed_Code	dc.l	"1.10"
 
 .Ed_FConfig
 
 ; Chaines systeme
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	dc.l	.Sys2-.Sys1
-.Sys1	
-; Définitions ligne d'etat
+.Sys1
+; Dï¿½finitions ligne d'etat
 	EdT	1,<       1  2   3       4        5       6     7>
 	EdT	2,<Window-     L-      C-    Free-         Edit- >
 	EdT	3,< Edit>
@@ -468,7 +496,7 @@ Debut
 	EdD	13,<dc.b 28,105,77,78,79,145,27,91,92,75,87,29>
 ; ESC, Attente caractere
 	EdD	14,<dc.b 13,10,31,30,27,"I1","AMOS Pro",62,27,"I0",27,"C1",0>
-; Vide! 
+; Vide!
 	EdT	15,<>
 ; ESC, Initialisation
 	EdD	16,<dc.b 27,"C0",27,"J7",27,"B2",27,"P3",27,"D1",25,27,"V0",30,30,27,"V1",27,"B2",27,"P3",27,"J1",0>
@@ -507,7 +535,7 @@ Debut
 	EdT	42,<Edit`>
 	EdT	43,<System>
 	EdT	44,<>
-; Fichiers systeme 
+; Fichiers systeme
 	EdT	45,<AMOSPro_Editor_Resource.Abk>
 	EdT	46,<AMOSPro_Editor_Macros>
 	EdT	47,<AMOSPro_Editor_LastSession>
@@ -524,7 +552,7 @@ Debut
 	Even
 .Mn2
 
-; Messages de l'éditeur
+; Messages de l'ï¿½diteur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	dc.l	Ed2-Ed1
 Ed1	EdT	1,<Link cursor movement: please click on the window to link...>
@@ -548,8 +576,8 @@ Ed1	EdT	1,<Link cursor movement: please click on the window to link...>
 	EdT	19,<Cancel>
 	EdT	20,<Quit AMOS Professional. Are you sure?>
 	EdT	21,<AMOS Professional>
-	EdT	22,<By François Lionet>
-	EdT	23,<© 1992 Europress Software Ltd.>
+	EdT	22,<By Franï¿½ois Lionet>
+	EdT	23,<ï¿½ 1992 Europress Software Ltd.>
 	EdT	24,< extensions loaded.>
 	EdT	25,<New all hidden programs. Are you sure?>
 	EdT	26,<Search>
@@ -735,7 +763,7 @@ Ed1	EdT	1,<Link cursor movement: please click on the window to link...>
 	EdT	206,<Not done.>
 	EdT	207,<Not an AMOS program.>
 	EdT	208,<Text buffer too small.>
-	EdT	209,<Check printer then select OK.>	
+	EdT	209,<Check printer then select OK.>
 	EdT	210,>>>
 	EdT	211,< at line >
 	EdT	212,<Direct mode [ESC]>
@@ -757,7 +785,7 @@ Ed2
 ; Messages d'erreur TEST-TIME
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	dc.l	.Test2-.Test1
-.Test1	
+.Test1
 	EdT	1,<Bad structure>
 	EdT	2,<User function not defined>
 	EdT	3,<Variable buffer can't be changed in the middle of a program!>
@@ -823,98 +851,98 @@ Ed2
 ; 0-19 FATALS
 ; ~~~~~~~~~~~
 .Error1	EdT	0,<>
-	EdT	1,<RETURN without GOSUB>			
-	EdT	2,<POP without GOSUB>			
-	EdT	3,<Error not resumed>			
+	EdT	1,<RETURN without GOSUB>
+	EdT	2,<POP without GOSUB>
+	EdT	3,<Error not resumed>
 	EdT	4,<Can't resume to a label>
-	EdT	5,<No ON ERROR PROC before this instruction>	
+	EdT	5,<No ON ERROR PROC before this instruction>
 	EdT	6,<Resume label not defined>
-	EdT	7,<Resume without error>		
-	EdT	8,<Error procedure must RESUME to end>	
+	EdT	7,<Resume without error>
+	EdT	8,<Error procedure must RESUME to end>
 	EdT	9,<Program interrupted>
 	EdT	10,<End of program>
 	EdT	11,<Out of variable space>
-	EdT	12,<Cannot open math libraries>		
-	EdT	13,<Out of stack space>	
-	EdT	14,<>	
+	EdT	12,<Cannot open math libraries>
+	EdT	13,<Out of stack space>
+	EdT	14,<>
 	EdT	15,<User function not defined>
-	EdT	16,<Illegal user function call> 		
-	EdT	17,<Illegal direct mode>		
-	EdT	18,<>						
-	EdT	19,<>						
+	EdT	16,<Illegal user function call>
+	EdT	17,<Illegal direct mode>
+	EdT	18,<>
+	EdT	19,<>
 ; 20- Messages normaux
 ; ~~~~~~~~~~~~~~~~~~~~
-	EdT	20,<Division by zero>		
-	EdT	21,<String too long>		
+	EdT	20,<Division by zero>
+	EdT	21,<String too long>
 	EdT	22,<Syntax error>
-	EdT	23,<Illegal function call>			
-	EdT	24,<Out of memory>		
-	EdT	25,<Address error>				
+	EdT	23,<Illegal function call>
+	EdT	24,<Out of memory>
+	EdT	25,<Address error>
 	EdT	26,<>
 	EdT	27,<Non dimensioned array>
-	EdT	28,<Array already dimensioned>		
-	EdT	29,<Overflow>	
-	EdT	30,<Bad IFF format>				
-	EdT	31,<IFF compression not recognised>		
-	EdT	32,<Can't fit picture in current screen>	
-	EdT	33,<Out of data>				
-	EdT	34,<Type mismatch>				
-	EdT	35,<Bank already reserved>			
-	EdT	36,<Bank not reserved>		
-	EdT	37,<Fonts not examined>			
-	EdT	38,<Menu not opened>			
-	EdT	39,<Menu item not defined>			
-	EdT	40,<Label not defined>			
-	EdT	41,<No data after this label>		
-	EdT	42,<>			
-	EdT	43,<>	
-	EdT	44,<Font not available>			
+	EdT	28,<Array already dimensioned>
+	EdT	29,<Overflow>
+	EdT	30,<Bad IFF format>
+	EdT	31,<IFF compression not recognised>
+	EdT	32,<Can't fit picture in current screen>
+	EdT	33,<Out of data>
+	EdT	34,<Type mismatch>
+	EdT	35,<Bank already reserved>
+	EdT	36,<Bank not reserved>
+	EdT	37,<Fonts not examined>
+	EdT	38,<Menu not opened>
+	EdT	39,<Menu item not defined>
+	EdT	40,<Label not defined>
+	EdT	41,<No data after this label>
+	EdT	42,<>
+	EdT	43,<>
+	EdT	44,<Font not available>
 ; Messages d'erreur ecrans/fenetres
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	EdT	45,<>
-	EdT	46,<Block not defined>			
-	EdT	47,<Screen not opened>			
-	EdT	48,<Illegal screen parameter>		
-	EdT	49,<Illegal number of colours>		
-	EdT	50,<Valid screen numbers range 0 to 7>	
-	EdT	51,<Too many colours in flash>				
-	EdT	52,<Flash declaration error>		
-	EdT	53,<Shift declaration error>		
-	EdT	54,<Text window not opened>			
-	EdT	55,<Text window already opened>			
-	EdT	56,<Text window too small>			
-	EdT	57,<Text window too large>			
+	EdT	46,<Block not defined>
+	EdT	47,<Screen not opened>
+	EdT	48,<Illegal screen parameter>
+	EdT	49,<Illegal number of colours>
+	EdT	50,<Valid screen numbers range 0 to 7>
+	EdT	51,<Too many colours in flash>
+	EdT	52,<Flash declaration error>
+	EdT	53,<Shift declaration error>
+	EdT	54,<Text window not opened>
+	EdT	55,<Text window already opened>
+	EdT	56,<Text window too small>
+	EdT	57,<Text window too large>
 	EdT	58,<>
-	EdT	59,<Bordered text windows not on edge of screen>	
-	EdT	60,<Illegal text window parameter>		
+	EdT	59,<Bordered text windows not on edge of screen>
+	EdT	60,<Illegal text window parameter>
 	EdT	61,<>
-	EdT	62,<Text window 0 can't be closed>		
-	EdT	63,<This text window has no border>		
+	EdT	62,<Text window 0 can't be closed>
+	EdT	63,<This text window has no border>
 	EdT	64,<>
-	EdT	65,<Block not found>			
-	EdT	66,<Illegal block parameters>		
-	EdT	67,<Screens can't be animated> 		
-	EdT	68,<Bob not defined>			
-	EdT	69,<Screen already in double buffering>	
-	EdT	70,<Can't set dual playfield>		
-	EdT	71,<Screen not in dual playfield mode>	
-	EdT	72,<Scrolling zone not defined>		
-	EdT	73,<No zones defined>			
-	EdT	74,<Icon not defined>			
-	EdT	75,<Rainbow not defined>			
-	EdT	76,<Copper not disabled>			
-	EdT	77,<Copper list too long>			
-	EdT	78,<Illegal copper parameter>		
+	EdT	65,<Block not found>
+	EdT	66,<Illegal block parameters>
+	EdT	67,<Screens can't be animated>
+	EdT	68,<Bob not defined>
+	EdT	69,<Screen already in double buffering>
+	EdT	70,<Can't set dual playfield>
+	EdT	71,<Screen not in dual playfield mode>
+	EdT	72,<Scrolling zone not defined>
+	EdT	73,<No zones defined>
+	EdT	74,<Icon not defined>
+	EdT	75,<Rainbow not defined>
+	EdT	76,<Copper not disabled>
+	EdT	77,<Copper list too long>
+	EdT	78,<Illegal copper parameter>
 ; Messages d'erreur disque
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
-	EdT	79,<File already exists>			
-	EdT	80,<Directory not found>			204		
-	EdT	81,<File not found>				205	
+	EdT	79,<File already exists>
+	EdT	80,<Directory not found>			204
+	EdT	81,<File not found>				205
 	EdT	82,<Illegal file name>				210
-	EdT	83,<Disc is not validated>			213		
-	EdT	84,<Disc is write protected>			214	
-	EdT	85,<Directory not empty>			216		
-	EdT	86,<Device not available>			218		
+	EdT	83,<Disc is not validated>			213
+	EdT	84,<Disc is write protected>			214
+	EdT	85,<Directory not empty>			216
+	EdT	86,<Device not available>			218
 	EdT	87,<>						220
 	EdT	88,<Disc full>					221
 	EdT	89,<File is protected against deletion>		222
@@ -922,31 +950,31 @@ Ed2
 	EdT	91,<File is protected against reading>		224
 	EdT	92,<Not an AmigaDOS disc>			225
 	EdT	93,<No disc in drive>				226
-	EdT	94,<I/O error>				
-	EdT	95,<File format not recognised>		
-	EdT	96,<File already opened>			
-	EdT	97,<File not opened>			
-	EdT	98,<File type mismatch>			
-	EdT	99,<Input too long>				
+	EdT	94,<I/O error>
+	EdT	95,<File format not recognised>
+	EdT	96,<File already opened>
+	EdT	97,<File not opened>
+	EdT	98,<File type mismatch>
+	EdT	99,<Input too long>
 	EdT	100,<End of file>
 	EdT	101,<Disc error>
 	EdT	102,<Instruction not allowed here>
-	EdT	103,<>	
+	EdT	103,<>
 ; Message d'erreur sprites/souris
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	EdT	104,<>
-	EdT	105,<Sprite error>						
-	EdT	106,<>								
-	EdT	107,<Syntax error in animation string>			
-	EdT	108,<Next without For in animation string>			
+	EdT	105,<Sprite error>
+	EdT	106,<>
+	EdT	107,<Syntax error in animation string>
+	EdT	108,<Next without For in animation string>
 	EdT	109,<Label not defined in animation string>
-	EdT	110,<Jump To/Within autotest in animation string>		
-	EdT	111,<Autotest already opened>				
-	EdT	112,<Instruction only valid in autotest>			
-	EdT	113,<Animation string too long>				
-	EdT	114,<Label already defined in animation string>		
-	EdT	115,<Illegal instruction during autotest>			
-	EdT	116,<Amal bank not reserved>					
+	EdT	110,<Jump To/Within autotest in animation string>
+	EdT	111,<Autotest already opened>
+	EdT	112,<Instruction only valid in autotest>
+	EdT	113,<Animation string too long>
+	EdT	114,<Label already defined in animation string>
+	EdT	115,<Illegal instruction during autotest>
+	EdT	116,<Amal bank not reserved>
 	EdT	117,<>
 	EdT	118,<>
 	EdT	119,<>
@@ -1037,32 +1065,13 @@ Ed2
 	EdT	193,<Arexx port already opened>
 	EdT	194,<Arexx library not found>
 	EdT	195,<Cannot open Arexx port>
-	EdT	196,<Arexx port not opened>	
+	EdT	196,<Arexx port not opened>
 	EdT	197,<No Arexx message waiting>
 	EdT	198,<Arexx message not answered to>
 	EdT	199,<Arexx Device not interactive>
 ; Misc
 ; ~~~~
-	EdT	200,<Cannot open powerpacker.library (v35)> ; EcE160
-	EdT	201,<>
-	EdT	202,<>
-	EdT	203,<>
-
-; AmiDARK Update : New error Messages
-; ~~~~
-	EdT	204,<first and second screen are the same>                            ; EcE160
-	EdT	205,<First entered screen is already in dual playfield mode>          ; EcE161
-	EdT	206,<Second entered screen is already in dual playfield mode>         ; EcE162
-	EdT	207,<First screen contains more than 4 bitplanes>                     ; EcE163
-	EdT	208,<Second screen contains more than 4 bitplanes>                    ; EcE164
-	EdT	209,<Unknown error when trying to set dual playfield mode>            ; EcE165
-	EdT	210,<AGA Specific screens requires width to be multiple of 64 pixels> ;EcE166
-	EdT	211,<>
-	EdT	212,<>
-	EdT	213,<>
-
-; End of list
-; ~~~~
+	EdT	200,<Cannot open powerpacker.library (v35)>
 	dc.b	0,$ff
 	even
 .Error2
@@ -1152,7 +1161,7 @@ Menu2
 	dc.l	DMenu2-DMenu1
 DMenu1	Incbin	"bin/Editor_Menus.bin"
 	Even
-DMenu2	
+DMenu2
 
 Fin
-		END	
+		END

@@ -1,4 +1,33 @@
 
+;---------------------------------------------------------------------
+;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;
+;---------------------------------------------------------------------
 
 ;---------------------------------------------------------------------
 	Lib_Ini	0
@@ -94,12 +123,12 @@ Init
 	Lib_Int	Includes_Adr
 	Lib_Int	Equ_Free
 
-; 	Routines internes à "+b.s"
+; 	Routines internes ï¿½ "+b.s"
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	Lib_Int	RamFast			Ram Access
-	Lib_Int	RamFast2		
-	Lib_Int	RamChip		 
-	Lib_Int	RamChip2		
+	Lib_Int	RamFast2
+	Lib_Int	RamChip
+	Lib_Int	RamChip2
 	Lib_Int	RamFree
 	Lib_Int	ResTempBuffer
 
@@ -129,7 +158,7 @@ Init
 	Lib_Int	Lst.Del
 	Lib_Int	Lst.Insert
 	Lib_Int	Lst.Remove
-	Lib_Int	Bnk.PrevProgram		
+	Lib_Int	Bnk.PrevProgram
 	Lib_Int	Bnk.CurProgram
 	Lib_Int	AskDir
 	Lib_Int	AskDir2
@@ -189,7 +218,7 @@ Init
 ; Enleve tous les ecrans
 ; ~~~~~~~~~~~~~~~~~~~~~~
 	move.w	PI_DefEBa(a5),ColBack(a5)
-	moveq	#0,d1	
+	moveq	#0,d1
 	moveq	#7,d2
 	EcCall	DelAll
 	clr.w	ScOn(a5)
@@ -216,7 +245,7 @@ DRun1:	clr.b	(a0)+
 	cmp.w	#64,d0
 	bne.s	DRun1
 ; Priority off
-; ~~~~~~~~~~~~ 
+; ~~~~~~~~~~~~
 	moveq	#0,d1
 	moveq	#0,d2
 	SyCall	SPrio
@@ -268,7 +297,7 @@ EdTr:	move.w	(a0)+,(a1)+
 .Skip1	move.w	PI_DefEWy(a5),d3
 	bne.s	.Skip2
 	move.l	d4,d3
-.Skip2	EcCalD	AView,0	
+.Skip2	EcCalD	AView,0
 ; Fait flasher la couleur 3 (si plus de 2 couleurs)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	cmp.w	#1,PI_DefECo(a5)
@@ -350,7 +379,7 @@ DRunX:	rts
 	cmp.w	#64,d0
 	bne.s	.DRun1
 ; Priority off
-; ~~~~~~~~~~~~ 
+; ~~~~~~~~~~~~
 	moveq	#0,d1
 	moveq	#0,d2
 	SyCall	SPrio
@@ -406,7 +435,7 @@ DRunX:	rts
 ; - - - - - - - - - - - - -
 	move.w	d0,Cur_ChrJump(a5)
 	lea	_Poke(pc),a1
-	tst.w	d0	
+	tst.w	d0
 	beq.s	.Norm
 	move.w	.Mon(pc),(a1)+
 	lsl.w	#2,d0
@@ -417,7 +446,7 @@ DRunX:	rts
 .Norm	move.l	.Chr(pc),(a1)+
 .Clear	Rjsr	L_Sys_ClearCache
 	rts
-.Chr	move.l	-LB_Size(a4,d1.w),a0		
+.Chr	move.l	-LB_Size(a4,d1.w),a0
 .Mon	move.l	0(a4),a0
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -428,7 +457,7 @@ DRunX:	rts
 	dc.w	_IRet-_DChr
 ; - - - - - - - - - - - - -
 	Lib_Def	New_ChrGet
-; - - - - - - - - - - - - - - - 
+; - - - - - - - - - - - - - - -
 _DChr	move.l	BasSp(a5),sp
 	move.l	AdTokens(a5),a4
 
@@ -475,9 +504,9 @@ _NLine	tst.w	(a6)+
 	beq.s	InEnd
 _ILoop	move.w	(a6)+,d0
 	beq.s	_NLine
-_Inst	move.l	a6,d7	
+_Inst	move.l	a6,d7
 	move.w	0(a4,d0.w),d1		Pointe la table de tokens
-_Poke	move.l	-LB_Size(a4,d1.w),a0	
+_Poke	move.l	-LB_Size(a4,d1.w),a0
 	IFNE	Debug
 	move.l	a3,Chr_Debug(a5)
 	movem.l	d6/d7,Chr_Debug+4(a5)
@@ -699,7 +728,7 @@ Lib_FSwap
 	move.w	LB_FFloatSwap(a1),d1
 	sub.w	LB_DFloatSwap(a1),d1
 	ext.l	d1
-	lsr.l	#1,d1		
+	lsr.l	#1,d1
 	subq.w	#1,d1
 	bmi.s	.Skip
 .Loop	move.l	-4(a0),d0
@@ -708,7 +737,7 @@ Lib_FSwap
 	lea	-8(a0),a0
 	dbra	d1,.Loop
 .Skip	rts
-	
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	INTERPRETEUR SEUL: recuperation des parametres...
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -761,7 +790,7 @@ Par	dc.w	Ent_0-Par		0>>> Entier normal
 EIVar_N
 	bsr	EFEnt_N
 	bra.s	IVar
-IVar_N	bsr	FEnt_N	
+IVar_N	bsr	FEnt_N
 	bra.s	IVar
 IVar_4	bsr.s	FEnt_4
 	bra.s	IVar
@@ -928,7 +957,7 @@ Test_Force
 	Rjsr	L_Dia_AutoTest
 	beq.s	.NoDia
 	add.w	#IDia_Errors,d0
-	Rbra	L_Error	
+	Rbra	L_Error
 .NoDia
 ; Les menus???
 ; ~~~~~~~~~~~~
@@ -962,10 +991,10 @@ Tst00	tst.l	Mon_Base(a5)			Retour au moniteur?
 	bne.s	IStop
 	btst	#BitControl,d4			Break autorise?
 	beq.s	Tst01
-IStop	move.w	d3,T_Actualise(a5)		
+IStop	move.w	d3,T_Actualise(a5)
 	moveq	#9,d0
 	bra	RunErr
-Tst01	move.w	d3,T_Actualise(a5)	
+Tst01	move.w	d3,T_Actualise(a5)
 	Rjsr	L_OnBreakGo
 	bra.s	Tst1a
 
@@ -1138,13 +1167,13 @@ EveJump
 ; 					ERREURS
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; - - - - - - - - - - - - -
-ErrMLibs				
+ErrMLibs
 ; - - - - - - - - - - - - -		Cannot open math libraries
 	move.l	Prg_Run(a5),a6		Au debut du programme!
 	moveq	#12,d0
 	bra.s	RunErr
 ; - - - - - - - - - - - - -
-MnINDef	
+MnINDef
 ; - - - - - - - - - - - - -
 	moveq	#39,d0
 	bra.s	RunErr
@@ -1153,7 +1182,7 @@ MnINDef
 
 ; - - - - - - - - - - - - -
 	Lib_Def	RIllDir
-RIllDir	
+RIllDir
 ; - - - - - - - - - - - - -
 	moveq	#17,d0
 	bra.s	RunErr
@@ -1169,13 +1198,13 @@ OOfBuf	moveq	#11,d0			Out of buffer space
 	bra.s	RunErr
 ; - - - - - - - - - - - - -
 	Lib_Def	InpTL
-InpTL	
+InpTL
 ; - - - - - - - - - - - - -
 	moveq	#DEBase+20,d0
 	bra.s	RunErr
 ; - - - - - - - - - - - - -
 	Lib_Def	EProErr
-EProErr	
+EProErr
 ; - - - - - - - - - - - - -
 	moveq	#8,d0
 	bra.s	RunErr
@@ -1187,19 +1216,19 @@ ResLNo
 	bra.s	RunErr
 ; - - - - - - - - - - - - -
 	Lib_Def	NoOnErr
-NoOnErr	
+NoOnErr
 ; - - - - - - - - - - - - -
 	moveq	#5,d0
 	bra.s	RunErr
 ; - - - - - - - - - - - - -
 	Lib_Def	ResPLab
-ResPLab	
+ResPLab
 ; - - - - - - - - - - - - -
 	moveq	#4,d0
 	bra.s	RunErr
 ; - - - - - - - - - - - - -
 	Lib_Def	NoResume
-NoResum	
+NoResum
 ; - - - - - - - - - - - - -
 	moveq	#3,d0
 	bra.s	RunErr
@@ -1212,30 +1241,30 @@ NoErr
 ; - - - - - - - - - - - - -
 	Lib_Def	OofStack
 OofStack
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	moveq 	#13,d0
 	bra.s	RunErr
 ; - - - - - - - - - - - - -
 	Lib_Def	NonDim
-NonDim  
+NonDim
 ; - - - - - - - - - - - - -
 	moveq 	#27,d0
 	bra.s 	RunErr
 ; - - - - - - - - - - - - -
 	Lib_Def	AlrDim
-AlrDim	
+AlrDim
 ; - - - - - - - - - - - - -
 	moveq 	#28,d0
 	bra.s 	RunErr
 ; - - - - - - - - - - - - -
 	Lib_Def	DByZero
-DByZero 
+DByZero
 ; - - - - - - - - - - - - -
 	moveq 	#20,d0
 	bra.s 	RunErr
 ; - - - - - - - - - - - - -
 	Lib_Def	OverFlow
-OverFlow 
+OverFlow
 ; - - - - - - - - - - - - -
 	moveq 	#29,d0
 	bra.s 	RunErr
@@ -1252,7 +1281,7 @@ PopGsb
 	moveq	#2,d0
 	bra.s	RunErr
 ; - - - - - - - - - - - - -
-TypeMis	
+TypeMis
 ; - - - - - - - - - - - - -
 	moveq	#34,d0
 
@@ -1356,7 +1385,7 @@ RunErrExt
 	move.l	a0,a6
 	rts
 
-; Erreurs non détournées : les menus sont ouverts.
+; Erreurs non dï¿½tournï¿½es : les menus sont ouverts.
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 E_Retour:
 rErr1:
@@ -1388,10 +1417,10 @@ rErr1:
 	bne.s	.ELoop
 .Ext	dbra	d1,.ELoop
 	moveq	#1,d0			Change le numero message!
-; Branche à la routine courante
+; Branche ï¿½ la routine courante
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .Jmp	jmp	(a2)
-; Branchement à un detournement des erreurs
+; Branchement ï¿½ un detournement des erreurs
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 J_EPatch
 	move.l	Patch_Errors(a5),a0
@@ -1706,8 +1735,8 @@ JDisk	Rjmp	L_DiskError
 	bne.s	.Out
 	move.l	Edt_Current(a5),d0	Le programme courant?
 	beq.s	.Exit
-	move.l	d0,a1			
-	move.l	Edt_Prg(a1),d0		
+	move.l	d0,a1
+	move.l	Edt_Prg(a1),d0
 	cmp.l	d0,a0			Non!
 	beq.s	.Exit
 	tst.l	Edit_Segment(a5)	Editeur KILL?
@@ -1891,7 +1920,7 @@ InOnError
 	addq.l	#6,a6
 .Skip	rts
 
-OnEg1	bsr	GetLabel	
+OnEg1	bsr	GetLabel
 	beq	LbNDef
 	move.l	d0,OnErrLine(a5)
 	rts
@@ -1940,7 +1969,7 @@ ResL1:	bsr	Test_Normal
 	bclr	#31,d0
 	beq	NoOnErr
 	tst.l	d0
-	beq	ResLNo	
+	beq	ResLNo
 	move.l	d0,a6
 	bra	LGoto
 
@@ -2002,7 +2031,7 @@ ResN2:	tst.w	d0
 ResNP:	bsr	PopP
 	move.l	a6,a0
 	clr.w	ErrorOn(a5)
-	bra.s	ResN1	
+	bra.s	ResN1
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 					TRAP
@@ -2081,7 +2110,7 @@ InFor
 	bsr	Fn_New_Evalue		Egalise la variable
 	move.w	4(sp),d1
 	bsr	MMType
-	move.l	(sp)+,a0	
+	move.l	(sp)+,a0
 	move.l	d3,(a0)
 	move.l	a0,-(a3)
 	bsr	Fn_New_Evalue		Cherche la limite
@@ -2192,7 +2221,7 @@ Rpt0:	tst.w	(a6)+
 Rpt1:	move.l	a6,-(a3)
 	move.l	a0,-(a3)
 	move.w	d0,-(a3)
-	cmp.l	MinLoop(a5),a3	
+	cmp.l	MinLoop(a5),a3
 	bcs	OofStack
 	move.l	a3,PLoop(a5)
 	IFNE	Debug
@@ -2235,7 +2264,7 @@ InWhile
 	add.w	d0,a6
 	move.l	a6,-(a3)
 	move.w	#TWhlWnd,-(a3)
-	cmp.l	MinLoop(a5),a3	
+	cmp.l	MinLoop(a5),a3
 	bcs	OofStack
 	move.l	a3,PLoop(a5)
 	IFNE	Debug
@@ -2395,7 +2424,7 @@ RGosub	bsr	GetLabel
 Gos2:	move.l	BasA3(a5),-(a3)
 	move.l	a6,-(a3)
 	move.l	#"Gosb",-(a3)
-	cmp.l	MinLoop(a5),a3	
+	cmp.l	MinLoop(a5),a3
 	bcs	OofStack
 	move.l	a3,PLoop(a5)
 	IFNE	Debug
@@ -2495,7 +2524,7 @@ RInPro	move.w	(a6)+,d0
 InProE	clr.l	-(sp)
 * Bas de la zone de variables
 InPrOn2	addq.l	#6,a2
-* Assez de mémoire?
+* Assez de mï¿½moire?
 	move.l	TabBas(a5),a1
 	lea	-6-4(a1),a0
 	sub.w	(a2),a0
@@ -2511,8 +2540,8 @@ InPrOn2	addq.l	#6,a2
 ;	moveq	#20,d3
 ;	JJsrIns	L_InBell1,1
 ;	movem.l	(sp)+,d0-d7/a0-a6
-;	ENDC	
-;	IFNE	Debug>3	
+;	ENDC
+;	IFNE	Debug>3
 ;	Rjsr	L_PreBug
 ;	ENDC
 
@@ -2714,7 +2743,7 @@ TPopPro	bsr	Test_Force
 PopP
 ; - - - - - - - - - - - - -
 	move.l	BasA3(a5),a3
-* Protection anti crash!!!	
+* Protection anti crash!!!
 .Loop	move.l	(a3),d0
 	addq.l	#2,a3
 	cmp.l	#"Proc",d0
@@ -2739,7 +2768,7 @@ PopP
 	move.l	a3,Chr_Debug(a5)
 	ENDC
 	rts
-	
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 					GOTO interne: appel direct
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -2771,7 +2800,7 @@ LGoto	move.l	BasA3(a5),d0
 	cmp.l	2(a3),a6
 	bls.s	.Ret
 .Skip	add.w	(a3),a3
-	bra.s	.Loop	
+	bra.s	.Loop
 .Ret	move.l	a3,PLoop(a5)
 	IFNE	Debug
 	move.l	a3,Chr_Debug(a5)
@@ -2825,7 +2854,7 @@ OnG:	move.w	(sp)+,d1
 	move.l	BasA3(a5),-(a3)		On Gosub
 	move.l	a0,-(a3)
 	move.l	#"Gosb",-(a3)
-	cmp.l	MinLoop(a5),a3	
+	cmp.l	MinLoop(a5),a3
 	bcs	OofStack
 	bsr	GetLabel
 	beq	LbNDef
@@ -2965,7 +2994,7 @@ TInst
 	beq	TFin
 	cmp.w	#_TkLGo,d0
 	bls	TVar
-	cmp.w	#_TkCh1,d0	
+	cmp.w	#_TkCh1,d0
 	beq	TCh
 	cmp.w	#_TkCh2,d0
 	beq	TCh
@@ -2988,7 +3017,7 @@ TInst
 	cmp.w	#_TkDo,d0
 	beq.s	T2
 	cmp.w	#_TkExit,d0
-	beq.s	T4 
+	beq.s	T4
 	cmp.w	#_TkExIf,d0
 	beq.s	T4
 	cmp.w	#_TkIf,d0
@@ -3024,7 +3053,7 @@ TCh:	add.w	(a0)+,a0
 	addq.l	#1,a0
 	bra.s	T0
 TVar:	moveq	#0,d1
-	move.b	2(a0),d1 
+	move.b	2(a0),d1
 	lea	4(a0,d1.w),a0
 	bra.s	T0
 
@@ -3046,41 +3075,41 @@ TVar:	moveq	#0,d1
 ;						Table des operateurs
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Tk_Operateurs
-	bra	Op_Xor				
+	bra	Op_Xor
 	dc.b 	" xor"," "+$80,"O00",-1
-	bra	Op_Or				
+	bra	Op_Or
 	dc.b 	" or"," "+$80,"O00",-1
-	bra	Op_And				
+	bra	Op_And
 	dc.b 	" and"," "+$80,"O00",-1
-	bra	Op_Diff				
+	bra	Op_Diff
 	dc.b 	"<",">"+$80,"O20",-1
-	bra	Op_Diff				
+	bra	Op_Diff
 	dc.b 	">","<"+$80,"O20",-1
-	bra	Op_InfEg			
+	bra	Op_InfEg
 	dc.b 	"<","="+$80,"O20",-1
-	bra	Op_InfEg			
+	bra	Op_InfEg
 	dc.b 	"=","<"+$80,"O20",-1
-	bra	Op_SupEg			
+	bra	Op_SupEg
 	dc.b 	">","="+$80,"O20",-1
-	bra	Op_SupEg			
+	bra	Op_SupEg
 	dc.b 	"=",">"+$80,"O20",-1
-TOpEg	bra	Op_Egal				
+TOpEg	bra	Op_Egal
 	dc.b 	"="+$80,"O20",-1
-	bra	Op_Inf				
+	bra	Op_Inf
 	dc.b 	"<"+$80,"O20",-1
-	bra	Op_Sup				
+	bra	Op_Sup
 	dc.b 	">"+$80,"O20",-1
-	bra	Op_Plus				
+	bra	Op_Plus
 	dc.b 	"+"+$80,"O22",-1
-TOpM	bra	Op_Moins			
+TOpM	bra	Op_Moins
 	dc.b 	"-"+$80,"O22",-1
 	bra	Op_Modulo
 	dc.b 	" mod"," "+$80,"O00",-1
-	bra	Op_Mult				
+	bra	Op_Mult
 	dc.b 	"*"+$80,"O00",-1
-	bra	Op_Div				
+	bra	Op_Div
 	dc.b 	"/"+$80,"O00",-1
-TOpPuis	bra	Op_Puis				
+TOpPuis	bra	Op_Puis
 	dc.b 	"^"+$80,"O00",-1
 	even
 OP_Jumps
@@ -3115,7 +3144,7 @@ New_Evalue
 Eva0	movem.l	d2/d3/d4,-(a3)
 Eva1	move.w	d0,-(a3)
 ; Recolte d'un operande
-; ~~~~~~~~~~~~~~~~~~~~~	
+; ~~~~~~~~~~~~~~~~~~~~~
 	clr.w	-(sp)
 OpeRe	move.w	(a6)+,d0
 	bmi.s	OpeM
@@ -3146,7 +3175,7 @@ Chs0	tst.b	d2
 	bra.s	OP_Ret
 Chs1	tst.b	MathFlags(a5)
 	bmi.s	Dble
-	bchg	#7,d3	
+	bchg	#7,d3
 	bra.s	OP_Ret
 Dble	bchg	#31,d3
 	bra.s	OP_Ret
@@ -3359,7 +3388,7 @@ mltF:	moveq	#0,d2
 	bra	OP_Ret
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;					OPERATEUR DIVISE			
+;					OPERATEUR DIVISE
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Op_Div
 ; - - - - - - - - - - - - -
@@ -3474,9 +3503,9 @@ eg2:    bsr 	compch
 	cmp.l	d4,d3
 	beq.s	Vrai
 	bra.s	Faux
- 
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;					OPERATEUR INFERIEUR					
+;					OPERATEUR INFERIEUR
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Op_Inf
 ; - - - - - - - - - - - - - - - -
@@ -3514,7 +3543,7 @@ infeg2: bsr 	compch
         bra 	Faux
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;					OPERATEUR DIFFERENT				
+;					OPERATEUR DIFFERENT
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Op_Diff
 ; - - - - - - - - - - - - - - - -
@@ -3614,13 +3643,13 @@ QueFloat
 	Rjsrt 	L_IntToFl1
 ; 	Rend compatible les deux operandes
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Compat:	move.b	3(a3),d1	
+Compat:	move.b	3(a3),d1
 	cmp.b	d1,d2
 	bne.s 	Cpt1
 	subq.b 	#1,d1
 	rts
 Cpt1	tst.b	d2
-	bne.s 	Cpt2  
+	bne.s 	Cpt2
 	Rjsrt	L_IntToFl1		Change D2/D3/D4 en float
 	moveq 	#0,d1
 	rts
@@ -3710,7 +3739,7 @@ New_Expentier
 	beq.s	.Skip
 	rts
 .Skip	Rjmpt	L_FlToInt1
-	
+
 
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -3746,7 +3775,7 @@ New_Expentier
 	move.l	a0,-(sp)
 	move.w	d2,-(sp)
 	bsr	Fn_New_Evalue	* Va evaluer
-	move.w	(sp)+,d5		
+	move.w	(sp)+,d5
 	cmp.b	d5,d2		??? Possible probleme si autres flags?
 	beq.s	.Skip2
 	tst.b	d2
@@ -3802,7 +3831,7 @@ InVarT	bsr	GetTablo
 	rts
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;					VARIABLE EN FONCTION			
+;					VARIABLE EN FONCTION
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Par FnVar
 ; - - - - - - - - - - - - -
@@ -3912,7 +3941,7 @@ Dim0	moveq	#0,d1
 	cmp.b	#1,d2
 	bne.s	.Skip
 	tst.b	MathFlags(a5)
-	bpl.s	.Skip	
+	bpl.s	.Skip
 	moveq	#3,d1		Variable double
 .Skip	move.w	d2,-(sp)	Nombre de dims
 	move.l	a0,-(sp)	Adresse du tableau
@@ -4069,7 +4098,7 @@ GetT4:	move.l	(sp)+,d2
 	Ret_Int
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;					=ARRAY$(a$(0))			
+;					=ARRAY$(a$(0))
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Par FnArray
 ; - - - - - - - - - - - - -
@@ -4108,7 +4137,7 @@ GetT4:	move.l	(sp)+,d2
 	Ret_Int
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;					PREND UN FLOAT SIMPLE PRECISION				
+;					PREND UN FLOAT SIMPLE PRECISION
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Par FnCstFl
 ; - - - - - - - - - - - - -
@@ -4232,7 +4261,7 @@ FFn1	cmp.w	(a2)+,d0
 	bne.s	FFn2
 	move.l	a0,-(sp)
 	Rjsrt	L_IntToFl1
-	move.l	(sp)+,a0	
+	move.l	(sp)+,a0
 	bra.s	FFn3
 FFn2	cmp.b	#1,d2
 	bhi	TypeMis
@@ -4263,7 +4292,7 @@ FFn5	cmp.w	#_TkEg,(a2)+
 FnIlNb	moveq	#16,d0
 	bra	RunErr
 FnNDef	moveq	#15,d0
-	bra	RunErr 
+	bra	RunErr
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;						SWAP
@@ -4466,7 +4495,7 @@ di2:    Rjsrt 	L_IntToFl1
 di3:    moveq	#0,d5
         move.l 	d6,d1
         lsr.l	#1,d6
-di4:    movem.l a1/d1-d7,-(sp)	
+di4:    movem.l a1/d1-d7,-(sp)
         add.l 	d6,d5
 	move.l	d5,d1
 	move.l	a1,a0
@@ -4555,7 +4584,7 @@ GTbG	move.l	VarGlo(a5),a0
 	lea	1(a0,d0.w),a0
 	bra.s	GTb0
 
-* Trouve l'adresse D0/D1 >>> A0/A1 
+* Trouve l'adresse D0/D1 >>> A0/A1
 ; - - - - - - - - - - - - -
 	Lib_Def	AdSort
 AdSort
@@ -4569,7 +4598,7 @@ AdSort
 * Comparaison pour SORT/FIND
 ; - - - - - - - - - - - - -
 	Lib_Def	CpBis
-CpBis 	
+CpBis
 ; - - - - - - - - - - - - -
 	cmp.b	#1,d2
 	beq.s	.Flt
@@ -4700,7 +4729,7 @@ RTypeM:	moveq	#34,d0
 	Lib_Def	InReadF
 	Lib_Def	InReadS
 ; - - - - - - - - - - - - -
-	
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;						Instruction RESTORE
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -4826,7 +4855,7 @@ DInp0	bsr	New_Expentier
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Par InInput
 ; - - - - - - - - - - - - -
-	move.w	#",",-(sp)	
+	move.w	#",",-(sp)
 	bra.s	IInp0
 ; - - - - - - - - - - - - -
 	Lib_Par InLineInput
@@ -4871,12 +4900,12 @@ ReInp:	tst.l	PrintFile(a5)
 	clr.b	(a1)
 	move.l	a1,a2
 	move.w	#(1<<LEd_FCursor)|(1<<LEd_FTests)|(1<<LEd_FMulti),d0
-	moveq	#0,d1			Curseur à zero
+	moveq	#0,d1			Curseur ï¿½ zero
 	move.w	#256,d2			256 caracteres maxi
 	moveq	#-1,d3			Largeur maxi
 	move.l	a3,-(sp)
 	Rjsr	L_LEd_Init
-	bne	FonCall			Trop à droite...
+	bne	FonCall			Trop ï¿½ droite...
 	Rjsr	L_LEd_Loop
 	move.l	(sp)+,a3
 	move.l	d0,d3
@@ -4910,7 +4939,7 @@ InpD2	clr.b	(a1)
 
 ******* INPUT/LINE INPUT: interprete le buffer!
 InnPut	move.l	Buffer(a5),a2
-Inn1:	move.l	a2,-(sp) 
+Inn1:	move.l	a2,-(sp)
 	bsr	FindVar
 	move.l	(sp)+,a2
 	movem.l	a0/d2,-(sp)
@@ -5049,9 +5078,9 @@ InnEnc:	dc.b	13,10,"?? ",0
 	clr.l	PrintFile(a5)
 * Entree commune
 Print0	Rjsr	L_SaveRegs
-	move.l 	PrintPos(a5),d0 
-        beq.s 	Print1         
-	move.l	d0,a6  
+	move.l 	PrintPos(a5),d0
+        beq.s 	Print1
+	move.l	d0,a6
         bclr 	#7,PrintFlg(a5)
 * Boucle
 Print1	clr 	PrintFlg(a5)
@@ -5079,7 +5108,7 @@ Print5	move.l	Buffer(a5),d2
 	beq.s	Prunt2
 	Rjmp	L_DiskError
 * Fin du print
-FinPrint: 
+FinPrint:
 	Rjsr	L_LoadRegs
 	clr.l 	PrintPos(a5)
         clr.l 	PrintFile(a5)
@@ -5123,7 +5152,7 @@ spb0:   move.l 	Buffer(a5),a0
         RjsrtR 	L_Float2Ascii,1        	;va ecrire dans le buffer
         bra 	using1
 ; IMPRESSION D'UN CHIFFRE ENTIER
-sp1:	move.l 	d3,d0			
+sp1:	move.l 	d3,d0
 	moveq	#-1,d3         		;proportionnel
         moveq 	#1,d4         		;avec signe
         Rjsr 	L_LongToAsc
@@ -5132,7 +5161,7 @@ sp1:	move.l 	d3,d0
 sp2:    move.l 	d3,a2
         move.w 	(a2)+,d3
         bne.s 	sp3
-        bra 	using50 
+        bra 	using50
 ; IMPRESSION D'UNE CHAINE -milieu-
 sp2a:   move.l 	Buffer(a5),a0
 sp3:    moveq 	#120,d0
@@ -5421,7 +5450,7 @@ Plt2:	addq.l	#2,a0
 	move.l	Buffer(a5),a0
 	move.l	a0,a1
 	moveq	#31,d0
-IFad0	clr.w	(a0)+	
+IFad0	clr.w	(a0)+
 	dbra	d0,IFad0
 	bra.s	IFadT
 * FADE TO
@@ -5578,7 +5607,7 @@ FinRas	Rjsr	L_GetRas
 	addq.w	#1,d4			* 1-> Bobs
 	moveq	#64,d5
 	cmp.w	#_TkBob,d0
-	beq.s	ChaX		
+	beq.s	ChaX
 	addq.w	#1,d4			* 2-> Screen display
 	moveq	#8,d5
 	cmp.w	#_TkScD,d0
@@ -5812,7 +5841,7 @@ BsR3	move.l	(sp)+,a6
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Par In_apml_
 ; - - - - - - - - - - - - -
-; Des parametres à empiler?
+; Des parametres ï¿½ empiler?
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~
 	move.w	(a6)+,d0
 	beq.s	.PaPar
@@ -5885,7 +5914,7 @@ BsR3	move.l	(sp)+,a6
 	move.w	6+2+2(a6),d0
 	move.w	d0,d1
 	and.w	#1,d1
-	add.w	d1,d0 
+	add.w	d1,d0
 	lea	6+2+4+2(a6,d0.w),a6
 	Ret_Int
 
@@ -5920,7 +5949,7 @@ BsR3	move.l	(sp)+,a6
 	move.l	d3,(a0)
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Par FnStruc	
+	Lib_Par FnStruc
 ; - - - - - - - - - - - - -
 	bsr	GStruc
 	moveq	#0,d3
@@ -6019,7 +6048,7 @@ GStruc	move.l	(a6)+,-(sp)	Equate
 	add.l	(sp)+,d1
 	move.l	d1,a0		Adresse resultante
 	rts
-	
+
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 					Source: String.s
@@ -6031,7 +6060,7 @@ GStruc	move.l	(a6)+,-(sp)	Equate
 	Lib_Def	Demande
 Demande
 ; - - - - - - - - - - - - -
-	move.l 	HiChaine(a5),a0 
+	move.l 	HiChaine(a5),a0
         move.l 	a0,a1
 	add.l	d3,a1
 	addq.l	#4,a1
@@ -6069,7 +6098,7 @@ dem1	tst.b	ErrorRegs(a5)		Recharger les registres?
 	ENDC
 	move.w	-2(a6),d0
 	move.w	0(a4,d0.w),d1		Pointe la table de tokens
-	move.l	-LB_Size(a4,d1.w),a0		
+	move.l	-LB_Size(a4,d1.w),a0
 	jmp	(a0)			Rebranche
 ; Branche au patch
 dem3	move.l	Patch_Menage(a5),a0
@@ -6111,17 +6140,17 @@ DDemande
 ; - - - - - - - - - - - - -
 	movem.l d1-d7/a2-a6,-(sp)
 
-	IFNE	Debug>1	
+	IFNE	Debug>1
 	movem.l	d0-d7/a0-a6,-(sp)
 	moveq	#70,d3
 	JJsrIns	L_InBell1,1
 	movem.l	(sp)+,d0-d7/a0-a6
-	ENDC	
-	IFNE	Debug>1	
+	ENDC
+	IFNE	Debug>1
 	Rjsr	L_PreBug
 	ENDC
-	
-******* Essaie de proceder à un FAST-MENAGE!
+
+******* Essaie de proceder ï¿½ un FAST-MENAGE!
 	move.l	HiChaine(a5),d7
 	move.l	LoChaine(a5),d6
 	move.l	d7,d0
@@ -6147,9 +6176,9 @@ FfMen1	moveq	#0,d4
 .Var	btst	#1,d0				Une chaine?
 	bne.s	.Alpha
 	lsr.w	#8,d0				Recupere la taille
-	add.w	d0,a6		
+	add.w	d0,a6
 	move.w	(a6)+,d0			Suivante
-	beq.s	.Loop			
+	beq.s	.Loop
 	bpl.s	.Var
 .Proc	move.l	(a6),d0				Chunk suivant
 	beq	FfMenX				Le dernier?
@@ -6240,7 +6269,7 @@ SLOW_MENAGE
 L47a	move.l	a0,BMenage(a5)
 	move.l	a0,d5
 * Menage
-L47b   	move.l 	d5,d6	
+L47b   	move.l 	d5,d6
 	add.l 	#TMenage,d6                  	;Fin TI
 	move.l 	LoChaine(a5),d7               	;Ad mini de recopie
 	move.l	HiChaine(a5),a4			;Ad maxi des chaines!
@@ -6261,9 +6290,9 @@ Men1
 .Var	btst	#1,d0				Une chaine?
 	bne.s	.Alpha
 	lsr.w	#8,d0				Recupere la taille
-	add.w	d0,a6		
+	add.w	d0,a6
 	move.w	(a6)+,d0			Suivante
-	beq.s	.Loop			
+	beq.s	.Loop
 	bpl.s	.Var
 .Proc	move.l	(a6),d0				Chunk suivant
 	beq	Men20				Le dernier?
@@ -6309,7 +6338,7 @@ Men7:   move.l 	d3,a1                    	;Decale les adresses au dessus
         bcs.s 	Men7a
         lea 	-8(a1),a1
         move.l 	-8(a1),d2                	;Remonte la limite haute
-        bra.s 	Men8 
+        bra.s 	Men8
 Men7a:  addq.l 	#8,d3
         move.l 	#$7fffffff,8(a1)
 Men8:   move.l 	-(a1),8(a1)
@@ -6317,7 +6346,7 @@ Men8:   move.l 	-(a1),8(a1)
         cmp.l 	a0,a1
         bcc.s 	Men8
 Men9:   move.l 	a3,-(a0)                 	;Poke dans la table
-        move.l 	d0,-(a0) 
+        move.l 	d0,-(a0)
 Men10:  addq.l	#4,a3
 	tst.l 	d4
         bne.s 	Men3
@@ -6328,7 +6357,7 @@ Men20:  move.l 	d5,a3                    	;Adresse TI
         move.l 	d7,a1                    	;Adresse de recopie
         moveq 	#0,d7
 Men21:  cmp.l 	d3,a3                     	;Fini-ni?
-        bcc.s 	Men26 
+        bcc.s 	Men26
         move.l 	(a3),a0                  	;Adresse de la chaine
         lea 	8(a3),a3
         cmp.l 	a0,d7                    	;Chaine deja bougee?
@@ -6353,7 +6382,7 @@ Men22:  move.l 	-4(a3),a2                	;Change la variable
         move.w 	(a0)+,d0                 	;Recopie la chaine
         beq.s 	Men24
         move.w 	d0,(a1)+
-        subq.w 	#1,d0 
+        subq.w 	#1,d0
         lsr.w 	#1,d0
 Men23:  move.w 	(a0)+,(a1)+
         dbra 	d0,Men23
@@ -6382,9 +6411,9 @@ Men31:
 .Var	btst	#1,d0				Une chaine?
 	bne.s	.Alpha
 	lsr.w	#8,d0				Recupere la taille
-	add.w	d0,a6		
+	add.w	d0,a6
 	move.w	(a6)+,d0			Suivante
-	beq.s	.Loop			
+	beq.s	.Loop
 	bpl.s	.Var
 .Proc	move.l	(a6),d0				Chunk suivant
 	beq	Men40				Le dernier?
@@ -6424,7 +6453,7 @@ Men40:  move.l 	a1,d7    	                ;Monte la limite <
         bra 	Men0
 ;-----> Menage fini!
 FinMen	move.l 	a1,HiChaine(a5)
-; Libere la mémoire
+; Libere la mï¿½moire
 	move.l	BMenage(a5),d0
 	bmi.s	Finm1
 	move.l	d0,a1
@@ -6792,7 +6821,7 @@ OnMn1	bsr	GetLabel
 	cmp.w	#_TkVir,(a6)+
 	beq.s	OnMn1
 	subq.l	#2,a6
-* 	Taille 
+* 	Taille
 	move.w	(sp)+,d2
 	move.w	d2,OMnNb(a5)
 	moveq	#0,d1
@@ -7017,18 +7046,18 @@ MnDim2	addq.w	#1,(sp)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Def	ValRout
 ; - - - - - - - - - - - - -
-        movem.l a1-a2/d5-d7,-(sp) 
+        movem.l a1-a2/d5-d7,-(sp)
 	move.l	a0,d7
 	moveq	#0,d4
 	move.l	a0,a2
 	tst.w	d0
 	beq.s	val1c
 ; y-a-t'il un signe devant?
-val1:   move.b 	(a0)+,d0   
+val1:   move.b 	(a0)+,d0
         beq 	val10
         cmp.b 	#32,d0
         beq.s 	val1
-        move.l 	a0,a2      
+        move.l 	a0,a2
         subq.l 	#1,a2
         cmp.b 	#"-",d0
         bne.s 	val1a
@@ -7083,7 +7112,7 @@ val3b:  move.b 	(a1)+,d0     	;apres un E, accepte -/+ et chiffres
         beq.s 	val3c
         cmp.b 	#"-",d0
         bne.s 	val3e
-val3c:  bset 	#1,d3          	;+ ou -: c'est un float! 
+val3c:  bset 	#1,d3          	;+ ou -: c'est un float!
 val3d:  move.b 	(a1)+,d0     	;puis cherche la fin de l'exposant
         cmp.b 	#32,d0
         beq.s 	val3d
@@ -7274,7 +7303,7 @@ bh1:    bsr 	minichr
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Conversion entier >>> float dans le dernier operateur
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	IntToFl1		
+	Lib_Def	IntToFl1
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	a6,d3
@@ -7311,7 +7340,7 @@ bh1:    bsr 	minichr
 	move.b	#1,3(a3)
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Def	DIntToFl2		
+	Lib_Def	DIntToFl2
 ; - - - - - - - - - - - - -
 	movem.l	4(a3),d0-d1
 	move.l	a6,-(sp)
@@ -7327,7 +7356,7 @@ bh1:    bsr 	minichr
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Conversion float >>> entier dans le dernier operateur
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	FlToInt1		
+	Lib_Def	FlToInt1
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	a6,d3
@@ -7353,7 +7382,7 @@ bh1:    bsr 	minichr
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Conversion float >>> entier dans la pile
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	FlToInt2		
+	Lib_Def	FlToInt2
 ; - - - - - - - - - - - - -
 	move.l	4(a3),d0
 	move.l	a6,d4
@@ -7364,7 +7393,7 @@ bh1:    bsr 	minichr
 	clr.b	3(a3)
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Def	DFlToInt2		
+	Lib_Def	DFlToInt2
 ; - - - - - - - - - - - - -
 	movem.l	4(a3),d0-d1
 	move.l	a6,-(sp)
@@ -7380,7 +7409,7 @@ bh1:    bsr 	minichr
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Fait une fonction mathematique
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	Math_Fonction		
+	Lib_Def	Math_Fonction
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	a6,d3
@@ -7390,7 +7419,7 @@ bh1:    bsr 	minichr
 	move.l	d0,d3
 	Ret_Float
 ; - - - - - - - - - - - - -
-	Lib_Def	DMath_Fonction		
+	Lib_Def	DMath_Fonction
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	d4,d1
@@ -7405,9 +7434,9 @@ bh1:    bsr 	minichr
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 					COMPARAISONS FLOAT
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;       Fait une comparaison float 
+;       Fait une comparaison float
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	Float_Compare	
+	Lib_Def	Float_Compare
 ; - - - - - - - - - - - - -
 	move.l	d3,d1
 	move.l	4(a3),d0
@@ -7417,7 +7446,7 @@ bh1:    bsr 	minichr
 	move.l	d3,a6
 	rts
 ; - - - - - - - - - - - - -
-	Lib_Def	DFloat_Compare	
+	Lib_Def	DFloat_Compare
 ; - - - - - - - - - - - - -
 	movem.l	4(a3),d0-d1
 	move.l	d3,d2
@@ -7433,7 +7462,7 @@ bh1:    bsr 	minichr
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Fait une operation float
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	Float_Operation		
+	Lib_Def	Float_Operation
 ; - - - - - - - - - - - - -
 	move.l	4(a3),d0
 	move.l	d3,d1
@@ -7444,7 +7473,7 @@ bh1:    bsr 	minichr
 	move.l	d0,d3
 	Ret_Float
 ; - - - - - - - - - - - - -
-	Lib_Def	DFloat_Operation		
+	Lib_Def	DFloat_Operation
 ; - - - - - - - - - - - - -
 	movem.l	4(a3),d0-d1
 	exg	d3,d2
@@ -7487,7 +7516,7 @@ bh1:    bsr 	minichr
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Fait une operation Math
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	Math_Operation		
+	Lib_Def	Math_Operation
 ; - - - - - - - - - - - - -
 	move.l	4(a3),d0
 	move.l	d3,d1
@@ -7498,7 +7527,7 @@ bh1:    bsr 	minichr
 	move.l	d0,d3
 	Ret_Float
 ; - - - - - - - - - - - - -
-	Lib_Def	DMath_Operation		
+	Lib_Def	DMath_Operation
 ; - - - - - - - - - - - - -
 	movem.l	4(a3),d0-d1
 	exg	d3,d2
@@ -7516,7 +7545,7 @@ bh1:    bsr 	minichr
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;       Fait une fonction float
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Lib_Def	Float_Fonction		
+	Lib_Def	Float_Fonction
 ; - - - - - - - - - - - - -
 	move.l	d3,d0
 	move.l	a6,d3
@@ -7542,13 +7571,13 @@ bh1:    bsr 	minichr
 ; 					Verifie que le float est positif
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Def	FlPos			Simple precision
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	btst	#7,d3
 	Rbne	L_FonCall
 	rts
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	Lib_Def	FlPosD			Double precision
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	btst	#31,d3
 	Rbne	L_FonCall
 	rts
@@ -7573,7 +7602,7 @@ bh1:    bsr 	minichr
 .AAnX	move.l	d3,a6
 	move.l	d0,d3
 	Ret_Float
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	Lib_Def	AAngleD			DFloat
 ; - - - - - - - - - - - - -
 	move.l	d3,d0			Appel de la fonction
@@ -7614,7 +7643,7 @@ bh1:    bsr 	minichr
 	move.l	d3,a6
 	move.l	d0,d3
 	Ret_Float
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	Lib_Def	FAngleD			DFloat
 ; - - - - - - - - - - - - -
 	tst.w	Angle(a5)
@@ -7643,7 +7672,7 @@ bh1:    bsr 	minichr
 ; - - - - - - - - - - - - -
 	move.l	ParamF(a5),d3
 	Ret_Float
-; - - - - - - - - - - - - -	
+; - - - - - - - - - - - - -
 	Lib_Def FnParamD		DFloat
 ; - - - - - - - - - - - - -
 	move.l	ParamF(a5),d3
@@ -7681,10 +7710,10 @@ bh1:    bsr 	minichr
 	bclr	#31,d4
 	Rjmp	L_FloatToAsc
 ; - - - - - - - - - - - - -
-	Lib_Def	Float2AsciiD		
+	Lib_Def	Float2AsciiD
 ; - - - - - - - - - - - - -
 	moveq	#2,d0			Double precision
-	moveq	#15,d1	
+	moveq	#15,d1
 	tst.w	FixFlg(a5)
 	bmi.s	.Ok
 	move.w	FixFlg(a5),d1		Nombre de chiffres
@@ -7742,5 +7771,3 @@ BkNoRes		Rbra	L_BkNoRes
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Lib_Pos 500
 ; - - - - - - - - - - - - -
-
-

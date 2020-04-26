@@ -1,4 +1,4 @@
-____________________________________________________________________________
+;____________________________________________________________________________
 ;............................................................................
 ;..................................................................2222222...
 ;...............................................................22222222220..
@@ -18,10 +18,37 @@ ____________________________________________________________________________
 ;.220000000022020000002.200002.........22......._____________________________
 ;.0000002........2000000220022.................|
 ;200000............2002........................| AMOSPro Compiler
-;200002........................................| 
+;200002........................................|
 ;20002.........................................|_____________________________
 ;____________________________________________________________________________
 ;
+;  Published under the MIT Licence
+;
+;  Copyright (c) 1992 Europress Software
+;  Copyright (c) 2020 Francois Lionet
+;
+;  Permission is hereby granted, free of charge, to any person
+;  obtaining a copy of this software and associated documentation
+;  files (the "Software"), to deal in the Software without
+;  restriction, including without limitation the rights to use,
+;  copy, modify, merge, publish, distribute, sublicense, and/or
+;  sell copies of the Software, and to permit persons to whom the
+;  Software is furnished to do so, subject to the following
+;  conditions:
+;
+;  The above copyright notice and this permission notice shall be
+;  included in all copies or substantial portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;____________________________________________________________________________
+
 		Include "+AMOS_Includes.s"
 		Include "+Version.s"
 ;____________________________________________________________________________
@@ -46,7 +73,7 @@ PP_RelAbs	equ	90
 PP_CloseObjet	equ	95
 PP_Icons	equ	100
 
-M_Libs			equ	28		26 librairies + defaut 
+M_Libs			equ	28		26 librairies + defaut
 F_Courant		equ	0
 F_Source		equ	1
 F_Objet			equ	2
@@ -59,11 +86,11 @@ L_PathToDelete		equ	108*2
 
 ; 			Tailles buffers standart
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-L_BSo			equ	250000		Longueur buffer source
-L_DiscIn		equ	4096*4		Buffer chargement banques...
-L_BordBso		equ	1024		Bordure buffer source
-L_BordBob		equ	1024		Bordure buffer objet
-L_Bob			equ	4096*6		Buffer object
+L_BSo			equ	8000		Longueur buffer source
+L_DiscIn		equ	1024*4		Buffer chargement banques...
+L_BordBso		equ	128		Bordure buffer source
+L_BordBob		equ	768		Bordure buffer objet
+L_Bob			equ	1024*6		Buffer objet
 
 ;			Flags relocation
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,14 +100,13 @@ Rel_Label		equ	$03000000
 
 ;			Tokens de l'extension
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ext_Nb				equ	5
+Ext_Nb			equ	5
 Ext_TkCmp       	equ     6
 Ext_TkCOp       	equ     $14
 Ext_TkTstOn     	equ     $28
 Ext_TkTstOf     	equ     $3a
 Ext_TkTst       	equ     $4e
 
-demult 	equ 8 ;2019.11.21 To increas buffers.
 
 F_Externes		equ	0
 F_Dialogs		equ	1
@@ -123,7 +149,7 @@ AMOS_Compile
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AMOS_Start
 	movem.l	a3-a6/d6/d7,-(sp)	Sauve les registres
-	
+
 	move.l	d2,d4			Adresse de la config
 	move.l	d1,d3			Taille des sliders
 	move.l	d0,d2
@@ -132,7 +158,7 @@ AMOS_Start
 	lea	DZ(pc),a3
 	move.l	sp,Pile_AMOS-DZ(a3)	Position pile AMOS
 
-	move.l	#1024*4*demult,d0		Reserve la pile
+	move.l	#1024*4,d0		Reserve la pile
 	move.l	#Public|Clear,d1
 	move.l	$4.w,a6
 	jsr	_LVOAllocMem(a6)
@@ -155,7 +181,7 @@ AMOS_Start
 	bra	Go_On			Branche au compilateur
 
 ; Out of memory immediat
-.OOMem	moveq	#-2,d0	
+.OOMem	moveq	#-2,d0
 	movem.l	(sp)+,a3-a6/d6/d7
 	rts
 
@@ -168,7 +194,7 @@ AMOS_Cont
 	move.l	Pile_APCmp-DZ(a0),sp
 	movem.l	(sp)+,d0-d7/a0-a6	Recupere tout le compilateur
 	rts				Rebranche a la routine
-	
+
 ;	ABORT: arrete la compilation
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AMOS_Stop
@@ -178,12 +204,12 @@ AMOS_Stop
 	move.l	Pile_APCmp-DZ(a0),sp
 	movem.l	(sp)+,d0-d7/a0-a6	Recupere tout le compilateur
 	bra	Err_ControlC
-	
+
 ; 	Retourne au basic avec tout ouvert!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AMOS_Back
 	movem.l	a0-a6/d0-d7,-(sp)	Stocke tout!
-	lea	DZ(pc),a0		
+	lea	DZ(pc),a0
 	move.l	sp,Pile_APCmp-DZ(a0)	Stocke la pile
 	move.l	Pile_AMOS-DZ(a0),sp	Pile d'AMOSPro en plan
 	movem.l	(sp)+,a3-a6/d6/d7	On recupere tout!
@@ -198,11 +224,11 @@ AMOS_TheEnd
 	movem.l	d0-d1/a0-a1/a6,-(sp)
 	move.l	Pile_Base-DZ(a3),a1
 	clr.l	Pile_Base-DZ(a3)
-	move.l	#1024*4*demult,d0
+	move.l	#1024*4,d0
 	move.l	$4.w,a6
 	jsr	_LVOFreeMem(a6)
 .Skip	movem.l	(sp)+,d0-d1/a0-a1/a6
-	movem.l	(sp)+,a3-a6/d6/d7	
+	movem.l	(sp)+,a3-a6/d6/d7
 	tst.l	d0
 	rts
 
@@ -211,13 +237,11 @@ AMOS_TheEnd
 ;---------------------------------------------------------------------
 ;  Entree CLI
 ;---------------------------------------------------------------------
-CliIn:
-	bsr	Reserve_DZ
+CliIn	bsr	Reserve_DZ
 	clr.b	Flag_AMOS(a5)
 
 ; Entree commune
-Go_On
-	move.l	sp,C_Pile(a5)
+Go_On	move.l	sp,C_Pile(a5)
 	movem.l	a0/d0,-(sp)
 ; Reserve les buffers principaux
 	bsr	Reserve_Work
@@ -248,13 +272,13 @@ Go_On
 ; Explore la ligne de commande (si option -C)
 	move.l	B_Work(a5),a0
 	bsr	CommandLine
-; Si pas sous AP_Compiler.AMOS, charge la config 
+; Si pas sous AP_Compiler.AMOS, charge la config
 ; Explore sa ligne de commande (si option -E)
 	tst.l	A_Config(a5)		Deja chargee?
 	bne.s	.COk
 	move.l	Path_Config(a5),a0
 	tst.b	(a0)			Une command line specifiee?
-	bne.s	.CLoad			OUI! Charge directement...	
+	bne.s	.CLoad			OUI! Charge directement...
 	lea	Def_Config0(pc),a0
 	move.l	Path_Config(a5),a1
 	bsr	CopName
@@ -468,10 +492,10 @@ TheEnd
 
 
 
-	
+
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -489,35 +513,33 @@ Compile_Reserve
 	cmp.w	#16,d2			Base de calculs= 16K
 	bcc.s	.Sup
 	moveq	#16,d2
-.Sup
-	tst.b	Flag_Big(a5)		Si flag big, buffers= buffersX4
+.Sup	tst.b	Flag_Big(a5)		Si flag big, buffers= buffersX4
 	beq.s	.Pabig
 	lsl.l	#2,d2
-	mulu 	#demult,d2
 .Pabig	moveq	#4,d3			4 shifts= 16
 
 	lea	B_FlagVarL(a5),a0	Variables locales
 	move.l	d2,d0
-	mulu	#256*demult,d0
+	mulu	#256,d0
 	lsr.l	d3,d0
 	bsr	Buffer_Reserve
 
 	lea	B_FlagVarG(a5),a0	Variable globales
 	move.l	d2,d0
-	mulu	#256*demult,d0
+	mulu	#256,d0
 	lsr.l	d3,d0
 	bsr	Buffer_Reserve
 
 	lea	B_Chaines(a5),a0	Buffer des chaines
 	move.l	d2,d0
-	mulu	#384*4*demult,d0
+	mulu	#384*4,d0
 	lsr.l	d3,d0
 	bsr	Buffer_Reserve
 	move.l	a0,A_Chaines(a5)	Marque la fin des chaines
 
 	lea	B_Lea(a5),a0		Buffer des branchements en avant
 	move.l	d2,d0
-	mulu	#64*8*demult,d0
+	mulu	#64*8,d0
 	lsr.l	d3,d0
 	bsr	Buffer_Reserve
 	move.l	a0,B_Lea(a5)
@@ -526,32 +548,32 @@ Compile_Reserve
 
 	lea	B_Labels(a5),a0		Buffer des labels
 	move.l	d2,d0
-	mulu	#768*4*demult,d0
+	mulu	#768*4,d0
 	lsr.l	d3,d0
 	bsr	Buffer_Reserve
 	move.l	a0,B_Labels(a5)
 
 	lea	B_Reloc(a5),a0		Buffer de relocation
 	move.l	d2,d0
-	mulu	#256*4*demult,d0	
+	mulu	#256*4,d0
 	lsr.l	d3,d0
 	bsr	Buffer_Reserve
 
 	lea	B_Instructions1(a5),a0	Buffer des adresses des instructions
 	move.l	d2,d0
-	mulu	#1024*4*demult,d0		Environ 1500 instructions / 32 k
+	mulu	#1024*4,d0		Environ 1500 instructions / 32 k
 	lsr.l	d3,d0
 	bsr	Buffer_Reserve
 
 	lea	B_Instructions2(a5),a0	Buffer des adresses des instructions procedures
 	move.l	d2,d0
-	mulu	#768*4*demult,d0		Environ 1500 instructions / 32 k
+	mulu	#768*4,d0		Environ 1500 instructions / 32 k
 	lsr.l	d3,d0
 	bsr	Buffer_Reserve
 
 	lea	B_LibRel(a5),a0		Buffer de relocation des JSR
 	move.l	d2,d0
-	mulu	#1024*2*demult,d0
+	mulu	#1024*2,d0
 	cmp.b	#1,Flag_Debug(a5)	Si mode DEBUG, un jump par instruction!
 	bcs.s	.NoD
 	lsl.l	#1,d0			Donc, fois deux!
@@ -559,17 +581,17 @@ Compile_Reserve
 	bsr	Buffer_Reserve
 	move.l	a0,A_LibRel(a5)
 
-	move.l	#1024*demult,d0		Buffer des boucles
+	move.l	#1024,d0		Buffer des boucles
 	lea	B_Bcles(a5),a0
-	bsr	Buffer_Reserve		
+	bsr	Buffer_Reserve
 	move.l	a0,A_Bcles(a5)
 
-	move.l	#256*demult,d0			Buffer de stockage position
+	move.l	#256,d0			Buffer de stockage position
 	lea	B_Stock(a5),a0
 	bsr	Buffer_Reserve
 	move.l	a0,A_Stock(a5)
 
-	move.l	#1024*4*demult,d0		Buffer de script expressions
+	move.l	#1024*4,d0		Buffer de script expressions
 	lea	B_Script(a5),a0
 	bsr	Buffer_Reserve
 	rts
@@ -580,9 +602,9 @@ Compile_Reserve
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Compile
-	
+
 ; Longueur du buffer variable par default
-	move.l	#64*demult,L_Buf(a5)
+	move.l	#8,L_Buf(a5)
 
 ; Relocation
 	bsr	Init_Reloc
@@ -592,7 +614,7 @@ Compile
 	lea	20,a6			Commence apres le header
 
 ; Message
-	moveq	#23,d0 ; Print "Compiling program..."
+	moveq	#23,d0
 	bsr	Mes_Print
 	bsr	Return
 	move.l	A_Banks(a5),d2		Estime le nombre de lignes
@@ -609,7 +631,7 @@ Compile
 	tst.b	MathFlags(a5)
 	bpl.s	.Flt
 	move.w	#1,MathType(a5)
-.Flt	
+.Flt
 
 ;	Va fabriquer le header
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -637,10 +659,8 @@ Db	tst.b	Flag_Numbers(a5)
 	move.l	B_Source(a5),a0
 	lea	20(a0),a0
 	moveq	#0,d3			Commence en ligne 1
-DbRloop:
-	moveq	#0,d1
-DbLoop:
-	addq.w	#1,d3
+DbRloop	moveq	#0,d1
+DbLoop	addq.w	#1,d3
 	add.w	d1,a0			Ligne suivante
 	add.w	d1,a0
 	cmp.l	d2,a0			La fin?
@@ -691,22 +711,19 @@ DbEnd
 	move.w	Cmva6d7(pc),d0		VGlobales=VLocales
 	bsr	OutWord
 
-	moveq	#81,d0 ; Print "CHRGET loop"
-	bsr	Mes_Print
-
 ;	Boucle du CHRGET
 ; ~~~~~~~~~~~~~~~~~~~~~~
 ChrGet	bsr	Aff_Pour		Affichage
 	cmp.l	End_Source(a5),a6	La fin?
 	beq.s	ChrEnd
-	bsr	GetWord		
+	bsr	GetWord
 	beq.s	ChrEnd
 	move.w	d0,Cur_Line(a5)
 ; Sort le numero de la ligne si mode debug
 Chr0	bsr	Db_OutNumber
 ; Regarde la table des branchements en avant
 .Loop	move.l	B_Lea(a5),a0		Faire un saut?
-	cmp.l	(a0),a6	
+	cmp.l	(a0),a6
 	bcs.s	Chr1
 	bsr	PokeAd
 	bra.s	.Loop
@@ -738,7 +755,7 @@ ChrEnd	bsr	OutLea			Marque la fin du programme
 	move.b	Flag_Procs(a5),OFlag_Procs(a5)
 	move.l	A_Datas(a5),A_ADatas(a5)
 	move.w	M_ForNext(a5),MM_ForNext(a5)
-; Quelque chose à compiler???
+; Quelque chose � compiler???
 	tst.w	NbInstr(a5)
 	beq	Err_NothingToCompile
 
@@ -757,7 +774,7 @@ PChr2	lea	6(a0,d0.w),a0		Label suivant
 	move.l	d1,a6
 	move.l	a4,2(a0)		Adresse de l'entree de cette procedure
 ; Adresse de la fin de la procedure
-	bsr	GetLong		
+	bsr	GetLong
 	subq.l	#4,a6			Prend l'offset dans le source
 	lea	10-2(a6,d0.l),a0
 	move.l	a0,F_Proc(a5)
@@ -897,7 +914,7 @@ CEpr2	move.w	#L_FProc,d0		Routine de fin de procedure
 	move.l	A_FlagVarL(a5),a0	Poke toutes les adresses dans l'appel
 	bsr	PrgOut
 	bra	PChr1
-PChrX	
+PChrX
 
 ;	Insere les routines d'init
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -949,7 +966,7 @@ c_ch5	move.l	(a1),d0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	move.l	A_LibRel(a5),a0		Fin de la relocation relative
 	clr.w	(a0)+
-	moveq	#NH_Prog,d1		
+	moveq	#NH_Prog,d1
 	bsr	FinHunk
 	move.l	a4,Info_LObjet(a5)
 
@@ -968,7 +985,7 @@ c_ch5	move.l	(a1),d0
 	moveq	#Hunk_Public,d2
 	bsr	DebHunk
 	moveq	#0,d0			Termine la 1ere partie relocation
-	bsr	OutRel	
+	bsr	OutRel
 	move.l	a4,OldRel(a5)		Debut 2eme partie relocation
 	bsr	Linker			Va linker!
 	moveq	#NH_Libraries,d1
@@ -1023,11 +1040,11 @@ CopyAMOSLib
 	bne	Err_BadConfig
 	move.l	20(a2),d3		Longueur du code
 	lsl.l	#2,d3
-	moveq	#F_Courant,d1	
+	moveq	#F_Courant,d1
 	bsr	Out_F_Read
 	moveq	#2,d0			Une mouse.abk?
 	bsr	Get_IntConfigMessage
-	tst.b	(a0)			
+	tst.b	(a0)
 	beq.s	.PasLib
 	moveq	#F_Courant,d1		OUI, on ferme!
 	bsr	F_Close
@@ -1040,7 +1057,7 @@ CopyAMOSLib
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 	moveq	#NH_Mouse,d1
 	move.l	#Hunk_Chip,d2		CHIP mem
-	bsr	DebHunk	
+	bsr	DebHunk
 	moveq	#2,d0			Mouse.Abk
 	bsr	Get_IntConfigMessage
 	tst.b	(a0)			Charger le fichier?
@@ -1141,7 +1158,7 @@ CopyAMOSLib
 	move.w	(a1),d4			Numero
 	move.w	#1<<Bnk_BitData,d5	Le flag
 	move.l	4(a1),d6		Longueur avec le nom
-	and.l	#$0FFFFFFF,d6		
+	and.l	#$0FFFFFFF,d6
 	move.l	d4,(a1)+		Fabrique un entete
 	move.w	d5,(a1)+
 	clr.w	(a1)+
@@ -1166,9 +1183,9 @@ CopyAMOSLib
 	moveq	#0,d3			Par rapport a la position courante
 	bsr	F_Seek
 	move.l	B_DiskIn(a5),d2		Lis 1k de texte!
-	move.l	#1024,d3		
+	move.l	#1024,d3
 	bsr	F_Read			sans erreur
-	moveq	#15,d0			Copie les message 15 à 19
+	moveq	#15,d0			Copie les message 15 � 19
 	moveq	#19,d1
 	moveq	#0,d2
 .Cop	cmp.w	d0,d2			Copie des messages
@@ -1215,7 +1232,7 @@ CopyAMOSLib
 .Nodialog
 	moveq	#PP_System4,d0
 	bsr	Go_Position
-	
+
 ;	Copie les messages d'erreur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	moveq	#NH_ErrorMessage,d1	Un nouveau hunk
@@ -1367,14 +1384,14 @@ CopyLong
 
 	moveq	#0,d0
 	move.b	Flag_Flash(a5),d0
-	tst.b	Flag_WB(a5)			
+	tst.b	Flag_WB(a5)
 	beq.s	.Skip1
 	bset	#16+FPrg_Wb,d0
 .Skip1	tst.b	Flag_Default(a5)
 	beq.s	.Skip2
 	bset	#16+FPrg_Default,d0
 .Skip2	bsr	OutLong
-	
+
 	move.l	Lib_FinInternes(a5),d0		Pivot de la librarie (a4)
 	sub.l	Lib_Debut(a5),d0
 	cmp.l	#$10000,d0
@@ -1488,7 +1505,7 @@ Fin_AMOS
 	bsr	OutLong
 	move.l	AA_Proc(a5),a4		Debut de la procedure
 	move.l	AA_EProc(a5),d0
-	sub.l	a4,d0		
+	sub.l	a4,d0
 	subq.l	#4,d0
 	bsr	OutLong
 
@@ -1497,7 +1514,7 @@ Fin_AMOS
 	move.b	Flag_Accessory(a5),d0	Flag accessory
 	lsl.w	#8,d0
 	move.b	MathFlags(a5),d0
-	bsr	OutWord	
+	bsr	OutWord
 	move.l	AA_Reloc(a5),d0		Pointeur sur relocation
 	sub.l	a4,d0
 	bsr	OutLong
@@ -1529,7 +1546,7 @@ Fin_AMOS
 
 
 
-	
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	RELOCATION
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1560,7 +1577,7 @@ Reloc_Relatif
 	sub.l	Lib_Debut(a5),d0	Moins debut des librairies
 	sub.l	d2,d0			Calcul du deplacement relatif
 
-	IFNE	Debug			Verification: pas de jmp de la 
+	IFNE	Debug			Verification: pas de jmp de la
 	btst	#0,d0			Verification: PAIR!
 	beq.s	.Skip
 	bsr	Err_Debug
@@ -1625,7 +1642,7 @@ P2b:    and.w	#$FF,d0
 	bra.s	.Label
 ; Simple JSR interne au programme
 .Jsr
-	IFNE	Debug			Verification: pas de jmp de la 
+	IFNE	Debug			Verification: pas de jmp de la
 	tst	d5			librarie vers le programme...
 	bne.s	.Skip
 	bsr	Err_Debug
@@ -1641,7 +1658,7 @@ P2b:    and.w	#$FF,d0
 	move.l	AdTokens(a5,d0.w),a0
 	move.l	-LB_Size-4(a0,d1.w),d0	Adresse routine
 
-	IFNE	Debug	
+	IFNE	Debug
 	bmi.s	.Ok			Si non charge!
 	bsr	Err_Debug
 .Ok
@@ -1654,14 +1671,14 @@ P2b:    and.w	#$FF,d0
         subq.l 	#4,a4
         bra.s 	RLoop
 ; Trouve l'adresse d'une chaine
-.Chaine	
-	IFNE	Debug			Verification: pas de jmp de la 
+.Chaine
+	IFNE	Debug			Verification: pas de jmp de la
 	tst	d5			librarie vers le programme...
 	bne.s	.Skip1
 	bsr	Err_Debug
 .Skip1
 	ENDC
-	move.l	B_Chaines(a5),a0	
+	move.l	B_Chaines(a5),a0
 	move.l	0(a0,d0.l),d0
 	sub.l	d7,d0
 	bsr	OutLong
@@ -1669,7 +1686,7 @@ P2b:    and.w	#$FF,d0
 	bra	RLoop
 ; Adresse d'un label
 .Label
-	IFNE	Debug			Verification: pas de jmp de la 
+	IFNE	Debug			Verification: pas de jmp de la
 	tst	d5			librarie vers le programme...
 	bne.s	.Skip2
 	bsr	Err_Debug
@@ -1690,8 +1707,8 @@ RFin	bsr	End_Pour
 ; 	Mode NUMBERS / DEBUG . Entree, D0=numero de ligne
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Db_OutNumber
-;	tst.b	Flag_Numbers(a5)
-;	beq.s	.Out
+	tst.b	Flag_Numbers(a5)
+	beq.s	.Out
 	move.w	Cur_Line(a5),d0
 	cmp.w	Old_Line(a5),d0
 	bne.s	.Db
@@ -1749,7 +1766,7 @@ Db_OutNumber
 Linker	moveq	#24,d0
 	bsr	Mes_Print
 
-;	Sort le RTS 
+;	Sort le RTS
 ; ~~~~~~~~~~~~~~~~~
 	move.l	a4,Lib_Debut(a5)	Position de debut des librairies
 	move.l	a4,Ad_Rts(a5)
@@ -1868,7 +1885,7 @@ Load_Routine
 ; Une routine libraries externes?
 	cmp.w	Lib_DExternes(a5),d0
 	bcs.s	.NoExterne
-	btst	#F_Externes,Flag_Libraries(a5)	
+	btst	#F_Externes,Flag_Libraries(a5)
 	bne	Lib_Suite
 	lsl.w	#2,d0
 	neg.w	d0
@@ -1914,7 +1931,7 @@ Lib_Extension
 .Skip	bra.s	Lib_Suite
 
 ; 	Met un RTS a la place de la routine
-; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lib_Rts	move.w	d6,d2
 	lsl.w	#2,d2
 	neg.w	d2
@@ -1940,7 +1957,7 @@ Lib_Fin	and.l	#$00FFFFFF,d0		Retrouve l'adresse
 Lib_Load
 	moveq	#0,d0			Zero indique PAS CHARGEE!
 	tst.l	d7			Flag chargement
-	bmi	LRouX	
+	bmi	LRouX
 
 ; Debuggage, sort le numero de la routine
 	IFNE	Debug>1
@@ -1959,7 +1976,7 @@ Lib_Load
 	sub.l	d2,d3
 	moveq	#F_Debug,d1
 	bsr	F_Write
-	bne	Err_DiskError	
+	bne	Err_DiskError
 	movem.l	(sp)+,d0-d7/a0-a6
 	ENDC
 
@@ -1981,7 +1998,7 @@ Lib_Load
 	move.l	d1,P_Clib(a5)			Position de debut
 	move.w	LB_NRout(a2),R_Clib(a5)		Nombre de routines
 	btst	#LBF_20,LB_Flags(a2)		Librairie 2.00?
-	sne	d0			
+	sne	d0
 	move.b	d0,V_Clib(a5)			Met le flag!
 	move.l	LB_LibSizes(a2),a0
 	move.w	d5,d0
@@ -1996,7 +2013,7 @@ Lib_Load
 	bsr	Aff_Pour
 ; Boucle de recopie, D3 octets
 	move.l	a4,-LB_Size-4(a2,d2.w)		Poke l'adresse de la routine
-	bset	#7,-LB_Size-4(a2,d2.w)		Bit 7 à 1 >>> routine chargee
+	bset	#7,-LB_Size-4(a2,d2.w)		Bit 7 � 1 >>> routine chargee
 	moveq	#0,d4				P_CLIB-> D4
 LRou0	bsr	Ld_Clib
 LRou1	move.b	(a2),d0
@@ -2049,7 +2066,7 @@ LRou4	move.w	-(a6),d6		Numero fonction / fin
 	cmp.w	Cbra(pc),d0
 	beq.s	.Ok
 	illegal
-.Ok	
+.Ok
 	ENDC
 .Load	move.w	d6,d0			Sauvegarde
 	move.w	d7,d1			Dans la librairie courante
@@ -2059,7 +2076,7 @@ LRou4	move.w	-(a6),d6		Numero fonction / fin
 	tst.l	d0			Debug, si routine externe!!
 	bne.s	.Skip
 	bsr	Err_Debug
-.Skip	
+.Skip
 	ENDC
 	move.l	a4,d2
 	move.l	-(a6),d1
@@ -2075,8 +2092,8 @@ LRou4	move.w	-(a6),d6		Numero fonction / fin
 	move.l	d2,a4
 	bra.s	LRou4
 ; Saut en ARRIERE trop long: BRA-> JMP
-LRou5	
-	IFNE	Debug			
+LRou5
+	IFNE	Debug
 	lea	Debug_Jmp(pc),a0	Un signal si JMP!
 	bsr	Str_Print
 	ENDC
@@ -2253,37 +2270,37 @@ Ext_OldLabel
 ;	Table de conversion des labels AMOSPro 1.0 >>> AMOSPro 2.0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ext_Convert
-	dc.w	1024,L_Error			
-	dc.w	1025,L_ErrorExt		
-	dc.w	207,L_Test_PaSaut	
-	dc.w	956,L_WaitRout		
-	dc.w	287,L_GetEc			
-	dc.w	46,L_Demande		
-	dc.w	432,L_RamFast		
-	dc.w	433,L_RamChip		
-	dc.w	434,L_RamFast2		
-	dc.w	435,L_RamChip2		
-	dc.w	436,L_RamFree		
-	dc.w	1100,L_Bnk.GetAdr		
-	dc.w	1101,L_Bnk.GetBobs		
-	dc.w	1102,L_Bnk.GetIcons		
-	dc.w	1103,L_Bnk.Reserve		
-	dc.w	1104,L_Bnk.Eff		
-	dc.w	1105,L_Bnk.EffA0		
-	dc.w	1106,L_Bnk.EffTemp		
-	dc.w	1107,L_Bnk.EffAll		
+	dc.w	1024,L_Error
+	dc.w	1025,L_ErrorExt
+	dc.w	207,L_Test_PaSaut
+	dc.w	956,L_WaitRout
+	dc.w	287,L_GetEc
+	dc.w	46,L_Demande
+	dc.w	432,L_RamFast
+	dc.w	433,L_RamChip
+	dc.w	434,L_RamFast2
+	dc.w	435,L_RamChip2
+	dc.w	436,L_RamFree
+	dc.w	1100,L_Bnk.GetAdr
+	dc.w	1101,L_Bnk.GetBobs
+	dc.w	1102,L_Bnk.GetIcons
+	dc.w	1103,L_Bnk.Reserve
+	dc.w	1104,L_Bnk.Eff
+	dc.w	1105,L_Bnk.EffA0
+	dc.w	1106,L_Bnk.EffTemp
+	dc.w	1107,L_Bnk.EffAll
 	dc.w	1234,L_Bnk.Change
 	dc.w	1121,L_Bnk.OrAdr
-	dc.w	1119,L_Dsk.PathIt		
-	dc.w	1120,L_Dsk.FileSelector	
-	dc.w	1122,L_Dev.Open		
-	dc.w	1123,L_Dev.Close		
-	dc.w	1124,L_Dev.GetIO		
-	dc.w	1125,L_Dev.AbortIO		
-	dc.w	1126,L_Dev.DoIO		
-	dc.w	1127,L_Dev.SendIO		
-	dc.w	1128,L_Dev.CheckIO		
-	dc.w	1129,L_Dev.Error		
+	dc.w	1119,L_Dsk.PathIt
+	dc.w	1120,L_Dsk.FileSelector
+	dc.w	1122,L_Dev.Open
+	dc.w	1123,L_Dev.Close
+	dc.w	1124,L_Dev.GetIO
+	dc.w	1125,L_Dev.AbortIO
+	dc.w	1126,L_Dev.DoIO
+	dc.w	1127,L_Dev.SendIO
+	dc.w	1128,L_Dev.CheckIO
+	dc.w	1129,L_Dev.Error
 	dc.w	0,0
 
 ;	Charge la routine dans le buffer
@@ -2312,7 +2329,7 @@ Ldcl1	bsr	F_Read
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -2324,7 +2341,7 @@ Ldcl1	bsr	F_Read
 ; Table des sauts pour les instructions particulieres
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Inst_Jumps
-	dc.l	0			F8-	
+	dc.l	0			F8-
 	dc.l	0			F9-
 	bra	InGlobal		FA-Global (Nouvelle maniere)
 	bra	InShared		FB-Shared
@@ -2344,7 +2361,7 @@ Inst_Jumps
 	bra	InDim			09-DIM
 	bra	InPrint			0A-Print
 	bra	InHPrint		0B-Print #
-	bra	InInput			0C-Input 
+	bra	InInput			0C-Input
 	bra	InInputD		0D-Input #
 	bra	InDec			0E-Dec
 	bra	InProc			0F-Proc
@@ -2399,18 +2416,18 @@ Inst_Jumps
 	bra	InOnError		40-OnError
 	bra	InOnBreak		41-OnBreak
 	bra	InOnMenu		42-OnMenu
-	bra	InOn			43-On		
-	bra	InResume		44-Resume	
-	bra	InResumeLabel		45-ResLabel	
-	bra	InPopProc		46-PopProc	
-	bra	InEvery			47-Every	
+	bra	InOn			43-On
+	bra	InResume		44-Resume
+	bra	InResumeLabel		45-ResLabel
+	bra	InPopProc		46-PopProc
+	bra	InEvery			47-Every
 	bra	InLPrint		48-LPrint
 	bra	InLineInput		49-Line Input
 	bra	InLineInputD		4A-Line Input #
 	bra	InMid3			4B-Mid3
 	bra	InMid2			4C-Mid2
 	bra	InLeft			4D-Left
-	bra	InRight			4E-Right                
+	bra	InRight			4E-Right
 	bra	InAdd4			4F-Add 4 params
 	bra	InDialogs		50-Instruction dialog
 	bra	InDir			51-Instruction DIR
@@ -2430,7 +2447,7 @@ Err_SyntaxLGoto
 	bra	Err_Syntax
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;	Appel d'une instruction d'extension 					
+;	Appel d'une instruction d'extension
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 InExtension
 ; - - - - - - - - - - - - -
@@ -2559,7 +2576,7 @@ InParamsPush
 	bra.s	InP
 InParams
 	clr.w	-(sp)			Ne pas pousser!
-InP	
+InP
 	move.b	(a0)+,d0		Prend le parametre
 	bmi.s	.Exit
 .Loop	move.l	a0,-(sp)
@@ -2590,7 +2607,7 @@ FnNormal
 	lea	0(a0,d0.w),a0		Pointe la fonction
 	move.w	2(a0),d0		D0= # de fonction
 FnNormal2
-	bsr	Get_FnParams		
+	bsr	Get_FnParams
 	bsr	Do_JsrLibrary
 	bra	Set_F_Autre
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -2618,7 +2635,7 @@ FnExtension
 	move.w	d0,-(sp)		Sauver les registres
 	move.w	#L_SaveRegs,d0
 	bsr	Do_JsrLibrary
-	move.w	(sp)+,d0	
+	move.w	(sp)+,d0
 	bsr	Do_JsrExtLibrary	Appeler la fonction
 	move.w	#L_LoadRegs,d0		Recharger les registres
 	bsr	Do_JsrLibrary
@@ -2638,7 +2655,7 @@ Get_FnParamsPush
 	bra.s	InFnP
 Get_FnParams
 	clr.w	-(sp)			Ne pas pousser le dernier
-InFnP	
+InFnP
 	move.w	d0,-(sp)
 	move.w	Type_Voulu(a5),-(sp)
 	move.w	Type_Eu(a5),-(sp)	Pour fonctions ABS / INT etc...
@@ -2691,11 +2708,11 @@ InFnP
 	addq.l	#2,a6			Saute le separateur en vrai
 	move.b	(a0)+,d0		Parametre suivant
 	bra.s	.Loop
-.Fini	
+.Fini
 	tst.w	4*2(sp)			Pousser le dernier?
 	beq.s	.NoPush
 	bsr	Push_D2			Pousse le parametre
-.NoPush	
+.NoPush
 	move.w	(sp)+,d2
 	cmp.w	#4,d2			Fonction speciale (ABS/INT)
 	bne.s	.NoPar
@@ -2709,7 +2726,7 @@ InFnP
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -2736,13 +2753,13 @@ S_Chaines	rs.l	1		32
 ;		Flags des fonctions
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 F_Autre		equ	0		Autre
-F_Locale	equ	2		Variable locale 
+F_Locale	equ	2		Variable locale
 F_Globale	equ	4		Variable globale
 F_Tableau	equ	6		Variable tableau
 F_MoveE		equ	8		MoveE
 F_MoveF		equ	10		MoveF
 F_MoveD		equ	12		MoveD
-F_MoveS		equ	14		MoveS              
+F_MoveS		equ	14		MoveS
 
 F_Empile	equ	30		L'operateur vient d'etre empile
 F_Depile	equ	29		L'operateur vient d'etre depile
@@ -2812,7 +2829,7 @@ MathDouble
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Fn_New_Evalue
 	addq.l	#2,a6
-New_Evalue	
+New_Evalue
 	move.w	#$7FFF,d0
 	bra.s	Eva1
 
@@ -2930,7 +2947,7 @@ Optimise_D2
 	bsr	Set_F_Autre
 .Autre	movem.l	(sp)+,a0/a1/d0/d1
 	rts
-	
+
 ; 	Pousse l'operande actuel D2
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Push_D2:
@@ -2951,7 +2968,7 @@ Push_D2:
 ; Une fonction: on pousse simplement
 .Autre	cmp.b	#1,d2			Si double
 	bne.s	.Skip
-	tst.b	MathFlags(a5)	
+	tst.b	MathFlags(a5)
 	bmi.s	.MoveD
 .Skip	bset	#F_Empile,d2		Le flag
 	move.l	a4,S_Pile(a0)		L'adresse dans le script
@@ -2981,10 +2998,10 @@ Push_D2:
 	addq.l	#2,a4
 	bra.s	.Out
 ; Une variable globale: transforme le move.l V(a0),d3 en move.l V(a0),-(a3)
-.VGlobal	
+.VGlobal
 	subq.l	#4,a4
 	move.l	a4,S_Pile(a0)
-	move.w	Cmv2a0ma3(pc),d0	
+	move.w	Cmv2a0ma3(pc),d0
 	bsr	OutWord
 	addq.l	#2,a4
 	bra.s	.Out
@@ -3032,10 +3049,10 @@ Pull_D5:
 .Non	moveq	#0,d0			Impossible!
 	bra.s	.Out
 .Oui	bsr	S_ReposD2		Met en D2
-.Oui2	moveq	#1,d0	
+.Oui2	moveq	#1,d0
 .Out	movem.l	(sp)+,a0/d0
 	rts
-.VLocal	
+.VLocal
 	move.w	Cmv2a6d3(pc),d0
 	bra.s	.VFini
 .VGlobal
@@ -3067,7 +3084,7 @@ Pull_D5:
 	bpl.s	.Oui2
 	subq.l	#2,a4			C'est un movem!
 	bra.s	.Oui2
-	
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	LES OPERATEURS
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -3080,7 +3097,7 @@ Pull_D5:
 	dc.b 	" or"," "+$80,"O00",-1
 	bra	OP_And
 	dc.b 	" and"," "+$80,"O00",-1
-	bra	OP_Diff		
+	bra	OP_Diff
 	dc.b 	"<",">"+$80,"O20",-1
 	bra	OP_Diff
 	dc.b 	">","<"+$80,"O20",-1
@@ -3118,12 +3135,12 @@ OP_Jmp	dc.l 	0
 OP_Plus
 	bsr	OP_Compat		Meme type
 	lea	.Plus(pc),a0
-	bra	OP_General	
+	bra	OP_General
 ; Tableau de branchement aux fonction PLUS
 ;    \ 	B=	A VlVgVtMeMfMdMs
 ; A   \	        | | | | | | | |
 .Plus	dc.b	0,4,5,6,2,0,0,0		A= Autre
-	dc.b	0,4,5,6,2,0,0,0		A= Variable locale 
+	dc.b	0,4,5,6,2,0,0,0		A= Variable locale
 	dc.b	0,4,5,6,2,0,0,0		A= Variable globale
 	dc.b	0,4,5,6,2,0,0,0		A= Variable tableau
 	dc.b	3,4,5,6,1,0,0,0		A= MoveE
@@ -3172,7 +3189,7 @@ OP_Plus
 .F2m	cmp.l	#-8,d1			subq possible?
 	blt.s	.F2n
 	neg.l	d1
-	move.w	Csubqd3(pc),d0	
+	move.w	Csubqd3(pc),d0
 	and.w	#%1111000111111111,d0
 .F2x	and.w	#$07,d1
 	lsl.w	#8,d1
@@ -3190,7 +3207,7 @@ OP_Plus
 	move.l	d5,d2
 	rts
 ; B est une variable locale
-.F4	tst.w	d2			On veut des entier	
+.F4	tst.w	d2			On veut des entier
 	bne	.F0
 	move.w	S_Var(a1),d1		Le delta de la variable
 	bsr	Pull_D5			On peut depiler?
@@ -3201,14 +3218,14 @@ OP_Plus
 	bsr	OutWord
 	bra	Set_F_Autre
 ; B est une variable globale
-.F5	tst.w	d2			On veut des entiers	
+.F5	tst.w	d2			On veut des entiers
 	bne	.F0
 	move.w	S_Var(a1),d1		Le delta de la variable
 	bsr	Pull_D5			On peut depiler?
 	beq	.F0
 	move.w	Cmvd7a0(pc),d0		Resort la variable
 	bsr	OutWord
-	move.w	Cadd2a0d3(pc),d0	
+	move.w	Cadd2a0d3(pc),d0
 	bsr	OutWord
 	move.w	d1,d0
 	bsr	OutWord
@@ -3219,12 +3236,12 @@ OP_Plus
 OP_Moins
 	bsr	OP_Compat		Meme type
 	lea	.Table(pc),a0
-	bra	OP_General	
+	bra	OP_General
 ; Tableau de branchement aux fonction MOINS
 ;    \ 	B=	A VlVgVtMeMfMdMs
 ; A   \	        | | | | | | | |
 .Table	dc.b	0,4,5,6,2,0,0,0		A= Autre
-	dc.b	0,4,5,6,2,0,0,0		A= Variable locale 
+	dc.b	0,4,5,6,2,0,0,0		A= Variable locale
 	dc.b	0,4,5,6,2,0,0,0		A= Variable globale
 	dc.b	0,4,5,6,2,0,0,0		A= Variable tableau
 	dc.b	3,4,5,6,1,0,0,0		A= MoveE
@@ -3275,7 +3292,7 @@ OP_Moins
 .F2m	cmp.l	#-8,d1			addq possible?
 	blt.s	.F2n
 	neg.l	d1
-	move.w	Caddqd3(pc),d0	
+	move.w	Caddqd3(pc),d0
 	and.w	#%1111000111111111,d0
 .F2x	and.w	#$07,d1
 	lsl.w	#8,d1
@@ -3293,7 +3310,7 @@ OP_Moins
 	move.l	d5,d2
 	rts
 ; B est une variable locale
-.F4	tst.w	d2			On veut des entier	
+.F4	tst.w	d2			On veut des entier
 	bne	.F0
 	move.w	S_Var(a1),d1
 	bsr	Pull_D5			On peut depiler?
@@ -3304,14 +3321,14 @@ OP_Moins
 	bsr	OutWord
 	bra	Set_F_Autre
 ; B est une variable globale
-.F5	tst.w	d2			On veut des entier	
+.F5	tst.w	d2			On veut des entier
 	bne	.F0
 	move.w	S_Var(a1),d1
 	bsr	Pull_D5			On peut depiler?
 	beq	.F0
 	move.w	Cmvd7a0(pc),d0		On ressort la variable
 	bsr	OutWord
-	move.w	Csub2a0d3(pc),d0	
+	move.w	Csub2a0d3(pc),d0
 	bsr	OutWord
 	move.w	d1,d0
 	bsr	OutWord
@@ -3322,12 +3339,12 @@ OP_Moins
 OP_Multiplie
 	bsr	OP_Compat		Meme type
 	lea	.Table(pc),a0
-	bra	OP_General	
+	bra	OP_General
 ; Tableau de branchement aux fonction MULTIPLIE
 ;    \ 	B=	A VlVgVtMeMfMdMs
 ; A   \	        | | | | | | | |
 .Table	dc.b	0,0,0,0,2,0,0,0		A= Autre
-	dc.b	0,0,0,0,2,0,0,0		A= Variable locale 
+	dc.b	0,0,0,0,2,0,0,0		A= Variable locale
 	dc.b	0,0,0,0,2,0,0,0		A= Variable globale
 	dc.b	0,0,0,0,2,0,0,0		A= Variable tableau
 	dc.b	3,3,3,3,1,0,0,0		A= MoveE
@@ -3388,18 +3405,18 @@ OP_Multiplie
 OP_Divise
 	bsr	OP_Compat		Meme type
 	lea	.Table(pc),a0
-	bra	OP_General	
+	bra	OP_General
 ; Tableau de branchement aux fonction MULTIPLIE
 ;    \ 	B=	A VlVgVtMeMfMdMs
 ; A   \	        | | | | | | | |
 .Table	dc.b	0,0,0,0,2,0,0,0		A= Autre
-	dc.b	0,0,0,0,2,0,0,0		A= Variable locale 
+	dc.b	0,0,0,0,2,0,0,0		A= Variable locale
 	dc.b	0,0,0,0,2,0,0,0		A= Variable globale
 	dc.b	0,0,0,0,2,0,0,0		A= Variable tableau
 	dc.b	0,0,0,0,1,0,0,0		A= MoveE
 	dc.b	0,0,0,0,0,0,0,0		A= MoveF
 	dc.b	0,0,0,0,0,0,0,0		A= MoveD
-	dc.b	0,0,0,0,0,0,0,0		A= MoveS              
+	dc.b	0,0,0,0,0,0,0,0		A= MoveS
 	bra	.F0			La fonction standart
 	bra	.F1			Deux constantes entieres
 	bra	.F2			"B" est une constante entiere
@@ -3437,7 +3454,7 @@ OP_Divise
 	bsr	OutWord
 	bra	Set_F_Autre
 
-; 	Operateur general 	
+; 	Operateur general
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 OP_General
 	move.w	d6,d0			A*8
@@ -3455,29 +3472,29 @@ OP_General
 ;	Operateurs de comparaison
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 OP_Egal	bsr	OP_Compat
-	bsr	Optimise_D2		
+	bsr	Optimise_D2
 	lea	COP_Egal(pc),a0
 	bra.s	OP_Comp
 OP_Diff	bsr	OP_Compat
-	bsr	Optimise_D2		
+	bsr	Optimise_D2
 	lea	COP_Diff(pc),a0
 	bra.s	OP_Comp
 OP_Sup	bsr	OP_Compat
-	bsr	Optimise_D2		
+	bsr	Optimise_D2
 	lea	COP_Sup(pc),a0
 	bra.s	OP_Comp
 OP_Inf	bsr	OP_Compat
-	bsr	Optimise_D2		
+	bsr	Optimise_D2
 	lea	COP_Inf(pc),a0
 	bra.s	OP_Comp
 OP_SupEg
 	bsr	OP_Compat
-	bsr	Optimise_D2		
+	bsr	Optimise_D2
 	lea	COP_SupEg(pc),a0
 	bra.s	OP_Comp
 OP_InfEg
 	bsr	OP_Compat
-	bsr	Optimise_D2		
+	bsr	Optimise_D2
 	lea	COP_InfEg(pc),a0
 OP_Comp	tst.w	d2			Si entier
 	bne.s	.Lib
@@ -3502,10 +3519,10 @@ OP_Comp	tst.w	d2			Si entier
 
 ;	Codes rapide des operateurs de comparaison
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-COP_Egal				
+COP_Egal
 	cmp.l	(a3)+,d3		Code comparaison egal
 	seq	d3
-COP_Diff				
+COP_Diff
 	cmp.l	(a3)+,d3		Code comparaison different
 	sne	d3
 COP_Sup
@@ -3552,13 +3569,13 @@ OP_Or	lea	COP_Or(pc),a0
 COP_And	and.l	(a3)+,d3		0= normal
 	and.l	#0,d3			2= B constante
 	and.l	2(a6),d3		8= B variable locale
-	and.l	2(a0),d3		12 B variable globale / 
+	and.l	2(a0),d3		12 B variable globale /
 	and.l	d1,d0			16 Immediat
 	rts
 COP_Or	or.l	(a3)+,d3		0= normal
 	or.l	#0,d3			2= B constante
 	or.l	2(a6),d3		8= B variable locale
-	or.l	2(a0),d3		12 B variable globale / 
+	or.l	2(a0),d3		12 B variable globale /
 	or.l	d1,d0			16 Immediat
 	rts
 
@@ -3569,12 +3586,12 @@ OP_Logique
 	move.l	a0,-(sp)
 	bsr	OP_Quentiers		Meme type
 	lea	.Table(pc),a0
-	bra	OP_General	
-; Tableau de branchement aux fonction 
+	bra	OP_General
+; Tableau de branchement aux fonction
 ;    \ 	B=	A VlVgVtMeMfMdMs
 ; A   \	        | | | | | | | |
 .Table	dc.b	0,4,5,6,2,0,0,0		A= Autre
-	dc.b	0,4,5,6,2,0,0,0		A= Variable locale 
+	dc.b	0,4,5,6,2,0,0,0		A= Variable locale
 	dc.b	0,4,5,6,2,0,0,0		A= Variable globale
 	dc.b	0,4,5,6,2,0,0,0		A= Variable tableau
 	dc.b	3,4,5,6,1,0,0,0		A= MoveE
@@ -3617,7 +3634,7 @@ OP_Logique
 	bsr	OutLong
 	bra	Set_F_Autre
 ; B est une variable locale
-.F4	tst.w	d2			On veut des entier	
+.F4	tst.w	d2			On veut des entier
 	bne	.F0
 	move.w	S_Var(a1),d1
 	bsr	Pull_D5			On peut depiler?
@@ -3629,7 +3646,7 @@ OP_Logique
 	bsr	OutWord
 	bra	Set_F_Autre
 ; B est une variable globale
-.F5	tst.w	d2			On veut des entier	
+.F5	tst.w	d2			On veut des entier
 	bne	.F0
 	move.w	S_Var(a1),d1
 	bsr	Pull_D5			On peut depiler?
@@ -3649,12 +3666,12 @@ OP_Logique
 OP_Xor
 	bsr	OP_Quentiers		Meme type
 	lea	.Table(pc),a0
-	bra	OP_General	
+	bra	OP_General
 ; Tableau de branchement aux fonction PLUS
 ;    \ 	B=	A VlVgVtMeMfMdMs
 ; A   \	        | | | | | | | |
 .Table	dc.b	0,4,5,6,2,0,0,0		A= Autre
-	dc.b	0,4,5,6,2,0,0,0		A= Variable locale 
+	dc.b	0,4,5,6,2,0,0,0		A= Variable locale
 	dc.b	0,4,5,6,2,0,0,0		A= Variable globale
 	dc.b	0,4,5,6,2,0,0,0		A= Variable tableau
 	dc.b	3,4,5,6,1,0,0,0		A= MoveE
@@ -3694,7 +3711,7 @@ OP_Xor
 	bsr	OutLong
 	bra	Set_F_Autre
 ; B est une variable locale
-.F4	tst.w	d2			On veut des entier	
+.F4	tst.w	d2			On veut des entier
 	bne	.F0
 	move.w	S_Var(a1),d1
 	bsr	Pull_D5			On peut depiler?
@@ -3706,14 +3723,14 @@ OP_Xor
 	bsr	OutWord
 	bra.s	.XSuit
 ; B est une variable globale
-.F5	tst.w	d2			On veut des entier	
+.F5	tst.w	d2			On veut des entier
 	bne	.F0
 	move.w	S_Var(a1),d1
 	bsr	Pull_D5			On peut depiler?
 	beq	.F0
 	move.w	Cmvd7a0(pc),d0		On ressort la variable
 	bsr	OutWord
-	move.w	OP_Xor4(pc),d0	
+	move.w	OP_Xor4(pc),d0
 	bsr	OutWord
 	move.w	d1,d0
 	bsr	OutWord
@@ -3893,7 +3910,7 @@ ReOut_ConstD2
 	bsr	OutLong
 	movem.l	(sp)+,a4/d0
 	rts
-	
+
 ; 	Ressort la constante en D5
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ReOut_ConstD5
@@ -3924,7 +3941,7 @@ S_Script_D2
 	move.l	a0,A_Script(a5)
 	rts
 
-; 	Recharge la position dans l'objet juste au debut du dernier 
+; 	Recharge la position dans l'objet juste au debut du dernier
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 S_ReposD2
 	move.l	a0,-(sp)
@@ -3942,7 +3959,7 @@ S_ReposD2
 S_ReposD5
 	movem.l	a0/d0,-(sp)
 	move.l	d7,a0
-	move.w	S_EvaCompteur(a0),d0	
+	move.w	S_EvaCompteur(a0),d0
 	addq.w	#1,d0
 	cmp.w	EvaCompteur(a5),d0		Juste une seule routine
 	bne.s	.Non				devant celle-ci?
@@ -3957,7 +3974,7 @@ S_ReposD5
 S_ReloadD5
 	movem.l	a0/d0,-(sp)
 	move.l	d7,a0
-	move.w	S_EvaCompteur(a0),d0	
+	move.w	S_EvaCompteur(a0),d0
 	addq.w	#1,d0
 	cmp.w	EvaCompteur(a5),d0		Juste une seule routine
 	bne.s	.Non				devant celle-ci?
@@ -4006,7 +4023,7 @@ D2_Entier
 	move.l	d0,S_Cst1(a0)
 	bsr	OutLong
 	moveq	#F_MoveE,d3		Change le type de l'operande
-	rts	
+	rts
 ; Un autre operateur, appelle la librarie
 .Autre	bsr	Cree_FlToInt
 	bra	Set_F_Autre		Plus une constante
@@ -4073,7 +4090,7 @@ D2_Float
 	move.l	d1,d0
 	bsr	OutLong
 	moveq	#F_MoveD,d3		Change le type de l'operande
-	rts	
+	rts
 ; Un autre operateur, appelle la librarie
 .Autre	bsr	Cree_IntToFl
 	bra	Set_F_Autre
@@ -4137,7 +4154,7 @@ Get_Mult2
 	bra.s	.Out
 .Ok	move.l	d2,d1
 .Out	movem.l	(sp)+,d0/d2
-	rts	
+	rts
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	LES FONCTIONS
@@ -4150,14 +4167,14 @@ Func_Jumps
 	dc.l	0			00- Normal
 	bra	Err_Syntax		01= Syntax error!
 	bra	FnNull			02= Evaluation finie
-	bra	FnNull			03= Evaluation finie par une virgule		
+	bra	FnNull			03= Evaluation finie par une virgule
 	bra	New_Evalue		04= Ouverture de parenthese
 	bra	FnVal			05= Val
 	bra	FnExtension		06= Extension
 	bra	FnVariable		07= Variable
 	bra	FnVarptr		08= Varptr
 	bra	FnFn			09= FN
-	bra	FnNot			0A= Not	
+	bra	FnNot			0A= Not
 	bra	FnXYMenu		0B= XYmenu
 	bra	FnEqu			0C= Equ
 	bra	FnMatch			0D= Sort
@@ -4173,7 +4190,7 @@ Func_Jumps
 	bra	FnConstChaine		17= Constante String
 	dc.l	0			18= Instruction + Fonction
 	dc.l	0			19- Deja teste!
-	dc.l	0			1A- Variable reservee     
+	dc.l	0			1A- Variable reservee
 	bra	FnParamE		1B- Param entier
 	bra	FnParamF		1C- Param float
 	bra	FnParamS		1D- Param string
@@ -4202,7 +4219,7 @@ FnDialogs
 ;	=VAL(a$)
 ; ~~~~~~~~~~~~~~
 FnVal	bsr	Fn_New_Evalue
-	move.w	Type_Voulu(a5),d0	
+	move.w	Type_Voulu(a5),d0
 	bmi.s	.Nondet
 	move.b	.Types(pc,d0.w),d2
 	bmi.s	.Nondet
@@ -4249,7 +4266,7 @@ GStruc	bsr	GetLong			Equate
 	bsr	Fn_New_Evalue		Saute la chaine
 	bsr	RestOut
 	move.w	Cmvqd0(pc),d0		Sort le type
-	move.w	(sp)+,d1	
+	move.w	(sp)+,d1
 	move.b	d1,d0
 	bsr	OutWord
 	move.w	Caddid3(pc),d0		Add.l #,d3
@@ -4424,7 +4441,7 @@ FnNull	moveq	#0,d2
 	move.l	#EntNul,d0
 	subq.l	#2,a6			Reste sur la virgule
 	bra	Out_MoveE
-	
+
 ;	Constante entiere / hex / bin
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 FnConstEnt
@@ -4448,7 +4465,7 @@ FnConstFloat
 	moveq	#F_MoveF,d3
 	rts
 .Dble	move.w	Cmvid4(pc),d0		Move.l	#xxx,d4
-	bsr	OutWord	
+	bsr	OutWord
 	bsr	GetLong
 	bsr	Float2Double		Conversion
 	move.l	d4,a0
@@ -4486,7 +4503,7 @@ FnConstDouble
 	moveq	#F_MoveD,d3
 	rts
 .Float	move.w	Cmvid3(pc),d0		Move.l	#xxx,d3
-	bsr	OutWord		
+	bsr	OutWord
 	bsr	GetLong
 	move.l	d0,d1
 	bsr	GetLong
@@ -4561,7 +4578,7 @@ InVariable2
 	bsr	SoVar
 	move.w	d0,d1
 	and.w	#$000F,d0
-	move.w	d0,Type_Voulu(a5)	Marque le type desiré
+	move.w	d0,Type_Voulu(a5)	Marque le type desir�
 	move.w	d1,-(sp)
 	bsr	Fn_Evalue_Voulu		Evalue correctement
 	bsr	Optimise_D2		Optimise le dernier
@@ -4597,7 +4614,7 @@ InVariable2
 	move.w	Cmva3p0a0(pc),d0
 	bra	OutWord
 ; Une variable double
-InVDble	
+InVDble
 .J	jmp	.Jmp(pc,d1.w)
 .Jmp	bra.s	.Locale
 	bra.s	.Globale
@@ -4672,7 +4689,7 @@ FnVariable
 .Jmp	bra.s	.Locale
 	bra.s	.Globale
 	bra.s	.Tableau
-.Globale	
+.Globale
 	move.w	Cmv2a0d3(pc),d0
 	bsr	OutWord
 	move.w	d3,d0
@@ -4702,7 +4719,7 @@ FnVDble	jmp	.Jmp(pc,d1.w)
 .Jmp	bra.s	.Locale
 	bra.s	.Globale
 	bra.s	.Tableau
-.Globale	
+.Globale
 	move.w	Cmv2a0d3(pc),d0
 	move.w	Cmv2a0d4(pc),d1
 	bra.s	.Fin
@@ -4764,7 +4781,7 @@ SoInst:	tst.w	d0
 	beq	T0
 	cmp.w	#_TkLGo,d0
 	bls	TVar
-	cmp.w	#_TkCh1,d0	
+	cmp.w	#_TkCh1,d0
 	beq	TCh
 	cmp.w	#_TkCh2,d0
 	beq	TCh
@@ -4787,7 +4804,7 @@ SoInst:	tst.w	d0
 	cmp.w	#_TkDo,d0
 	beq.s	T2
 	cmp.w	#_TkExit,d0
-	beq.s	T4 
+	beq.s	T4
 	cmp.w	#_TkExIf,d0
 	beq.s	T4
 	cmp.w	#_TkIf,d0
@@ -4924,7 +4941,7 @@ VarAdrFn
 	rts
 * PREND le flag de la variable SPECIAL Def Fn
 .VMark	addq.w	#6,d0
-	cmp.b	#1,d2		
+	cmp.b	#1,d2
 	bne.s	.Ent
 	tst.b	MathFlags(a5)		Si double precision: +10!
 	bpl.s	.Ent
@@ -4938,7 +4955,7 @@ VarAdrFn
 ; 	Marque le flag de la variable
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VMark	addq.w	#6,d0			Pour faire multiple de 6
-	cmp.b	#1,d2		
+	cmp.b	#1,d2
 	bne.s	.Ent
 	tst.b	MathFlags(a5)		Si double precision: +10!
 	bpl.s	.Ent
@@ -4985,7 +5002,7 @@ InFollow
 	cmp.w	#_TkVir,d0
 	beq.s	.Loop
 	subq.l	#2,a6
-.Skip	rts	
+.Skip	rts
 
 ;	SET ACCESSORY
 ; ~~~~~~~~~~~~~~~~~~~
@@ -5006,7 +5023,7 @@ InSetBuffer
 InSetStack
 	addq.l	#2,a6
 	bsr	GetLong
-	rts	
+	rts
 
 ;	DIM
 ; ~~~~~~~~~
@@ -5024,7 +5041,7 @@ InDim	bsr	OutLea
 	cmp.w	#_TkVir,d0
 	beq.s	InDim
 	subq.l	#2,a6
-	rts	
+	rts
 
 ;	=FN
 ; ~~~~~~~~~
@@ -5078,7 +5095,7 @@ InDefFn	bsr	OutLea
 	bsr	GetWord
 	cmp.w	#_TkPar1,d0
 	bne.s	Cdfn2
-* Prend les variables (à l'envers)
+* Prend les variables (� l'envers)
 	clr.w	N_Dfn(a5)
 Cdfn0	addq.l	#2,a6
 	move.l	a6,-(sp)
@@ -5158,8 +5175,8 @@ InAdd2	bsr	OutLea
 	btst	#6,d2			Un tableau?
 	beq.s	.Patab
 	bsr	Fn_Expentier		Oui, pousse l'operande
-	bsr	Push_D2		
-	bra.s	.Suite	
+	bsr	Push_D2
+	bra.s	.Suite
 .Patab	bsr	Fn_Expentier
 .Suite	move.l	(sp),d0
 	move.l	a6,(sp)
@@ -5175,7 +5192,7 @@ InAdd2	bsr	OutLea
 	move.l	8(a0),d0
 	bra	OutLong
 
-;	INC 
+;	INC
 ; ~~~~~~~~~
 InInc	pea	CdInc(pc)
 	bra.s	CIncDec
@@ -5210,7 +5227,7 @@ CdDec	subq.l	#1,2(a6)
 CdAdd2	add.l	d3,2(a6)		0
 	add.l	d3,2(a0)		4
 	move.l	(a3)+,d0		8
-	add.l	d0,(a0)	
+	add.l	d0,(a0)
 
 ;	ADD a,b,c to d
 ; ~~~~~~~~~~~~~~~~~~~~
@@ -5275,7 +5292,7 @@ CDt2	move.w	Cnop(pc),d0		Signal-> DATAS!
 	move.l	a4,A_JDatas(a5)
 	move.l	A_EDatas(a5),d0
 	bsr	OutLong
-	move.w	Crts(pc),d0	
+	move.w	Crts(pc),d0
 	bsr	OutWord
 	bsr	GetWord
 	cmp.w	#_TkVir,d0
@@ -5422,7 +5439,7 @@ Cp12:   bsr 	Do_JsrLibrary
 ; Imprime!
 Cp13	move.w	#L_PrintX,d0
 	tst.w	(sp)
-	beq.s	Cp14	
+	beq.s	Cp14
 	move.w	#L_LPrintX,d0
 	tst.w	(sp)
 	bpl.s	Cp14
@@ -5462,7 +5479,7 @@ InLineInput
 	move.w	#L_InLineInput,-(sp)
         bra.s 	CIn1
 ;----------------------------------> INPUT
-InInput  
+InInput
 	clr.w	-(sp)
 	move.w	#L_InInput,-(sp)
 CIn1:  	bset	#F_Input,Flag_Libraries(a5)
@@ -5609,15 +5626,15 @@ InFade	bsr	OutLea
 	bsr	Expentier		La duree
 	bsr	Push_D2			Poussee
 	bsr	GetWord
-	move.w	#L_InFadePal,-(sp)	
+	move.w	#L_InFadePal,-(sp)
 	cmp.w	#_TkVir,d0		Une palette >>> routine palette!
 	beq.s	CPal0
 	cmp.w	#_TkTo,d0		To?
 	beq.s	CFad1
-	subq.l	#2,a6		
+	subq.l	#2,a6
 	move.w	#L_InFade1,(sp)		Fade X
 	bra	CFadX
-CFad1	move.w	#L_InFade2,(sp)		
+CFad1	move.w	#L_InFade2,(sp)
 	bsr	Expentier
 	bsr	Push_D2
 	bsr	GetWord
@@ -5671,7 +5688,7 @@ CPol1	addq.w	#1,(sp)
 ; 	BSET / BCLR etc..
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-;	BSET/ROR etc...  
+;	BSET/ROR etc...
 ; ~~~~~~~~~~~~~~~~~
 FnBtst	movem.l	d2-d7,-(sp)
 	addq.l	#2,a6
@@ -5709,7 +5726,7 @@ BsR2	cmp.w	#_TkPar2,d0
 ; Une adresse
 BsR3	addq.w	#1,4(sp)		Pointe la fonction suivante
 	subq.l	#2,a6			Revient sur l'expression
-	bsr	Expentier	
+	bsr	Expentier
 * Fin...
 BsR4	move.l	(sp)+,A_Stock(a5)
 	move.w	(sp)+,d0
@@ -5784,7 +5801,7 @@ InStruc	bsr	OutLea
 	bsr	Fn_Expentier
 	move.w	#L_InStruc,d0
 	bra	Do_JsrLibrary
-InStrucD	
+InStrucD
 	bsr	OutLea
 	bsr	GStruc
 	move.w	Cmvd3ma3(pc),d0
@@ -5840,7 +5857,7 @@ InChannel
 	beq.s	CChaX
 	move.w	#L_ChannelToBob,d1
 	cmp.w	#_TkBob,d0
-	beq.s	CChaX		
+	beq.s	CChaX
 	move.w	#L_ChannelToSDisplay,d1
 	cmp.w	#_TkScD,d0
 	beq.s	CChaX
@@ -5926,7 +5943,7 @@ InMenuFlags
 	bsr	MnPar
 	move.w	(sp)+,d0
 	bra	Do_JsrLibrary
-	
+
 ;-----> MENU KEY
 InMenuKey
 	bset	#F_Menus,Flag_Libraries(a5)
@@ -5934,7 +5951,7 @@ InMenuKey
 	move.l	a6,-(sp)
 	bsr	StockOut
 	bsr	MnPar
-	bsr	GetWord	
+	bsr	GetWord
 	cmp.w	#_TkTo,d0
 	beq.s	Cmnk1
 * MENU KEY (,,) seul
@@ -5953,7 +5970,7 @@ Cmnk1	bsr	RestOut
 .Skip	bsr	Optimise_D2		Optimise
 	bsr	Push_D2			Pousse
 	cmp.b	#2,d2			Chaine!
-	beq.s	Cmnk2	
+	beq.s	Cmnk2
 	move.w	#L_InMenuKey2,(sp)
 	bsr	GetWord
 	subq.l	#2,a6
@@ -6018,7 +6035,7 @@ MnPar	bsr	GetWord
 ; Un objet de menu
 MPar1	clr.w	-(sp)
 MPar2	addq.w	#1,(sp)
-	bsr	Expentier	
+	bsr	Expentier
 	bsr	Push_D2
 	bsr	GetWord
 	cmp.w	#_TkVir,d0
@@ -6212,9 +6229,9 @@ CFor5	move.w	d7,-(sp)
         move.l 	A_Bcles(a5),a1
 	move.w	4(sp),(a1)+		; 0  Flag rapide
 	move.w	6(sp),(a1)+		; 2  Type
-	move.l	(sp),(a1)+		; 4  Step	
+	move.l	(sp),(a1)+		; 4  Step
 	move.l	a4,(a1)+		; 8  Adresse dans le programme
-	move.w	M_ForNext(a5),(a1)+	; 12 Position de la boucle 
+	move.w	M_ForNext(a5),(a1)+	; 12 Position de la boucle
 	move.w	#16,(a1)+		; 14 Taille FOR/NEXT
         move.l 	a1,A_Bcles(a5)
 ; Un FOR/NEXT de plus!
@@ -6230,10 +6247,10 @@ forcd2:	move.l	Cmp_AForNext(a5),a2
 	dc.w	$4321
 
 ;-----------------------------------> NEXT
-InNext:  
+InNext:
 	bsr	OutLea
 	bsr	CTests
-; Saute la variable	
+; Saute la variable
 	bsr	GetWord
 	subq.l	#2,a6
 	cmp.w	#_TkVar,d0
@@ -6292,7 +6309,7 @@ RForNxt	move.l	(a0)+,d0
 	bsr	OutWord
 .Skip1	addq.l	#4,a0
 	rts
-; Code RAPIDE 
+; Code RAPIDE
 CdNx	move.l	Cmp_AForNext(a5),a2
 	lea	0(a2),a2
 	move.l	(a2)+,d0
@@ -6309,11 +6326,11 @@ InRepeat
 	move.l	a4,(a1)+		; 0  6 Adresse boucle
 	bsr	GetWord
 	lea	-2(a6,d0.w),a0
-	move.w	#6,(a1)+		
+	move.w	#6,(a1)+
 	move.l	a1,A_Bcles(a5)
 	addq.w	#1,N_Bcles(a5)
 	rts
-InUntil	
+InUntil
 	bsr	OutLea
 	bsr	CTests
 	bsr	Expentier
@@ -6328,7 +6345,7 @@ InUntil
 	bra	UnPile
 
 ;------------------------------> LOOP
-InLoop	
+InLoop
 	bsr	OutLea
 	bsr	CTests
 	moveq	#0,d5
@@ -6338,7 +6355,7 @@ InLoop
 	bra	UnPile
 
 ;------------------------------> WHILE / WEND
-InWhile	
+InWhile
 	bsr	GetWord
 ; Retour du WEND
 	move.l	A_Bcles(a5),a1
@@ -6357,7 +6374,7 @@ InWhile
 	bsr	RestOut
 	rts
 
-InWend	
+InWend
 	bsr	OutLea
 	bsr	CTests
 	move.l	A_Bcles(a5),a1
@@ -6412,7 +6429,7 @@ CEIf0	bsr	Test_D2
 	move.w	Cbne(pc),d7
 	bsr	DoTest
 	rts
-InExit	
+InExit
 	bsr	GetWord
 	move.w	d0,d1
 	bsr	GetWord
@@ -6449,7 +6466,7 @@ InIf	bsr	OutLea
 .ElseIf	clr.l	-(sp)			Adresse du premier BRA
 	clr.l	-(sp)			Adresse de fin de l'expression
 	move.w	#-1,-(sp)		Flag ELSE IF!
-	pea	0(a6,d0.w)		Pousse l'adresse 
+	pea	0(a6,d0.w)		Pousse l'adresse
 	bsr	Expentier		Evalue l'expression
 	move.l	a6,6(sp)
 	bsr	Test_D2
@@ -6598,10 +6615,10 @@ InLabel	move.w	N_Proc(a5),d7
 	move.l	a4,2(a2)
 	rts
 
-;-----> GOTO 
-InLabelGoto	
+;-----> GOTO
+InLabelGoto
 	subq.l	#2,a6
-InGoto	
+InGoto
 	bsr	OutLea
 	bsr	CTests
 	move.w	N_Proc(a5),d7
@@ -6610,7 +6627,7 @@ CGoto1	move.w	Cjmpa0(pc),d0
 	bra	OutWord
 
 ;-----> EVERY n GOSUB / PROC
-InEvery	
+InEvery
 	bsr	Expentier
 	bsr	Push_D2
 	bsr	GetWord
@@ -6770,11 +6787,11 @@ CallLabelFixe
 	sub.l	B_Labels(a5),d0		En relatif / Debut du buffer
 	or.l	#Rel_Label,d0
 	bra	OutLong
-	
+
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; ROUTINE -> adresse d'un label
 ; OUT >>> lea label,a0
-; Retour VRAI si FIXE / FAUX si variable 					
+; Retour VRAI si FIXE / FAUX si variable
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 GetLabel
 	bsr	GetWord
@@ -6782,7 +6799,7 @@ GetLabel
 	beq	Cglab1
 	cmp.w	#_TkPro,d0
 	beq	Cglab1
-; Expression 
+; Expression
 	subq.w	#2,a6
 	addq.w	#1,Cpt_Labels(a5)		Copier la table!
 	move.b	#-1,Flag_Const(a5)
@@ -6826,7 +6843,7 @@ Clab0b	subq.w	#1,Cpt_Labels(a5)
 	addq.l	#1,d6
 Clab0c	sub.l	a2,d6
 	move.w	d6,d5
-	lsr.w	#1,d5	
+	lsr.w	#1,d5
 	bsr	CLabBis
 	bra.s	Cglab0
 ; Label simple
@@ -6928,7 +6945,7 @@ Chxx5:  dbra 	d4,Chxx0
 Cmdx:   dc.l 	1000000000,100000000,10000000,1000000
         dc.l 	100000,10000,1000,100,10,1,0
 
-* ROUTINE -> BRA/JMP 
+* ROUTINE -> BRA/JMP
 * D5= adresse en AVANT
 * D6= adresse en ARRIERE
 DoBra	move.w	Cjmp(pc),d7
@@ -7075,7 +7092,7 @@ CTests	tst.b	Flag_NoTests(a5)
 	bne.s	.Notest
 	move.w	#L_Test_Normal,d0
 	bra	Do_JsrLibrary
-.Notest	move.w	Cmvqd6(pc),d0		Pas de test: remettre D6 à zero!
+.Notest	move.w	Cmvqd6(pc),d0		Pas de test: remettre D6 � zero!
 	move.b	#1,d0
 	bra	OutWord
 
@@ -7361,7 +7378,7 @@ L2ECFBC	ASL.W	#3,D1
 ; 	FABRICATION DU HEADER DU PROGRAMME
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-Header:	
+Header:
 	cmp.b	#3,Flag_Type(a5)
 	beq	HeaderAMOS
 
@@ -7404,7 +7421,7 @@ Header:
 	bsr	F_OpenOld
 	beq	Err_DiskError
 	moveq	#F_Courant,d1		Charge le debut
-	move.l	B_Work(a5),d2	
+	move.l	B_Work(a5),d2
 	moveq	#$20+2,d3
 	bsr	F_Read
 	bne	Err_DiskError
@@ -7428,7 +7445,7 @@ HeaderAMOS
 	move.l	Name1(a5),a0
 	lea	B_HeadAMOS(a5),a1	Charge dans le buffer
 	bsr	Load_InBuffer
-	move.l	a0,a1	
+	move.l	a0,a1
 ; Recopie le header AMOS Professional
 	moveq	#3,d1
 .loop0	move.l	(a1)+,d0
@@ -7477,8 +7494,8 @@ CreeInits
 	beq.s	.AMOS
 	tst.b	Flag_Numbers(a5)
 	beq.s	.Skip
-	move.w	#L_CmpDbMode,d0		Appel de la routine debug 
-	bsr	Do_JsrLibrary	
+	move.w	#L_CmpDbMode,d0		Appel de la routine debug
+	bsr	Do_JsrLibrary
 .Skip	lea	.Code(pc),a0
 	bsr	OutCode
 	move.w	Cjsr(pc),d0		Fait un JSR aux routines
@@ -7583,7 +7600,7 @@ FiniInits
 	dc.w	$4321
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;	Entree Programme / Procedure 					
+;	Entree Programme / Procedure
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 ;	ROUTINE: Entree programme/procedure
@@ -7602,7 +7619,7 @@ PrgIn	move.l	a4,AdAdress(a5)
 	bsr	OutWord
 	bsr	Relocation
 	addq.l	#4,a4
-	move.w	Cleaa2(pc),d0		A2= datas 
+	move.w	Cleaa2(pc),d0		A2= datas
 	bsr	OutWord
 	bsr	Relocation
 	addq.l	#4,a4
@@ -7635,7 +7652,7 @@ PrgIn	move.l	a4,AdAdress(a5)
 	rts
 
 ;	ROUTINE -> Sortie programme/procedures
-;	A0-> flags variables a copier	
+;	A0-> flags variables a copier
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PrgOut	move.l	a4,-(sp)		Adresse des labels
 	move.l	a0,-(sp)		Adresse des flags
@@ -7704,12 +7721,12 @@ PaClb	move.l	(sp),a1
 	bra.s	.Ini
 .Loopi	move.l	(a0)+,d0
 	bsr	OutLong
-.Ini	dbra	d1,.Loopi	
+.Ini	dbra	d1,.Loopi
 
 ; Change les adresses au debut de la procedure
 	move.l	a4,-(sp)
 	move.l	AdAdress(a5),a4
-	addq.l	#2,a4	
+	addq.l	#2,a4
 	move.l	12(sp),d0		D0- Adresse des labels
 	bsr	OutLong
 	addq.l	#2,a4
@@ -7729,10 +7746,10 @@ PaClb	move.l	(sp),a1
 
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; 	ENTREES:  SORTIES 
+; 	ENTREES:  SORTIES
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-Err_Debug	
+Err_Debug
 	illegal
 	rts
 
@@ -7932,7 +7949,7 @@ Cree_ErrorMessageNumber
 	move.l	(sp)+,d0
 	rts
 
-;	Trouve le numéro de la ligne pointee par A6->D0
+;	Trouve le num�ro de la ligne pointee par A6->D0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 FindL	move.l	a6,d2
 	lea	20,a6
@@ -8070,7 +8087,7 @@ AMOSouCLI
 .Loop	tst.b	(a0)+
 	bne.s	.Loop
 .Out	rts
-	
+
 ;	Transforme les "/" en retour chariot / Copie la chaine >>> Buffer
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;Add_Return
@@ -8147,7 +8164,7 @@ multdix:  dc.l 1000000000,100000000,10000000,1000000
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	OUVERTURE / TOKENISATION / TEST du source
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Open_Source:
+Open_Source
 ; - - - - - - - - - - - - -
 	clr.b	MathFlags(a5)		Pas de float par defaut
 ; Affichage
@@ -8406,7 +8423,7 @@ Test_Error
 	move.l	(sp),d0			Numero error message
 	moveq	#-1,d1			Pointer la ligne
 	move.l	4(sp),d2		Numero ligne
-	lea	12(sp),sp	
+	lea	12(sp),sp
 	bra	Go_Error
 ; Routine de copie
 .Copy	move.b	(a0)+,(a1)+
@@ -8414,7 +8431,7 @@ Test_Error
 	subq.l	#1,a1
 	rts
 
-	
+
 ;	ROUTINES GESTION TESTING
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Test_Load
@@ -8472,7 +8489,7 @@ Source_Tokenise
 	add.l	d3,a0
 	clr.b	(a0)
 	moveq	#F_Source,d1
-	bsr	F_Close	
+	bsr	F_Close
 ; Ouvre le programme objet sur disque
 	move.l	Path_Source(a5),a0
 	bsr	Extract_DiskName
@@ -8529,7 +8546,7 @@ Source_Tokenise
 	bra	Err_NotAMOSProgram
 .Z	move.b	#" ",-1(a1)
 	bra.s	.Zero
-.F	clr.b	-1(a1)	
+.F	clr.b	-1(a1)
 	move.l	Ed_BufT(a5),a1		Va tokeniser
 	move.l	B_RToken(a5),a2
 	jsr	(a2)
@@ -8611,7 +8628,7 @@ Token_Remove
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	GESTION DE L'ENTREE DU PROGRAMME
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	
+
 ;-----> Prend un MOT du programme (A6)
 GetWord:tst.b 	Flag_Source(a5)
         bne.s 	.Disk
@@ -8748,7 +8765,7 @@ SoDi2:  bsr 	F_Read
 ; 	Ouverture du programme objet
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Open_Objet
-; Ouvre TOUJOURS en mémoire: reserve le 1er buffer
+; Ouvre TOUJOURS en m�moire: reserve le 1er buffer
 	move.l	#L_Bob,d0
 	add.l	#16,d0
 	lea	BB_Objet_Base(a5),a0
@@ -8792,7 +8809,7 @@ Free_Objet
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;	Sauve/Ferme le programme objet
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Close_Objet	
+Close_Objet
 	moveq	#29,d0				Closing object
 	bsr	Mes_Print
 	move.l	Path_Objet(a5),a0
@@ -8883,7 +8900,7 @@ A4_Pair	move.w	a4,d0
 	and.w	#$0001,d0
 	add.w	d0,a4
 	rts
-; Fait le HUNK	
+; Fait le HUNK
 FHu0	movem.l	d0-d2/a0-a1,-(sp)
 	lsl.w	#3,d1
 	move.l	B_Hunks(a5),a1
@@ -8936,13 +8953,13 @@ Do_JmpLibrary
 Do_JsrLibrary
 	movem.l	d0/a0,-(sp)
         move.l 	d0,a0
-        move.w 	Cjsr2a4(pc),d0     
-CreF:   bsr 	OutWord  
-        bsr 	Lib_Relocation		Pointe la table de relocation ici 
+        move.w 	Cjsr2a4(pc),d0
+CreF:   bsr 	OutWord
+        bsr 	Lib_Relocation		Pointe la table de relocation ici
 	move.w	a0,d0
 	lsl.w	#2,d0
 	neg.w	d0
-        bsr 	OutWord			#ROUTINE.W 
+        bsr 	OutWord			#ROUTINE.W
 ; Met le flag dans buffer
 	move.l	AdTokens(a5),a0
 	bset	#LBF_Called,LB_Flags(a0)
@@ -8964,8 +8981,8 @@ Do_JsrExtLibrary
 	movem.l	d0-d1/a0,-(sp)
         move.w 	d0,a0
         move.w 	Cjsr(pc),d0
-Do_Lib	bsr 	OutWord  
-        bsr 	Relocation		Pointe la table de relocation ici 
+Do_Lib	bsr 	OutWord
+        bsr 	Relocation		Pointe la table de relocation ici
 	lsl.w	#2,d1
 	move.w	d1,d0
 	swap	d0
@@ -8973,7 +8990,7 @@ Do_Lib	bsr 	OutWord
 	lsl.w	#2,d0
 	neg.w	d0
 	or.l	#Rel_Libraries,d0	Marque une librairie externe
-        bsr 	OutLong			#ROUTINE.L 
+        bsr 	OutLong			#ROUTINE.L
 ; Met le flag extension
 	move.l	AdTokens(a5,d1.w),d1
 	beq	Err_ExtensionNotLoaded
@@ -9069,7 +9086,7 @@ Copy_Out
 	bsr	OutWord
 .In	dbra	d1,.Loop
 	rts
-	
+
 ;-----> Copie D3 octets source->objet
 Copy_Source
 	tst.l	d3
@@ -9092,7 +9109,7 @@ GetBob	movem.l	a1/d0/d1,-(sp)
 .loop	move.l	a0,a1
 	move.l	(a0),d1
 	add.l	4(a0),d1
-	cmp.l	d1,a4	
+	cmp.l	d1,a4
 	bcs.s	.loop2
 	move.l	8(a0),d0
 	move.l	d0,a0
@@ -9113,7 +9130,7 @@ GetBob	movem.l	a1/d0/d1,-(sp)
 ; Ok, on peut continuer en memoire!
 .loop2	move.l	a1,BB_Objet(a5)
 	moveq	#0,d0
-	movem.l	(sp)+,a1/d0/d1	
+	movem.l	(sp)+,a1/d0/d1
 	rts
 ; Arghhh! Il faut passer tout sur disque!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -9128,9 +9145,9 @@ GetBob	movem.l	a1/d0/d1,-(sp)
 	bsr	Save_Objet		On sauve!
 	bsr	Free_Objet		On efface tous les buffers
 	moveq	#F_Objet,d1		Demande la longueur du fichier
-	moveq	#0,d2			
+	moveq	#0,d2
 	moveq	#0,d3
-	bsr	F_Seek			
+	bsr	F_Seek
 	move.l	B_Work(a5),d2		Si longueur fichier<longueur programme
 	move.l	a4,d3
 	sub.l	d0,d3
@@ -9149,7 +9166,7 @@ GetBob	movem.l	a1/d0/d1,-(sp)
 ;-----> Poke un BYTE dans l'objet
 OutByte:tst.b	Flag_Objet(a5)
 	bne.s	OutbD
-* En mémoire
+* En m�moire
 	movem.l	a0/a4,-(sp)
 .Reskip	move.l	BB_Objet(a5),a0
 	sub.l	(a0),a4
@@ -9178,7 +9195,7 @@ PamB:   rts
 ;-----> Poke un MOT dans l'objet
 OutWord:tst.b	Flag_Objet(a5)
 	bne.s	OutwD
-* En mémoire
+* En m�moire
 OutW	movem.l	a0/a4,-(sp)
 .Reskip	move.l	BB_Objet(a5),a0
 	sub.l	(a0),a4
@@ -9207,7 +9224,7 @@ PamW:   rts
 ;-----> Poke un MOT LONG dans l'objet
 OutLong:tst.b	Flag_Objet(a5)
 	bne.s	OutlD
-* En mémoire
+* En m�moire
 	movem.l	a0/a4,-(sp)
 .Reskip	move.l	BB_Objet(a5),a0
 	sub.l	(a0),a4
@@ -9226,7 +9243,7 @@ OutLong:tst.b	Flag_Objet(a5)
 	swap	d0
 	bsr	OutW
 	swap	d0
-	bra	OutW	
+	bra	OutW
 .skip	movem.l	(sp),a0/a4
 	bsr	GetBob
 	beq.s	.Reskip
@@ -9254,7 +9271,7 @@ OutMove:cmp.l	#128,d2
 
 ;-----> Prend un mot dans l'objet
 GtoWord	tst.b	Flag_Objet(a5)
-	beq	GtoW	
+	beq	GtoW
 * Sur disque
 	move.l 	a0,-(sp)
         bsr 	ObDisk
@@ -9415,7 +9432,7 @@ StockOut
 	move.l	a0,A_Stock(a5)
 	move.l	(sp)+,a0
 	rts
-RestOut	
+RestOut
 	move.l	a0,-(sp)
 	move.l	A_Stock(a5),a0
 	move.l	-(a0),A_Chaines(a5)
@@ -9427,7 +9444,7 @@ RestOut
 	move.l	a0,A_Stock(a5)
 	move.l	(sp)+,a0
 	rts
-SautOut	
+SautOut
 	sub.l	#16,A_Stock(a5)
 	rts
 
@@ -9491,12 +9508,12 @@ Libraries_Load
 	bne.s	.Err
 	move.w	d2,d0
 	bsr	Library_Offsets
-.Next	addq.w	#1,d2	
+.Next	addq.w	#1,d2
 	cmp.w	#27,d2
 	bne.s	.Loop
 ; Insere la librarie interne au compilateur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	bsr	Library_Interne	
+	bsr	Library_Interne
 	moveq	#0,d0
 	bsr	Library_Offsets
 	moveq	#0,d0
@@ -9513,7 +9530,7 @@ Library_Load
 ; - - - - - - - - - - - - - - - -
 	movem.l	d2-d7/a2-a6,-(sp)
 
-	move.l	d0,d6		
+	move.l	d0,d6
 	addq.w	#F_Libs,d6		+ Handle libraries...
 	move.l	a0,a4
 	lea	AdTokens(a5),a6
@@ -9603,7 +9620,7 @@ Library_Load
 	move.w	4(a0),LB_DFloatSwap(a2)
 	move.w	6(a0),LB_FFloatSwap(a2)
 	addq.l	#8,a0
-.NoFSwp	
+.NoFSwp
 	cmp.l	#"ComP",(a0)		Des donnees sur les routines speciales
 	bne.s	.NoComp
 	addq.l	#4,a0
@@ -9622,7 +9639,7 @@ Library_Load
 ; Poke les donnees dans le header librairie
 .NoTable
 	move.l	d6,d1			Trouve la position du fichier
-	moveq	#0,d2	
+	moveq	#0,d2
 	moveq	#0,d3
 	bsr	F_Seek
 	move.l	d0,-LB_Size-4(a2)	= Position de la premiere routine
@@ -9680,7 +9697,7 @@ Library_Interne
 	bne	Ll_Disc
 ; Position de la premiere routine
 	moveq	#F_LibInterne,d1	Trouve la position du fichier
-	moveq	#0,d2	
+	moveq	#0,d2
 	moveq	#0,d3
 	bsr	F_Seek
 	move.l	d0,-LB_Size-4(a2)	= Position de la premiere routine
@@ -9759,10 +9776,10 @@ Libraries_Free
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	CHARGEMENT DE ROUTINES POUR LE COMPILATEUR
-;	A0=	Table des routines à charger
+;	A0=	Table des routines � charger
 ;	A1=	Adresse du pointeur de buffer
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Load_Routines	
+Load_Routines
 ; - - - - - - - - - - - - -
 	movem.l	d2-d7/a2-a6,-(sp)
 	move.l	a0,a4
@@ -9837,7 +9854,7 @@ Load_Routines
 ; ~~~~~~~~~
 	moveq	#0,d0
 	bra	Ll_Out
-	
+
 ;	Routine de relocation de la routine chargee D0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ll_LoadReloc
@@ -9872,7 +9889,7 @@ GRou10	move.w	(a0),d0
 ; Table des sauts
 GRout	bra	GRouJ			; 0 - RJmp / Rjmptable
 	dc.w	$4ef9			JMP
-	jmp	(a0)	
+	jmp	(a0)
 	bra	GRouJ			; 1 - RJsr / Rjsrtable
 	dc.w	$4eb9			JSR
 	jsr	(a0)
@@ -9929,7 +9946,7 @@ GRouJ	cmp.b	#C_CodeJ,2(a0)
 	or.w	6(a1,d2.w),d0		Jsr/Jmp	(ax)
 	move.w	d0,(a0)+
 	bra	GRou1
-; Rlea	
+; Rlea
 .Rlea	subq.w	#8,d0
 	cmp.b	#8,d0
 	bcc	GRou2
@@ -9945,7 +9962,7 @@ GRouJ	cmp.b	#C_CodeJ,2(a0)
 .Rjsr	moveq	#0,d1			Transforme en JSR direct
 	move.b	3(a0),d1
 	cmp.b	#27,d1			Numero de l'extension
-	bcc	GRou2	
+	bcc	GRou2
 	move.w	4(a1,d2.w),(a0)
 	move.w	4(a0),d0
 	addq.l	#6,a0
@@ -10012,7 +10029,7 @@ Ver_Compile
 	cmp.w	#1,d0			Simple SYNTAX ERROR?
 	bne.s	.NoSynt
 	cmp.b	#1,1(a1)		Un autre syntax error apres?
-	beq.s	.NoSynt		
+	beq.s	.NoSynt
 	move.w	d3,d0			OUI! on met la fonction
 	bra.s	.Synt
 .NoSynt	addq.w	#8,d0			Pour sauter les negatifs
@@ -10046,7 +10063,7 @@ Ver_Compile
 	cmp.l	d1,a1
 	bcs.s	.Loop
 	movem.l	(sp)+,a0-a3/d0-d3
-	rts	
+	rts
 
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -10079,7 +10096,7 @@ Ver_Echange
 .Next	addq.l	#4,a2
 	dbra	d2,.Loop
 	rts
-; Echange des tables	
+; Echange des tables
 ; ~~~~~~~~~~~~~~~~~~
 Ver_Ech	move.l	a1,a0			Debut des tokens
 	move.l	LB_Verif(a0),a1		Adresse table
@@ -10098,7 +10115,7 @@ Ver_Ech	move.l	a1,a0			Debut des tokens
 	add.w	d0,a0
 	cmp.l	d1,a1
 	bcs.s	.Loop
-	rts	
+	rts
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	GESTION DE LA CONFIGURATION
@@ -10136,7 +10153,7 @@ Cold_Config
 	move.l	Path_Temporaire(a5),a1
 	bsr	CopName
 	rts
-	
+
 ;	Digere la configuration du compilateur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Init_Config
@@ -10150,7 +10167,7 @@ Init_Config
 	move.l	a0,d1
 	bsr	F_OpenOldD1
 	beq	Err_CantLoadIntConfig
-; Charge les données dc.w
+; Charge les donn�es dc.w
 	moveq	#8,d3
 	move.l	B_Work(a5),d2
 	moveq	#F_Courant,d1
@@ -10164,7 +10181,7 @@ Init_Config
 	move.l	a0,d2
 	bsr	F_Read
 	bne	Err_CantLoadIntConfig
-; Charge les données texte
+; Charge les donn�es texte
 	move.l	a2,d2
 	moveq	#8,d3
 	bsr	F_Read
@@ -10181,7 +10198,7 @@ Init_Config
 	jsr	F_Close
 	move.l	B_IntConfig(a5),Sys_Messages(a5)
 ; Trouve le path complet du systeme (si pas AMOS)(si pas precise dans command)
-.GetDir	tst.b	Sys_Pathname(a5)		
+.GetDir	tst.b	Sys_Pathname(a5)
 	bne.s	.Skip
 	moveq	#1,d0				Acces au path
 	bsr	Get_IntConfigMessage
@@ -10206,7 +10223,7 @@ Init_Config
 .Copy1	move.b	(a1)+,(a2)+		Recopie du pathname origine
 	bne.s	.Copy1
 	rts
-	
+
 
 ; 	Ouvre la configuration editeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -10271,7 +10288,7 @@ Load_EditChunk
 Load_InBuffer2
 	movem.l	a2/d2-d3,-(sp)
 	move.l	a1,a2
-	bra.s	Load_In	
+	bra.s	Load_In
 Load_InBuffer
 	movem.l	a2/d2-d3,-(sp)
 	move.l	a1,a2
@@ -10349,7 +10366,7 @@ Get_Urgence
 ; 	GESTION MEMOIRE
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-;	Reservation de la zone de donnée interne du compilateur
+;	Reservation de la zone de donn�e interne du compilateur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Reserve_DZ
 	movem.l	a0-a1/d0-d1,-(sp)
@@ -10393,10 +10410,10 @@ Free_Work
 
 ; 	Reservation des principaux buffers
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Reserve_Work:
+Reserve_Work
 	move.l	#256,d0			Name1
 	lea	Name1(a5),a0
-	bsr	Buffer_Reserve	
+	bsr	Buffer_Reserve
 	moveq	#108,d0			Source
 	lea	Path_Source(a5),a0
 	bsr	Buffer_Reserve
@@ -10430,7 +10447,7 @@ Reserve_Work:
 Buffer_ReserveNoError
 	clr.w	-(sp)
 	bra.s	Buffer_R
-Buffer_Reserve:
+Buffer_Reserve
 	move.w	#-1,-(sp)
 Buffer_R
 	bsr	Buffer_Free		Par securite!
@@ -10446,7 +10463,7 @@ Buffer_R
 .Err	movem.l	(sp)+,d0/d1/a2
 	bne.s	.Out
 	tst.w	(sp)
-	bne	Err_OOfMem	
+	bne	Err_OOfMem
 .Out	addq.l	#2,sp
 	rts
 
@@ -10544,7 +10561,7 @@ BugBug	movem.l	d0-d2/a0-a2,-(sp)
 .L0	move.w	#10000,d1
 .L1	move.w	d0,$DFF180
 	dbra	d1,.L1
-	dbra	d0,.L0	
+	dbra	d0,.L0
 	btst	#6,$BFE001
 	beq.s	.Ill
 	movem.l	(sp)+,d0-d2/a0-a2
@@ -10582,7 +10599,7 @@ WMemInit
 
 ; Fin memoire centralisee
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WMemEnd	
+WMemEnd
 	movem.l	a0-a1/a5-a6/d0-d1,-(sp)
 	lea	C_MemList(pc),a5
 	tst.l	(a5)
@@ -10790,7 +10807,7 @@ Init_Disc
 	bsr	Buffer_Reserve
 	move.l	#L_BordBso,BordBso(a5)		Bordure source
 	move.l	#L_BSo,MaxBso(a5)		Longueur buffer source
-	move.l	#L_BordBob,BordBob(a5)		Bordure objet	
+	move.l	#L_BordBob,BordBob(a5)		Bordure objet
 ; Ouvre la librarie DOS
 ; ~~~~~~~~~~~~~~~~~~~~~
 	moveq	#0,d0
@@ -10805,7 +10822,7 @@ Init_Disc
 
 ;	Fermeture disque
 ; ~~~~~~~~~~~~~~~~~~~~~~
-End_Disc	
+End_Disc
 	movem.l	a0-a2/d0-d7,-(sp)
 ; Ferme tous les fichiers
 	bsr	F_CloseAll
@@ -10845,7 +10862,7 @@ Init_Icon
 	move.l	#$80000000,d0		Position par defaut
 	move.l	d0,$3a(a0)
 	move.l	d0,$3e(a0)
-; Ok!	
+; Ok!
 .Iicx	movem.l	(sp)+,a6
 	rts
 
@@ -10898,7 +10915,7 @@ DeleteList
 	movem.l	(sp)+,a2/a6
 	rts
 
-;	Additionne le nom A0 au fichiers à detruire en fin de comp
+;	Additionne le nom A0 au fichiers � detruire en fin de comp
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Add_DeleteList
 	move.l	Path_ToDelete(a5),a1
@@ -10997,7 +11014,7 @@ Extract_DiskName
 	bra.s	.Loop2
 .Out0	lea	1(a1),a0
 .Out	rts
-	
+
 
 ; 	Recupere le path complet d'un directory
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -11094,8 +11111,7 @@ F_OpenNew
 	move.l	Name1(a5),d1
 F_OpenNewD1
 	move.l	#1006,d2
-F_Open
-	movem.l	d3/a6,-(sp)
+F_Open	movem.l	d3/a6,-(sp)
 	move.l	d0,d3
 	move.l	DosBase(a5),a6
 	jsr	_LVOOpen(a6)
@@ -11105,7 +11121,7 @@ F_Open
 	tst.l	(a0)
 	beq.s	.ok
 	illegal
-.ok	
+.ok
 	ENDC
 	move.l	d0,(a0)
 	movem.l	(sp)+,d3/a6
@@ -11130,10 +11146,9 @@ F_CloseAll
 	dbra	d1,.Loop
 	rts
 
-;	READ fichier D1, D3 octets dans D2	
+;	READ fichier D1, D3 octets dans D2
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-F_Read:
-	movem.l	d1/a0-a1/a6,-(sp)
+F_Read	movem.l	d1/a0-a1/a6,-(sp)
 	bsr	F_Handle
 	move.l	DosBase(a5),a6
 	jsr	_LVORead(a6)
@@ -11141,7 +11156,7 @@ F_Read:
 	cmp.l	d0,d3
 	rts
 
-;	WRITE fichier D1, D3 octets de D2	
+;	WRITE fichier D1, D3 octets de D2
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 F_Write	movem.l	d1/a0-a1/a6,-(sp)
 	bsr	F_Handle
@@ -11304,7 +11319,7 @@ CommandLine
 	bne.s	.Clean
 ; Premier= nom du source
 	bsr	CL_GetToken		Veut un token
-	bmi	CL_Syntax 		
+	bmi	CL_Syntax
 	beq.s	.Srce			Pas de token=> nom source
 	cmp.w	#1,d0			Veut FROM!
 	bne	CL_Syntax
@@ -11389,7 +11404,7 @@ CL_GetToken
 	move.l	d2,d0
 	rts
 
-;	Recupere un nom 
+;	Recupere un nom
 ; ~~~~~~~~~~~~~~~~~~~~~
 CL_Nom	cmp.b	#" ",(a0)+		Saute les espaces
 	beq.s	CL_Nom
@@ -11416,7 +11431,7 @@ CL_Nom	cmp.b	#" ",(a0)+		Saute les espaces
 	beq	CL_Syntax
 	rts
 
-; 	Recupere un digit 
+; 	Recupere un digit
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 CL_Digit
 	moveq	#0,d0
@@ -11533,16 +11548,16 @@ CL_NoDefault
 CL_Wb
 	move.b	#1,Flag_WB(a5)
 	rts
-CL_NoWb	
+CL_NoWb
 	clr.b	Flag_WB(a5)
 	rts
 CL_Quiet
 	move.b	#1,Flag_Quiet(a5)
 	rts
-CL_Temp	
+CL_Temp
 	move.l	Path_Temporaire(a5),a1
 	bra	CL_Nom
-CL_Libs	
+CL_Libs
 	lea	Sys_Pathname(a5),a1
 	bra	CL_Nom
 CL_Config
@@ -11700,7 +11715,7 @@ Cretstring	moveq	#2,d2
 
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
@@ -12010,9 +12025,9 @@ Add_Routines
 		dc.l	Get_IntConfigMessage-.R
 		dc.w	L_Sys_AddPath
 		dc.l	AddPath-.R
-		dc.w	0		
+		dc.w	0
 
-;		Routines à charger pour la tokenisation
+;		Routines � charger pour la tokenisation
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Routines_Token	dc.w	L_Tokenisation
 		dc.w	L_CValRout
@@ -12022,7 +12037,7 @@ Routines_Token	dc.w	L_Tokenisation
 		dc.w	L_DoubleToAsc
 		dc.w	0
 
-;		Routines à charger pour le test
+;		Routines � charger pour le test
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Routines_Test	dc.w	L_Testing
 		dc.w	L_CValRout

@@ -1,0 +1,214 @@
+
+********************************************************************
+2020.05.01 : Update
+
+- +Equ.s/TBuffer increased from 1024 to 8192 to avoid issues with AGA color palette in SPack/Unpack +Equ.s/Buffer use.
+- Added new 'more intuitive' command : +Compact.s/SPack ScreenID, Left, Top, Right, Bottom To BankID
+- +Compact.s/SPack : Memory corruption issue fixed 
+- Renamed AMOS.library to AmosPRO_AGA.library to allow both old Amos Professional and new Amos Professional AGA version to run on the same computer.
+
+********************************************************************
+2020.04.29-30 : Update
+
+- +Compact.s/Unpack compatibility with old ECS Packed pictures/Screen is now retablished when AGA is also supported.
+
+
+********************************************************************
+2020.01.01 : Update
+
+- +w.s/CLPopulate updated to calculate copper start screens position depending on ECS/AGA chipset in adequate with +w.s/CpInit changes.
+
+
+********************************************************************
+2019.12.30 : Update
+
+- +w.s/detectChipset method call moved near the beginning of +w.s/Startall to be sure chipset is detected when Copper list is created
+- +w.s/CpInit updated to use chipset detection and add AGA Palette only if chipset = AGA.
+
+
+********************************************************************
+2019.12.26 : Big screen image/icon/bob drawing fix
+
+- Completed the fix for the bob/icon image pasting in big screen area at bottom (Dom Cresswell reported bug)
+- +w.s/BobCalc : fixed calculation (from .w to .l) for image pasting screen from top-left shift.
+
+********************************************************************
+2019.12.21 : Big screen image/icon/bob drawing fix
+
+- Found that BbAAEc(a?) storage save the bitplane shift to define where to start the 1st byte of an image on screen.
+- updated all +w.s file referencies to read/write BbAAEc data to .l
+- Removed ext.l on registers that are used for BbAAEc data
+- Remain to fix the 2nd part of the BobCalc method that precalculate image render to screen
+
+
+********************************************************************
+2019.12.05 : Global Project Updates...
+
+- added AgaSupport.s/getRgb4FromRgb8 command name : " = get rgb4 from rgb8( RGB24/25 )"
+- added AgaSupport.s/getRgb8FromRgb4 command name : " = get rgb8 from rgb4( RGB12 )"
+- added AgaSupport.s/retRgb12Color command name : " = "rgb12( Red4, Green4, blue4 )
+- added AgaSupport.s/getRgb12rColor command name : "= rgbr12( RGB12 )"
+- added AgaSupport.s/getRgb12gColor command name : "= rgbg12( RGB12 )"
+- added AgaSupport.s/getRgb12bColor command name : "= rgbb12( RGB12 )"
+
+
+********************************************************************
+2019.12.04 : Global Project Updates...
+- added AgaSupport.s/retRgb24Color command name : "= rgb24( Red8, Green8, Blue8 )"
+- added AgaSupport.s/retRgb25Color command name : "= rgb25( GenlockBit, Red8, Green8, Blue8 )"
+- added AgaSupport.s/getRgb24rColor command name : "= rgbr25( gRGB25 )"
+- added AgaSupport.s/getRgb24gColor command name : "= rgbg25( gRGB25 )"
+- added AgaSupport.s/getRgb24bColor command name : "= rgbb25( gRGB25 )"
+- added AgaSupport.s/createAGAPalette command name : "= Create Aga Palette INDEX"
+- added AgaSupport.s/deleteAGAPalette command name : "= Delete Aga Palette INDEX"
+- added AgaSupport.s/getAgaPeletteExists command name : "= Is Aga Palette Exists( INDEX )"
+- added AgaSuppor.s/cscToAaPl1 command name : "Get Aga Colors From Screen SCREENID, FIRSTCOLOR,AMOUNT to AGAPALINDEX, FIRSTCOLOR"
+
+
+********************************************************************
+2019.12.02 : Global Project Updates...
+
+- Checked +Lib.s/L_InLoadIff11/2 to be sure it will detect Aga/Ecs chipset -> Body uses +w.s/EcCree so, it will be limited to screen limits.
+- Updated pictures for AGA samples to use my old XQuadEditor Game Maker screen captures instead of TESO ones (to not have problem concerning copyrights for Bethesda)
+
+
+********************************************************************
+2019.11.30 : Global Project Updates...
+
+- Added +w.s/detectChipset to detect AGA.
+- Added new library : AMOSPro_AgaSupport.lib
+- added AgaSupport.s/isAgaDetected command name : "= Is Aga Detected()"
+- Update +Interpreter_Config.s : set AMOSPro_AgaSupport.lib as default extension slot #7
+- Update +w.s/EcCree : To handle both ECS & AGA on screen creation (including new error messages)
+- Added +w.s/EcCree restriction to standart screens to be multiple of 16 pixels. Fetched ones -> multiple of 64 pixels
+- Update +w.s/Duale : To handle both ECS & AGA on dual playfield setup
+- Update +Editor_Config.s : New error messages added
+
+********************************************************************
+2019.11.28 : Global Project Updates...
+
+- Updated SetPalette, GetPalette to also store AGA colors inside Screen Structure (before it saved only in global aga palette)
+- Updated +Lib./Sco0 Screen Copy to handle up to 8 bitplanes (was locked to max 6 bitplanes)
+
+********************************************************************
+2019.11.26 : Global Project Updates...
+
+- Fixed +Lib.s/iffPal to correctly handle the refresh of up to 256 colors.
+
+
+********************************************************************
+2019.11.25 : Global Project Updates...
+
+- Update +w.s/EcDouble double buffer creation to handle 64 bits bitmap alignemnts.
+- Update +w.s/EcDel screen close method to handle both buffers (single and double one) with new buffer creation mode.
+- Update +Lib.s/IffPal to handle up to 256 colors in IFF Animations
+
+
+********************************************************************
+2019.11.22 : Global project update
+
+- Changed the place where the configuration are copied at compilation time (moved them to AMOS/S)
+- Changed a place where AMOS.library was copied at compilation time (to AMOS/Libs)
+- Moved the concerned files to place where they should be.
+- Updated SPack SCR to BANK to handle saving of the 256 colors in the picture packing process.
+- Added +w.s/updateAGAColorsInCopper to update the AGA Color palette when screen is opened or unpack done in it.
+- Updated Unpack BANK to SCREEN to handle restoring up to 256 colors when unpacking.
+
+
+********************************************************************
+2019.11.22 : Compiler upgrade - Update 1
+
+- Increased all the APCmp buffers to makes compilation works with large .AMOS files
+- Updated compiler.lib & APCmp with changes for the AGA support.
+
+
+********************************************************************
+2019.11.20 : AGA Support
+
+
+- Updated +W.s/WVbl WaitVbl to use Graphics.library/WaitTOF() instead of manual calculation.
+- Fixed the Hires 640px fine scrolling by updating +W.s/WVbl.
+
+********************************************************************
+2019.11.19 : AGA Support
+
+- Updated +W.s/EcCree to Add 64bits alignment for Bitmap creation.
+- Updated +W.s/EcCopHo to Add DDFStrt & BplxMOD changes when using Fetch Mode in HiRes resolutions.
+
+********************************************************************
+2019.11.18 : AGA Support
+
+- Updated +W.s/EcCree screen sizes limitation from 1024x1024 pixels to 2048x2048 pixels
+- Updated +Lib.s/L_InScreenOpen to remove Hires limitation to 4 bitplanes.
+- Updated +Equ.s/FMode equate to point to register #$1FC to handle AGA Fetch Mode
+- Updated +W.s/EcCree by rewritting the Bitmap Allocation to use BMF_DISPLAYABLE to handle Hires.
+- Updated +W.s/EcCree to handle FMode depending on screen resolution requested.
+
+********************************************************************
+2019.11.10-17 : Branch : AGA
+
+- Updated to Includes3.1
+- Updated Colour I,R4G4B4 to work with up to 256 colors
+- Updated copper list to define colors 32-255 before screens (just after sprites)
+- Updated Screen creation to uses up to 8 bitplanes ( 256 colors )
+- Updated Created a global aga Palette color for 32-255 colors registers
+- Updated commands Colour ID,RGB & =Colour(ID) to be compatible with up to 256 colors
+
+
+
+********************************************************************
+2019.11.06 : Branch : Dual-Playfield
+
+- Added method +W.s/getScr2Color to copy colors 0-15 from screen 1 into colors 16-31 of color 0 in Dual Playfield mode.
+- Updated +W.s/Duale to call +W.s/getScr2Color when Dual Playfield is created.
+- Updated +Lib.s/InScreenDisplay to call WaitVbl once screen values were updated to fix a bug with "Dual Playfield" command
+
+
+********************************************************************
+2019.11.05 : Branch : Dual-Playfield
+
+- Updated +W.s/EcCopHo method to handle bplCon3 value from Screen structure data instead of a direct value.
+- Updated +W.s/Duale method to insert color shifting value inside the BplCon3 screen structure data.
+- Updated +W.s/EcCree method to setup the default color shifting value a screen will force to use different color palette.
+- Updated +Lib.s/L_InScreenOpen to uses #EcMaxPlans+1 instead of direct #7 value.
+- Added comments to +W.s/EcOffs (Screen Offset)
+- Added comments to +W.s/EcView (Screen display)
+- Added comments to +Equ.s concerning Screen strcture offsets/display data
+- Created +W.s/CLPopulate reference to point to a particular position in the Copper refresh (where the copper list will be populated)
+- Added comments to +W.s/CLPopulate to explain how copper list are populated with screens, rainbows, etc.
+- Updated +Equ.s with BplCon3gl rs.w for default BplCon3 values concerning Sprites & special registers values.
+- Updated +W.s/EcCopBa method to reset BplCon3 (be sure that Dual Playfield are correctly closed and palette to 0.)
+- Added many comments to +W.s/EcForceCop method (unfinished)
+- Updates +W.s/EcCree to handle 8 bitplanes with BPU3 field in standard screens (non DPF)
+- Updated DualPlayfields AMOS sample to contains WAIT VBL calls after "Screen Display" calls (as they require this to work)
+
+
+********************************************************************
+2019.11.04-22:30 : Branch : Dual-Playfield
+
+- Updated +W.s/EcCopHo method by inserting BplCon3 register to allow 2nd Dual Playfield Screen to use colors 16-31 [Temporar change]
+- execute aData to update Editor_Config
+- execute aw to update Amos.library
+- Updated the new DualPlayfield scrolling test demo.
+
+
+********************************************************************
+2019.11.03-23:42 : New Branch Dual-Playfield
+
+- Updated +W.s/Duale method to handle 2x16 colors lowres dual playfields
+- Updated +W.s to handle 6 new error messages for Duale method
+- Updated +W.s/Duale method to output errors using the 6 new error messages.
+- Updated +Editor_Config.s file to contains the 6 new error messages ( Edt204-209 )
+- execute aData to update Editor_Config
+- execute aw to update Amos.library
+
+
+********************************************************************
+2019.11.03-15.23 : Original updates
+
+- Restart from AMOSProfessional original source code from marc365 repository.
+- Updated +lib.s from my AMOSCommenter JAVA tool.
+- Added +lib_mList.s containing all the AMOS commands definition from +lib.s
+- Updated extensions +Compact.s, +IO_Ports.s, +Music.s, and +Request.s from my AMOSCommenter JAVA Tool.
+- Added +Compact_mList.s, +IO_Ports_mList.s, +Music_mList.s and +Request_mList.s containing the plugin AMOS commands definitions
+- Updated my own extensions/Personal-1.1a library to be compilable like others files.

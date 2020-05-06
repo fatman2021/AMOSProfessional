@@ -1,12 +1,74 @@
-********************************************************************
-2019.12.26 : Global Project Updates...
 
+********************************************************************
+2020.05.01 : Update
+
+- +Equ.s/TBuffer increased from 1024 to 8192 to avoid issues with AGA color palette in SPack/Unpack +Equ.s/Buffer use.
+- Added new 'more intuitive' command : +Compact.s/SPack ScreenID, Left, Top, Right, Bottom To BankID
+- +Compact.s/SPack : Memory corruption issue fixed 
+- Renamed AMOS.library to AmosPRO_AGA.library to allow both old Amos Professional and new Amos Professional AGA version to run on the same computer.
+
+********************************************************************
+2020.04.29-30 : Update
+
+- +Compact.s/Unpack compatibility with old ECS Packed pictures/Screen is now retablished when AGA is also supported.
+
+
+********************************************************************
+2020.01.01 : Update
+
+- +w.s/CLPopulate updated to calculate copper start screens position depending on ECS/AGA chipset in adequate with +w.s/CpInit changes.
+
+
+********************************************************************
+2019.12.30 : Update
+
+- +w.s/detectChipset method call moved near the beginning of +w.s/Startall to be sure chipset is detected when Copper list is created
+- +w.s/CpInit updated to use chipset detection and add AGA Palette only if chipset = AGA.
+
+
+********************************************************************
+2019.12.26 : Big screen image/icon/bob drawing fix
+
+- Completed the fix for the bob/icon image pasting in big screen area at bottom (Dom Cresswell reported bug)
 - +w.s/BobCalc : fixed calculation (from .w to .l) for image pasting screen from top-left shift.
+
+********************************************************************
+2019.12.21 : Big screen image/icon/bob drawing fix
+
+- Found that BbAAEc(a?) storage save the bitplane shift to define where to start the 1st byte of an image on screen.
+- updated all +w.s file referencies to read/write BbAAEc data to .l
+- Removed ext.l on registers that are used for BbAAEc data
+- Remain to fix the 2nd part of the BobCalc method that precalculate image render to screen
+
+
+********************************************************************
+2019.12.05 : Global Project Updates...
+
+- added AgaSupport.s/getRgb4FromRgb8 command name : " = get rgb4 from rgb8( RGB24/25 )"
+- added AgaSupport.s/getRgb8FromRgb4 command name : " = get rgb8 from rgb4( RGB12 )"
+- added AgaSupport.s/retRgb12Color command name : " = "rgb12( Red4, Green4, blue4 )
+- added AgaSupport.s/getRgb12rColor command name : "= rgbr12( RGB12 )"
+- added AgaSupport.s/getRgb12gColor command name : "= rgbg12( RGB12 )"
+- added AgaSupport.s/getRgb12bColor command name : "= rgbb12( RGB12 )"
+
+
+********************************************************************
+2019.12.04 : Global Project Updates...
+- added AgaSupport.s/retRgb24Color command name : "= rgb24( Red8, Green8, Blue8 )"
+- added AgaSupport.s/retRgb25Color command name : "= rgb25( GenlockBit, Red8, Green8, Blue8 )"
+- added AgaSupport.s/getRgb24rColor command name : "= rgbr25( gRGB25 )"
+- added AgaSupport.s/getRgb24gColor command name : "= rgbg25( gRGB25 )"
+- added AgaSupport.s/getRgb24bColor command name : "= rgbb25( gRGB25 )"
+- added AgaSupport.s/createAGAPalette command name : "= Create Aga Palette INDEX"
+- added AgaSupport.s/deleteAGAPalette command name : "= Delete Aga Palette INDEX"
+- added AgaSupport.s/getAgaPeletteExists command name : "= Is Aga Palette Exists( INDEX )"
+- added AgaSuppor.s/cscToAaPl1 command name : "Get Aga Colors From Screen SCREENID, FIRSTCOLOR,AMOUNT to AGAPALINDEX, FIRSTCOLOR"
 
 
 ********************************************************************
 2019.12.02 : Global Project Updates...
 
+- Checked +Lib.s/L_InLoadIff11/2 to be sure it will detect Aga/Ecs chipset -> Body uses +w.s/EcCree so, it will be limited to screen limits.
 - Updated pictures for AGA samples to use my old XQuadEditor Game Maker screen captures instead of TESO ones (to not have problem concerning copyrights for Bethesda)
 
 

@@ -2,10 +2,11 @@
 > On 2020.04.26, François Lionet officially released Amos Professional source code on his own GitHub repository under MIT Licence type as it was initially planed by himself many years ago.<br>
 > The link to get access to the official AMOS-Professional-Offical repository Source Code is here : https://github.com/Francaoz/AMOS-Professional-Official<br>
 > The original AMOS-Professional-Official licence (in the README.md is included at the end of this file.<br>
+> On 2020.05.01 François Lionet announced officially on his Facebook Page that he gives to Colin Vella the responsability to handle the Amos Professional Official Source Code GitHub repoitory. ( https://www.facebook.com/photo.php?fbid=10222434008617360&set=a.3542674563888&type=3&theater )
 
-# About AMOS Professional AGA support.
-> The project that did initially takes the name "Amos Professional X" was stopped. With the official release of Amos Professional under MIT Licence, I have reopened this project. As some people asked me I cannot do what I want with the "Amos Professional" name (even if I think the MIT Licence allow me to do the X change in the name), I decided to remove the X and simply add 'AGA' as a natural name to mean that the main goal of this project is to add AGA support to François Lionet AMOS Professional.<br>
-AGA is not a name changing, but just an information to help finding easily AGA support for AMOS Professional repository.
+# About AMOS Professional X for AGA support.
+> The project that did initially takes the name "Amos Professional X" was stopped. With the official release of Amos Professional under MIT Licence, I have reopened this project.
+For the moment Source code is private but it will be released under the original MIT Licence when everything will be finished.
 
 > I have much respect about the huge amount of work François did to create AMOS and AMOS Professional but, for the moment, and in respect to the MIT Licence terms capabilities (source : https://github.com/Francaoz/AMOS-Professional-Official/blob/master/LICENSE seen in the GitHub box about MIT Licence "A short and simple permissive license with conditions only requiring preservation of copyright and license notices. Licensed works, modifications, and larger works may be distributed under different terms and without source code." ) and not restricted by licence information added by François, I consider that improving AMOS Professional with AGA support is a larger work as it require me to makes many changes in many components of the AMOS Professional engine (copper list, sprites, bob, iff/ilbm, load/save datas, internal structures, etc.).<br>
 With these, I prefer not release the source code for the moment.<br>
@@ -20,9 +21,9 @@ Source code will probably be released for "educational purposes" when the projec
 Regards,
 Freddix
 
-
-#Original AMOS-Professional-Official Licence copy from README.md file :
-
+# **********************************************************************
+# Original AMOS-Professional-Official Licence copy from README.md file :
+ 
 ### Welcome to the official AMOS Professional source code repository.
 
 You will find in this repository the entire source code of AMOS Professional, as it was on my machine at the end of 1993 when I decided to switch to PC and create Klik and Play with my partner Yves Lamoureux.

@@ -1,0 +1,69 @@
+******************************************************************** 2020.05.04-05 Restart from source
+- Project entirely restarted from source.
+- Used Marc365 repository as François's one is unusable until fixing special characters issues in many source code files.
+- Recompiles version to check if everything is OK
+- Reinstall the stable version of AMOS Professional on AmigaHD
+- Removed directory "AMOSPro Sources" as useless
+- Updated compilation directory from "AMOS" to "AmosProAGA_Build"
+- ADATA : Updated all Editor_Config* referencies to EditorAGA_Config* to allow both original Amos Professional and Amos Professional AGA to run on the same computer.
+- ADATA : Updated all Interpreter_Config* referencies to InterpreterAGA_Config* to allow both original Amos Professional and Amos Professional AGA to run on the same computer.
+- ADATA : Updated all "AMOS" referencies with "AmosProAGA_Build"
+- ADATA : Updated all "APSystem" referencies with "APSystemAGA" to allow both original Amos Professional and Amos Professional AGA to run on the same computer.
+- AEDIT : Updated to use new AmosProAGA_Build directory as output, instead of previous "AMOS" one.
+- AW : Renamed AMOS.library to AMOSProAGA.library to allow both original Amos Professional and Amos Professional AGA to run on the same computer.
+- AW : Renamed +W.s to +AMOSProAGA_library.s
+- AW : Updated compilation output path from "AMOS" to "AmosProAGA_Build"
+- ALIB : Updated "c/genam FROM +lib.s TO AMOS/APSystem/AMOSPro.Lib" to "c/genam FROM +AmosProAGA_lib.s TO AmosProAGA_Build/APSystemAGA/AmosProAGA.Lib"
+- AMON : Updated to use new AmosProAGA_Build directory as output, instead of previous "AMOS" one.
+- ATOOLS : Updated to continue to use old AmosPro 2.0 to compile the tools.
+- C/MAKE_Labels.AMOS updated +ILib.s to +AmosProAGA_LibI.s
+- C/MAKE_Labels.AMOS updated +ILib_Size.s to +AmosProAGA_LibI_Size.s
+- C/MAKE_Labels.AMOS updated +ILib_Functions.s to +AmosProAGA_LibI_Functions.s
+- C/MAKE_Labels.AMOS updated +lib.s reference to AmosProAGA_Lib.s
+- C/MAKE_Labels.AMOS updated +LEqu.s to +AmosProAGA_Lib_Equ.s
+- C/MAKE_Labels.AMOS updated +Lib_Size.s to +AmosProAGA_Lib_Size.s
+- C/MAKE_Toktable.AMOS updated +lib.s reference to AmosProAGA_Lib.s
+- Renamed +WEqu.s to +AMOSProAGA_library_Equ.s
+- +AMOS_Includes.s : Updated +WEqu.s reference to +AmosProAGA_Library_Equ.s
+- +B.s : Updated referencies to AMOS.library with AMOSProAGA.library
+- +B.s : Updated referencies to AMOSPro_Interpreter_Config with AMOSProAGA_Interpreter_Config
+- +B.s, +Editor_Config.s : Updated AMOSPro_System: to AMOSProAGA_System:
+- +B.s, +Editor_Config.s  : Updated AMOSPro_Accessories: to AMOSProAGA_Accessories:
+- +B.s, +Editor_Config.s, +Interpreter_Config.s : Updated AMOSPro_Productivity1: to AMOSProAGA_Productivity1:
+- +B.s, +Editor_Config.s  : Updated AMOSPro_Productivity2: to AMOSProAGA_Productivity2:
+- +B.s, +Editor_Config.s  : Updated AMOSPro_Tutorial: to AMOSProAGA_Tutorial:
+- +B.s, +Editor_Config.s  : Updated AMOSPro_Examples: to AMOSProAGA_Examples:
+- +B.s, +Editor_Config.s  : Updated AMOSPro_Compiler: to AMOSProAGA_Compiler:
+- +B.s, +Editor_Config.s  : Updated AMOSPro_Extras: to AMOSProAGA_Extras:
+- +Editor_Confis.s, +Interpreter_Config.s : Updated AMOSPro_Accesories: with AMOSProAGA_Accessories
+- +Editor_Config.s, +Interpreter_Config.s : Updated AMOSPro_Help with AMOSProAGA_Help
+- +Editor_Config.s : Updated AMOSPro_Help.AMOS with AMOSProAGA_Help.AMOS
+- +Editor_Config.s : Updated Interpreter_Config.AMOS with InterpreterAGA_Config.AMOS
+- +Editor_Config.s : Updated Editor_Config.AMOS with EditorAGA_Config.AMOS
+- +Editor_Config.s : Updated AMOSPro.Lib with AMOSProAGA.Lib
+- Extensions/ACOMPACT : Updated to compile to new "AmosProAGA_Build/APSystemAGA" directory instead of previous "AMOS/APSystem"
+- Extensions/AIO : Updated to compile to new "AmosProAGA_Build/APSystemAGA" directory instead of previous "AMOS/APSystem"
+- Extensions/AMUSIC : Updated to compile to new "AmosProAGA_Build/APSystemAGA" directory instead of previous "AMOS/APSystem"
+- Extensions/AREQUEST : Updated to compile to new "AmosProAGA_Build/APSystemAGA" directory instead of previous "AMOS/APSystem"
+- Compiler/ACDATA : Updated to compile to new "AmosProAGA_Build" directory instead of previous "AMOS"
+- Compiler/ACLIB : Updated to compile to new "AmosProAGA_Build" directory instead of previous "AMOS"
+- Compiler/ACOMP : Updated to compile to new "AmosProAGA_Build" directory instead of previous "AMOS"
+- Compiler/ACOMPEXT : Updated to compile to new "AmosProAGA_Build" directory instead of previous "AMOS"
+- Compiler/AHEADER : Updated to compile to new "AmosProAGA_Build" directory instead of previous "AMOS"
+- Kept old AmosPro version in a specific directory to uses it to recompiles aTools with classic AMOS
+- Compilation Successfull
+- Reconstruction of a full version for future Amos Professional AGA releases.
+- AmosProAGA tests : Functionnal.
+- Renamed +CEqu.s to +AmosProAGA_CEqu.s
+- Renamed +Equ.s to +AmosProAGA_Equ.s
+- Renamed +Debug.s to +AmosProAGA_Debug.s
+- Updated +AMOS_Includes.s to +CEqu.s, +Equ.s and +Debug.s names changing.
+- Updated +EditorAGA_Config.s to mention Official Francois Lionet MIT Licence terms + Link for the official GitHub repository.
+- +B.s : Renamed to +AmosProAGA_Loaders.s
+- APRO : Updated +B.s for name changing.
+- +Monitor.s : Renamed to : AmosProAGA_Monitor.s
+- AMON : updated +Monitor.s for name changing.
+- +Edit.s : Renamed to AmosProAGA_Editor.s
+- AEDIT : updated +Edit.s for name changing.
+- +CLib.s : renamed to AmosProAGA_CLib.s
+- +Version.s : Renamed to +AmosProAGA_Version.s

@@ -1,8 +1,8 @@
 # About official AMOS Professional Source Code repository.
 > On 2020.04.26, François Lionet officially released Amos Professional source code on his own GitHub repository under MIT Licence type as it was initially planed by himself many years ago.<br>
 > The link to get access to the official AMOS-Professional-Offical repository Source Code is here : https://github.com/Francaoz/AMOS-Professional-Official<br>
-> The original AMOS-Professional-Official licence (in the README.md is included at the end of this file.<br>
-> On 2020.05.01 François Lionet announced officially on his Facebook Page that he gives to Colin Vella the responsability to handle the Amos Professional Official Source Code GitHub repoitory. ( https://www.facebook.com/photo.php?fbid=10222434008617360&set=a.3542674563888&type=3&theater )
+> The original AMOS-Professional-Official licence s available in the License.txt file of this project.<br>
+> On 2020.05.01 François Lionet announced officially on his Facebook Page that he gives to Colin Vella the responsability to handle the Amos Professional Official Source Code GitHub repository. ( https://www.facebook.com/photo.php?fbid=10222434008617360&set=a.3542674563888&type=3&theater )
 
 # About AMOS Professional X for AGA support.
 > The project that did initially takes the name "Amos Professional X" was stopped. With the official release of Amos Professional under MIT Licence, I have reopened this project.
@@ -18,11 +18,11 @@ During integration of AGA support to the original Amos Professional 2.00 (ECS), 
 
 This problem forces me to take a decision concerning the future of the development of AGA support for Amos Professional :
 
- I must proceed to a complete reorganization of both Source Code,  and file names for the releases.
+ I must proceed to a complete reorganization of both Source Code, and file names for the releases.
 
 This mean, for example, that the new Amos Professional AGA 3.00 will use an AmosProAGA.library instead of the original AMOS.library.
 This was required to be sure that any Amiga users can have both original Amos Professional 2.00  (ECS) and Amos Professional 3.00 AGA (X version) capable of running without conflicts on the same computer.
-It also ensures that games already developed under the original Amos Professional 2.00  (ECS) can run without problem when Amos Professional 2.0 AGA (X version) is also installed in the computer configuration.
+It also ensures that games already developed under the original Amos Professional 2.00  (ECS) can run without problem when Amos Professional 3.0 AGA (X version) is also installed in the computer configuration.
 This reorganization also required to update the editor, interpreter and compiler configuration files with a new name including AGA inside, for the same reasons than the ones explained above.
 >It is a restart of the whole project concerning AGA support, and as it is a "free time" development (not commercial), I can promise nothing about future releases/updates dates.
 

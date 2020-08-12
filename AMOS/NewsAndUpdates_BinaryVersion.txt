@@ -1,4 +1,60 @@
-******************************************************************** 2020.05.04-05 Restart from source
+******************************************************************** 2020.08.10 Bob Get & Color Palette
+- +AmosProAGA_lib.s/InSaveIff1-2 (SaveCMAP) : Updated to save up to 256 colors in IFF/ILBM files
+- Checked many Amos Professional 2.0 commands to check compatibility with Amos Professional AGA version.
+- Fixed the AMOS/WB switcher issue
+
+
+******************************************************************** 2020.05.15 Bob Get & Color Palette
+
+- +AmosProAGA_lib.s/IffPal : Updated to handle 'AGAP' + ColourCount.w palette when more than 32 colors are available.
+- +AmosProAGA_library.s/EcCree : Updated to integrate AGAP + ColourCount.w palette when screen is created.
+- +AmosProAGA_lib.s/PalRout : Updated to handle 'AGAP' + ColourCount.w palette when more than 32 colors are available.
+- +AmosProAGA_lib.s/GSPal : Updated to handle 'AGAP' + ColourCount.w palette when more than 32 colors are available.
+- +AmosProAGA_lib.s/Bnk.SaveA0 (SB_Icon, SB_Bob, SP_Sp) : Save Sprite/Icon Bank updated to handle AGAP + ColourCount.w palette when saving to file.
+- +AmosProAGA_lib.s/Bnk.Load ( LB_Icons, LB_Sprites ) : Load Sprite/Icon bank updated to handle AGAP + ColourCount.w palette when available in the file.
+- Save Sprites/Bobs/Icons banks now save banks using "AGAP" mode with up to 256 colors (currently forced to 256 but will be dynamic in the future)
+- Load Sprites/Bobs/Icons banks now detect original Amos Professional 2.0 ECS banks and Amos Professional AGA ones using "AGAP" mode with correct color palette
+
+
+******************************************************************** 2020.05.14 Bob Get & Color Palette
+
+- +AmosProAGA_lib.s/Bnk.Ric2 restored to initial state before AGA upgrade for "Get Bob" command crashes tests
+- +AmosProAGA_lib.s/Bnk.Ric2 Reimplemented clean color palette support for both default ECS and new AGA.
+- Fixed the Get Bob crash issue reported by Alain.Treesong
+- Removed AmosPro_Personal.lib from configuration as it caused issues.
+
+
+******************************************************************** 2020.05.13 AmosPro_Personal.lib Update + AmosPro AGA Pen/Color system Update.
+
+- Update AmosPro_Personal.lib to get latest paraters from d3 (AmosPro v2+) instead of all parameters from (a3)+ (AmosPro v1)
+- AmosPro_Personal.lib should not be used with new AGA System (it currently crashes). It will soonly be integrated inside the AmosPro_AgaSupport.lib
+- Updated the PEN/Colors methods to be compatible with AGA 00-255 colors.
+- Fixed AGA Hires SPack/UnPack example
+
+
+******************************************************************** 2020.05.10 AmosPro_Personal.lib
+
+- Update of the AmosPro_Personal.lib to fit Amos Pro v2 compliants and use new AGA includes automatically
+- Added a new script 'aext2' to compile third party extensions and copy them directly in the AmosProAGA_System:APSystemAGA/ folder (without including them in the config)
+- Added the AmosPRO_Personal.lib to the new 'aext2' script
+- Remain to do : Update data get from AmosPro (old v1 used to load everything from (a3)+ and new v2+ put latest value into D3))+ en APv1.
+- Update AmosPro text drawing color system to be compatible with 256 colors (instead of 207 max due to a value shifting by +48 in bytes).
+
+
+******************************************************************** 2020.05.07-08 Reinject previous Changes.
+
+- Reincluded all changes for +w.s -> +AmosProAGA_library.s
+- Reincluded all changes for +lib.s -> +AmosProAGA_lib.s
+- Reincluded all changes for +Ilib.s -> +AmosProAGA_libI.s
+- Reincluded all changes for +Equ.s -> +AmosProAGA_lib_Equ.s
+- Reincluded all changes for +WEqu.s -> +AmosProAGA_library_Equ.s
+- Reincluded all changes for +Edit.s -> +EditorAGA_Config.s
+- Reincluded all changes for +Interpreter.s -> +InterpreterAGA_Config.s
+- Reincluded Extensions/+AgaSupport.s
+- Reincluded all changes for Extensions/+compact.s
+
+
+******************************************************************** 2020.05.04-07 Restart from source
 - Project entirely restarted from source.
 - Used Marc365 repository as François's one is unusable until fixing special characters issues in many source code files.
 - Recompiles version to check if everything is OK
@@ -67,3 +123,4 @@
 - AEDIT : updated +Edit.s for name changing.
 - +CLib.s : renamed to AmosProAGA_CLib.s
 - +Version.s : Renamed to +AmosProAGA_Version.s
+- +Verif.s : Renamed to +AmosProAGA_Verif.s

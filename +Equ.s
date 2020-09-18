@@ -24,34 +24,6 @@ Except_Signal	equ	26
 * 	Only for multi-lingual readers: half english
 * half french. That's Europe!
 ***********************************************************
-*
-*  Published under the MIT Licence
-*
-*  Copyright (c) 1992 Europress Software
-*  Copyright (c) 2020 Francois Lionet
-*
-*  Permission is hereby granted, free of charge, to any person
-*  obtaining a copy of this software and associated documentation
-*  files (the "Software"), to deal in the Software without
-*  restriction, including without limitation the rights to use,
-*  copy, modify, merge, publish, distribute, sublicense, and/or
-*  sell copies of the Software, and to permit persons to whom the
-*  Software is furnished to do so, subject to the following
-*  conditions:
-*
-*  The above copyright notice and this permission notice shall be
-*  included in all copies or substantial portions of the Software.
-*
-*  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-*  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-*  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-*  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-*  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-*  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-*  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
-*  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*
-***********************************************************
 
 BFORM_ILBM	equ	%00000001
 BFORM_ACBM	equ	%00000010
@@ -481,39 +453,39 @@ EcMaxPlans	equ		6		6 Plans pour le moment!
 
 		RsReset
 * Bitmap address
-EcLogic:	rs.l 6		*
-EcPhysic	rs.l 6		*
-EcCurrent:	rs.l 6		*
+EcLogic:	rs.l 6		* 
+EcPhysic	rs.l 6		* 
+EcCurrent:	rs.l 6		* 
 
 * Datas!
-EcCon0:		rs.w 1		*
-EcCon2:		rs.w 1		*
-EcTx:		rs.w 1		*
-EcTy:		rs.w 1		*
-EcNPlan:	rs.w 1		*
-EcWX:		rs.w 1		*
-EcWY:		rs.w 1		*
-EcWTx:		rs.w 1		*
-EcWTy:		rs.w 1		*
-EcVX:		rs.w 1		*
-EcVY:		rs.w 1		*
+EcCon0:		rs.w 1		* 
+EcCon2:		rs.w 1		* 
+EcTx:		rs.w 1		* 
+EcTy:		rs.w 1		* 
+EcNPlan:	rs.w 1		* 
+EcWX:		rs.w 1		* 
+EcWY:		rs.w 1		* 
+EcWTx:		rs.w 1		* 
+EcWTy:		rs.w 1		* 
+EcVX:		rs.w 1		* 
+EcVY:		rs.w 1		* 
 
 EcColorMap	rs.w 1
 EcNbCol		rs.w 1
 EcPal		rs.w 32
-EcDEcran:	rs.l 1		*
+EcDEcran:	rs.l 1		* 
 
-EcTPlan:	rs.l 1		*
-EcWindow:	rs.l 1		*
-EcTxM:		rs.w 1		*
-EcTyM:		rs.w 1		*
-EcTLigne:	rs.w 1		*
-EcFlags:	rs.w 1		*
-EcDual:		rs.w 1		*
-EcWXr:		rs.w 1		*
-EcWTxr:		rs.w 1		*
-EcNumber:	rs.w 1		*
-EcAuto:		rs.w 1		*
+EcTPlan:	rs.l 1		* 
+EcWindow:	rs.l 1		* 
+EcTxM:		rs.w 1		* 
+EcTyM:		rs.w 1		* 
+EcTLigne:	rs.w 1		* 
+EcFlags:	rs.w 1		* 
+EcDual:		rs.w 1		* 
+EcWXr:		rs.w 1		* 
+EcWTxr:		rs.w 1		* 
+EcNumber:	rs.w 1		* 
+EcAuto:		rs.w 1		* 
 
 * Link with AMAL
 EcAW:		rs.w 1
@@ -547,7 +519,7 @@ EcClipY0:	rs.w 1
 EcClipX1:	rs.w 1
 EcClipY1:	rs.w 1
 EcFontFlag:	rs.w 1
-EcText:		rs.b 14
+EcText:		rs.b 14 
 EcFInkA:	rs.b 1
 EcFInkB:	rs.b 1
 EcFInkC:	rs.b 1
@@ -681,9 +653,9 @@ EcCal2:		MACRO
 *************** AMOS Window library
 
 * Window structure
-WiPrev:		equ 0
-WiNext:		equ WiPrev+4
-WiFont:		equ WiNext+4
+WiPrev:		equ 0		
+WiNext:		equ WiPrev+4	
+WiFont:		equ WiNext+4	
 WiAdhg:		equ WiFont+4
 WiAdhgR:	equ WiAdhg+4
 WiAdhgI:	equ WiAdhgR+4
@@ -742,7 +714,7 @@ WiLong:		equ WiTitB+80
 WiSAuto:	equ WiTitH
 
 ***********************************************************
-*		WINDOW INSTRUCTIONS
+*		WINDOW INSTRUCTIONS 
 ***********************************************************
 ChrOut:		equ 0
 Print:		equ 1
@@ -764,7 +736,7 @@ YGrWi:		equ 16
 Print2		equ 17
 Print3		equ 18
 SXSYCuWi	equ 19
-
+	
 WiCall:		MACRO
 		move.l	T_WiVect(a5),a0
 		jsr	\1*4(a0)
@@ -851,7 +823,7 @@ MnTotal:	equ 	5
 MnTBouge:	equ 	6
 MnBouge:	equ 	7
 
-*************** Test control bits
+*************** Test control bits 
 BitControl:	equ 	8
 BitMenu:	equ 	9
 BitJump:	equ 	10
@@ -982,9 +954,9 @@ LEd_FMulti	equ	6
 LEd_FMouCur	equ	7
 
 ; _____________________________________________________________________________
-;
+; 
 ; 	GESTION DES DIALOGUES
-;
+; 
 
 ; __________________________________________
 ;
@@ -1117,7 +1089,7 @@ Dia_TxDispZone	equ	8
 ; ~~~~~~~~~~~~~~~~~~
 		RsReset
 		rs.b	Dia_ZoLong	Entete zone active
-Dia_Sl		rs.b	Sl_Long		Donnï¿½es gestion slider
+Dia_Sl		rs.b	Sl_Long		Données gestion slider
 Dia_SlLong	equ	__RS
 ; Entete d'une definition de touche
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1175,12 +1147,12 @@ Bit_PaSaut	equ	0
 		RsReset
 
 ;		VBL Routines
-; ~~~~~~~~~~~~~~~~~~~~~~~~~~
+; ~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 VblRout:	rs.l 	8
 
 ;		Extensions
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
-AdTokens:	rs.l 	27
+AdTokens:	rs.l 	27		
 AdTTokens:	rs.l 	27
 ExtAdr:		rs.l 	26*4
 ExtTests:	rs.l 	8
@@ -1194,7 +1166,7 @@ FloatBase:	rs.l	1
 MathBase:	rs.l 	1
 IconBase:	rs.l 	1
 
-; 		Donnï¿½es systeme
+; 		Données systeme
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Sys_AData	rs.l	1
 Sys_LData	rs.l	1
@@ -1231,28 +1203,28 @@ SccEcD:		rs.l 	1
 
 ;		File selector
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Mon_Base	rs.l 	1
-Mon_Banks	rs.l 	1
-
+Mon_Base	rs.l 	1			
+Mon_Banks	rs.l 	1			
+	
 TRd_OldEc	rs.w 	1
-CurTab		rs.w 	1
-FillFPosPoke	rs.w	1
-Mon_Segment	rs.l 	1
-Edit_Segment	rs.l 	1
+CurTab		rs.w 	1	
+FillFPosPoke	rs.w	1	
+Mon_Segment	rs.l 	1		
+Edit_Segment	rs.l 	1		
 Sys_ClearRoutines 	rs.l 	1	Routines appellees par ClearVar
 Sys_ErrorRoutines	rs.l	1	Routines appellees par RunErr
 
-WB2.0:		rs.w 	1
+WB2.0:		rs.w 	1		
 Fs_Base		rs.l	1
 Fs_Saved	rs.l	1
 Fs_SaveList	rs.l	1
 Test_Flags	rs.b	1
 FillFSorted	rs.b	1
 
-BasSp:		rs.l 	1
-Fs_PosStore	rs.w 	1
+BasSp:		rs.l 	1	
+Fs_PosStore	rs.w 	1		
 ColBack:	rs.w 	1
-DefFlag:	rs.w 	1
+DefFlag:	rs.w 	1	
 
 ;		Float
 ; ~~~~~~~~~~~~~~~~~~~
@@ -1275,9 +1247,9 @@ FillFNb:	rs.w 	1
 FillF32:	rs.w 	1
 DirLong:	rs.l 	1
 DirComp:	rs.w 	1
-DirLNom:	rs.w 	1
+DirLNom:	rs.w 	1	
 PathAct:	rs.l 	1
-DirFNeg:	rs.l 	1
+DirFNeg:	rs.l 	1	
 BufBMHD:	rs.l 	1
 BufCMAP:	rs.l 	1
 BufCAMG:	rs.l 	1
@@ -1286,32 +1258,32 @@ BufAMSC:	rs.l 	1
 
 ; 		Tokenisation / Stockage
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-TkAd:		rs.l 	1
-TkChCar:	rs.w 	1
-VerPos:		rs.l 	1
-VerBase:	rs.l 	1
+TkAd:		rs.l 	1	
+TkChCar:	rs.w 	1	
+VerPos:		rs.l 	1	
+VerBase:	rs.l 	1	
 VerNInst	rs.l	1
 VerNot1.3	rs.b	1
 VerCheck1.3	rs.b	1
-Parenth:	rs.w 	1
+Parenth:	rs.w 	1	
 WBench		rs.b	1
 WB_Closed	rs.b	1
 
-TBuffer:	equ 	1024
+TBuffer:	equ 	1024	
 TMenage:	equ 	160*10-64
-Buffer:		rs.l 	1
+Buffer:		rs.l 	1	
 BMenage:	rs.l 	1
 
 LimSave:	rs.w 	4
 FsLimSave:	rs.w 	4
-Name1:		rs.l 	1
+Name1:		rs.l 	1	
 Name2:		rs.l 	1
 
-Access:		rs.l 	1
+Access:		rs.l 	1		
 AcLdTemp:	rs.l 	1
 AccFlag:	rs.w 	1
 
-RasAd:		rs.l 	1
+RasAd:		rs.l 	1		
 RasLong:	rs.l 	1
 RasSize:	rs.w 	1
 RasLock:	rs.l 	1
@@ -1372,20 +1344,20 @@ Prg_ChrGet	rs.l	1
 ; 		Verification / Buffers
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Passe:		rs.w 1
-VarBuf:		rs.l 1
-VarBufL:	rs.l 1
-VarBufFlg:	rs.w 1
-LabHaut:	rs.l 1
+VarBuf:		rs.l 1		
+VarBufL:	rs.l 1		
+VarBufFlg:	rs.w 1		
+LabHaut:	rs.l 1		
 LabBas:		rs.l 1
 LabMini:	rs.l 1
-DVNmBas:	rs.l 1
+DVNmBas:	rs.l 1		
 DVNmHaut:	rs.l 1
 VNmLong:	rs.l 1
 VNmHaut:	rs.l 1
 VNmBas:		rs.l 1
 VNmMini:	rs.l 1
 VDLigne:	rs.l 1
-Ver_TablA	rs.l 1
+Ver_TablA	rs.l 1		
 Ver_CTablA	rs.l 1
 VarLong:	rs.w 1
 GloLong:	rs.w 1
@@ -1393,8 +1365,8 @@ VarGlo:		rs.l 1
 VarLoc:		rs.l 1
 TabBas:		rs.l 1
 ChVide:		rs.l 1
-LoChaine:	rs.l 1
-HiChaine:	rs.l 1
+LoChaine:	rs.l 1		
+HiChaine:	rs.l 1		
 HoLoop:		rs.l 1
 BaLoop:		rs.l 1
 
@@ -1403,7 +1375,7 @@ BaLoop:		rs.l 1
 PLoop:		rs.l 1
 MinLoop:	rs.l 1
 BasA3:		rs.l 1
-ErrRet:		rs.l 1
+ErrRet:		rs.l 1		
 ErrRAd:		rs.l 1
 Phase:		rs.w 1
 Ver_FTablA	rs.l 1
@@ -1411,7 +1383,7 @@ Ver_MainTablA	rs.l 1
 Ver_PTablA	rs.l 1
 Ver_SPConst	rs.b 1
 Ver_DPConst	rs.b 1
-ActuMask:	rs.w 1
+ActuMask:	rs.w 1		
 IffMask:	rs.l 1
 ExpFlg:		rs.w 1
 FixFlg:		rs.w 1
@@ -1453,7 +1425,7 @@ OMnBase:	rs.l 	1
 OMnNb:		rs.w 	1
 OMnType:	rs.w	1
 
-;		Def Scroll, reduit ï¿½ 10 zones!
+;		Def Scroll, reduit à 10 zones!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NDScrolls	equ	10
 DScrolls:	rs.w 	6*NDScrolls
@@ -1492,7 +1464,7 @@ Patch_ScFront	rs.l	1
 Patch_Errors	rs.l	1
 Patch_Menage	rs.l	1
 
-; Verification ï¿½ï¿½
+; Verification ¦¦
 ; ~~~~~~~~~~~~~~~
 Ver_TableVerif	rs.b	1
 Ver_NoReloc	rs.b	1
@@ -1532,13 +1504,13 @@ VarLsls		rs.b	8
 MathFlags	rs.b	1
 		rs.b	1
 
-; 		Donnï¿½es tï¿½lï¿½commande
+; 		Données télécommande
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Prg_Accessory	rs.b	1
+Prg_Accessory	rs.b	1 
 Ed_Zappeuse	rs.b	1
 
 
-;		Variables mises ï¿½ zero par un RUN
+;		Variables mises à zero par un RUN 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 DebRaz:		equ 	__RS
 PrintFlg:	rs.w 	1
@@ -1583,16 +1555,16 @@ FinSave:	equ 	__RS
 Ver_Reloc	rs.l	1		Table de relocation
 Ver_CReloc	rs.l	1		Current
 Ver_FReloc	rs.l	1		Maxi
-Ver_NBoucles	rs.w	1
+Ver_NBoucles	rs.w	1	
 Ver_PBoucles	rs.w	1
-Ver_PrevTablA	rs.l	1
+Ver_PrevTablA	rs.l	1		
 FakeEvent_Cpt	rs.w	1		Compteur pour blanker
 Fs_ErrPatch	rs.l	1		Patch erreurs file selector...
 Sys_EndRoutines	rs.l	2		Routines de fin...
 Prg_InsRet	rs.l	1		Retour de zappeuse...
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;             	Donnï¿½es de Configuration Interprï¿½teur
+;             	Données de Configuration Interpréteur
 ;
 PI_Start	equ	__RS
 ; Initialisation de la trappe
@@ -1603,7 +1575,7 @@ PI_AdMouse	rs.l	1		4 - Adresse souris
 		rs.w	1		10- Position par defaut ecran!!
 		rs.l	1		12- Taille liste copper
 		rs.l	1		16- Nombre lignes sprites
-; Taille des buffers
+; Taille des buffers 
 ; ~~~~~~~~~~~~~~~~~~
 PI_VNmMax	rs.l	1		20- Buffer des noms de variable
 PI_TVDirect	rs.w	1		24- Variables mode direct
@@ -1677,7 +1649,7 @@ Equ_Base	rs.l	1
 ; __________________________
 ;
 Esc_TFonc	rs.l 	1
-Esc_Buf		rs.l 	1
+Esc_Buf		rs.l 	1		
 Esc_KMem	rs.l	1
 Esc_KMemPos	rs.l	1
 Direct		rs.w 	1
@@ -1708,7 +1680,7 @@ EdM_User	rs.l	1
 EdM_Definition	rs.l	1
 
 
-; Donnï¿½es normales
+; Données normales
 ; ~~~~~~~~~~~~~~~~
 Ed_Banks	rs.l	1
 Ed_Dialogs	rs.l	1
@@ -1746,12 +1718,12 @@ Ed_Avert	rs.w	1
 
 Ed_Ty		rs.w	1
 Ed_Block	rs.l	1
-Ed_BufE:	rs.l 	1
-Ed_BufT:	rs.l 	1
+Ed_BufE:	rs.l 	1	
+Ed_BufT:	rs.l 	1		
 Ed_WindowToDel	rs.l	1
 Ed_EtCps	rs.b 	1
 Ed_EtatAff	rs.b	1
-Ed_EtXX		rs.b	8
+Ed_EtXX		rs.b	8	
 Ed_EtOCps	rs.b 	1
 EdC_Modified	rs.b	1
 Ed_MemoryX	rs.w	1
@@ -1777,7 +1749,7 @@ Ed_TstMesOn	rs.b	1
 Ed_NewAppear	rs.b	1
 Ed_Ok		rs.b	1
 
-Ed_NoAff	rs.b	1
+Ed_NoAff	rs.b	1	
 Ed_Warm		rs.b	1
 Ed_Disk		rs.w	1
 Ed_FSel		rs.w	1
@@ -1800,13 +1772,13 @@ EdM_Copie	rs.b	Mn_ESave-Mn_SSave
 Ed_Boutons	rs.b	Bt_Long*14
 
 
-SlDelai		equ 	10
+SlDelai		equ 	10		
 
 ; Zone de sauvegarde de la config Editeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_DConfig	equ	__RS
 ; Screen definition
-Ed_Sx		rs.w	1
+Ed_Sx		rs.w	1		
 Ed_Sy		rs.w	1
 Ed_Wx		rs.w	1
 Ed_Wy		rs.w	1
@@ -1816,10 +1788,10 @@ Ed_Inter	rs.b	1
 ; Colour back
 Ed_ColB		rs.w	1
 ; Length UNDO
-Ed_LUndo	rs.l	1
+Ed_LUndo	rs.l	1	
 Ed_NUndo	rs.l	1
 ; Untok case
-DtkMaj1		rs.b	1
+DtkMaj1		rs.b	1	
 DtkMaj2		rs.b	1
 ; Flags
 Ed_SvBak	rs.b	1
@@ -1833,9 +1805,9 @@ Es_Y2		rs.w	1
 ; Security!
 		rs.l	7
 ; Flags change within the editor
-Ed_AutoSave	rs.l	1
-Ed_AutoSaveMn	rs.l	1
-Ed_SchMode	rs.w 	1
+Ed_AutoSave	rs.l	1	
+Ed_AutoSaveMn	rs.l	1	
+Ed_SchMode	rs.w 	1	
 Ed_Tabs		rs.w	1
 Esc_Output	rs.b	1
 Ed_QuitFlags	rs.b	1
@@ -1854,7 +1826,7 @@ Ed_Code		rs.l	1
 
 Ed_FConfig	equ	__RS
 
-; Find de la config editeur
+; Find de la config editeur		
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ********************************* Total data length
@@ -1869,7 +1841,7 @@ Bnk_BitIcon	equ	3		Banque d'icons
 
 ; _____________________________________________________________________________
 ;
-;				 	Dï¿½finition d'un programme
+;				 	Définition d'un programme
 ; _____________________________________________________________________________
 ;
 
@@ -1895,7 +1867,7 @@ Prg_MathFlags	rs.b	1		Flags mathematiques
 		rs.b	1
 
 Prg_Previous	rs.l	1		Programme precedent
-Prg_RunData	rs.l	1		Donnï¿½e si PRUN
+Prg_RunData	rs.l	1		Donnée si PRUN
 Prg_ZapData	rs.l	1
 Prg_AdEProc	rs.l 	1		Procedure d'erreur
 Prg_XEProc	rs.w 	1
@@ -1904,15 +1876,15 @@ Prg_Undo	rs.l	1		Buffer undo
 Prg_PUndo	rs.l	1		Position dans buffer
 Prg_LUndo	rs.l	1		Longueur du buffer actuel
 Prg_TUndo	rs.l	1		Longueur totale buffer
-Prg_Marks	rs.l 	10
+Prg_Marks	rs.l 	10		
 
 Prg_NamePrg	rs.b	128		Nom du programme
 Prg_Long	equ	__RS
-
+		
 
 ; _____________________________________________________________________________
 ;
-;				 	Dï¿½finition d'une edition
+;				 	Définition d'une edition
 ; _____________________________________________________________________________
 ;
 
@@ -1921,7 +1893,7 @@ Edt_Next	rs.l	1		Edition suivante
 Edt_Prg		rs.l	1		Adresse structure programme
 Edt_BufE	rs.l	1		Adresse buffer edition
 
-; Donnï¿½es affichage
+; Données affichage
 Edt_Order	rs.w	1		Numero d'ordre dans l'affichage
 Edt_Window	rs.w	1		Numero des diverse zones / fenetres
 Edt_WindEtat	rs.w	1
@@ -1943,10 +1915,10 @@ Edt_WindEX	rs.w	1
 Edt_WindEY	rs.w	1
 Edt_WindESx	rs.w	1
 Edt_BasY	rs.w	1
-Edt_EtMess	rs.w 	1
-Edt_EtAlert	rs.l 	1
+Edt_EtMess	rs.w 	1		
+Edt_EtAlert	rs.l 	1		
 
-Edt_SInit	equ	__RS		Zone ï¿½ remettre ï¿½ zero
+Edt_SInit	equ	__RS		Zone à remettre à zero
 Edt_SReload	equ	__RS
 Edt_SSplit	equ	__RS
 Edt_XPos	rs.w 	1		Positions texte dans fenetre
@@ -1974,7 +1946,7 @@ Edt_LinkFlag	rs.b	1		Fenetre linkee
 Edt_First	rs.b	1		Premiere fenetre affichee?
 Edt_Last	rs.b	1		Derniere fenetre affichee?
 Edt_EtatAff	rs.b	1		Flags ligne d'etat
-Edt_PrgDelete	rs.b	1		Programme ï¿½ effacer en retour
+Edt_PrgDelete	rs.b	1		Programme à effacer en retour
 Edt_ASlY	rs.b	1		Compteur affichage slider
 		rs.b	1
 
@@ -1983,7 +1955,7 @@ Edt_Bt1		rs.b	Bt_Long		Structures bouton
 Edt_Bt2		rs.b	Bt_Long
 Edt_Bt3		rs.b	Bt_Long
 		rs.w	1
-Edt_Long	equ	__RS		Longueur de la structure
+Edt_Long	equ	__RS+16		Longueur de la structure
 
 ;						Flags de la ligne d'etat
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2165,7 +2137,7 @@ Fs_Click	rs.w	1
 
 Fs_Array	rs.b	1
 		rs.b	1
-Fs_ASize	rs.w	1
+Fs_ASize	rs.w	1	
 Fs_AMagic	rs.l	1
 Fs_ACall	rs.l	1
 
@@ -2230,7 +2202,7 @@ Lib_Empty	MACRO
 L\<Lib_Count>
 Lib_Count	set	Lib_Count+1
 		ENDM
-Lib_Cmp		MACRO
+Lib_Cmp		MACRO	
 		IFNE	Lib_Count>L_\1
 		Fail
 		ENDC
@@ -2261,7 +2233,7 @@ LC		set	LC+1
 		dc.w	(L\<LC>-L\<LC0>)/2
 		ENDM
 
-;		Zone de donnï¿½es propre a chaque librairie...
+;		Zone de données propre a chaque librairie...
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 LB_MemAd	equ	-4
 LB_MemSize	equ	-8
@@ -2289,15 +2261,15 @@ JJsrIns		MACRO
 		ENDC
 		move.l	AdTokens+\2*4(a5),a0
 		move.l	-LB_Size-4-\1*4(a0),a0
-		jsr	4(a0)
-		ENDM
+		jsr	4(a0)	
+		ENDM		
 JJsr		MACRO
 		IFEQ	NARG=1
 		FAIL
 		ENDC
 		move.l	AdTokens(a5),a0
 		move.l	-LB_Size-4-\1*4(a0),a0
-		jsr	(a0)
+		jsr	(a0)	
 		ENDM
 JJmp		MACRO
 		IFEQ	NARG=1
@@ -2335,7 +2307,7 @@ JJmpR		MACRO
 		ENDM
 JLea		MACRO
 		IFEQ	NARG=2
-		FAIL
+		FAIL	
 		ENDC
 		move.l	AdTokens(a5),\2
 		move.l	-LB_Size-4-\1*4(\2),\2
@@ -2352,7 +2324,7 @@ Ijsr		MACRO
 		FAIL
 		ENDC
 		move.l	-LB_Size-4-\1*4(a4),a0
-		jsr	(a0)
+		jsr	(a0)	
 		ENDM
 Ijmp		MACRO
 		IFEQ	NARG=1
@@ -2362,7 +2334,7 @@ Ijmp		MACRO
 		FAIL
 		ENDC
 		move.l	-LB_Size-4-\1*4(a4),a0
-		jmp	(a0)
+		jmp	(a0)	
 		ENDM
 IjsrR		MACRO
 		IFEQ	NARG=2
@@ -2384,7 +2356,7 @@ IjmpR		MACRO
 		move.l	-LB_Size-4-\1*4(a4),\2
 		jmp	(\2)
 		ENDM
-
+	
 Pair		MACRO
 		addq.l	#1,\1
 		and.w	#$FFFE,\1
@@ -2400,10 +2372,11 @@ TDoLoop	equ 	10
 
 ;		Token table flags
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-L_Nul		equ	1
+L_Nul		equ	1 
 L_NoFlag	equ	%1000000000000000
 L_Entier	equ	%0000000000000000
 L_FFloat	equ	%0001000000000000
 L_FAngle	equ	%0010000000000000
 L_FMath		equ	%0011000000000000
 L_VRes		equ	%0100000000000000
+

@@ -6,36 +6,7 @@
 ;
 ;
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;
-;  Published under the MIT Licence
-;
-;  Copyright (c) 1992 Europress Software
-;  Copyright (c) 2020 Francois Lionet
-;
-;  Permission is hereby granted, free of charge, to any person
-;  obtaining a copy of this software and associated documentation
-;  files (the "Software"), to deal in the Software without
-;  restriction, including without limitation the rights to use,
-;  copy, modify, merge, publish, distribute, sublicense, and/or
-;  sell copies of the Software, and to permit persons to whom the
-;  Software is furnished to do so, subject to the following
-;  conditions:
-;
-;  The above copyright notice and this permission notice shall be
-;  included in all copies or substantial portions of the Software.
-;
-;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
-;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-;
-; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-		OPT	P+
 
 ***************************************************************************
 		IFND	EZFlag
@@ -45,16 +16,21 @@ EZFlag		equ 	0
 
 		IncDir	"includes/"
 		Include "exec/types.i"
-		Include "exec/interrupts.i"
-		Include "graphics/gfx.i"
+		Include "graphics/rastport.i"
+		Include	"graphics/clip.i"
 		Include "graphics/layers.i"
-		Include "graphics/clip.i"
-		Include "hardware/intbits.i"
+		Include "graphics/text.i"
 		Include "devices/input.i"
 		Include "devices/inputevent.i"
+		Include "exec/interrupts.i"
+		Include "exec/io.i"
+		Include "hardware/intbits.i"
+		
+		Include "graphics/layers_lib.i"
+		Include "graphics/graphics_lib.i"
 
-		Include	"+Debug.s"
-		Include	"+AMOS_Includes.s"
+		Include	"+AMOS_Includes.S"
+
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Version	MACRO
@@ -78,7 +54,7 @@ BugBug	movem.l	d0-d2/a0-a2,-(sp)
 .L0	move.w	#10000,d1
 .L1	move.w	d0,$DFF180
 	dbra	d1,.L1
-	dbra	d0,.L0
+	dbra	d0,.L0	
 	btst	#6,$BFE001
 	beq.s	.Ill
 	movem.l	(sp)+,d0-d2/a0-a2
@@ -94,7 +70,7 @@ BugBug	movem.l	d0-d2/a0-a2,-(sp)
 	IFEQ	EZFlag
 ***********************************************************
 *	COLLISIONS HARD
-
+	
 ******* SET HARDCOL
 *	D1= 	Sprites
 *	D2=	Enable
@@ -626,13 +602,13 @@ Spo3:	lsr.w	#1,d3
 * Poke, en respectant les FLAGS!
 Spo4:	and.w	#$C000,6(a1)
 	and.w	#$3FFF,d2
-	or.w	d2,6(a1)
+	or.w	d2,6(a1)	
 	move.w	d3,8(a1)
 	moveq	#0,d0
 	rts
 SpoE:	moveq	#-1,d0
 	rts
-
+	
 ***********************************************************
 *	GET BOB/BLOC
 *	A1= Ecran
@@ -1166,7 +1142,7 @@ DBo1:	moveq	#0,d0
 	move.l	BbDABuf+Decor(a2),a1
 	bsr	FreeMm
 * Enleve le canal d'animation
-DBo2:	lea	BbAct(a2),a0
+DBo2:	lea	BbAct(a2),a0	
 	bsr	DAdAMAL
 * Enleve le bob
 	move.l	BbNext(a2),d3
@@ -1413,7 +1389,7 @@ BbHt1	btst	#15,d3
 	move.w	d0,d4
 BbHt2	sub.w	d5,d1
 	sub.w	d4,d2
-* Nombre de plans
+* Nombre de plans	
 BbHt3	move.w	4(a1),d0
 	cmp.w	EcNPlan(a0),d0
 	bls.s	BbS1a
@@ -1466,7 +1442,7 @@ BbS1d	move.w	d2,d0
 	sub.w	BbLimB(a4),d2
 	sub.w	d2,d5
 	bls	BbSOut
-BbDe2:
+BbDe2:	
 	moveq	#0,d7
 	cmp.w	BbLimH(a4),d1		* Teste la limite en HAUT!
 	bge.s	BbDe1
@@ -1477,7 +1453,7 @@ BbDe2:
 	move.w	d1,d7
 	mulu	d4,d7
 	move.w	BbLimH(a4),d1
-BbDe1:
+BbDe1:	
 	move.w	EcTLigne(a0),d2
 	move.w	d2,d6
 	mulu	d1,d6
@@ -1500,7 +1476,7 @@ BbDe1:
 	move.w	0(a0,d1.w),d1
 	not.w	d1
 	move.w	d1,BbAMaskD(a4)
-BbDe4:
+BbDe4:	
 	moveq	#-1,d1
 	cmp.w	BbLimG(a4),d0		* Teste la limite a GAUCHE
 	bge.s	BbDe3
@@ -1540,9 +1516,9 @@ BbDe3:	move.w	d1,BbAMaskG(a4)
 
 	move.w	d0,d1
 	lea	BbAP(pc),a0
-	tst.l	d7
+	tst.l	d7	
 	bpl.s	BbDe5
-	addq.w	#1,d6			Suite BUG !
+	addq.w	#1,d6			Suite BUG ! 
 	subq.w	#1,d1
 	addq.w	#2,d2
 	bne.s	BbDe5
@@ -1550,7 +1526,7 @@ BbDe3:	move.w	d1,BbAMaskG(a4)
 BbDe5:	lsl.w	#6,d5
 	or.w	d5,d1
 	move.w	d1,BbESize(a4)
-	or.w	d5,d0
+	or.w	d5,d0	
 	move.w	d0,BbASize(a4)
 	move.w	d2,BbEMod(a4)
 	move.w	d6,BbEAEc(a4)
@@ -1688,7 +1664,7 @@ Retourne
 * En Y?
 RetBb1	btst	#14,d1
 	beq.s	RetBb2
-	bsr	RBobY
+	bsr	RBobY	
 * Poke les flags
 RetBb2	move.w	6(a1),d1
 	and.w	#$3FFF,d1
@@ -1765,7 +1741,7 @@ RBbX	subq.w	#1,d7		* Base cpt Y
 	move.w	d6,d4
 	lsr.w	#1,d6
 	subq.w	#1,d6
-	move.w	d6,a2		* Base cpt en X
+	move.w	d6,a2		* Base cpt en X	
 RBBis	btst	#0,d4
 	bne.s	RBbI0
 * Nombre PAIR de plans
@@ -1847,21 +1823,21 @@ RBbY3   move.w  (a1),d0
 ***********************************************************
 *	CALCUL DU MASQUE, 1 MOT BLANC A DROITE!
 *	A2= descripteur
-Masque:
+Masque:	
 *******
 	movem.l	d1-d7/a0-a2,-(sp)
 	move.l	(a2),a1
 	move.w	(a1),d2
 	lsl.w	#1,d2
 	mulu	2(a1),d2		* D2= Taille plan
-	move.l	d2,d3
+	move.l	d2,d3			
 	addq.l	#4,d3			* D3= Taille memoire
-	move.w	4(a1),d4
+	move.w	4(a1),d4		
 	subq.w	#2,d4			* D4= Nb de plans
 	move.w	d2,d5
 	lsr.w	#1,d5
 	subq.w	#1,d5
-* Reserve la memoire pour le masque
+* Reserve la memoire pour le masque		
 	move.l	4(a2),d0
 	bne.s	Mas0
 MasM	move.l	d3,d0
@@ -1891,8 +1867,8 @@ Mas4:	move.w	d0,(a2)+
 MasErr:	movem.l	(sp)+,d1-d7/a0-a2
 	moveq	#-1,d0
 	rts
-
-********************************************************
+	
+******************************************************** 
 *	EFFACEMENT DE TOUS LES BOBS DES ECRANS
 ********
 BobEff:	movem.l	d2-d7/a2-a6,-(sp)
@@ -1919,7 +1895,7 @@ BbE0:	move.l	d0,a5
 
 	move.w	BbDASize(a4),d2			* D2= BltSize
 	beq.s	BbE4
-	move.w	BbDAEc(a4),d3			* D3= Decalage ecran
+	move.w	BbDAEc(a4),d3			* D3= Decalage ecran	
 	ext.l	d3
 	lsl.l	#1,d3
 	move.w	BbEff(a5),d4
@@ -1981,15 +1957,15 @@ BbEfc4:	addq.l	#4,a3
 BbEx:	bsr	BlitWait
 	bsr	DOwnBlit
 BbExX:	movem.l	(sp)+,d2-d7/a2-a6
-	rts
+	rts	
 
-********************************************************
+******************************************************** 
 *	SAISIE  ET DESSIN DE TOUS LES BOBS
 ********
 BobAff	movem.l	d2-d7/a2-a6,-(sp)
 	lea	Circuits,a6
 	bsr	OwnBlit
-
+	
 ******* SAISIE
 	move.l	T_BbDeb(a5),d0
 	beq	BbGx
@@ -2018,7 +1994,7 @@ BbG0:	move.l	d0,a5
 	beq.s	BbG4
 	subq.w	#1,BbDCpt(a5)			* Une saisie de moins
 
-	move.w	BbDAEc(a4),d3			* D3= Decalage ecran
+	move.w	BbDAEc(a4),d3			* D3= Decalage ecran	
 	ext.l	d3
 	lsl.l	#1,d3
 	move.w	BbDAPlan(a4),d1
@@ -2081,7 +2057,7 @@ BbAx:	bsr	BlitWait
 
 ******* ROUTINE DESSIN au pixel
 BbAp:	bmi	BMAp
-	move.w	BbACon0(a4),BltCon0(a6)
+	move.w	BbACon0(a4),BltCon0(a6)	
 	move.w	BbACon1(a4),BltCon1(a6)
 	move.w	BbAAEc(a4),d3
 	ext.l	d3
@@ -2116,7 +2092,7 @@ BbAL:	bmi	BmAp
 	lsr.w	#6,d6
 	and.w	#%0111111,d2
 	or.w	#%1000000,d2
-	move.w	BbACon0(a4),BltCon0(a6)
+	move.w	BbACon0(a4),BltCon0(a6)	
 	move.w	BbACon1(a4),BltCon1(a6)
 	move.w	BbAAEc(a4),d3
 	ext.l	d3
@@ -2152,7 +2128,7 @@ BbAl5:	add.l	d4,a0
 
 ******* ROUTINE DESSIN: Multiple de 16!
 BbA16:	bmi	BMA16
-	move.w	BbAAEc(a4),d3		* D3= Decalage ecran
+	move.w	BbAAEc(a4),d3		* D3= Decalage ecran	
 	ext.l	d3
 	lsl.l	#1,d3
 	move.w	BbAModO(a4),d0		* Valeur MODULO
@@ -2213,7 +2189,7 @@ BMA3f:	add.l	d4,a0			  *
 	rts				  *
 
 Normal_BMA16:
-	move.w	BbACon0(a4),BltCon0(a6)
+	move.w	BbACon0(a4),BltCon0(a6)	
 	move.w	#0,BltCon1(a6)
 	moveq	#-1,d0
 	move.w	d0,BltMaskG(a6)
@@ -2236,13 +2212,13 @@ BMA3:	add.l	d4,a0
 	rts
 
 ******* ROUTINE DESSIN SANS MASQUE, Pixel!
-BMAp:
+BMAp:	
 	move.w	BbAAEc(a4),d3
 	ext.l	d3
 	lsl.l	#1,d3
 
 	move.w	BbAModO(a4),BltModB(a6)
-	move.w	BbACon0(a4),BltCon0(a6)
+	move.w	BbACon0(a4),BltCon0(a6)	
 	move.w	BbACon1(a4),BltCon1(a6)
 	move.w	BbAMaskG(a4),BltMaskG(a6)
 	move.w	BbAMaskD(a4),BltMaskD(a6)
@@ -2268,7 +2244,7 @@ BmAL:	move.w	d2,d6
 	lsr.w	#6,d6
 	and.w	#%0111111,d2
 	or.w	#%1000000,d2
-	move.w	BbACon0(a4),BltCon0(a6)
+	move.w	BbACon0(a4),BltCon0(a6)	
 	move.w	BbACon1(a4),BltCon1(a6)
 
 	move.w	BbAAEc(a4),d3
@@ -2302,8 +2278,8 @@ Bmal7:	add.l	d4,a0
 
 ******************************************************************
 *	Screen copy a0,d0,d1,d4,d5 to a1,d2,d3,d6
-*
-*	a0 Origin Bit Map Struc.   a1 Destination Bit Map Struc.
+*	            
+*	a0 Origin Bit Map Struc.   a1 Destination Bit Map Struc. 
 *	d0 Origin X (16 a factor!) d2 Destination X (16 a factor!)
 *	d1 Origin Y		   d3 Destination Y
 *		  	d4 Width  X (Must be multiple of 16!)
@@ -2314,9 +2290,9 @@ Bmal7:	add.l	d4,a0
 *	then blit is done and result is 0 otherwise not done
 *	and result is -1.
 *
-*	Uses only A and D channels for blit,
+*	Uses only A and D channels for blit, 
 *	therefore twice as fast as normal screen copy!
-*
+* 
 
 WScCpy:	cmp.b	#$CC,d6
 	bne.s	NoWScCpy
@@ -2397,7 +2373,7 @@ Blit_Loop:
 	add.l	d0,a2
 	move.l	(a1)+,a3
 	add.l	d2,a3
-	bsr	BlitWait
+	bsr	BlitWait	
 	move.l	a2,BltAdA(a6)
 	move.l	a3,BltAdC(a6)
 	move.l	a3,BltAdD(a6)
@@ -2406,11 +2382,11 @@ Start_Blit:
 	subq.w	#1,d4
 	bmi.s	Blit_out
 	dbra	d3,Blit_Loop
-Blit_out:
+Blit_out: 
 	bsr	BlitWait
 	bsr	DownBlit
 	moveq.l	#0,d7
-	rts
+	rts	
 
 ***********************************************************
 *	Calcul de PEN/PAPER
@@ -2461,7 +2437,7 @@ ACol1	move.l	0(a0,d0.w),d0
 *	DEMARRAGE A FROID DES ECRANS
 *	D0= taille memoire pour liste copper
 ***********************************************************
-EcInit:
+EcInit:	
 * Reserve la memoire pour liste copper ecrans
 	move.l	#EcTCop,d0
 	bsr	FastMm
@@ -2474,7 +2450,7 @@ EcInit:
 	move.l	d0,T_ChipBuf(a5)
 * Taille affichage par defaut
 	move.w	#311+EcYBase,T_EcYMax(a5)	PAL
-	move.l	$4.w,a0
+	move.l	$4.w,a0			
 	cmp.b	#50,530(a0)			VBlankFrequency=50?
 	beq.s	.NoNTSC
 	move.w	#261+EcYBase,T_EcYMax(a5)	NTSC!
@@ -2521,56 +2497,56 @@ EcEnd1:	rts
 
 
 ******* Jumps to screen functions
-EcIn:	bra	EcRaz		;Raz:
-	bra	EcCopper	;CopMake:
-	bra	EcCopper	;*
-	bra	EcCree		;Cree:
-	bra	EcDel		;Del:
-	bra	EcFirst		;First:
-	bra	EcLast		;Last:
-	bra	EcMarch		;Active:
-	bra	EcForceCop	;CopForce:
-	bra	EcView		;AView:
-	bra	EcOffs		;OffSet:
-	bra	EcEnd		;Visible:
-	bra	EcDAll		;DelAll:
-	bra	EcGCol		;GCol:
-	bra	EcSCol		;SCol:
-	bra	EcSPal		;SPal:
-	bra	EcSColB		;SColB:
-	bra	FlStop		;FlRaz:
-	bra	FlStart		;Flash:
-	bra	ShStop		;ShRaz:
-	bra	ShStart		;Shift:
-	bra	EcHide		;EHide:
-	bra	MakeCBloc	;CBlGet:
-	bra	DrawCBloc	;CBlPut:
-	bra	FreeCBloc	;CBlDel:
-	bra	RazCBloc	;CBlRaz:
-	bra	EcLibre		;Libre:
-	bra	EcCClo		;CCloEc:
-	bra	EcCrnt		;Current:
-	bra	EcDouble	;Double:
-	bra	ScSwap		;SwapSc:
-	bra	ScSwapS		;SwapScS:
-	bra	EcAdres		;AdrEc:
-	bra	Duale		;SetDual:
-	bra	DualP		;PriDual:
-	bra	EcCls		;ClsEc:
-	bra	SPat		;Pattern:
-	bra	TGFonts		;GFonts:
-	bra	TFFonts		;FFonts:
-	bra	TGFont		;GFont:
-	bra	TSFont		;SFont:
-	bra	TSClip		;SetClip:
+EcIn:	bra	EcRaz		;Raz:		
+	bra	EcCopper	;CopMake:	
+	bra	EcCopper	;*		
+	bra	EcCree		;Cree:		
+	bra	EcDel		;Del:		
+	bra	EcFirst		;First:		
+	bra	EcLast		;Last:		
+	bra	EcMarch		;Active:		
+	bra	EcForceCop	;CopForce:	
+	bra	EcView		;AView:		
+	bra	EcOffs		;OffSet:		
+	bra	EcEnd		;Visible:	
+	bra	EcDAll		;DelAll:		
+	bra	EcGCol		;GCol:		
+	bra	EcSCol		;SCol:		
+	bra	EcSPal		;SPal:		
+	bra	EcSColB		;SColB:		
+	bra	FlStop		;FlRaz:		
+	bra	FlStart		;Flash:		
+	bra	ShStop		;ShRaz:		
+	bra	ShStart		;Shift:		
+	bra	EcHide		;EHide:		
+	bra	MakeCBloc	;CBlGet:		
+	bra	DrawCBloc	;CBlPut:		
+	bra	FreeCBloc	;CBlDel:		
+	bra	RazCBloc	;CBlRaz:		
+	bra	EcLibre		;Libre:		
+	bra	EcCClo		;CCloEc:		
+	bra	EcCrnt		;Current:	
+	bra	EcDouble	;Double:		
+	bra	ScSwap		;SwapSc:		
+	bra	ScSwapS		;SwapScS:	
+	bra	EcAdres		;AdrEc:		
+	bra	Duale		;SetDual:	
+	bra	DualP		;PriDual:	
+	bra	EcCls		;ClsEc:		
+	bra	SPat		;Pattern:	
+	bra	TGFonts		;GFonts:		
+	bra	TFFonts		;FFonts:		
+	bra	TGFont		;GFont:		
+	bra	TSFont		;SFont:		
+	bra	TSClip		;SetClip:	
 	bra	MakeBloc	;- BlGet:		Routine blocs normaux
-	bra	DelBloc		;-BlDel:
-	bra	RazBloc		;-BlRaz:
-	bra	DrawBloc	;-BlPut:
+	bra	DelBloc		;-BlDel:		
+	bra	RazBloc		;-BlRaz:		
+	bra	DrawBloc	;-BlPut:		
 	bra	SliVer		;- VerSli:		Slider vertical
 	bra	SliHor		;- HorSli:		Slider horizontal
 	bra	SliSet		;- SetSli:		Set slider params
-	bra	StaMn		;- MnStart:	Sauve l'ecran
+	bra	StaMn		;- MnStart:	Sauve l'ecran 
 	bra	StoMn		;- MnStop:		Remet l'ecran
 	bra	TRDel		;- RainDel:	Delete RAINBOW
 	bra	TRSet		;- RainSet:	Set RAINBOW
@@ -2612,7 +2588,7 @@ TMaxRaw	move.w	T_EcYMax(a5),d1
 ******* NTSC?
 TNTSC	moveq	#0,d0
 	moveq	#0,d1			PAL
-	move.l	$4.w,a0
+	move.l	$4.w,a0			
 	cmp.b	#50,530(a0)		VBlankFrequency=50?
 	beq.s	.NoNTSC
 	moveq	#-1,d1			NTSC!
@@ -2725,7 +2701,7 @@ ScSwS4	move.l	(a0),(a2)+
 	clr.l	SwapL(a6)		* Empeche le suivant!
 	move.l	d7,(a6)
 	bra	ScSwS1
-
+	
 ******* SCREEN CLONE N
 EcCClo:	movem.l	d1-d7/a1-a6,-(sp)
 	move.l	d1,-(sp)
@@ -2795,7 +2771,7 @@ EcDb2:	move.l	(a0)+,(a1)+
 	dbra	d6,EcDb1
 * Met le flag!
 	bset	#BitDble,EcFlags(a4)
-	move.w	#2,EcAuto(a4)
+	move.w	#2,EcAuto(a4)	
 * Enleve le BUG!
 	bsr	TAbk1
 	bsr	TAbk2
@@ -2865,7 +2841,7 @@ EcDu2:	moveq	#12,d1
 	neg.w	d7
 	move.w	d7,EcDual(a1)
 	bra	EcTout
-
+	
 ******* DUAL PRIORITY n,m
 DualP:	movem.l	d1-d7/a1-a6,-(sp)
 	cmp.w	d1,d2
@@ -2901,10 +2877,10 @@ EcDup2:	move.w	d1,EcCon2(a0)
 *	D3= TY
 *	D4= NB PLANS
 *	D5= MODE
-*	D6= NB COULEURS
+*	D6= NB COULEURS 
 *	A1= PALETTE
 EcCree:	movem.l	d1-d7/a1-a6,-(sp)
-
+	
 ;	Verifie les parametres
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	and.l	#$FFFFFFF0,d2
@@ -2925,7 +2901,7 @@ EcCree:	movem.l	d1-d7/a1-a6,-(sp)
 ReEc:	move.l	d1,-(sp)
 	bsr	EcGet
 	beq.s	EcCr0
-; Efface l'ecran deja rï¿½serve
+; Efface l'ecran deja réserve
 	move.l	(sp)+,d1
 	bsr	EcDel
 	bra.s	ReEc
@@ -3005,7 +2981,7 @@ EcCra:	move.l	d7,d0
 
 ;	Ouverture d'un rastport intuition REEL
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	move.l	T_LayBase(a5),a6
+	move.l	T_LayBase(a5),a6		
 	jsr	_LVONewLayerInfo(a6)		Creation de LayerInfo
 	move.l	d0,Ec_LayerInfo(a4)
 	beq	EcMdd
@@ -3224,7 +3200,7 @@ Ec_Push	movem.l	a0-a1/d0,-(sp)
 	move.w	EcClipY1(a0),(a1)+	38
 .Pasave	movem.l	(sp)+,a0-a1/d0
 	rts
-
+	
 ;	Restore les modes graphiques de l'ecran courant
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ec_Pull	movem.l	a0-a2/d0-d3,-(sp)
@@ -3238,10 +3214,10 @@ Ec_Pull	movem.l	a0-a2/d0-d3,-(sp)
 ; ~~~~~~~~~~~~~~~~~~
 	moveq	#0,d0			Ink A
 	move.b	(a2)+,d0
-	GfxA5	SetAPen
+	GfxA5	SetAPen		
  	moveq	#0,d0			Ink B
 	move.b	(a2)+,d0
-	GfxA5	SetBPen
+	GfxA5	SetBPen			
 	move.b	(a2)+,27(a1)		OutL
 	moveq	#0,d0
 	move.b	(a2)+,d0
@@ -3376,7 +3352,7 @@ EcDit0	move.l	(a1),d0
 	bra.s	EcDit0
 EcDit1	lea	8(a1),a1
 	bra.s	EcDit0
-EcDit2	clr.l	(a0)
+EcDit2	clr.l	(a0)	
 ; Enleve les screen swaps!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 EcDit3	lea	T_SwapList(a5),a0
@@ -3401,11 +3377,11 @@ EcDD:	move.l	EcAZones(a4),d0		Les zones
 	lea	EcAWT(a4),a0
 	bsr	DAdAMAL
 	lea	EcAV(a4),a0
-	bsr	DAdAMAL
+	bsr	DAdAMAL	
 	move.l	a4,a0			Les bobs
 	bsr	BbEcOff
 
-	move.l	T_EcCourant(a5),d3
+	move.l	T_EcCourant(a5),d3	
 	move.l	a4,a0			Active l'ecran
 	bsr	Ec_Active		Pour les effacements
 	bsr	WiDelA			Toutes les fenetres
@@ -3462,7 +3438,7 @@ EcD3:	move.l	d3,a0
 	move.l	T_LayBase(a5),a6
 	move.l	Ec_Layer(a4),d0
 	beq.s	.Nola1
-	move.l	d0,a1
+	move.l	d0,a1		
 	sub.l	a0,a0
 	move.l	T_LayBase(a5),a6
 	jsr	_LVODeleteLayer(a6)		Enleve le layer
@@ -3509,7 +3485,7 @@ EcFr4:	clr.l	(a2)+
 	move.l	d0,a1
 	moveq	#40,d0
 	bsr	FreeMm
-.PaBM
+.PaBM	
 
 ; 	Libere les structures
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3651,7 +3627,7 @@ TAbk4X:	movem.l	(sp)+,a3-a6
 	rts
 
 ***********************************************************
-*	CLS
+*	CLS 
 *	D1= Couleur
 *	D2= X
 *	D3= Y
@@ -3976,7 +3952,7 @@ TRVar	bsr	RainAd
 	move.l	a1,a0
 	moveq	#0,d0
 	rts
-
+	
 ******* SET RAINBOW
 *	D1= Numero
 *	D2= Nb de lignes
@@ -3985,7 +3961,7 @@ TRVar	bsr	RainAd
 *	D5= Chaine G
 *	D6= Chaine B
 *	D7= Valeur de depart
-TRSet
+TRSet	
 	clr.l	T_AMALSp(a5)
 
 * Efface l'ancien
@@ -3998,7 +3974,7 @@ TRSet
 	move.l	sp,a3
 	move.l	a0,a1
 	and.w	#31,d3			* Couleur du rainbow
-	cmp.w	#PalMax,d3
+	cmp.w	#PalMax,d3	
 	bcc	TrSynt
 	move.w	d3,RnColor(a1)
 	move.w	d7,d3
@@ -4011,14 +3987,14 @@ TRSet
 	move.l	d0,RnBuf(a1)
 	move.w	d1,RnLong(a1)
 	clr.w	RnAct(a0)		* Rien a faire pour le moment
-	move.w	#-1,RnI(a0)		* Rien ï¿½ afficher
+	move.w	#-1,RnI(a0)		* Rien à afficher
 	clr.w	RnX(a0)			* Position base
 	clr.w	RnY(a0)			* Position Y
 	clr.l	RnDY(a0)		* Rien en route!
 	clr.w	RnTY(a0)		* Vraiment rien!
 
 	move.l	d0,a2
-	move.l	Buffer(a5),a1
+	move.l	Buffer(a5),a1	
 	move.l	a1,-(sp)		* 12(sp)-> Base
 	clr.w	-(sp)			* 10(sp)-> Position
 	move.w	#1,-(sp)		*  8(sp)-> Nb Mvt
@@ -4112,7 +4088,7 @@ TrSynt	move.l	a3,sp
 	bsr	TRDel
 	moveq	#1,d0
 	rts
-
+	
 ******* Tokenisation RAINBOW
 RainTok	movem.l	a2/d1-d4,-(sp)
 	clr.l	(a1)
@@ -4261,11 +4237,11 @@ SClipX	bsr	Ec_SetClip
 	rts
 SClipE:	moveq	#1,d0
 	rts
-
+      
 
 ;	Change le clip rectangle dans l'ecran
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ec_SetClip
+Ec_SetClip 
 	movem.l	d2-d4/a4/a6,-(sp)
 	move.l	T_EcCourant(a5),a4
 	tst.l	Ec_Region(a4)
@@ -4296,7 +4272,7 @@ Ec_SetClip
 	move.l	sp,a1
 	move.l	d0,a0
 	jsr	_LVOOrRectRegion(a6)
-	tst.l	d0
+	tst.l	d0				
 	beq.s	.Out
 	move.l	T_LayBase(a5),a6		Installe le CLIP
 	move.l	Ec_Layer(a4),a0
@@ -4308,7 +4284,7 @@ Ec_SetClip
 ; Poke dans les structures
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 .Deja	lea	EcClipX0(a4),a0
-	movem.w	d0-d3,(a0)
+	movem.w	d0-d3,(a0)	
 	subq.w	#1,d2
 	subq.w	#1,d3
 	move.l	Ec_Layer(a4),a0			Layer
@@ -4916,7 +4892,7 @@ TgfE:	moveq	#-1,d0
 TgfV:	moveq	#1,d0
 	rts
 
-; SET FONT
+; SET FONT 
 ;	D1= 	Numero fonte
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~
 TSFont	bsr	CFont
@@ -4931,7 +4907,7 @@ TSFont	bsr	CFont
 	beq.s	.Ram
 ; Fonte DISQUE: essaie d'abord en ROM, au cas zou
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	move.l	#502,d0			50 Fontes retournï¿½es
+	move.l	#502,d0			50 Fontes retournées
 	moveq	#1,d1			Fontes RAM
 	lea	-502(sp),sp
 	move.l	sp,a0
@@ -5022,11 +4998,11 @@ StaMn:	bsr	Ec_Push
 	move.w	EcTx(a0),d2
 	move.w	EcTy(a0),d3
 	bsr	Ec_SetClip
-* Writing normal
+* Writing normal 
 	move.l	T_RastPort(a5),a1
 	moveq	#1,d0
 	GfxA5	SetDrMd
-* Outline ON
+* Outline ON	
 	bset	#3,33(a1)
 	move.w	#$FFFF,34(a1)
 	rts
@@ -5140,9 +5116,9 @@ SliDess	cmp.w	d0,d2
 SliDx	rts
 
 ******* Change les parametres pour dessiner le slider
-SliPut:
+SliPut:	
 * Change les encres
-	move.l	T_RastPort(a5),a1
+	move.l	T_RastPort(a5),a1		
 	move.b	d6,27(a1)		* Ink C
 	move.w	d5,d0			* Ink B
 	GfxA5	SetBPen
@@ -5170,7 +5146,7 @@ SliPour	move.w	d0,-(sp)
 Poua:	move.w	d3,d5
 
 Poub	bclr	#31,d7		* Flag DBug
-	move.w	d5,d1		* Si position + taille
+	move.w	d5,d1		* Si position + taille 
 	add.w	d4,d1		  >= maximum: dessin plein...
 	cmp.w	d3,d1
 	bcs.s	.Deb
@@ -5197,7 +5173,7 @@ Pou1:	moveq	#0,d0		* Calculs *256
 	mulu	d0,d4
 	lsr.l	#8,d4
 	mulu	d5,d0
-	cmp.b	#$80,d0
+	cmp.b	#$80,d0		
 	bcs.s	.Skip
 	add.l	#$00000100,d0
 .Skip	lsr.l	#8,d0
@@ -5229,7 +5205,7 @@ SlPoF:	sub.w	d6,d7		* TAILLE du centre!
 	move.w	(sp)+,d0
 	btst	#31,d7
 	beq.s	.Ok
-	move.w	d0,d6		* Positionne EXACTEMENT ï¿½ la fin! GRRRRRRR
+	move.w	d0,d6		* Positionne EXACTEMENT à la fin! GRRRRRRR
 	sub.w	d7,d6
 .Ok	moveq	#0,d0
 	rts
@@ -5298,7 +5274,7 @@ FlS3	lea	LFlash(a0),a0
 FlSx	bsr	FlCalc			Nombre de flash reels
 	subq.b	#1,T_NbFlash+1(a5)	Redemarre
 	rts
-
+	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;       FLASH X,A$     d1=numero de la couleur, a1=adresse de la chaine
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -5400,7 +5376,7 @@ FlCalc	movem.l	a0-a1/d0-d1,-(sp)
 	subq.b	#1,T_NbFlash+1(a5)
 	movem.l	(sp)+,a0-a1/d0-d1
 	rts
-
+	
 
 	IFEQ	EZFlag
 ***********************************************************
@@ -5457,7 +5433,7 @@ ShStop:	move.l	T_EcCourant(a5),d0
 	clr.w	(a0)
 ShStX:	moveq	#0,d0
 	rts
-
+	
 ***********************************************************
 *	INTERRUPTIONS SHIFTER
 ***********************************************************
@@ -5551,7 +5527,7 @@ DoF1	clr.w	T_FadeFlag(a5)
 	move.l	a2,T_FadePal(a5)
 * Explore toutes la palette (marquee)
 	moveq	#0,d7
-	moveq	#0,d6
+	moveq	#0,d6	
 	lea	T_FadeCol(a5),a3
 DoF2	move.w	(a1)+,d2
 	bmi.s	DoF5
@@ -5571,7 +5547,7 @@ DoF3	move.w	d0,d1
 	beq.s	DoF4
 	or.w	#$1,d5
 DoF4	subq.w	#4,d4
-	bpl.s	DoF3
+	bpl.s	DoF3	
 	add.w	d5,d6
 	tst.w	d5
 	bne.s	DoF5
@@ -5579,7 +5555,7 @@ DoF4	subq.w	#4,d4
 DoF5	addq.w	#2,d7
 	cmp.w	#32*2,d7
 	bcs.s	DoF2
-* Demarre -ou non!-
+* Demarre -ou non!- 
 	move.w	d6,T_FadeFlag(a5)
 	subq.w	#1,d6
 	move.w	d6,T_FadeNb(a5)
@@ -5635,7 +5611,7 @@ Fad7	moveq	#0,d2
 	bra.s	Fad9
 Fad8	subq.w	#1,d2
 Fad9	addq.w	#1,d4
-	move.b	d2,-2(a2)
+	move.b	d2,-2(a2)	
 * Calcule la couleur
 FadA	tst.w	d4
 	beq.s	FadN1
@@ -5722,7 +5698,7 @@ FlShXX	rts
 *	FABRIQUE LA COPPER LISTE A PARTIR DES ECRANS
 *
 ******* ACTUALISATION DES ECRANS
-EcForceCop:				* Entree en forcant le calcul
+EcForceCop:				* Entree en forcant le calcul 
 	addq.w	#1,T_EcYAct(a5)
 EcCopper:				* Entree normale
 	movem.l	d1-d7/a1-a6,-(sp)
@@ -5850,12 +5826,12 @@ MkD3:	cmp.w	#-1,d5			;Fini?
 	cmp.w	#EcYStrt-1,d2		;Passe le haut de l'ecran?
 	bcc.s	MkD3a
 	cmp.w	#EcYStrt-1,d3
-	bcs.s	MkD3a
+	bcs.s	MkD3a	
 	move.w	#EcYStrt-1,(a3)+	;Marque le haut de l'ecran
 	clr.w	(a3)+
 	move.w	#$8000,(a3)+
-
-MkD3a:
+	
+MkD3a:	
 MkD3b:
 	move.w	d3,(a3)+
 	move.w	d4,(a3)+
@@ -5917,12 +5893,12 @@ MkA2:	cmp.l	a3,a0
 MkA3:	lea	6(a0),a0
 	bra.s	MkA2
 
-; Fin d'une fenetre: doit-on en reafficher une autre?
+; Fin d'une fenetre: doit-on en reafficher une autre?	
 MkA4:	and.w	#$7FFF,d2
 	cmp.w	#$100,d2		;Si fin de l'ecran --> marque!
 	beq	MkA9a
 
-	clr.w	d3
+	clr.w	d3	
 MkA4a:	addq.w	#6,d3			;Cherche UN DEBUT devant
 	cmp.w	0(a3,d3.w),d0
 	bne.s	MkA4b
@@ -5950,7 +5926,7 @@ MkA7:	cmp.w	#1000,d3
 	beq.s	MkA9
 	cmp.w	d2,d3
 	bls.s	MkA10
-	move.w	d3,d2
+	move.w	d3,d2		
 ; Peut creer la fenetre
 MkA8:	move.l	-4(a2,d2.w),a0
 	move.w	(a3),d0
@@ -6056,7 +6032,7 @@ MCopX:	subq.l	#2,a2
 	bne.s	.Skip
 	move.w	T_EcYMax(a5),d0
 	subq.w	#1,d0
-	bsr	EcCopBa
+	bsr	EcCopBa	
 .Skip	move.l	#$FFFFFFFE,(a1)+
 *******	Swappe les listes
 MCopSw	move.l	T_CopLogic(a5),a0
@@ -6144,7 +6120,7 @@ Rain1	move.w	(a2)+,d1
 	cmp.w	#PalMax*4,d4
 	bcs.s	Rain1d
 	lea	64(a4),a4
-Rain1d	move.l	(a4),a0
+Rain1d	move.l	(a4),a0	
 	move.w	2(a0,d4.w),d3
 	bclr	#31,d3
 Rain1e	cmp.w	d7,d0
@@ -6189,7 +6165,7 @@ Rain3	subq.l	#2,a2
 	move.w	T_EcYMax(a5),d0
 	subq.w	#1,d0
 	bsr	Rain
-	bsr	EcCopBa
+	bsr	EcCopBa	
 .Skip	move.l	#$FFFFFFFE,(a1)+
 	bra	MCopSw
 ******* Fabrique le rainbow ---> Y=D1
@@ -6202,7 +6178,7 @@ RainD1	move.w	d0,d2
 	move.w	#$FFE1,(a1)+
 	move.w	#$FFFE,(a1)+
 	addq.w	#1,T_Cop255(a5)
-RainD2	lsl.w	#8,d2
+RainD2	lsl.w	#8,d2	
 	or.w	#$03,d2
 	move.w	d2,(a1)+
 	move.w	#$FFFE,(a1)+
@@ -6217,7 +6193,7 @@ Rain	cmp.w	d7,d0
 	bcc.s	RainNx
 RainD0	cmp.w	d1,d0
 	bcs.s	RainD1
-RainDX	move.w	d1,d0
+RainDX	move.w	d1,d0	
 	rts
 ******* Trouve le rainbow comprenant D0
 RainNX	tst.l	d3
@@ -6238,7 +6214,7 @@ RainN1	cmp.w	(a0),d0
 	cmp.w	RnFY(a0),d0
 	bcs.s	RainN5
 RainN2	lea	RainLong(a0),a0
-	dbra	d2,RainN1
+	dbra	d2,RainN1	
 	lea	T_RainTable(a5),a0	* Trouve le 1er plus bas
 	moveq	#0,d7
 	moveq	#NbRain-1,d2
@@ -6274,7 +6250,7 @@ RainN6	sub.w	RnLong(a0),a3
 	bcc.s	RainN6
 RainD7	move.w	RnFY(a0),d7
 * Nouvelle couleur
-	move.w	d4,d2
+	move.w	d4,d2	
 	move.w	RnColor(a0),d4
 	move.w	d4,d5
 	lsl.w	#2,d4
@@ -6293,7 +6269,7 @@ RainD9	bclr	#31,d3
 ******* Creation de la ligne COPPER de definition d'un ecran!
 *	D0=	Y ecran
 *	A0= 	Adresse de l'ecran
-EcCopHo
+EcCopHo	
 * Decalage PHYSIQUE dans la fenetre
 	move.w	d0,d1
 	sub.w	EcWY(a0),d1
@@ -6301,7 +6277,7 @@ EcCopHo
 	btst	#2,EcCon0+1(a0)		* par 2 si entrelace!
 	beq.s	MkC4a
 	lsl.w	#1,d1
-MkC4a
+MkC4a	
 * Attend jusqu'a la ligne D0
 	move.w	d0,d2
 	sub.w	#EcYBase,d2
@@ -6352,7 +6328,7 @@ MkC0:	move.l	0(a0,d2.w),d5
 	addq.l	#4,d2
 	dbra	d6,MkC0
 * Marque les adresses SCREEN SWAP
-	move.w	EcNumber(a0),d2		* Marque les adresse
+	move.w	EcNumber(a0),d2		* Marque les adresse 
 	cmp.w	#10,d2			* Si ecran utilisateur!
 	bcc.s	MrkC2
 	lsl.w	#6,d2
@@ -6364,7 +6340,7 @@ MrkC1	tst.l	(a4)
 	clr.l	(a4)
 	move.l	d3,-8(a4)		* Adresse dans liste
 	move.l	d1,-4(a4)		* Decalage
-MrkC2:
+MrkC2:	
 * Calcule les valeurs non plantantes!
 	move.w	#465+16,d3
 	tst.w	EcCon0(a0)
@@ -6407,7 +6383,7 @@ MkC2a:	lsl.w	#1,d5
 	sub.w	d5,d4
 	bpl.s	MkC2
 	clr.w	d4
-MkC2:
+MkC2:	
 * Calcul DDF Start/Stop---> D1/D2
 	move.w	EcWXr(a0),d1
 	move.w	EcWTxr(a0),d2
@@ -6489,7 +6465,7 @@ FiCp1	cmp.w	d0,d1
 	lea	EcPal+PalMax*2(a0),a4
 MkC7:	move.w	d2,(a1)+
 	addq.w	#2,d2
-	move.w	(a4)+,(a1)+
+	move.w	(a4)+,(a1)+ 
 	dbra	d1,MkC7
 * Adresse de la 2ieme palette
 	move.w	EcNumber(a0),d2
@@ -6500,16 +6476,16 @@ MkC8:	tst.l	(a4)+
 	bne.s	MkC8
 	clr.l	(a4)
 	sub.l	#4*PalMax,d3
-	move.l	d3,-(a4)
+	move.l	d3,-(a4)	
 * Adresse de la 1ere palette dans la liste copper
-MkC9	move.w	EcNumber(a0),d2		* Marque les adresse
+MkC9	move.w	EcNumber(a0),d2		* Marque les adresse 
 	lsl.w	#7,d2
 	lea	T_CopMark(a5),a4
 	add.w	d2,a4
 MkC10:	tst.l	(a4)+
 	bne.s	MkC10
 	clr.l	(a4)
-	move.l	d4,-(a4)
+	move.l	d4,-(a4)	
 * Fini!
 	rts
 
@@ -6633,7 +6609,7 @@ MkdC1a:	cmp.w	#176,d6
 MkdC1b:	move.w	d1,EcWXr(a0)
 	move.w	d2,EcWTxr(a0)
 	move.w	#DiwStrt,(a1)+		;DiwStrt Y = 0
-	move.w	d1,(a1)
+	move.w	d1,(a1)	
 	or.w	#$0100,(a1)+
 	move.w	#DiwStop,(a1)+		;DiwStop Y = 311
 	add.w	d2,d1
@@ -6659,7 +6635,7 @@ MkdC2:	lsl.w	#1,d6
 MkdC2a:	sub.w	d7,d5
 	bpl.s	MkdC2b
 	clr.w	d5
-MkdC2b:
+MkdC2b:	
 * Calcul DDF Start/Stop---> D1/D2
 	move.w	EcVX(a0),d6
 	move.w	EcVX(a2),d7
@@ -6755,7 +6731,7 @@ WaitD2:	cmp.w	#256,d2
 	move.w	#$FFDF,(a1)+
 	move.w	#$FFFE,(a1)+
 	addq.w	#1,T_Cop255(a5)
-WCop:	lsl.w	#8,d2
+WCop:	lsl.w	#8,d2	
 	or.w	#$03,d2
 	move.w	d2,(a1)+
 	move.w	#$FFFE,(a1)+
@@ -6764,7 +6740,7 @@ WCop:	lsl.w	#8,d2
 ***********************************************************
 *	INITIALISATION GENERALE LISTE COPPERS
 *	D0= longueur des listes (physic et logic)
-CpInit:
+CpInit:	
 * Reserve la memoire pour les listes
 	move.l	d0,T_CopLong(a5)
 	bsr	ChipMm
@@ -7340,7 +7316,7 @@ AnJmp:	move.w	$1C/2(a4),(a2)+
 	clr.w	(a2)+
 	bra	AniLoop
 
-*******	For RA=deb To end
+*******	For RA=deb To end 
 AnFor:	tst.w	d5
 	bne	AniE9
 	move.w	$28/2(a4),(a2)+
@@ -7380,7 +7356,7 @@ AnNext:	tst.w	d5
 	move.w	d0,(a2)+
 	bra	AniLoop
 
-******* LET
+******* LET 
 AnLet:	move.w	$20/2(a4),(a2)+
 	bsr	AniReg
 	beq	AniE1
@@ -7444,7 +7420,7 @@ AnPlay:	addq.l	#1,a0
 	move.w	$00C0/2(a4),(a2)+
 	bsr	AniExp
 	bra	AniLoop
-******* Anim
+******* Anim 
 AnAni:	cmp.b	#"U",(a0)
 	beq	AnAutOn
 	move.w	$CC/2(a4),(a2)+
@@ -7579,7 +7555,7 @@ StChr1	move.b	(a0)+,d0
 	sub.b	#32,d0
 StChr2	rts
 
-***********************************************************
+***********************************************************	
 * 	DEUXIEME PASSE: affecte les labels!
 AnPasse2:
 	move.w	$00/2(a4),(a2)+
@@ -7619,13 +7595,13 @@ AniX2:	move.l	a6,a0
 Aniee3:	lea	0(a2,d0.w),a0
 	bra.s	Anie3
 Aniee4:	lea	0(a2,d0.w),a0
-	bra.s	Anie4
+	bra.s	Anie4	
 	ENDC
 
 ******* ERREUR!
 AniE10:	addq.w	#1,d4			* PLay only with bank
 AniE9:	addq.w	#1,d4			* Not authorised during autotest
-AniE8:	addq.w	#1,d4			* Label already def
+AniE8:	addq.w	#1,d4			* Label already def			
 AniE7:	addq.w	#1,d4			* String too long
 AniE6:	addq.w	#1,d4			* Autotest not opened
 AniE5:	addq.w	#1,d4			* Autotest already on
@@ -7666,7 +7642,7 @@ AniR:	moveq	#$00/2,d1
 	sub.b	#"0",d0
 	bcs	AniRe
 	cmp.b	#NbInterne,d0
-	bcc.s	AniR0
+	bcc.s	AniR0	
 	addq.w	#1,d0
 	neg.w	d0
 	bra.s	AniR1
@@ -7887,7 +7863,7 @@ ClAm:	clr.l	(a0)+
 	rts
 
 ***********************************************************
-*	SYNCHRO: D1= on/off
+*	SYNCHRO: D1= on/off 
 SyncO:	move.w	d1,T_SyncOff(a5)
 	moveq	#0,d0
 	rts
@@ -8193,7 +8169,7 @@ DAdAMAL:
 	clr.l	T_AmChaine(a5)
 	clr.l	T_AmFreeze(a5)
 	move.l	d6,d5
-	beq	MvOx
+	beq	MvOx	
 	move.l	a0,d7
 DAdAM1:	move.l	d5,a1
 	cmp.l	AmAct(a1),d7
@@ -8282,9 +8258,9 @@ TChanM	bsr	RChan
 	tst.l	AmPos(a1)
 	beq.s	TMvo1
 	bne.s	TMvo2
-
+	
 ***********************************************************
-*	OFF/ON/FREEZE
+*	OFF/ON/FREEZE 
 *	D1= -1 -> TOUS / D1=#
 *	D2= Bit a 1--> A Changer
 *	D3= -1-> OFF / 0-> Freeze / 1-> On
@@ -8315,7 +8291,7 @@ MvOx:	move.l	d6,T_AmDeb(a5)
 
 ******* ARRETE TOUT!
 MvOAll:	move.l	d6,d5
-	beq.s	MvOx
+	beq.s	MvOx	
 MvOA1:	move.l	d5,a1
 	move.l	AmNext(a1),d5
 	move.w	AmNb(a1),d7
@@ -8388,7 +8364,7 @@ UFrzAMAL:
 	move.l	d0,T_AmChaine(a5)
 UFrzA:	clr.l	T_AmFreeze(a5)
 	bra.s	FrzA
-
+	
 
 ******* BRANCHEMENT AUX FONCTIONS
 AmJumps	dc.w 	AmStop-AmJumps			* 00
@@ -8468,7 +8444,7 @@ AmRE:	move.l	d0,a6
 	beq.s	AmL1
 	move.l	d0,a3
 	moveq	#20,d6
-	move.w	(a3)+,d0
+	move.w	(a3)+,d0	
 	jsr	0(a4,d0.w)
 
 ******* Boucle normale
@@ -8476,7 +8452,7 @@ AmL1:	move.l	AmPos(a6),d0
 	beq.s	AmRet
 	move.l	d0,a3
 	moveq	#10,d6
-	move.w	(a3)+,d0
+	move.w	(a3)+,d0	
 	jsr	0(a4,d0.w)
 
 ******* Appel de l'animation?
@@ -8682,7 +8658,7 @@ AmPli:	lea	-2(a3),a0
 	clr.w	AmVirgY(a6)
 	bra	AmPl0
 
-******* ANIM
+******* ANIM 
 AmAni:	bsr	AmEvalue		* Initialise l'animation!
 	move.w	d3,AmACLoop(a6)
 	move.w	#1,AmACpt(a6)
@@ -8847,7 +8823,7 @@ AmWait:	clr.l	AmPos(a6)
 AmRien:	move.w	(a3)+,d0
 	jmp	0(a4,d0.w)
 
-******* LET
+******* LET 
 AmLet:	bsr	AmEvalue
 	move.w	(a3)+,d0
 	jsr	0(a4,d0.w)
@@ -9100,7 +9076,7 @@ AEgR0:	lea	AmIRegs+NbInterne*2(a6),a0
 * =On
 AmOn:	tst.w	AmCpt(a6)
 	bmi.s	AmO0
-	beq.s	AmO0
+	beq.s	AmO0	
 AmOnM:	moveq	#-1,d2
 	rts
 AmO0:	moveq	#0,d2
@@ -9139,7 +9115,7 @@ AmM2:	moveq	#0,d2
 	beq.s	AmMx
 	moveq	#-1,d2
 	rts
-
+	
 ******* OPERATEURS
 
 * Fin de l'evaluation
@@ -9213,7 +9189,7 @@ IceStart
 	move.l	a0,T_SyVect(a5)
 	bsr	WMemInit
 
-; Recherche et stoppe les programmes AMOS lancï¿½s... (si AMOSPro V2.0)
+; Recherche et stoppe les programmes AMOS lancés... (si AMOSPro V2.0)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	cmp.w	#$0200,T_WVersion(a5)
 	bcs.s	.No20
@@ -9251,7 +9227,7 @@ StartAll
 
 	move.l	a2,-(sp)			Palette par defaut
 	move.l	a0,-(sp)
-
+	
 ; Attend que l'autre AMOS soit arrete! (si v2.0)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	cmp.w	#$0200,T_WVersion(a5)
@@ -9292,7 +9268,7 @@ StartAll
 	cmp.w	#2,T_WVersion(a5)
 	bcs.s	.No20_b
 	move.l	a1,d0
-	bne.s	.MSkip
+	bne.s	.MSkip	
 	move.l	WDebut-4(pc),d0			Prend le HUNK suivant
 	lsl.l	#2,d0
 	move.l	d0,a1
@@ -9388,7 +9364,7 @@ StartAll
 ; Branche l'input.device
 ; ~~~~~~~~~~~~~~~~~~~~~~
 	bsr	ClInit
-; Open Console Device
+; Open Console Device		
 ; ~~~~~~~~~~~~~~~~~~~
 	lea	ConIo(pc),a1
 	bsr	OpConsole
@@ -9409,7 +9385,7 @@ StartAll
 
 ; Parametres par defaut des ecrans
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	move.l	(sp),a0
+	move.l	(sp),a0	
 	move.w	#129,T_DefWX(a5)
 	move.w	#129-16,T_DefWX2(a5)
 	move.w	10(a0),T_DefWY(a5)
@@ -9447,7 +9423,7 @@ StartAll
 	lea	Old_LoadView(pc),a0		Ancien vecteur
 	move.l	d0,(a0)
 	bsr	Sys_ClearCache			Nettoie les caches!
-.NoLoadView
+.NoLoadView	
 
 ; 	Branche le requester
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -9459,12 +9435,6 @@ StartAll
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	bsr	Wi_MakeFonte
 	bne	GFatal
-; 	Envoie le signal a l'AMOS Switcher
-; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	move.l	T_MyTask(a5),a0
-	move.l	a5,$58(a0)
-	moveq	#Switcher_Signal,d3
-	bsr	Send_Switcher
 .No20_c
 
 ; 	Tout fini: AMOS to front ?
@@ -9494,17 +9464,11 @@ EndAll	lea	Circuits,a6
 
 ;	Remet l'ecran du workbench
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	moveq	#0,d1
+	moveq	#0,d1	
 	bsr	TAMOSWb
 	moveq	#2,d0
 	bsr	WVbl_d0
 
-; Empeche le switcher de fonctionner (si 2.0)
-; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	cmp.w	#$0200,T_WVersion(a5)
-	bcs.s	.No20_a
-	moveq	#Switcher_Signal+1,d3
-	bsr	Send_Switcher
 ; 	Plus de requester
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 	bsr	WRequest_Stop
@@ -9512,7 +9476,7 @@ EndAll	lea	Circuits,a6
 ; ~~~~~~~~~~~~~~~~~~~~~
 	bsr	Wi_DelFonte
 .No20_a
-
+	
 ;	Si AA, remet le vecteur LOADVIEW
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	btst	#WFlag_LoadView,T_WFlags(a5)	Si LoadView en route
@@ -9523,7 +9487,7 @@ EndAll	lea	Circuits,a6
 	move.l	T_GfxBase(a5),a1		Librairie
 	move.l	$4.w,a6
 	jsr	-420(a6)			Set function
-.NoLoadView
+.NoLoadView	
 
 ;	Debranche l'input.device
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -9532,7 +9496,7 @@ EndAll	lea	Circuits,a6
 	lea	T_Interrupt(a5),a0
 	lea	T_IoDevice(a5),a1
 	move.l	a0,io_Data(a1)
-	move.w	#IND_REMHANDLER,Io_Command(a1)
+	move.w	#IND_REMHANDLER,Io_Command(a1)	
 	move.l	$4.w,a6
 	jsr	_LVODoIo(a6)
 	lea	T_IoDevice(a5),a1
@@ -9553,7 +9517,7 @@ EndAll	lea	Circuits,a6
 
 ;	Ferme les librairies
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~
-	move.l	$4.w,a6
+	move.l	$4.w,a6		
 	move.l	T_FntBase(a5),d0		diskfont.library
 	beq.s	.Lib0
 	move.l	d0,a1
@@ -9569,7 +9533,7 @@ EndAll	lea	Circuits,a6
 	beq.s	.Lib2
 	move.l	d0,a1
 	jsr	_LVOCloseFont(a6)
-.Lib2
+.Lib2	
 	moveq	#0,d0
 	rts
 
@@ -9587,7 +9551,7 @@ IceEnd
 ; Remet son ancien nom
 .Skup	move.l	T_MyTask(a5),d0
 	beq.s	.Skiip
-	move.l	d0,a0
+	move.l	d0,a0	
 	move.l	T_OldName(a5),10(a0)
 .Skiip
 .No20_a
@@ -9595,20 +9559,6 @@ IceEnd
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	bsr	WMemEnd			Plus de memory checking!
 	rts
-
-;	Envoie un signal ï¿½ l'AMOS_Switcher (D3= signal)
-; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Send_Switcher
-	lea	Switcher(pc),a1
-	move.l	$4.w,a6
-	jsr	_LVOFindTask(a6)
-	tst.l	d0
-	beq.s	.PaSwi
-	move.l	d0,a1
-	moveq	#0,d0
-	bset	d3,d0
-	jsr	_LVOSignal(a6)
-.PaSwi	rts
 
 ;	Fabrique la fonte par defaut
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -9668,7 +9618,7 @@ Wi_MakeFonte
 	move.w	#0,36(a1)			Curseur en 0,0
 	move.w	#6,38(a1)
 	moveq	#1,d0				Un caractere
-	lea	.COut(pc),a0
+	lea	.COut(pc),a0			
 	move.b	d2,(a0)
 	move.l	T_GfxBase(a5),a6		La fonction
 	jsr	_LVOText(a6)
@@ -9689,7 +9639,7 @@ Wi_MakeFonte
 ;	Effacement du jeu de caracteres
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Wi_DelFonte
-	move.l	T_JeuDefo(a5),d0
+	move.l	T_JeuDefo(a5),d0	
 	beq.s	.Sip
 	move.l	d0,a1
 	move.l	#8*256,d0
@@ -9698,13 +9648,12 @@ Wi_DelFonte
 .Sip	rts
 
 ***********************************************************
-* Librairies
+* Librairies		
 FntName:	dc.b	"diskfont.library",0
 DevName		dc.b	"input.device",0
 ConName		dc.b	"console.device",0
 LayName		dc.b	"layers.library",0
 TopazName	dc.b	"topaz.font",0
-Switcher	dc.b	"_Switcher AMOS_",0
 TaskName	dc.b	" AMOS",0
 		even
 ***********************************************************
@@ -9715,7 +9664,7 @@ AMOS_LoadView
 	tst.b	0.l			T_AMOSHere, modifie lors du patch...
 	bne.s	.Wb
 	move.l	Old_LoadView(pc),-(sp)
-.Wb	rts
+.Wb	rts	
 Old_LoadView	dc.l	0		Ici et pas ailleurs...
 
 ; AMOS / WORKBENCH
@@ -9745,30 +9694,20 @@ TAMOSWb
 
 	btst	#WFlag_WBClosed,T_WFlags(a5)	Si WB ferme, le referme!
 	beq.s	.NoWB
-	jsr	-78(a6)
+	jsr	-78(a6)			
 .NoWB
-	lea	NewScreen(pc),a0
-	jsr	OpenScreen(a6)
-	move.l	d0,T_IntScreen(a5)
-
-	move.l	T_GfxBase(a5),a6		WaitTOF
-	jsr	-$10e(a6)
-	jsr	-$10e(a6)
-
-	sub.l	a1,a1
-	move.l	T_GfxBase(a5),a6
-	jsr	-$de(a6)			LoadView(a0)
-	jsr	-$10e(a6)			WaitTOF
-	jsr	-$10e(a6)			WaitTOF
-	move.w	$dff07c,d0
-	cmp.b	#$f8,d0				AA Chipset?
-	bne.s	.NoBug
-	move.w	#0,$dff1fc			Sprite resolution
-	move.w	#%0000110000000000,$dff106	Sprite width / DualPF palette
+	move.l  T_GfxBase(a5),a6	    WaitTOF
+    move.l  34(a6),T_ViewPort(a5)
+    move.l  #0,a1
+    jsr -222(a6)                LoadView
+	jsr -$10e(a6)
+	jsr -$10e(a6)
+    
+	move.w	 #%0000110000000000,$dff106	 Sprite width / DualPF palette
 .NoBug
 
 	movem.l	(sp)+,d0-d3/a0-a2/a6
-.PaAA0
+.PaAA0	
 	lea	Circuits,a0			Remet les circuits
 	move.w	#$8080,JoyTest(a0)
 	move.l 	T_CopPhysic(a5),$80(a0)
@@ -9785,8 +9724,8 @@ TAMOSWb
 	move.b	#-1,T_AMOSHere+1(a5)		Code interdisant les requesters
 
 	move.w	T_OldDma(a5),$Dff096		Remet les chips
-	move.l	T_GfxBase(a5),a0
-	move.l 	38(a0),$dff080
+	move.l  T_GfxBase(a5),a0
+	move.l  38(a0),$dff080
 	clr.w	$dff088
 
 ; Efface l'ecran si AA
@@ -9798,11 +9737,12 @@ TAMOSWb
 	btst	#WFlag_WBClosed,T_WFlags(a5)	Si WB ferme, le rouvre!
 	beq.s	.NoBW
 	jsr	-210(a6)			Reopen workbench
-.NoBW	move.l	T_IntScreen(a5),a0		Close screen
-	jsr	CloseScreen(a6)
-	move.l	T_GfxBase(a5),a6
-	jsr	-$10e(a6)			WaitTOF
-	jsr	-$10e(a6)			WaitTOF
+.NoBW	
+    move.l  T_ViewPort(a5),a1      Close screen
+	move.l  T_GfxBase(a5),a6
+    jsr     -222(a6)        load view
+	jsr -$10e(a6)		    WaitTOF
+	jsr -$10e(a6)		    WaitTOF
 	movem.l	(sp)+,d0-d3/a0-a2/a6
 .PaAA1
 	clr.b	T_AMOSHere+1(a5)		Flip termine!
@@ -9854,16 +9794,6 @@ WiAuto		ds.b	8*6+WiSAuto+4
 ; Table de retournement bobs
 TRetour		ds.b	256
 
-NTx:		equ 480
-NTy:		equ 12
-NNp:		equ 1
-NewScreen:	dc.w 0,0,NTx,NTy,NNp
-		dc.b 1,0
-		dc.w %0010000000000000,%00000110
-		dc.l 0,0,0,0
-		ds.b	16
-		even
-
 ;		Caracteres speciaux des fontes AMOS
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Def_Font	IncBin	"bin/+WFont.bin"
@@ -9883,7 +9813,7 @@ Def_Font	IncBin	"bin/+WFont.bin"
 ***********************************************************
 *	DEMARRAGE A FROID DU SYSTEME
 ***********************************************************
-SyInit:
+SyInit:	
 	bsr	AMALInit
 	moveq	#0,d0
 	rts
@@ -9901,7 +9831,7 @@ SyEnd:	bsr	AMALEnd
 ;	Demarrage du requester (a0)= default palette
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 WRequest_Start
-; Copy default palette
+; Copy default palette	
 	lea	8*2(a0),a0
 	lea	Req_Pal+8*2(pc),a1
 	moveq	#24-1,d0
@@ -9949,21 +9879,21 @@ SetJump	movem.l	a0/a1/a6,-(sp)
 	rts
 
 ******* Table des sauts
-SyIn:	bra 	ClInky			;0 -Inkey:
-	bra	ClVide			;1 -ClearKey:
-	bra 	ClSh			;2 -Shifts:
-	bra	ClInst			;3 -Instant:
-	bra	ClKeyM			;4 -KeyMap:
-	bra	ClJoy			;5 -Joy:
-	bra	ClPutK			;6 -PutKey:
-	bra	MHide			;7 -Hide:
-	bra	MShow			;8 -Show:
+SyIn:	bra 	ClInky			;0 -Inkey:		
+	bra	ClVide			;1 -ClearKey:	
+	bra 	ClSh			;2 -Shifts:		
+	bra	ClInst			;3 -Instant:	
+	bra	ClKeyM			;4 -KeyMap:		
+	bra	ClJoy			;5 -Joy:		
+	bra	ClPutK			;6 -PutKey:		
+	bra	MHide			;7 -Hide:		
+	bra	MShow			;8 -Show:		
 	bra	MChange			;9 -ChangeM:	 ChMouse
 	bra	MXy			;10-XyMou:	 XY Mouse
 	bra	CXyHard			;11-XyHard:	 Conversion SCREEN-> HARD
 	bra	CXyScr			;12-XyScr:	 Conversion HARD-> SCREEN
-	bra	MBout			;13-MouseKey:
-	bra	MSetAb			;14-SetM:
+	bra	MBout			;13-MouseKey:	
+	bra	MSetAb			;14-SetM:		
 	bra	GetSIn			;15-ScIn:	 Get screen IN
 	bra	CXyWi			;16-XyWin:	 Conversion SCREEN-> WINDOW courante
 	bra	MLimA			;17-LimitM:	 Limit mouse
@@ -9971,23 +9901,23 @@ SyIn:	bra 	ClInky			;0 -Inkey:
 	bra	SyResZ			;19-ResZone:	 Reserve des zones
 	bra	SyRazZ			;20-RazZone:	 Effacement zones
 	bra	SySetZ			;21-SetZone:	 Set zone
-	bra	SyMouZ			;22-GetZone:	 Zone souris!
-	bra	WVbl			;23-WaitVbl:
+	bra	SyMouZ			;22-GetZone:	 Zone souris!	
+	bra	WVbl			;23-WaitVbl:	
 	bra	HsSet			;24-SetHs:	 Affiche un hard sprite
 	bra	HsUSet			;25-USetHs:	 Efface un hard sprite
-	bra	ClFFk			;26-SetFunk:
-	bra	ClGFFk			;27-GetFunk:
+	bra	ClFFk			;26-SetFunk:	
+	bra	ClGFFk			;27-GetFunk:	
 	bra	HsAff			;28-AffHs:	 Recalcule les hard sprites
 	bra	HsBank			;29-SetSpBank:	 Fixe la banque de sprites
 	bra	HsNXYA			;30-NXYAHs:	 Instruction sprite
 	bra	HsXOff			;31-XOffHs:	 Sprite off n
 	bra	HsOff			;32-OffHs:	 All sprite off
-	bra	HsAct			;33-ActHs:	 Actualisation HSprite
+	bra	HsAct			;33-ActHs:	 Actualisation HSprite	
 	bra	HsSBuf			;34-SBufHs:	 Set nombre de lignes
 	bra	HsStAct			;35-StActHs:	 Arrete les HS sans deasctiver!
 	bra	HsReAct			;36-ReActHs:	 Re-Active tous!
 	bra	MStore			;37-StoreM:	 Stocke etat souris / Show on
-	bra	MRecall			;38-RecallM:	 Remet la souris
+	bra	MRecall			;38-RecallM:	 Remet la souris 
 	bra	HsPri			;39-PriHs:	 Priorites SPRITES/PLAYFIELD
 	bra	TokAMAL			;40-AMALTok:	 Tokenise AMAL
 	bra	CreAMAL			;41-AMALCre:	 Demarre AMAL
@@ -10039,10 +9969,10 @@ SyIn:	bra 	ClInky			;0 -Inkey:
 	bra	WMemReserve		;87-MemReserve	 (P) Reservation memoire secure
 	bra	WMemFree		;88-MemFree	 (P) Liberation memoire secure
 	bra	WMemCheck		;89-MemCheck	 (P) Verification memoire
-	bra	WMemFastClear		;90-MemFastClear (P)
-	bra	WMemChipClear		;91-MemChipClear
-	bra	WMemFast		;92-MemFast
-	bra	WMemChip		;93-MemChip
+	bra	WMemFastClear		;90-MemFastClear (P) 
+	bra	WMemChipClear		;91-MemChipClear	
+	bra	WMemFast		;92-MemFast		
+	bra	WMemChip		;93-MemChip		
 	bra	WSend_FakeEvent		;94-Send_FakeEvent	Envoi d'un faux event souris
 	bra	WTest_Cyclique		;95-Test_Cyclique	Tests cyclique AMOS
 	bra	WAddFlushRoutine	;96-AddFlushRoutine	Ajoute une routine FLUSH
@@ -10136,7 +10066,7 @@ WMemFree
 ; Fausses fonctions
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 WMemInit
-WMemEnd
+WMemEnd	
 WMemCheck
 	rts
 	ENDC
@@ -10156,7 +10086,7 @@ WMemInit
 
 ; Fin memoire centralisee
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WMemEnd
+WMemEnd	
 	movem.l	a0-a1/a5-a6/d0-d1,-(sp)
 	bsr	WMemCheck
 	tst.l	d0
@@ -10435,8 +10365,8 @@ SInt1	move.l	(a3)+,a0
 	move.w	EcTx(a4),d0
 	lsr.w	#3,d0
 	add.w	d0,a0
-SInt2	move.w	d5,d1
-	move.l	d2,a2
+SInt2	move.w	d5,d1	
+	move.l	d2,a2	
 	lea	EcPhysic(a4),a1
 SInt3	move.l	(a1)+,d0
 	add.l	a0,d0
@@ -10477,7 +10407,7 @@ SSwp3:	move.l	(a2)+,d0
 	bne.s	SSwp2
 SSwp4:	lea	SwapL-4(a0),a0
 	move.l	(a0)+,d0
-	bne.s	SSwp1
+	bne.s	SSwp1	
 SSwpX:
 
 * Change l'adresses des sprites hard
@@ -10502,7 +10432,7 @@ VblCall	move.l	d0,a0
 	move.l	(a4)+,d0
 	bne.s	VblCall
 VblPaCa
-* Affiche la souris
+* Affiche la souris 
 	bsr	MousInt
 * Couleurs
 	lea	T_CopMark(a5),a3
@@ -10527,6 +10457,8 @@ PaSync:
 	moveq	#0,d0
 	rts
 
+WVbl
+    moveq   #1,d0
 ******* WAIT VBL D0, multitache
 WVbl_D0	movem.l	d0-d1/a0-a1/a6,-(sp)
 	move.w	d0,-(sp)
@@ -10536,14 +10468,7 @@ WVbl_D0	movem.l	d0-d1/a0-a1/a6,-(sp)
 	bne.s	.Lp
 	addq.l	#2,sp
 	movem.l	(sp)+,d0-d1/a0-a1/a6
-	rts
-
-******* WAIT VBL
-WVbl:	move.l	T_VblCount(a5),d0
-WVbl1:	cmp.l	T_VblCount(a5),d0
-	beq.s	WVbl1
-	moveq	#0,d0
-	rts
+	rts	
 
 ******* Traitement de la souris
 MousInt:tst.b	T_AMOSHere(a5)
@@ -10696,7 +10621,7 @@ MCh3:	move.l	T_SprBank(a5),d0
 	cmp.w	#1,(a0)			* Verifie ke le sprite est bon!
 	bne.s	MChE
 	cmp.w	#2,4(a0)
-	bne.s	MChE
+	bne.s	MChE	
 * Change!
 MCh4:	move.w	d2,T_MouSpr(a5)
 	move.l	a0,T_MouDes(a5)
@@ -10801,7 +10726,7 @@ EcToD4:	addq.l	#4,sp
 	moveq	#0,d0
 	rts
 
-*******	XYMOUSE
+*******	XYMOUSE 
 MXy:	moveq	#0,d1
 	moveq	#0,d2
 	move.w	T_XMouse(a5),d1
@@ -10851,7 +10776,7 @@ CXyS3	add.w	EcWY(a0),d2
 	ext.l	d2
 	moveq	#0,d0
 	rts
-
+	
 ******* XY WINDOW : conversion XY screen -> XY window
 *	D1/D2= X/Y
 CXyWi:	move.l	T_EcCourant(a5),a0
@@ -10879,7 +10804,7 @@ CXyw3:	move.l	#EntNul,d1
 	bra.s	CXyw2
 
 ******* Retourne la souris dans l'ecran de devant
-WMouScrFront
+WMouScrFront	
 	move.l	d4,-(sp)
 	move.w	T_XMouse(a5),d1
 	move.w	T_YMouse(a5),d2
@@ -10992,11 +10917,11 @@ MLimEc	move.w	d1,d3
 	clr.w	d1
 	clr.w	d2
 	bsr	CXyHard
-	movem.w	d1/d2,-(sp)
+	movem.w	d1/d2,-(sp)	
 	move.w	EcTx(a0),d1
 	move.w	EcTy(a0),d2
 	subq.w	#1,d1
-	subq.w	#1,d2
+	subq.w	#1,d2 
 	move.w	d4,d3
 	bsr	CXyHard
 	move.w	d1,d3
@@ -11033,7 +10958,7 @@ MLima6	lsl.w	#1,d1
 	rts
 
 **********************************************************
-*	JOYSTICK / d1= # de port
+*	JOYSTICK / d1= # de port 
 **********************************************************
 ClJoy:	tst.b	T_AMOSHere(a5)
 	beq.s	JoyNo
@@ -11113,7 +11038,7 @@ SyRzz1:	clr.l	(a0)+
 	bra	ZoOk
 
 ***********************************************************
-*	SET ZONE dans l'ecran courant
+*	SET ZONE dans l'ecran courant 
 *	D1-D2/D3/D4/D5 n-dx/dy/fx/fy
 ***********************************************************
 SySetZ: move.l 	T_EcCourant(a5),a1
@@ -11201,8 +11126,8 @@ GZo1:	tst.l	4(a2)
 	bhi.s 	GZo2
 	cmp.w 	6(a2),d2
 	bhi.s 	GZo2
-	move.w	EcNZones(a1),d1
-	sub.w	d3,d1
+	move.w	EcNZones(a1),d1	
+	sub.w	d3,d1		
 	movem.l	(sp)+,a2/d3
 	ext.l	d1
         rts
@@ -11307,7 +11232,7 @@ HsCl3:	move.l	T_MouBank(a5),T_MouDes(a5)
 HsCl4	movem.l	(sp)+,d1-d7/a1-a6
 	moveq	#1,d0
 	rts
-
+	
 ******* Reserve le buffer des colonnes
 HsRBuf:	clr.l	T_HsBuffer(a5)
 	clr.w	T_HsPMax(a5)
@@ -11395,7 +11320,7 @@ HsPrP:	or.w	d1,d2
 	move.w	d2,EcCon2(a0)
 HsPrX:	moveq	#0,d0
 	rts
-
+ 
 ***********************************************************
 *	ARRET SPRITES HARDWARE
 HsEnd:	movem.l	d1-d7/a1-a6,-(sp)
@@ -11437,7 +11362,7 @@ HsAdE:	addq.l	#4,sp
 	rts
 
 **********************************************************
-*	SPRITE X OFF D1=Sprite
+*	SPRITE X OFF D1=Sprite 
 HsXOff:
 	bsr	HsActAd
 	clr.w	(a0)
@@ -11449,7 +11374,7 @@ HsXOff:
 	rts
 
 **********************************************************
-*	SPRITE OFF
+*	SPRITE OFF	
 HsOff:	moveq	#0,d1
 HsOO1:	bsr	HsActAd
 	clr.w	(a0)
@@ -11574,7 +11499,7 @@ HsSet:	movem.l	d1-d7,-(sp)
 	mulu	#HsLong,d1
 	move.l	T_HsTable(a5),a3
 	lea	0(a3,d1.w),a4
-
+	
 **************************************** Sprite DIRECT!
 	cmp.w	#8,d0
 	bcc	Hss4
@@ -11641,7 +11566,7 @@ Hss5:	move.w	(a4),d6
 	move.w	d7,2(a3,d6.w)
 	beq.s	Hss6
 	move.w	d6,0(a3,d7.w)
-Hss6:
+Hss6:	
 ******* Poke!
 	move.w	d2,HsX(a4)
 	move.w	d3,HsY(a4)
@@ -11736,7 +11661,7 @@ HsOff2:	clr.w	HsX(a4)
 HsOff3:	movem.l	(sp)+,a3/a4/d6/d7
 	moveq	#0,d0
 	rts
-
+	
 ***********************************************************
 *	AFFICHAGE DES SPRITES HARDWARE
 HsAff:	movem.l	d1-d7/a1-a6,-(sp)
@@ -11766,7 +11691,7 @@ HsAd0:	tst.w	(a4)
 	bne.s	HsAd1
 	move.l	a2,(a3)+
 	clr.l	(a3)+
-	clr.l	(a2)			* RAZ colonne
+	clr.l	(a2)			* RAZ colonne	
 	addq.w	#1,d5
 HsAd6:	add.l	d6,a2
 	lea	HsLong(a4),a4
@@ -11882,7 +11807,7 @@ HsAdP3:	clr.l	(a3)+
 	dbra	d7,HsAdP3
 
 ******* FINI! Marque la fin des colonnes
-HsAd7:	move.l	#-1,(a3)
+HsAd7:	move.l	#-1,(a3)		
 * Encore des colonnes?
 	tst.w	d5
 	beq	HsAFini
@@ -11933,7 +11858,7 @@ HsA6:	move.w	HsYR(a4,d4.w),d0
 	beq.s	HsA4
 	addq.w	#1,d2
 	addq.l	#2,a1
-	moveq	#8,d6
+	moveq	#8,d6	
 	add.l	#$00080000,d3		* Decale le sprite a droite
 	bra.s	HsA11
 * Passe a la colonne suivante!
@@ -11999,7 +11924,7 @@ HsMA1:	move.w	HsYR(a4,d4.w),d0	* 2ieme colonne
 	bclr	#7,d3
 	addq.w	#1,d2
 	addq.l	#2,a1
-	moveq	#4,d6
+	moveq	#4,d6	
 	add.l	#$00080000,d3		* Decale le sprite a droite
 	bra.s	HsMA1
 * Saute les 2 colonnes
@@ -12207,7 +12132,7 @@ GBl6:	move.b	d6,(a3)+
 	bne.s	GBl3
 	beq.s	GBl8
 GBl7:	or.b	#%11000000,d7
-	move.b	d7,(a3)+
+	move.b	d7,(a3)+	
 	move.b	d6,(a3)+
 	tst.w	d5
 	bne.s	GBl3
@@ -12237,7 +12162,7 @@ PBl2:	addq.l	#4,a3
 	move.w	(a3)+,d3
 	move.w	(a3)+,d4
 	lsr.w	#3,d1
-* Verifie que ca ne sorte pas
+* Verifie que ca ne sorte pas	
 	moveq	#0,d0
 	move.w	d1,d0
 	add.w	d3,d0
@@ -12259,7 +12184,7 @@ PBl2:	addq.l	#4,a3
 	bls.s	PBl3
 	move.w	EcNPlan(a4),d0
 PBl3:	subq.w	#1,d0
-
+	
 * Decompacte!
 PBl4:	move.l	a0,a1
 	move.w	d0,d1
@@ -12335,7 +12260,7 @@ DrawCBloc:
 ***********************************************************
 *	EFFACE LE BLOC D5
 **************************
-FreeCBloc:
+FreeCBloc:	
 	bsr	FindCBloc
 	beq.s	CBlE2
 *******	LIBERE LE BLOC A1
@@ -12374,7 +12299,7 @@ RzCBlX:	moveq	#0,d0
 ******* TROUVE UN BLOC D5 DANS LA LISTE
 *	BNE---> trouve	/  a1=adresse
 FindCBloc:
-	move.l	T_AdCBlocs(a5),d0
+	move.l	T_AdCBlocs(a5),d0	
 	beq.s	FnCBl1
 FnCBl0:	move.l	d0,a1
 	cmp.w	12(a1),d5
@@ -12413,7 +12338,7 @@ BlLong:	equ	__Rs
 *	FABRIQUE UN BLOC, ECRAN COURANT
 *	D1- 	Numero du bloc
 *	D2/D3/D4/D5
-*	D6-	Flag Masque
+*	D6-	Flag Masque 
 ***************************************
 MakeBloc:
 	movem.l	a2-a6/d2-d7,-(sp)
@@ -12470,9 +12395,9 @@ MkBlM:	btst	#31,d7
 	move.l	(a2),d0
 	beq.s	MkBl2
 	move.l	d0,a0
-	move.l	a1,BlPrev(a0)
-MkBl2:	move.l	d0,BlNext(a1)
-	move.l	a1,(a2)
+	move.l	a1,BlPrev(a0)	
+MkBl2:	move.l	d0,BlNext(a1)	
+	move.l	a1,(a2)		
 MkBlX:	moveq	#0,d0
 BlOut	movem.l	(sp)+,a2-a6/d2-d7
 	rts
@@ -12489,7 +12414,7 @@ BlE1:	moveq	#1,d0
 ***********************************************************
 *	EFFACE LE BLOC D1
 **************************
-DelBloc:
+DelBloc:	
 	bsr	FindBloc
 	bne.s	FrBloc
 	moveq	#BlE+2,d0
@@ -12512,7 +12437,7 @@ FrBl1:	move.l	BlDesc+4(a2),d0
 	ble.s	FrBl2
 	move.l	d0,a1
 	move.l	(a1),d0
-	bsr	FreeMm
+	bsr	FreeMm	
 * Enleve le bloc de la liste
 FrBl2:	move.l	a2,a1
 	lea	T_AdBlocs(a5),a2
@@ -12545,7 +12470,7 @@ RzBlX:	moveq	#0,d0
 	rts
 
 ***********************************************************
-*	DESSINE UN BLOC
+*	DESSINE UN BLOC 
 *	D1-	Numero du bloc
 *	D2/D3-	Coordonnees
 *	D4-	Plans
@@ -12627,12 +12552,12 @@ RevBloc	movem.l	d2-d7/a2-a6,-(sp)
 	bsr	Retourne
 	moveq	#0,d0
 	bra	BlOut
-
+	
 ******* TROUVE UN BLOC D1 DANS LA LISTE
 *	BNE---> trouve	/  a1=adresse
 FindBloc:
 	lea	T_AdBlocs(a5),a1
-	move.l	(a1),d0
+	move.l	(a1),d0	
 	beq.s	FnBl1
 FnBl0:	move.l	d0,a1
 	cmp.w	BlNb(a1),d1
@@ -12706,7 +12631,7 @@ ClInput	move.l	a1,-(sp)
 	move.l	(sp)+,a1
 	lea	Lio(a1),a1
 	jsr	RemPort(a6)
-	rts
+	rts	
 
 ; Input handler, branche sur la chaine des inputs.
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -12739,10 +12664,10 @@ IeLp2	move.l	d2,a0
 	bne.s	IeLoop
 IeLpX	move.l	(sp)+,a5
 	rts
-I_Inhibit
+I_Inhibit	
 	move.l	(sp)+,a5
 	move.l	a0,d0
-	rts
+	rts	
 ; Disc inserted
 IeDIn	bset	#WFlag_Event,T_WFlags(a5)
 	move.w	#-1,T_DiscIn(a5)
@@ -12750,7 +12675,7 @@ IeDIn	bset	#WFlag_Event,T_WFlags(a5)
 ; Disc removed
 IeDOut	bset	#WFlag_Event,T_WFlags(a5)
 	clr.w	T_DiscIn(a5)
-	bra.s	IeLp1
+	bra.s	IeLp1	
 ; Evenement Mouse, fait le mouvement!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 IeMous	tst.w	d4
@@ -12815,7 +12740,7 @@ IeKey	bset	#WFlag_Event,T_WFlags(a5)
 .IeKy1	tst.w	T_NoFlip(a5)
 	bne.s	.IeKy0
 	btst	#WFlag_LoadView,T_WFlags(a5)
-	bne.s	.AA
+	bne.s	.AA	
 ; Appel de TAMOSWb, rapide...
 	movem.l	a0-a1/d0-d1,-(sp)
 	moveq	#0,d1
@@ -12874,7 +12799,7 @@ Cla_Event
 ; Appel de RAWKEYCONVERT et stockage si AMOS present
 .RawK	move.b	Ie_Qualifier+1(a0),d2		Prend CONTROL
 	and.b	#%11110111,Ie_Qualifier+1(a0)	Plus de CONTROL
-	movem.l	a0/a2/a6,-(sp)
+	movem.l	a0/a2/a6,-(sp)	
 	lea	ConIo(pc),a6			Structure IO
 	move.l	20(a6),a6			io_device
 	lea	ConBuffer(pc),a1			Buffer de sortie
@@ -12893,7 +12818,7 @@ Cla_Event
 .Rien	move.b	Ie_Qualifier+1(a0),d2		Les shifts!
 ; Amiga-A?
 .A	move.b	d2,d3
-	and.b	T_AmigA_Shifts(a5),d3
+	and.b	T_AmigA_Shifts(a5),d3		
 	cmp.b	T_AmigA_Shifts(a5),d3
 	bne.s	.AAA
 	cmp.b	T_AmigA_Ascii1(a5),d1
@@ -12901,7 +12826,7 @@ Cla_Event
 	cmp.b	T_AmigA_Ascii2(a5),d1
 	bne.s	.AAA
 .AA	moveq	#-1,d2
-	bra.s	.ClaI1
+	bra.s	.ClaI1	
 ; AMOS Not here: stop!
 .AAA	tst.w	d4
 	beq.s	.Cont
@@ -12944,7 +12869,7 @@ Cla_Special
 	dc.b	$00,$00,$ff,$00,$1e,$1f,$1c,$1d		$48>$4f
 	dc.b	$fe,$fe,$fe,$fe,$fe,$fe,$fe,$fe		$50>$57
 	dc.b	$fe,$fe,$ff,$ff,$ff,$ff,$ff,$00		$58>$5f
-
+	
 ; Stocke D0/D1/D2 dans le buffer clavier
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	D0	Rawkey
@@ -12976,7 +12901,7 @@ WSend_FakeEvent
 	movem.l	d0-d1/a1/a6,-(sp)
 	lea	Fake_Event(pc),a0
 	move.b	#IECLASS_RAWMOUSE,ie_Class(a0)
-	clr.b	ie_SubClass(a0)
+	clr.b	ie_SubClass(a0)	
 	move.w	#IECODE_NOBUTTON,ie_Code(a0)
 	move.w	#IEQUALIFIER_RELATIVEMOUSE,ie_Qualifier(a0)
 	move.l	#Fake_Code,ie_X(a0)
@@ -12988,7 +12913,7 @@ WSend_FakeEvent
 	jsr	_LVODoIO(a6)
 	movem.l	(sp)+,d0-d1/a1/a6
 	rts
-Fake_Code	equ	$789A789A
+Fake_Code	equ	$789A789A		
 ; Faux evenement souris
 Fake_Event	dc.l	0				0
 		dc.b	IeClass_RawMouse		4
@@ -13002,7 +12927,7 @@ Fake_Event	dc.l	0				0
 
 ; Initialisation / Vide du buffer clavier
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ClInit
+ClInit	
 ClVide	move.w	T_ClTete(a5),T_ClQueue(a5)
 	clr.b	T_ClFlag(a5)
 	moveq	#0,d0
@@ -13014,8 +12939,8 @@ ClKWait	moveq	#0,d0
 	move.w	T_ClQueue(a5),d1
 	cmp.w	T_ClTete(a5),d1
 	rts
-
-; INKEY: D1 haut: SHIFTS/SCANCODE - D1 bas: ASCII
+	
+; INKEY: D1 haut: SHIFTS/SCANCODE - D1 bas: ASCII 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ClInky	moveq	#0,d1
 	move.w	T_ClQueue(a5),d2
@@ -13255,7 +13180,7 @@ AMOS_Stopped
 	bsr	TAMOSWb
 .Skip	clr.w	T_Inhibit(a5)
 	movem.l	(sp)+,a0-a6/d0-d7
-	rts
+	rts	
 
 ***********************************************************
 *	DEMARRAGE A FROID DES FENETRES
@@ -13269,7 +13194,7 @@ WiIn:	bra	WOutC
 	bra	WPrint
 	bra	WCentre
 	bra	WOpen
-	bra	WLocate
+	bra	WLocate	
 	bra	WQWind
 	bra	WDel
 	bra	WSBor
@@ -13284,7 +13209,7 @@ WiIn:	bra	WOutC
 	bra	WiYGr
 	bra	WPrint2
 	bra	WPrint3
-	bra	WiXYWi
+	bra	WiXYWi	
 
 ***********************************************************
 *	ARRET FINAL DES FENETRES
@@ -13294,7 +13219,7 @@ WiEnd:	rts
 ***********************************************************
 *	Writing FENETRE, loin de la destination!!!
 *	D1= 0/ Normal - 1/ Or - 2/ Xor - 3/ And - 4/ RIEN
-*	D2= NORMAL - PAPER only - PEN only
+*	D2= NORMAL - PAPER only - PEN only 
 ***********************************************************
 Writing:move.w	d1,d2
 	and.w	#$07,d1
@@ -13710,7 +13635,7 @@ Wo0:	move.l	a5,a3
 * Va tout calculer!
 Wo2	bsr	WiAdr
 	bne	WErr
-
+	
 * Init parametres
 	clr.w	WiSys(a5)
 	clr.w	WiEsc(a5)
@@ -14092,7 +14017,7 @@ sWti2:	rts
 WAdr:	move.l	T_EcCourant(a5),a0
 	move.l	EcWindow(a0),a0
 	moveq	#0,d1
-	move.w	WiNumber(a0),d1
+	move.w	WiNumber(a0),d1	
 	moveq	#0,d0
 	rts
 
@@ -14156,7 +14081,7 @@ WiDelA:	bsr	WiD1
 	tst.l	d0
 	beq.s	WiDelA
 	moveq	#0,d0
-	rts
+	rts		
 
 ******* CLS effacement de toutes les fenetres SAUF zero!
 WiCls:	movem.l	d1-d7/a0-a6,-(sp)
@@ -14187,7 +14112,7 @@ WiCls3:	tst.l	d5
 	movem.l	(sp)+,d1-d7/a0-a6
 	moveq	#0,d0
 	rts
-
+	
 ******* Recherche la fenetre D1 dans les tables
 WindFind:
 	move.l	EcWindow(a4),d0
@@ -14241,7 +14166,7 @@ DesBord:movem.l	d1-d7/a1-a6,-(sp)
 	bra	WOk
 
 ******* Re dessine le bord, remet le curseur!!!
-ReBord	move.w	WiX(a5),-(sp)
+ReBord	move.w	WiX(a5),-(sp)	
 	move.w	WiY(a5),-(sp)
 	move.l	WiAdCur(a5),-(sp)
 	bsr	DesBord
@@ -14288,7 +14213,7 @@ Dh10:	cmp.w	d6,d7
 Dh11:	move.w	d7,d1
 	bsr	Loca
 Dh12:	cmp.w	WiY(a5),d2
-	bne.s	Dh13
+	bne.s	Dh13	
 	move.b	(a1)+,d1
 	beq.s	Dh13
 	bsr	COut
@@ -14466,7 +14391,7 @@ ClEo1	lea	EcCurrent(a4),a0
 	bsr	ClFin
 ClEo2	moveq	#0,d0
 	rts
-
+	
 ***********************************************************
 *	CLW of ALL window, even border!
 ***********************************************************
@@ -14552,7 +14477,7 @@ ScGWi:	move.l	WiAdhgI(a5),d0
 	move.w	WiTyCar(a5),d2
 	mulu	WiTyI(a5),d2
 
-; Fin de
+; Fin de 
 ScGFin:	subq.w	#1,d2
 	lea	WiColFl(a5),a1
 	move.w	EcTLigne(a4),d1
@@ -14614,7 +14539,7 @@ ScDWi:	move.l	WiAdhgI(a5),d0
 	move.w	WiTyCar(a5),d2
 	mulu	WiTyI(a5),d2
 
-; Fin de
+; Fin de 
 ScDFin:	subq.w	#1,d2
 	lea	WiColFl(a5),a1
 	move.w	EcTLigne(a4),d1
@@ -14706,7 +14631,7 @@ ScBasHaut:
 ; Va scroller
 	move.w	WiY(a5),d1
 	mulu	WiTYCar(a5),d1
-	bsr	Scrolle
+	bsr	Scrolle	
 
 ; Efface la ligne du haut
 	move.l	WiAdhgI(a5),d0
@@ -14714,7 +14639,7 @@ ScBasHaut:
 	move.w	WiTyCar(a5),d2
 	move.w	WiTxI(a5),d3
 	bra	ClFin
-
+	
 ***********************************************************
 *	SCROLLING VERS LE HAUT A LA POSITION DU CURSEUR
 ***********************************************************
@@ -14734,7 +14659,7 @@ ScHaut:	lea	EcCurrent(a4),a2
 *	SCROLLING VERS LE BAS A LA POSITION DU CURSEUR
 ***********************************************************
 ScBas:	lea	EcCurrent(a4),a2
-	move.w	EcTLigne(a4),d0
+	move.w	EcTLigne(a4),d0		
 	ext.l	d0
 	move.w	WiTLigne(a5),d1
 	move.w	WiTyI(a5),d2
@@ -14792,7 +14717,7 @@ Sc2:	btst	d5,WiSys+1(a5)
 
 ; Va effacer la ligne du curseur
 ScFin:	rts
-
+	
 ***********************************************************
 *	SCROLLING ON/OFF
 ***********************************************************
@@ -14810,7 +14735,7 @@ CurCol:	cmp.w	EcNbCol(a4),d1
 	bcc	PErr7
 	move.w	d1,WiCuCol(a5)
 	moveq	#0,d0
-	rts
+	rts	
 
 ***********************************************************
 *	CURSEUR ON/OFF
@@ -14898,7 +14823,7 @@ Pen:	cmp.w	EcNbCol(a4),d1
 Pen1:	move.w	d1,WiPen(a5)
 	bsr	AdColor
 	moveq	#0,d0
-	rts
+	rts	
 
 ***********************************************************
 *	Set PLANES
@@ -15030,7 +14955,7 @@ Repete:	move.l	W_Base(pc),a3
 	addq.w	#1,T_WiRep(a3)
 	move.w	#1,WiEsc(a5)
 Rep1:	moveq	#0,d0
-	rts
+	rts	
 ; Stockage,
 Rep2:	add.w	#48,d1
 	lea	T_WiRepBuf+WiRepL-1(a3),a0
@@ -15395,12 +15320,12 @@ WOutC:	movem.l	a4-a6,-(sp)
 	rts
 
 ***********************************************************
-*	IMPRESSION LIGNE Scrollee ï¿½ gauche
+*	IMPRESSION LIGNE Scrollee à gauche
 *	A1=	Ligne, finie par zero
-*	D1= 	Nombre de caracteres ï¿½ sauter sur la gauche
+*	D1= 	Nombre de caracteres à sauter sur la gauche
 *		Bit 31= code controle?
-*	D2=	Position minimum ï¿½ gauche
-*	D3=	Position maximum ï¿½ droite
+*	D2=	Position minimum à gauche
+*	D3=	Position maximum à droite
 ***********************************************************
 WPrint3	movem.l	a4-a6/d2-d7,-(sp)
 	lea	Circuits,a6
@@ -15455,7 +15380,7 @@ WPrint3	movem.l	a4-a6/d2-d7,-(sp)
 
 
 ***********************************************************
-*	PRINT LINE,
+*	PRINT LINE, 
 *	A1= adresse chaine D1= nombre caracteres
 ***********************************************************
 WPrint2	movem.l	a4-a6,-(sp)
@@ -15647,7 +15572,7 @@ BltFini:bra	BlitWait
 ***********************************************************
 COut:	movem.l	d1-d7/a0-a3,-(sp)
 	and.w	#255,d1
-
+	
 ******* Mode escape?
 	tst.w	WiEsc(a5)
 	bne	Esc
@@ -15671,7 +15596,7 @@ PaCont
 	bne	YaFlag
 
 *-----* Pas de flag: rapide
-	moveq	#-1,d6			;Pour CUn
+	moveq	#-1,d6			;Pour CUn	
 	lea	WiColor(a5),a0		;Definition couleur
 COut1:	move.l	(a0)+,a3
 	jmp	(a3)
@@ -16172,7 +16097,7 @@ Req_AMOS
 
 ;	Test loop (fun!)
 ; ~~~~~~~~~~~~~~~~~~~~~~
-ReqLoop
+ReqLoop	
 	bsr	UnMix2
 	move.l	a6,-(sp)
 	move.l	T_GfxBase(a5),a6
@@ -16193,10 +16118,10 @@ ReqLoop
 ; Keyboard
 ; ~~~~~~~~
 NoAuto	SyCall	Inkey
-	cmp.w	#13,d1		* ASCII-> Return
-	beq.s	ReqYes
+	cmp.w	#13,d1		* ASCII-> Return 
+	beq.s	ReqYes	
 	cmp.w	#27,d1		* ASCII-> ESC
-	beq.s	ReqNo
+	beq.s	ReqNo	
 ; Don't you think it is better than this wierd Amiga V and B?
 ; Sometime I ask myself what they were thinking when they chose such
 ; key combinations!
@@ -16252,7 +16177,7 @@ ReqGo	move.l	d0,-(sp)
 ; ~~~~~~~~~~~~~~~~~~~~~
 ReqX	bsr	UnMix2
 	bsr	ClrData
-	SyCall	AMALUFrz
+	SyCall	AMALUFrz	
 	move.l	(sp)+,T_Req_Pos(a5)	* Returns answer
 	clr.w	T_Req_On(a5)		* No more requester
 ; Normal exit
@@ -16403,7 +16328,7 @@ Req_Auto
 	lea	T_Tit(a4),a1
 .loop	move.b	(a0)+,(a1)+
 	bne.s	.loop
-	rts
+	rts	
 
 ;	WB2.0 Requester entry
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -16527,7 +16452,7 @@ Copy	movem.l	d0-d7/a0-a5,-(sp)
 	move.l	a4,a5
 .loop3	move.b	(a2)+,(a5)+
 	dbra	d6,.loop3
-	add.w	#RPic_Sx/8,a1
+	add.w	#RPic_Sx/8,a1		
 	add.l	d1,a4
 	dbra	d7,.loop2
 	add.w	#(RPic_Sx/8)*RPic_Sy,a0
@@ -16571,7 +16496,7 @@ RPic		equ	Req_Pal+32*2
 ***********************************************************
 CCont:		bra	Rien		;0
 		bra	Rien		;1
-		bra	Rien		;2
+		bra	Rien		;2	
 		bra	Rien		;3
 		bra	Rien		;4
 		bra	Rien		;5
@@ -16581,7 +16506,7 @@ CCont:		bra	Rien		;0
 		bra	Tab		;9-  Tab
 		bra	CDown		;10- Curseur bas
 		bra	Rien		;11
-		bra	Home		;12- Home
+		bra	Home		;12- Home	
 		bra	CReturn		;13- A la ligne
 		bra	Rien		;14
 		bra	Rien		;15-
@@ -16591,7 +16516,7 @@ CCont:		bra	Rien		;0
 		bra	ScDWi		;19- Scrolling droite fenetre
 		bra	ScBas		;20
 		bra	ScBasHaut	;21
-		bra	ScHaut		;22
+		bra	ScHaut		;22	
 		bra	ScHautBas	;23
 		bra	Home		;24
 		bra	Clw		;25
@@ -16615,7 +16540,7 @@ CEsc:		bra	Rien		;A
 		bra	Rien		;G
 		bra	Rien		;H
 		bra	Inv		;I- Inverse on/off
-		bra	Planes		;J- Set active planes
+		bra	Planes		;J- Set active planes	
 		bra	ChgCar		;K- 0/1 jeu normal/graphique
 		bra	Rien		;L
 		bra	MemoCu		;M- Memorise le curseur
@@ -16698,7 +16623,7 @@ Bor15		dc.b " ",0
 		dc.b " ",0
 		dc.b " ",0
 		dc.b " ",0
-		even
+		even		
 
 ***********************************************************
 *		CODE AMOS HERE?
@@ -16744,24 +16669,24 @@ DefCurs:	dc.b %00000000
 		dc.w 0
 
 	IFNE	EzFlag
-TokAMAL
-CreAMAL
-MvOAMAL
-DAllAMAL
-Animeur
-RegAMAL
-ClrAMAL
-FrzAMAL
-UFrzAMAL
-SpColl
-SyncO
-Sync
-SetPlay
-HColSet
-HColGet
-TMovon
-TChanA
-TChanM
+TokAMAL		
+CreAMAL		
+MvOAMAL		
+DAllAMAL	
+Animeur		
+RegAMAL		
+ClrAMAL		
+FrzAMAL		
+UFrzAMAL	
+SpColl		
+SyncO		
+Sync		
+SetPlay		
+HColSet		
+HColGet		
+TMovon		
+TChanA		
+TChanM		
 
 ShStop
 ShStart
@@ -16771,15 +16696,15 @@ FreeCBloc
 RazCBloc
 Duale
 DualP
-StaMn
-StoMn
-TCopOn
-TCopRes
-TCopSw
-TCopWt
-TCopMv
-TCopMl
-TCopBs
+StaMn		
+StoMn		
+TCopOn		
+TCopRes		
+TCopSw		
+TCopWt		
+TCopMv		
+TCopMl		
+TCopBs		
 
 DAdAMAL
 AMALInit
@@ -16795,3 +16720,5 @@ ShInit
 		IncBin	"bin/+AMOSPro_Mouse.abk"
 
 		even
+
+

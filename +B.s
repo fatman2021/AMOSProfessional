@@ -22,34 +22,6 @@
 ; 220002.........................................|______________________________
 ; ______________________________________________________________________________
 ;
-;  Published under the MIT Licence
-;
-;  Copyright (c) 1992 Europress Software
-;  Copyright (c) 2020 Francois Lionet
-;
-;  Permission is hereby granted, free of charge, to any person
-;  obtaining a copy of this software and associated documentation
-;  files (the "Software"), to deal in the Software without
-;  restriction, including without limitation the rights to use,
-;  copy, modify, merge, publish, distribute, sublicense, and/or
-;  sell copies of the Software, and to permit persons to whom the
-;  Software is furnished to do so, subject to the following
-;  conditions:
-;
-;  The above copyright notice and this permission notice shall be
-;  included in all copies or substantial portions of the Software.
-;
-;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
-;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-;
-; ______________________________________________________________________________
-;
 		Include "+AMOS_Includes.s"
 		Include "+Version.s"
 ; ______________________________________________________________________________
@@ -61,23 +33,14 @@
 	SECTION	"E",CODE
 ; - - - - - - - - - - - - -
 
-Hunk_1	jmp	Cold_Start
+    jmp	Cold_Start
 
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; 	FIN DE L'INITIALISATION : ENLEVE LE HUNK INIT!
+; 	FIN DE L'INITIALISATION
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Init_Fin
 ; - - - - - - - - - - - - -
-
-; Enleve le hunk init
-; ~~~~~~~~~~~~~~~~~~~
-	lea	Hunk_1-8(pc),a0
-	lea	Hunk_2-8,a1
-	move.l	4(a1),4(a0)		Deconnecte le hunk 2
-	move.l	(a1),d0			Libere la memoire
-	move.l	$4.w,a6
-	jsr	_LVOFreeMem(a6)
 
 ; Ouvre une structure programme
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -98,20 +61,20 @@ Init_Fin
 	sub.l	a2,a2
 	JJsr	L_Prg_RunIt		Revient si out of memory!
 
-; Pas de programme: on se branche ï¿½ l'editeur
+; Pas de programme: on se branche à l'editeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .NoProg	jsr	Sys_VerInstall		Verification de l'installation
 	beq	TheEnd_Install
 	jsr	Edit_Load		Charge l'editeur
 	bne.s	TheEnd_Editor
 	moveq	#-1,d0			DefRun normal
-	JJsr	L_Prg_New
+	JJsr	L_Prg_New			
 	moveq	#-1,d0			Titre
 	JJsr	L_Ed_Cold
 	bne.s	TheEnd_Editor
 	jsr	WOption			Affiche ou non!
 	JJsr	L_Ed_Title		Le titre
-	JJmp	L_Ed_Loop		Branche ï¿½ la boucle
+	JJmp	L_Ed_Loop		Branche à la boucle
 
 ; 	Message d'erreur panique residents
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -122,11 +85,11 @@ TheEnd_OOMem
 	lea	Panic_OOMem(pc),a0	Out of memory
 	bra	TheEndMm
 TheEnd_Install
-	lea	Panic_Install(pc),a0
+	lea	Panic_Install(pc),a0	
 	bra	TheEndMm
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;	SORTIE GENERALE
+;	SORTIE GENERALE 					
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 TheEndMm
 	move.l	a0,Panic
@@ -216,7 +179,7 @@ TheEnd
 
 	move.l	DosBase(a5),a3		Affiche le message d'erreur
 	move.l	T_IntBase(a5),a4
-	move.l	Sys_Message(a5),d7
+	move.l	Sys_Message(a5),d7	
 	bsr	Panic_Message
 
 	move.l	$4.w,a6			Ferme graphics.library
@@ -226,7 +189,7 @@ TheEnd
 	jsr	_LVOCloseLibrary(a6)
 .SkipG
 	move.l	DosBase(a5),a1		dos
-	jsr	_LVOCloseLibrary(a6)
+	jsr	_LVOCloseLibrary(a6)		
 	move.l	T_IntBase(a5),a1	Intuition
 	jsr	_LVOCloseLibrary(a6)
 
@@ -296,7 +259,7 @@ Panic_Message
 	move.b	#10,-1(a1)
 	clr.b	(a1)
 	move.l	a1,d3
-	sub.l	d2,d3
+	sub.l	d2,d3	
 	jsr	_LVOWrite(a6)
 	lea	128(sp),sp
 .Exit	rts
@@ -375,7 +338,7 @@ UserName	dc.w	14
 ;		Noms des Librairies
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SaveSp		dc.l 	0
-Panic		dc.l	0
+Panic		dc.l	0	
 
 ;		Marqueur de version
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -398,7 +361,7 @@ Edit_Load
 	moveq	#6,d0
 	moveq	#L_Ed_Start,d1
 	bsr	Program_Load
-.Err	rts
+.Err	rts	
 
 ; Efface l'editeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -665,7 +628,7 @@ Sys_WaitMul
 	movem.l	a0-a1/a6/d0-d1,-(sp)
 ; Inhibition
 	SyCall	Test_Cyclique
-; Attente multitache
+; Attente multitache 
 	move.l	T_GfxBase(a5),a6
 	jsr	-270(a6)
 	movem.l	(sp)+,a0-a1/a6/d0-d1
@@ -707,7 +670,7 @@ Libraries_Free
 	lea	AdTokens(a5),a2
 .Loop	move.l	(a2),d0
 	beq.s	.Next
-	move.l	d0,a0			La library elle meme...
+	move.l	d0,a0			La library elle meme...	
 	clr.l	(a2)
 	move.l	LB_MemAd(a0),a1
 	move.l	LB_MemSize(a0),d0
@@ -820,8 +783,8 @@ ResTempBuffer
 .LibErr	dc.l	0
 	moveq	#0,d0
 	bra.s	ResTempBuffer
-
-; 	Reserve un espace mï¿½moire sur (a5)
+	
+; 	Reserve un espace mémoire sur (a5)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	A0=	Adresse dans (a5)
 ;	D0=	Longueur
@@ -837,7 +800,7 @@ A5_Reserve
 	move.l	a0,(a1)
 .Out	move.l	(sp)+,a1
 	rts
-; 	Efface un espace mï¿½moire sur (a5)
+; 	Efface un espace mémoire sur (a5)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	A0=	Adresse dans (a5)
 A5_Free
@@ -853,7 +816,7 @@ A5_Free
 	rts
 
 ;
-; NOUVELLE ROUTINES DISQUE
+; NOUVELLE ROUTINES DISQUE 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;
 ; OPEN: ouvre le fichier systeme (diskname1) access mode D2
@@ -877,7 +840,7 @@ D_Read	movem.l	d1/a0/a1/a6,-(sp)
 	cmp.l	d0,d3
 	rts
 
-; WRITE fichier systeme D3 octets de D2
+; WRITE fichier systeme D3 octets de D2	
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 D_Write
 	movem.l	d1/a0/a1/a6,-(sp)
@@ -952,7 +915,7 @@ InKillEditor
 	bne.s	CloCloX
 	Ijsr	L_Ed_KillEditor
 	bsr	Edit_Free		Enleve de la memoire
-	bsr	Mon_Free		Tant qu'ï¿½ faire...
+	bsr	Mon_Free		Tant qu'à faire...
 	lea	RunErr_NoEditor(pc),a0
 	move.l	a0,Prg_JError(a5)	Branchement en fin de programme
  	clr.w	T_AMOState(a5)		Mode RUN-ONLY
@@ -979,7 +942,7 @@ InCloseEditor
 	beq.s	KEExit
 	Ijsr	L_Ed_CloseEditor
 	bra.s	CloCloX
-
+	
 ; Peut-on fermer l'editeur ?
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Prg_FirstRun
@@ -1012,7 +975,7 @@ RunErr_RunOnly
 RunErr_NoEditor
 	clr.w	-(sp)
 RunErr_Reload
-	movem.l	a0-a1/d0-d1,-(sp)
+	movem.l	a0-a1/d0-d1,-(sp)	
 	move.l	Cur_Banks(a5),-(sp)	Donnees courantes...
 	move.l	Cur_Dialogs(a5),-(sp)
 	cmp.w	#1002,d0		System?
@@ -1023,7 +986,7 @@ RunErr_Reload
 	bsr	Edit_Load		Charge l'editeur
 	bne	.Again
 	JJsr	L_Ed_Cold
-	beq.s	.Ok
+	beq.s	.Ok			
 	cmp.b	#1,d0			Out of memory?
 	bne	TheEnd_Editor		Fichiers introuvables : tant pis!
 ; Efface au maximum la memoire
@@ -1047,14 +1010,14 @@ RunErr_Reload
 	bne	TheEnd_Editor
 	JJsr	L_Ed_Cold
 	bne	TheEnd_Editor			Tant pis!
-; Branche ï¿½ l'editeur
+; Branche à l'editeur
 .Ok	tst.l	Edt_Runned(a5)			Pas de programme >>> coldcold
 	bne.s	.Go
 	move.l	Edt_List(a5),Edt_Runned(a5)	Donc, un seul prg!
 .Go	bsr	WOption				AMOS en 1er!
 	move.l	(sp)+,Cur_Dialogs(a5)		Remet les banques
 	move.l	(sp)+,Cur_Banks(a5)
-	movem.l	(sp)+,a0-a1/d0-d1
+	movem.l	(sp)+,a0-a1/d0-d1	
 	tst.w	(sp)+
 	JJmpR	L_Ed_ErrRun,a2			Erreurs normales
 	bra	TheEnd
@@ -1103,7 +1066,7 @@ MemDelBanks
 	moveq	#-1,d4
 	JJsrR	L_Dia_RScOpen,a3
 	bne.s	.Tanpi
-	bsr	ReCop
+	bsr	ReCop	
 
 	bsr	.Puzzle			Demarre le DBL
 	moveq	#0,d0
@@ -1136,7 +1099,7 @@ MemDelBanks
 	move.l	a0,a2
 	add.l	2+4(a0),a2		Base des messages
 	add.l	2+8(a0),a0		Base des programmes
-	rts
+	rts	
 ; Petit DBL de gestion de la ligne
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .DBL	dc.w	.Fin-.Debut
@@ -1145,9 +1108,9 @@ MemDelBanks
 	dc.b 	"BO	0,0,1,SX,SY;"
 	dc.b	"PO	21MECX,4,21ME,0,7;"
 	dc.b	"PO	22MECX,14,22ME,2,3;"
-	dc.b	"BU	1,16,SY22-,64,16,0,0,1;[UN 0,0,13BP+; PR 3MECXBP+,4,3ME,7;][BQ;]"
+	dc.b	"BU	1,16,SY22-,64,16,0,0,1;[UN 0,0,13BP+; PR 3MECXBP+,4,3ME,7;][BQ;]"	
 	dc.b	"KY	13,0;"
-	dc.b	"BU	2,SX72-,YA,XBXA-,YBYA-,0,0,1;[UN 0,0,13BP+; PR 4MECXBP+,4,4ME,7;][BQ;]"
+	dc.b	"BU	2,SX72-,YA,XBXA-,YBYA-,0,0,1;[UN 0,0,13BP+; PR 4MECXBP+,4,4ME,7;][BQ;]"	
 	dc.b	"KY	27,0;"
 	dc.b	"BU	3,0,0,SX,SY,0,0,0;[][SM;]"
 	dc.b	"RU	0,3;"
@@ -1227,7 +1190,7 @@ Lst.ChipNew
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lst.New
 	move.l	#Clear|Public,d1
-; Cree un ï¿½lï¿½ment en tete de liste A0 / longueur D0 / Memoire D1
+; Cree un élément en tete de liste A0 / longueur D0 / Memoire D1
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lst.Cree
 	movem.l	a0/d0,-(sp)
@@ -1240,7 +1203,7 @@ Lst.Cree
 	move.l	a1,(a0)
 	move.l	d1,4(a1)
 	move.l	a1,d0
-.Out	rts
+.Out	rts		
 
 ; Efface une liste entiere A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1250,8 +1213,8 @@ Lst.DelAll
 	bsr	Lst.Del
 .In	move.l	(a0),d0
 	bne.s	.Loop
-	rts
-; Efface un ï¿½lï¿½ment de liste A1 / Debut liste A0
+	rts		
+; Efface un élément de liste A1 / Debut liste A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lst.Del
 	movem.l	a0/d0-d2,-(sp)
@@ -1275,14 +1238,14 @@ Lst.Del
 .NFound	movem.l	(sp)+,a0/d0-d2
 	rts
 
-; INSERE un ï¿½lï¿½ment A1 en tete de liste A0
+; INSERE un élément A1 en tete de liste A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lst.Insert
 	move.l	(a0),(a1)
 	move.l	a1,(a0)
-	rts
+	rts		
 
-; Enleve un ï¿½lï¿½ment de liste A1 / Debut liste A0
+; Enleve un élément de liste A1 / Debut liste A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lst.Remove
 	movem.l	a0/a1/d0-d2,-(sp)
@@ -1328,7 +1291,7 @@ Bnk.PrevProgram
 	bra.s	.Exit
 .Non	moveq	#0,d0
 .Exit	movem.l	(sp)+,a0/a1/d0
-	rts
+	rts	
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 					BANQUE DU PROGRAMME COURANT
@@ -1341,7 +1304,7 @@ Bnk.CurProgram
 	move.l	a0,Cur_Banks(a5)
 	movem.l	(sp)+,a0/d0
 	rts
-
+	
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 					CHANGEMENT DANS LES BANQUES
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1385,7 +1348,7 @@ BugBug	movem.l	d0-d2/a0-a2,-(sp)
 .L0	move.w	#10000,d1
 .L1	move.w	d0,$DFF180
 	dbra	d1,.L1
-	dbra	d0,.L0
+	dbra	d0,.L0	
 	btst	#6,$BFE001
 	beq.s	.Ill
 	movem.l	(sp)+,d0-d2/a0-a2
@@ -1410,7 +1373,7 @@ Edit_Debug	Include "+Edit.s"
 	IFEQ	Debug=2
 Mon_Debug
 Edit_Debug
-	ENDC
+	ENDC	
 
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1450,7 +1413,6 @@ SP_Buffer	equ	__RS
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; 	DEMARRAGE A FROID
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Hunk_2
 Cold_Start
 ; - - - - - - - - - - - - -
 	move.l	sp,SaveSp
@@ -1518,7 +1480,7 @@ Cold_Start
 	move.l	SP_DosBase(sp),a6
 	jsr	_LVOCurrentDir(a6)
 .PaLock
-; Un programme ï¿½ charger?
+; Un programme à charger?
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 	cmp.l	#2,$1c(a2)
 	bne.s	.PaAuto
@@ -1548,14 +1510,14 @@ FromCLI	movem.l	SP_Command(sp),a0/d0
 	clr.b	-1(a0,d0.w)
 ; Explore la ligne de commande
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-; Saute le dï¿½but
+; Saute le début
 .Cli0	move.b	(a0)+,d0
 	beq	CommandX
 	cmp.b	#" ",d0
 	beq.s	.Cli0
 	cmp.b	#"-",d0
 	beq.s	.CliO
-; Nom du programme ï¿½ charger?
+; Nom du programme à charger?
 	subq.l	#1,a0
 	lea	SP_AutoName(sp),a1
 	bsr	.CliNom
@@ -1682,8 +1644,8 @@ CommandX
 	move.l	a0,Name2(a5)		Buffers nom disque
 	lea	-256(a0),a0
 	move.l	a0,Name1(a5)
-	lea	-TBuffer(a0),a0
-	move.l	a0,Buffer(a5)
+	lea	-TBuffer(a0),a0	
+	move.l	a0,Buffer(a5)	
 	move.w	a0,d0
 	and.w	#$0003,d0
 	beq.s	.Skipu
@@ -1692,7 +1654,7 @@ CommandX
 	bra	Boot_Fatal
 .Skipu
 
-; Poke les donnï¿½es contenues dans SP
+; Poke les données contenues dans SP
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	move.l	SP_WSegment(sp),Sys_WSegment(a5)
 	move.l	SP_Message(sp),Sys_Message(a5)
@@ -1713,7 +1675,7 @@ CommandX
 
 ; Stocke la version du systeme
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	move.l	$4.w,a0
+	move.l	$4.w,a0			
 	cmp.w	#36,$14(a0)
 	bcs.s	.Pa20
 	move.w	$14(a0),WB2.0(a5)
@@ -1742,7 +1704,7 @@ CommandX
 .Open	move.l	Buffer(a5),d2
 	move.l	d2,a2
 
-; Charge les donnï¿½es dc.w
+; Charge les données dc.w
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 	moveq	#8,d3
 	jsr	D_Read
@@ -1754,7 +1716,7 @@ CommandX
 	move.l	a0,d2
 	jsr	D_Read
 	bne	TheEnd_Cantread
-; Charge les donnï¿½es texte
+; Charge les données texte
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 	move.l	a2,d2
 	moveq	#8,d3
@@ -1775,7 +1737,7 @@ CommandX
 	move.l	SP_DefSize(sp),d0
 	beq.s	.Skop
 	move.l	d0,PI_DefSize(a5)
-.Skop
+.Skop	
 ; Buffer de pathact
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	move.l	#256,d0
@@ -1794,7 +1756,7 @@ CommandX
 	beq	TheEnd_APSystem
 	jsr	AskDir2				Demande le directory
 	move.l	Buffer(a5),a0			Copie le directory
-	lea	384(a0),a0
+	lea	384(a0),a0			
 	lea	Sys_Pathname(a5),a1
 .CC	move.b	(a0)+,(a1)+
 	bne.s	.CC
@@ -1825,7 +1787,7 @@ CommandX
 	moveq	#4,d0			Nom de Def_Icon
 	jsr	Sys_GetMessage
 	jsr	Sys_AddPath
-	move.l	Name1(a5),a0
+	move.l	Name1(a5),a0	
 	jsr	-78(a6)			Charge!
 	move.l	d0,AdrIcon(a5)
 	beq.s	.PaIco
@@ -1854,11 +1816,11 @@ CommandX
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	bsr	AutoAssigns
 
-; Demarrage des interruptions
+; Demarrage des interruptions 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	moveq	#3,d0			A3= fonte / 0
 	jsr	Sys_GetMessage
-	move.l	a0,a3
+	move.l	a0,a3			
 	lea	PI_ParaTrap(a5),a0	A0= parametre demarrage
 	move.l	PI_AdMouse(a5),a1	A1= mouse.bak / 0
 	lea	PI_DefEPa(a5),a2	A2= Palette par defaut
@@ -1959,7 +1921,7 @@ CommandX
 	JJsr	L_WB_Close
 .NoWB
 
-; Branchement ï¿½ la fin de l'initialisation
+; Branchement à la fin de l'initialisation
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	jmp	Init_Fin
 
@@ -2051,7 +2013,7 @@ DoAssign
 	beq.s	.NoAss
 
 .DoAss	lea	AssCall(pc),a0		* Appelle la commande
-	move.l	Buffer(a5),a1
+	move.l	Buffer(a5),a1	
 .CoCop4	move.b	(a0)+,(a1)+
 	bne.s	.CoCop4
 	move.l	4(sp),a0
@@ -2162,7 +2124,7 @@ Libraries_Load
 	move.w	d2,d0
 	bsr	Library_Load
 	bne.s	.Err
-.Next	addq.w	#1,d2
+.Next	addq.w	#1,d2	
 	cmp.w	#27,d2
 	bne.s	.Loop
 	moveq	#0,d0
@@ -2308,7 +2270,7 @@ Library_Load
 ; Rempli la datazone
 	move.w	d5,LB_NRout(a2)		Nombre de routines
 	move.l	4(a3),d0
-	add.l	8(a3),d0
+	add.l	8(a3),d0		
 	add.l	a2,d0
 	move.l	d0,LB_Title(a2)		Adresse du titre
 	move.l	a4,LB_Command(a2)	Command line
@@ -2326,7 +2288,7 @@ Ll_Rts	illegal				RTS pour les fonctions vides...
 Library_Patch
 ; - - - - - - - - - - - - - - - -
 	movem.l	a2-a6/d2-d7,-(sp)
-	move.l	AdTokens(a5),a2
+	move.l	AdTokens(a5),a2	
 	move.l	LB_LibSizes(a2),a3
 	lea	AMOSJmps,a1
 	move.w	(a1)+,d0
@@ -2398,12 +2360,12 @@ Library_Reloc
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .20	move.l	a3,a0
 .RLoop	move.w	2(a0),d1
-	move.w	(a0),d0
+	move.w	(a0),d0	
 	beq	.RExit
 	bmi.s	.RFonc
 	cmp.w	#1,d0
 	beq.s	.RFonc
-; Une Instruction / Instruction ET fonction
+; Une Instruction / Instruction ET fonction 
 .RInst	addq.w	#1,d0			Instruction pointe direct
 ;	bmi.s	.INop			Instruction NOP
 	lsl.w	#2,d0
@@ -2440,7 +2402,7 @@ Library_Reloc
 	move.b	(a1)+,d1		Definition fonction / instruciton
 	bmi.s	.RDoke
 	cmp.b	#"C",d1			Une constante
-	beq.s	.RCst
+	beq.s	.RCst	
 	cmp.b	#"V",d1			Une variable reservee?
 	bne.s	.RSkip1
 	move.b	(a1)+,d1
@@ -2485,7 +2447,7 @@ Library_Reloc
 	move.w	4(a0),LB_DFloatSwap(a3)
 	move.w	6(a0),LB_FFloatSwap(a3)
 	addq.l	#8,a0
-.NoFSwp
+.NoFSwp	
 ;	Des donnees pour le compilateur?
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	cmp.l	#"ComP",(a0)		Le code?
@@ -2538,7 +2500,7 @@ GRou10	move.w	(a0),d0
 ; Table des sauts
 GRout	bra	GRouJ			; 0 - RJmp / Rjmptable
 	dc.w	$4ef9			JMP
-	jmp	(a0)
+	jmp	(a0)	
 	bra	GRouJ			; 1 - RJsr / Rjsrtable
 	dc.w	$4eb9			JSR
 	jsr	(a0)
@@ -2597,7 +2559,7 @@ GRouJ	cmp.b	#C_CodeJ,2(a0)
 	or.w	6(a1,d2.w),d0		Jsr/Jmp	(ax)
 	move.w	d0,(a0)+
 	bra	GRou1
-; Rlea
+; Rlea	
 .Rlea	subq.b	#8,d0
 	cmp.b	#8,d0
 	bcc	GRou2
@@ -2613,7 +2575,7 @@ GRouJ	cmp.b	#C_CodeJ,2(a0)
 .Rjsr	moveq	#0,d1			Transforme en JSR direct
 	move.b	3(a0),d1
 	cmp.b	#27,d1			Numero de l'extension
-	bcc	GRou2
+	bcc	GRou2	
 	move.w	4(a1,d2.w),(a0)
 	move.w	4(a0),d0
 	addq.l	#6,a0
@@ -2693,37 +2655,37 @@ Ext_OldLabel
 ;	Table de conversion des labels AMOSPro 1.0 >>> AMOSPro 2.0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ext_Convert
-	dc.w	1024,L_Error
-	dc.w	1025,L_ErrorExt
-	dc.w	207,L_Test_PaSaut
-	dc.w	956,L_WaitRout
-	dc.w	287,L_GetEc
-	dc.w	46,L_Demande
-	dc.w	432,L_RamFast
-	dc.w	433,L_RamChip
-	dc.w	434,L_RamFast2
-	dc.w	435,L_RamChip2
-	dc.w	436,L_RamFree
-	dc.w	1100,L_Bnk.GetAdr
-	dc.w	1101,L_Bnk.GetBobs
-	dc.w	1102,L_Bnk.GetIcons
-	dc.w	1103,L_Bnk.Reserve
-	dc.w	1104,L_Bnk.Eff
-	dc.w	1105,L_Bnk.EffA0
-	dc.w	1106,L_Bnk.EffTemp
-	dc.w	1107,L_Bnk.EffAll
+	dc.w	1024,L_Error			
+	dc.w	1025,L_ErrorExt		
+	dc.w	207,L_Test_PaSaut	
+	dc.w	956,L_WaitRout		
+	dc.w	287,L_GetEc			
+	dc.w	46,L_Demande		
+	dc.w	432,L_RamFast		
+	dc.w	433,L_RamChip		
+	dc.w	434,L_RamFast2		
+	dc.w	435,L_RamChip2		
+	dc.w	436,L_RamFree		
+	dc.w	1100,L_Bnk.GetAdr		
+	dc.w	1101,L_Bnk.GetBobs		
+	dc.w	1102,L_Bnk.GetIcons		
+	dc.w	1103,L_Bnk.Reserve		
+	dc.w	1104,L_Bnk.Eff		
+	dc.w	1105,L_Bnk.EffA0		
+	dc.w	1106,L_Bnk.EffTemp		
+	dc.w	1107,L_Bnk.EffAll		
 	dc.w	1234,L_Bnk.Change
 	dc.w	1121,L_Bnk.OrAdr
-	dc.w	1119,L_Dsk.PathIt
-	dc.w	1120,L_Dsk.FileSelector
-	dc.w	1122,L_Dev.Open
-	dc.w	1123,L_Dev.Close
-	dc.w	1124,L_Dev.GetIO
-	dc.w	1125,L_Dev.AbortIO
-	dc.w	1126,L_Dev.DoIO
-	dc.w	1127,L_Dev.SendIO
-	dc.w	1128,L_Dev.CheckIO
-	dc.w	1129,L_Dev.Error
+	dc.w	1119,L_Dsk.PathIt		
+	dc.w	1120,L_Dsk.FileSelector	
+	dc.w	1122,L_Dev.Open		
+	dc.w	1123,L_Dev.Close		
+	dc.w	1124,L_Dev.GetIO		
+	dc.w	1125,L_Dev.AbortIO		
+	dc.w	1126,L_Dev.DoIO		
+	dc.w	1127,L_Dev.SendIO		
+	dc.w	1128,L_Dev.CheckIO		
+	dc.w	1129,L_Dev.Error		
 	dc.w	0,0
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -2749,12 +2711,12 @@ Library_GetParams
 ; 	Exploration de la table de tokens
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	move.w	(a2),d3
-.Loop
+.Loop	
 ;	move.l	4(a2),d0
 ;	cmp.l	#"x mo",d0
 ;	bne.s	.Skkk
 ;	jsr	BugBug
-.Skkk
+.Skkk	
 	move.w	2(a2),d4
 	beq.s	.Next
 ; Une instruction?
@@ -2820,7 +2782,7 @@ Library_GetParams
 .FAngle	moveq	#0,d0
 	moveq	#18,d1			Fonction angle
 	bra.s	.Doke
-.FMath	moveq	#0,d0
+.FMath	moveq	#0,d0			
 	moveq	#19,d1			Fonction math
 	bra.s	.Doke
 .Var	tst.w	d0			Variable reservee en fonction
@@ -2835,7 +2797,7 @@ Library_GetParams
 	lsl.w	#1,d1			Pointe la table des adresses
 	move.w	0(a3,d1.w),d1		Delta au debut
 	sub.w	d0,d1			Moins ADDQ.L #2,a6 si fonction
-	ext.l	d1
+	ext.l	d1	
 	add.l	a3,d1			Plus debut
 	sub.l	a4,d1			Moins base
 	move.l	(a1),a0			Adresse de la routine
@@ -2849,7 +2811,7 @@ Library_GetParams
 	move.w	d1,(a0)+		Doke le delta
 	subq.l	#4,(a1)			Recule la fonction
 .Exit	rts
-
+	
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ;				INITIALISATION D'UNE LIBRAIRIE
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -2872,7 +2834,7 @@ Library_Init
 	move.w	(sp)+,d3
 	tst.w	d0			Refuse de charger...
 	bpl.s	.Nomi
-	cmp.l	#"Asci",d1		Un Message?
+	cmp.l	#"Asci",d1		Un Message?	
 	bne	Ll_BadExt
 	move.l	a0,d0			Un message?
 	bra	Ll_Mess			Oui,
@@ -2884,7 +2846,7 @@ Library_Init
 Ll_Mess	bra	Ll_BadExt		Illegal
 
 
-; Passe ï¿½ le prochaine instruction
+; Passe à le prochaine instruction
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ll_TkNext
 	addq.l	#4,a0
@@ -2910,7 +2872,7 @@ TheEnd_Cantread
 TheEndM	move.l	a0,Panic
 	jmp	TheEnd
 
-; Erreur avec datazone non rï¿½servï¿½e
+; Erreur avec datazone non réservée
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Boot_Fatal
 ; Libere amos.library s'il faut
@@ -2950,7 +2912,7 @@ IntName:	dc.b 	"intuition.library",0
 GfxName:	dc.b 	"graphics.library",0
 
 AssInst		dc.b	"c:assign",0
-AssCall		dc.b	"c:assign ",0
+AssCall		dc.b	"c:assign ",0 
 Ass0		dc.b	"AMOSPro_System:",0
 		dc.b	0
 Ass1		dc.b	"AMOSPro_Accessories:",0
@@ -2983,3 +2945,5 @@ Panic_Version	dc.b	"I need AMOS.library V2.0 or over!",0
 ;		Adresses des routines accessibles aux extensions
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AMOSJmps	Include	"+Internal_Jumps.s"
+
+

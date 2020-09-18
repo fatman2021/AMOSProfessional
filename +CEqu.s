@@ -1,40 +1,12 @@
 ;---------------------------------------------------------------------
 ;   ***  ***  **   ** ****  **** **    **    **   **   **  ***   ***
-;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** **
+;  **   ** ** *** *** ** **  **  **    **   ****  *** *** ** ** ** 
 ;  **   ** ** ** * ** ** **  **  **   **   **  ** ** * ** ** **  ***
 ;  **   ** ** **   ** ****   **  **        ****** **   ** ** **    **
 ;  **   ** ** **   ** **     **  **        **  ** **   ** ** ** *  **
 ;   ***  ***  **   ** **    **** ****      **  ** **   **  ***   ***
 ;---------------------------------------------------------------------
 ; EQUATES
-;---------------------------------------------------------------------
-;
-;  Published under the MIT Licence
-;
-;  Copyright (c) 1992 Europress Software
-;  Copyright (c) 2020 Francois Lionet
-;
-;  Permission is hereby granted, free of charge, to any person
-;  obtaining a copy of this software and associated documentation
-;  files (the "Software"), to deal in the Software without
-;  restriction, including without limitation the rights to use,
-;  copy, modify, merge, publish, distribute, sublicense, and/or
-;  sell copies of the Software, and to permit persons to whom the
-;  Software is furnished to do so, subject to the following
-;  conditions:
-;
-;  The above copyright notice and this permission notice shall be
-;  included in all copies or substantial portions of the Software.
-;
-;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
-;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-;
 ;---------------------------------------------------------------------
 C_Code1		equ	$FE
 C_Code2		equ	$01
@@ -155,7 +127,7 @@ Rbpl		MACRO
 		ENDM
 Rbmi		MACRO
 		dc.b	C_Code1,14*16+C_Code2
-		dc.w	\1
+		dc.w	\1 
 		ENDM
 Rdata		MACRO
 		dc.b	C_Code1,15*16+C_Code2
@@ -170,7 +142,7 @@ Ret_Inst	MACRO
 ;		move.l	a5,\2
 ;		add.w	A\1(a5),\2
 ;		ENDM
-*
+*	
 GfxC		MACRO
 		movem.l	d0-d7/a0-a6,-(sp)
 		move.l	T_GfxBase(a5),a6
@@ -204,7 +176,7 @@ FPrg_DefRunAcc	equ	0
 FPrg_Default	equ	1
 FPrg_Wb		equ	2
 
-; 		Zone de sauvegarde des donnï¿½es short-run
+; 		Zone de sauvegarde des données short-run
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		RsReset
 Short_Name	rs.b	128
@@ -219,6 +191,6 @@ APrg_MathFlags	rs.w	1		0
 APrg_Relocation	rs.l	1		2
 APrg_EndProc	rs.l	1		6
 APrg_OldReloc	rs.l	1		10
-		rs.b	16-__RS		Jusqu'ï¿½ 16
+		rs.b	16-__RS		Jusqu'à 16
 APrg_Program	equ	__RS
 ;---------------------------------------------------------------------

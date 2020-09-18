@@ -1,29 +1,26 @@
+# AMOS Professional 365 (research version)
 
-### Welcome to the official AMOS Professional source code repository.
+This is more stable than the original and works perfectly, it has been tested over a long period of time. It has some personal customizations to the configs that I find comfortable and is more system friendly - it includes a Macro that gets the scroll wheel working in the editor and memory tweaks that stop AMOS from crashing.
 
-You will find in this repository the entire source code of AMOS Professional, as it was on my machine at the end of 1993 when I decided to switch to PC and create Klik and Play with my partner Yves Lamoureux.
+# Instructions
 
-This source-code is published under the MIT licence, which means you can do anything you want from it as long as the copyright notice is present in both the modified source code and the boot screen of the application. I have unfortunately forgotten how you can compile it and would appreciate to receive an extra documentation, if you have managed to compile, so that I can include it is this readme. Do not hesitate to contact me by mail about this.
+This package contains everything needed to rebuild AMOS, and a fully built version in the /AMOS folder - there are a number of assembly build scripts prefixed with the "a..." character. The main build is accomplished by using "execute aall" in the CLI which executes each script in the correct sequence, also installing the config to S: and the library to LIBS:
 
-I am delighted to see that this code, that was made at a very special moment of my life, is still alive 30 years after it was written. I cannot wait to discover what you will do with it. Be creative!
+AMOS is well documented and supported on other websites and you are encouraged to learn from these sources as I have.
 
-Please note that I will not answer to any technical questions as I do not remember how it works and all this is for me the past. Even if the Amiga is and will always be in my heart, my focus is the future and this future is called AOZ.
+There are also other branches available on github working on different aspects, you are also encouraged to search for these and get involved.
 
-Francois - fl@aoz.studio
+# Update September 2020
 
----
+The work here is based on the original AMOS Professional source taken from Aminet.Net - The ASCII formatting is preserved and an historical commit chain was created to follow the exact changes that were made to fix the broken source code.
 
-This distribution is based on the repository created by marc365. https://github.com/marc365/AMOSProfessional
+For historical note the branch subsequently provided by François Lionet on AOZ-Studio/AMOS-Professional-Official was not actually branched from here, it seems it was re-uploaded. They seemed to have had problems with the circa 1980's file format and made some changes such as:
 
-I have added the MIT licence headers to all the sources. If you know about a newer of better version of the source-code, do not hesitate to send it to me by mail, I will gladly update the repository.
+>[invalid label character that was breaking build](https://github.com/AOZ-Studio/AMOS-Professional-Official/commit/99fa17f1466f563f0b60bfbef0598a83c881429a)
 
-Thank you Marc365! I have included your readme after this intro.
+these are not needed in this "original" branch and I've decided to continue the "preservation" of the file format in this branch so won't merge. I have updated the name of this branch to AMOS Professional 365 so that the changes made here can be regarded as independent but can be integrated by anyone.
 
-.
-
-.
-
-.
+# Future
 
 Anyone who is interested in this project should join François Lionets patreon:
 
@@ -51,3 +48,4 @@ In occasion of Pianeta Amiga 2012, Pietro Ghizzoni, current owner of AMOS Pro so
 
 > [pre Public Domain ?](http://www.amiworld.it/news/amos_upgrade_eng.html)
 As you know some months ago i've obtained the AMOS sources... during these months I've spent my time learning the AMOS internal functions and structures, in order to upgrade it and develop the new AMOSPro V3... but I've to say that my projects have changed a lot during this period. My original idea was to upgrade/expand it, add AGA support and most of all to make AMOS more OS friendly! but when I examined the sources some problems have arisen...
+

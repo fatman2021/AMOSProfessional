@@ -18,46 +18,20 @@
 ; ..220000000022020000002.200002.........22.......______________________________
 ; ..0000002........2000000220022.................|
 ; .200000............2002........................| Editor
-; .200002........................................| Modif
+; .200002........................................| Modif 
 ; 220002.........................................|______________________________
 ; ______________________________________________________________________________
-;
-;  Published under the MIT Licence
-;
-;  Copyright (c) 1992 Europress Software
-;  Copyright (c) 2020 Francois Lionet
-;
-;  Permission is hereby granted, free of charge, to any person
-;  obtaining a copy of this software and associated documentation
-;  files (the "Software"), to deal in the Software without
-;  restriction, including without limitation the rights to use,
-;  copy, modify, merge, publish, distribute, sublicense, and/or
-;  sell copies of the Software, and to permit persons to whom the
-;  Software is furnished to do so, subject to the following
-;  conditions:
-;
-;  The above copyright notice and this permission notice shall be
-;  included in all copies or substantial portions of the Software.
-;
-;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-;  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-;  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-;  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-;  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-;  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
-;  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-;
-; ______________________________________________________________________________
+;	
+        OPT C-
 		Include	"+Debug.s"
 		IFEQ	Debug=2
-		Include "+AMOS_Includes.s"
+		Include "+AMOS_Includes.s"	
 		Include "+Version.s"
 		ENDC
 ;_____________________________________________________________________________
 
 
-; Branchements internes ï¿½ l'editeur
+; Branchements internes à l'editeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EDebut		dc.l	Ed_Cold-EDebut
 		dc.l	Ed_Title-EDebut
@@ -105,7 +79,7 @@ Edt_BtSx	equ	24
 
 ; Images dans la banque
 ; ~~~~~~~~~~~~~~~~~~~~~
-Ed_Pics		equ	1
+Ed_Pics		equ	1	
 Ed_BtPics	equ	Ed_Pics+4
 Ed_BoutonsPics	equ	Ed_BtPics+2*3
 Ed_MemoryPics	equ	Ed_BoutonsPics+2*12
@@ -156,7 +130,7 @@ Ed_DiaImages	equ	66		Debut des images dialogue dans la banque
 ;					Initialisation de l'editeur
 ;______________________________________________________________________________
 ;
-Ed_Cold
+Ed_Cold	
 	clr.b	Ed_Ok(a5)		Pas en etat de marche!
 	bsr	Ed_Available
 	cmp.l	#50*1024,d1		Au moins 50k de CHIP
@@ -168,7 +142,7 @@ Ed_Cold
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	tst.b	Ed_Warm(a5)
 	bne.s	.UnKill
-; Chargement vraiment ï¿½ froid
+; Chargement vraiment à froid
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	bsr	Ed_LoadAllConfig	Charge les fichiers
 	bne.s	.Err
@@ -201,13 +175,13 @@ Ed_Cold
 Ed_Title
 	bsr	Ed_Appear
 	bsr	Ed_WarmStart		Un Warmstart?
-	moveq	#"A",d0
+	moveq	#"A",d0			
 	bsr	Ed_SamPlay		Bonjour!
 	bsr	Ed_About		Titre
 	bsr	Ed_Loca			Curseur
 	rts
 
-; Fenetres d'origines dï¿½ja computï¿½es?
+; Fenetres d'origines déja computées?
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_Computee
 	move.l	Prg_List(a5),d0
@@ -316,7 +290,7 @@ Ed_OpenEditor
 	beq	Ed_System		NON: on sort!
 	JJsr	L_Bnk.EffAll		Efface toutes les banques
 	JJsr	L_Bnk.Change		Changement de banques
-
+	
 	bsr	Ed_OpenIt
 	beq.s	.Ok
 	bsr	Ed_CloseIt
@@ -334,7 +308,7 @@ Ed_OpenIt
 	bsr	EdM_Editor
 ; Verification de la taille des fenetres / Config
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	tst.b	EdC_Modified(a5)
+	tst.b	EdC_Modified(a5)	
 	beq	.ModX
 	clr.b	EdC_Modified(a5)
 	move.l	Edt_Current(a5),d0	Des fenetres?
@@ -363,7 +337,7 @@ Ed_OpenIt
 	add.w	d0,d1
 .Mod4	move.l	Edt_Next(a0),d0
 	bne.s	.Mod3
-	move.w	d1,Ed_Sy(a5)		Change la config!!!!
+	move.w	d1,Ed_Sy(a5)		Change la config!!!!	
 ; Verification de la position du curseur en X
 .Mod5	move.w	Ed_Sx(a5),d1		Derniere limite curseur
 	lsr.w	#3,d1
@@ -436,7 +410,7 @@ Ed_OpenIt
 	divu	#3,d0
 	move.w	d0,Ed_WMax(a5)
 
-	jsr	Tok_Init		Les tables de tokenisation
+	jsr	Tok_Init		Les tables de tokenisation 
 	bne.s	.Error
 	bsr	Ed_InitDialogues	Les dialogues
 	bne.s	.Error
@@ -461,7 +435,7 @@ Ed_KillEditor
 	clr.b	Ed_Ok(a5)		Plus en etat de marche...
 	rts
 
-;	Fermeture de l'ï¿½diteur
+;	Fermeture de l'éditeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_CloseEditor
 	tst.b	Ed_Opened(a5)
@@ -484,7 +458,7 @@ Ed_CloseIt
 	bsr	Ed_EndDialogues		Plus de dialogues
 	bsr	Edt_DelAllZones		Plus de zones de fenetres
 	EcCalD	Del,EcEdit		Plus d'ecrans
-	EcCalD	Del,EcFonc
+	EcCalD	Del,EcFonc		
 	jsr	Tok_Del			Plus de tokenisation
 	move.l	Ed_BufE(a5),d0		Plus de buffer d'edition
 	beq.s	.Skip
@@ -557,7 +531,7 @@ Ed_WarmStart
 	move.l	TempBuffer(a5),a6	A6= Structures programmes
 	move.l	a6,a4			A4= Structures edition
 	moveq	#-8,d0
-.GLoop	lea	8(a4,d0.l),a4
+.GLoop	lea	8(a4,d0.l),a4	
 	move.l	4(a4),d0
 	tst.l	(a4)+
 	bne.s	.GLoop
@@ -639,7 +613,7 @@ Ed_WarmStart
 	beq	.Err
 	moveq	#1,d0			Charge sans adapter
 	JJsr	L_Prg_Load
-	bne	.Err
+	bne	.Err	
 	tst.b	Prg_NoNamed(a6)		Enleve le nom si necessaire
 	beq.s	.Name
 	clr.b	Prg_NamePrg(a6)
@@ -744,10 +718,10 @@ Ed_WarmStart
 	moveq	#EdD_WarmErr,d0
 	bsr	Ed_Dialogue
 	rts
-
+	
 ;______________________________________________________________________________
 ;
-;						Dessin du titre
+;						Dessin du titre 
 ;______________________________________________________________________________
 ;
 Ed_DrawTop
@@ -763,7 +737,7 @@ Ed_DrawTop
 
 ; Unpack le logo AMOS
 ; ~~~~~~~~~~~~~~~~~~~
-	moveq	#Ed_Pics,d0
+	moveq	#Ed_Pics,d0	
 	moveq	#Ed_BoutonsSx,d1
 	moveq	#Ed_YTop,d2
 	bsr	Ed_Unpack
@@ -925,7 +899,7 @@ Ed_MemoryAff
 
 ;______________________________________________________________________________
 ;
-;						Boucle principale de l'ï¿½diteur
+;						Boucle principale de l'éditeur
 ;______________________________________________________________________________
 ;
 Ed_Loop
@@ -935,7 +909,7 @@ Ed_Loop
 
 ; Flag: editeur en etat de marche!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	move.b	#1,Ed_Ok(a5)
+	move.b	#1,Ed_Ok(a5)		
  	move.w	#1,T_AMOState(a5)	Editeur present!
 
 ; Efface une fenetre en rab
@@ -994,7 +968,7 @@ Ed_Loop
 ; _______________________________
 ;
 	bsr	Ed_BlocAff
-;
+; 
 ; Gestion de la fenetre d'informations pour toutes les fenetres
 ; _____________________________________________________________
 ;
@@ -1015,7 +989,7 @@ Ed_Loop
 	subq.w	#1,Edt_EtMess(a4)
 	bne.s	.PaMess
 	move.b	#EtA_BAll,Edt_EtatAff(a4)
-.PaMess
+.PaMess	
 ; Va reafficher la fenetre
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 	bsr	Ed_EtPrintD0
@@ -1067,7 +1041,7 @@ Ed_Loop
 	bsr	EdM_Init
 	bra	Ed_Loop
 .Menula
-
+	
 ;
 ; Gestion du programme courant
 ; ____________________________________
@@ -1109,7 +1083,7 @@ Ed_Loop
 	cmp.w	#200,d0
 	bcc.s	.SkipD
 	bsr	Ed_CuOff
-	bsr	Ed_CDr
+	bsr	Ed_CDr	
 	bra	Ed_Loop
 .SkipD
 ; Haut / Bas, calcule les tailles
@@ -1117,7 +1091,7 @@ Ed_Loop
 	move.w	Edt_WindTy(a4),d1
 	cmp.w	#2,d1
 	bls.s	.SEnd
-	moveq	#1,d2
+	moveq	#1,d2	
 	moveq	#1,d3
 	cmp.w	#7,d1
 	bcs.s	.SkipT
@@ -1142,7 +1116,7 @@ Ed_Loop
 	bsr	Ed_SHaut2
 	addq.w	#1,Edt_YCu(a4)
 	bsr	Ed_Loca
-	bra	Ed_Loop
+	bra	Ed_Loop		
 .SkipH
 ; 4. En bas
 ; ~~~~~~~~~
@@ -1162,32 +1136,32 @@ Ed_Loop
 .SEnd
 
 ;
-; Un programme en tï¿½lï¿½commande?
+; Un programme en télécommande?
 ; _____________________________
 ;
 	tst.b	Ed_Zappeuse(a5)
-	beq.s	.PaProg
-	addq.w	#1,Ed_ZapCounter(a5)	Attend que l'editeur soit stabilisï¿½
-	cmp.w	#5,Ed_ZapCounter(a5)
+	beq.s	.PaProg 
+	addq.w	#1,Ed_ZapCounter(a5)	Attend que l'editeur soit stabilisé
+	cmp.w	#5,Ed_ZapCounter(a5)	
 	bcs	Ed_Loop
 	clr.w	Ed_ZapCounter(a5)
 	bra	Ed_ZapOut
 .PaProg
-;
+; 
 ; Gestion du clavier
 ; __________________
 ;
 	bsr	Ed_Key
 	bne	Ed_Loop
-
-;
+	
+; 
 ; Gestion de la souris
 ; ____________________
 ;
 	bsr	Ed_Mouse
 	bne	Ed_Loop
 
-;
+; 
 ; Reafficher le slider de memoire?
 ; ________________________________
 ;
@@ -1197,7 +1171,7 @@ Ed_Loop
 	bsr	Ed_MemoryAff
 	bra	Ed_Loop
 .Skip
-;
+; 
 ; Autosave?
 ;____________
 ;
@@ -1269,7 +1243,7 @@ Ed_Mouse
 	tst.l	EdMa_Play(a5)
 	beq.s	.PaMacro
 	clr.l	EdMa_Play(a5)
-.PaMacro
+.PaMacro	
 
 ; Le menu?
 ; ~~~~~~~~
@@ -1287,7 +1261,7 @@ Ed_Mouse
 
 ; Une Zone?
 ; ~~~~~~~~~
-	SyCall	GetZone
+	SyCall	GetZone	
 	cmp.w	#EcEdit,d1
 	bne	Ed_MQuit
 	swap	d1
@@ -1340,7 +1314,7 @@ Ed_Mouse
 	and.w	#$FFF8,d0
 	cmp.w	Edt_Window(a4),d0
 	beq.s	.Same
-; Doit changer l'ï¿½cran actuel
+; Doit changer l'écran actuel
 	bsr	Ed_TokCur
 	bsr	Edt_GetAd
 	beq.s	.Same
@@ -1368,7 +1342,7 @@ Ed_Mouse
 	move.w	Ed_MkCpt(a5),d0
 	beq.s	.Pos
 	cmp.w	#20,d0
-	bcs	Ed_MQuit
+	bcs	Ed_MQuit	
 .Pos
 	add.w	Edt_XPos(a4),d3
 	cmp.w	#250,d3
@@ -1403,7 +1377,7 @@ Ed_Mouse
 	bra	Ed_MEnd
 .NoText
 ; ______________________
-;
+; 
 ; Click dans les sliders
 ; ______________________
 ;
@@ -1417,7 +1391,7 @@ Ed_Mouse
 .NoSlV	bra	Ed_MQuit
 
 ; ____________________________
-;
+; 
 ; Click dans un bouton general
 ; ____________________________
 ;
@@ -1433,7 +1407,7 @@ Ed_MBouton
 	move.b	-1(a0,d2.w),d2
 	subq.w	#1,d2
 	bsr	Ed_FCall
-Ed_MEnd
+Ed_MEnd	
 	clr.b	Ed_CuFlag(a5)
 	moveq	#-1,d0
 	rts
@@ -1471,12 +1445,12 @@ Ed_RShLimits
 ; Une fenetre au milieu, bouge tout!
 	move.w	Edt_WindTy(a4),d0
 	lsl.w	#3,d0
-	add.w	#Edt_EtatSy+Edt_BasSy,d0	; Taille ï¿½ bouger
+	add.w	#Edt_EtatSy+Edt_BasSy,d0	; Taille à bouger
 	sub.w	d0,d2				; D2 max
 	move.w	Edt_Y(a4),d3			; Position initiale
 	rts
 ; La derniere, bouge juste le haut
-.Last	moveq	#Edt_EtatSy,d0			; Taille ï¿½ bouger
+.Last	moveq	#Edt_EtatSy,d0			; Taille à bouger
 	sub.w	#Edt_EtatSy+Edt_BasSy,d2	; D2 max
 	move.w	Edt_Y(a4),d3			; Position initiale
 	rts
@@ -1506,7 +1480,7 @@ Ed_MSepBas
 Ed_RSbLimits
 	moveq	#0,d0
 	bsr	Edt_WMaxSize			; Positions max et min
-	moveq	#Edt_BasSy,d0			; Taille ï¿½ bouger
+	moveq	#Edt_BasSy,d0			; Taille à bouger
 	add.w	#Edt_EtatSy,d1
 	move.w	Edt_BasY(a4),d3			; Position initiale
 	rts
@@ -1574,15 +1548,15 @@ Ed_BasMove
 	beq.s	.NoMve
 	bsr	Edt_WVideNext
 	bsr	Ed_DrawWindows
-.NoMve	rts
+.NoMve	rts	
 
 
 ; __________________________________________________________________________
 ;
-; 	Teste le clavier
+; 	Teste le clavier 
 ; __________________________
 ;
-Ed_Key
+Ed_Key	
 
 ; Une macro en lecture?
 ; ~~~~~~~~~~~~~~~~~~~~~
@@ -1607,7 +1581,7 @@ Ed_Key
 	beq.s	.EdPaCc
 	move.l	#$08330043,d1
 	bra.s	.MacIn
-.EdPaCc
+.EdPaCc	
 
 ; Prend les touches
 ; ~~~~~~~~~~~~~~~~~
@@ -1637,8 +1611,8 @@ Ed_Key
 	beq.s	.EndMac
 	lea	12(a1),a1
 	move.l	a1,EdMa_Play(a5)
-	bra	Ed_Key
-.EndMac
+	bra	Ed_Key	
+.EndMac	
 
 ; Une fonction?
 ; ~~~~~~~~~~~~~
@@ -1667,7 +1641,7 @@ Ed_MnGere
 	bsr	EdM_Editor
 	tst.l	MnBase(a5)		Menus definis?
 	beq.s	.Err
-	move.l	a6,-(sp)
+	move.l	a6,-(sp)		
 	move.l	$4.w,a6
 	move.l	#Public,d1
 	jsr	_LVOAvailMem(a6)	Au moins 40k de libre!
@@ -1709,7 +1683,7 @@ Ed_MnGere
 ; Erreur out of memory
 .Err	moveq	#-1,d0
 	rts
-
+	
 ; Explore la table des touches de fonctions
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	D1=	Touche
@@ -1721,7 +1695,7 @@ Ed_Ky2Fonc
 	cmp.b	#"z",d7
 	bhi.s	.EdL5
 	sub.b	#"a"-"A",d7
-.EdL5	swap 	d1
+.EdL5	swap 	d1		
 	move.b	d1,d6		* D6= scancode
 	lsr.w	#8,d1
 	and.b	#%11111011,d1
@@ -1792,7 +1766,7 @@ Ed_Ky2Fonc
 .Out	movem.l	(sp)+,d1/d3-d7
 	rts
 
-; Pointe la touche affectee ï¿½ une fonction
+; Pointe la touche affectee à une fonction
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	D0=	Fonction
 ;
@@ -1812,7 +1786,7 @@ Ed_Fonc2Ky
 .NoKey	moveq	#0,d0
 	rts
 
-;
+; 
 ; Stocke la lettre dans le buffer
 ; 	D6= Insert mode?
 ;	D7= caractere
@@ -1832,7 +1806,7 @@ Ed_PKey
 	bsr	Ed_Cent
 	movem.l	(sp)+,a0/a1/d0/d1
 * Recupere le code Ascii
-.EdL10a
+.EdL10a	
 * Gestion UNDO
 	bsr	Un_Debut
 	bne.s	.Skip
@@ -1864,15 +1838,15 @@ Ed_PKey
 ; Bouge le curseur
 	bsr	Ed_CDroite
 	move.w	Edt_YCu(a4),d1
-	bsr	Ed_ALigne
+	bsr	Ed_ALigne	
 ; Reaffiche la ligne
 .EdL15	bsr	Ed_Loca
 ; Si la fenetre est splitee
 	move.b	#%01,Ed_SCallFlags(a5)
 	rts
 
-;
-; Insere le mot A0/long D0 dans la ligne courante
+; 
+; Insere le mot A0/long D0 dans la ligne courante 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 R_InsChar
 	movem.l	a0-a3/d0-d2,-(sp)
@@ -1921,7 +1895,7 @@ R_DelChar
 .Skip	rts
 
 ; _________________________________________________________________________
-;
+; 
 ; 	GESTION UNDO MULTIPLE
 ; _________________________________________________________________________
 ;
@@ -1958,7 +1932,7 @@ Ed_Redo	move.l	Prg_PUndo(a6),a2
 ; Passe au suivant
 	move.l	Prg_PUndo(a6),a2
 	bsr	Un_Next
-	move.l	a2,Prg_PUndo(a6)
+	move.l	a2,Prg_PUndo(a6)	
 .Out	rts
 
 
@@ -1986,7 +1960,7 @@ Prg_FreeUndos
 	bne.s	.Loop
 .Out	movem.l	(sp)+,d0/a6
 	rts
-; 	Mise ï¿½ zero de tous les buffers UNDO
+; 	Mise à zero de tous les buffers UNDO
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Prg_RazUndos
 	movem.l	d0/a6,-(sp)
@@ -2140,7 +2114,7 @@ Re_Clear
 ;
 ; UNDO: Ligne effacee du programme
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Un_DLine
+Un_DLine	
 	bsr	Un_XYSto
 	move.l	a2,-(sp)
 	bsr	Ed_InsLine
@@ -2149,7 +2123,7 @@ Un_DLine
 ;
 ; REDO: Ligne effacee du programme
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Re_DLine
+Re_DLine	
 	bsr	Un_XYSto
 	bsr	Ed_DelLiCu
 	rts
@@ -2200,7 +2174,7 @@ Un_Split
 Re_Split
 Un_Join
 	bsr	Un_XYSto
-	bsr	Un_RepLine
+	bsr	Un_RepLine	
 	bsr	Ed_ReturnQuiet
 	rts
 ;
@@ -2279,7 +2253,7 @@ Un_CLine
 	movem.l	(sp)+,a0-a1/d0-d2
 .Skip	move.l	(sp)+,a2
 	rts
-
+	
 ;
 ; Stocke les coordonnees du curseur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2329,8 +2303,8 @@ Un_Del
 	SyCall	MemFree
 .Out	clr.b	(a2)
 	movem.l	(sp)+,a0/a1/d0
-	rts
-
+	rts	
+	
 
 ; Va un cran en arriere
 ; ~~~~~~~~~~~~~~~~~~~~~~
@@ -2377,7 +2351,7 @@ Ed_LinkCursor
 	SyCall	MouseKey
 	btst	#0,d1
 	beq.s	.Loop
-	SyCall	GetZone
+	SyCall	GetZone	
 	cmp.w	#EcEdit,d1
 	bne	Ed_NotDone
 	swap	d1
@@ -2397,7 +2371,7 @@ Ed_LinkCursor
 ;
 ; Enleve les links de scrolling sur la fenetre A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Edt_DelLinkScroll
+Edt_DelLinkScroll	
 	move.l	Edt_List(a5),d1
 .Loop	move.l	d1,a1
 	cmp.l	Edt_LinkScroll(a1),a0
@@ -2455,12 +2429,12 @@ Ed_LinkeScroll
 .Skip	bset	#EtA_Y,Edt_EtatAff(a4)
 ; Appelle la fenetre suivante - RECURSIF : youpi youpla
 	bsr	.Recurse
-; Revient ï¿½ la precedente fenetre
+; Revient à la precedente fenetre
 .PaBoucle
 	movem.l	(sp)+,a4/a6
 	clr.b	Edt_LinkFlag(a4)
-; Revient ï¿½ le precedente
-.Out	rts
+; Revient à le precedente
+.Out	rts	
 
 
 ; __________________________________________________________________________
@@ -2587,9 +2561,9 @@ Ed_Splitted
 
 
 ; ___________________________________________________________________
-;
+; 
 ; 	APPEL D'UNE FONCTION DE L'EDITEUR
-;
+;	
 ;	D2	Numero de la fonction
 ; ___________________________________________________________________
 ;
@@ -2620,9 +2594,9 @@ Ed_FCall
 	move.w	d2,d1
 	ext.l	d1
 	cmp.w	#HiddenCommands-1,d2
-	bcs.s	.Fonc
+	bcs.s	.Fonc	
 ; Hidden programs
-	sub.w	#HiddenCommands-1,d1
+	sub.w	#HiddenCommands-1,d1	
 	divu	#3,d1
 	swap	d1
 	moveq	#HiddenCall-1,d2		RUN / EDIT ou NEW?
@@ -2645,7 +2619,7 @@ Ed_FCall
 	jmp	0(a0,d2.w)
 ; Appel d'un programme externe, si pas zappeuse!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.Prg	tst.b	Ed_Zappeuse(a5)
+.Prg	tst.b	Ed_Zappeuse(a5)	
 	bne.s	.Call
 	lea	0(a0,d0.w),a0
 	tst.w	EdMa_Tape(a5)	Pas si macro record
@@ -2658,22 +2632,22 @@ Ed_FCall
 	bsr	Ed_Dialogue
 	bra	Ed_Loop
 
-; Branchement ï¿½ HELP par F5
+; Branchement à HELP par F5
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~
-Ed_GoHelp
+Ed_GoHelp	
 	moveq	#26,d2
 	bra	Ed_FCall
 
 ; ___________________________________________________________________
 ;
 ;	ENTREE DE LA TELECOMMANDE
-;
+;	
 ;	D0	Fonction
 ;	D1	Parametre
 ;	Name1	Chaine de commande
 ; ___________________________________________________________________
 ;
-Ed_ZapIn
+Ed_ZapIn	
 ; Pas le meme programme!
 ; ~~~~~~~~~~~~~~~~~~~~~~
 	move.l	Edt_Runned(a5),a2
@@ -2683,7 +2657,7 @@ Ed_ZapIn
 	beq	.NoAcc
 ; Sauve les donnees du programme appelant
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	move.l	d0,d2
+	move.l	d0,d2	
 	move.l	d1,Ed_ZapParam(a5)
 	move.l	Edt_Prg(a2),a0
 	lea	Prg_ZapData(a0),a0
@@ -2703,10 +2677,10 @@ Ed_ZapIn
 	move.l	Name2(a5),a0		Oui, est-elle fournie?
 	tst.w	(a0)			Longueur en NAME2,
 	beq.s	.BadCh			String en NAME1...
-; Branche ï¿½ la fonction!
+; Branche à la fonction!
 ; ~~~~~~~~~~~~~~~~~~~~~~
 .Branch	and.b	#$F0,d1			Mode zappeuse!
-	move.b	d1,Ed_Zappeuse(a5)
+	move.b	d1,Ed_Zappeuse(a5)	
 	EcCalD	Active,EcEdit		Active l'ecran editeur
 	move.l	BasSp(a5),sp
 	move.l	Edt_Current(a5),a4	Programme courant branche!
@@ -2753,7 +2727,7 @@ Ed_ZapOut
 	move.l	Edt_Prg(a4),a6
 	lea	Prg_ZapData(a6),a0
 	JJsrR	L_Prg_DataLoad,a1
-; Reactive l'ï¿½cran courant, si ouvert
+; Reactive l'écran courant, si ouvert
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	EcCalD	Last,EcEdit		En dernier!
 	bsr	EdReCop
@@ -2782,7 +2756,7 @@ EdZ_NewConfig
 	lsl.w	#2,d0
 	add.l	d0,a2
 .Skp	move.l	(a2),a0			Trouve le nombre de messages
-	bsr	Ed_GetNbMessage
+	bsr	Ed_GetNbMessage	
 	move.l	d0,d1
 	move.l	Name1(a5),a1		Pas trop loin?
 	move.l	(a1)+,d0		Numero
@@ -2886,7 +2860,7 @@ EdZ_Y2Bloc
 	bsr	EdZ_Bloc
 	move.w	d1,d0
 	bra.s	EdZ_Coo
-EdZ_GetX
+EdZ_GetX	
 	move.w	Edt_XCu(a2),d0
 	bra.s	EdZ_Coo
 EdZ_GetY
@@ -2970,14 +2944,14 @@ EdZ_Token
 	moveq	#0,d2
 	move.l	(sp)+,a2
 	rts
-
+	
 
 ; ______________________________________________________________________
 ;
 ;						LISTES / MEMOIRE
 ; ______________________________________________________________________
 
-; Reserve un espace mï¿½moire sur (a5)
+; Reserve un espace mémoire sur (a5)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	A0=	Adresse dans (a5)
 ;	D0=	Longueur
@@ -2992,7 +2966,7 @@ Ed_MemReserve
 	move.l	a0,(a1)
 .Out	movem.l	(sp)+,d1/a1
 	rts
-; Efface un espace mï¿½moire sur (a5)
+; Efface un espace mémoire sur (a5)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	A0=	Adresse dans (a5)
 Ed_MemFree
@@ -3008,7 +2982,7 @@ Ed_MemFree
 	rts
 
 ;
-; Cree un ï¿½lï¿½ment en tete de liste A0 / longueur D0
+; Cree un élément en tete de liste A0 / longueur D0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_ListeNew
 	movem.l	a0/d0/d1,-(sp)
@@ -3023,7 +2997,7 @@ Ed_ListeNew
 	move.l	d0,4(a1)
 .Err	movem.l	(sp)+,a0/d0/d1
 	rts
-
+	
 ; Efface une liste entiere A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_ListeDelAll
@@ -3032,8 +3006,8 @@ Ed_ListeDelAll
 	bsr	Ed_ListeDel
 .In	move.l	(a0),d0
 	bne.s	.Loop
-	rts
-; Efface un ï¿½lï¿½ment de liste A1 / Debut liste A0
+	rts		
+; Efface un élément de liste A1 / Debut liste A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_ListeDel
 	movem.l	a0/d0-d2,-(sp)
@@ -3064,7 +3038,7 @@ Edt_ClearVar
 	JJsr	L_Prg_SetBanks
 	JJsr	L_ClearVar
 	rts
-;
+; 
 ; Actualisation des ecrans
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EdReCop	SyCall	WaitVbl
@@ -3148,14 +3122,14 @@ Ed_Dialogue:
 	bcc.s	Ed_DoDialog
 ; Sans effacement!
 	move.l	#"NobL",Dia_Magic(a5)
-	bsr	Ed_DoDialog
+	bsr	Ed_DoDialog	
 	movem.l	d0-d1/a0-a1,-(sp)
 	bsr	Ed_DrawWindows
 	movem.l	(sp)+,d0-d1/a0-a1
 	rts
 ; Appel des dialogues
 ; ~~~~~~~~~~~~~~~~~~~
-Ed_DoDialog
+Ed_DoDialog	
 	bsr	Ed_SetBanks
 	movem.l	d2-d3,-(sp)
 	move.l	d0,d1
@@ -3231,14 +3205,14 @@ JFonc:	bra	Ed_CHaut		* 1  Cur Haut
 	bra	Ed_GMark5
 	bra	Ed_GMark6
 	bra	Ed_GMark7
-	bra	Ed_GMark8
+	bra	Ed_GMark8	
 	bra	Ed_GMark9
 	bra	Ed_BlocOn		* 59 Marche / Arret Bloc
 	bra	Ed_BlocForget		* 60 Forget Bloc
 	bra	Ed_OpenLoad		* 61 Open + Load
 	bra	Ed_BlocCut		* 62 Cut Bloc
 	bra	Ed_BlocPaste		* 63 Paste Bloc
-	bra	Ed_DelDebut		* 64 Delete to S.O.L
+	bra	Ed_DelDebut		* 64 Delete to S.O.L 
 	bra	Ed_Undo			* 65 Undo
 	bra	Ed_Search		* 66 Search
 	bra	Ed_SearchNext		* 67 Search Next
@@ -3280,14 +3254,14 @@ JFonc:	bra	Ed_CHaut		* 1  Cur Haut
 	bra	Ed_NewAllHidden		* 102 New All Hidden Programs
 	bra	Ed_OpenWindow		* 103 Open New
 	bra	Ed_ShowKey		* 104 Show Key shortcuts
-	bra	Ed_Wb			* 105 Workbench
+	bra	Ed_Wb			* 105 Workbench            
 	bra	EdMa_New		* 106 Set new Macro
 	bra	EdMa_Del		* 107 Clear One Macro
 	bra	EdMa_DelAll		* 108 Clear All Macros
 	bra	EdMa_LoadAs		* 109 Load Macros
 	bra	EdMa_SaveAs		* 110 Save Macros
 HiddenCommands	equ	184
-HiddenCall	equ	111
+HiddenCall	equ	111		
 	bra	Ed_RunHidden		* 111 Run
 	bra	Ed_EditHidden		* 112 Edit
 	bra	Ed_NewHidden		* 113 New
@@ -3296,25 +3270,25 @@ EdM_UserCommands	equ	115
 EdM_UserLong		equ	16
 EdM_UserMax		equ	20
 	bra	Ed_UserMenu		* 0
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
 	bra	Ed_UserMenu		* 5
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
 	bra	Ed_UserMenu		* 10
 	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
 	bra	Ed_UserMenu		* 15
 	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
 
 	bra	Ed_AddUser		* 135 Add user option
 	bra	Ed_DelUser		* 136 Del user option
@@ -3336,25 +3310,25 @@ EdM_UserMax		equ	20
 
 ; HELP: Insersion des commandes ZAP additionnelles
 	bra	Ed_SaveAsName		* 152 Sauve sans changer nom
-	bra	Ed_CloseName		* 153 Ferme une fenetre nom
-	bra	Ed_Rename		* 154 Rename le programme courant
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
+	bra	Ed_CloseName		* 153 Ferme une fenetre nom	
+	bra	Ed_Rename		* 154 Rename le programme courant	
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
 	bra	Ed_UserMenu		* 157
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
 	bra	Ed_UserMenu		* 162
 	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
 	bra	Ed_UserMenu		* 167
 	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
-	bra	Ed_UserMenu
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu	
+	bra	Ed_UserMenu		
 	bra	Ed_UserMenu		* 172 Interpretor Setup
 	bra	Ed_UserMenu		* 173 Editor Setup
 	bra	Ed_UserMenu		* 174 Editor Menus
@@ -3364,7 +3338,7 @@ EdM_UserMax		equ	20
 	bra	Ed_UserMenu		* 178 Colour Palette
 	bra	EdM_PrevHidden		* 179 Previous programs
 	bra	EdM_NextHidden		* 180 Next programs
-	bra	Ed_BlocAll		* 181 All text as block
+	bra	Ed_BlocAll		* 181 All text as block 
 	bra	EdZ_NewConfig		* 182 ZAP: remplace chaine dans config
 	bra	Ed_GoHelp		* 183 Branche au HELP
 	bra	Ed_UserMenu		* 184
@@ -3377,7 +3351,7 @@ FlagFonc
 ; Bit 2: Interdit si procedure fermee
 ; Bit 5: autorise en macro!
 ; Bit 6: transmettre une ligne de commande
-; Bit 7: commande tï¿½lï¿½commandable
+; Bit 7: commande télécommandable
 	dc.b	%10100000		* 1  Cur Haut
 	dc.b	%10100000 		* 2  Cur Bas
 	dc.b	%10100000		* 3  Cur Gauche
@@ -3417,31 +3391,31 @@ FlagFonc
 	dc.b	%10100100		* 37 Back Mot
 	dc.b	%00000000		* 38 Hide Project
 	dc.b	%10100000		* 39 Set Marks
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
 	dc.b	%10100000		* 49 Goto Mark
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
-	dc.b	%10100000
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
+	dc.b	%10100000		
 	dc.b	%10100000	 	* 59 Marche / Arret Bloc
 	dc.b	%10100010		* 60 Forget Bloc
 	dc.b	%10000010		* 61 Open + Load
 	dc.b	%10100010		* 62 Cut Bloc
 	dc.b	%10100010		* 63 Paste Bloc
-	dc.b	%10100110		* 64 Delete to S.O.L
+	dc.b	%10100110		* 64 Delete to S.O.L 
 	dc.b	%10000001		* 65 Undo
 	dc.b	%10000000		* 66 Search
 	dc.b	%10100000		* 67 Search Next
@@ -3450,7 +3424,7 @@ FlagFonc
 	dc.b	%00000000		* 70 Recall last alert
 	dc.b	%10000110		* 71 ZAPPEUSE: Newline+Tokenise
 	dc.b	%10100000		* 72 Store bloc
-
+		
 	dc.b	%00000010		* 73 Set Key Shortcut
 	dc.b	%00000010		* 74 Affect Program to menu
 	dc.b	%00100000		* 75 Flip Insert Mode
@@ -3483,7 +3457,7 @@ FlagFonc
 	dc.b	%00000000		* 102 New All Hidden Programs
 	dc.b	%10000000		* 103 Open New
 	dc.b	%00000000		* 104 Show Key shortcuts
-	dc.b	%00000000		* 105 Workbench
+	dc.b	%00000000		* 105 Workbench                   
 	dc.b	%00000000		* 106 Set New Macro
 	dc.b	%00000000		* 107 Clear Macro
 	dc.b	%00000000		* 108 Clear All Macros
@@ -3534,25 +3508,25 @@ FlagFonc
 	dc.b 	%00000000		* 151 Insert machine langage
 ; HELP: Insersion des commandes ZAP additionnelles
 	dc.b	%11000000		* 152 Save As Name
-	dc.b	%11000000
-	dc.b	%11000000
-	dc.b	%00000000
-	dc.b	%00000000
+	dc.b	%11000000	
+	dc.b	%11000000	
+	dc.b	%00000000	
+	dc.b	%00000000	
 	dc.b	%00000000		* 157
-	dc.b	%00000000
-	dc.b	%00000000
-	dc.b	%00000000
-	dc.b	%00000000
+	dc.b	%00000000	
+	dc.b	%00000000	
+	dc.b	%00000000	
+	dc.b	%00000000	
 	dc.b	%00000000		* 162
 	dc.b	%00000000
-	dc.b	%00000000
-	dc.b	%00000000
-	dc.b	%00000000
+	dc.b	%00000000	
+	dc.b	%00000000	
+	dc.b	%00000000	
 	dc.b	%00000000		* 167
 	dc.b	%00000000
-	dc.b	%00000000
-	dc.b	%00000000
-	dc.b	%00000000
+	dc.b	%00000000	
+	dc.b	%00000000	
+	dc.b	%00000000		
 	dc.b	%00000000		* 172 Interpretor Setup
 	dc.b	%00000000		* 173 Editor Setup
 	dc.b	%00000000		* 174 Editor Menus
@@ -3563,9 +3537,9 @@ FlagFonc
 	dc.b	%00000000		* 179 Previous programs
 	dc.b	%00000000		* 180 Next programs
 	dc.b	%10000000		* 181 All text as block
-	dc.b	%11000000		* 182 Change config string
+	dc.b	%11000000		* 182 Change config string 
 	dc.b	%00000000		* 183
-	dc.b	%00000000		* 184
+	dc.b	%00000000		* 184 
 	even
 
 ;
@@ -3577,7 +3551,7 @@ Ed_Back
 	bsr	Ed_CGauche
 	bsr	Ed_Delete
 .Skip	rts
-
+	
 ;
 ; DELETE
 ; ~~~~~~
@@ -3613,10 +3587,10 @@ Ed_EffLigne
 	bsr	Ed_EALiCu
 	bra	Ed_Cent
 
-;
+; 
 ; DELETE JUSQUA LA FIN DE LA LIGNE
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ed_DelFin
+Ed_DelFin	
 	addq.w	#1,Edt_LEdited(a4)
 	bsr	Ed_LCourant
 	cmp.w	d0,d1
@@ -3680,10 +3654,10 @@ Ed_BackMot
 	bra.s	Ed_DelMot
 .Skip	rts
 
-;
+; 
 ; TAB
 ; ~~~
-Ed_Tab
+Ed_Tab	
 	bsr	Ed_LCourant
 	lea	0(a0,d0.w),a1		* Fin actuelle
 	move.w	Ed_Tabs(a5),d2
@@ -3710,7 +3684,7 @@ ETabX	rts
 ;
 ; SHIFT TAB (enleve les tabs)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ed_ShTab
+Ed_ShTab	
 	bsr	Ed_LCourant
 	lea	0(a0,d0.w),a2
 	move.l	a0,a1
@@ -3748,7 +3722,7 @@ Ed_STab	bsr	Ed_TokCur
 	moveq	#EdD_SetTab,d0
 	bsr	Ed_Dialogue
 	moveq	#1,d0
-	moveq	#3,d1
+	moveq	#3,d1	
 	moveq	#-1,d2
 	JJsr	L_Dia_GetValue
 	move.w	d1,Ed_Tabs(a5)
@@ -3774,11 +3748,11 @@ CHt1	tst.w	Edt_YPos(a4)
 	subq.w	#1,Edt_YPos(a4)
 ; Scrolle l'ecran graphique
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~
-Ed_CHt
+Ed_CHt	
 	move.b	#SlDelai,Edt_ASlY(a4)
 	cmp.w	#1,Edt_WindTy(a4)
 	beq.s	.Skip
-	WiCalD	ChrOut,20
+	WiCalD	ChrOut,20	
 ; Scrolle l'ecran texte
 ; ~~~~~~~~~~~~~~~~~~~~~
 	move.l	Edt_BufE(a4),a1
@@ -3839,7 +3813,7 @@ Ed_CBs
 	move.b	#SlDelai,Edt_ASlY(a4)
 	cmp.w	#1,Edt_WindTy(a4)
 	beq.s	.Skip
-	WiCalD	ChrOut,22
+	WiCalD	ChrOut,22	
 ; Scrolle l'ecran texte
 ; ~~~~~~~~~~~~~~~~~~~~~
 	move.l	Edt_BufE(a4),a1
@@ -3886,7 +3860,7 @@ Ed_CGo
 	moveq	#0,d1
 	bsr	Ed_AffBufCar
 CGo1	bra	Ed_Loca
-
+ 
 ;
 ; Curseur vers la droite
 ; ~~~~~~~~~~~~~~~~~~~~~~
@@ -3911,13 +3885,13 @@ Ed_CDr
 	bsr	Ed_AffBufCar
 CDr0	bra	Ed_Loca
 
-;
+; 
 ; Haut page
 ; ~~~~~~~~~
 Ed_HPage
 	bsr	Ed_TokCur
 	clr.w	Edt_YCu(a4)
-Ed_LXY
+Ed_LXY	
 	or.b	#EtA_BXY,Edt_EtatAff(a4)
 	bra	Ed_Loca
 
@@ -3969,7 +3943,7 @@ R_MotGoch
 	cmp.b	#32,-(a1)
 	beq.s	.MGo1
 .MGo2	subq.w	#1,d1
-	bmi.s	.MGo3
+	bmi.s	.MGo3		
 	move.b	-(a1),d2
 	bsr	Une_Lettre
 	bne.s	.MGo2
@@ -3994,7 +3968,7 @@ R_MotDroi
 ;
 ; Debut ligne
 ; ~~~~~~~~~~~
-Ed_DLigne
+Ed_DLigne	
 Ed_DLigneT
 	clr.w	Edt_XCu(a4)
 	bra	Ed_Cent
@@ -4057,7 +4031,7 @@ Ed_SHaut2
 	WiCall	Locate
 	bra	Ed_CHt
 
-;
+; 
 ; Scrolling sous le curseur BAS
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_SBas
@@ -4084,7 +4058,7 @@ Ed_SGauche
 	subq.w	#1,Edt_XCu(a4)
 	bra	Ed_CGo
 
-;
+; 
 ; Scrolling sous le curseur DROITE
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_SDroite
@@ -4148,7 +4122,7 @@ Ed_NLabel
 	move.w	d2,d0
 	beq	Ed_HTexte
 NLb1	cmp.w	Prg_NLigne(a6),d0
-	bcc	Ed_BTexte
+	bcc	Ed_BTexte	
 	bsr	Ed_AutoMarks
 	or.b	#EtA_BXY,Edt_EtatAff(a4)
 	move.b	#SlDelai,Edt_ASlY(a4)
@@ -4255,7 +4229,7 @@ Ed_SMark3
 	addq.w	#1,d0
 Ed_SMark2
 	addq.w	#1,d0
-Ed_SMark1
+Ed_SMark1	
 	addq.w	#1,d0
 Ed_SMark0
 	bsr	Ed_TokCur
@@ -4313,7 +4287,7 @@ Ed_Marks2Adress
 	moveq	#9,d2
 	lea	Prg_Marks(a6),a2
 .Loop	tst.l	(a2)
-	beq.s	.Nx
+	beq.s	.Nx	
 	move.w	(a2),d0
 	bsr	Ed_FindL
 	beq.s	.Clr
@@ -4430,7 +4404,7 @@ Ed_DoQuit
 	beq.s	.NoMac
 	bsr	EdMa_SaveDef			Va sauver
 .NoMac
-; Sauver les dï¿½finitions des programmes?
+; Sauver les définitions des programmes?
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	btst	#3,Ed_QuitFlags(a5)
 	bne.s	.SavAll
@@ -4461,7 +4435,7 @@ Ed_DoQuit
 	beq.s	.NoName
 	tst.b	Prg_Change(a6)		Deja sauve!
 	beq.s	.PNext
-; Programme avec un nom.
+; Programme avec un nom.	
 	clr.b	Prg_NoNamed(a6)
 	lea	Prg_NamePrg(a6),a0
 	move.l	Name1(a5),a1
@@ -4499,7 +4473,7 @@ Ed_DoQuit
 	move.l	Buffer(a5),a3
 	clr.l	(a3)
 	clr.l	4(a3)
-	move.l	a3,d2
+	move.l	a3,d2 
 	moveq	#8,d3
 	bsr	Ed_Write
 	bne	.Err
@@ -4538,7 +4512,7 @@ Ed_DoQuit
 	move.l	#Ed_QuitHead,(a3)
 	subq.l	#8,d0
 	move.l	d0,4(a3)
-	move.l	a3,d2
+	move.l	a3,d2 
 	moveq	#8,d3
 	bsr	Ed_Write
 	bne.s	.Err
@@ -4575,7 +4549,7 @@ Ed_DoQuit
 	bsr	Ed_Write
 .SErr	addq.l	#8,sp
 	rts
-
+	
 ;
 ; Set QUIT OPTIONS
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4649,7 +4623,7 @@ Ed_AboutExt
 	beq.s	.Sk
 	move.l	d0,a1
 .Sk	move.l	a1,1*4(a2)
-	moveq	#EdD_AboutE,d0
+	moveq	#EdD_AboutE,d0	
 	bsr	Ed_Dialogue
 	cmp.w	#1,d0
 	beq.s	.Prv
@@ -4768,7 +4742,7 @@ Ed_ResourceFree
 	moveq	#6,d0
 	JJsr	L_Bnk.Eff
 	rts
-; Change la palette de couleur en fonction des prefs de l'ï¿½diteur
+; Change la palette de couleur en fonction des prefs de l'éditeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EdC_SetPalette
 	move.l	Ed_Resource(a5),d0
@@ -4821,7 +4795,7 @@ Ed_SamEnd
 	JJsr	L_Bnk.Eff
 	rts
 ;
-; Joue le sample D0 (lettre de A ï¿½ Z)
+; Joue le sample D0 (lettre de A à Z)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_SamPlay
 	movem.l	d0-d3/a0-a2,-(sp)
@@ -4868,9 +4842,9 @@ Ed_SamPlay
 ; ___________________________________________________________________
 ;
 
-; Met les banques de mï¿½moire/dialogue de l'ï¿½diteur
+; Met les banques de mémoire/dialogue de l'éditeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ed_SetBanks
+Ed_SetBanks	
 	move.l	a0,-(sp)
 	lea	Ed_Banks(a5),a0
 	move.l	a0,Cur_Banks(a5)
@@ -4895,7 +4869,7 @@ EdC_SaveDef
 	rts
 ; Sauvegarde de la configuration
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-EdC_SaveAs
+EdC_SaveAs	
 	bsr	Ed_TokCur
 	move.w	#130,d0
 	bsr	Ed_File_Selector
@@ -4929,7 +4903,7 @@ EdC_LoadDef
 	rts
 ; Chargement de la configuration
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-EdC_LoadAs
+EdC_LoadAs	
 	bsr	Ed_TokCur
 	bsr	EdC_Saved
 	move.w	#134,d0
@@ -4964,7 +4938,7 @@ EdC_Redraw
 	move.b	#1,EdC_Modified(a5)
 	bsr	Ed_OpenEditor
 	bsr	Ed_Appear
-	rts
+	rts	
 ;
 ; Sauvegarde de la configuration si modifiee
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4979,7 +4953,7 @@ EdC_Saved
 	bne	Ed_NotDone
 	bsr	EdC_SaveAs
 .Skip	rts
-
+	
 ;
 ; Chargement de la configuration A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -5008,7 +4982,7 @@ EdC_Load
 	lea	Ed_Systeme(a5),a0
 	bsr	EdC_LoadTextes
 	bne	EdC_Out
-; Charge les chaines menus
+; Charge les chaines menus 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
 	lea	EdM_Messages(a5),a0
 	bsr	EdC_LoadTextes
@@ -5028,7 +5002,7 @@ EdC_Load
 	lea	Ed_RunMessages(a5),a0
 	bsr	EdC_LoadTextes
 	bne	EdC_Out
-; Charge les programmes ï¿½ lancer
+; Charge les programmes à lancer
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	lea	Ed_MnPrograms(a5),a0
 	bsr	EdC_LoadTextes
@@ -5060,7 +5034,7 @@ EdC_Load
 	ext.w	d0
 	move.b	d1,0(a1,d0.w)
 	bra.s	.Loop1
-.Out1
+.Out1	
 ; Ok!
 	moveq	#0,d0
 	bra	EdC_Out
@@ -5095,7 +5069,7 @@ EdC_Free
 ;
 ; Sauvegarde de la configuration courante
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;	A0=	Nom
+;	A0=	Nom 
 EdC_Save
 	move.l	#1006,d2
 	bsr	Ed_Open
@@ -5138,7 +5112,7 @@ EdC_Save
 	lea	Ed_RunMessages(a5),a0
 	bsr	EdC_SaveTextes
 	bne.s	EdC_Out
-; Sauve les programmes ï¿½ lancer
+; Sauve les programmes à lancer
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	lea	Ed_MnPrograms(a5),a0
 	bsr	EdC_SaveTextes
@@ -5155,9 +5129,9 @@ EdC_Save
 	bne.s	EdC_Out
 ; Ok!
 ; ~~~
-	moveq	#0,d0
+	moveq	#0,d0	
 	bra	EdC_Out
-.DErr	moveq	#1,d0
+.DErr	moveq	#1,d0			
 ; Sortie chargement/sauvegarde fichier
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EdC_Out	move.l	d0,-(sp)
@@ -5178,7 +5152,7 @@ EdC_LoadTextes
 	bsr	Ed_MemFree
 	move.l	Buffer(a5),d2
 	moveq	#4,d3
-	bsr	Ed_Read
+	bsr	Ed_Read	
 	bne.s	.Err
 	move.l	d2,a0
 	move.l	(a0),d3
@@ -5327,7 +5301,7 @@ Ed_GetFsMessage
 	bsr	Ed_GetNbMessage
 	addq.w	#1,d0
 .Out	rts
-
+	
 ;
 ; Get number of messages
 ; ~~~~~~~~~~~~~~~~~~~~~~
@@ -5372,7 +5346,7 @@ Ed_GetNMessage
 
 
 ; ___________________________________________________________________
-;
+;	
 ;							AUTOSAVE
 ; ___________________________________________________________________
 
@@ -5388,7 +5362,7 @@ Ed_SetAutoSave
 	cmp.w	#1,d0
 	bne	Ed_NotDone
 	moveq	#1,d0
-	moveq	#3,d1
+	moveq	#3,d1	
 	moveq	#-1,d2
 	JJsr	L_Dia_GetValue
 	move.l	d1,d2
@@ -5432,10 +5406,10 @@ Ed_SaveAuto
 
 ; ___________________________________________________________________
 ;
-;					USER MENU / FONCTION TO MENU
+;					USER MENU / FONCTION TO MENU 
 ; ___________________________________________________________________
 
-;
+; 
 ; Appel d'une fonction USER MENU>>> il faut affecter un programme!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_UserMenu
@@ -5479,7 +5453,7 @@ Ed_AddUser
 	move.w	d3,d0
 	bsr	EdC_ChangeTexte
 	bne	Ed_OMm
-; Recalcule le menu et branche ï¿½ PRG TO MENU
+; Recalcule le menu et branche à PRG TO MENU
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	bsr	EdM_Init
 	bsr	Ed_Prg2Menu
@@ -5516,7 +5490,7 @@ Ed_DelUser
 	bsr	EdC_ChangeTexte
 	bne	Ed_OMm
 ; Enleve les programmes affectes dans la liste
-; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	move.w	d2,d0
 	mulu	#3,d0
 	lea	Ed_AutoLoad(a5),a2
@@ -5574,7 +5548,7 @@ Ed_Prg2Menu
 	move.w	d2,d3
 	move.l	a1,a3			Libelle de l'option
 	moveq	#0,d3			Pour EXIT plus loin
-; Un programme dï¿½ja affecte?
+; Un programme déja affecte?
 	mulu	#3,d2
 	lea	Ed_AutoLoad(a5),a2
 	add.w	d2,a2
@@ -5611,7 +5585,7 @@ Ed_Prg2Menu
 	clr.b	1(a2)
 	clr.b	2(a2)
 	cmp.w	#2,d3
-	beq	.Exit
+	beq	.Exit	
 ; Selecteur de fichiers
 	moveq	#100,d0
 	bsr	Ed_File_Selector
@@ -5743,7 +5717,7 @@ Ed_Key2Menu
 .Out    tst.b   EdM_Keys(a5)
         beq.s   .NoMn
         bsr     EdM_Init
-; Retour ï¿½ l'ï¿½diteur
+; Retour à l'éditeur
 .NoMn   bra     Ed_Loca
 ; This menu option cannot be affected!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -5854,7 +5828,7 @@ Ed_BlocAff
 ;
 ; Start / Stop block
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ed_BlocOn
+Ed_BlocOn	
 	tst.w	Edt_YBloc(a4)
 	bpl.s	Ed_BlocHide
 	move.w	Edt_YPos(a4),d0
@@ -5891,7 +5865,7 @@ Ed_BlocAll
 ;
 ; Block STORE
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ed_BlocStore
+Ed_BlocStore	
 	bsr	Ed_BlockLimits
 	lea	Ed_Block(a5),a0
 	bsr	Ed_BlockCopyA0
@@ -5952,7 +5926,7 @@ Ed_BlockLimits
 	move.w	Edt_YPos(a4),d5
 	add.w	Edt_YCu(a4),d5
 	move.w	Edt_XBloc(a4),d6
-	move.w	Edt_XCu(a4),d7
+	move.w	Edt_XCu(a4),d7	
 	cmp.w	d4,d5
 	bhi.s	.L0
 	bne.s	.Sw
@@ -5966,7 +5940,7 @@ Ed_BlockLimits
 	moveq	#0,d7
 .Blu	rts
 
-;
+; 
 ; Insert le bloc du texte en position courante
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_BlockInsertA0
@@ -5975,7 +5949,7 @@ Ed_BlockInsertA0
 	move.l	(a0),d0
 	beq	.Vide
 	move.l	d0,a2
-; Met le curseur ï¿½ la bonne position
+; Met le curseur à la bonne position
 	movem.w	(a2)+,d4-d6
 	move.l	(a2)+,d7
 	bsr	Ed_LCourant
@@ -6005,7 +5979,7 @@ Ed_BlockInsertA0
 	bsr	Ed_ReturnQuiet		Return
 	bsr	Ed_TokCur		Ligne suivante
 	movem.l	(sp)+,a2/d2-d7
-	addq.w	#1,d3
+	addq.w	#1,d3				
 .Proc	add.w	(a2)+,a2		Saute la 1ere ligne
 	move.l	a2,d0			Rend pair
 	Pair	d0
@@ -6044,7 +6018,7 @@ Ed_BlockInsertA0
 	tst.l	d0
 	rts
 
-;
+; 
 ; Delete le bloc du texte
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_BlockDeleteA0
@@ -6072,7 +6046,7 @@ Ed_BlockDeleteA0
 	tst.w	(a3)
 	beq.s	.NoMi
 	move.l	2(a3),d0		Enleve le programme
-	move.w	d4,d1
+	move.w	d4,d1			
 	addq.w	#1,d1
 	bsr	Ed_DelChunk
 	move.w	d4,d1			Change les marques
@@ -6080,7 +6054,7 @@ Ed_BlockDeleteA0
 	move.w	(a3),d1
 	neg.w	d1
 	bsr	Ed_MarksChange
-	JJsr	L_Prg_CptLines		Compte
+	JJsr	L_Prg_CptLines		Compte 
 	bsr	Ed_NewBufAff		Afiche
 ; Enleve la premiere ligne
 .NoMi	move.w	(a2),d0
@@ -6115,9 +6089,9 @@ Ed_BlockDeleteA0
 	bsr	Ed_MarksChange
 	JJsr	L_Prg_CptLines
 	bsr	Ed_NewBufAff
-	move.l	2(a3),d0
+	move.l	2(a3),d0		
 	lea	6(a3,d0.l),a3
-	moveq	#0,d0			Locate debut ligne
+	moveq	#0,d0			Locate debut ligne 
 	bsr	Ed_GotoX
 	move.w	(a3),d0
 	beq.s	.Ok
@@ -6219,9 +6193,9 @@ Ed_BlockCopyA0
 .Cp2	move.b	(a1)+,(a3)+
 	dbra	d0,.Cp2
 .Nc2	bra.s	.Mil
-; Une procedure sur la derniere ligne: le curseur doit etre ï¿½ gauche
-.Proc2	tst.w	d7			Curseur ï¿½ gauche donc
-	bne	Ed_NotEdit		rien ï¿½ copier!
+; Une procedure sur la derniere ligne: le curseur doit etre à gauche
+.Proc2	tst.w	d7			Curseur à gauche donc
+	bne	Ed_NotEdit		rien à copier!
 ; Evalue la taille du milieu
 .Mil	move.w	d4,d2
 	btst	#31,d7			Si closed procedure
@@ -6255,7 +6229,7 @@ Ed_BlockCopyA0
 .Sl1	move.b	(a1)+,(a3)+
 	dbra	d0,.Sl1
 .Sl2	bset	#30,d7
-; Reserve la mï¿½moire
+; Reserve la mémoire
 ; ~~~~~~~~~~~~~~~~~~
 .Reserve
 	add.l	a3,d3
@@ -6315,7 +6289,7 @@ Ed_BlockCopyA0
 	addq.w	#1,d3
 	cmp.w	d5,d3
 	bcs.s	.Lo2
-.Sc2
+.Sc2	
 ; Copie la derniere ligne
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 	moveq	#0,d0
@@ -6338,7 +6312,7 @@ Ed_BlockCopyA0
 	rts
 
 ; ________________________________________
-;
+; 
 ;	SAVE BLOCK
 ; ________________________________________
 ;
@@ -6417,13 +6391,13 @@ Ed_BlocSave
 	move.l	a2,a0			Tokenise la fin
 	move.l	Ed_BufT(a5),a1
 	bsr	Tokenise
-	move.l	d1,d3			Quelquechose ï¿½ sauver?
+	move.l	d1,d3			Quelquechose à sauver?
 	beq.s	.PaF
 	add.l	d3,d4			Plus taille
-	move.l	Ed_BufT(a5),d2
+	move.l	Ed_BufT(a5),d2	
 	bsr	Ed_Write		Sauve
 	bne	Ed_DError
-.PaF
+.PaF	
 ; Banques vides
 ; ~~~~~~~~~~~~~
 .Seul	JJsr	L_Bnk.SaveVide
@@ -6526,7 +6500,7 @@ Ed_PrgPrint
 	SyCall	ClearKey
 	rts
 ;
-; PRINT BLOC
+; PRINT BLOC 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_BlocPrint
 	bsr	Ed_TokCur
@@ -6582,7 +6556,7 @@ BlToA1	moveq	#0,d3
 	lea	2(a2),a1
 	move.l	Ed_BufT(a5),a0
 	move.l	a0,d2
-	subq.w	#1,d0
+	subq.w	#1,d0	
 	bmi.s	.Cp
 .Co	move.b	(a1)+,(a0)+
 	dbra	d0,.Co
@@ -6630,7 +6604,7 @@ Ed_BlocLimits
 	move.w	Edt_YPos(a4),d3
 	add.w	Edt_YCu(a4),d3
 	move.w	Edt_XBloc(a4),d0
-	move.w	Edt_XCu(a4),d2
+	move.w	Edt_XCu(a4),d2	
 	cmp.w	d1,d3
 	bhi.s	.PaSw
 	bne.s	.Sw
@@ -6707,7 +6681,7 @@ EdMa_SaveAs
 	beq	Ed_NotDone
 	JJsr	L_Dsk.PathIt
 	bsr	Ed_SaveOver
-	bsr	EdMa_SaveIt
+	bsr	EdMa_SaveIt	
 	rts
 ; Averti et sauve
 EdMa_SaveIt
@@ -6814,7 +6788,7 @@ EdMa_Save
 .Err	bsr	Ed_Close
 	moveq	#1,d0
 	rts
-
+	
 ; Effacement d'une macro
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EdMa_Del
@@ -6853,7 +6827,7 @@ EdMa_DelAll
 ; Marque pour QUIT
 	move.b	#1,EdMa_Change(a5)
 	bra	Ed_Loca
-; Dï¿½marre l'enregistrement d'une nouvelle macro
+; Démarre l'enregistrement d'une nouvelle macro
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EdMa_New
 	bsr	Ed_TokCur
@@ -6877,7 +6851,7 @@ EdMa_New
 	move.l	(sp)+,a1
 	lea	EdMa_List(a5),a0
 	bsr	Ed_ListeDel
-; Rï¿½serve le buffer temporaire
+; Réserve le buffer temporaire
 .Skip	move.l	#1024,d0
 	move.l	d0,d1
 	lea	EdMa_List(a5),a0
@@ -6896,7 +6870,7 @@ EdMa_Stop
 ; Plus de souris
 	JJsr	L_Dia_NoMKey
 	move.b	#1,EdMa_Change(a5)
-; Reserve le buffer dï¿½finitif
+; Reserve le buffer définitif
 	lea	EdMa_List(a5),a0
 	move.l	(a0),a2
 	move.l	a2,d3
@@ -6972,7 +6946,7 @@ Ed_GotoL
 	cmp.w	#1,d0
 	bne	Ed_NotDone
 	moveq	#1,d0
-	moveq	#3,d1
+	moveq	#3,d1	
 	moveq	#-1,d2
 	JJsr	L_Dia_GetValue
 	move.l	d1,d0
@@ -6986,13 +6960,13 @@ Ed_GotoL
 	rts
 
 
-; Appel le dialogue pour SEARCH, d0DIALOG A APPELER
+; Appel le dialogue pour SEARCH, d0DIALOG A APPELER 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_DiaS	move.w	d0,d2
 	lea	Ed_SchBuf(a5),a0		Chaine d'origine
 	bsr	Ed_DChaine
 	move.l	Ed_VDialogues(a5),a2
-	move.l	a1,(a2)+
+	move.l	a1,(a2)+	
 	move.l	#32,(a2)+			Taille de la ligne
 	move.w	Ed_SchMode(a5),d0		Met les flags
 	and.w	#%0001,d0			Garde LOWUP / Bloc limits
@@ -7027,7 +7001,7 @@ Ed_DiaS	move.w	d0,d2
 Ed_Search
 	bsr	Ed_TokCur
 	moveq	#EdD_Search,d0
-	bsr	Ed_DiaS
+	bsr	Ed_DiaS	
 	cmp.w	#1,d0
 	bne	Ed_NotDone
 	move.w	Ed_SchMode(a5),d5	Garde Low/UP, et direction!
@@ -7037,23 +7011,23 @@ Ed_Search
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_SearchPrev
 	bsr	Ed_TokCur
-	tst.b	Ed_SchBuf(a5)			Quelque chose ï¿½ trouver?
+	tst.b	Ed_SchBuf(a5)			Quelque chose à trouver?
 	beq.s	Ed_Search
 	move.w	Ed_SchMode(a5),d5
 	and.w	#%0001,d5			Garde LowUp
 	bset	#1,d5				En arriere!
 	bra.s	Ed_SR
-; SEARCH NEXT
+; SEARCH NEXT 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_SearchNext
 	bsr	Ed_TokCur
-	tst.b	Ed_SchBuf(a5)			Quelque chose ï¿½ trouver?
+	tst.b	Ed_SchBuf(a5)			Quelque chose à trouver?
 	beq.s	Ed_Search
 	move.w	Ed_SchMode(a5),d5
 	and.w	#%0001,d5			Garde LowUp, en avant!
 ; Fait la recherche / Remplacement, D5flags
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ed_SR
+Ed_SR	
 	bsr	Ed_SRCompte
 ; Fait le remplacement
 	move.w	Edt_YPos(a4),d7
@@ -7071,7 +7045,7 @@ Ed_SR
 	movem.w	d2-d7,-(sp)
 	move.w	d7,d0
 	bsr	Ed_GotoY
-	movem.w	(sp),d2-d7
+	movem.w	(sp),d2-d7 
 	move.w	d6,d0
 	bsr	Ed_GotoX
 	movem.w	(sp)+,d2-d7
@@ -7086,7 +7060,7 @@ Ed_SR
 	bsr	Ed_TokCur
 	move.w	d6,d0
 	bsr	Ed_GotoX
-.NoRep
+.NoRep	
 ; Fini!
 	bsr	Ed_AverFin
 	bsr	Ed_Loca
@@ -7155,7 +7129,7 @@ Ed_SchFront
 	beq.s	.SrchN
 	addq.w	#1,d7
 	bra.s	.SrchL
-; Vraiment trouve?
+; Vraiment trouve? 
 .Srch3	add.w	d0,d6
 	cmp.w	d4,d7
 	bne.s	.SrchT
@@ -7176,14 +7150,14 @@ Ed_SchFront
 ;	D3=	XMax
 Ed_SchBack
 	movem.w	d6-d7,-(sp)
-	move.w	d7,d4		Jusqu'ï¿½ la position actuelle -1
+	move.w	d7,d4		Jusqu'à la position actuelle -1
 	move.w	d6,d3
 	subq.w	#1,d3
 	bpl.s	.Mm
 	move.w	#255,d3
 	subq.w	#1,d4
 	bmi.s	.NFound
-.Mm	clr.w	d6		A partir du dï¿½but
+.Mm	clr.w	d6		A partir du début
 	clr.w	d7
 	move.l	#-1,-(sp)
 .Loop	bsr	Ed_SchFront	Tant que l'on trouve
@@ -7206,7 +7180,7 @@ Ed_SchBack
 ;
 ; Routine SEARCH
 ; ~~~~~~~~~~~~~~
-;	A1=	Chaine ï¿½ chercher
+;	A1=	Chaine à chercher
 ;	A0=	Chaine dans laquelle cherche
 ;	D5-> 	Flags
 ;	D6->	X Debut
@@ -7261,7 +7235,7 @@ Ed_Replace
 	lea	Ed_RepBuf(a5),a0		Buffer d'edition
 	bsr	Ed_DChaine
 	move.l	Ed_VDialogues(a5),a2
-	move.l	a1,8*4(a2)
+	move.l	a1,8*4(a2)	
 	moveq	#EdD_Replace,d0
 	bsr	Ed_DiaS
 	move.w	d0,-(sp)
@@ -7298,7 +7272,7 @@ Ed_Replace
 .Skip	bsr	Ed_Dialogue
 	cmp.w	#1,d0
 	bne	Ed_NotDone
-; Quelque chose ï¿½ chercher?
+; Quelque chose à chercher?
 	tst.b	Ed_SchBuf(a5)
 	beq.s	Ed_Replace
 	tst.b	Ed_RepBuf(a5)
@@ -7389,7 +7363,7 @@ Ed_ReplacePrev
 ;
 ; Routine REPLACE
 ; ~~~~~~~~~~~~~~~
-;	A0= 	Ligne ï¿½ changer
+;	A0= 	Ligne à changer
 ; 	D0=	Position du changement
 RepBuffer
 	movem.l	a0-a2/d2-d3,-(sp)
@@ -7460,7 +7434,7 @@ Edt_SlDrawY
 
 ;_____________________________________________________________________________
 ;
-;							Ligne d'ï¿½tat
+;							Ligne d'état
 ;_____________________________________________________________________________
 ;
 
@@ -7475,7 +7449,7 @@ Ed_EtLine
 	move.b	Ed_EtXX+3(a5),d1	Position ligne etat
 	moveq	#5,d2			Longueur ligne
 	bra	Et_Chiffre
-;
+; 
 ; Imprime la colonne
 ; ~~~~~~~~~~~~~~~~~~
 Ed_EtCol
@@ -7491,7 +7465,7 @@ Ed_EtFree
 	move.l	Prg_StBas(a6),d0	Place libre
 	sub.l	Prg_StMini(a6),d0
 	move.b	Ed_EtXX+5(a5),d1	Position ligne etat
-	moveq	#7,d2			Longueur
+	moveq	#7,d2			Longueur 
 	bra	Et_Chiffre
 ;
 ; Imprime le numero d'ordre
@@ -7544,7 +7518,7 @@ Ed_EtIns
 ;
 ; Imprime le NOM DU PROGRAMME
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ed_EtNom
+Ed_EtNom	
 	move.b	Ed_EtXX+6(a5),d1
 	ext.w	d1
 	moveq	#0,d2
@@ -7624,7 +7598,7 @@ Ed_Alert
 	bne.s	Ed_ZapAlert
 	moveq	#"G",d0			Va faire du bruit!
 	bsr	Ed_SamPlay
-; Pas de programme en tï¿½lï¿½commande!
+; Pas de programme en télécommande!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	move.w	d0,Edt_EtMess(a4)
 	move.l	a0,Edt_EtAlert(a4)
@@ -7636,7 +7610,7 @@ Ed_Alert
 	bne.s	.Alrt
 	bsr	Ed_RazAlert
 	bra	Ed_Loop
-; Un programme en tï¿½lï¿½commande!
+; Un programme en télécommande!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_ZapAlert
 	move.w	d0,Edt_EtMess(a4)
@@ -7720,7 +7694,7 @@ Ed_Avertir
 	JJsrP	L_Dia_RunQuick,a3
 	movem.l	(sp)+,d0-d6/a0-a2
 	rts
-;
+; 
 ; Efface le dernier avertissement
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_AverFin
@@ -7751,7 +7725,7 @@ Ed_AllAverFin
 	rts
 .Skip	bsr	Ed_AverFin
 	bra.s	Ed_AllAverFin
-;
+; 
 ; Reaffichage de la ligne d'etat complete
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_EtPrint
@@ -7774,7 +7748,7 @@ Ed_EtPrintD0
 	moveq	#8,d0
 	bsr	Et_Print
 	move.l	Edt_EtAlert(a4),a1
-	WiCall	Centre
+	WiCall	Centre 
 	clr.l	Edt_EtAlert(a4)
 	move.w	Edt_Window(a4),d1
 	WiCall	QWindow
@@ -7789,7 +7763,7 @@ Ed_EtPrintD0
 	beq.s	.PaMacro
 	cmp.l	Edt_Current(a5),a4
 	bne.s	.PaMacro
-	moveq	#8,d0
+	moveq	#8,d0	
 	bsr	Et_Print
 	moveq	#30,d0
 	bsr	Ed_GetMessage
@@ -7805,14 +7779,14 @@ Ed_EtPrintD0
 	moveq	#10,d0
 	cmp.l	Edt_Current(a5),a4
 	beq.s	.Okd
-	moveq	#11,d0
+	moveq	#11,d0	
 .Okd	bsr	Et_Print		Efface,
 	moveq	#2,d0
 	bsr	Et_Print		Imprime le fond
 	moveq	#12,d0
 	bsr	Et_Print		Met les couleurs des informations
-; Numï¿½ro d'ordre de la fenetre
-	bsr	Ed_EtOrder
+; Numéro d'ordre de la fenetre
+	bsr	Ed_EtOrder		
 .Skip1
 ; Ins
 	bclr	#EtA_Ins,Edt_EtatAff(a4)
@@ -7869,7 +7843,7 @@ Ed_GoMonitor
 	JJsr	L_Prg_SetBanks
 	JJsr	L_Mon_Load		Va charger le moniteur
 	bne.s	.Load
-	move.l	a4,Edt_Runned(a5)	Programme >> runnï¿½
+	move.l	a4,Edt_Runned(a5)	Programme >> runné
 	lea	Ed_ErrRun(pc),a0	Retour du moniteur
 	move.l	a0,Prg_JError(a5)
 	JJsr	L_Mon_In_Editor
@@ -7889,7 +7863,7 @@ Ed_GoMonitor
 ;
 ; 	LANCE/CHARGE UN PROGRAMME COMME OPTION EDITEUR
 ; ___________________________________________________________________
-;
+;	
 ;	A0=	Definition du programme
 ;
 Ed_PrgCommand
@@ -7897,7 +7871,7 @@ Ed_PrgCommand
 ; Gestion ligne de commande
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~
 	moveq	#0,d0
-	move.b	2(a2),d0
+	move.b	2(a2),d0		
 	beq.s	.NoCom
 ; Copie la ligne de commande
 	move.l	Ed_MnPrograms(a5),a0
@@ -7905,7 +7879,7 @@ Ed_PrgCommand
 	moveq	#0,d0
 	move.b	-1(a0),d0
 	bra.s	.Cop
-; Copie la ligne courante ï¿½ partir du curseur
+; Copie la ligne courante à partir du curseur
 .NoCom	bsr	Ed_LCourant
 	move.l	a0,d0
 	sub.l	a1,d0
@@ -7982,7 +7956,7 @@ Ed_PrgCommand
 	bsr	Prg_RazUndos
 	bsr	EdM_End
 	bsr	EdM_Program
-	move.l	a4,Edt_Runned(a5)	Programme runnï¿½
+	move.l	a4,Edt_Runned(a5)	Programme runné
 	move.l	(sp)+,a1		Retour de fin variable!
 	lea	Ed_TestMessage(pc),a2	Affichage tests
 	moveq	#0,d0			Programme normal
@@ -8015,14 +7989,14 @@ Ed_PrgCommand
 .Garde	bsr	EdM_BranchAMOS
 	bsr	EdM_Program
 .Skip	move.l	a4,a0
-; Branche au RUN HIDDEN normal!
+; Branche au RUN HIDDEN normal!	
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .Deja	bra	Ed_RunHide
 ;
-; Recharge le programme prï¿½cï¿½dent
+; Recharge le programme précédent
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_PrgReLoad
-; New du programme prï¿½cï¿½dent
+; New du programme précédent
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~
 	bsr	Ed_New2
 ; Taille du buffer
@@ -8049,7 +8023,7 @@ Ed_PrgReLoad
 	beq.s	.Nol
 	move.l	Name1(a5),a0
 .Cn	move.b	(a2)+,(a0)+
-	bne.s	.Cn
+	bne.s	.Cn 
 ; Chargement!
 ; ~~~~~~~~~~~
 	move.w	#155,d0
@@ -8084,7 +8058,7 @@ Ed_PrgReLoad
 ;
 ; TROUVE L'ADRESSE DU PROGRAMME NAME1
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;	In	Name1	Nom ï¿½ cherche
+;	In	Name1	Nom à cherche
 ;	Out	Trouve	BNE, A0=adresse
 ;		Non	BEQ
 ;
@@ -8123,7 +8097,7 @@ Edt_AccAdr
 ;
 ; 						RUN / TEST / INDENT
 ; ___________________________________________________________________
-;
+;	
 
 ;
 ; RUN HIDDEN PROGRAM
@@ -8153,7 +8127,7 @@ Ed_RunHide
 	beq	Ed_OMm			Out of memory
 	bra	Ed_AlRunned		Already runned
 
-;
+; 
 ; RUN EN MODE DIRECT
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_RunDirect
@@ -8166,7 +8140,7 @@ Ed_RunDirect
 	move.l	Buffer(a5),a1		Pas de command line!
 	lea	TBuffer-256-6(a1),a1
 	clr.l	(a1)
-	move.l	a4,Edt_Runned(a5)	Programme runnï¿½
+	move.l	a4,Edt_Runned(a5)	Programme runné
 	lea	Ed_DErrRun(pc),a1	Retour de fin normal
 	lea	Ed_DTestMessage(pc),a2	Affichage tests
 	moveq	#0,d0			Programme normal
@@ -8178,7 +8152,7 @@ Ed_RunDirect
 Ed_DErrRun
 	tst.w	Direct(a5)		Si ESC plus la >>> Erreurs normales
 	beq	Ed_ErrRun
-	bne	Ed_ErrDirect
+	bne	Ed_ErrDirect		
 Ed_DTestMessage
 	rts				0 -> Rien
 	nop
@@ -8197,7 +8171,7 @@ Ed_Run	bsr	Ed_TokCur		Ligne courante
 	move.l	Buffer(a5),a1		Pas de command line!
 	lea	TBuffer-256-6(a1),a1
 	clr.l	(a1)
-	move.l	a4,Edt_Runned(a5)	Programme runnï¿½
+	move.l	a4,Edt_Runned(a5)	Programme runné
 	lea	Ed_ErrRun(pc),a1	Retour de fin normal
 	lea	Ed_TestMessage(pc),a2	Affichage tests
 	moveq	#0,d0			Programme normal
@@ -8241,11 +8215,11 @@ Ed_ErrRunHidden
 	JJsr	L_Prg_SetBanks		Change les banques
 	JJsr	L_Bnk.Change		Envoie aux trappes / Musiques
 	bsr	Ed_SetBanks		Retour aux banques editeur
-	move.l	(sp)+,d0
+	move.l	(sp)+,d0			
 	bmi.s	.Aue
 	cmp.w	#10,d0			END / EDIT
 	beq	Ed_Loop
-	cmp.w	#1000,d0		Retour simple ï¿½ l'editeur
+	cmp.w	#1000,d0		Retour simple à l'editeur
 	beq	Ed_Loop
 	cmp.w	#1002,d0		Retour au workbench
 	beq	Ed_System
@@ -8274,7 +8248,7 @@ Ed_ErrTest
 	move.l	Edt_Current(a5),a4	Pas d'effacement Edt_Runned!
 	move.l	Edt_Prg(a4),a6
 	bra.s	Ed_Errr
-; RETOUR DE PROGRAMME NORMAL SOUS EDITEUR
+; RETOUR DE PROGRAMME NORMAL SOUS EDITEUR 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_ErrRun
 	tst.b	Ed_RunnedHidden(a5)
@@ -8289,7 +8263,7 @@ Ed_ErrRun
 Ed_Errr	tst.l	d0			Error TESTING
 	bmi	Ed_ErrEdit
 	cmp.w	#1000,d0		Edit
-	beq	Ed_ErrEdit
+	beq	Ed_ErrEdit	
 	cmp.w	#1001,d0		Direct
 	beq	Ed_ErrDirect
 	cmp.w	#1002,d0		System
@@ -8297,17 +8271,17 @@ Ed_Errr	tst.l	d0			Error TESTING
 	bsr	Ed_Ligne		Ligne de choix direct / edit
 	cmp.w	#1,d1
 	beq	Ed_ErrDirect
-; Retour ï¿½ l'ï¿½diteur
+; Retour à l'éditeur
 ; ~~~~~~~~~~~~~~~~~~
 Ed_ErrEdit
 	bsr	Ed_GetError
 	move.l	a0,-(sp)
 	move.l	d0,-(sp)
-; Apparition de l'ï¿½diteur
+; Apparition de l'éditeur
 	bsr	Ed_OpenEditor		ROuvre l'editeur
 	bsr	Esc_Hide
 	bsr	Ed_Appear
-; Retour ï¿½ l'editeur si END ou EDIT
+; Retour à l'editeur si END ou EDIT
 	move.l	(sp)+,d0		Message de test?
 	bmi.s	.Skip
 	cmp.w	#10,d0
@@ -8445,7 +8419,7 @@ Ed_Ligne
 	rts
 
 ;
-; TEST
+; TEST 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;
 Ed_Test	bsr	Ed_TokCur
@@ -8553,7 +8527,7 @@ IndProF	moveq	#0,d5
 	bra	IndLoop
 * Debut d'une boucle: + pour la ligne suivante
 IndPls:	addq.w	#1,d7
-	add.w	d3,d6
+	add.w	d3,d6	
 	bra	IndLoop
 * Fin d'une boucle: - pour cette ligne et la suivante
 IndMns:	subq.w	#1,d7
@@ -8584,7 +8558,7 @@ IndFl2:	addq.w	#1,d5
 	bra	IndLine
 * Fin de l'indentation automatique
 IndX:	movem.l	(sp)+,d2-d7
-	rts
+	rts	
 
 ;
 ; Teste le programme s'il faut
@@ -8616,7 +8590,7 @@ Ed_Test1
 	cmp.l	#1024*4,d0
 	bcs.s	.Non
 	addq.b	#1,Ed_TstMesOn(a5)
-	move.w	#198,d0
+	move.w	#198,d0			
 	bsr	Ed_GetMessage
 	bsr	Ed_Avertir
 	JJsr	L_Prg_SetBanks
@@ -8645,7 +8619,7 @@ Ed_Test3
 ;					PROCEDURES
 ; ___________________________________________________________________
 
-;
+; 
 ; OPEN / CLOSE ALL PROCEDURES
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_ProcsOpen
@@ -8659,7 +8633,7 @@ Ed_Procs
 	beq.s	.Skip
 	moveq	#-1,d0
 	bsr	Ed_VaTester
-.Skip
+.Skip	
 ; Sauve les marques
 ; ~~~~~~~~~~~~~~~~~
 	bsr	Ed_Marks2Adress
@@ -8727,7 +8701,7 @@ Ed_ProcML
 	bne.s	.PaOu
 	bsr	Ed_ProcOpen
 	bra.s	.Reloop
-.PaOu
+.PaOu	
 ; Trouve la longueur du fichier
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	move.l	#1005,d2
@@ -8758,7 +8732,7 @@ Ed_ProcML
 	dbra	d0,.Cp1
 	or.w	#%0101000000000000,10(a3)	Procedure machine langage
 	move.w	#$0301,(a1)+
-	move.w	#_TkML,(a1)+
+	move.w	#_TkML,(a1)+	
 	lea	10+6(a3),a0			Pointe les parametres
 	moveq	#0,d0
 	move.b	(a0),d0
@@ -8788,7 +8762,7 @@ Ed_ProcML
 	move.l	d0,4(a3)
 	move.l	a1,d3
 	sub.l	a3,d3				D3= Longueur totale
-; Efface l'ancienne procï¿½dure
+; Efface l'ancienne procédure
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	move.w	Edt_YCu(a4),d0
 	add.w	Edt_YPos(a4),d0
@@ -8827,7 +8801,7 @@ Ed_ProcML
 	bsr	Ed_GetMessage
 	move.w	#250,d0
 	bra	Ed_Alert
-
+	
 ;
 ; OPEN / CLOSE PROCEDURE
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -8853,7 +8827,7 @@ Ed_ProcOpen
 	moveq	#-1,d0
 	bsr	Ed_VaTester
 	move.l	(sp)+,a2
-.PaOu
+.PaOu	
 ; Sauve les marques
 ; ~~~~~~~~~~~~~~~~~
 	bsr	Ed_Marks2Adress
@@ -8880,7 +8854,7 @@ Ed_ProcOpen
 .Skip	bsr	Ed_FindA
 	bsr	Ed_SetY
 .Out	bsr	Ed_NewBuf
-	rts
+	rts	
 
 ;
 ; Arret de l'auto-centrage en cas d'erreur
@@ -8906,7 +8880,7 @@ Ed_Escape
 	bsr	Ed_TokCur
 	bsr	Ed_Hide
 	bsr	Esc_Appear
-
+	
 ; _________________________________________
 ;
 ; Boucle du mode escape
@@ -8921,7 +8895,7 @@ Esc_Loop
 ;	move.l	Edt_Prg(a4),a6
 ;	JJsr	L_Prg_SetBanks
 
-; Affiche les sliders de mï¿½moire
+; Affiche les sliders de mémoire
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	EcCalD	Active,EcFonc
 	bsr	Ed_MemoryAff
@@ -8981,7 +8955,7 @@ Esc_Aff	bsr	Es_Display
 ; ~~~~~~~~~~~~~
 Esc_Bouton
 	move.l	d0,a0
-	move.w	d1,d0
+	move.w	d1,d0		
 	move.w	Bt_Number(a0),d1
 	subq.w	#1,d1				0 > retour editeur
 	beq	Esc_Esc
@@ -8998,24 +8972,24 @@ Esc_Bouton
 	beq	Esc_BtFonc
 	add.w	#10,d1
 	bra	Esc_BtFonc
-;
+; 
 ; Click souris
 ; ~~~~~~~~~~~~
 Esc_MKey
-	SyCall	GetZone
+	SyCall	GetZone	
 	cmp.w	#EcFonc,d1
 	beq.s	Esc_MBoutons
 	cmp.w	#EcEdit,d1
 	beq.s	Esc_MEcran
 	bra	Esc_F
-; Dans l'ï¿½cran du haut
+; Dans l'écran du haut
 ; ~~~~~~~~~~~~~~~~~~~~
 Esc_MBoutons
 	lea	Ed_Boutons(a5),a0
 	JJsrR	L_Bt_Gere,a1
 	bne	Esc_Bouton
 	bra.s	Esc_MMove
-; Dans l'ï¿½cran
+; Dans l'écran 
 ; ~~~~~~~~~~~~
 Esc_MEcran
 	swap	d1
@@ -9155,7 +9129,7 @@ Esc_Esc
 	bsr	Esc_Hide
 	clr.w	Edt_EtMess(a4)
 	bsr	Ed_Appear
-	bra	Ed_Loop
+	bra	Ed_Loop	
 ;
 ; HELP ---> recentre la souris dans l'ecran
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -9166,7 +9140,7 @@ Esc_Help
 	move.w	Es_Y1(a5),d2
 	add.w	#16,d2
 	SyCall	SetM
-	bra	Esc_Aff
+	bra	Esc_Aff	
 ;
 ; Touches de fonction 1-10
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -9194,7 +9168,7 @@ Esc_BtFonc
 	tst.b	d2
 	beq	Esc_F
 	bra	Esc_R
-;
+; 
 ; Rappel d'une sequence memorisee
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Esc_Recall
@@ -9362,13 +9336,13 @@ Esc_Appear
 	move.w	#1,Direct(a5)
 	move.w	Ed_Sx(a5),d7
 
-; Active l'ï¿½cran de titre
+; Active l'écran de titre
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 	EcCalD	Active,EcFonc
 	EcCalD	First,EcEdit
 ; Unpack le logo AMOS
 ; ~~~~~~~~~~~~~~~~~~~
-	moveq	#Es_Pics,d0
+	moveq	#Es_Pics,d0	
 	moveq	#Es_BoutonsSx,d1
 	moveq	#Es_BoutonsY,d2
 	bsr	Es_Unpack
@@ -9441,7 +9415,7 @@ Esc_Appear
 	moveq	#Es_TitleSy,d5
 	SyCalD	SetZone,14
 
-; Active l'ï¿½cran de texte
+; Active l'écran de texte
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 	EcCalD	Active,EcEdit
 ; Dessine le bord droit
@@ -9499,7 +9473,7 @@ Esc_Appear
 	sub.w	#16,d4
 	subq.w	#8,d5
 	SyCalD	SetZone,1
-; Descend l'ï¿½cran du bas
+; Descend l'écran du bas
 ; ~~~~~~~~~~~~~~~~~~~~~~
 	move.w	Es_Y1(a5),d0
 	move.w	d0,d1
@@ -9528,15 +9502,15 @@ Esc_MaxMouse
 	SyCall	LimitM
 	rts
 
-;
-; Disparition de l'ï¿½cran de mode direct
+; 
+; Disparition de l'écran de mode direct
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Esc_Hide
 	movem.l	a0-a4/a6/d0-d7,-(sp)
 	tst.w	Direct(a5)
 	beq	.Out
 	clr.w	Direct(a5)
-; Remonte l'ï¿½cran du bas
+; Remonte l'écran du bas
 ; ~~~~~~~~~~~~~~~~~~~~~~
 	move.w	Es_Y1(a5),d0
 	move.w	Es_Y2(a5),d1
@@ -9553,11 +9527,11 @@ Esc_Hide
 	movem.w	(sp)+,d0-d2
 	cmp.w	d1,d2
 	bne.s	.Loop1
-	move.l	T_EcAdr+EcEdit*4(a5),a0
+	move.l	T_EcAdr+EcEdit*4(a5),a0	
 	bset	#BitHide,EcFlags(a0)
-; Efface l'ï¿½cran du haut
+; Efface l'écran du haut
 ; ~~~~~~~~~~~~~~~~~~~~~~
-	move.l	T_EcAdr+EcFonc*4(a5),a0
+	move.l	T_EcAdr+EcFonc*4(a5),a0	
 	bset	#BitHide,EcFlags(a0)
 	bsr	EdReCop
 ; Efface la fenetre de fond
@@ -9570,7 +9544,7 @@ Esc_Hide
 .Out 	movem.l	(sp)+,a0-a4/a6/d0-d7
 	rts
 
-;
+; 
 ; Positionne les ecrans du mode escape
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Es_Display
@@ -9587,21 +9561,21 @@ Es_DisplayD0
 	move.w	d0,EcAWY(a1)		Position
 	bset	#2,EcAW(a1)
 	sub.w	d0,d1			Hauteur
-	move.w	d1,EcAWTY(a1)
+	move.w	d1,EcAWTY(a1)		
 	bset	#2,EcAWT(a1)
-	move.w	Ed_Sy(a5),d0		Dï¿½but de la fenetre
+	move.w	Ed_Sy(a5),d0		Début de la fenetre
 	sub.w	d1,d0
 	move.w	d0,EcAVY(a1)
 	bset	#2,EcAV(a1)
-; Fait apparaitre les ï¿½crans
+; Fait apparaitre les écrans
 	bclr	#BitHide,EcFlags(a0)
 	bclr	#BitHide,EcFlags(a1)
-; Ecran de l'ï¿½diteur en premier
+; Ecran de l'éditeur en premier
 	EcCalD	First,EcFonc
 	EcCalD	First,EcEdit
 	rts
-;
-; Cache l'ï¿½cran de l'ï¿½diteur
+; 
+; Cache l'écran de l'éditeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_Hide
 	movem.l	a0-a4/a6/d0-d7,-(sp)
@@ -9623,7 +9597,7 @@ Ed_Hide
 	JJsr	L_AppCentre
 	bset	#BitHide,EcFlags(a2)
 	bsr	EdReCop
-; Efface les dï¿½finitions de l'ï¿½diteur
+; Efface les définitions de l'éditeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	EcCalD	Active,EcEdit
 	bsr	Edt_EffWindows
@@ -9667,8 +9641,8 @@ Ed_Hide
 	movem.l	(sp)+,a0-a4/a6/d0-d7
 	rts
 
-;
-; Apparition de l'ï¿½cran l'ï¿½diteur
+; 
+; Apparition de l'écran l'éditeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_Appear
 	movem.l	a2-a4/a6/d2-d7,-(sp)
@@ -9687,7 +9661,7 @@ Ed_Appear
 ; Enleve tous les sprites
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 	SyCall	AMALFrz
-	SyCall	StActHs
+	SyCall	StActHs	
 	SyCall	StoreM
 ; Enleve les rainbows
 ; ~~~~~~~~~~~~~~~~~~~
@@ -9703,7 +9677,7 @@ Ed_Appear
 	move.l	Edt_Current(a5),a4
 	move.l	Edt_Prg(a4),a6
 	bsr	Ed_DrawWindows
-; Apparition de l'ï¿½cran
+; Apparition de l'écran
 ; ~~~~~~~~~~~~~~~~~~~~~
 	moveq	#0,d2
 	EcCalD	EHide,EcEdit
@@ -9794,7 +9768,7 @@ Ed_LToLong
 ;
 ; Top of text
 ; ~~~~~~~~~~~
-Ed_CHtE
+Ed_CHtE	
 	move.w	#200,d0			***- Top of text
 	bsr	Ed_GetMessage
 	moveq	#25,d0
@@ -9855,7 +9829,7 @@ Ed_NotDone2
 	move.w	#206,d0			***- Not done
 	bsr	Ed_GetMessage
 	moveq	#100,d0
-	bra	Ed_Alert
+	bra	Ed_Alert	
 
 ;
 ; Not an AMOS Program
@@ -9866,7 +9840,7 @@ Ed_PaAMOS
 	bsr	Ed_GetMessage
 	moveq	#100,d0
 	bra	Ed_Alert
-;
+; 
 ; Pas de place pour le programme
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_PaPlace
@@ -9890,7 +9864,7 @@ Ed_2ManyWindow
 
 ; Hide window, last window
 ;~~~~~~~~~~~~~~~~~~~~~~~~~
-Ed_NoHide
+Ed_NoHide	
 	moveq	#2,d0
 	bra	Ed_Al100
 
@@ -9961,7 +9935,7 @@ Ed_GetPlace
 	JJsr	L_Prg_ChgTTexte
 ; Totalement Out of Mem!
 .GtPl0	bsr	Ed_NewBufAff
-	bra	Ed_OMm
+	bra	Ed_OMm		
 ; Appelle SETBUFFER, et revient!
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .GtPl2	clr.b	Prg_Change(a6)
@@ -9983,7 +9957,7 @@ Ed_SB
 	cmp.w	#1,d0
 	bne	Ed_NotDone
 	moveq	#1,d0
-	moveq	#3,d1
+	moveq	#3,d1	
 	moveq	#-1,d2
 	JJsr	L_Dia_GetValue
 	move.l	d1,d0
@@ -10079,8 +10053,8 @@ Ed_EALiCu
 	move.w	Edt_YCu(a4),d1
 	bsr	Ed_EALigne
 	bra	Ed_Loca
-
-;
+	
+; 
 ; Routine: centre la fenetre editeur sur la position du curseur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_Cent
@@ -10092,17 +10066,17 @@ Ed_Cent
 	cmp.w	Edt_WindTx(a4),d0
 	bcc.s	.ADroi
 	bra	Ed_Loca
-; Curseur trop ï¿½ droite
+; Curseur trop à droite
 .ADroi	sub.w	Edt_WindTx(a4),d0
 	addq.w	#1,d0
 	add.w	d0,Edt_XPos(a4)
 	bra	Ed_AffBuf
-; Curseur trop ï¿½ gauche
+; Curseur trop à gauche
 .AGoch	add.w	d0,Edt_XPos(a4)
 	bra	Ed_AffBuf
 
 ;
-; Positionne l'ï¿½cran en X
+; Positionne l'écran en X
 ; ~~~~~~~~~~~~~~~~~~~~~~~
 Ed_GotoX
 	cmp.w	Edt_XCu(a4),d0
@@ -10131,7 +10105,7 @@ Ed_GotoY
 ;
 ; Centre l'ecran en X, sans affichage
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ed_SetX
+Ed_SetX	
 	movem.w	d0-d1,-(sp)
 	bset	#EtA_X,Edt_EtatAff(a4)
 	move.w	d0,Edt_XCu(a4)
@@ -10251,7 +10225,7 @@ Ed_AffBufCar
 ;
 ; Imprime le caractere ECRAN D1 de la ligne D2
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Ed_ACar
+Ed_ACar 
 	movem.l	d0-d7/a0-a1,-(sp)
 ; Locate en debut de ligne
 	move.w	d1,d4
@@ -10445,7 +10419,7 @@ EALi
 ; Au debut du bloc, passe en inverse
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .DBloc	cmp.w	d1,d6
-	beq.s	.DEBloc
+	beq.s	.DEBloc	
 	cmp.w	d5,d2
 	bcc.s	.NoBloc
 	move.w	d2,d1
@@ -10483,7 +10457,7 @@ EALi
 	bls.s	.End
 	move.l	a2,a1
 	bsr	.Print
-; Efface jusqu'ï¿½ la fin de la ligne?
+; Efface jusqu'à la fin de la ligne?
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .End	tst.l	d6
 	bpl.s	.Sk7
@@ -10505,7 +10479,7 @@ EALi
 	move.l	a0,a1
 	WiCall	Print
 	rts
-.Print
+.Print	
 	move.b	0(a1,d1.w),d0
 	clr.b	0(a1,d1.w)
 	move.w	d0,-(sp)
@@ -10582,7 +10556,7 @@ Ed_DelLiCu
 Ed_Join	tst.w	Edt_YCu(a4)
 	beq	.Out
 	tst.w	Edt_XCu(a4)
-	bne	.Out
+	bne	.Out 
 	addq.b	#1,Ed_FUndo(a5)
 
 	bsr	Ed_LCourant
@@ -10620,8 +10594,8 @@ Ed_Join	tst.w	Edt_YCu(a4)
 	cmp.l	#$02000000,(a0)		Instruction vide?
 	bne.s	.Skk
 	bsr	Ed_DeLigne		On l'enleve!
-; Affiche la prï¿½cï¿½dente
-.Skk	bsr	Ed_ChtT
+; Affiche la précédente
+.Skk	bsr	Ed_ChtT	
 	addq.w	#1,Edt_LEdited(a4)
 	move.b	#SlDelai,Edt_ASlY(a4)
 	move.w	(sp)+,Edt_XCu(a4)
@@ -10659,7 +10633,7 @@ Ed_ReturnQuiet
 	bcc	Ed_OofBuf
 ; Gestion UNDO
 	bsr	Ed_LCourant
-	bne	.PaEd
+	bne	.PaEd		
 	move.l	Prg_PUndo(a6),a1
 	ext.l	d0
 	bsr	Un_CLine
@@ -10683,10 +10657,10 @@ Ed_ReturnQuiet
 	move.w	Prg_NLigne(a6),-(sp)
 	moveq	#1,d0			Une ligne de plus si a la fin!
 	bsr	Ed_TokStok2
-; Dï¿½but de la ligne suivante
+; Début de la ligne suivante
 	bsr	Ed_CBasT
 	bsr	Ed_DLigneT
-; Insere la ligne, si pas ï¿½ la fin du texte
+; Insere la ligne, si pas à la fin du texte
 	move.w	(sp)+,d2
 	cmp.w	Prg_NLigne(a6),d2
 	bne.s	.Sk
@@ -10720,8 +10694,8 @@ Ed_ReturnQuiet
 	bsr	Ed_DLigneT
 	bra	Ed_InsLine
 
-;
-; Insere une ligne ï¿½ la position du curseur
+; 
+; Insere une ligne à la position du curseur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;
 Ed_InsLine
@@ -10748,8 +10722,8 @@ Ed_InsLine
 	move.b	#SlDelai,Edt_ASlY(a4)
 	bsr	Ed_NewBuf
 	rts
-
-;
+	
+; 
 ; TOKENISE / STOCKE la ligne courante
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;
@@ -10802,7 +10776,7 @@ Ed_TokStok2
 .C1	move.b	(a0)+,(a1)+
 	dbra	d0,.C1
 .NC
-; Une ligne de plus, si ï¿½ la fin, et non vide
+; Une ligne de plus, si à la fin, et non vide
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	moveq	#0,d6
 	move.w	Edt_YPos(a4),d1
@@ -10864,7 +10838,7 @@ Ed_TokStok2
 ; Ok!
 ; ~~~
 	movem.l	(sp)+,d2-d7/a2
-TokX	rts
+TokX	rts	
 
 
 ; DETOKENISE TOUT LE BUFFER
@@ -10894,7 +10868,7 @@ Ed_BufUntok
 	bcs.s	.BUnt0
 	addq.l	#2,sp
 	rts
-
+	
 ;
 ; DETOKENISE la LIGNE D0 dans le BUFFER ligne D1
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -10943,7 +10917,7 @@ Edt_New
 	EcCalD	Last,0
 	bsr	EdReCop
 .Skp	EcCalD	Active,EcEdit
-; Init des donnï¿½es editeur
+; Init des données editeur
 	lea	Edt_SInit(a4),a0
 	moveq	#(Edt_EInit-Edt_SInit)/2-1,d0
 .Loop	clr.w	(a0)+
@@ -10972,7 +10946,7 @@ Ed_StoBlock
 ; STOCKE LA LIGNE (A1) EN POSITION D1, INSERT D0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	Retour:	A0=	Ligne tokenisee
-;		A1=
+;		A1=	
 ;		D0=	Erreur?
 ;		D1=	Flag un ligne de plus!
 Ed_Stocke
@@ -10994,7 +10968,7 @@ Ed_Stocke
 	lsl.l	#1,d1			Derniere ligne?
 	beq.s	StoD
 	tst.w	d7			Insertion
-	bne.s	StoI
+	bne.s	StoI	
 
 ; Remplacement d'une ligne
 ; ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -11101,9 +11075,9 @@ Ed_DelChunk
 Ed_DeLigne
 	move.w	d1,-(sp)
 	move.w	d1,d0
-	bsr	Ed_FindL
+	bsr	Ed_FindL		
 	beq.s	.DelLL
-; Dans procedure. Fermï¿½e?
+; Dans procedure. Fermée?
 	cmp.w	#_TkProc,2(a0)		* Pas si procedure fermee!
 	bne.s	.DelL0
 	tst.w	10(a0)
@@ -11303,9 +11277,9 @@ Edt_OpWindow
 	move.l	d0,a6
 	addq.b	#1,Prg_Edited(a6)	Flag: edite!
 ; Active la fenetre si visible
-.NoStru	move.b	#2,Edt_Hidden(a4)	2 car aucune zone crï¿½ï¿½e
+.NoStru	move.b	#2,Edt_Hidden(a4)	2 car aucune zone créée
 	tst.w	d2
-	beq.s	.Skip2
+	beq.s	.Skip2	
 	clr.b	Edt_Hidden(a4)
 	move.l	a4,Edt_Current(a5)
 	moveq	#1,d0
@@ -11332,7 +11306,7 @@ Edt_OpWindow
 ;
 Ed_WindowHide
 	bsr	Ed_TokCur
-; Si fenetre linkï¿½e, on ferme d'abord!
+; Si fenetre linkée, on ferme d'abord!
 	move.l	Edt_LinkPrev(a4),d0
 	or.l	Edt_LinkNext(a4),d0
 	beq.s	.PaLink
@@ -11456,7 +11430,7 @@ EdClo	bsr	Ed_TokCur
 	rts
 
 ;
-; Ferme un programme cachï¿½
+; Ferme un programme caché
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_NewHidden
 	bsr	Ed_TokCur
@@ -11470,7 +11444,7 @@ Ed_NewHidden
 	rts
 
 ;
-; Ferme TOUS les programmes cachï¿½s
+; Ferme TOUS les programmes cachés
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_NewAllHidden
 	bsr	Ed_TokCur
@@ -11490,7 +11464,7 @@ Ed_NewAllHidden
 	rts
 
 ;
-; Montre un programme cachï¿½
+; Montre un programme caché
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_EditHidden
 	bsr	Ed_TokCur
@@ -11516,7 +11490,7 @@ Ed_EditHidden
 	rts
 
 ;
-; Trouve le programme cachï¿½ en venant de l'appel des fonctions
+; Trouve le programme caché en venant de l'appel des fonctions
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	D1=	Numero du programme
 Ed_GetHidden
@@ -11582,7 +11556,7 @@ Edt_DelWindow
 ; Enleve de la liste
 	move.l	Edt_List(a5),d0
 	cmp.l	d0,a4
-	beq.s	.First
+	beq.s	.First	
 .Loop	move.l	d0,a0
 	move.l	Edt_Next(a0),d0
 	cmp.l	d0,a4
@@ -11623,7 +11597,7 @@ Ed_DrawWindows
 	movem.l	a2-a4/d2-d7,-(sp)
 
 	bsr	Ed_CuOff
-	bsr	Ed_AllAverFin
+	bsr	Ed_AllAverFin	
 	bsr	Edt_EffWindows
 	bsr	Edt_OrderWindows
 	bsr	Edt_WFirstLast
@@ -11658,7 +11632,7 @@ Ed_DrawWindows
 	move.w	d1,Edt_YCu(a4)
 	sub.w	d1,d0
 	add.w	d0,Edt_YPos(a4)
-.Dedans
+.Dedans	
 ;
 ; Numero fenetre >>> numero zones
 	move.w	Edt_Order(a4),d0
@@ -11865,7 +11839,7 @@ Ed_DrawWindows
 	lea	Edt_SlV(a4),a0
 	JJsrR	L_Sl_Init,a1
 	clr.b	Edt_ASlY(a4)
-;
+; 
 ; Affiche le texte
 ; ~~~~~~~~~~~~~~~~
 	move.l	2(sp),d0
@@ -11904,7 +11878,7 @@ Ed_DrawWindows
 ;
 ; Boucle d'effacement des fenetres
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Edt_EffWindows
+Edt_EffWindows	
 	move.l	a4,-(sp)
 	move.l	Edt_List(a5),d0
 	beq.s	.Out
@@ -11935,7 +11909,7 @@ Edt_EffWindows
 ;
 ; Numerote les fenetres affichees
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Edt_OrderWindows
+Edt_OrderWindows	
 	moveq	#1,d1
 	move.l	Edt_List(a5),d0
 	beq.s	.Out
@@ -11974,7 +11948,7 @@ Edt_DelZones
 	clr.w	Edt_Zones(a4)
 .NIni	rts
 
-;
+; 
 ; Si la fenetre courante est vide, active la suivante
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Edt_WVideNext
@@ -11996,19 +11970,19 @@ Edt_WAutre3
 	cmp.w	Edt_WindTy(a0),d1
 	bgt.s	.Loop1
 	bra.s	.Exit
-; Prend la fenetre prï¿½cedente
+; Prend la fenetre précedente
 .Loop2	bsr	Edt_WPrev
 	beq.s	.Skip
 	move.l	d0,a0
 	cmp.w	Edt_WindTy(a0),d1
 	bgt.s	.Loop2
 .Exit	move.l	a0,Edt_Current(a5)
-	move.l	a0,a4
+	move.l	a0,a4	
 	move.l	Edt_Prg(a4),a6
 .Skip	rts
 
 ;
-; Routine de bougeation de la sï¿½paration
+; Routine de bougeation de la séparation
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_MSep
 	move.w	d0,-(sp)
@@ -12025,7 +11999,7 @@ Ed_MSep
 	moveq	#0,d2
 	move.w	(sp),d3
 	ext.l	d3
-	move.w	Ed_Sx(a5),d4
+	move.w	Ed_Sx(a5),d4	
 	move.w	10(sp),d5
 	ext.l	d5
 	moveq	#0,d6
@@ -12037,7 +12011,7 @@ Ed_MSep
 	moveq	#0,d2
 	move.w	(sp),d3
 	ext.l	d3
-	move.w	Ed_Sx(a5),d4
+	move.w	Ed_Sx(a5),d4	
 	move.w	10(sp),d5
 	ext.l	d5
 	moveq	#0,d6
@@ -12120,7 +12094,7 @@ Edt_Active
 .Out	rts
 
 ;
-; Passage ï¿½ la fenetre suivante (ouverte)
+; Passage à la fenetre suivante (ouverte)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_NextWindow
 	bsr	Ed_TokCur
@@ -12136,7 +12110,7 @@ Ed_NextWindow
 	beq.s	.Loop
 .Out	rts
 ;
-; Passage ï¿½ la fenetre precedente (ouverte)
+; Passage à la fenetre precedente (ouverte)
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_PrevWindow
 	bsr	Ed_TokCur
@@ -12263,7 +12237,7 @@ Edt_WChangeHaut
 	move.w	Edt_BasY(a4),d3
 	add.w	d0,d3
 	bra	Edt_WChange
-; La derniere, juste le haut
+; La derniere, juste le haut 
 .Last	move.w	Edt_BasY(a4),d3
 	add.w	#Edt_EtatSy,d0
 	cmp.w	d0,d3
@@ -12401,7 +12375,7 @@ Edt_WPlaceBas
 ;
 ; Verifie la validite des WindTy
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;Edt_WOk
+;Edt_WOk	
 ;	move.l	Prg_List(a5),a0
 ;	moveq	#Ed_TitreSy,d0
 ;.Loop	tst.b	Edt_Hidden(a0)
@@ -12472,7 +12446,7 @@ Edt_WCount
 .Out	rts
 ;
 ;
-; Reduit toutes les fenetres ï¿½ la taille D0
+; Reduit toutes les fenetres à la taille D0
 ; Retourne le gain en taille
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Edt_WSchrinkAll
@@ -12493,8 +12467,8 @@ Edt_WSchrinkAll
 	bne.s	.Loop
 .Out	move.l	(sp)+,d2
 	rts
-;
-; Ramene la fenetre affichï¿½e precedent A0
+; 
+; Ramene la fenetre affichée precedent A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Edt_WPrev
 	movem.l	d1/a1,-(sp)
@@ -12512,7 +12486,7 @@ Edt_WPrev
 .Out	movem.l	(sp)+,d1/a1
 	tst.l	d0
 	rts
-;
+; 
 ; Ramene la fenetre affiche suivant A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Edt_WNext
@@ -12530,7 +12504,7 @@ Edt_WNext
 ;
 ; Ramene la taille maximum admissible pour la fenetre courante
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-; 	Entree, D0>=0 si taille reduite ï¿½ D0
+; 	Entree, D0>=0 si taille reduite à D0
 ;		D0<1 si taille sans reduire les autres
 ;	D0=	WindTy
 ;	D1=	WindY
@@ -12569,11 +12543,11 @@ Edt_WMaxSize
 	add.w	d0,d2
 	add.w	#Edt_EtatSy+Edt_BasSy,d2
 	asr.w	#3,d0
-	rts
+	rts	 
 
 ; __________________________________________________________________________
 ;
-; 	Creation du menu
+; 	Creation du menu 
 ; __________________________________________________________________________
 ;
 
@@ -12616,7 +12590,7 @@ EdM_Init
 	cmp.l	#40*1024,d0
 	bcs	.Error
 
-; Reserve la table
+; Reserve la table 
 ; ~~~~~~~~~~~~~~~~
 	move.l	#EdM_HiddenMax*8*5+16,d0	Menus hiddens
 	add.l	#EdM_UserMax*8+8,d0
@@ -12636,7 +12610,7 @@ EdM_Init
 *	bset	#MnBar,d0
 	bset	#MnTotal,d0
 *	bset	#MnBouge,d0
-*	bset	#MnTBouge,d0
+*	bset	#MnTBouge,d0	
 	move.b	d0,(a0)+
 	moveq	#0,d0
 	bset	#MnBar,d0
@@ -12676,13 +12650,13 @@ EdM_Init
 ; Cree les objets user
 ; ~~~~~~~~~~~~~~~~~~~~
 	moveq	#1,d7			Premier programme
-.Loop	move.l	Ed_BufT(a5),a2
+.Loop	move.l	Ed_BufT(a5),a2		
 	move.l	a2,a1
 	move.b	d7,(a1)			Met les donnees
 	add.b	#"0"+EdM_UserCommands-1,(a1)+
 	move.b	#"3",(a1)+
 	move.b	#"0",(a1)+
-	move.b	#"1",(a1)+
+	move.b	#"1",(a1)+	
 	move.b	#"7",(a1)+
 	move.b	d7,(a1)
 	add.b	#"0",(a1)+
@@ -12739,11 +12713,11 @@ EdM_Init
 ; ~~~~~~~~~~~~~~~~~
 .Bug	clr.w	MnChoice(a5)
 ; Pas d'erreur...
-	moveq	#0,d0
+	moveq	#0,d0			
 	bra.s	.Out
 ; Out of memory
 .Error	bsr	EdM_End
-	moveq	#1,d0
+	moveq	#1,d0			
 .Out	movem.l	(sp)+,d2-d7/a2-a6
 	rts
 
@@ -12816,9 +12790,9 @@ EdM_BranchAMOS
 	bne.s	.MnCr
 	addq.l	#8,a2
 
-; Des programmes cachï¿½s?
+; Des programmes cachés?
 ; ~~~~~~~~~~~~~~~~~~~~~~
-	moveq	#0,d7			Flags ï¿½ zero
+	moveq	#0,d7			Flags à zero
 	move.b	4+1(a2),d7		Prend le numero du premier programme
 	bsr	Edt_CountHidden
 	move.w	d0,d1			Pas de programme
@@ -12887,7 +12861,7 @@ EdM_BranchAMOS
 	bsr	EdM_CreObjet
 	addq.l	#8,a2
 	add.l	d4,a4
-; Sous menu spï¿½cifique
+; Sous menu spécifique
 .Loop2	move.b	#"1",4(a2)
 	move.b	d7,4+1(a2)
 	cmp.b	#"0",(a2)
@@ -12907,11 +12881,11 @@ EdM_BranchAMOS
 .PIn	beq.s	.EHid
 	move.l	d0,a6
 	tst.b	Edt_Hidden(a6)
-	beq.s	.PNext
+	beq.s	.PNext	
 	dbra	d3,.PLoop		Encore un?
 .EHid	addq.l	#8,sp
 .EHidden
-; Trouve la fin des menus spï¿½ciaux
+; Trouve la fin des menus spéciaux
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	moveq	#0,d4
 .FLoop	addq.l	#8,a2
@@ -13029,7 +13003,7 @@ Ed_ShowKey
 	rts
 
 ;
-; Routine de crï¿½ation du menu A2 / Table A3
+; Routine de création du menu A2 / Table A3
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 EdM_CreObjet
 	tst.b	(a4)			Un objet?
@@ -13059,8 +13033,8 @@ EdM_CreObjet
 	cmp.l	a0,a3
 	bcs.s	.Ok
 	illegal
-.Ok	rts
-
+.Ok	rts	
+	
 
 ; ____________________________________
 ;
@@ -13152,7 +13126,7 @@ L_KDef	equ	11
 	bne.s	.Loop3
 ; Trouve la touche
 	move.b	(a6),d0
-	sub.b	#"0",d0
+	sub.b	#"0",d0			
 	beq	.NoKey
 	bsr	Ed_Fonc2Ky
 	beq	.NoKey
@@ -13175,7 +13149,7 @@ L_KDef	equ	11
 	subq.l	#1,a1
 ; Touche ASCII
 	tst.b	d2
-	bmi.s	.SkipSc
+	bmi.s	.SkipSc	
 	move.b	#'"',(a1)+
 	move.b	d2,(a1)+
 	move.b	#'"',(a1)+
@@ -13185,7 +13159,7 @@ L_KDef	equ	11
 	addq.l	#1,a0
 	bra.s	.SkipS1
 .LoopS1	tst.b	(a0)+
-	bpl.s	.LoopS1
+	bpl.s	.LoopS1	
 	tst.b	(a0)
 	beq.s	.ExitS1
 .SkipS1	cmp.b	-1(a0),d2
@@ -13245,7 +13219,7 @@ L_KDef	equ	11
 ; Routine de creation de la chaine
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	A0= 	chaine dans l'objet
-;	A1= 	chaine ï¿½ affecter ï¿½ l'objet A2
+;	A1= 	chaine à affecter à l'objet A2
 ;
 Ed_MnOb
 	tst.w	(a1)
@@ -13268,7 +13242,7 @@ Ed_MnOb
 	move.l	d0,a1
 	moveq	#0,d0
 	move.w	(a1),d0
-	SyCall	MemFree
+	SyCall	MemFree	
 .Out	rts
 .Err	illegal
 	rts
@@ -13312,7 +13286,7 @@ EdM_Program
 	dbra	d0,.Swap
 	movem.l	(sp)+,a0/a1/d0/d1
 .Done	rts
-
+	
 ;_____________________________________________________________________________
 ;
 ;					Access Disque sous editeur
@@ -13366,7 +13340,7 @@ Ed_Saved
 .Skip	rts
 
 
-;
+; 
 ; Routine LOAD HIDDEN PROGRAM
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_RLoadHidden
@@ -13424,11 +13398,11 @@ Ed_Load
 	beq	Ed_NotDone
 	JJsr	L_Dsk.PathIt
 ; NEW
-; ~~~
+; ~~~	
 	bsr	Ed_New2
 ; Message LOADING
 ; ~~~~~~~~~~~~~~~
-Ed_ReLoad
+Ed_ReLoad	
 	move.w	#155,d0
 	move.l	Name1(a5),a0
 	bsr	Ed_AvName
@@ -13483,7 +13457,7 @@ Ed_Merge
 	bsr	Edt_ClearVar
 	bsr	Ed_BlocFree
 	bsr	Prg_UndoRaz
-; Charge le programme dans une fenetre cachï¿½e
+; Charge le programme dans une fenetre cachée
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	bsr	Ed_RLoadHidden
 ; Copie le bout dans le programme
@@ -13500,11 +13474,11 @@ Ed_Merge
 	add.w	Edt_YCu(a4),d1
 	move.w	d1,d6				Insere le programme
 	bsr	Ed_StoBlock
-	bne	Ed_OofBuf
+	bne	Ed_OofBuf	
 	move.w	d6,d0				Change les marques
 	move.w	d7,d1
 	bsr	Ed_MarksChange
-; La fenetre sera libï¿½rï¿½e au retour
+; La fenetre sera libérée au retour
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .Skip	JJsr	L_Prg_CptLines
 	bsr	Ed_NewBufAff
@@ -13539,9 +13513,9 @@ Ed_LoadA:
 	moveq	#-1,d3
 	bsr	Ed_Seek
 	move.l	d0,d3			Reserve le buffer
-	addq.l	#4,d0			Plus zero ï¿½ la fin
+	addq.l	#4,d0			Plus zero à la fin
 	JJsr	L_ResTempBuffer
-	beq	Ed_OMm
+	beq	Ed_OMm	
 	move.l	a0,d2			Charge tout d'un bloc
 	bsr	Ed_Read
 	bne	Ed_DError		Ferme le fichier
@@ -13556,7 +13530,7 @@ Ed_LoadA:
 	bne	.MergX
 ; Trouve la longueur de la ligne
 	lea	-1(a3),a2
-.Fin1	addq.l	#1,a2
+.Fin1	addq.l	#1,a2			
 	move.b	(a2),d0
 	beq.s	.Fin4
 	cmp.b	#32,d0
@@ -13608,13 +13582,13 @@ Ed_LoadA:
 	rts
 ; Out of buffer space
 .OBuf	bsr	.MergX
-	bra	Ed_OofBuf
+	bra	Ed_OofBuf	
 ; Line too long / Bad file
 .Bad
 .Long	bsr	.MergX
 	bra	Ed_LToLong
 
-;
+; 
 ; SAUVEGARDE PROGRAMME
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -13627,7 +13601,7 @@ Ed_Rename
 	bne.s	.Copy
 	move.b	#1,Prg_Change(a6)
 	bset	#EtA_Nom,Edt_EtatAff(a4)
-	rts
+	rts	
 
 ; Sauvegarde speciale COMPILER_SHELL.AMOS
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -13693,7 +13667,7 @@ Ed_SavePrg
 	bne.s	SError
 .PaBak
 Ed_SavePrg2
-; Fait le mï¿½nage!
+; Fait le ménage!
 ; ~~~~~~~~~~~~~~~
 	bsr	Edt_ClearVar
 	JJsr	L_Prg_CptLines
@@ -13702,7 +13676,7 @@ Ed_SavePrg2
 	JJsr	L_Prg_Save
 	bne.s	SError
 	move.b	#1,Prg_StModif(a6)	Force le menage
-; Sauve l'icone
+; Sauve l'icone 
 ; ~~~~~~~~~~~~~
 	bsr	Ed_SaveIcon
 ; Pas d'erreur
@@ -13715,7 +13689,7 @@ SError	moveq	#-1,d0
 	bra.s	SOut
 
 
-;
+; 
 ; FABRIQUE UN .BAK de NAME1
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_MakeBak
@@ -13744,13 +13718,13 @@ Ed_MakeBak
 	move.l	Name1(a5),d1
 	move.l	Name2(a5),d2
 	jsr	_LVORename(a6)
-	tst.l	d0
+	tst.l	d0	
 	bne.s	.Ok
 	jsr	_LVOIoErr(a6)
-	cmp.w	#215,d0			D'un periph ï¿½ l'autre?
+	cmp.w	#215,d0			D'un periph à l'autre?
 	beq.s	.Ok
 	cmp.w	#205,d0			Existe pas
-	beq.s	.Ok
+	beq.s	.Ok	
 	cmp.w	#203,d0			Existe DEJA
 	bne	.Err
 ; Efface NOM.BAK et recommence!
@@ -13769,7 +13743,7 @@ Ed_MakeBak
 .Out	movem.l	(sp)+,a0-a2/a6/d0-d2
 	rts
 
-;
+; 
 ; SAUVEGARDE ICONE PROGRAMME
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_SaveIcon
@@ -13812,7 +13786,7 @@ Ed_SaveIcon
 ; 					DIVERS
 ; ___________________________________________________________________
 ;
-; Agrandi une image aux dimensions de l'ï¿½diteur
+; Agrandi une image aux dimensions de l'éditeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ; 	D0=	Y1
 ;	D1= 	Y2
@@ -13836,7 +13810,7 @@ Ed_Enlarge
 	rts
 
 ;
-; Copie la palette de la souris dans l'ï¿½cran A0
+; Copie la palette de la souris dans l'écran A0
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	A0=	Ecran Destination
 ;
@@ -13867,7 +13841,7 @@ Ed_TiWait
 	rts
 
 ;
-; Unpack Image de l'ï¿½diteur
+; Unpack Image de l'éditeur
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;	D0=	Numero
 ;	D1=	X
@@ -13888,7 +13862,7 @@ EdU	move.l	Ed_Resource(a5),a0
 	rts
 
 ; ___________________________________________________________________
-;
+; 
 ; 						ROUTINES BOUTONS
 ; ___________________________________________________________________
 ;
@@ -13922,7 +13896,7 @@ Bt_EdDraw
 	move.l	(sp)+,d2
 	rts
 
-;
+; 
 ; Gestion des boutons speciaux
 ; ____________________________________
 ;
@@ -13975,7 +13949,7 @@ Ed_Read	movem.l	d1/a0/a1/a6,-(sp)
 	cmp.l	d0,d3
 	rts
 
-; WRITE fichier systeme D3 octets de D2
+; WRITE fichier systeme D3 octets de D2	
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_Write
 	movem.l	d1/a0/a1/a6,-(sp)
@@ -14032,7 +14006,7 @@ Ed_PRTPrint
 	bsr	Ed_Write
 	bne	Ed_PErr
 	rts
-;
+; 
 ; Erreurs dans le chargement programme
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Ed_PrgLoadErr
@@ -14060,7 +14034,7 @@ Ed_DError
 ; Imprime le message
 Ed_DBis	move.l	Ed_RunMessages(a5),a0
 	bsr	Ed_GetMessageA0
-; En cas de ZAPPEUSE, branche ï¿½ ALERT normal
+; En cas de ZAPPEUSE, branche à ALERT normal
 	tst.b	Ed_Zappeuse(a5)
 	bne	Ed_ZapAlert
 ; Boite de dialogue
@@ -14112,7 +14086,7 @@ Ed_File_Selector
 ; 	TOKENISATION / DETOKENISATION
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-; Initialisation des tables de tokenisation
+; Initialisation des tables de tokenisation 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Tok_Init
 	tst.l	Ed_BufT(a5)
@@ -14349,7 +14323,7 @@ TkVD:	bsr	Minus
 * Numero de ligne en route
 TkFV:	moveq	#0,d1
 	move.l	TkAd(a5),a0
-	btst	#4,d5
+	btst	#4,d5	
 	beq.s	TkV2
 	cmp.b	#"0",d0
 	bcs.s	TkV0
@@ -14382,8 +14356,8 @@ TkV4:	bset	#3,d5		* Si pas debut de ligne
 	cmp.b	#":",d0		* Si :
 	bne.s	TkV5
 TkV1:	move.w	#_TkLab,(a0)
-	bra.s	TkV7
-
+	bra.s	TkV7		
+	
 TkV5:	subq.l	#1,a3
 	moveq	#2,d1
 	cmp.b	#"$",d0
@@ -14435,7 +14409,7 @@ TkK:
 * Prend le premiere caractere...
 	moveq	#0,d0
 	move.b	-1(a3),d0
-	bsr	MinD0
+	bsr	MinD0	
 	move.l	d0,d2
 	lea	Dtk_Operateurs(pc),a1	Operateur, LENTS en 1er...
 	bra	TkLIn
@@ -14553,7 +14527,7 @@ TkKt:	subq.l	#1,a0
 	cmp.b	d0,d1
 	bne.s	TkRe4
 	addq.l	#1,a0
-TkKt1:
+TkKt1:	
 	tst.l	d6
 	bpl.s	TklTl
 	move.l	a1,d0
@@ -14595,7 +14569,7 @@ TkKt0:	lea	10(sp),sp
 	cmp.w	#_TkWhl,d4
 	beq.s	TkKt3
 	cmp.w	#_TkDo,d4
-	beq.s	TkKt3
+	beq.s	TkKt3	
 	cmp.w	#_TkExit,d4
 	beq.s	TkKt4
 	cmp.w	#_TkExIf,d4
@@ -14627,7 +14601,7 @@ TkKt5	clr.w	(a4)+		6 octets
 TkKt4	clr.w	(a4)+		4 octets
 TkKt3	clr.w	(a4)+		2 octets
 	bra	TokLoop
-* Token double precision: flags ï¿½ 1
+* Token double precision: flags à 1
 TkKDPre	or.b	#%10000011,MathFlags(a5)
 	bra	TokLoop
 * Token d'extension! .w EXT/.b #Ext/.b Nb Par/.w TOKEN
@@ -14691,7 +14665,7 @@ TkKf3:	move.w	#_TkLGo,d1
 
 ******* Fin de la tokenisation
 TokFin:	btst	#1,d5		Fin de variable
-	bne	TkFV
+	bne	TkFV	
 	btst	#0,d5		Fin de chaine alphanumerique
 	bne	TkChf
 
@@ -14756,18 +14730,18 @@ Tkln2	tst.w	(a1)
 
 ; ___________________________________________________________________________
 ;
-;							DETOKENISATION
+;							DETOKENISATION 
 ; ___________________________________________________________________________
 ;
-;	A0:	Ligne ï¿½ detokeniser
+;	A0:	Ligne à detokeniser
 ; 	A1:	Buffer
-;	D0:	Adresse ï¿½ dï¿½tecter
+;	D0:	Adresse à détecter
 ; ___________________________________________________________________________
 ;
 Mon_Detok
 	moveq	#-1,d1
 	bra.s	Dtk
-Detok:
+Detok:	
 	moveq	#0,d1
 Dtk
 	movem.l	d2-d7/a2-a6,-(sp)
@@ -14967,7 +14941,7 @@ DtkV0:	moveq	#0,d2
 	moveq	#0,d4
 	cmp.w	#_TkLab,d0
 	bne.s	DtkV1
-	moveq	#1,d4		D4: 0=> Variable
+	moveq	#1,d4		D4: 0=> Variable 
 	cmp.b	#"0",(a0)	    1=> Label
 	bcs.s	DtkV1		   -1=> Numero ligne
 	cmp.b	#"9",(a0)
@@ -15115,7 +15089,7 @@ DtkRem:	addq.w	#2,a6		Saute la longueur
 DtkR:	tst.b	(a6)
 	beq	DtkLoop
 	move.b	(a6)+,(a4)+
-	bra.s	DtkR
+	bra.s	DtkR 
 
 ******* Fin de la DETOKENISATION
 DtkFin:	sub.l	a2,a4		* Ramene PX
@@ -15131,7 +15105,7 @@ TInst:	tst.w	d0
 	beq	TFin
 	cmp.w	#_TkLGo,d0
 	bls	TVar
-	cmp.w	#_TkCh1,d0
+	cmp.w	#_TkCh1,d0	
 	beq	TCh
 	cmp.w	#_TkCh2,d0
 	beq	TCh
@@ -15154,7 +15128,7 @@ TInst:	tst.w	d0
 	cmp.w	#_TkDo,d0
 	beq.s	T2
 	cmp.w	#_TkExit,d0
-	beq.s	T4
+	beq.s	T4 
 	cmp.w	#_TkExIf,d0
 	beq.s	T4
 	cmp.w	#_TkIf,d0
@@ -15201,47 +15175,47 @@ Minus:	cmp.b 	#"A",d0
 	cmp.b	#"Z",d0
 	bhi.s	.Skip
 	add.b	#"a"-"A",d0
-.Skip	rts
+.Skip	rts	
 
 
 ;						Table des operateurs
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Dtk_Operateurs
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	" xor"," "+$80,"O00",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	" or"," "+$80,"O00",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	" and"," "+$80,"O00",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	"<",">"+$80,"O20",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	">","<"+$80,"O20",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	"<","="+$80,"O20",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	"=","<"+$80,"O20",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	">","="+$80,"O20",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	"=",">"+$80,"O20",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	"="+$80,"O20",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	"<"+$80,"O20",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	">"+$80,"O20",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	"+"+$80,"O22",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	"-"+$80,"O22",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	" mod"," "+$80,"O00",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	"*"+$80,"O00",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	"/"+$80,"O00",-1
-	dc.w	1,1
+	dc.w	1,1				
 	dc.b 	"^"+$80,"O00",-1
 	even
 Dtk_OpFin
@@ -15289,11 +15263,11 @@ Menus_Touches1	dc.b	0,K0-Mt1			0
 		dc.b	Ctr,K2-Mt1			2
 		dc.b	Ami,K3-Mt1			3
 		dc.b	Alt,K4-Mt1			4
-		dc.b	Ctr+Shf,K5-Mt1
-		dc.b	Ctr+Ami,K6-Mt1
-		dc.b	Ctr+Alt,K7-Mt1
-		dc.b	Ami+Shf,K8-Mt1
-		dc.b	Ami+Alt,K9-Mt1
+		dc.b	Ctr+Shf,K5-Mt1			
+		dc.b	Ctr+Ami,K6-Mt1			
+		dc.b	Ctr+Alt,K7-Mt1			
+		dc.b	Ami+Shf,K8-Mt1			
+		dc.b	Ami+Alt,K9-Mt1			
 		dc.b	Alt+Shf,K10-Mt1			0
 		dc.b	Shf+Alt+Ami,K11-Mt1		11
 		dc.b	Ctr+Alt+Ami,K12-Mt1		12

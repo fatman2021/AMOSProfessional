@@ -1,38 +1,10 @@
 *********************************************************************
-*
-*  Published under the MIT Licence
-*
-*  Copyright (c) 1992 Europress Software
-*  Copyright (c) 2020 Francois Lionet
-*
-*  Permission is hereby granted, free of charge, to any person
-*  obtaining a copy of this software and associated documentation
-*  files (the "Software"), to deal in the Software without
-*  restriction, including without limitation the rights to use,
-*  copy, modify, merge, publish, distribute, sublicense, and/or
-*  sell copies of the Software, and to permit persons to whom the
-*  Software is furnished to do so, subject to the following
-*  conditions:
-*
-*  The above copyright notice and this permission notice shall be
-*  included in all copies or substantial portions of the Software.
-*
-*  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-*  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-*  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-*  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-*  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-*  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-*  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
-*  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*
-*********************************************************************
 *		EQUATES GRAPHIC FUNCTIONS AMOS
 *********************************************************************
 RwReset		MACRO
 Count		SET	0
 		ENDM
-Rl		MACRO
+Rl		MACRO	
 Count		SET	Count-4*(\2)
 T_\1		equ	Count
 		ENDM
@@ -113,7 +85,7 @@ WiRepL		equ	80
 ***************************************************************
 
 *************** Variables gestion
-EcMax:		equ 	12
+EcMax:		equ 	12	
 		Rw	DefWX,1
 		Rw	DefWY,1
 		Rw	DefWX2,1
@@ -135,7 +107,7 @@ EcMax:		equ 	12
 		Rl	EcPri,EcMax+1
 
 *************** FLASHEUR
-FlMax:		equ 	16
+FlMax:		equ 	16	
 LFlash:		equ 	2+2+4+2+16*4+2
 		Rw	NbFlash,1
 		Rb	TFlash,LFlash*FlMax
@@ -198,7 +170,7 @@ SwapL:		equ 	32
 		Rw	InterInter,1
 		Rw	InterBit,1
 		Rl	InterList,EcMax*2
-
+	
 ***************************************************************
 *		SPRITES HARD
 ***************************************************************
@@ -257,7 +229,7 @@ HsYr:		equ 	8
 HsLien:		equ 	10
 HsImage:	equ 	12
 HsControl:	equ 	16
-HsLong:		equ 	20
+HsLong:		equ 	20		
 		Rb	SpBase,HsLong+4
 
 ***************************************************************
@@ -299,7 +271,7 @@ HsLong:		equ 	20
 ***************************************************************
 		Rl	GPile,1
 		Rl	IntBase,1
-		Rl	IntScreen,1
+		Rl	ViewPort,1
 		Rl	GfxBase,1
 		Rl	LayBase,1
 		Rl	FntBase,1
@@ -381,3 +353,4 @@ FFkLong		equ 	24
 		Rb	L_Trp,4
 L_Trappe	equ	-Count
 ***********************************************************
+

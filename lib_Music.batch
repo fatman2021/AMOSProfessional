@@ -1,0 +1,5 @@
+echo "***Assembling AMOSPro_Music.Lib" 
+c/Library_Digest src/Lib_Music/Music_lib.s
+c/Genam FROM src/Lib_Music/Music_lib.s TO AmosProAGA_Build/APSystemAGA/AMOSPro_Music.Lib
+delete >NIL: src/Lib_Music/+Music_lib_Labels.s
+delete >NIL: src/Lib_Music/+Music_lib_Size.s

@@ -1,26 +1,599 @@
-Here is an history of the changes I've done to the original AMOSProfessional source code forked from marc365 repository :
+
+ *************** AMOS PROFESSIONAL X ***************
+
+Here is a brief history of the changes I've done to the original AMOSProfessional source code initially forked from marc365 repository :
+
+
 To Do :
+- TO DO : Update Colour I,XXX to update both Low and High colors data with the same value
+- TO DO : Update EcGCol for simpler as colors are now aligned.
+- TO DO : Update EcSCol for simpler as colors are now aligned
+- TO DO : Update AGAPaletteColour to update Low bits and use T_AgaPal1 registers
+- To do : Support for SHRES/UHRES
+- To do : Support for SHRes Sprites
+- To do : Support for larger sprites
+- To do : Add a new command to select 2nd dual playfield screen color shifting.
 
-+W.s 9577 StartALL : Cold Start
-+W.s 9762 -> CpInit, EcInit, SyInit, VBLInit, WiInit, etc..
-+Lib.s -> Call ClsWi method that is faulty on 128 colors.
-
-Add a new command to select 2nd dual playfield screen color shifting.
 5773 -> Start the copper update/creation process.
 Find all the '#40,d' to check if they are related to bitmap size -> replaced those are linked to ~ with 'bm_SIZEOF'
 
+Help URL : https://www.exotica.org.uk/wiki/AMOS_file_formats#AMOS_source_code_file_format
+Help URL : https://en.wikipedia.org/wiki/ILBM
 
-Official Improvements :
-FIX : "Screen Display" does not more cause display issue when "Dual Playfield" is called just after
-UPDATE : "Dual Playfield" now preserve Second screen color palette.
-UPDATE : "Dual Playfield" can now uses 16 colors screen (AGA) instead of previous limitation of 8 colors .
+; ********************************************************************************************** BOB Methods
 
-TO DO :
-- Add support to change sprites color palette index.
-- Update demo to use SCREEN HIDE/SHOW to now display IFF/ILBM loading times.
-- Add a new command : Aga Colour REG, RGB32
-- Add a new function : RGB32 = Aga Colour( REG )
-- Added new command : Extended Dual Playfield SCREEN1, SCREEN2
+; *****************************************************************************************************************
++lib.s/InGetSprite6 L12625 : Get Sprite/Bob screen
++lib.s/InGetSprite5 L12637 : Get Sprite/Bob currentScreen
++lib.s/Ritoune      L12723 : Extract (a3)+ Datas for Get Sprite/BOB : D2 = X, D3 = Y, D4 = Width, D5 = Height
++lib.s/Bnk.GetAdr   L 7926 : Scan all existing AMOSPro banks to find one. In : DO = Bank Type (1=Bobs, 2=Icons), Return : A0/A1 = Bank Adress + 24
++lib.s/Bnk.GetBobs  L 7952 : Call +lib.s/Bnk.GetAdr In : D0 = Bank Type (1=Bobs, 2=Icons), Return : A0/A1 = Bank Adress + 24 = True start of bank 
++lib.s/Bnk.AdBob    L 8110 : call +lib.s/Bnk.GetBobx, In : D0 = BobID, Return : A0/D0 = chosen Bob Adresses D1 = Max Bob Amount
++lib.s/Bnk.EffBobA0 L 8025 : Delete a specified bob + Mask
++lib.s/Bnk.ResBob   L 8164 : Call +lib.s/Bnk.Ric2 Reserve a bank for Bobs ( D0 = 0 efface, =1 Append, =-1 no copy+keep, D1 = Amount of Sprites/Icons/Bobs)
++lib.s/Bnk.Ric2     L 8179 : Reserve a Bank ( A0 = Source Bank, D0 = Flags, D1 = Amount, D2 = Reserve Flags) Return : A0 = Start Bank, A1/A3 = Old Bank
++lib.s/Bnk.Change   L 8616 : Call extensions method to tell them that changes are done in Banks
++lib.s/InBob        L12308 : Paste Bob
+
+; *****************************************************************************************************************
++w.s/StartAll       L 9577 : Cold Start
++w.s/.............. L 9762 : AMOS Start : Calls for CpInit, EcInit, SyInit, VBLInit, WiInit, etc..
++w.s/BobSet         L  911 : Create a new bob and insert it in the chained list. D1=Canal, D2=X, D3=Y, D4=Image, D5=BackgroundMode, D6=PlanesDisplayed, D7=Minterms
++w.s/ResBOB         L  993 : Create Bob Structure/Table and Set Screen datas in it ( Screen Width/Height = BbLimD/BbLimB + BbEc = T_EcCourant(a5) )
++w.s/BobLim         L 1061 : Recalculate bob drawing limits (based on 0,0, Screen Width, Screen Height )
++w.s/BbEcOff        L 1141 : Remove all bobs from a specific screen (A0)
++w.s/DelBob         L 1167 : Delete a bob
++w.s/BobAd          L 1215 : Return (in A1) the Adress of a bob from its Index number (D1)
++w.s/BobAct         L 1241 : Refresh bobs (in Screen ?)
++w.s/GetBob(SprGet) L  634 : A1 = Screen A2 = Bob Table, D2/D3 = X,Y, D4/D5 = XSize,YSize, D6 = X2 : Capture the bob from screen. OK
++w.s/BobSet(SetBob) L  929 : In D1=Channel, D2=X, D3=Y, D4=Image, D5=BackgroundMode, D6=PlanesDisplayed, D7=Minterm
++w.s/BobAff         L 2046 : Draw Bobs.
++w.s/BobCal         L 1436 : Calculate bob drawing.
++w.s/Sys_ClearCache L10610 : Clear CPU Caches ( exec V37+ )
++w.s/AllocMemories  L 7716
++w.s/Open8x8Font	L10077 : Open topaz font.
++w.s/CpInit         L      : Copper list creation
++w.s/CLPopulate     L      : Redefine copper list dynamic content
++w.s/EcCopHo        L      : Insert a screen inside a copper list.
++w.s/CreeDual       L      : Create dual screen in copper list
+; *****************************************************************************************************************
+; Each Element (memory block) contains at start : +0.l : Previous Element, +4.l : Memory Flags (chip/public/clear)
++B.s/Lst.ChipMem    L 1195 : Create a new CHIPRAM element in a list.
++B.s/Lst.New        L 1200 : Create a new FASTRAM Element in a list.
++B.s/Lst.Cree       L 1204 : Global method to create a new Element in a List ( A0 = List, D0 = Length, D1 = New Allocated Element (memory) )
+
+******************************************************************** Amos Professional AGA (X) Overview :
+What are the new things that Amos Professional AGA (X) can actually do :
+------------------------------------------------------------------------
+- Full Screen color palette now support RGB24 modes.
+- Open screen up to 256 colors in Lowres/Hires/Laced modes in full RGB24
+- Open screen using HAM8 color mode in Lowres/Hires/Laced modes in full RGB24
+- Open screen with width and height up to 2048px*2048px
+- Uses Dual playfield with 2 screens owning each 16 colors in RGB24 mode
+- Get Bob/Sprite/Icon with up to 256 colors in full RGB24
+- Paste Bob/Sprite/Icon with up to 256 colors in full RGB24
+- Save Bob/Sprite/Icon banks save up to 256 colors in full RGB24
+- Get Bob/Sprite/Icon palette update both current Screen and global Aga Palette in full RGB24
+- Full Original Amos Professional Classics and Amos Professional AGA separation to allow both version to run without conflicts in the same Amiga configuration
+
+Original Amos Professional Fixes available :
+--------------------------------------------
+- Dual Playfield scroll issue fixed using Amos Factory update fix
+- Bob drawing at bottom of large screen fixed.
+
+New Extra AGA Commands added :
+------------------------------
+- Get Screen Aga Palette SCREENINDEX : To makes the AGA global color palette (032-255) being updated with the one from the screen SCREENINDEX
+- Create Aga Palette INDEX
+- Delete Aga Palette INDEX
+- =Aga Palette Exist(INDEX)
+- Load Aga Palette FILE$,INDEX
+- Save Aga Palette FILE$,INDEX
+- Set Aga Palette INDEX
+- Get Aga Palette INDEX
+- Get Aga Colors From Screen SourceScreen, FirstColorIndexFromScreen, AmountToCopy To DestinationAgaColorPalette, StartIndexInDestination
+- Get Aga Colors From Screen SourceScreen, FirstColorIndexFromScreen, AmountToCopy To DestinationAgaColorPalette (Will start writting at index 0 of destination)
+
+
+
+
+- Step Fade Aga FADESTEP
+- Fade Aga SLOWNESS
+- Fade To Aga Palette INDEX, FADESTEP
+- =Is Aga Detected()
+- =Is Ham8() : Return 1 if the current screen uses HAM8, otherwise 0
+- =Ham8 : Return 262144 to be used in Screen Open command to uses HAM8 mode
+- =Ham6 : Return 4096 to be used in Screen Open command to uses HAM6 mode
+- Get Rgb24 Colour( Index ) : To read a RGB24 color value from 000-255 (000-255 from current screen)
+- Set Rgb24 Colour INDEX, RGB24Value : To modify a color from 000-255 (000-031 to current screen, 032-255 to global AGA color palette)
+- = Rgb24( Red8, Green8, Blue8 )
+- = RgbR8( RGB24 )
+- = RgbG8( RGB24 )
+- = RgbB8( RGB24 )
+- = Rgb12( Red4, Green4, Blue4 )
+- = RgbR4( RGB12 )
+- = RgbG4( RGB12 )
+- = RgbB4( RGB12 )
+- Create Aga Rainbow INDEX, HEIGHT_IN_LINES
+- Delete Aga Rainbow INDEX
+- =Aga Rainbox Exist( INDEX )
+- Set Aga Rainbow Color INDEX, Y_LINE, RGB24Color
+- =Get Aga Rainbow Color( INDEX, Y_LINE )
+- Hide Aga Rainbow INDEX
+- Show Aga Rainbow INDEX
+- Set Aga Rainbow INDEX, Y_POSITION, Y_SHIFT
+
+
+********************************************************************
+Next GIT Update requirements :
+- Fix the _ZOOM procedure in Object Editor by using original Amos Professional Zoom SCR,X1,Y1,X2,Y2 to SCR2,X3,Y3,X4,Y4 method.
+- Check what the source code in bank 14 do (find Call14) and apply same kind of fix.
+
+*********************************************************************************************************************************************** UPDATES
+
+******************************************************************** 2020.10.18
+
+
+******************************************************************** 2020.10.14
+- Finished to comment (decode/describe) the Rainbows Methods
+- update agaSupport_lib/FiniCop replacement to be in a Lib_Def : L_FinishCopper
+- update agaSupport_lib/CreeDual replacement to be in a Lib_Def : L_CreateDualPlayfield
+- update agaSupport_lib/WaitD2 replacement to be in a Lib_Def : L_newWaitD2
+- Added "agaSupport_lib/L_EndOfScreenCopper" to replace "AmosProAGA.library/EcCopBa" method
+- Added "agaSupport_lib/L_updateCopperRainbows" to replace "AmosProAGA.library/CopBow" method
+- Fixed many case sensitive issues (when compiling with case sensitive variables)
+- Separated HSCop from RestartWithAGACopperList for Copper ON/OFF methods
+- Added "agaSupport_lib/L_InsertSpritesInCopperList" to replace "AmosProAGA.library/HsCop" method
+- Added "agaSupport_lib/L_CopperSwap" to replace "AmosProAGA_library/TCopSw" method
+- Added "agaSupport.lib/L_CopperSwapInternal" to replace "AmosProAGA.library/TCpSw" method
+- Added "agaSupport.lib/L_CopperReste" to replace "AmosProAGA.library/TCopRes" method
+- Added "agaSupport.lib/L_CopperOnOff" to replace "AmosProAGA.library/TCopOn" method
+
+
+******************************************************************** 2020.10.11-13 (Reloaded)
+- Fixed AgaLibCall(a2) for A0/A1 datas
+- Updated agaSupport plugins call to Lib_Def and Rbra list
+- Added CpEnd in EcCall list as CopperRelease to be callable from agaSupport.lib setup to re-initialize copper list with AGA support
+- Added CpInit in EcCall list as CopperCreate to be callable from agaSupport.lib setup to re-initialize copper list with AGA support
+- Added BlitWait in EcCall list as BlitterWait
+- Added Ec_Active in EcCall list asScreenActive
+- Added ScreenReplacement "agaSupport_lib.ScreenOpen" to replace "AmosProAGA.library/EcCree" when available
+- Added ScreenReplacement "agaSupport_lib.SetColourRGB12" to replace "AmosProAGA.library/EcSCol" when available
+- Created special reinitialization of Copper List for AGA inside agaSupport.lib setup
+- Added ScreenReplacement "agaSupport_lib.RestartWithAGACopperList" to replace "AmosProAGA.library/CpInit" when available
+- Added AmosProAGA_Library_Equ.s/EcStartEdit var to store dynamic copper list shifting for population of it.
+- Update AmosProAGA.library/CpInit to dynamically calculate copper position where we can start to populate them
+- Update agaSupport.lib/L_RestartWithAGACopperList to dynamically calculate copper position where we can start to populate them
+- Added ScreenReplacement "agaSupport_lib.InsertScreenInCopper" to replace "AmosProAGA.library/EcCopHo"
+- Replacement for "AmosProAGA.library/EcCopHo" in Standby due to non understood crash.
+
+
+******************************************************************** 2020.10.05
+- Relabeled AmosProAGA_library.s "RainTE" to "RainTechnicalError"
+- Relabeled AmosProAGA_library.s "RainEE" to "RainExecutiveError"
+- Relabeled AmosProAGA_Library.s "TohhE" to "TohhError"
+Working on extraction from the main AmosProAGA.Library, of new methods I've created to inject them in the AgaSupport.lib internals for code protection
+- Method EcSHam8BPLS moved to AgaSupport.lib internal methods.
+- Method EcSPalAGA moved to AgaSupport.lib/SPalAGA_CurrentScreen
+- Method EcSPalAGAa4 moved to AgaSupport.lib/SPalAGA_ScreenA4
+- Method EcForceFullAGAPalette_ScreenA0 moved to AgaSupport.lib/SPalAGA_ScreenA0
+- Method EcSColAga24Bits moved to AgaSupport.lib/SColAga24Bits
+- Method EcUpdateAGAColorsInCopper moved to AgaSupport.lib/UpdateAGAColorsInCopper
+
+
+******************************************************************** 2020.10.03
+- Relabeled AmosProAGA_Library.s "RainAd" to "getRainbowD1Adress"
+- Relabeled AmosProAGA_Library.s "TrSet" to "SetRainbow"
+- Relabeled AmosProAGA_Library.s "RnDel" to "DeleteD1Rainbow"
+- Relabeled AmosProAGA_Library.s "RainEr" to "RainbowError"
+- Relabeled AmosProAGA_Library.s "TrSynt" to "TRSyntaxError"
+- Relabeled AmosProAGA_Library.s "TrDel" to "TRDeleteRainbows"
+- Relabeled AmosProAGA_Library.s "RainTok" to "RainbowTokenisation"
+
+
+******************************************************************** 2020.10.02
+- Added "Create Aga Rainbow INDEX, LINES_COUNT"
+- Added "Delete Aga Rainbow INDEX"
+- Added internal rainbow deletion when leaving Amos Professional.
+- Added "=Aga Rainbow Exist( INDEX )"
+- Added "Set Aga Rainbow Color INDEX, YLINE, RGB24COLOR"
+- Added "RGB24COLOR = Get Aga Rainbow Color ( INDEX, YLINE )"
+- Added "Hide Aga Rainbow RAINBOWID"
+- Added "Show Aga Rainbow RAINBOWID"
+- Added internal getRainColor callable from AmosProAGA.library to get rainbow line color.
+
+
+******************************************************************** 2020.10.01
+- agaSupport.lib restructured and organized methods per groups.
+
+
+******************************************************************** 2020.09.30
+- Fix : "Delete Aga Palette INDEX"
+- Updated compiler/acData to uses new AmosProAGA_Compiler.config name
+- Updated default AMOSPro .lib source code files to be located to src/lib_%libName%/
+- Updated default AMOSPRo .lib building scripts to handle new .lib source code files location
+- Updated default aext script to use updated .lib building scripts.
+- All sources codes are now located inside 'src' directory
+- Updated all includes of all assembler source code to use the new directories structures
+- Updated all the AmosPRO ECS Tools with the new directories structures : Check_CLib, Get_Chunk, Library_Digest, Make_Labels and Make_Toktable
+- Finished the whole update to reorganize source code per dedicaced folders.
+- Project roots now contains only batch files and directories for the project.
+
+
+******************************************************************** 2020.09.29
+- Added new method : "Fade To Aga Palette INDEX, STEP"
+
+
+******************************************************************** 2020.09.19
+- "Load Aga Palette FILE$, Index" completed
+
+
+******************************************************************** 2020.09.18
+- Work in progress on method : "loadAgaPalette FILE$, Index"
+
+
+******************************************************************** 2020.09.17
+- Added new method "=Rgb24( Red8, Green8, Blue8 )" to return full RGB24 color from Red, Green and Blue 8 bits color components
+- Added new method "=RgbR8( RGB24Colors )" to return Red 8 bits component from full RGB24 color
+- Added new method "=RgbG8( RGB24Colors )" to return Green 8 bits component from full RGB24 color
+- Added new method "=RgbB8( RGB24Colors )" to return Blue 8 bits component from full RGB24 color
+
+
+******************************************************************** 2020.09.16
+- Added new method "Step fade aga SPEED"
+- Added new method "Fade Aga DELAY"
+
+
+******************************************************************** 2020.09.12
+- Identified crash location in the Accessories/Object_Editor.AMOS tool.
+
+
+******************************************************************** 2020.09.11
+- Added list of methods in CopperListSystem.s
+- Added list of methods in Screens.s
+- Fixed loading of AmosPro Help.
+- Increase +AMOSPro_AGA_library_Equ.s/SwapL from 32 bytes to 40 (Added 2.l for the 2 extra bitplane to swap on Screen Swap commands.)
+- Update Screen Swap to works with 8 bitplanes
+- Update Double Buffer to works with 8 bitplanes
+
+
+******************************************************************** 2020.09.09
+- Updated +Compact.s/InSPack6 to save RGB24 bits colors instead of previously RGB12
+- Updated +Compact.s/InSPack7 to save RGB24 bits colors instead of previously RGB12
+- Updates +AmosProAGA_Equ.s/Packed structure to handle RGB24 bits colors instead of previously RGB12
+- Updates +AmosProAGA_Equ.s/DefPal components to handle RGB24 bits colors instead of previously RGB12 ( + DefPalAga, DefPalL & DefPalAgaL )
+
+
+******************************************************************** 2020.09.08
+- Fixed dual playfield scroll bug that was reintroduced by some changes.
+- Updated batchs aall, alib and acomp to output only required datas
+- Updated C/Make_Toktable and C/Make_Labels to remove useless debug output
+- AmosProAGA_lib.s/Bnk.SaveA0 updated to save up to 256 colors using RGB24
+- AmosProAGA_lib.s/Bnk.Load updated to load up to 256 colors using RGB24
+- AmosProAGA_lib.s/Bnk.Ric updated to get up to 256 RGB24 colors instead of RGB12 previously.
+
+
+******************************************************************** 2020.09.07
+- Save Iff now save RGB24 colors instead of RGB12.
+
+
+******************************************************************** 2020.09.05
+- Colour I,RGB12 update both High and Low color bits with the RGB12 value entered.
+
+
+******************************************************************** 2020.09.04
+- Fixed the color flickering on Load IFF calls.
+
+
+******************************************************************** 2020.09.03
+- Updated CLPopulate to consider 2nd RGB12 Color palette for registers 032-255
+- Fix 'Set Rgb24 Colour I, RGB24Value'
+
+******************************************************************** 2020.08.31
+- Fixed Object Editor 'unpack' command that was trashed due to new upack method in the AmosPro_Compact.lib
+- Updated internal EcSCol (Colour I,RGBValue) to be able to set both color capabilities RGB12->RGB24 and RGB24->RGB24
+- Colour I,RGB12 now fill both Upper and lower bits with the RGB12 value for smoother RGB12 shading
+- Added 'Set Rgb24 Colour COLORINDEX,RGB24VALUE' command to AmosPro_AgaSupport.lib extension.
+- fixed insertAGAColorsInCopper as it didn't insert AGA colors 032-0255 Lower 12 Bits correctly in the copper list.
+
+
+******************************************************************** 2020.08.30
+- Finalized Copper list support for full RGB 24 color palette for both global colors 032-255 and each screen colors 001-031.
+- Load Iff now support fully RGB24 Color palette decoding and insertion in screen color palette datas
+- Finalized HAM8 Support with full RGB24 Color palette support
+
+
+******************************************************************** 2020.08.26
+- +w.s/IffBODY improvements for HAM8 Support. 24Bits RGB Backing Store (DPaintV) not supported.
+- +AmosProAGA_lib.s/IffBODY improvements for HAM8 Support. 24Bits RGB Backing Store (DPaintV) not supported.
+- ++AmosProAGA_lib.s/IffScreen improvements for HAM8 Support. 24Bits RGB Backing Store (DPaintV) not supported.
+
+
+******************************************************************** 2020.08.25
+- Completed RGB24 Color support for SetPalette and Copper List colors update
+- Continuation of AmosProAGA.library.s file component separation into several files.
+
+
+******************************************************************** 2020.08.18
+- Started AmosProAGA.library.s file component separation into several files.
+
+
+******************************************************************** 2020.08.13
+- +w.s/insertAGAColorsInCopper Updated to handle RGB24 bits colors data instead of RGB12 bits, in copper list
+- +wequ.s/globAgaPalL Added for lower bits of AGA color palette
+- +lEqu.s/EcScreenAGAPalL added for lower bits AGA Colors screen palette 032-255
+- +lEqu.s/EcPAlL added for lower bits AGA colors screen palette 000-031
+- +w.s/EcCree Updated to define RGB24 bits color palette instead of original RGB12 one
+- +lib.s/IffPal Updated to get full RGB24 bits color palette from an AGA palette.
+- +w.s/EcCopHo Updated to handle RGB24 bits color palette for default 000-031 screens colors
+
+
+******************************************************************** 2020.08.12
+- +lib.s/prepareHam8Logic method created for bitplanes list 'EcHam8Logic' to use for normal/Ham8 mode instead of default 'EcLogic' one.
+- +lib.s/IffBODY update to support HAM8 mode (add support for all IFF/ILBM loading (image/anim) for HAM8 mode)
+
+
+******************************************************************** 2020.08.11
+- +w.s/ScSwap (ScreenSwap) updated to use the HAM8 +2 bitplanes rolling method
+- +w.s/ScSwapS (ScreenSwapAll) updated to use the HAM8 +2 bitplanes rolling method
+- +w.s/EcCree (CreateScreen) updated to use the HAM8 +2 bitplanes rolling method
+- +w.s/EcCree (CreateScreen) updated to handle HAM8 mode in all resolutions.
+- +w.s/TAbk2 (autoback2) updated to use the HAM8 +2 bitplanes rolling method
+- +w.s/TAbk3 (autoback3) updated to use the HAM8 +2 bitplanes rolling method
+- +w.s/EcSHam8BPLS Created to make the +2 bitplanes rolling for HAM8 mode
+
+
+******************************************************************** 2020.08.10
+- Fixed the AMOS/WB switcher issue
+
+
+******************************************************************** 2020.07.31
+- Updated ScreenOpen to allow Ham6 in all resolutions
+- Updated ScreenOpen to allow Ham8 in all resolutions.
+- Updated IffScreen (Used by LoadIff with screen ID provided) to handle Ham8 graphics
+- Added AgaSupport.L_getHam8Value command "Ham8" to use in Screen Open to activate Ham8 mode
+- Added AgaSupport.L_isScreenInHam8Mode function "=Is Ham8()" to return 1 if current screen uses Ham8 mode (otherwise, it returns 0)
+-> Try a new way by simply modify the order the bitplanes are put in the copper list from 0-1-2-3-4-5-6-7 to 6-7-0-1-2-3-4-5
+
+
+******************************************************************** 2020.05.18 
+- Updated InterpreterAGA_Config.AMOS to use S:AMOSProAGA_Interpreter_Config as default configuration file (instead of original one.)
+
+
+******************************************************************** 2020.05.16 
+- +AmosProAGA_lib.s/InSaveIff1-2 (SaveCMAP) : Updated to save up to 256 colors in IFF/ILBM files
+- Checked many Amos Professional 2.0 commands to check compatibility with Amos Professional AGA version.
+
+
+******************************************************************** 2020.05.15 Bob Get & Color Palette
+- +AmosProAGA_lib.s/IffPal : Updated to handle 'AGAP' + ColourCount.w palette when more than 32 colors are available.
+- +AmosProAGA_library.s/EcCree : Updated to integrate AGAP + ColourCount.w palette when screen is created.
+- +AmosProAGA_lib.s/PalRout : Updated to handle 'AGAP' + ColourCount.w palette when more than 32 colors are available.
+- +AmosProAGA_lib.s/GSPal : Updated to handle 'AGAP' + ColourCount.w palette when more than 32 colors are available.
+- +AmosProAGA_lib.s/Bnk.SaveA0 (SB_Icon, SB_Bob, SP_Sp) : Save Sprite/Icon Bank updated to handle AGAP + ColourCount.w palette when saving to file.
+- +AmosProAGA_lib.s/Bnk.Load ( LB_Icons, LB_Sprites ) : Load Sprite/Icon bank updated to handle AGAP + ColourCount.w palette when available in the file.
+- Save Sprites/Bobs/Icons banks now save banks using "AGAP" mode with up to 256 colors (currently forced to 256 but will be dynamic in the future)
+jira monextBonjour Sylvain,
+- Load Sprites/Bobs/Icons banks now detect original Amos Professional 2.0 ECS banks and Amos Professional AGA ones using "AGAP" mode with correct color palette
+
+******************************************************************** 2020.05.14 Bob Get & Color Palette
+- +AmosProAGA_lib.s/Bnk.Ric2 restored to initial state before AGA upgrade for "Get Bob" command crashes tests
+- +AmosProAGA_lib.s/Bnk.Ric2 Reimplemented clean color palette support for both default ECS and new AGA.
+- Fixed the Get Bob crash issue reported by Alain.Treesong
+- Removed AmosPro_Personal.lib from configuration as it caused issues.
+
+
+******************************************************************** 2020.05.13 AmosPro AGA Pen/Color system Update
+- Update AmosPro_Personal.lib to get latest paraters from d3 (AmosPro v2+) instead of all parameters from (a3)+ (AmosPro v1)
+- AmosPro_Personal.lib should not be used with new AGA System (it currently crashes). It will soonly be integrated inside the AmosPro_AgaSupport.lib
+- Updated the PEN/Colors methods to be compatible with AGA 00-255 colors.
+- Fixed AGA Hires SPack/UnPack example
+
+******************************************************************** 2020.05.10 AmosPro_Personal.lib
+- Update of the AmosPro_Personal.lib to fit Amos Pro v2 compliants and use new AGA includes automatically
+- Added a new script 'aext2' to compile third party extensions and copy them directly in the AmosProAGA_System:APSystemAGA/ folder (without including them in the config)
+- Added the AmosPRO_Personal.lib to the new 'aext2' script
+- Remain to do : Update data get from AmosPro (old v1 used to load everything from (a3)+ and new v2+ put latest value into D3))+ en APv1.
+- Update AmosPro text drawing color system to be compatible with 256 colors (instead of 207 max due to a value shifting by +48 in bytes).
+
+******************************************************************** 2020.05.07-08 Reinject previous Changes.
+- Reincluded all changes for +w.s -> +AmosProAGA_library.s
+- Reincluded all changes for +lib.s -> +AmosProAGA_lib.s
+- Reincluded all changes for +Ilib.s -> +AmosProAGA_libI.s
+- Reincluded all changes for +Equ.s -> +AmosProAGA_lib_Equ.s
+- Reincluded all changes for +WEqu.s -> +AmosProAGA_library_Equ.s
+- Reincluded all changes for +Edit.s -> +EditorAGA_Config.s
+- Reincluded all changes for +Interpreter.s -> +InterpreterAGA_Config.s
+- Reincluded Extensions/+AgaSupport.s
+- Reincluded all changes for Extensions/+compact.s
+
+******************************************************************** 2020.05.04-07 Restart from source
+- Project entirely restarted from source.
+- Used Marc365 repository as François's one is unusable until fixing special characters issues in many source code files.
+- Recompiles version to check if everything is OK
+- Reinstall the stable version of AMOS Professional on AmigaHD
+- Removed directory "AMOSPro Sources" as useless
+- Updated compilation directory from "AMOS" to "AmosProAGA_Build"
+- ADATA : Updated all Editor_Config* referencies to EditorAGA_Config* to allow both original Amos Professional and Amos Professional AGA to run on the same computer.
+- ADATA : Updated all Interpreter_Config* referencies to InterpreterAGA_Config* to allow both original Amos Professional and Amos Professional AGA to run on the same computer.
+- ADATA : Updated all "AMOS" referencies with "AmosProAGA_Build"
+- ADATA : Updated all "APSystem" referencies with "APSystemAGA" to allow both original Amos Professional and Amos Professional AGA to run on the same computer.
+- AEDIT : Updated to use new AmosProAGA_Build directory as output, instead of previous "AMOS" one.
+- AW : Renamed AMOS.library to AMOSProAGA.library to allow both original Amos Professional and Amos Professional AGA to run on the same computer.
+- AW : Renamed +W.s to +AMOSProAGA_library.s
+- AW : Updated compilation output path from "AMOS" to "AmosProAGA_Build"
+- ALIB : Updated "c/genam FROM +lib.s TO AMOS/APSystem/AMOSPro.Lib" to "c/genam FROM +AmosProAGA_lib.s TO AmosProAGA_Build/APSystemAGA/AmosProAGA.Lib"
+- AMON : Updated to use new AmosProAGA_Build directory as output, instead of previous "AMOS" one.
+- ATOOLS : Updated to continue to use old AmosPro 2.0 to compile the tools.
+- C/MAKE_Labels.AMOS updated +ILib.s to +AmosProAGA_LibI.s
+- C/MAKE_Labels.AMOS updated +ILib_Size.s to +AmosProAGA_LibI_Size.s
+- C/MAKE_Labels.AMOS updated +ILib_Functions.s to +AmosProAGA_LibI_Functions.s
+- C/MAKE_Labels.AMOS updated +lib.s reference to AmosProAGA_Lib.s
+- C/MAKE_Labels.AMOS updated +LEqu.s to +AmosProAGA_Lib_Equ.s
+- C/MAKE_Labels.AMOS updated +Lib_Size.s to +AmosProAGA_Lib_Size.s
+- C/MAKE_Toktable.AMOS updated +lib.s reference to AmosProAGA_Lib.s
+- Renamed +WEqu.s to +AMOSProAGA_library_Equ.s
+- +AMOS_Includes.s : Updated +WEqu.s reference to +AmosProAGA_Library_Equ.s
+- +B.s : Updated referencies to AMOS.library with AMOSProAGA.library
+- +B.s : Updated referencies to AMOSPro_Interpreter_Config with AMOSProAGA_Interpreter_Config
+- +B.s, +Editor_Config.s : Updated AMOSPro_System: to AMOSProAGA_System:
+- +B.s, +Editor_Config.s  : Updated AMOSPro_Accessories: to AMOSProAGA_Accessories:
+- +B.s, +Editor_Config.s, +Interpreter_Config.s : Updated AMOSPro_Productivity1: to AMOSProAGA_Productivity1:
+- +B.s, +Editor_Config.s  : Updated AMOSPro_Productivity2: to AMOSProAGA_Productivity2:
+- +B.s, +Editor_Config.s  : Updated AMOSPro_Tutorial: to AMOSProAGA_Tutorial:
+- +B.s, +Editor_Config.s  : Updated AMOSPro_Examples: to AMOSProAGA_Examples:
+- +B.s, +Editor_Config.s  : Updated AMOSPro_Compiler: to AMOSProAGA_Compiler:
+- +B.s, +Editor_Config.s  : Updated AMOSPro_Extras: to AMOSProAGA_Extras:
+- +Editor_Confis.s, +Interpreter_Config.s : Updated AMOSPro_Accesories: with AMOSProAGA_Accessories
+- +Editor_Config.s, +Interpreter_Config.s : Updated AMOSPro_Help with AMOSProAGA_Help
+- +Editor_Config.s : Updated AMOSPro_Help.AMOS with AMOSProAGA_Help.AMOS
+- +Editor_Config.s : Updated Interpreter_Config.AMOS with InterpreterAGA_Config.AMOS
+- +Editor_Config.s : Updated Editor_Config.AMOS with EditorAGA_Config.AMOS
+- +Editor_Config.s : Updated AMOSPro.Lib with AMOSProAGA.Lib
+- Extensions/ACOMPACT : Updated to compile to new "AmosProAGA_Build/APSystemAGA" directory instead of previous "AMOS/APSystem"
+- Extensions/AIO : Updated to compile to new "AmosProAGA_Build/APSystemAGA" directory instead of previous "AMOS/APSystem"
+- Extensions/AMUSIC : Updated to compile to new "AmosProAGA_Build/APSystemAGA" directory instead of previous "AMOS/APSystem"
+- Extensions/AREQUEST : Updated to compile to new "AmosProAGA_Build/APSystemAGA" directory instead of previous "AMOS/APSystem"
+- Compiler/ACDATA : Updated to compile to new "AmosProAGA_Build" directory instead of previous "AMOS"
+- Compiler/ACLIB : Updated to compile to new "AmosProAGA_Build" directory instead of previous "AMOS"
+- Compiler/ACOMP : Updated to compile to new "AmosProAGA_Build" directory instead of previous "AMOS"
+- Compiler/ACOMPEXT : Updated to compile to new "AmosProAGA_Build" directory instead of previous "AMOS"
+- Compiler/AHEADER : Updated to compile to new "AmosProAGA_Build" directory instead of previous "AMOS"
+- Kept old AmosPro version in a specific directory to uses it to recompiles aTools with classic AMOS
+- Compilation Successfull
+- Reconstruction of a full version for future Amos Professional AGA releases.
+- AmosProAGA tests : Functionnal.
+- Renamed +CEqu.s to +AmosProAGA_CEqu.s
+- Renamed +Equ.s to +AmosProAGA_Equ.s
+- Renamed +Debug.s to +AmosProAGA_Debug.s
+- Updated +AMOS_Includes.s to +CEqu.s, +Equ.s and +Debug.s names changing.
+- Updated +EditorAGA_Config.s to mention Official Francois Lionet MIT Licence terms + Link for the official GitHub repository.
+- +B.s : Renamed to +AmosProAGA_Loaders.s
+- APRO : Updated +B.s for name changing.
+- +Monitor.s : Renamed to : AmosProAGA_Monitor.s
+- AMON : updated +Monitor.s for name changing.
+- +Edit.s : Renamed to AmosProAGA_Editor.s
+- AEDIT : updated +Edit.s for name changing.
+- +CLib.s : renamed to AmosProAGA_CLib.s
+- +Version.s : Renamed to +AmosProAGA_Version.s
+- +Verif.s : Renamed to +AmosProAGA_Verif.s
+
+
+********************************************************************
+2020.05.02 : Update
+
+- +Compact.s/UnPack : Fixed issue that sometimes makes screen palette not correctly updated when unpack screen using more than 32 colors.
+- +Lib.s/InGetIcon? : Get Icon now stores up to 256 colors icons palette.
+- +Lib.s/InGetIconPalette? : Get Icon Palette now restore up to 256 colors.
+- +Lib.s/InGetSprite? : Get Sprite/Bob now stores up to 256 colors bob palette.
+- +Lib.s/L_InGetSpritePalette? : Get Sprite/Bob Palette now restore up to 256 colors.
+
+
+********************************************************************
+2020.05.01 : Update
+
+- +Equ.s/TBuffer increased from 1024 to 8192 to avoid issues with AGA color palette in SPack/Unpack +Equ.s/Buffer use.
+- Added new 'more intuitive' command : +Compact.s/SPack ScreenID, Left, Top, Right, Bottom To BankID
+- +Compact.s/SPack : Memory corruption issue fixed 
+- Renamed AMOS.library to AmosPRO_AGA.library to allow both old Amos Professional and new Amos Professional AGA version to run on the same computer.
+
+********************************************************************
+2020.04.29-30 : Update
+
+- +Compact.s/Unpack compatibility with old ECS Packed pictures/Screen is now retablished when AGA is also supported.
+
+
+********************************************************************
+2020.01.01 : Update
+
+- +w.s/CLPopulate updated to calculate copper start screens position depending on ECS/AGA chipset in adequate with +w.s/CpInit changes.
+
+
+********************************************************************
+2019.12.30 : Update
+
+- +w.s/detectChipset method call moved near the beginning of +w.s/Startall to be sure chipset is detected when Copper list is created
+- +w.s/CpInit updated to use chipset detection and add AGA Palette only if chipset = AGA.
+
+
+********************************************************************
+2019.12.26 : Big screen image/icon/bob drawing fix
+
+- Completed the fix for the bob/icon image pasting in big screen area at bottom (Dom Cresswell reported bug)
+- +w.s/BobCalc : fixed calculation (from .w to .l) for image pasting screen from top-left shift.
+
+********************************************************************
+2019.12.21 : Big screen image/icon/bob drawing fix
+
+- Found that BbAAEc(a?) storage save the bitplane shift to define where to start the 1st byte of an image on screen.
+- updated all +w.s file referencies to read/write BbAAEc data to .l
+- Removed ext.l on registers that are used for BbAAEc data
+- Remain to fix the 2nd part of the BobCalc method that precalculate image render to screen
+
+
+********************************************************************
+2019.12.05 : Global Project Updates...
+
+- added AgaSupport.s/getRgb4FromRgb8 command name : " = get rgb4 from rgb8( RGB24/25 )"
+- added AgaSupport.s/getRgb8FromRgb4 command name : " = get rgb8 from rgb4( RGB12 )"
+- added AgaSupport.s/retRgb12Color command name : " = "rgb12( Red4, Green4, blue4 )
+- added AgaSupport.s/getRgb12rColor command name : "= rgbr12( RGB12 )"
+- added AgaSupport.s/getRgb12gColor command name : "= rgbg12( RGB12 )"
+- added AgaSupport.s/getRgb12bColor command name : "= rgbb12( RGB12 )"
+
+
+********************************************************************
+2019.12.04 : Global Project Updates...
+- added AgaSupport.s/retRgb24Color command name : "= rgb24( Red8, Green8, Blue8 )"
+- added AgaSupport.s/retRgb25Color command name : "= rgb25( GenlockBit, Red8, Green8, Blue8 )"
+- added AgaSupport.s/getRgb24rColor command name : "= rgbr25( gRGB25 )"
+- added AgaSupport.s/getRgb24gColor command name : "= rgbg25( gRGB25 )"
+- added AgaSupport.s/getRgb24bColor command name : "= rgbb25( gRGB25 )"
+- added AgaSupport.s/createAGAPalette command name : "= Create Aga Palette INDEX"
+- added AgaSupport.s/deleteAGAPalette command name : "= Delete Aga Palette INDEX"
+- added AgaSupport.s/getAgaPeletteExists command name : "= Is Aga Palette Exists( INDEX )"
+- added AgaSuppor.s/cscToAaPl1 command name : "Get Aga Colors From Screen SCREENID, FIRSTCOLOR,AMOUNT to AGAPALINDEX, FIRSTCOLOR"
+
+
+********************************************************************
+2019.12.02 : Global Project Updates...
+
+- Checked +Lib.s/L_InLoadIff11/2 to be sure it will detect Aga/Ecs chipset -> Body uses +w.s/EcCree so, it will be limited to screen limits.
+- Updated pictures for AGA samples to use my old XQuadEditor Game Maker screen captures instead of TESO ones (to not have problem concerning copyrights for Bethesda)
+
+********************************************************************
+2019.11.30 : Global Project Updates...
+
+- Added +w.s/detectChipset to detect AGA.
+- Added new library : AMOSPro_AgaSupport.lib
+- added AgaSupport.s/isAgaDetected command name : "= Is Aga Detected()"
+- Update +Interpreter_Config.s : set AMOSPro_AgaSupport.lib as default extension slot #7
+- Update +w.s/EcCree : To handle both ECS & AGA on screen creation (including new error messages)
+- Added +w.s/EcCree restriction to standart screens to be multiple of 16 pixels. Fetched ones -> multiple of 64 pixels
+- Update +w.s/Duale : To handle both ECS & AGA on dual playfield setup
+- Update +Editor_Config.s : New error messages added
+
+
+********************************************************************
+2019.11.28 : Global Project Updates...
+
+- Updated SetPalette, GetPalette to also store AGA colors inside Screen Structure (before it saved only in global aga palette)
+- Updated +Lib./Sco0 Screen Copy to handle up to 8 bitplanes (was locked to max 6 bitplanes)
+
+
+********************************************************************
+2019.11.26 : Global Project Updates...
+
+- Fixed +Lib.s/iffPal to correctly handle the refresh of up to 256 colors.
+
+
+********************************************************************
+2019.11.25 : Global Project Updates...
+
+- Update +w.s/EcDouble double buffer creation to handle 64 bits bitmap alignemnts.
+- Update +w.s/EcDel screen close method to handle both buffers (single and double one) with new buffer creation mode.
+- Update +Lib.s/IffPal to handle up to 256 colors in IFF Animations
+
 
 ********************************************************************
 2019.11.22 : Global project update
@@ -28,7 +601,9 @@ TO DO :
 - Changed the place where the configuration are copied at compilation time (moved them to AMOS/S)
 - Changed a place where AMOS.library was copied at compilation time (to AMOS/Libs)
 - Moved the concerned files to place where they should be.
-- Updated SPack SCR to BANK to handle 256 colors in the picture packing process.
+- Updated SPack SCR to BANK to handle saving of the 256 colors in the picture packing process.
+- Added +w.s/updateAGAColorsInCopper to update the AGA Color palette when screen is opened or unpack done in it.
+- Updated Unpack BANK to SCREEN to handle restoring up to 256 colors when unpacking.
 
 
 ********************************************************************
@@ -41,15 +616,16 @@ TO DO :
 ********************************************************************
 2019.11.20 : AGA Support
 
-
 - Updated +W.s/WVbl WaitVbl to use Graphics.library/WaitTOF() instead of manual calculation.
 - Fixed the Hires 640px fine scrolling by updating +W.s/WVbl.
+
 
 ********************************************************************
 2019.11.19 : AGA Support
 
 - Updated +W.s/EcCree to Add 64bits alignment for Bitmap creation.
 - Updated +W.s/EcCopHo to Add DDFStrt & BplxMOD changes when using Fetch Mode in HiRes resolutions.
+
 
 ********************************************************************
 2019.11.18 : AGA Support
@@ -69,7 +645,6 @@ TO DO :
 - Updated Screen creation to uses up to 8 bitplanes ( 256 colors )
 - Updated Created a global aga Palette color for 32-255 colors registers
 - Updated commands Colour ID,RGB & =Colour(ID) to be compatible with up to 256 colors
-
 
 
 ********************************************************************

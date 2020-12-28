@@ -1,0 +1,6 @@
+echo "***Assembling AMOSPro_AgaSupport.Lib" 
+c/Library_Digest src/Lib_agaSupport/AgaSupport_lib.s
+c/Genam FROM src/Lib_agaSupport/AgaSupport_lib.s TO AmosProAGA_Build/APSystemAGA/AMOSPro_AgaSupport.Lib
+delete >NIL: src/Lib_agaSupport/AgaSupport_lib_Labels.s
+delete >NIL: src/Lib_agaSupport/AgaSupport_lib_Size.s
+

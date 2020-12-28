@@ -1,0 +1,13 @@
+echo "**************************************************" 
+echo " "
+echo "Run Script to compile : APSystemAGA/AmosProAGA.lib"
+echo " "
+echo "Step 1/4 : Making Token Table Toktab_Verif.Bin"
+c/Make_Toktable
+echo "Step 2/4 : Making Label Files"
+c/Make_Labels
+echo "Step 3/4 : Assembling AMOSPro.Lib"
+c/genam FROM src/AMOSProAGA_Lib/AmosProAGA_lib.s TO AmosProAGA_Build/APSystemAGA/AmosProAGA.Lib
+echo "Step 4/4 : Delete temporar files"
+echo "> APSystemAGA/AmosProAGA.lib compiled successfully"
+echo " "

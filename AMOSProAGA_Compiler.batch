@@ -1,0 +1,44 @@
+echo "**********************" 
+echo " "
+echo "******** Run Script to build : Amos Professional Compiler"
+echo " "
+echo "Step 1/1 : Compile complier components"
+
+; ********************************************************* STEP 1 : Prepare the compiler configuration file and push it in the correct place
+echo "***Assembling the Compiler Configuration"
+c/Genim2 src/compiler/Compiler_Config.s -oRAM:Compiler_Config.o
+c/Get_Chunk RAM:Compiler_Config.o AmosProAGA_Build/Tutorial/Extra_Configs/AMOSProAGA_Compiler_Config.Backup
+delete RAM:Compiler_Config.o
+echo "***Installing compiler configuration"
+Copy AmosProAGA_Build/Tutorial/Extra_Configs/AMOSProAGA_Compiler_Config.Backup AmosProAGA_Build/S/AMOSProAGA_Compiler_Config
+echo "***Installing compiler configuration to s:"
+Copy AmosProAGA_Build/Tutorial/Extra_Configs/AMOSProAGA_Compiler_Config.Backup s:AMOSProAGA_Compiler_Config
+
+
+; ********************************************************* STEP 2 : Compile the AMOSPro_Sustem:APSystemAGA/APCmp file
+echo "***Assembling APCmp Command Line Compiler"
+c/Genam FROM src/compiler/APComp.s TO AmosProAGA_Build/APSystemAGA/APCmp
+List AmosProAGA_Build/APSystemAGA/APCmp
+
+; ********************************************************* STEP 3 : Compile the AMOSPro_Sustem:APSystemAGA/Compiler.lib file
+echo "***Assembling Compiler.Lib"
+c/Library_Digest src/compiler/CLib.s
+c/Check_CLib
+c/Genam FROM src/compiler/CLib.s TO AmosProAGA_Build/APSystemAGA/Compiler.Lib
+delete >NIL: src/compiler/CLib_Labels.s
+delete >NIL: src/compiler/CLib_Size.s
+
+; ********************************************************* STEP 4 : Compile the AMOSPro_Sustem:APSystemAGA/AMOSPro_Compiler.lib file
+echo "***Assembling AMOSPro_Compiler.Lib"
+c/Library_Digest src/compiler/Compext.s
+c/Genam FROM src/compiler/Compext.s TO AmosProAGA_Build/APSystemAGA/AMOSPro_Compiler.Lib
+delete >NIL: src/compiler/Compext_Labels.s
+delete >NIL: src/compiler/Compext_Size.s
+
+; ********************************************************* STEP 5 : Compile the AMOSPro_Sustem:APSystemAGA/Header_CLI/Backstart.Lib files
+c/Genam FROM src/compiler/Header.s TO AmosProAGA_Build/APSystemAGA/Header_CLI.Lib
+c/Genam FROM src/compiler/Header_Backstart.s TO AmosProAGA_Build/APSystemAGA/Header_Backstart.Lib
+
+echo " "
+echo "> Compiler update completed successfully"
+echo " "

@@ -1,0 +1,5 @@
+echo "***Assembling AMOSPro_Request.Lib" 
+c/Library_Digest src/lib_Request/Request_lib.s
+c/Genam FROM src/lib_Request/Request_lib.s TO AmosProAGA_Build/APSystemAGA/AMOSPro_Request.Lib
+delete >NIL: src/lib_Request/Request_lib_Labels.s
+delete >NIL: src/lib_Request/Request_lib_Size.s

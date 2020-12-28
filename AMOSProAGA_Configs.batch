@@ -1,0 +1,21 @@
+echo " " 
+echo "******** Run Script to Assemble: Amos Professional DATAS (editor, interpreter, etc.)"
+
+echo "*** DATAS : Assembling the Editor Configuration"
+c/genim2 src/configuration/EditorAGA_Config.s -oRAM:EditorAGA_Config.o
+c/Get_Chunk RAM:EditorAGA_Config.o AmosProAGA_Build/Tutorial/Extra_Configs/EditorAGA_Config.Backup
+Delete RAM:EditorAGA_Config.o
+
+echo "*** DATAS : Assembling the default Interpreter Configuration"
+c/genim2 src/configuration/InterpreterAGA_Config.s -oRAM:InterpreterAGA_Config.o
+c/Get_Chunk RAM:InterpreterAGA_Config.o AmosProAGA_Build/Tutorial/Extra_Configs/InterpreterAGA_Config.Backup
+Delete RAM:InterpreterAGA_Config.o
+
+echo "* DATAS : Installing default configuration"
+Copy AmosProAGA_Build/Tutorial/Extra_Configs/EditorAGA_Config.Backup AmosProAGA_Build/s/AMOSProAGA_Editor_Config
+Copy AmosProAGA_Build/Tutorial/Extra_Configs/InterpreterAGA_Config.Backup AmosProAGA_Build/s/AMOSProAGA_Interpreter_Config
+
+echo "* DATAS : Installing default configuration to s:"
+Copy AmosProAGA_Build/Tutorial/Extra_Configs/EditorAGA_Config.Backup s:AMOSProAGA_Editor_Config
+Copy AmosProAGA_Build/Tutorial/Extra_Configs/InterpreterAGA_Config.Backup s:AMOSProAGA_Interpreter_Config
+

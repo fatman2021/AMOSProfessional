@@ -1,0 +1,46 @@
+;---------------------------------------------------------------------
+;    **   **   **  ***   ***   
+;   ****  *** *** ** ** **     
+;  **  ** ** * ** ** **  ***   
+;  ****** **   ** ** **    **  
+;  **  ** **   ** ** ** *  **  
+;  **  ** **   **  ***   ***   
+;---------------------------------------------------------------------
+;  Includes all includes - Francois Lionet / Europress 1992 
+;---------------------------------------------------------------------
+
+; These ones are for me!
+		IFND	Finale
+Finale:		equ 	1
+		ENDC
+		IFND	VDemo
+VDemo:		equ 	0
+		ENDC
+		IFND	ROnly
+ROnly:		equ 	0
+		ENDC
+;
+		Incdir  "includes/"
+		Include "lvo/exec_lib.i"
+		Include "lvo/dos_lib.i"
+		Include "lvo/layers_lib.i"
+		Include "lvo/graphics_lib.i"
+		Include "lvo/mathtrans_lib.i"
+		Include "lvo/rexxsyslib_lib.i"
+		Include "lvo/mathffp_lib.i"
+		Include "lvo/mathieeedoubbas_lib.i"
+		Include "lvo/intuition_lib.i"
+		Include "lvo/diskfont_lib.i"
+		Include "lvo/icon_lib.i"
+		Include "lvo/console_lib.i"
+
+		Include	"src/AmosProAGA_Debug.s" ; Just one flag
+		Include "src/AmosProAGA_Equ.s"
+		RsSet	DataLong
+		Include	"src/AmosProAGA_CEqu.s"
+		Include	"src/AmosProAGA_Library_Equ.s" 
+		Include "src/AmosProAGA_Lib_Equ.s" 
+
+		IFNE	Debug
+		Include	"src/Lib_Music/Music_lib_Labels.s"
+		ENDC

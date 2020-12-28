@@ -1,0 +1,13 @@
+echo " " 
+echo "******** Run Script to compile: Amos Professional Executable (AmosProAGA)"
+
+echo "> Check if internal_jumps.s file was previously generated"
+IF NOT EXISTS internal_jumps.s
+execute AMOSProAGA_Lib.batch
+ENDIF
+
+echo "> Build AmosProAGA executable"
+c/Genam FROM src/AmosProAGA/AmosProAGA_Loaders.s TO AmosProAGA_Build/AmosProAGA
+delete >NIL: internal_jumps.s
+List AmosProAGA_Build/AmosProAGA
+

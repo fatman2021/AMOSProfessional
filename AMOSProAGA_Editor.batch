@@ -1,0 +1,3 @@
+echo " " 
+echo "******** Run Script to compile: Amos Professional Editor"
+c/Genam FROM src/AMOSPro_Editor/AmosProAGA_Editor.s TO AmosProAGA_Build/APSystemAGA/AMOSPro_Editor

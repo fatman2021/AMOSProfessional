@@ -49,7 +49,7 @@ ULONG currentstate;
 	memcpy(&quad[3],v1,sizeof(W3D_Vertex));
 	x=(v2->x - v1->x);
 	y=(v2->y - v1->y);
-	dim=sqrt( x*x + y*y );
+	dim=sqrtf( x*x + y*y );
 
 	if(dim!=0.0)
 	{

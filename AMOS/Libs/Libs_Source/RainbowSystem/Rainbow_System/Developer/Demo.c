@@ -181,8 +181,8 @@ int main(int argc, char **argv )
                         float angle=y*PI/180.0;
                         UWORD x0,y0;
 
-                        x0=offx+width/2-1+(width*5/12)*cos(angle);
-                        y0=offy+height/2-1-(height*5/12)*sin(angle);
+                        x0=offx+width/2-1+(width*5/12)*cosf(angle);
+                        y0=offy+height/2-1-(height*5/12)*sinf(angle);
 
                         rs_Draw(rainbow,x0,y0,255,255*y/2520,0);
                     }

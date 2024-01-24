@@ -12,7 +12,7 @@
 */
 
 LIBAPI void RemapArrayA(UBYTE *src, UWORD width, UWORD height, 
-	UBYTE *dst, UBYTE *pentab, struct TagItem *tags)
+	UBYTE *dst, const UBYTE *pentab, struct TagItem *tags)
 {
 	if (src && width && height && dst && pentab)
 	{

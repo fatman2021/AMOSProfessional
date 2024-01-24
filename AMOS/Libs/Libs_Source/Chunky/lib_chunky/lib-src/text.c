@@ -14,7 +14,7 @@ static void text_emb( struct ChunkyPort *, char *, int );
 static void text_bld( struct ChunkyPort *, char *, int );
 ///
 ///"static inline void text_chk( struct ChunkyPort *, char *, int )"
-static inline char get_pen( char *cb, long bpr, long x, long y )
+static inline char get_pen( const char *cb, long bpr, long x, long y )
 {
 	return( *((UBYTE *)((ULONG )cb ) + ( ( bpr * y ) + x ) ) );
 }

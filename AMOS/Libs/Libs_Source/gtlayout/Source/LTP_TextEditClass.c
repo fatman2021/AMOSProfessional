@@ -1,7 +1,7 @@
 /*
 **	GadTools layout toolkit
 **
-**	Copyright © 1993-1999 by Olaf `Olsen' Barthel
+**	Copyright Â© 1993-1999 by Olaf `Olsen' Barthel
 **		Freely distributable.
 **
 **	:ts=4
@@ -57,7 +57,7 @@
 STATIC VOID
 DrawButtonBevel(
 	struct RastPort *	rp,
-	UWORD *				pens,
+	const UWORD *				pens,
 	BOOL				recessed,
 	LONG				left,
 	LONG				top,

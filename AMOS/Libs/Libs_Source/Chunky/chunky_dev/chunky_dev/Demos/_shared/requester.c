@@ -13,7 +13,7 @@
 
 #include "screen.h"
 
-BOOL DEMO_Request(STRPTR Body, STRPTR Gadgets, ...)
+BOOL DEMO_Request(const STRPTR Body, STRPTR Gadgets, ...)
 {
   va_list myargs;
   struct EasyStruct myes =

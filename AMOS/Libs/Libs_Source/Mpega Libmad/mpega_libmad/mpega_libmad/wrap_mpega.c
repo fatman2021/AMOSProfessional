@@ -137,7 +137,7 @@ static ULONG ASM MyCallHook(REG(a0, struct Hook *hook), REG(a2, APTR object), RE
 #endif
 
 
-static __inline void SetStreamValues(MPEGA_STREAM *mpega_stream, struct mad_header *header)
+static __inline void SetStreamValues(const MPEGA_STREAM *mpega_stream, struct mad_header *header)
 {
 	switch (header->mode)
 	{
@@ -173,7 +173,7 @@ static __inline void SetStreamValues(MPEGA_STREAM *mpega_stream, struct mad_head
 	mpega_stream->original = ((header->flags & MAD_FLAG_ORIGINAL) ? 1 : 0);
 }
 
-static __inline void ClearStreamValues(MPEGA_STREAM *mpega_stream)
+static __inline void ClearStreamValues(const MPEGA_STREAM *mpega_stream)
 {
 	/* Dummy values */
 	mpega_stream->mode = MPEGA_MODE_J_STEREO;
@@ -194,7 +194,7 @@ static __inline void ClearStreamValues(MPEGA_STREAM *mpega_stream)
 	mpega_stream->dec_frequency = 44100;
 }
 
-static __inline void SetStreamOptions(MPEGA_STREAM *mpega_stream, MPEGA_CTRL *ctrl, DecHandle *dechandle)
+static __inline void SetStreamOptions(const MPEGA_STREAM *mpega_stream, MPEGA_CTRL *ctrl, DecHandle *dechandle)
 {
 	MPEGA_LAYER *layer = ((mpega_stream->layer == 3) ? (&ctrl->layer_3) : (&ctrl->layer_1_2));
 	MPEGA_OUTPUT *output;
@@ -335,7 +335,7 @@ static __inline void SetStreamOptions(MPEGA_STREAM *mpega_stream, MPEGA_CTRL *ct
 	}
 }
 
-static __inline ULONG CheckID3(UBYTE *buffer)
+static __inline ULONG CheckID3(const UBYTE *buffer)
 {
 	ULONG size = 0;
 
@@ -371,7 +371,7 @@ static __inline LONG ReadFunc(DecHandle *dechandle, UBYTE *buffer, LONG len, APT
 	return bytes;
 }
 
-static LONG InitDecoder(MPEGA_STREAM *mpega_stream, MPEGA_CTRL *ctrl, APTR a4base)
+static LONG InitDecoder(const MPEGA_STREAM *mpega_stream, MPEGA_CTRL *ctrl, APTR a4base)
 {
 	DecHandle *dechandle = (DecHandle *) mpega_stream->handle;
 	ULONG skip;
@@ -556,7 +556,7 @@ static __inline LONG ValidateFrequency(LONG freq)
 	return 48000;
 }
 
-static __inline void ValidateCtrl(MPEGA_CTRL *ctrl)
+static __inline void ValidateCtrl(const MPEGA_CTRL *ctrl)
 {
 	if (ctrl->stream_buffer_size <= 0)
 		ctrl->stream_buffer_size = DEFAULT_BUFFER_SIZE;
@@ -1008,7 +1008,7 @@ LONG LIBPPC WRAP_MPEGA_time(MPEGA_STREAM *mpega_stream, ULONG *ms_time_position)
 	return MPEGA_ERR_BADVALUE;
 }
 
-LONG LIBPPC WRAP_MPEGA_find_sync(UBYTE *buffer, LONG buffer_size)
+LONG LIBPPC WRAP_MPEGA_find_sync(const UBYTE *buffer, LONG buffer_size)
 {
 	if (buffer && buffer_size > 75)
 	{

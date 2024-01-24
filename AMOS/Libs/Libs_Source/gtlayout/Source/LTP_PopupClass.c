@@ -1,7 +1,7 @@
 /*
 **	GadTools layout toolkit
 **
-**	Copyright © 1993-1999 by Olaf `Olsen' Barthel
+**	Copyright Â© 1993-1999 by Olaf `Olsen' Barthel
 **		Freely distributable.
 **
 **	:ts=4
@@ -156,7 +156,7 @@ DrawOneGlyph(
 	PopInfo *	Info,
 	LONG		Top,
 	LONG		Dir,
-	UWORD *		Pens)
+	const UWORD *		Pens)
 {
 	struct RastPort *RPort;
 

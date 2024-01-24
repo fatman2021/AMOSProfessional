@@ -101,7 +101,7 @@ extern long int quicksort(long int len,long int *pol);
 /****************************************/
 
 /*** prototipi solo locali ***/
-long int read_iff(long int f,unsigned char *campo);
+long int read_iff(long int f,const unsigned char *campo);
 long int read_r(long int f,long int comp,short int ll,unsigned char *bf);
 /*****************************/
 
@@ -521,7 +521,7 @@ return(ris);
  * ==0 -> errore o campo vuoto.			*
  * !=0 -> lunghezza dati nel campo.		*
  ************************************************/
-long int read_iff(long int f,unsigned char *campo)
+long int read_iff(long int f,const unsigned char *campo)
 {
 long int len,*ii;
 unsigned char buf[10];

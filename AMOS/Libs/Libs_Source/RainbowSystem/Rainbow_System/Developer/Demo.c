@@ -18,7 +18,7 @@ struct RainbowSystemBase *RainbowSystemBase;
 
 void rs_DrawHSBSpace(APTR, UWORD, UWORD, UWORD, UWORD );
 
-static void ErrorMessage(STRPTR text)
+static void ErrorMessage(const STRPTR text)
 {
     struct EasyStruct easy;
 

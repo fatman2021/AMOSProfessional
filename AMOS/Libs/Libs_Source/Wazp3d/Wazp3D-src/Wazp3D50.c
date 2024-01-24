@@ -140,7 +140,7 @@ W3D_Context context;					/* The Warp3D's context is inside the Wazp3D's context 
 };
 /*==================================================================================*/
 /* internal Wazp3D private functions */
-void ConvertBitmap(ULONG format,UBYTE *pt1,UBYTE *pt2,UWORD high,UWORD large,ULONG offset1,ULONG offset2,UBYTE *palette);
+void ConvertBitmap(ULONG format,UBYTE *pt1,UBYTE *pt2,UWORD high,UWORD large,ULONG offset1,ULONG offset2,const UBYTE *palette);
 void DoUpdate(W3D_Context *context);
 void DrawText(W3D_Context *context,WORD x,WORD y,UBYTE *text);
 void GetPoint(W3D_Context *context,ULONG i);
@@ -1341,7 +1341,7 @@ struct pixels9 R;
 	}
 }
 /*==================================================================================*/
-void ConvertBitmap(ULONG format,UBYTE *pt1,UBYTE *pt2,UWORD high,UWORD large,ULONG offset1,ULONG offset2,UBYTE *palette)
+void ConvertBitmap(ULONG format,UBYTE *pt1,UBYTE *pt2,UWORD high,UWORD large,ULONG offset1,ULONG offset2,const UBYTE *palette)
 {
 UBYTE *color8=pt1;
 UWORD RGBA16;
@@ -1543,7 +1543,7 @@ if(format==W3D_I8)
 SREM(ConvertBitmap Done)
 }
 /*==================================================================================*/
-ULONG MakeNewTexdata(W3D_Texture *texture)
+ULONG MakeNewTexdata(const W3D_Texture *texture)
 {
 UWORD high,large,bpp2;
 ULONG format=texture->texfmtsrc;
@@ -2269,7 +2269,7 @@ ULONG action;
 	return(action);
 }
 /*==========================================================================*/
-BOOL SetState(W3D_Context *context,ULONG state,BOOL set)
+BOOL SetState(const W3D_Context *context,ULONG state,BOOL set)
 {
 /* simpler W3D_SetState used internally */
 
@@ -2354,14 +2354,14 @@ ULONG W3D_CheckDriver(void)
 	return(Wazp3D->drivertype);
 }
 /*==========================================================================*/
-ULONG W3D_LockHardware(W3D_Context *context)
+ULONG W3D_LockHardware(const W3D_Context *context)
 {
 	WAZP3DFUNCTION(8);
 	context->HWlocked=TRUE;
 	WRETURN(W3D_SUCCESS);
 }
 /*==========================================================================*/
-void W3D_UnLockHardware(W3D_Context *context)
+void W3D_UnLockHardware(const W3D_Context *context)
 {
 struct WAZP3D_context *WC=context->driver;
 
@@ -3100,7 +3100,7 @@ WORD Ntexture=0,n;
 	PrintAllT(context);
 }
 /*==========================================================================*/
-void W3D_ReleaseTexture(W3D_Context *context, W3D_Texture *texture)
+void W3D_ReleaseTexture(W3D_Context *context, const W3D_Texture *texture)
 {
 
 	WAZP3DFUNCTION(25);
@@ -3158,7 +3158,7 @@ struct WAZP3D_texture *WT=texture->driver;
 	WRETURN(W3D_SUCCESS);
 }
 /*==========================================================================*/
-ULONG W3D_SetTexEnv(W3D_Context *context, W3D_Texture *texture,ULONG envparam, W3D_Color *envcolor)
+ULONG W3D_SetTexEnv(const W3D_Context *context, W3D_Texture *texture,ULONG envparam, W3D_Color *envcolor)
 {
 struct WAZP3D_texture *WT;
 BOOL globaltexenv;
@@ -4087,7 +4087,7 @@ SREM(DrawPrimitive)
 
 }
 /*==========================================================================*/
-void SetDrawRegion(W3D_Context *context, struct BitMap *bm,int yoffset, W3D_Scissor *scissor)
+void SetDrawRegion(const W3D_Context *context, struct BitMap *bm,int yoffset, W3D_Scissor *scissor)
 {
 struct WAZP3D_context *WC=context->driver;
 W3D_Bitmap  *w3dbm;
@@ -4247,7 +4247,7 @@ struct WAZP3D_context *WC=context->driver;
 	WRETURN(W3D_SUCCESS);
 }
 /*==========================================================================*/
-ULONG W3D_SetDrawRegionWBM(W3D_Context *context, W3D_Bitmap *bm,W3D_Scissor *scissor)
+ULONG W3D_SetDrawRegionWBM(const W3D_Context *context, W3D_Bitmap *bm,W3D_Scissor *scissor)
 {
 ULONG error;
 
@@ -4410,7 +4410,7 @@ struct WAZP3D_context *WC=context->driver;
 	DoUpdate(context);
 }
 /*==========================================================================*/
-ULONG W3D_AllocZBuffer(W3D_Context *context)
+ULONG W3D_AllocZBuffer(const W3D_Context *context)
 {
 struct WAZP3D_context *WC=context->driver;
 
@@ -4434,7 +4434,7 @@ struct WAZP3D_context *WC=context->driver;
 	WRETURN(W3D_SUCCESS);
 }
 /*==========================================================================*/
-ULONG W3D_FreeZBuffer(W3D_Context *context)
+ULONG W3D_FreeZBuffer(const W3D_Context *context)
 {
 struct WAZP3D_context *WC=context->driver;
 
@@ -4447,7 +4447,7 @@ struct WAZP3D_context *WC=context->driver;
 	WRETURN(W3D_SUCCESS);
 }
 /*==========================================================================*/
-ULONG W3D_ClearZBuffer(W3D_Context *context, W3D_Double *clearvalue)
+ULONG W3D_ClearZBuffer(W3D_Context *context, const W3D_Double *clearvalue)
 {
 struct WAZP3D_context *WC=context->driver;
 float z=1.0;
@@ -4553,7 +4553,7 @@ struct WAZP3D_context *WC=context->driver;
 	SOFT3D_WriteZSpan(WC->SC,x,y,n,z,mask);
 }
 /*==========================================================================*/
-ULONG W3D_AllocStencilBuffer(W3D_Context *context)
+ULONG W3D_AllocStencilBuffer(const W3D_Context *context)
 {
 struct WAZP3D_context *WC=context->driver;
 ULONG clearvalue[1];
@@ -4570,7 +4570,7 @@ ULONG clearvalue[1];
 	WRETURN(W3D_SUCCESS);
 }
 /*==========================================================================*/
-ULONG W3D_ClearStencilBuffer(W3D_Context *context, ULONG *clearvalue)
+ULONG W3D_ClearStencilBuffer(W3D_Context *context, const ULONG *clearvalue)
 {
 struct WAZP3D_context *WC=context->driver;
 UBYTE s8;
@@ -4628,7 +4628,7 @@ ULONG *data32=data;
 	WRETURN(W3D_SUCCESS);
 }
 /*==========================================================================*/
-ULONG W3D_FreeStencilBuffer(W3D_Context *context)
+ULONG W3D_FreeStencilBuffer(const W3D_Context *context)
 {
 
 	WAZP3DFUNCTION(67);
@@ -4753,7 +4753,7 @@ ULONG stencilvalue=st;
 	return(W3D_WriteStencilSpan(context,x,y,1,&stencilvalue,&mask));
 }
 /*==========================================================================*/
-ULONG W3D_WriteStencilSpan(W3D_Context *context, ULONG x, ULONG y, ULONG n,ULONG *st, UBYTE *mask)
+ULONG W3D_WriteStencilSpan(W3D_Context *context, ULONG x, ULONG y, ULONG n,const ULONG *st, const UBYTE *mask)
 {
 struct WAZP3D_context *WC=context->driver;
 register UBYTE *Stencil8=context->stencilbuffer;
@@ -4929,7 +4929,7 @@ WORD n=0;
 }
 #endif // PROVIDE_VARARG_FUNCTIONS
 /*==========================================================================*/
-ULONG W3D_VertexPointer(W3D_Context* context, void *pointer, int stride,ULONG mode, ULONG flags)
+ULONG W3D_VertexPointer(const W3D_Context* context, void *pointer, int stride,ULONG mode, ULONG flags)
 {
 
 
@@ -4947,7 +4947,7 @@ ULONG W3D_VertexPointer(W3D_Context* context, void *pointer, int stride,ULONG mo
 	WRETURN(W3D_SUCCESS);
 }
 /*==========================================================================*/
-ULONG W3D_TexCoordPointer(W3D_Context* context, void *pointer, int stride,int unit, int off_v, int off_w, ULONG flags)
+ULONG W3D_TexCoordPointer(const W3D_Context* context, void *pointer, int stride,int unit, int off_v, int off_w, ULONG flags)
 {
 
 	WAZP3DFUNCTION(83);
@@ -4969,7 +4969,7 @@ ULONG W3D_TexCoordPointer(W3D_Context* context, void *pointer, int stride,int un
 	WRETURN(W3D_SUCCESS);
 }
 /*==========================================================================*/
-ULONG W3D_ColorPointer(W3D_Context* context, void *pointer, int stride,ULONG format, ULONG mode, ULONG flags)
+ULONG W3D_ColorPointer(const W3D_Context* context, void *pointer, int stride,ULONG format, ULONG mode, ULONG flags)
 {
 
 	WAZP3DFUNCTION(84);
@@ -4993,7 +4993,7 @@ ULONG W3D_ColorPointer(W3D_Context* context, void *pointer, int stride,ULONG for
 	WRETURN(W3D_SUCCESS);
 }
 /*==========================================================================*/
-ULONG W3D_BindTexture(W3D_Context* context, ULONG tmu, W3D_Texture *texture)
+ULONG W3D_BindTexture(const W3D_Context* context, ULONG tmu, W3D_Texture *texture)
 {
 
 	WAZP3DFUNCTION(85);

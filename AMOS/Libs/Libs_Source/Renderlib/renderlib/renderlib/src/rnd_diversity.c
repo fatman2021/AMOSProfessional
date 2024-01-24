@@ -10,7 +10,7 @@
 **	rgbarraydiversity
 */
 
-LIBAPI LONG RGBArrayDiversityA(ULONG *src, UWORD width, UWORD height, struct TagItem *tags)
+LIBAPI LONG RGBArrayDiversityA(const ULONG *src, UWORD width, UWORD height, struct TagItem *tags)
 {
 	LONG D = -1;
 	RNDPAL *dstpal = (RNDPAL *) GetTagData(RND_MapEngine, NULL, tags);
@@ -62,7 +62,7 @@ LIBAPI LONG RGBArrayDiversityA(ULONG *src, UWORD width, UWORD height, struct Tag
 **	chunkyarraydiversity
 */
 
-LIBAPI LONG ChunkyArrayDiversityA(UBYTE *src, RNDPAL *srcpal, UWORD width, UWORD height, struct TagItem *tags)
+LIBAPI LONG ChunkyArrayDiversityA(const UBYTE *src, RNDPAL *srcpal, UWORD width, UWORD height, struct TagItem *tags)
 {
 	LONG D = -1;
 	RNDPAL *dstpal = (RNDPAL *) GetTagData(RND_MapEngine, NULL, tags);

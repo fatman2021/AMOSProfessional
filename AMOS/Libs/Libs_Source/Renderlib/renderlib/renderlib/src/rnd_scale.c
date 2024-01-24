@@ -18,7 +18,7 @@ struct TxLine
 
 #define NUMV		4
 
-static void inittexture(WORD *coords, WORD *texcoords, LONG width, LONG height, struct TxLine *txline)
+static void inittexture(const WORD *coords, const WORD *texcoords, LONG width, LONG height, struct TxLine *txline)
 {
 	LONG upperindex, index, lowery, uppery, j, k;
 	LONG bordertableft[8], bordertabright[8];
@@ -211,7 +211,7 @@ static void inittexture(WORD *coords, WORD *texcoords, LONG width, LONG height, 
 }
 
 
-static void scale_text_clut(RNDSCALE *sce, struct ScaleData *data, UBYTE *src, UBYTE *dst, LONG dy, WORD tsw)
+static void scale_text_clut(RNDSCALE *sce, struct ScaleData *data, const UBYTE *src, UBYTE *dst, LONG dy, WORD tsw)
 {
 	struct TxLine *txline = ((struct TxLine *) data->data) + dy;
 	LONG stx = txline->stx;
@@ -230,7 +230,7 @@ static void scale_text_clut(RNDSCALE *sce, struct ScaleData *data, UBYTE *src, U
 	}		
 }
 
-static void scale_text_rgb(RNDSCALE *sce, struct ScaleData *data, ULONG *src, ULONG *dst, LONG dy, WORD tsw)
+static void scale_text_rgb(RNDSCALE *sce, struct ScaleData *data, const ULONG *src, ULONG *dst, LONG dy, WORD tsw)
 {
 	struct TxLine *txline = ((struct TxLine *) data->data) + dy;
 	LONG stx = txline->stx;
@@ -291,7 +291,7 @@ static void scale_exit(RNDSCALE *sce, struct ScaleData *data)
 
 
 
-static void scale_line_clut(RNDSCALE *sce, struct ScaleData *data, UBYTE *src, UBYTE *dst, LONG dy, WORD tsw)
+static void scale_line_clut(RNDSCALE *sce, struct ScaleData *data, const UBYTE *src, UBYTE *dst, LONG dy, WORD tsw)
 {
 	LONG w8 = (sce->dw >> 3) + 1;
 	LONG cx = 0;
@@ -317,7 +317,7 @@ static void scale_line_clut(RNDSCALE *sce, struct ScaleData *data, UBYTE *src, U
 	data->cy = data->sourcey += data->deltay;
 }
 
-static void scale_line_rgb(RNDSCALE *sce, struct ScaleData *data, ULONG *src, ULONG *dst, LONG dy, WORD tsw)
+static void scale_line_rgb(RNDSCALE *sce, struct ScaleData *data, const ULONG *src, ULONG *dst, LONG dy, WORD tsw)
 {
 	LONG w8 = (sce->dw >> 3) + 1;
 	LONG cx = 0;

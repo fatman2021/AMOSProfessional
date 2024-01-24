@@ -563,7 +563,7 @@ unknownEncodingConvert(void *data, const char *p)
 }
 
 static int
-unknownEncoding(void *userData, const XML_Char *name, XML_Encoding *info)
+unknownEncoding(void *userData, const XML_Char *name, const XML_Encoding *info)
 {
   int cp;
   static const XML_Char prefixL[] = T("windows-");

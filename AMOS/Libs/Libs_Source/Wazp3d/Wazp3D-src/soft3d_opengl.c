@@ -916,7 +916,7 @@ struct HARD3D_context *HC=hc;
 */
 }
 /*==================================================================*/
-void HARD3D_Fog(void *hc,unsigned char FogMode,float FogZmin,float FogZmax,float FogDensity,unsigned char *FogRGBA)
+void HARD3D_Fog(void *hc,unsigned char FogMode,float FogZmin,float FogZmax,float FogDensity,const unsigned char *FogRGBA)
 {
 struct HARD3D_context *HC=hc;
 float FogColor[4];
@@ -971,7 +971,7 @@ float *fz=fzspan;
 		dz[x]=fz[x];
 }
 /*==================================================================*/
-void HARD3D_WriteZSpan(void *hc, unsigned short x, unsigned short y,unsigned long n, double *dz, unsigned char *mask)
+void HARD3D_WriteZSpan(void *hc, unsigned short x, unsigned short y,unsigned long n, const double *dz, const unsigned char *mask)
 {
 struct HARD3D_context *HC=hc;
 float *fz=fzspan;
@@ -993,7 +993,7 @@ struct HARD3D_context *HC=hc;
 	return;		/* Writing to an ImageBuffer32 is not possible in hardware mode */
 }
 /*==================================================================*/
-void HARD3D_SetBackColor(void *hc,unsigned char  *RGBA)
+void HARD3D_SetBackColor(void *hc,const unsigned char  *RGBA)
 {
 struct HARD3D_context *HC=hc;
 	HFUNC(HARD3D_SetBackColor);
@@ -1094,7 +1094,7 @@ struct HARD3D_context *HC=hc;
 	glEnable(GL_CULL_FACE);
 }
 /*==================================================================*/
-void HARD3D_SetCurrentColor(void *hc,unsigned char  *RGBA)
+void HARD3D_SetCurrentColor(void *hc,const unsigned char  *RGBA)
 {
 struct HARD3D_context *HC=hc;
 	HFUNC(HARD3D_SetCurrentColor);
